@@ -1,0 +1,7 @@
+<?
+
+class side__footer
+{
+	
+
+}

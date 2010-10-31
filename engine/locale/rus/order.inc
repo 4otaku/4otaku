@@ -1,0 +1,9 @@
+status-main = Выполнено
+status-workshop = В розыске
+status-flea_market = Закрыто
+status-deleted = Удалено
+Transfer = Изменить статус
+Title = Заказ
+Text = Описание
+Username = Имя пользователя
+Mail = Е-мейл и подписку
