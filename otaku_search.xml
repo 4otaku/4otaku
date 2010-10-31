@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+     <ShortName>4отаку</ShortName>
+     <Description>Поиск по записям сайта 4otaku.ru</Description>
+     <Image width="16" height="16">data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oBBBAmK7438hoAAAHnSURBVDjLlZM9b9NAGMd/dkxixXYcMoDFgoRAqKJiYeRTwMiG2BiYmFoxdOiAkBhAVGLslAnBF2BEREJQqVRUIgtiqE0CCXbOiX1cfQymKSFpJJ7t7v5v9zx3htZac0JJKZlMJti2DUCWZdRqtekawDyJPB6PkVLi+z4b+9ts7G/j+z55nvO350IBIQSmaWLaddZ2n4OpwdS8/vYe27aRUk6x1iKBoiiwbZu1vWczFoZ5OIedSxDHMY1Gg/VPTzEsScuuY1gSw5JgquUCcRzj+z7rnx+BlXGhcZb7F2+XxAXkGYE4jnFdlw+jXagoqCjunLtVHlYUXw67RLKHUgql1GwPjmJvfn1M+3sbz67RufKGKIoIgoBXP18AcP30Nf6dunUEutG9SVd9xKhDZ6WLEALXdcvm1eMSfSqfjlgIQRAEWI7j8G7coat3oAIrziW2fjw5tsjLKwDsyLcA3D1zjzzP6fV6GKPRSL8s2jwcPuB/au98RBRFEIahTtNUL6vVA0+vHnh6S2xO9/r9vk6SRFtBEDAYDEiSZKFTEAQY1q+ZVyqEwHEcPM8rp9BqtRaSoyj6M8ZS4HLlKipTNJvN4w+1LHqWZToMQ10UhdZa6zRNdRiGMxhj2XcGyPOc4XAIQLVanUv7G9+nM7KI2N81AAAAAElFTkSuQmCC</Image>
+     <InputEncoding>UTF-8</InputEncoding>
+     <OutputEncoding>UTF-8</OutputEncoding>
+     <Url type="text/html" template="http://4otaku.ru/search/{searchTerms}"/>
+</OpenSearchDescription>

@@ -1,0 +1,49 @@
+body {	
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	background-color: #000000;
+	color: #ffffff;
+	margin: 0;
+	padding: 10px 0 0;
+	min-width: 900px;
+}
+
+.margin10 {
+	 margin-bottom: 10px;
+}
+
+.center {
+	margin-left: auto; 
+	margin-right: auto; 
+	text-align: center;
+}
+
+.hidden {
+	display: none;
+}
+
+.image {
+    display: table;
+    display: inline-block;
+    position: relative;
+}
+
+.body {
+	padding: 0px;
+	margin: 0px;	
+}
+
+.art_translation {
+	position: absolute;
+	opacity: 0.5;
+	background: none repeat scroll 0 0 #EEEEFF;
+	border: 1px solid #000000;
+	cursor: pointer;
+}
+
+#easyTooltip {
+	padding:5px 10px;
+	border:1px solid #195fa4;
+	background:#195fa4 url('/images/bg.gif') repeat-x;
+	color:#fff;
+}

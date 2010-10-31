@@ -1,0 +1,41 @@
+<? 
+include_once('templates/dinamic/edit/top.php');
+?>
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/art.js"></script>
+<table width="100%">		
+	<tr>
+		<td width="20%">
+			Загрузить картинку
+		</td>
+		<td>
+			<table>
+				<tr>
+					<td>
+						<div id="art-image" rel="single">
+							<img src="/images/upload_button.png">
+						</div>
+					</td>
+					<td>
+						<img class="processing hidden" src="/images/ajax-processing.gif" />
+					</td>
+					<td>
+						<span class="processing hidden">Изображение загружается.</span>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>			
+	<tr>
+		<td colspan="2" id="error">
+		
+		</td>
+	</tr>			
+	<tr id="transparent" class="art_images">
+		<td colspan="2">
+
+		</td>
+	</tr>
+</table>
+<? 
+include_once('templates/dinamic/edit/bottom.php');
+?>
