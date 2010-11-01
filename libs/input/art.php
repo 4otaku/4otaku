@@ -44,9 +44,9 @@ class input__art extends input__common
 				
 				if ($data) {
 					if (!$id) $id = $db->sql('select @@identity from art',2);
-					$j = $i;
-					while ($j > 0) $newart .= ($id - --$j).'|';
-					$db->sql('update art_pool set count = count + '.$i.', art = concat(art,"'.$newart.'") where id='.$url[3],0);
+					$j = 0;
+					while ($j < $i) $newart .= '|'.($id - $j++);
+					$db->sql('update art_pool set count = count + '.$i.', art = concat("'.$newart.'",art) where id='.$url[3],0);
 				}
 			}
 			else $add_res = array('error' => true, 'text' => 'Неправильный пароль от группы.');

@@ -3,10 +3,10 @@ php_value post_max_size 21M
 php_value max_execution_time 3000
 AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-RewriteRule "(^|/)(CVS|\.svn|\.git)/" - [F] 
+	RewriteEngine On
+	RewriteBase /
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+	RewriteRule "(^|/)(CVS|\.svn|\.git)/" - [F] 
 </IfModule>
