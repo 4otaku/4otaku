@@ -2,7 +2,7 @@
 include_once('engine'.SL.'engine.php');
 class output__rss extends engine
 {
-/*OLOLOTEST */
+
 	function __construct() {
 		global $url; global $sets;
 		if (!$url[2]) $url[2] = '='.$sets['rss']['default'];
