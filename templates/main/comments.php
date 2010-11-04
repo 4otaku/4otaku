@@ -84,7 +84,7 @@
 <? 
 	if ($data['main']['comments']['number'] > $sets['pp']['comment_in_post']) {
 		?>
-			<? include_once('templates/main/navi.php'); ?>
+			<? include_once('templates'.SL.'main'.SL.'navi.php'); ?>
 		<?
 	}				
 ?>

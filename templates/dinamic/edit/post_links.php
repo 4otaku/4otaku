@@ -1,5 +1,5 @@
 <? 
-include_once('templates/dinamic/edit/top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
 <script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,edit/links.js,add/post.js"></script>
 <table class="margin20">
@@ -36,5 +36,5 @@ include_once('templates/dinamic/edit/top.php');
 </table>
 <input type="submit" class="disabled add_link left first_button" rel="main" value="Добавить ссылку" />
 <? 
-include_once('templates/dinamic/edit/bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

@@ -1,5 +1,5 @@
 <?
-include_once 'libs/input/common.php';
+include_once 'libs'.LS.'input'.LS.'common.php';
 class input__art extends input__common
 {
 	function add() { 

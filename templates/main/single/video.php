@@ -132,7 +132,7 @@
 										?>
 											 | 
 											<?
-												include('templates/main/single/tags.php');												
+												include('templates'.SL.'main'.SL.'single'.SL.'tags.php');												
 											?>
 										<?
 									}

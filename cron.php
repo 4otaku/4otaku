@@ -1,12 +1,7 @@
 <? 
 	
-function __autoload($class_name) {
-    include_once 'libs/' . str_replace('__','/',$class_name) . '.php';
-}
+include_once 'inc.common.php';
 
-mb_internal_encoding('UTF-8');
-include_once 'engine/config.php';
-$db = new mysql();
 $cron = new cron();
 
 if ($key = key($_GET)) {

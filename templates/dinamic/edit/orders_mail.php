@@ -1,5 +1,5 @@
 <? 
-include_once('templates/dinamic/edit/top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
 <script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js"></script>
 <div class="right">
@@ -8,5 +8,5 @@ include_once('templates/dinamic/edit/top.php');
 </div>
 <input type="text" class="input60" name="mail" value="<?=$data['value']['email'];?>" />
 <? 
-include_once('templates/dinamic/edit/bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

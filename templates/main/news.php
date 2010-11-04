@@ -1,3 +1,3 @@
 <?
 	foreach ($data['main']['news'] as $item)
-		include 'templates/main/single/news.php';
+		include 'templates'.SL.'main'.SL.'single'.SL.'news.php';

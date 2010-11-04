@@ -2,7 +2,6 @@
 		© 2008-<?=date("Y");?> 4otaku.ru. 
 		<br />
 		При перепечатке материалов сайта, указание активной ссылки на 4otaku.ru обязательно. <br />
-		<?/*=($hide_sape ? '<div class="hidden">'.$sape_links.'</div>' : $sape_links);*/?>
 	</div>
 	<div class="right">
 		<div>
