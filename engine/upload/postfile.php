@@ -1,17 +1,9 @@
 ﻿<?	
 
-	define('ROOT_DIR', '/var/www/nameless/data/www/4otaku.ru/');
-
-	include_once ROOT_DIR.'engine/config.php';
-	include_once ROOT_DIR.'engine/upload/common.php';
-	include_once ROOT_DIR.'libs/transform/meta.php';
+	include_once 'common.php';
+	
+	include_once ROOT_DIR.'libs'.SL.'transform'.SL.'meta.php';
 	$transform = new transform__meta();
-
-	$file = $_FILES['filedata']['name'];
-	$type = $_FILES['filedata']['type'];
-	$sizefile = $_FILES['filedata']['size'];
-	$temp = $_FILES['filedata']['tmp_name'];
-	$check = getImageSize($temp);		
 
 	if ($sizefile<$def['post']['filesize']) {
 		$time = str_replace('.','',microtime(true));
@@ -20,13 +12,13 @@
 		if ($sizefile > 1048576) $sizefile = str_replace('.',',',round(($sizefile / 1048576), 1)).' мб';
 		elseif ($sizefile > 1024) $sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
 		else $sizefile .= ' байт';				
-		mkdir(ROOT_DIR.'files/'.$time, 0755);
-		$newfile = ROOT_DIR.'files/'.$time.'/'.$filename.'.'.$extension;		
+		mkdir(ROOT_DIR.'files'.SL.$time, 0755);
+		$newfile = ROOT_DIR.'files'.SL.$time.SL.$filename.'.'.$extension;		
 		chmod($temp, 0755);
 		move_uploaded_file($temp, $newfile);
 				
 		if (is_array($check)) {
-			$newthumb = ROOT_DIR.'files/'.$time.'/thumb_'.$filename.'.'.$extension;
+			$newthumb = ROOT_DIR.'files'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
 			$imagick =  new Imagick($path = $newfile);
 			scale(200,$newthumb);
 			$type = 'image';

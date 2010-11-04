@@ -1,4 +1,22 @@
 <?
+
+define('SL', DIRECTORY_SEPARATOR);
+
+define('ROOT_DIR', dirname(dirname(dirname(__FILE__))) . SL);
+
+include_once ROOT_DIR.'engine/config.php';
+include_once ROOT_DIR.'libs/mysql.php';
+
+$file = $_FILES['filedata']['name'];
+$type = $_FILES['filedata']['type'];
+$sizefile = $_FILES['filedata']['size'];
+$temp = $_FILES['filedata']['tmp_name'];
+$check = getImageSize($temp);	
+
+if (!class_exists('Imagick')) {
+	include 'imagick_substitute.php';
+}
+
 function undo_safety($str) {
 	return str_replace(array('&amp;','&quot;','&lt;','&gt;','&092;','&apos;'),array('&','"','<','>','\\',"'"),$str);
 }
@@ -36,10 +54,10 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	if (strtolower($format) == 'png') {
 		$imagick->setImageCompressionQuality($compression);	
 		$imagick->$func($x,$y);	
-		$bg = $imagick->clone();
+		$bg = clone $imagick;
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
 		$bg->compositeImage($imagick,Imagick::COMPOSITE_OVER,0,0);
-		$bg->setImageCompression(imagick::COMPRESSION_JPEG);
+		$bg->setImageCompression(Imagick::COMPRESSION_JPEG);
 		$bg->setImageFormat('jpeg');
 		$bg->writeImage($target);	
 	}
@@ -58,17 +76,17 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		}	
 		$imagick->setImageCompressionQuality($compression);
 		$imagick->$func($x,$y);
-		$bg = $imagick->clone();		
+		$bg = clone $imagick;
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
 		$bg->compositeImage($imagick,Imagick::COMPOSITE_OVER,0,0);
-		$bg->setImageCompression(imagick::COMPRESSION_JPEG);
+		$bg->setImageCompression(Imagick::COMPRESSION_JPEG);
 		$imagick->setImageFormat('jpeg');				
 		$bg->writeImage($target);		
 	}
 	else {	
 		$imagick->setImageCompressionQuality($compression);
 		$imagick->$func($x,$y);		
-		$imagick->setImageCompression(imagick::COMPRESSION_JPEG);
+		$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
 		$imagick->setImageFormat('jpeg');
 		$imagick->writeImage($target);	
 	}
