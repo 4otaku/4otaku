@@ -1,3 +1,6 @@
+<? if (!class_exists('Imagick', false)) { ?>
+<h2>Imagick не установлен! Юзаю GD!</h2>
+<? } ?>
 <a href="/post/workshop/">
 	Всего <?=count($data['main']['post']);?> записей в мастерской
 </a>

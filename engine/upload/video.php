@@ -1,17 +1,11 @@
 <?
 
-	define('ROOT_DIR', '/var/www/nameless/data/www/4otaku.ru/');
-	
-	include_once ROOT_DIR.'engine/config.php';
-	include_once ROOT_DIR.'engine/upload/common.php';	
-	include_once ROOT_DIR.'libs/mysql.php';
+	include_once 'common.php';
 
-	$file = $_FILES['filedata']['name'];
-	$type = $_FILES['filedata']['type'];
-	$sizefile = $_FILES['filedata']['size'];
-	$temp = $_FILES['filedata']['tmp_name'];
+/*	Under construction	*/
 
-	if ($sizefile < $def['video']['filesize']) {
+/*
+ 	if ($sizefile < $def['video']['filesize']) {
 		$md5=md5_file($temp); 
 		$db = new mysql();
 		if (!($db->sql('select id from video where link="'.$md5.'"',2,'id'))) {
@@ -22,3 +16,4 @@
 		else {echo 'error-already-have';}
 	}
 	else {echo 'error-maxsize';} 
+*/

@@ -1,17 +1,7 @@
 <?
 
-	define('ROOT_DIR', '/var/www/nameless/data/www/4otaku.ru/');
+	include_once 'common.php';
 	
-	include_once ROOT_DIR.'engine/config.php';
-	include_once ROOT_DIR.'engine/upload/common.php';	
-	include_once ROOT_DIR.'libs/mysql.php';
-
-	$file = $_FILES['filedata']['name'];
-	$type = $_FILES['filedata']['type'];
-	$sizefile = $_FILES['filedata']['size'];
-	$temp = $_FILES['filedata']['tmp_name'];
-	$check = getImageSize($temp);		
-
 	if ($sizefile<$def['booru']['filesize']) {
 		if (is_array($check)) {
 			$md5=md5_file($temp); 
@@ -20,9 +10,9 @@
 				$extension = strtolower(pathinfo($file,PATHINFO_EXTENSION));
 				$thumb=md5(microtime(true));
 				$newname = $md5.'.'.$extension;
-				$newfile = ROOT_DIR.'images/booru/full/'.$newname;
-				$newthumb = ROOT_DIR.'images/booru/thumbs/'.$thumb.'.jpg';
-				$newlargethumb = ROOT_DIR.'images/booru/thumbs/large_'.$thumb.'.jpg';
+				$newfile = ROOT_DIR.'images'.SL.'booru'.SL.'full'.SL.$newname;
+				$newthumb = ROOT_DIR.'images'.SL.'booru'.SL.'thumbs'.SL.$thumb.'.jpg';
+				$newlargethumb = ROOT_DIR.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$thumb.'.jpg';
 				chmod($temp, 0755);
 				move_uploaded_file($temp, $newfile);			
 				$a = microtime(true);
