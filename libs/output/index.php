@@ -1,5 +1,5 @@
 <? 
-include_once('engine/engine.php');
+include_once('engine'.LS.'engine.php');
 class output__index extends engine
 {
 	public $allowed_url = array(
@@ -30,8 +30,10 @@ class output__index extends engine
 			'latest' => $db->sql('select id,username,title,text,comment_count from orders where area="workshop"')
 		);
 		
-		shuffle($return['count']['order']['latest']);
-		$return['count']['order']['latest'] = array_slice($return['count']['order']['latest'], 0, 2);
+		if (is_array($return['count']['order']['latest'])) {
+			shuffle($return['count']['order']['latest']);
+			$return['count']['order']['latest'] = array_slice($return['count']['order']['latest'], 0, 2);
+		}
 		
 		$return['news'] = $db->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1);
 		$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);

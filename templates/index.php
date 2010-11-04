@@ -1,4 +1,4 @@
-<? include_once 'side/head.php'; ?>
+<? include_once ('side'.SL.'head.php'); ?>
 <body class="wrapwindow">
 	<table class="wrapwindow">
 		<tr>
@@ -85,18 +85,20 @@
 						</a>.
 					</span>
 				</div>
-				<div class="compressed_news shell clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
-					<a href="/news/<?=$data['main']['news']['url'];?>/">
-						<?=$data['main']['news']['title'];?>
-					</a>
-					<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : '');?>
-					<a href="#" class="uncompress_news togglenews">
-						Развернуть новость.
-					</a>
-					<a href="/news/" class="uncompress_news">
-						Архив новостей.
-					</a>						
-				</div>			
+				<? if ($data['main']['news']['title']) { ?>
+					<div class="compressed_news shell clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
+						<a href="/news/<?=$data['main']['news']['url'];?>/">
+							<?=$data['main']['news']['title'];?>
+						</a>
+						<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : ''); ?>
+						<a href="#" class="uncompress_news togglenews">
+							Развернуть новость.
+						</a>
+						<a href="/news/" class="uncompress_news">
+							Архив новостей.
+						</a>						
+					</div>			
+				<? } ?>
 				<div class="left index_smallcolumn defaultvideoholder">		
 					<div class="mainblock">
 						<p class="head">
@@ -106,98 +108,82 @@
 						</p>
 						Всего <?=$data['main']['count']['post']['total'];?> записей. 
 						<?=($data['main']['count']['post']['unseen'] ? $data['main']['count']['post']['unseen'].' из них новых. ' : '');?>
-						Последние записи: <br /><br />
-						<?	
-							foreach ($data['main']['count']['post']['latest'] as $key => $one) {
-								?>
+						<? if (is_array($data['main']['count']['post']['latest'])) { ?>
+							Последние записи: <br /><br />
+							<? foreach ($data['main']['count']['post']['latest'] as $key => $one) { ?>
+								<?=($key ? '<br />' : '');?>
+								<a href="/post/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+									<?=$one['title'];?>
+								</a>
+								<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
+							<? } ?>
+						<? } ?>
+					</div>
+					<? if ($sets['news']['read'] < $data['main']['news']['sortdate']) {	?>
+						<div class="mainblock videoblock">
+							<p class="head">
+								<a href="/video/">
+									Видео
+								</a>
+							</p>				
+							Всего <?=$data['main']['count']['video']['total'];?> видео. 
+							<?=($data['main']['count']['video']['unseen'] ? $data['main']['count']['video']['unseen'].' из них новых. ' : '');?>
+							<? if (is_array($data['main']['count']['post']['latest'])) { ?>
+								Последние видео: <br /><br />
+								<? foreach ($data['main']['count']['video']['latest'] as $key => $one) { ?>
 									<?=($key ? '<br />' : '');?>
-									<a href="/post/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+									<a href="/video/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
 										<?=$one['title'];?>
 									</a>
 									<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
-								<?
-							}							
-						?>
-					</div>
-					<? 
-						if ($sets['news']['read'] < $data['main']['news']['sortdate']) {
-							?>
-								<div class="mainblock videoblock">
-									<p class="head">
-										<a href="/video/">
-											Видео
-										</a>
-									</p>				
-									Всего <?=$data['main']['count']['video']['total'];?> видео. 
-									<?=($data['main']['count']['video']['unseen'] ? $data['main']['count']['video']['unseen'].' из них новых. ' : '');?>
-									Последние видео: <br /><br />
-									<?	
-										foreach ($data['main']['count']['video']['latest'] as $key => $one) {
-											?>
-												<?=($key ? '<br />' : '');?>
-												<a href="/video/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
-													<?=$one['title'];?>
-												</a>
-												<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
-											<?
-										}							
-									?>	
-								</div>
-							<?
-						}
-					?>					
+								<? } ?>	
+							<? } ?>
+						</div>
+					<? } ?>					
 				</div>
 				<div class="left index_smallcolumn<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> videoholder">
-					<? 
-						if ($sets['news']['read'] > $data['main']['news']['sortdate']) {
-							?>
-								<div class="mainblock videoblock">
-									<p class="head">
-										<a href="/video/">
-											Видео
-										</a>
-									</p>				
-									Всего <?=$data['main']['count']['video']['total'];?> видео. 
-									<?=($data['main']['count']['video']['unseen'] ? $data['main']['count']['video']['unseen'].' из них новых. ' : '');?>
-									Последние видео: <br /><br />
-									<?	
-										foreach ($data['main']['count']['video']['latest'] as $key => $one) {
-											?>
-												<?=($key ? '<br />' : '');?>
-												<a href="/video/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
-													<?=$one['title'];?>
-												</a>
-												<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
-											<?
-										}							
-									?>	
-								</div>
-							<?
-						}
-					?>					
+					<? if ($sets['news']['read'] >= $data['main']['news']['sortdate']) { ?>
+						<div class="mainblock videoblock">
+							<p class="head">
+								<a href="/video/">
+									Видео
+								</a>
+							</p>				
+							Всего <?=$data['main']['count']['video']['total'];?> видео. 
+							<?=($data['main']['count']['video']['unseen'] ? $data['main']['count']['video']['unseen'].' из них новых. ' : '');?>
+							<? if (is_array($data['main']['count']['post']['latest'])) { ?>
+								Последние видео: <br /><br />
+								<? foreach ($data['main']['count']['video']['latest'] as $key => $one) { ?>
+									<?=($key ? '<br />' : '');?>
+									<a href="/video/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+										<?=$one['title'];?>
+									</a>
+									<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
+								<? } ?>	
+							<? } ?>	
+						</div>
+					<? } ?>					
 				</div>
 				<div class="left index_smallcolumn<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> artholder">
-					<? 
-						if ($sets['news']['read'] > $data['main']['news']['sortdate']) {
-							?>
-								<div class="mainblock artblock">
-									<p class="head">
-										<a href="/art/">
-											Арт
-										</a>
-									</p>				
-									Всего <?=$data['main']['count']['art']['total'];?> артов. 
-									<?=($data['main']['count']['art']['unseen'] ? $data['main']['count']['art']['unseen'].' из них новых. ' : '');?>
-									Последнее изображение: <br /><br />
-									<div style="text-align:center; width: 100%;">
-										<a href="/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
-											<img src="/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
-										</a>	
-									</div>
-								</div>		
-							<?
-						}
-					?>	
+					<? if ($sets['news']['read'] >= $data['main']['news']['sortdate']) { ?>
+						<div class="mainblock artblock">
+							<p class="head">
+								<a href="/art/">
+									Арт
+								</a>
+							</p>				
+							Всего <?=$data['main']['count']['art']['total'];?> артов. 
+							<?=($data['main']['count']['art']['unseen'] ? $data['main']['count']['art']['unseen'].' из них новых. ' : '');?>
+							<? if ($data['main']['count']['art']['latest'][0]['thumb']) { ?>
+								Последнее изображение: <br /><br />
+								<div style="text-align:center; width: 100%;">
+									<a href="/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
+										<img src="/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
+									</a>	
+								</div>
+							<? } ?>	
+						</div>		
+					<? } ?>	
 				</div>				
 				<div class="left index_smallcolumn defaultartholder">
 					<div class="mainblock">
@@ -208,71 +194,69 @@
 						</p>
 						Всего <?=$data['main']['count']['order']['total'];?> заказов. 
 						<?=$data['main']['count']['order']['open'];?> из них открыты. 
-						Последние заказы: <br /><br />
-						<?
-							foreach ($data['main']['count']['order']['latest'] as $key => $one) {
-								?>
-									<?=($key ? '<br /><br />' : '');?>
-									<?=$one['username'];?> заказал 
-									<a href="/order/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
-										<?=$one['title'];?>
-									</a>.
-								 	<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
-								<?
-							}
-						?> 											
+						<? if (is_array($data['main']['count']['order']['latest'])) { ?>
+							Последние заказы: <br /><br />
+							<? foreach ($data['main']['count']['order']['latest'] as $key => $one) { ?>
+								<?=($key ? '<br /><br />' : '');?>
+								<?=$one['username'];?> заказал 
+								<a href="/order/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+									<?=$one['title'];?>
+								</a>.
+								<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
+							<? } ?>
+						<? } ?>	
 					</div>
-					<? 
-						if ($sets['news']['read'] < $data['main']['news']['sortdate']) {
-							?>
-								<div class="mainblock artblock">
-									<p class="head">
-										<a href="/art/">
-											Арт
-										</a>
-									</p>				
-									Всего <?=$data['main']['count']['art']['total'];?> артов. 
-									<?=($data['main']['count']['art']['unseen'] ? $data['main']['count']['art']['unseen'].' из них новых. ' : '');?>
-									Последнее изображение: <br /><br />
-									<div style="text-align:center; width: 100%;">
-										<a href="/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
-											<img src="/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
-										</a>	
-									</div>
-								</div>		
-							<?
-						}
-					?>		
-				</div>
-				<div class="left index_largecolumn<?=($sets['news']['read'] > $data['main']['news']['sortdate'] ? ' hidden' : '');?>">
-					<div class="post mainblock">
-						<p class="head">
-							<a href="/news/<?=$data['main']['news']['url'];?>/">
-								<?=$data['main']['news']['title'];?>
-							</a>
-						</p>					
-						<div class="entry">
-							<a href="/images/full/<?=$data['main']['news']['image'];?>" target="_blank">
-								<img src="/images/thumbs/<?=$data['main']['news']['image'];?>" align="left" class="news_image" />
-							</a>
-							<?=stripslashes($data['main']['news']['text']);?>
+					<? if ($sets['news']['read'] < $data['main']['news']['sortdate']) { ?>
+						<div class="mainblock artblock">
+							<p class="head">
+								<a href="/art/">
+									Арт
+								</a>
+							</p>				
+							Всего <?=$data['main']['count']['art']['total'];?> артов. 
+							<?=($data['main']['count']['art']['unseen'] ? $data['main']['count']['art']['unseen'].' из них новых. ' : '');?>
+							<? if ($data['main']['count']['art']['latest'][0]['thumb']) { ?>
+								Последнее изображение: <br /><br />
+								<div style="text-align:center; width: 100%;">
+									<a href="/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
+										<img src="/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
+									</a>	
+								</div>
+							<? } ?>
 						</div>
-						<span class="semi_large">
-							<a href="/news/<?=$data['main']['news']['url'];?>/">
-								Комментировать
-							</a>.
-							<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : '');?>
-							<a href="#" class="right compress_news togglenews">
-								Я прочел, уберите новость.
-							</a>
-						</span>
-						<div class="center clear">
-							<a href="/news/">
-								Архив новостей.
-							</a>						
-						</div>
-					</div>			
+					<? } ?>		
 				</div>
+				<? if ($data['main']['news']['title']) { ?>
+					<div class="left index_largecolumn<?=($sets['news']['read'] >= $data['main']['news']['sortdate'] ? ' hidden' : '');?>">
+						<div class="post mainblock">
+							<p class="head">
+								<a href="/news/<?=$data['main']['news']['url'];?>/">
+									<?=$data['main']['news']['title'];?>
+								</a>
+							</p>					
+							<div class="entry">
+								<a href="/images/full/<?=$data['main']['news']['image'];?>" target="_blank">
+									<img src="/images/thumbs/<?=$data['main']['news']['image'];?>" align="left" class="news_image" />
+								</a>
+								<?=stripslashes($data['main']['news']['text']);?>
+							</div>
+							<span class="semi_large">
+								<a href="/news/<?=$data['main']['news']['url'];?>/">
+									Комментировать
+								</a>.
+								<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : '');?>
+								<a href="#" class="right compress_news togglenews">
+									Я прочел, уберите новость.
+								</a>
+							</span>
+							<div class="center clear">
+								<a href="/news/">
+									Архив новостей.
+								</a>						
+							</div>
+						</div>			
+					</div>
+				<? } ?>
 			</td>									
 		</tr>
 		<tr>

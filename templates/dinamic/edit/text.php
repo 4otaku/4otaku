@@ -1,5 +1,5 @@
 <? 
-include_once('templates/dinamic/edit/top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
 <script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,add/text.js"></script>
 <textarea name="text" rows="8" class="input80 left" id="textfield"><?=$data['value'];?></textarea>
@@ -24,5 +24,5 @@ include_once('templates/dinamic/edit/top.php');
 	</tr>
 </table>
 <? 
-include_once('templates/dinamic/edit/bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

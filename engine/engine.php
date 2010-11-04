@@ -38,13 +38,11 @@ class engine
 	function make_404($type) {
 		global $sape_links; 
 		$this->template = '404__'.$type;
-//		if (empty($sape_links)) {
-			header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Cache-Control: no-store, no-cache, must-revalidate");
-			header("Pragma: no-cache");
-			header("HTTP/1.x 404 Not Found");
-//		}
+		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Pragma: no-cache");
+		header("HTTP/1.x 404 Not Found");
 	}
 
 	function get_side_data($input) {
@@ -279,8 +277,9 @@ class engine
 			if ($part == 'tag') { 
 				if ($url['area'] != $def['area'][2]) $area = $url[1].'_'.$def['area'][0];
 				else $area = $url[1].'_'.$def['area'][2];
-				$return[$part] = $db->sql('select alias, name from '.$part.' order by '.$area.' desc limit 70','alias');
-				foreach($return[$part] as &$tag) $tag = str_replace('_',' ',$tag);
+				if ($return[$part] = $db->sql('select alias, name from '.$part.' order by '.$area.' desc limit 70','alias')) {
+					foreach($return[$part] as &$tag) $tag = str_replace('_',' ',$tag);
+				}
 			}
 			else {
 				$return[$part] = $db->sql('select alias, name from '.$part.($part == 'category' ? ' where locate("|'.$url[1].'|",area)' : '').' order by id','alias');

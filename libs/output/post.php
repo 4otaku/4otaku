@@ -1,5 +1,5 @@
 <? 
-include_once('engine/engine.php');
+include_once('engine'.LS.'engine.php');
 class output__post extends engine
 {
 	function __construct() {

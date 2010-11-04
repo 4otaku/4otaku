@@ -49,7 +49,7 @@
 								<?=date('r',ceil($key/1000));?>
 							</pubDate>
 							<description>
-								<![CDATA[<? include 'templates/main/single/'.$item['type'].'.php';?>]]>
+								<![CDATA[<? include 'templates'.SL.'main'.SL.'single'.SL.$item['type'].'.php';?>]]>
 							</description>
 						</item>	
 					<?

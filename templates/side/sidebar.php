@@ -72,7 +72,7 @@
 <?
 	if ($url[1] == 'search' && $url[2] == 'a') $side_url = 'art';
 	else $side_url = $url[1];
-	if (file_exists('templates/side/navi/'.$side_url.'.php')) {
+	if (file_exists('templates'.SL.'side'.SL.'navi'.SL.$side_url.'.php')) {
 		?>
 			<div class="cats">	
 				<h2>
@@ -96,13 +96,13 @@
 				</h2>
 				<div id="navi_bar"<?=($sets['dir']['navi'] ? '' : ' style="display:none;"');?>>
 					<?
-						include ('templates/side/navi/'.$side_url.'.php');
+						include ('templates'.SL.'side'.SL.'navi'.SL.$side_url.'.php');
 					?>
 				</div>
 			</div>		
 		<?
 	}
-	if (file_exists('templates/side/settings/'.$side_url.'.php')) {
+	if (file_exists('templates'.SL.'side'.SL.'settings'.SL.$side_url.'.php')) {
 		?>
 			<div class="cats">	
 				<h2>
@@ -126,7 +126,7 @@
 				</h2>
 				<div id="settings_bar"<?=($sets['dir']['settings'] ? '' : ' style="display:none;"');?>>
 					<?
-						include ('templates/side/settings/'.$side_url.'.php');
+						include ('templates'.SL.'side'.SL.'settings'.SL.$side_url.'.php');
 					?>
 				</div>
 			</div>		
@@ -134,7 +134,7 @@
 	}
 ?>
 <?
-	if (is_array($data['sidebar'])) foreach ($data['sidebar'] as $key => $part)	include ('parts/'.$key.'.php');
+	if (is_array($data['sidebar'])) foreach ($data['sidebar'] as $key => $part)	include ('parts'.SL.$key.'.php');
 ?>
 <div class="cats">
 	&nbsp;

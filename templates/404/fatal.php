@@ -1,10 +1,9 @@
-<? include_once('templates/404/headers.php'); ?>
-<? include_once('templates/side/head.php'); ?>
+<? include_once('templates'.SL.'side'.SL.'head.php'); ?>
 <body>	
 	<table width="100%">
 		<tr>
 			<td id="header">
-				<? include_once('templates/side/header.php'); ?>
+				<? include_once('templates'.SL.'side'.SL.'header.php'); ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +19,7 @@
 		</tr>
 		<tr>
 			<td id="footer">
-				<? include_once('templates/side/footer.php'); ?>
+				<? include_once('templates'.SL.'side'.SL.'footer.php'); ?>
 			</td>
 		</tr>
 	</table>

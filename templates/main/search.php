@@ -80,6 +80,6 @@
 $tmp = $data['main']['navi']['base'];
 foreach ($data['main']['data'] as $item) {
 	$data['main']['navi']['base'] = $item['navi'];
-	include 'templates/main/single/'.$item['template'].'.php';
+	include 'templates'.SL.'main'.SL.'single'.SL.$item['template'].'.php';
 }
 $data['main']['navi']['base'] = $tmp;

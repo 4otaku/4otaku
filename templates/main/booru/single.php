@@ -6,5 +6,5 @@
 	);
 	
 	$item = $data['main']['art'][0];
-	include 'templates/main/single/art.php';
+	include 'templates'.SL.'main'.SL.'single'.SL.'art.php';
 ?>

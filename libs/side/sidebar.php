@@ -1,5 +1,5 @@
 <?
-include_once('engine/engine.php');
+include_once('engine'.LS.'engine.php');
 class side__sidebar extends engine
 {
 	function __construct() {
@@ -53,9 +53,10 @@ class side__sidebar extends engine
 
 	function orders() {
 		global $db; global $sets; 
-		$return = $db->sql('select id, username, title, text, comment_count from orders where area="workshop"');
-		shuffle($return);
-		return array_slice($return, 0, $sets['pp']['random_orders']);
+		if ($return = $db->sql('select id, username, title, text, comment_count from orders where area="workshop"')) {
+			shuffle($return);
+			return array_slice($return, 0, $sets['pp']['random_orders']);
+		}
 	}
 
 	function tags() {

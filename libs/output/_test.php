@@ -1,5 +1,5 @@
 <? 
-include_once('engine/engine.php');
+include_once('engine'.LS.'engine.php');
 class output__test extends engine
 {
 	public $allowed_url = array(
