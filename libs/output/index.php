@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.LS.'engine.php');
+include_once('engine'.SL.'engine.php');
 class output__index extends engine
 {
 	public $allowed_url = array(
