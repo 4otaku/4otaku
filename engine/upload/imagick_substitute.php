@@ -27,6 +27,11 @@ class Imagick {
 		}		
 	}
 	
+	function __call($name, $arguments) {
+		if($name == 'clone') return $this;
+		else return false;
+	}
+	
 	function getImageWidth() {		
 		return $this->width;
 	}
@@ -99,7 +104,7 @@ class Imagick {
 	
 	function coalesceImages() {
 		return array($this);
-	}
+	}	
 	
 	function clear() {
 		$vars = get_object_vars($this);

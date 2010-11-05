@@ -1,7 +1,5 @@
 <?
 
-ini_set("zend.ze1_compatibility_mode", "off");
-
 define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(dirname(dirname(__FILE__))) . SL);
@@ -56,7 +54,7 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	if (strtolower($format) == 'png') {
 		$imagick->setImageCompressionQuality($compression);	
 		$imagick->$func($x,$y);	
-		$bg = clone $imagick;
+		$bg = $imagick->clone();
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
 		$bg->compositeImage($imagick,Imagick::COMPOSITE_OVER,0,0);
 		$bg->setImageCompression(Imagick::COMPRESSION_JPEG);
@@ -74,7 +72,7 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		}	
 		$imagick->setImageCompressionQuality($compression);
 		$imagick->$func($x,$y);
-		$bg = clone $imagick;
+		$bg = $imagick->clone();
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
 		$bg->compositeImage($imagick,Imagick::COMPOSITE_OVER,0,0);
 		$bg->setImageCompression(Imagick::COMPRESSION_JPEG);
