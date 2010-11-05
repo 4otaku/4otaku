@@ -7,13 +7,20 @@ class search
 	private $morphy_en;
 	
 	function init_morphy() {
-		ini_set('include_path', '/var/www/nameless/data:.:/usr/share/php');
 		global $morphy_ru; global $morphy_en;
-		include_once('/var/www/nameless/data/www/4otaku.ru/engine/phpmorphy/src/common.php');
+		include_once(ROOT_DIR . SL . 'engine'. SL .'phpmorphy'. SL .'src'. SL .'common.php');
 		$opts = array( 'storage' => PHPMORPHY_STORAGE_FILE, 'predict_by_suffix' => true, 'predict_by_db' => true, 'graminfo_as_text' => true);
-		$dir = '/var/www/nameless/data/www/4otaku.ru/engine/phpmorphy/dicts';
-		$lang = 'ru_RU'; try { $this->morphy_ru = new phpMorphy($dir, $lang, $opts); } catch(phpMorphy_Exception $e) { die('Критическая ошибка морфологического анализа, известите пожалуйста админа.'); }
-		$lang = 'en_EN'; try { $this->morphy_en = new phpMorphy($dir, $lang, $opts); } catch(phpMorphy_Exception $e) { die('Критическая ошибка морфологического анализа, известите пожалуйста админа.'); }
+		$dir = ROOT_DIR . SL . 'engine'. SL .'phpmorphy'. SL .'dicts';
+		$lang = 'ru_RU'; 
+		try { $this->morphy_ru = new phpMorphy($dir, $lang, $opts); } 
+		catch(phpMorphy_Exception $e) { 
+			die('Критическая ошибка морфологического анализа, известите пожалуйста админа. admin@4otaku.ru'); 
+		}
+		$lang = 'en_EN'; 
+		try { $this->morphy_en = new phpMorphy($dir, $lang, $opts); } 
+		catch(phpMorphy_Exception $e) { 
+			die('Критическая ошибка морфологического анализа, известите пожалуйста админа. admin@4otaku.ru'); 
+		}
 	}
 	
   	function morphyphp($words) {
@@ -29,7 +36,7 @@ class search
 						if ($collection === false) $return[$key] = $word;  
 						else foreach($collection as $paradigm)
 							$return[$key] = iconv($this->morphy_ru->getEncoding(), 'utf-8', $paradigm[0]->getWord()); 
-					} catch(phpMorphy_Exception $e) {die('Критическая ошибка морфологического анализа, известите пожалуйста админа.');}
+					} catch(phpMorphy_Exception $e) {die('Критическая ошибка морфологического анализа, известите пожалуйста админа. admin@4otaku.ru');}
 				}
 			}
 			
@@ -41,7 +48,7 @@ class search
 						if ($collection === false) $return[$key] = $word;  
 						else foreach($collection as $paradigm)
 							$return[$key] = iconv($this->morphy_en->getEncoding(), 'utf-8', $paradigm[0]->getWord());
-					} catch(phpMorphy_Exception $e) {die('Критическая ошибка морфологического анализа, известите пожалуйста админа.');}
+					} catch(phpMorphy_Exception $e) {die('Критическая ошибка морфологического анализа, известите пожалуйста админа. admin@4otaku.ru');}
 				}
 			}
 			

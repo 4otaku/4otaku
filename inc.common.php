@@ -14,6 +14,8 @@ _CRON_ === true ? null : define('_CRON_', false);
 
 define('SL', DIRECTORY_SEPARATOR);
 
+define('ROOT_DIR', dirname(__FILE__));
+
 function __autoload($class_name) {
 	$class = 'libs'.SL.str_replace('__',SL,$class_name) . '.php';
 	if (file_exists($class)) include_once $class;
