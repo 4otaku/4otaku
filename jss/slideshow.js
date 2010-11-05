@@ -194,14 +194,19 @@ function get_image(number,show){
 	if (number == 1) $(".body").stopTime("get_backward");
 	$.post("/ajax.php?m=art&f=slideshow&type="+slideurl[3]+"&area="+urlencode(slideurl[4].split('#')[0])+"&id="+number, function(data) {
 		if (data != 'finish') {
+			window.has_images = true;
 			if (show) $(".body").append(data).children("#art-"+document.location.hash.split('#')[1]).css({'display' : ''});
 			else $(".body").append(data);
 			$(".art_translation").unbind('easyTooltip').easyTooltip();
 			$(".body .image").each(function(){
 				if ($("[id="+this.id+"]").length > 1) $("[id="+this.id+"]:last").remove();
 			});
+		} else {
+			if (window.has_images != true && $(".body").html().length < 10) {
+				$(".body").html("<h2>По выбранному вами адресу нет изображений.</h2>");
+			}
+			$(".body").stopTime("get_forward");
 		}
-		else $(".body").stopTime("get_forward");
 		if ($("#resize:checked").length > 0) resize_images();
 		window.getting = false;	
 	});
