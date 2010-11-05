@@ -46,7 +46,7 @@ $(document).ready(function(){
 		window.location.reload();
 	});	
 
-	$("#admin_tags input").change(function(){  
+	$("#admin_tags input, #admin_tags select").change(function(){  
 		$(this).parents('#admin_tags tr').addClass('changed');
 	});	
 
