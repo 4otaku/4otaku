@@ -33,6 +33,8 @@ class output__search extends engine
 			$this->template = 'booru';
 			$this->error_template = 'booru';
 			$this->side_modules['sidebar'] = array('masstag','art_tags','comments');
+			$query = $this->check_art_queries(urldecode($url[4]));
+			if ($error) return false;
 		}
 		
 		if ($url[3] == 'date') { 
@@ -48,16 +50,18 @@ class output__search extends engine
 		else {
 			if (!$search) $search = new search();
 			$terms = $search->parse_text(urldecode($url[4]));
-			$pretty_query = $search->prepare_string(urldecode($url[4]),true);
+			$pretty_query = $query ? urldecode($url[4]) : $search->prepare_string(urldecode($url[4]),true);
 
 			if (empty($terms)) $error = true;
 			else {
-				foreach ($terms as $term) 
+				foreach ($terms as $term) {
 					if (mb_strlen($term, 'UTF-8') > 2) $longterms[] = $term;
 					else $shortterms[] = $term;
+				}
 				if ($longterms) $longquery = ' and match (`index`) against ("+'.implode(' +',$longterms).'" in boolean mode)';
 				if ($shortterms) $shortquery = ' and `index` like "%|'.implode('=%" and `index` like "%|',$shortterms).'=%"';
-				$data = $db->sql('select place, item_id, `index`, area, sortdate from search where (place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery.$limit);
+				$query = $query ? $query : '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery.$limit;
+				$data = $db->sql('select place, item_id, `index`, area, sortdate from search where ' . $query); 
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
 					$db->update('search_queries',$area,$zero,$pretty_query,'query');
@@ -69,7 +73,7 @@ class output__search extends engine
 						else $data = $this->relevance_simple($data,$terms,$pp,max(1,$url[6]));
 					}
 					else {
-						$return['navi']['last'] = ceil($db->sql('select count(id) from search where (place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery,2)/$pp);
+						$return['navi']['last'] = ceil($db->sql('select count(id) from search where '. $query,2)/$pp);
 					}
 					
 					if ($url[2] != 'a') foreach ($data as $one) {
@@ -150,6 +154,20 @@ class output__search extends engine
 	
 	private function relevance_sort($a,$b) {
 		return ($a['relevance'] > $b['relevance']) ? -1 : 1;
+	}
+	
+	private function check_art_queries($query) {
+		global $error; global $db;
+		$parts = explode(':',$query);
+		switch ($parts[0]) {
+			case 'md5': 
+				if ($id = $db->sql('select id from art where md5="'.$parts[1].'"',2)) {
+					return 'place="art" and item_id='.$id;
+				} else {
+					$error = true;
+				}
+			default: return false;
+		}
 	}
 	
 	function process_art($data) {
