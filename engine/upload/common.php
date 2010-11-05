@@ -1,5 +1,7 @@
 <?
 
+ini_set("zend.ze1_compatibility_mode", "off");
+
 define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(dirname(dirname(__FILE__))) . SL);
