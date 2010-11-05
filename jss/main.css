@@ -36,6 +36,10 @@ ul.plain_list {
 	list-style-type: !important;	
 }
 
+.cancel-holder {
+	width: 90px;
+}
+
 img.cancel {
 	position: relative;
 	bottom: 9px;

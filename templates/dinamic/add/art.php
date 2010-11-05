@@ -23,6 +23,9 @@
 							<td>
 								<span class="processing">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
 							</td>
+							<td class="cancel-holder">
+								<span class="processing">Отменить <img class="art_upload_stop" src="/images/cancel.png"></span>
+							</td>
 						</tr>
 					</table>
 				</td>

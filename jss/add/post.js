@@ -34,7 +34,7 @@ $(document).ready(function(){
 		$(".arrow-down:visible:last").hide();
 	});	
 
-	if ($('#post-image').length > 0) new AjaxUpload('post-image', {
+	if ($('#post-image').length > 0) image_upload = new AjaxUpload('post-image', {
 		action: '/engine/upload/postimage.php',
 		name: 'filedata',
 		data: {	  },
@@ -59,11 +59,18 @@ $(document).ready(function(){
 		}
 	});
 	
+	$(".image_upload_stop").click(function(){
+		image_upload.cancel();
+		window.processing_art = 0;
+		$(".processing").hide(); 
+		$('#error').html('');
+	})
+	
 	$("#transparent td img.cancel").click(function(){  
 		$(this).parent().remove();
 	}); 		
 	
-	if ($('#post-file').length > 0) new AjaxUpload('post-file', {
+	if ($('#post-file').length > 0) file_upload = new AjaxUpload('post-file', {
 		action: '/engine/upload/postfile.php',
 		name: 'filedata',
 		data: {	  },
@@ -88,5 +95,12 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	$(".file_upload_stop").click(function(){
+		file_upload.cancel();
+		window.processing_art = 0;
+		$(".processing-file").hide(); 
+		$('#error').html('');
+	})
 	
 }); 
