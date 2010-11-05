@@ -59,9 +59,7 @@
 					<table>
 						<tr>
 							<td>
-								<div id="post-image">
-									<img src="/images/upload_button.png">
-								</div>
+								<img src="/images/upload_button.png" id="post-image">
 							</td>
 							<td>
 								<img class="processing-image" src="/images/ajax-processing.gif" />
@@ -141,9 +139,7 @@
 					<table>
 						<tr>
 							<td>
-								<div id="post-file" rel="add">
-									<img src="/images/upload_button.png">
-								</div>
+								<img src="/images/upload_button.png" id="post-file" rel="add">
 							</td>
 							<td>
 								<img class="processing-file" src="/images/ajax-processing.gif" />

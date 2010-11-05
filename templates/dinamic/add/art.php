@@ -15,9 +15,7 @@
 					<table>
 						<tr>
 							<td>
-								<div id="art-image">
-									<img src="/images/upload_button.png">
-								</div>
+								<img src="/images/upload_button.png" id="art-image">
 							</td>
 							<td>
 								<img class="processing" src="/images/ajax-processing.gif" />
