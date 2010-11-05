@@ -3,7 +3,7 @@ include_once('engine'.SL.'engine.php');
 class output__admin extends engine
 {
 	public $allowed_url = array(
-		array(1 => '|admin|', 2 => 'any', 3 => 'any', 4 => 'any', 5 => 'end')
+		array(1 => '|admin|', 2 => 'any', 3 => 'any', 4 => 'any', 5 => 'any', 6 => 'any', 7 => 'any', 8 => 'end')
 	);
 	public $template = 'general';
 	public $side_modules = array(

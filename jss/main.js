@@ -105,6 +105,7 @@ $(document).ready(function(){
 	if ($("div#comments-field").length == 1) $("div#comments-field").load("/ajax.php?m=add&f=comment");
 	
 	$("#navi_bar select").find('option:first').attr('selected', 'selected');
+	$("select .selected").attr('selected', 'selected');
 	
 	$("#navi_bar select").live('change',function(){
 		var i = 0; var line = 'mixed/'; window.navigation = new Array();

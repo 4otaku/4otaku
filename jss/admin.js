@@ -32,9 +32,8 @@ $(document).ready(function(){
 
 	$(".delete_tag").click(function(){  
 		if (confirm("Удалить тег "+$(this).parents('tr').find('input[name$=name]').val()+"?")) {
-			$.post("/ajax.php?m=admin&f=delete_tag&id="+$(this).attr('rel').split('|')[0]+"&old_alias="+$(this).attr('rel').split('|')[1], function() {
-				window.location.reload();
-			});
+			$.post("/ajax.php?m=admin&f=delete_tag&id="+$(this).attr('rel').split('|')[0]+"&old_alias="+$(this).attr('rel').split('|')[1]);
+			$(this).parents('#admin_tags tr').remove();
 		}
 	});	
 
