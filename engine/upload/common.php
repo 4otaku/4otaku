@@ -65,11 +65,7 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		if (detect_animation($path)) {
 			if (!$thumbnail) return false;
 			$coalesced = $imagick->coalesceImages();
-			foreach ($coalesced as $frame) {
-				$md5= md5(microtime(true));
-				$imagick = $frame;
-				break;
-			}
+			$imagick = current($coalesced);
 			$old_x = $imagick->getImageWidth(); $old_y = $imagick->getImageHeight();
 			$aspect = min($new_size[0]/$old_x,$new_size[1]/$old_y);
 			$x = round($old_x*$aspect); $y = round($old_y*$aspect);				
