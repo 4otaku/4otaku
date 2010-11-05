@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 	window.processing_art = 0;
 	
-	new AjaxUpload('art-image', {
+	art_upload = new AjaxUpload('art-image', {
 		action: '/engine/upload/art.php',
 		name: 'filedata',
 		multiple: true,
@@ -30,5 +30,12 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	$(".art_upload_stop").click(function(){
+		art_upload.cancel();
+		window.processing_art = 0;
+		$(".processing").hide(); 
+		$('#error').html('');
+	})
 	
 }); 
