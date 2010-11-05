@@ -204,8 +204,7 @@ function get_image(number,show){
 		} else {
 			if (window.has_images != true && $(".body").html().length < 10) {
 				$(".body").html("<h2>По выбранному вами адресу нет изображений.</h2>");
-				$(".arrow_right").hide();
-				$(".arrow_left").hide();
+				window.slideshow_error = true;
 			}
 			$(".body").stopTime("get_forward");
 		}
@@ -257,9 +256,14 @@ $(document).ready(function(){
 			$("#art-"+document.location.hash.split('#')[1]).css({'display' : ''});
 			if ($("#art-"+document.location.hash.split('#')[1]).length == 0) get_image(document.location.hash.split('#')[1],true);
 		}
-		if ($("#resize:checked").length > 0) resize_images();		
-		if ($("#art-"+(current+1)).length == 0) $(".arrow_right").hide(); else $(".arrow_right").show();
-		if (current == 1) $(".arrow_left").hide(); else $(".arrow_left").show();
+		if ($("#resize:checked").length > 0) resize_images();
+		if (window.slideshow_error == true) {
+			$(".arrow_right").hide();
+			$(".arrow_left").hide();
+		} else {
+			if ($("#art-"+(current+1)).length == 0) $(".arrow_right").hide(); else $(".arrow_right").show();
+			if (current == 1) $(".arrow_left").hide(); else $(".arrow_left").show();
+		}
 	});
 		
 	$(".body").everyTime(500, "get_forward", function() {
