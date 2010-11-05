@@ -90,7 +90,7 @@ class input__common
 				if ($post['do'][0] == 'art' && count($tags) < 5 && $post['where'] == $def['area'][0]) {
 					$add_res = array('error' => true, 'text' => 'Слишком мало тегов чтобы отправить арт на главную.');
 					return false;
-				}			
+				}
 				if ($data['area'] == $def['area'][0] || $data['area'] == $def['area'][2])
 					$transform_meta->erase_tags($tags,$post['do'][0].'_'.$data['area']);
 				if ($post['where'] == $def['area'][0] || $post['where'] == $def['area'][2])
@@ -99,6 +99,9 @@ class input__common
 			if ($post['do'][0] != 'orders') $db->update($post['do'][0],array('area','pretty_date','sortdate'),array($post['where'],$transform_text->rudate(),ceil(microtime(true)*1000)),$post['id']);
 			else $db->update($post['do'][0],'area',$post['where'],$post['id']);
 			$db->insert('versions',array($post['do'][0],$post['id'],$post['where'],ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+			if (!in_array($post['where'], $def['area'])) {
+				$db->sql('update comment set area="deleted" where place="'.$post['do'][0].'" and post_id='.$post['id'],0);
+			}			
 			$add_res['meta'] = $post['where'];
 		}
 		else $add_res = array('error' => true, 'text' => 'Не забывайте перед тем как утащить ставить галочку. Она здесь для защиты от случайных кликов.');
