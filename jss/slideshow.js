@@ -204,6 +204,8 @@ function get_image(number,show){
 		} else {
 			if (window.has_images != true && $(".body").html().length < 10) {
 				$(".body").html("<h2>По выбранному вами адресу нет изображений.</h2>");
+				$(".arrow_right").hide();
+				$(".arrow_left").hide();
 			}
 			$(".body").stopTime("get_forward");
 		}
