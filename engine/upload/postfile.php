@@ -29,18 +29,20 @@
 		}
 		elseif ($extension == 'mp3') {
 			$type = 'audio';
-			if (id3_get_version($newfile) & ID3_V1_0) $version = ID3_V1_0;
-			if (id3_get_version($newfile) & ID3_V1_1) $version = ID3_V1_1;
-			if (id3_get_version($newfile) & ID3_V2) $version = ID3_V2;
-			if (id3_get_version($newfile)) {
-				$tags = id3_get_tag($newfile, $version);
-				if ($tags['artist']) $tags['artist'] = convert_to($tags['artist'],'UTF-8');
-				if ($tags['title']) $tags['title'] = convert_to($tags['title'],'UTF-8');
-				if ($tags['title'] || $tags['artist'])
-					$name = ($tags['artist'] ? $tags['artist'] : 'Неизвестный исполнитель').' - '.($tags['title'] ? $tags['title'] : 'неизвестная композиция');
-				else $name = 'Сэмпл';
-			}
-			else $name = 'Сэмпл';
+			$name = 'Сэмпл';
+			if (function_exists('id3_get_version')) {
+				if (id3_get_version($newfile) & ID3_V1_0) $version = ID3_V1_0;
+				if (id3_get_version($newfile) & ID3_V1_1) $version = ID3_V1_1;
+				if (id3_get_version($newfile) & ID3_V2) $version = ID3_V2;
+				if (id3_get_version($newfile)) {
+					$tags = id3_get_tag($newfile, $version);
+					if ($tags['artist']) $tags['artist'] = convert_to($tags['artist'],'UTF-8');
+					if ($tags['title']) $tags['title'] = convert_to($tags['title'],'UTF-8');
+					if ($tags['title'] || $tags['artist']) {
+						$name = ($tags['artist'] ? $tags['artist'] : 'Неизвестный исполнитель').' - '.($tags['title'] ? $tags['title'] : 'неизвестная композиция');
+					}
+				} 
+			} 
 		}
 		else {
 			$type = 'plain';
