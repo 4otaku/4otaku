@@ -39,10 +39,10 @@
 						</td>
 						<td>
 							<select name="color">
-								<option value="">Обычный</option>
-								<option value="AA0000" <?=($item['color'] == 'AA0000' ? 'selected="selected"' : '');?>>Автор</option>
-								<option value="00AA00" <?=($item['color'] == '00AA00' ? 'selected="selected"' : '');?>>Персонаж</option>
-								<option value="AA00AA" <?=($item['color'] == 'AA00AA' ? 'selected="selected"' : '');?>>Произведение</option>
+								<option value=""<?=(!$item['color'] ? 'selected="selected" class="selected"' : '');?>>Обычный</option>
+								<option value="AA0000" <?=($item['color'] == 'AA0000' ? 'selected="selected" class="selected"' : '');?>>Автор</option>
+								<option value="00AA00" <?=($item['color'] == '00AA00' ? 'selected="selected" class="selected"' : '');?>>Персонаж</option>
+								<option value="AA00AA" <?=($item['color'] == 'AA00AA' ? 'selected="selected" class="selected"' : '');?>>Произведение</option>
 							</select>
 						</td>	
 						<td>
