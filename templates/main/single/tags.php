@@ -62,7 +62,7 @@
 								echo " ";
 							}
 							?>
-								<a href="/art/tag/<?=urlencode($one);?>">
+								<a href="/<?=$url[1];?>/tag/<?=urlencode($one);?>">
 									<?=$one;?>
 								</a>
 							<?
