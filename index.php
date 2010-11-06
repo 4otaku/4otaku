@@ -22,6 +22,7 @@ else {
 }
 
 $url = array_filter(explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"]))); 
+
 unset($url[0]); if (!$url[1]) $url[1] = 'index';
 include_once 'engine'.SL.'handle_old_urls.php';
 
