@@ -18,7 +18,7 @@ class output__search extends engine
 	function get_data() {
 		global $url; global $db; global $error; global $search; global $sets; global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();
-		$return['display'] = array('search','navi');						
+		$return['display'] = array('search_info','search_content','navi');
 		if (!in_array($url[2],$this->areas)) {
 			$area = str_split($url[2]);
 			foreach ($area as &$one) $one = $this->areas[$one];
@@ -46,13 +46,13 @@ class output__search extends engine
 			$limit = ' order by sortdate limit '.(max(1,$url[6])-1)*$pp.', '.$pp;
 		}
 		
-		if (empty($area)) $error = true;
+		if (empty($area)) $return['display'] = array('search_info','search_error');
 		else {
 			if (!$search) $search = new search();
 			$terms = $search->parse_text(urldecode($url[4]));
 			$pretty_query = $query ? urldecode($url[4]) : $search->prepare_string(urldecode($url[4]),true);
 
-			if (empty($terms)) $error = true;
+			if (empty($terms)) $return['display'] = array('search_info','search_error');
 			else {
 				foreach ($terms as $term) {
 					if (mb_strlen($term, 'UTF-8') > 2) $longterms[] = $term;
@@ -65,7 +65,7 @@ class output__search extends engine
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
 					$db->update('search_queries',$area,$zero,$pretty_query,'query');
-					$error = true;
+					$return['display'] = array('search_info','search_error');
 				} else {
 					if (!$limit) {
 						$return['navi']['last'] = ceil(count($data)/$pp);
@@ -95,11 +95,11 @@ class output__search extends engine
 					$return['navi']['curr'] = max(1,$url[6]);
 					$return['navi']['start'] = max($return['navi']['curr']-5,2);
 					$return['navi']['base'] = '/search/'.$url[2].'/'.$url[3].'/'.$url[4].'/';
-									
-					return $return; 
 				}
 			}
 		}
+		if ($url[2] == 'a' && strpos($return['display'][0],'info')) unset ($return['display'][0]);
+		return $return; 
 	}
 	
 	private function relevance($items,$terms,$per_page,$current_page) {
