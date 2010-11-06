@@ -492,7 +492,7 @@ $(document).ready(function(){
 	/* Search start */
 	
 	$("input.search").keyup(function(e){  
-		string = urlencode($(this).val());
+		string = urlencode($(this).val().replace(/\//g," "));
 		if (e.which != 38 && e.which != 40) {
 			if ($("#search-tip").is(".search-main")) var index = '&index=1';
 			else var index = '&index=0';
@@ -535,7 +535,7 @@ $(document).ready(function(){
 				if ($(this).val().length > 2 && $(this).attr('rel').length > 0) {
 					if ($(this).attr('rel') == 'a') sort_type = 'date';
 					else sort_type = 'rel';
-					document.location.href='/search/'+$(this).attr('rel')+'/'+sort_type+'/'+urlencode($(this).val())+'/';
+					document.location.href='/search/'+$(this).attr('rel')+'/'+sort_type+'/'+urlencode($(this).val().replace(/\//g," "))+'/';
 				}
 				break;
 			default:
@@ -558,7 +558,7 @@ $(document).ready(function(){
 	
 	$("input.searchb").click(function(event){  
 		event.preventDefault();
-		search_string = trim($("input.search").val());
+		search_string = trim($("input.search").val().replace(/\//g," "));
 		if (search_string.length > 2) {
 			if ($(this).attr('rel') == 'a') sort_type = 'date';
 			else sort_type = 'rel';			

@@ -165,6 +165,7 @@ class output__search extends engine
 					return 'place="art" and item_id='.$id;
 				} else {
 					$error = true;
+					return false;
 				}
 			default: return false;
 		}

@@ -7,6 +7,6 @@ AddDefaultCharset UTF-8
 	RewriteBase /
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule . /index.php [L]
+	RewriteRule . /index.php [NE,L]
 	RewriteRule "(^|/)(CVS|\.svn|\.git)/" - [F] 
 </IfModule>
