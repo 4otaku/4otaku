@@ -258,7 +258,7 @@
 							<?
 								if ($item['translator']) {
 									?>
-										 | 
+										  | 
 											Переводчик: <?=$item['translator'];?>
 									<?
 								}
@@ -266,11 +266,15 @@
 							<?
 								if ($item['source']) {
 									?>
-										 | 
+										  | 
 											Источник: <?=$item['source'];?>
 									<?
 								}
-							?>							
+							?>	
+							 | 
+							<a href="/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
+								 Скачать
+							</a>
 							<?								
 								if ($sets['user']['rights']) {
 									?>
