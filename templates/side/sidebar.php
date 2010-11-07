@@ -1,4 +1,4 @@
-<? if ($url[1] != 'search') { ?>
+<? if ($url[1] != 'search' || $url[2] == 'a') { ?>
 	<?
 		$area = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comments', 'o' => 'order');
 		if ($key = array_search($url[1],$area)) $checked = $key;
