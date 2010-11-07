@@ -46,6 +46,11 @@
 					Арты
 				</a>
 			</li>
+			<li>
+				<a href="/arg/cg_packs/" class="margin30<?=($url[1] == 'arg' && $url[2] == 'cg_packs' ? ' plaintext' : '');?>">
+					CG паки
+				</a>
+			</li>
 			<li><hr /></li>
 			<li>				
 				<a href="/news/" class="margin30<?=($url[1] == 'news' ? ' plaintext' : '');?>">
@@ -92,6 +97,11 @@
 			<li>
 				<a href="http://yukarinsubs.4otaku.ru/" class="margin30">
 					Yukarin Subs
+				</a>
+			</li>
+			<li>
+				<a href="http://comics.4otaku.ru/" class="margin30">
+					Комикс ЧТТО
 				</a>
 			</li>
 			<li>
