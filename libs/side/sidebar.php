@@ -15,7 +15,7 @@ class side__sidebar extends engine
 		global $db; global $sets; global $url;
 		if ($url[1] == "order") $area = "orders"; else $area = $url[1];
 		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate')))
-			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*2,'sortdate');
+			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
 		if (is_array($return)) {
 			$used = array();
 			foreach ($return as $key => $one) {
