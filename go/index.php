@@ -1,16 +1,9 @@
 <?
+if(!$_GET || preg_match_all('/(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?(.*)?$/iD', urldecode($_SERVER['REQUEST_URI']), $matches) !== 1) die;
 
-if (!$_GET) die;
+$link = $matches[0][0];
 
-$start = explode('?',$_SERVER['REQUEST_URI']);
-$link = urldecode(implode('?',array_slice($start,1)));
-
-$array = explode ("/",$link);
-
-foreach ($array as $num => &$part) if ($num == 2) $part = str_replace('_','.',$part);
-
-$link = implode('/',$array);
-header("Location: ".$link,TRUE,302);
+header("Location: ".$link, TRUE, 302);
 
 ?>
 <html>
