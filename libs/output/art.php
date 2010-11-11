@@ -173,9 +173,9 @@ class output__art extends engine
 					}
 					else {
 						$this->template = 'download';
-						$this->side_modules = array();					
+						$this->side_modules = array();
 						if (pathinfo($url[3],PATHINFO_EXTENSION) == 'jpg') $type = 'jpeg'; else $type = pathinfo($url[3],PATHINFO_EXTENSION);
-						return array('file' => '/var/www/nameless/data/www/4otaku.ru/images/booru/full/'.$url[3], 'name' => $url[3], 'type' => $type);							
+						return array('file' => ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$url[3], 'name' => $url[3], 'type' => $type);							
 					}
 				}
 			}

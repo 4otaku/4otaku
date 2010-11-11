@@ -90,6 +90,10 @@ class output__post extends engine
 				$post['links'] = unserialize($post['link']);
 				$post['files'] = unserialize($post['file']);
 				$post['info'] = unserialize($post['info']);
+				$post['text'] = preg_replace(array(
+					'/(<\/a><\/div><div class="text hidden">)(\s*<br[^>]*>)+/s',
+					'/(<br[^>]*>\s*)+(<\/div><\/div>)/s'
+					),array('$1','$2'),$post['text']);
 			}
 			$meta = $this->get_meta($return,array('category','author','language','tag'));
 			foreach ($meta as $key => $type) 

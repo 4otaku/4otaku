@@ -90,7 +90,10 @@ class output__search extends engine
 						$update .= ($found[$one] ? ", ".$one."=".$one."+1" : '');
 						$insert .= ", ".($found[$one] ? 1 : 0);
 					}
-					$db->sql("insert into search_queries (`id` ,`query` ,`length` , `".implode("` ,`",$area)."`) values('','".$pretty_query."',".mb_strlen($pretty_query).$insert.") on duplicate key update ".substr($update,1).";",0);
+					if (!strpos($pretty_query, 'md5:'))
+					{
+						$db->sql("insert into search_queries (`id` ,`query` ,`length` , `".implode("` ,`",$area)."`) values('','".$pretty_query."',".mb_strlen($pretty_query).$insert.") on duplicate key update ".substr($update,1).";",0);
+					}
 					
 					$return['navi']['curr'] = max(1,$url[6]);
 					$return['navi']['start'] = max($return['navi']['curr']-5,2);
@@ -184,7 +187,11 @@ class output__search extends engine
 		if (trim($post['image'])) $post['image'] = explode('|',$post['image']);
 		$post['links'] = unserialize($post['link']);
 		$post['files'] = unserialize($post['file']);
-		$post['info'] = unserialize($post['info']);
+		$post['info'] = unserialize($post['info']);		
+		$post['text'] = preg_replace(array(
+			'/(<\/a><\/div><div class="text hidden">)(\s*<br[^>]*>)+/s',
+			'/(<br[^>]*>\s*)+(<\/div><\/div>)/s'
+			),array('$1','$2'),$post['text']);
 		$meta = $this->get_meta(array($post),array('category','author','language','tag'));
 		foreach ($meta as $key => $type) 
 			if (is_array($type))
