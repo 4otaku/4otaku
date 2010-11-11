@@ -15,7 +15,7 @@ elseif (!file_exists('libs/output/'.$url[1].'.php') && $db->sql('select id from 
 
 if ($url[1] == 'mixed') $link = str_replace(';','&',$link);
 
-if ($url[1] == 'search' && $url[3] != 'rel')
+if ($url[1] == 'search' && (!$url[3] || $url[3] == 'page'))
 {
 	$url[1] = 'search/p/rel';
 	$link = '/'.implode('/',$url);
