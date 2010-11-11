@@ -1,7 +1,8 @@
 <?
+
 if(!$_GET || preg_match_all('/(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?(.*)?$/iD', urldecode($_SERVER['REQUEST_URI']), $matches) !== 1) die;
 
-$link = $matches[0][0];
+$link = htmlspecialchars($matches[0][0]);
 
 header("Location: ".$link, TRUE, 302);
 
@@ -18,5 +19,3 @@ header("Location: ".$link, TRUE, 302);
 		</a>
 	</body>
 </html>
-
-
