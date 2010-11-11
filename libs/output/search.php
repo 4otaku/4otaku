@@ -90,7 +90,10 @@ class output__search extends engine
 						$update .= ($found[$one] ? ", ".$one."=".$one."+1" : '');
 						$insert .= ", ".($found[$one] ? 1 : 0);
 					}
-					$db->sql("insert into search_queries (`id` ,`query` ,`length` , `".implode("` ,`",$area)."`) values('','".$pretty_query."',".mb_strlen($pretty_query).$insert.") on duplicate key update ".substr($update,1).";",0);
+					if (!strpos($pretty_query, 'md5:'))
+					{
+						$db->sql("insert into search_queries (`id` ,`query` ,`length` , `".implode("` ,`",$area)."`) values('','".$pretty_query."',".mb_strlen($pretty_query).$insert.") on duplicate key update ".substr($update,1).";",0);
+					}
 					
 					$return['navi']['curr'] = max(1,$url[6]);
 					$return['navi']['start'] = max($return['navi']['curr']-5,2);

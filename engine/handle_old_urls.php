@@ -15,6 +15,12 @@ elseif (!file_exists('libs/output/'.$url[1].'.php') && $db->sql('select id from 
 
 if ($url[1] == 'mixed') $link = str_replace(';','&',$link);
 
+if ($url[1] == 'search' && $url[3] != 'rel')
+{
+	$url[1] = 'search/p/rel';
+	$link = '/'.implode('/',$url);
+} 
+
 if ($link) {
 	header("Location: ".$link,TRUE,302);
 
