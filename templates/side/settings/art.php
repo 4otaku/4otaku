@@ -65,3 +65,6 @@
 		<option value="-1"<?=($sets['artsort']['tag'] == -1 ? ' selected="yes"' : '');?>>По тегам, инвертированная</option>
 	</select>
 <? } ?>
+<br />
+Режим скачивания: 
+<input type="checkbox" class="settings" rel="art.download_mode" value="1"<?=($sets['art']['download_mode'] ? ' checked' : '');?>>

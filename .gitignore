@@ -16,3 +16,4 @@ images/booru/resized/*
 !images/booru/resized/index.php
 jss/m/tmp/*
 !jss/m/tmp/index.php
+yandex_*
