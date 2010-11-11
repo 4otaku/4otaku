@@ -188,6 +188,9 @@
 			<br />
 			Уменьшать большие арты: 
 			<input type="checkbox" class="settings" rel="art.resized" value="1"<?=($sets['art']['resized'] ? ' checked' : '');?>>
+			<br />			
+			Режим скачивания: 
+			<input type="checkbox" class="settings" rel="art.download_mode" value="1"<?=($sets['art']['download_mode'] ? ' checked' : '');?>>
 		</td>
 	</tr>	
 </table>
