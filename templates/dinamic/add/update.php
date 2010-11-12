@@ -40,15 +40,15 @@
 			</tr>
 			<? foreach ($data as $key => $link) {
 				if (is_array($link['url'])) foreach ($link['url'] as $key2 => $linkurl) { ?>
-					<tr class="link" rel="<?=$i++;?>">
+					<tr class="link" rel="<?=++$i;?>">
 						<td class="input field_name">
 							Ссылка
 						</td>
 						<td class="inputdata">
-							<input size="12%" type="text" name="link[0][name]" value="<?=$link['name'];?>" />: 
-							<input size="36%" type="text" name="link[0][link]" value="<<?=$link['alias'][$key2];?>><?=$linkurl;?>" />
-							~(<input size="2%" type="text" name="link[0][size]" value="<?=$link['size'];?>" /> 
-							<select name="link[0][sizetype]">
+							<input size="12%" type="text" name="link[<?=$i;?>][name]" value="<?=$link['name'];?>" />: 
+							<input size="36%" type="text" name="link[<?=$i;?>][link]" value="<<?=$link['alias'][$key2];?>><?=$linkurl;?>" />
+							~(<input size="2%" type="text" name="link[<?=$i;?>][size]" value="<?=$link['size'];?>" /> 
+							<select name="link[<?=$i;?>][sizetype]">
 								<option value="кб"<?=($link['sizetype'] == 'кб' ? ' selected="selected"' : '');?>>кб</option>
 								<option value="мб"<?=($link['sizetype'] == 'мб' ? ' selected="selected"' : '');?>>мб</option>
 								<option value="гб"<?=($link['sizetype'] == 'гб' ? ' selected="selected"' : '');?>>гб</option>
