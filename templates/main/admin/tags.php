@@ -1,7 +1,19 @@
 <div id="admin_tags">
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
 	 <a href="/admin/tags/problem">Проблемные теги</a>.
-	 <input type="submit" value="Сохранить все" class="disabled save_all right">
+	<div class="right"> 
+	 <input type="submit" value="Сохранить все" class="disabled save_all"><br />	 
+	Тегов: 
+	<select class="settings" rel="pp.tags_admin">
+		<option value="10"<?=($sets['pp']['tags_admin'] == 10 ? ' selected="yes"' : '');?>>10</option>
+		<option value="20"<?=($sets['pp']['tags_admin'] == 20 ? ' selected="yes"' : '');?>>20</option>
+		<option value="30"<?=($sets['pp']['tags_admin'] == 30 ? ' selected="yes"' : '');?>>30</option>
+		<option value="40"<?=($sets['pp']['tags_admin'] == 40 ? ' selected="yes"' : '');?>>40</option>
+		<option value="50"<?=($sets['pp']['tags_admin'] == 50 ? ' selected="yes"' : '');?>>50</option>
+		<option value="75"<?=($sets['pp']['tags_admin'] == 75 ? ' selected="yes"' : '');?>>75</option>
+		<option value="100"<?=($sets['pp']['tags_admin'] == 100 ? ' selected="yes"' : '');?>>100</option>
+	</select>
+	</div>
 	<table>
 		<tr>
 			<th>
