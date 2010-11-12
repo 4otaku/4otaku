@@ -59,6 +59,7 @@ $sets['pp']['art_tags'] = 20;
 $sets['pp']['art_pool'] = 40;
 $sets['pp']['art_cg_pool'] = 20;
 $sets['pp']['tags'] = 40;
+$sets['pp']['tags_admin'] = 40;
 $sets['pp']['news'] = 5;
 $sets['pp']['latest_comments'] = 3;
 $sets['pp']['random_orders'] = 5;
