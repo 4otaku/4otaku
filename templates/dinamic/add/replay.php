@@ -26,6 +26,11 @@
 				<td colspan="2" id="error">
 				
 				</td>
+			</tr>		
+			<tr>
+				<td colspan="2" id="success" style="color:green; font-weight:bold;" class="hidden">
+					Реплей загружен. Для сохранения заполните ники игроков и нажмите "Добавить".
+				</td>
 			</tr>			
 			<tr id="transparent" class="hidden">
 				<td colspan="2">
@@ -44,7 +49,9 @@
 			</tr>				
 			<tr>
 				<td class="input field_name">
-					Ник второго игрока
+					<nobr>
+						Ник второго игрока
+					</nobr>
 				</td>
 				<td class="inputdata">
 					<input size="25%" name="nick2" value="" type="text">
