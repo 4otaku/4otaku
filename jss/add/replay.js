@@ -19,8 +19,10 @@ $(document).ready(function(){
 			$(".processing").hide(); 
 			if (response == 'error-maxsize') {
 				$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');
+				$('#success').hide();
 			} else {
 				$('#transparent td').html(response);
+				$('#success').show();
 			}
 		}
 	});
