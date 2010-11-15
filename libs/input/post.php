@@ -25,7 +25,7 @@ class input__post extends input__common
 			if (is_array($post['images'])) $images = implode($post['images'],'|');
 
 			$post['bonus_link'] = $check->link_array($post['bonus_link']);
-			$links = $transform_link->similar($transform_link->parse($post['link'])); 
+			$links = $transform_link->similar($transform_link->parse($post['link']));
 			if (is_array($post['bonus_link'])) $bonus_links = $transform_link->parse($post['bonus_link']);
 
 			$db->insert('post',$insert_data = array($post['title'],$text,undo_safety($post['text']),$images,serialize($links),serialize($bonus_links),serialize($post['file']),

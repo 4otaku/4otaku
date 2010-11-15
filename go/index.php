@@ -2,9 +2,9 @@
 
 if(!$_GET || preg_match_all('/(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?(.*)?$/iD', urldecode($_SERVER['REQUEST_URI']), $matches) !== 1) die;
 
-$link = htmlspecialchars($matches[0][0]);
+$link = str_replace('"','\\"',$matches[0][0]);
 
-header("Location: ".$link, TRUE, 302);
+header("Location: ".$link, true, 302);
 
 ?>
 <html>
