@@ -29,5 +29,11 @@ class dinamic__cookie
 			$settings[$parts[0]][$parts[1]] = $value;
 			$db->update('settings',array('data','lastchange'),array(base64_encode(serialize($settings)),time()),$_COOKIE['settings'],'cookie');
 		}
-	}	
+	}
+	
+	function get() {
+		global $check;
+		if ($check->hash($_COOKIE['settings']))
+			return $_COOKIE['settings'];
+	}
 }

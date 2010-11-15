@@ -2,13 +2,13 @@
 
 class transform__video
 {
-	function html($link) {
+	function html($link, $nico = true) {
 		$parts = parse_url($link);
 		if (substr($parts['host'],0,4) == 'www.') $parts['host'] = substr($parts['host'],4);
 
 		switch ($parts['host']) {
 			case 'youtube.com': $object = $this->youtube($this->parse_query($parts['query'])); break;
-			case 'nicovideo.jp': $object = $this->nicovideo($parts['path']); break;
+			case 'nicovideo.jp': $object = $nico ? $this->nicovideo($parts['path']) : false; break;
 			case 'amvnews.ru': $object = $this->amvnews($this->parse_query($parts['query'])); break;
 			case 'dailymotion.com': $object = $this->dailymotion($parts['path']); break;
 			case 'gametrailers.com': $object = $this->gametrailers($parts['path']); break;

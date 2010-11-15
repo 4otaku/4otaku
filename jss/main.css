@@ -897,7 +897,6 @@ input.sign {
 
 #transparent div {
 	float:left; 
-	height: 150px;  
 	text-align: right;
 	background-repeat: no-repeat; 
 	background-position: 50% 50%;
@@ -907,10 +906,17 @@ input.sign {
 
 .post_images div {
 	width: 200px; 
+	height: 150px !important;	
 }
 
 .art_images div {
 	width: 150px; 
+	height: 150px !important;	
+}
+
+.board_images div {
+	width: 240px; 
+	height: 180px !important;  
 }
 
 .processing {
