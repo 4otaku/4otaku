@@ -31,6 +31,7 @@ class side__sidebar extends engine
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
 				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));
+				if (mb_strlen($comment['text']) > 35) $comment['text'] = wordwrap($comment['text'], 30, "­", true);
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
