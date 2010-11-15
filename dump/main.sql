@@ -62,6 +62,24 @@ CREATE TABLE IF NOT EXISTS `author` (
   UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `board` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` enum('2','1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `thread` int(11) NOT NULL,
+  `updated` bigint(16) NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `trip` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `content` varchar(2048) COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_text` text COLLATE utf8_unicode_ci NOT NULL,
+  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `boards` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `links` text COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_date` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `sortdate` bigint(16) NOT NULL,
+  `cookie` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL auto_increment,
   `alias` varchar(32) collate utf8_unicode_ci NOT NULL,
@@ -83,7 +101,12 @@ INSERT INTO `category` (`id`, `alias`, `name`, `area`) VALUES
 (9, 'soft', 'Программы', '|post|'),
 (11, 'nsfw', 'Для взрослых', '|post|video|art|'),
 (10, 'game_cg', 'Из игры', '|art|'),
-(13, '3d', '3D графика', '|video|art|');
+(13, '3d', '3D графика', '|video|art|'),
+(14, 'b', 'Общее', '|board|'),
+(15, 'to', 'Тохо', '|board|'),
+(16, 'vo', 'Вокалоиды', '|board|'),
+(17, 'gm', 'Игры', '|board|'),
+(18, 'mu', 'Музыка', '|board|');
 
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL auto_increment,

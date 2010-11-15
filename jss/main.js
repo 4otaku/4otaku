@@ -204,7 +204,8 @@ $(document).ready(function(){
 					if (data == 'success') {
 						$("div#add_loader img").show();
 						$("div.edit_field").html(''); $("div.edit_field").hide();
-						$("div#add_form").load("/ajax.php?m=add&f="+$("div#downscroller a.disabled").parent().parent().attr('rel'));					
+						vars = $("div#downscroller a.disabled").parent().parent().attr('rel').split('#');
+						$("div#add_form").load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]);
 					}
 					else $(".closed_group").slideDown();
 				});
@@ -213,7 +214,8 @@ $(document).ready(function(){
 				$("div#add_loader img").show();
 				$("div.edit_field").html(''); $("div.edit_field").hide();
 				if ($("#add_form").attr('rel')) var id = "&id=" + $("#add_form").attr('rel'); else var id = ""; 
-				$("div#add_form").load("/ajax.php?m=add&f="+$(this).parent().parent().attr('rel')+id);
+				vars = $(this).parent().parent().attr('rel').split('#');
+				$("div#add_form").load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id);
 			}
 		}
 		else {

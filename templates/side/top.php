@@ -4,17 +4,20 @@
 		$def['type'][1] => 'Добавить видео',
 		$def['type'][2] => 'Загрузить картинки',
 		'order' => 'Оставить заказ (не забудьте прочитать правила)',
-		'pool' => 'Добавить новую группу'		
+		'pool' => 'Добавить новую группу',
+		'board' => 'Открыть новый тред',
+		'thread' => 'Ответить в тред',
 	);
 ?>
 <?
 	if ($data['top']['add_bar']) {
+		if (!$data['top']['add_bar']['name']) $data['top']['add_bar']['name'] = $data['top']['add_bar']['type'];
 		?>
 			<div class="addborder">
-				<div id="downscroller" rel="<?=$data['top']['add_bar']['type'];?>"> 
+				<div id="downscroller" rel="<?=$data['top']['add_bar']['type'];?>#<?=$data['top']['add_bar']['info'];?>"> 
 					<div>
-						<a href="#bugfix" class="disabled">
-							<?=$lang['add'][$data['top']['add_bar']['type']];?>
+						<a href="#scroll" class="disabled">
+							<?=$lang['add'][$data['top']['add_bar']['name']];?>
 							<?=($data['top']['add_bar']['pool'] ? " в группу ".$data['top']['add_bar']['pool'] : "");?>
 						</a>
 						<span class="arrow"> ↓</span> 

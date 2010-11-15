@@ -10,6 +10,8 @@ class side__top
 			$data = $db->sql('select name, password from art_pool where id='.$url[3],1);
 			return array('type' => $url[1], 'pool' => $data['name'], 'pass' => $data['password']);	
 		}
+		if ($url[3] == 'thread') return array('type' => $url[1], 'name' => $url[3], 'info' => $url[4]);
+		if ($url[1] == 'board') return array('type' => $url[1], 'info' => $url[2]);
 		return array('type' => $url[1]);
 	}	
 
