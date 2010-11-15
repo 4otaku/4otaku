@@ -11,34 +11,37 @@
 		<?
 	}
 
-	$synonims = array();								
-	foreach ($item['meta']['tag'] as $key => $meta) {
-		if (!empty($meta['variants'])) $synonims = array_merge($synonims,$meta['variants']);	
-		if ($nonfirst) {
+	$synonims = array();
+	if (count($item['meta']['tag']))
+	{
+		foreach ($item['meta']['tag'] as $key => $meta) {
+			if (!empty($meta['variants'])) $synonims = array_merge($synonims,$meta['variants']);	
+			if ($nonfirst) {
+				?>
+				, 
+				<?
+			}	else $nonfirst = true;
 			?>
-			, 
 			<?
-		}	else $nonfirst = true;
-		?>
-		<?
-			if ($url[1] == 'post' || $url[1] == 'video') {
-				if (!is_numeric($url[2]) && $url[1] != 'search') {
-					?>										
-						<a href="<?=$output->mixed_add($key,'tag');?>">
-							+
-						</a> 
-						<a href="<?=$output->mixed_add($key,'tag','-');?>">
-							-
-						</a> 	
-					<?
+				if ($url[1] == 'post' || $url[1] == 'video') {
+					if (!is_numeric($url[2]) && $url[1] != 'search') {
+						?>										
+							<a href="<?=$output->mixed_add($key,'tag');?>">
+								+
+							</a> 
+							<a href="<?=$output->mixed_add($key,'tag','-');?>">
+								-
+							</a> 	
+						<?
+					}
 				}
-			}
-		?>
-			<a href="<?=$data['main']['navi']['base'];?>tag/<?=$key;?>/">
-				<?=$meta['name'];?>
-			</a>
-		<?
-	}	unset($nonfirst);
+			?>
+				<a href="<?=$data['main']['navi']['base'];?>tag/<?=$key;?>/">
+					<?=$meta['name'];?>
+				</a>
+			<?
+		}	unset($nonfirst);
+	}
 	
 	if (!empty($synonims)) {
 		?>
