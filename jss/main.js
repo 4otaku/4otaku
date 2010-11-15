@@ -560,7 +560,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		search_string = trim($("input.search").val().replace(/\//g," "));
 		if (search_string.length > 2) {
-			if ($(this).attr('rel') == 'a') sort_type = 'date';
+			if ($("input.search").attr('rel') == 'a') sort_type = 'date';
 			else sort_type = 'rel';			
 			if ($("input.search").attr('rel').length > 0)
 				document.location.href='/search/'+$("input.search").attr('rel')+'/'+sort_type+'/'+urlencode(search_string)+'/';
