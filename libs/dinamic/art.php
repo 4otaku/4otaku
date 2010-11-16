@@ -90,6 +90,39 @@ class dinamic__art extends engine
 		$db->update('art','tag',$tags,$id);	
 	}
 	
+	function danbooru($temp, $did)
+	{
+		global $db;
+		$dmd5 = $db->sql('select md5 from art where id='.$did,2);
+						
+		$domdoc = new DOMDocument();	
+		$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
+		
+		$elements = $domdoc->getElementsByTagName('post');
+		foreach ($elements as $node) 
+		{
+			$dtagstr[] = $node->getAttribute('tags');
+		}
+		
+		$dtags[] = explode(" ", $dtagstr[0]);
+		
+		foreach ($dtags[0] as $key => &$tag)
+		{
+			if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
+			else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
+			else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+			
+			if (strpos($tag, 'hard_translated') === (int)0) { }	
+			else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
+
+			if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+		}
+		
+		$dtag = implode(", ", $dtags[0]); 
+
+		$this->add_tag($dtag, $did);
+	}	
+	
 	function substract_tag($tags,$id) {
 		global $db; global $def; global $transform_meta;
 		if (!$transform_meta) $transform_meta = new transform__meta();		
@@ -133,5 +166,5 @@ class dinamic__art extends engine
 		$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
 		include_once('libs/input/common.php');
 		input__common::transfer($post);
-	}			
+	}		
 }
