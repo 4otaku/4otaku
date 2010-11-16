@@ -176,7 +176,7 @@ class cron
 			if (is_array($batch))
 				foreach ($batch as $id => $item) {					
 						$db->sql('delete from search where place="'.$table.'" and item_id='.$id,0);
-						if ($item['area'] != 'deleted') $search->$table($item,$id);			
+						if ($item['area'] != 'deleted' && $item['area']) $search->$table($item,$id);			
 					}
 	}
 }
