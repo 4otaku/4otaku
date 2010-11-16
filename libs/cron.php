@@ -5,7 +5,7 @@ class cron
 
 	/* Gouf - проверяльщик ссылок */
 
-	function gouf_check() { 	
+	function gouf_check() {
 		global $db;
 		$count = $db->sql('select count(id) from gouf_links',2);
 		$limit = ceil($count/1440);
@@ -19,12 +19,12 @@ class cron
 			else $db->update('gouf_links',array('checkdate'),array(time()),$link['id']);
 		}
 	}
-	
-	function gouf_refresh_links() { 	
+
+	function gouf_refresh_links() {
 		global $db;
 		$posts = $db->sql('select id, title, link from post');
 		$gouf_temp_links = $db->sql('select id, link from gouf_links');
-		
+
 		$post_links = array(); $gouf_links = array();
 		if (is_array($gouf_temp_links)) foreach ($gouf_temp_links as $link) {
 			$link['link'] = html_entity_decode($link['link'], ENT_QUOTES, "utf-8" );
@@ -32,7 +32,7 @@ class cron
 		}
 		if (is_array($posts)) foreach ($posts as $post) {
 			$links = unserialize ($post['link']);
-			if (is_array($links)) foreach ($links as $row) 
+			if (is_array($links)) foreach ($links as $row)
 				  if (is_array($row['url'])) foreach ($row['url'] as $link)
 					  $post_links[$link] = array('id' => $post['id'],'link' => $link,'title' => $post['title']);
 		}
@@ -44,44 +44,44 @@ class cron
 		if (is_array($insert_row)) foreach ($insert_row as $link) $db->insert('gouf_links',array($link['id'],$link['title'],0,'works',$link['link']));
 	}
 
-	function gouf_check_single($base, $link){		
+	function gouf_check_single($base, $link){
 		$link = str_replace('&apos;',"'",html_entity_decode($link,ENT_QUOTES,'UTF-8'));
 		$return = 'works';
-		foreach ($base as $one) if (stristr($link,$one['alias'])) {	
+		foreach ($base as $one) if (stristr($link,$one['alias'])) {
 
 			$input = $this->gouf_curl(str_replace(' ','%20',stripslashes($link)), ($one['alias'] == 'mediafire.com'));
-			
+
 			if (!trim($input) || ($one['alias'] == 'megaupload.com' && stristr($input,'http://www.megaupload.com/?c=msg')))
 				return 'unknown';
-				
-			$return = 'error';					
+
+			$return = 'error';
 			if ($input) {
-				$tests = explode('|',$one['text']);					
+				$tests = explode('|',$one['text']);
 				foreach ($tests as $test) if (stristr($input,$test)) $return = 'works';
 			}
 			break;
-			
+
 		}
 		if ($return == 'error' && $one['alias'] == 'mediafire.com') {
 			$fh = fopen("test.txt", 'w');
 			fwrite($fh, $link."\n\r\n\r".$input);
-			fclose($fh);	
-		}   
-		return $return;					
-	}	
-	
-	function gouf_curl($link, $simple=false) { 
-	
+			fclose($fh);
+		}
+		return $return;
+	}
+
+	function gouf_curl($link, $simple=false) {
+
 		if (!$simple) {
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');		
-			curl_setopt($ch, CURLOPT_TIMEOUT, 20); 		
-			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0); 
+			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
+			curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 			curl_setopt($ch, CURLOPT_URL, $link);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			$input = curl_exec($ch);
-			curl_close($ch);  
+			curl_close($ch);
 		}
 		else $input = @file_get_contents($link);
 		return $input;
@@ -98,7 +98,7 @@ class cron
 			foreach ($tags as $tag) $update[$tag][$one['type'].'_'.$one['area']]++;
 		}
 		$tags = $db->sql('select * from tag','alias');
-		foreach ($tags as $alias => $tag) 
+		foreach ($tags as $alias => $tag)
 			foreach ($tag as $key => $field)
 				if (strpos($key,'_') && $field != $update[$alias][$key])
 					$db->update('tag',$key,$update[$alias][$key],$tag['id']);
@@ -108,7 +108,7 @@ class cron
 		global $db;
 		$db->sql('delete from settings where (data="" and lastchange < '.(time()-3600).')',0);
 	}
-	
+
 	function send_mails() {
 		global $db;
 		$data = $db->sql('select * from misc where type = "mail_notify" and data1 < '.time());
@@ -123,12 +123,12 @@ class cron
 			}
 		}
 	}
-	
+
 	function close_orders() {
 		global $db;
 		$data = $db->sql('select * from misc where type = "close_order" and data1 < '.time());
 		if (!empty($data)) {
-			$transform_text = new transform__text();		
+			$transform_text = new transform__text();
 			foreach ($data as $delete) {
 				if ($id = $db->sql('select id from orders where (id ='.$delete['data2'].' and area = "workshop")',2)) {
 					$db->sql('delete from misc where id ='.$delete['id'],0);
@@ -140,18 +140,18 @@ class cron
 			}
 		}
 	}
-	
+
 	function add_to_search() {
 		global $db; global $search;
 		if (!$search) $search = new search();
-		
+
 		$data['post'] = $db->sql('select * from post where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');
 		$data['video'] = $db->sql('select * from video where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');
-		$data['art'] = $db->sql('select * from art where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');		
+		$data['art'] = $db->sql('select * from art where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');
 		$data['news'] = $db->sql('select * from news where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');
 		$data['orders'] = $db->sql('select * from orders where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');
 		$data['comment'] = $db->sql('select * from comment where area != "deleted" and sortdate > '.(time() - 7200)*1000,'id');
-		
+
 		$index = $db->sql('select place, item_id from search');
 		if (is_array($index)) foreach ($index as &$one) $one = $one['place'].$one['item_id'];
 
@@ -160,23 +160,23 @@ class cron
 				foreach ($batch as $id => $item)
 					if (!is_array($index) || !in_array($table.$id,$index))
 						$search->$table($item,$id);
-	}	
-	
+	}
+
 	function update_search() {
 		global $db; global $search;
 		if (!$search) $search = new search();
-		
+
 		$index = $db->sql('select place, item_id from search order by lastupdate limit 90');
 		$index[] = $db->sql('select place, item_id from search where sortdate > '.(ceil(microtime(true)*1000) - 86400*3*1000).' order by lastupdate limit 1',1);
 		$index = array_filter($index);
-		
+
 		foreach ($index as $one) $data[$one['place']][$one['item_id']] = $db->sql('select * from '.$one['place'].' where id = '.$one['item_id'],1);
-		
+
 		foreach ($data as $table => $batch)
 			if (is_array($batch))
-				foreach ($batch as $id => $item) {					
+				foreach ($batch as $id => $item) {
 						$db->sql('delete from search where place="'.$table.'" and item_id='.$id,0);
-						if ($item['area'] != 'deleted' && $item['area']) $search->$table($item,$id);			
+						if ($item['area'] != 'deleted' && ($item['area'] || $table == 'comment')) $search->$table($item,$id);
 					}
 	}
 }
