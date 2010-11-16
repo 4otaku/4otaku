@@ -30,10 +30,10 @@ class side__sidebar extends engine
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
-				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));
-				if (mb_strlen($comment['text']) > 35) $comment['text'] = wordwrap($comment['text'], 30, "­", true);
+				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
+				if (mb_strlen($comment['text']) > 35) $comment['text'] = wordwrap($comment['text'], 30, " ", true);
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
 			}			
