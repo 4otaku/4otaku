@@ -21,7 +21,7 @@ class engine
 		foreach ($ways as $conditions) {
 			$error = false; 
 			foreach ($conditions as $key => $condition) {
-				if (preg_match("/[^a-zA-Zа-яА-ЯёЁ\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;
+				if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;
 				if ($condition == 'end') {						
 					if ($url[$key]) $error = true;
 					foreach ($url as $ukey => $val) if (is_numeric($ukey) && $ukey > $key && isset($val)) $error = true;
