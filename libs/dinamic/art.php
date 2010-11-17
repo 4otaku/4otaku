@@ -72,8 +72,10 @@ class dinamic__art extends engine
 		global $db; global $get; global $check; global $sets;
 		if (is_numeric($get['id'])) {
 			if ($check->lat($function = $get['sign']) && $check->rights()) $this->$function(urldecode($get['data']),$get['id']);
-			$return = $db->sql('select id, category, tag, author, thumb from art where id='.$get['id'].' limit 1',1);
+			$return = $db->sql('select * from art where id='.$get['id'].' limit 1',1);
+			$db->insert('versions',array('art',$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 			$return['meta'] = $this->get_meta(array($return),array('category','author','tag'));
+			$db->sql('update search set lastupdate=0 where place="art" and item_id="'.$get['id'].'"',0);
 			return $return;
 		}
 	}

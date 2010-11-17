@@ -99,6 +99,7 @@ class input__common
 			if ($post['do'][0] != 'orders') $db->update($post['do'][0],array('area','pretty_date','sortdate'),array($post['where'],$transform_text->rudate(),ceil(microtime(true)*1000)),$post['id']);
 			else $db->update($post['do'][0],'area',$post['where'],$post['id']);
 			$db->insert('versions',array($post['do'][0],$post['id'],$post['where'],ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+			$db->sql('update search set lastupdate=0 where place="'.$post['do'][0].'" and item_id="'.$post['id'].'"',0);
 			if (!in_array($post['where'], $def['area'])) {
 				$db->sql('update comment set area="deleted" where place="'.$post['do'][0].'" and post_id='.$post['id'],0);
 			}			
