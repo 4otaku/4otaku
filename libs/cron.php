@@ -179,4 +179,26 @@ class cron
 						if ($item['area'] != 'deleted' && $item['area']) $search->$table($item,$id);
 					}
 	}
+	
+	function check_dropout_search() {
+		global $db; global $search;
+		$data['post'] = $db->sql('select id, concat(id,"#post") from post where area != "deleted"','id');
+		$data['video'] = $db->sql('select id, concat(id,"#video") from video where area != "deleted"','id');
+		$data['art'] = $db->sql('select id, concat(id,"#art") from art where area != "deleted"','id');
+		$data['news'] = $db->sql('select id, concat(id,"#news") from news where area != "deleted"','id');
+		$data['orders'] = $db->sql('select id, concat(id,"#orders") from orders where area != "deleted"','id');
+		$data['comment'] = $db->sql('select id, concat(id,"#comment") from comment where area != "deleted"','id');
+
+		$index = $db->sql('select id, concat(item_id,"#",place) from search','id');
+		
+		$all = array();
+		foreach ($data as $table) if (!empty($table)) $all = $all + array_values($table);
+		unset($data);
+		
+		$index = array_diff($all, $index);
+		unset($all);
+		
+		$sql = 'INSERT INTO search (`place`, `item_id`) VALUES ("' . str_replace('#','","',implode('"), ("', $index)) . '");';
+		$db->sql($sql, 0);
+	}
 }
