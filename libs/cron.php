@@ -189,12 +189,11 @@ class cron
 		$data['orders'] = $db->sql('select id, concat(id,"#orders") from orders where area != "deleted"','id');
 		$data['comment'] = $db->sql('select id, concat(id,"#comment") from comment where area != "deleted"','id');
 
-		$index = $db->sql('select id, concat(item_id,"#",place) from search','id');
-		
 		$all = array();
 		foreach ($data as $table) if (!empty($table)) $all = $all + array_values($table);
 		unset($data);
 		
+		$index = $db->sql('select id, concat(item_id,"#",place) from search','id');
 		$index = array_diff($all, $index);
 		unset($all);
 		
