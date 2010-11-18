@@ -1,5 +1,6 @@
 <?
 
+ini_set('display_errors','Off');
 include_once 'inc.common.php';
 
 $check = new check_values();
@@ -8,7 +9,7 @@ include_once 'engine'.SL.'cleanglobals.php';
 include_once 'engine'.SL.'metafunctions.php';
 
 if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
-if ($settings) {
+if (isset($settings)) {
 	$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
 	setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
 	$sets = merge_settings($sets,$hide_sape = unserialize(base64_decode($settings)));
@@ -23,10 +24,12 @@ else {
 
 $url = array_filter(explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"]))); 
 
-unset($url[0]); if (!$url[1]) $url[1] = 'index';
+if(isset($url[0])) unset($url[0]);
+if(!isset($url[1])) $url[1] = 'index';
+
 include_once 'engine'.SL.'handle_old_urls.php';
 
-if ($post['do']) {
+if (isset($post['do'])) {
 	$post['do'] = explode('.',$post['do']);
 	if (count($post['do']) == 2) {
 		$input_class = 'input__'.$post['do'][0]; $input = new $input_class;

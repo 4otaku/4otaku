@@ -21,7 +21,7 @@ if ($url[1] == 'search' && (!$url[3] || $url[3] == 'page'))
 	$link = '/'.implode('/',$url);
 } 
 
-if ($link) {
+if (isset($link)) {
 	header("Location: ".$link,TRUE,302);
 
 	?>
