@@ -197,7 +197,7 @@ class cron
 		$index = array_diff($all, $index);
 		unset($all);
 		
-		$sql = 'INSERT INTO search (`place`, `item_id`) VALUES ("' . str_replace('#','","',implode('"), ("', $index)) . '");';
+		$sql = 'INSERT INTO search (`item_id`, `place`) VALUES ("' . str_replace('#','","',implode('"), ("', $index)) . '");';
 		$db->sql($sql, 0);
 	}
 }
