@@ -18,6 +18,7 @@ function redo_quotes($str) {
 
 function merge_settings(&$array1,&$array2) {
 	$merged = $array1;
+	if(is_array($array2))
 	foreach ($array2 as $key => &$value)
 		if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
 			$merged[$key] = merge_settings($merged[$key], $value);

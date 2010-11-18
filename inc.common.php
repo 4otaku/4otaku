@@ -7,9 +7,9 @@ switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 	default: die;
 }
 
-_INDEX_ === true ? null : define('_INDEX_', false);
-_AJAX_ === true ? null : define('_AJAX_', false);
-_CRON_ === true ? null : define('_CRON_', false);
+@_INDEX_ === true ? null : define('_INDEX_', false);
+@_AJAX_  === true ? null : define('_AJAX_', false);
+@_CRON_  === true ? null : define('_CRON_', false);
 
 
 define('SL', DIRECTORY_SEPARATOR);
