@@ -16,17 +16,6 @@ function redo_quotes($str) {
 	return str_replace(array('&','"',"'"),array('&amp;','&quot;','&apos;'),$str);
 }
 
-function merge_settings(&$array1,&$array2) {
-	$merged = $array1;
-	if(is_array($array2))
-	foreach ($array2 as $key => &$value)
-		if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
-			$merged[$key] = merge_settings($merged[$key], $value);
-		else
-			$merged[$key] = $value;
-	return $merged;
-}
-
 function _crypt($input,$decrypt=false) {
 	$o = $s1 = $s2 = array(); 
 
