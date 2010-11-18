@@ -20,9 +20,10 @@ $output = new $output_class();
 $func = $get['f'];
 
 $data = $output->$func();
-if ($output->template || $data) {
-	if ($output->textarea) ob_end_clean();
-    if ($output->template) include_once($output->template);
+if (@$output->template || $data)
+{
+    if (@$output->textarea) ob_end_clean();
+    if (@$output->template) include_once($output->template);
     else include_once 'templates'.SL.'dinamic'.SL.$get['m'].SL.$get['f'].'.php';
 }
 
