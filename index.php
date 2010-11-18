@@ -1,6 +1,5 @@
 <?
 
-@ini_set('display_errors','Off');
 include_once 'inc.common.php';
 
 $check = new check_values();
