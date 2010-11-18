@@ -1,16 +1,11 @@
 <?
 
 switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
-	case 'index': define('_INDEX_', true); break;
-	case 'ajax': define('_AJAX_', true); break;
-	case 'cron': define('_CRON_', true); break;
+	case 'index': define('_INDEX_', true);  define('_AJAX_', false); define('_CRON_', false); break;
+	case 'ajax':  define('_INDEX_', false); define('_AJAX_', true);  define('_CRON_', false); break;
+	case 'cron':  define('_INDEX_', false); define('_AJAX_', false); define('_CRON_', true);  break;
 	default: die;
 }
-
-@_INDEX_ === true ? null : define('_INDEX_', false);
-@_AJAX_  === true ? null : define('_AJAX_', false);
-@_CRON_  === true ? null : define('_CRON_', false);
-
 
 define('SL', DIRECTORY_SEPARATOR);
 
@@ -34,6 +29,18 @@ function myoutput($buffer) {
     return str_replace(array("\t","  ","\n","\r"),array(""," ","",""),$buffer);
 }
 
+// Moved from matafunctions cause now is used on startup
+function merge_settings(&$array1,&$array2) {
+	$merged = $array1;
+	if(is_array($array2))
+	foreach ($array2 as $key => &$value)
+		if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
+			$merged[$key] = merge_settings($merged[$key], $value);
+		else
+			$merged[$key] = $value;
+	return $merged;
+}
+
 mb_internal_encoding('UTF-8');
 
 if (
@@ -47,3 +54,19 @@ if (
 include_once 'engine'.SL.'config.php';
 
 $db = new mysql();
+
+$check = new check_values();
+
+if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
+if (isset($settings) && !(_CRON_)) {
+    $cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
+    setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
+    $sets = merge_settings($sets,$hide_sape = unserialize(base64_decode($settings)));
+} else if(!isset($settings) && _INDEX_) {
+    $hash = md5(microtime(true));
+    $cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];
+    setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+    $db->sql('insert into settings (cookie,lastchange) values ("'.$hash.'","'.time().'")',0);
+    $_COOKIE['settings'] = $hash;
+}
+
