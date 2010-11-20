@@ -11,8 +11,7 @@ $output = new $output_class();
 $func = $get['f'];
 
 $data = $output->$func();
-if (isset($output->template) || $data)
-{
+if (isset($output->template) || $data) {
     if (isset($output->textarea)) ob_end_clean();
     if (isset($output->template)) include_once($output->template);
     else include_once 'templates'.SL.'dinamic'.SL.$get['m'].SL.$get['f'].'.php';
