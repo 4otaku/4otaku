@@ -13,11 +13,14 @@ class side__sidebar extends engine
 	
 	function comments() {
 		global $db; global $sets; global $url;
-		if ($url[1] == "order") $area = "orders"; 
-			else if ($url[2] == "a" && $url[1] == "search") $area = 'art'; 
-			else if ($url[2] == "p" && $url[1] == "search") $area = 'post'; 
-			else if ($url[2] == "v" && $url[1] == "search") $area = 'video'; 
-			else $area = $url[1];
+		if ($url[1] == "order") $area = "orders";
+		else if ($url[1] == "search")
+		{
+			if ($url[2] == "a") $area = 'art'; 
+			else if ($url[2] == "p") $area = 'post'; 
+			else if ($url[2] == "v") $area = 'video'; 
+		}
+		else $area = $url[1];
 		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate')))
 			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
 		if (is_array($return)) {
