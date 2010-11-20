@@ -1,7 +1,7 @@
 $(document).ready(function(){  	
 
 	new AjaxUpload('video-file', {
-		action: '/engine/upload/video.php',
+		action: '/ajax.php?upload=video',
 		name: 'filedata',
 		data: {	  },
 		allowedExtensions: ['mp4', 'flv', 'avi'], 

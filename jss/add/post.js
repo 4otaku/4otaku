@@ -35,7 +35,7 @@ $(document).ready(function(){
 	});	
 
 	if ($('#post-image').length > 0) image_upload = new AjaxUpload('post-image', {
-		action: '/engine/upload/postimage.php',
+		action: '/ajax.php?upload=postimage',
 		name: 'filedata',
 		data: {	  },
 		autoSubmit: true,

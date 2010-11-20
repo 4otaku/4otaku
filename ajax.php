@@ -1,5 +1,12 @@
 <?
 
+// Быстрый фикс. Обрабатываем запросы на /engine/upload в новом месте
+if(!empty($_GET['upload']) && file_exists('engine/upload/'.$_GET['upload'].'.php')) {
+    chdir('engine/upload/');
+    include $_GET['upload'].'.php';
+    exit();
+}
+
 include_once 'inc.common.php';
 
 include_once 'engine'.SL.'cleanglobals.php';
