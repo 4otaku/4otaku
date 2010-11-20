@@ -71,7 +71,7 @@ $(document).ready(function(){
 	}); 		
 	
 	if ($('#post-file').length > 0) file_upload = new AjaxUpload('post-file', {
-		action: '/engine/upload/postfile.php',
+		action: '/ajax.php?upload=postfile',
 		name: 'filedata',
 		data: {	  },
 		autoSubmit: true,
