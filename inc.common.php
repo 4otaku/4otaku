@@ -77,9 +77,9 @@ if (!(_CRON_)) {
 		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
                 if ((base64_decode($settings) !== false) && is_array(unserialize(base64_decode($settings)))) {
                 	$sets = merge_settings($sets, unserialize(base64_decode($settings)));
-                        $db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'")',0);
+                        $db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
                 } else
-                	$db->sql('UPDATE settings SET data = "YTowOnt9", lastchange = "'.time().'" WHERE cookie = "'.$hash.'")',0);
+                	$db->sql('UPDATE settings SET data = "YTowOnt9", lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
 	} else {
                 if(_INDEX_)  setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
 		$db->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
