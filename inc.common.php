@@ -59,7 +59,7 @@ $check = new check_values();
 if (!(_CRON_)) {
 	if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
 	if (isset($settings)) {
-		$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
+		$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.preg_replace('/^www\./','',$_SERVER['SERVER_NAME']);	
 		setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
 		$sets = merge_settings($sets, unserialize(base64_decode($settings)));
 	} else if(!isset($settings) && (_INDEX_)) {
