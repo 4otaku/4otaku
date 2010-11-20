@@ -3,7 +3,7 @@ $(document).ready(function(){
 	window.processing_art = 0;
 	
 	art_upload = new AjaxUpload('art-image', {
-		action: '/engine/upload/art.php',
+		action: '/ajax.php?upload=art',
 		name: 'filedata',
 		multiple: true,
 		data: {	  },
