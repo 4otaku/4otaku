@@ -57,16 +57,26 @@ $db = new mysql();
 $check = new check_values();
 
 if (!(_CRON_)) {
-	if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
+        if (isset($def['site']['domain']) && ($def['site']['domain'] != ''))
+            $cookie_domain = $def['site']['domain'];
+        else if ($_SERVER['SERVER_NAME'] == 'localhost')
+            $cookie_domain = NULL;
+        else
+            $cookie_domain = '.'.$_SERVER['SERVER_NAME'];
+        
+        $hash = (isset($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
+                
+        $settings = $db->sql('SELECT data FROM settings WHERE cookie = "'.$hash.'"',2);
+       
 	if (isset($settings)) {
-		$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
-		setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
-		$sets = merge_settings($sets, unserialize(base64_decode($settings)));
-	} else if(!isset($settings) && (_INDEX_)) {
-		$hash = md5(microtime(true));
-		$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];
 		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-		$db->sql('insert into settings (cookie,lastchange) values ("'.$hash.'","'.time().'")',0);
+                if ((base64_decode($settings) !== false) && is_array(unserialize(base64_decode($settings))))
+                	$sets = merge_settings($sets, unserialize(base64_decode($settings)));
+                else
+                	$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'")',0);
+	} else {
+                if(_INDEX_)  setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+		$db->sql('INSERT INTO settings (cookie,lastchange) VALUES ("'.$hash.'","'.time().'")',0);
 		$_COOKIE['settings'] = $hash;
 	}
 }
