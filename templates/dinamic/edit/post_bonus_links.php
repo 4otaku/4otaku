@@ -1,7 +1,7 @@
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
-<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=edit_form.js,edit/links.js,add/post.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,edit/links.js,add/post.js"></script>
 <table class="margin20">
 	<tbody class="link_bonus">
 		<?	$i = 1;
@@ -14,8 +14,8 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 							<input type="submit" class="disabled remove_link second_button" rel="bonus" value="-"/>
 						</td>
 						<td class="handler">
-							<img src="<?=SITE_DIR.'/images'?>/str1.png" class="arrow-up clickable" />
-							<img src="<?=SITE_DIR.'/images'?>/str2.png" class="arrow-down clickable" />
+							<img src="/images/str1.png" class="arrow-up clickable" />
+							<img src="/images/str2.png" class="arrow-down clickable" />
 						</td>						
 					</tr>
 				<?
@@ -29,13 +29,13 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 				<input type="submit" class="disabled remove_link second_button" rel="bonus" value="-"/>
 			</td>
 			<td class="handler">
-				<img src="<?=SITE_DIR.'/images'?>/str1.png" class="arrow-up clickable" />
-				<img src="<?=SITE_DIR.'/images'?>/str2.png" class="arrow-down clickable" />
+				<img src="/images/str1.png" class="arrow-up clickable" />
+				<img src="/images/str2.png" class="arrow-down clickable" />
 			</td>			
 		</tr>			
 	<tbody>
 </table>
 <input type="submit" class="disabled add_link left first_button" rel="bonus" value="Добавить ссылку" />
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

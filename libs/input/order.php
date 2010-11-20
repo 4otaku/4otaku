@@ -1,5 +1,5 @@
 <?
-include_once SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php';
+include_once 'libs'.SL.'input'.SL.'common.php';
 class input__order extends input__common
 {
 	function add() { 

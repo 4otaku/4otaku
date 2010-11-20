@@ -7,7 +7,7 @@
 			else {
 				$("#rss_link").attr('href',$("#rss_link").attr('href')+this.id);
 			}
-			$.post('<?=SITE_DIR?>/ajax.php?m=cookie&f=set&field=rss.default&val='+$("#rss_link").attr('href').split('=')[1]);			
+			$.post('/ajax.php?m=cookie&f=set&field=rss.default&val='+$("#rss_link").attr('href').split('=')[1]);			
 		});
 	});			
 </script>
@@ -28,5 +28,5 @@ if ($sets['user']['rights'])
 }
 ?>
 <div class="center clear">
-	<a href="<?=SITE_DIR?>/rss/=<?=$sets['rss']['default'];?>" id="rss_link">Подписаться на выбранное</a>
+	<a href="/rss/=<?=$sets['rss']['default'];?>" id="rss_link">Подписаться на выбранное</a>
 </div>

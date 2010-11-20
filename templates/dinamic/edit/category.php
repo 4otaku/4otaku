@@ -1,7 +1,7 @@
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
-<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=edit_form.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js"></script>
 <div>
 	<?
 		foreach ($data['value'] as $category) {
@@ -22,5 +22,5 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 	<input type="submit" class="disabled<?=(count($data['value']) < 2 ? ' hidden' : '');?> sign remove_meta" value="-" />
 </div>
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

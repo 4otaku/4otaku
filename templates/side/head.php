@@ -3,6 +3,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?=$data['head']['title'];?></title>
-	<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=jquery-1.3.2.min.js,config.js,box.js,main.js<?=($sets['user']['rights'] ? ',admin.js' : '');?>"></script>
-	<link rel="stylesheet" href="<?=SITE_DIR?>/jss/m/?b=jss&f=box.css,main.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="/jss/m/?b=jss&f=jquery-1.3.2.min.js,box.js,main.js<?=($sets['user']['rights'] ? ',admin.js' : '');?>"></script>
+	<link rel="stylesheet" href="/jss/m/?b=jss&f=box.css,main.css" type="text/css" media="screen" />
 </head>

@@ -7,7 +7,7 @@
 	
 	foreach ($lang['link'] as $key => $one) {
 		?>
-			<a href="<?=SITE_DIR.'/post'?>/<?=($key == $def['area'][0] ? "" : $key."/");?>"<?=($url['area'] == $key ? ' class="plaintext"' : '');?>>
+			<a href="/post/<?=($key == $def['area'][0] ? "" : $key."/");?>"<?=($url['area'] == $key ? ' class="plaintext"' : '');?>>
 				<?=$one;?>
 			</a>
 			<br />				
@@ -68,7 +68,7 @@
 	</div>
 	<hr width="100%" />	
 	<span class="hidden navigation_link">
-		<a href="#" rel="<?=SITE_DIR.'/post'?>/<?=($url['area'] != $def['area'][0] ? $url['area'].'/' : '');?>">
+		<a href="#" rel="/post/<?=($url['area'] != $def['area'][0] ? $url['area'].'/' : '');?>">
 			<input type="submit" value="Перейти к выбранному">
 		</a>
 		<br />
@@ -77,7 +77,7 @@
 	if ($data['main']['rss']) {
 		?>
 			<br />
-			<a href="<?=SITE_DIR?>/rss/<?=_base64_encode(implode('|',array_slice($data['main']['rss'],2)));?>" target="_blank">
+			<a href="/rss/<?=_base64_encode(implode('|',array_slice($data['main']['rss'],2)));?>" target="_blank">
 				Подписаться на rss <?=$data['main']['rss']['type-name'];?> <?=$data['main']['rss']['meta-name'];?>
 			</a>
 		<?

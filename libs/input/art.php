@@ -1,5 +1,5 @@
 <?
-include_once SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php';
+include_once 'libs'.SL.'input'.SL.'common.php';
 class input__art extends input__common
 {
 	function add() { 
@@ -30,7 +30,7 @@ class input__art extends input__common
 				
 				if (isset($post['transfer_to_main']) && $sets['user']['rights']) {
 					$_post = array('sure' => 1, 'do' => array('art','transfer'), 'where' => 'main');
-					include_once(SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php');						
+					include_once('libs/input/common.php');						
 					if (!$id) $id = $db->sql('select @@identity from art',2);
 					$j = $i;
 					while ($j > 0) {

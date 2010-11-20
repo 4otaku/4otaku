@@ -4,7 +4,7 @@
 			<tr>
 				<td align="left">
 					<h2>
-						<a href="<?=SITE_DIR.$data['feed']['domain'];?>/news/<?=$item['url'];?>" title="<?=$item['title'];?>">
+						<a href="<?=$data['feed']['domain'];?>/news/<?=$item['url'];?>" title="<?=$item['title'];?>">
 							<?=$item['title'];?>
 						</a>
 					</h2>
@@ -18,7 +18,7 @@
 						}
 						else {
 							?>
-								<a href="<?=SITE_DIR.$data['feed']['domain'];?>/news/<?=$item['url'];?>">
+								<a href="<?=$data['feed']['domain'];?>/news/<?=$item['url'];?>">
 									Комментировать
 								</a>
 								<?
@@ -41,8 +41,8 @@
 						?>
 							<td class="imageholder"<?=($data['feed'] ? ' valign="top"' : '');?>>
 								<div class="image-0"<?=($data['feed'] ?  ' style="margin: 0 10px 0 0;"' : '');?>>
-									<a href="<?=SITE_DIR.$data['feed']['domain'];?>/images/full/<?=$item['image'];?>" target="_blank">
-										<img src="<?=SITE_DIR.$data['feed']['domain'];?>/images/thumbs/<?=$item['image'];?>" />
+									<a href="<?=$data['feed']['domain'];?>/images/full/<?=$item['image'];?>" target="_blank">
+										<img src="<?=$data['feed']['domain'];?>/images/thumbs/<?=$item['image'];?>" />
 									</a>													
 								</div>
 							</td>
