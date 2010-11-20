@@ -16,7 +16,7 @@
 						foreach ($year as $monthkey => $month) { $i++;
 							?>
 								<li>
-									<img src="/images/tb2.gif">
+									<img src="<?=SITE_DIR.'/images'?>/tb2.gif">
 									&nbsp;
 									<span class="car-yearmonth car-<?=$i;?>" rel="closed">
 										<?=$monthkey;?> 
@@ -30,7 +30,7 @@
 												?>
 													<li>
 														<?=$daykey;?> числа: добавлено 
-														<a href="/<?=$url[2];?>/date/<?=$yearkey;?>-<?=$transform_text->rumonth($monthkey);?>-<?=$daykey;?>/">
+														<a href="<?=SITE_DIR?>/<?=$url[2];?>/date/<?=$yearkey;?>-<?=$transform_text->rumonth($monthkey);?>-<?=$daykey;?>/">
 															<?=$day;?> артов.
 														</a>
 													</li>

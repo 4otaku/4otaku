@@ -5,7 +5,7 @@
 				<tr>
 					<td align="left">
 						<h2>
-							<a href="<?=$data['feed']['domain'];?>/video/<?=$item['id'];?>" title="<?=$item['title'];?>">
+							<a href="<?=SITE_DIR.$data['feed']['domain'];?>/video/<?=$item['id'];?>" title="<?=$item['title'];?>">
 								<?=$item['title'];?>
 							</a>
 						</h2>
@@ -14,7 +14,7 @@
 						<?
 							if ($data['main']['display'] && !in_array('comments',$data['main']['display'])) {
 								?>							
-									<a href="<?=$data['feed']['domain'];?>/video/<?=$item['id'];?>">
+									<a href="<?=SITE_DIR.$data['feed']['domain'];?>/video/<?=$item['id'];?>">
 										Комментировать
 									</a>
 									<?
@@ -66,16 +66,16 @@
 														<?
 															if (!is_numeric($url[2]) && $url[1] != 'search') {
 																?>													
-																	<a href="<?=$output->mixed_add($key,'author');?>">
+																	<a href="<?=SITE_DIR.$output->mixed_add($key,'author');?>">
 																		+
 																	</a> 
-																	<a href="<?=$output->mixed_add($key,'author','-');?>">
+																	<a href="<?=SITE_DIR.$output->mixed_add($key,'author','-');?>">
 																		-
 																	</a> 
 																<?
 															}
 														?>																													
-														<a href="<?=$data['main']['navi']['base'];?>author/<?=$key;?>/">
+														<a href="<?=SITE_DIR.$data['main']['navi']['base'];?>author/<?=$key;?>/">
 															<?=$meta;?>
 														</a>
 													<?
@@ -109,16 +109,16 @@
 														<?
 															if (!is_numeric($url[2]) && $url[1] != 'search') {
 																?>													
-																	<a href="<?=$output->mixed_add($key,'category');?>">
+																	<a href="<?=SITE_DIR.$output->mixed_add($key,'category');?>">
 																		+
 																	</a> 
-																	<a href="<?=$output->mixed_add($key,'category','-');?>">
+																	<a href="<?=SITE_DIR.$output->mixed_add($key,'category','-');?>">
 																		-
 																	</a> 
 																<?
 															}
 														?>																													
-														<a href="<?=$data['main']['navi']['base'];?>category/<?=$key;?>/">
+														<a href="<?=SITE_DIR.$data['main']['navi']['base'];?>category/<?=$key;?>/">
 															<?=$meta;?>
 														</a>
 													<?
@@ -132,14 +132,14 @@
 										?>
 											 | 
 											<?
-												include('templates'.SL.'main'.SL.'single'.SL.'tags.php');												
+												include(SITE_FDIR.SL.'templates'.SL.'main'.SL.'single'.SL.'tags.php');												
 											?>
 										<?
 									}
 									if ($sets['user']['rights']) {
 										?>
 											 | 
-											<a href="/admin/revisions/video/<?=$item['id'];?>/">История версий</a>	
+											<a href="<?=SITE_DIR?>/admin/revisions/video/<?=$item['id'];?>/">История версий</a>	
 										<?
 									}
 								?>								
@@ -233,7 +233,7 @@
 						</td>	
 					</tr>	
 				</table>
-				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=SITE_DIR.'/images'?>/ajax-loader.gif"></div>
 				<div id="edit-<?=$item['id'];?>" rel="video" class="edit_field hidden"></div>
 			<?
 		} 

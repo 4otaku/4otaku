@@ -1,30 +1,29 @@
-<? 
-	include_once ('side'.SL.'head.php');
-?>
+<? include_once (SITE_FDIR._SL.'templates'.SL.'side'.SL.'head.php'); ?>
+
 <body class="wrapwindow">
 	<table class="wrapwindow">
 		<tr>
 			<td align="center" class="index_topholder">
 				<div class="center margin10">				
-					<a href="/">
-						<img src="/images/4otakulogo.png" alt="4отаку. Материалы для отаку." style="margin-bottom: 15px;">
+					<a href="<?=SITE_DIR?>">
+						<img src="<?=SITE_DIR.'/images'?>/4otakulogo.png" alt="4отаку. Материалы для отаку." style="margin-bottom: 15px;">
 					</a>
 				</div>
 				<div class="center margin20">
 				<a title="Dreams of Dead HQ" href="http://dod.4otaku.ru" class="with_help">
-					<img src="/images/dod2.png">
+					<img src="<?=SITE_DIR.'/images'?>/dod2.png">
 				</a>
-				<a title="Архив" href="/archive/" class="with_help">
-					<img src="/images/arch2.png">
+				<a title="Архив" href="<?=SITE_DIR.'/archive'?>/" class="with_help">
+					<img src="<?=SITE_DIR.'/images'?>/arch2.png">
 				</a>
 				<a title="Кикаки: додзинси и ёнкомы" href="http://raincat.4otaku.ru" class="with_help">
-					<img src="/images/ki2.png">
+					<img src="<?=SITE_DIR.'/images'?>/ki2.png">
 				</a>				
 				<a title="Yukarin Subs" href="http://yukarinsubs.4otaku.ru" class="with_help">
-					<img src="/images/yukarin2.png">
+					<img src="<?=SITE_DIR.'/images'?>/yukarin2.png">
 				</a>	
 				<a title="Что такое теория относительности?" href="http://comics.4otaku.ru" class="with_help">
-					<img src="/images/t_chtto.png">
+					<img src="<?=SITE_DIR.'/images'?>/t_chtto.png">
 				</a>
 				</div>
 				<div class="center margin10">
@@ -41,15 +40,15 @@
 				</div>
 				<div class="yukari_corner">
 					<div class="margin10">
-						<a href="/">
-							<img src="/images/yukari.gif" class="right">
+						<a href="<?=SITE_DIR?>/">
+							<img src="<?=SITE_DIR.'/images'?>/yukari.gif" class="right">
 						</a>
 					</div>
 				</div>					
 				<div class="rss_corner">
 					<div class="right">		
-						<a href="<?=($sets['rss']['default'] == $def['rss']['default'] ? '/go?http%3A%2F%2Ffeeds.feedburner.com%2F4otaku' : '/rss/='.$sets['rss']['default'].'/');?>" title="RSS записей">
-							<img align="middle" src="/images/feed_80x80.png" alt="RSS записей" />
+						<a href="<?=($sets['rss']['default'] == $def['rss']['default'] ? SITE_DIR.'/go?http%3A%2F%2Ffeeds.feedburner.com%2F4otaku' : SITE_DIR.'/rss/='.$sets['rss']['default'].'/');?>" title="RSS записей">
+							<img align="middle" src="<?=SITE_DIR.'/images'?>/feed_80x80.png" alt="RSS записей" />
 						</a>
 					</div>
 					<div class="margin10 box first_box">
@@ -58,12 +57,12 @@
 						</a>
 					</div>
 					<div class="margin10 box">
-						<a href="/ajax.php?m=box&f=rss&width=600&height=240" title="Выберите, что показывать вам в RSS" class="thickbox">
+						<a href="<?=SITE_DIR?>/ajax.php?m=box&f=rss&width=600&height=240" title="Выберите, что показывать вам в RSS" class="thickbox">
 							Выберите свой RSS
 						</a>
 					</div>
 					<div class="margin10 box">
-						<a href="/ajax.php?m=box&f=settings&width=500&height=650" title="Ваши личные настройки" class="thickbox">
+						<a href="<?=SITE_DIR?>/ajax.php?m=box&f=settings&width=500&height=650" title="Ваши личные настройки" class="thickbox">
 							Настройки
 						</a>
 					</div>
@@ -77,26 +76,26 @@
 					<a href="http://jabberworld.info/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%8B_Jabber">
 						Помощь по настройке
 					</a>. 
-					<a href="/logs/">
+					<a href="<?=SITE_DIR.'/logs'?>/">
 						Логи
 					</a>. 
 					<span class="right">
 					<?=$data['main']['links'];?> битых ссылок. 
-						<a href="/gouf/">
+						<a href="<?=SITE_DIR.'/gouf'?>/">
 							Помочь
 						</a>.
 					</span>
 				</div>
-				<? if (isset($data['main']['news']['title'])) { ?>
+				<? if ($data['main']['news']['title']) { ?>
 					<div class="compressed_news shell clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
-						<a href="/news/<?=$data['main']['news']['url'];?>/">
+						<a href="<?=SITE_DIR.'/news'?>/<?=$data['main']['news']['url'];?>/">
 							<?=$data['main']['news']['title'];?>
 						</a>
 						<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : ''); ?>
 						<a href="#" class="uncompress_news togglenews">
 							Развернуть новость.
 						</a>
-						<a href="/news/" class="uncompress_news">
+						<a href="<?=SITE_DIR.'/news'?>/" class="uncompress_news">
 							Архив новостей.
 						</a>						
 					</div>			
@@ -104,7 +103,7 @@
 				<div class="left index_smallcolumn defaultvideoholder">		
 					<div class="mainblock">
 						<p class="head">
-							<a href="/post/">
+							<a href="<?=SITE_DIR.'/post'?>/">
 								Записи
 							</a>
 						</p>
@@ -114,7 +113,7 @@
 							Последние записи: <br /><br />
 							<? foreach ($data['main']['count']['post']['latest'] as $key => $one) { ?>
 								<?=($key ? '<br />' : '');?>
-								<a href="/post/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+								<a href="<?=SITE_DIR.'/post'?>/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
 									<?=$one['title'];?>
 								</a>
 								<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
@@ -124,7 +123,7 @@
 					<? if ($sets['news']['read'] < $data['main']['news']['sortdate']) {	?>
 						<div class="mainblock videoblock">
 							<p class="head">
-								<a href="/video/">
+								<a href="<?=SITE_DIR.'/video'?>/">
 									Видео
 								</a>
 							</p>				
@@ -134,7 +133,7 @@
 								Последние видео: <br /><br />
 								<? foreach ($data['main']['count']['video']['latest'] as $key => $one) { ?>
 									<?=($key ? '<br />' : '');?>
-									<a href="/video/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+									<a href="<?=SITE_DIR.'/video'?>/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
 										<?=$one['title'];?>
 									</a>
 									<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
@@ -147,17 +146,17 @@
 					<? if ($sets['news']['read'] >= $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock videoblock">
 							<p class="head">
-								<a href="/video/">
+								<a href="<?=SITE_DIR.'/video'?>/">
 									Видео
 								</a>
 							</p>				
 							Всего <?=$data['main']['count']['video']['total'];?> видео. 
 							<?=($data['main']['count']['video']['unseen'] ? $data['main']['count']['video']['unseen'].' из них новых. ' : '');?>
-							<? if (is_array($data['main']['count']['video']['latest'])) { ?>
+							<? if (is_array($data['main']['count']['post']['latest'])) { ?>
 								Последние видео: <br /><br />
 								<? foreach ($data['main']['count']['video']['latest'] as $key => $one) { ?>
 									<?=($key ? '<br />' : '');?>
-									<a href="/video/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+									<a href="<?=SITE_DIR.'/video'?>/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
 										<?=$one['title'];?>
 									</a>
 									<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
@@ -170,7 +169,7 @@
 					<? if ($sets['news']['read'] >= $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock artblock">
 							<p class="head">
-								<a href="/art/">
+								<a href="<?=SITE_DIR.'/art'?>/">
 									Арт
 								</a>
 							</p>				
@@ -179,8 +178,8 @@
 							<? if ($data['main']['count']['art']['latest'][0]['thumb']) { ?>
 								Последнее изображение: <br /><br />
 								<div style="text-align:center; width: 100%;">
-									<a href="/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
-										<img src="/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
+									<a href="<?=SITE_DIR.'/art'?>/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
+										<img src="<?=SITE_DIR.'/images'?>/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
 									</a>	
 								</div>
 							<? } ?>	
@@ -190,7 +189,7 @@
 				<div class="left index_smallcolumn defaultartholder">
 					<div class="mainblock">
 						<p class="head">
-							<a href="/order/">
+							<a href="<?=SITE_DIR.'/order'?>/">
 								Заказы
 							</a>
 						</p>
@@ -201,7 +200,7 @@
 							<? foreach ($data['main']['count']['order']['latest'] as $key => $one) { ?>
 								<?=($key ? '<br /><br />' : '');?>
 								<?=$one['username'];?> заказал 
-								<a href="/order/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+								<a href="<?=SITE_DIR.'/order'?>/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
 									<?=$one['title'];?>
 								</a>.
 								<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
@@ -211,7 +210,7 @@
 					<? if ($sets['news']['read'] < $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock artblock">
 							<p class="head">
-								<a href="/art/">
+								<a href="<?=SITE_DIR.'/art'?>/">
 									Арт
 								</a>
 							</p>				
@@ -220,30 +219,30 @@
 							<? if ($data['main']['count']['art']['latest'][0]['thumb']) { ?>
 								Последнее изображение: <br /><br />
 								<div style="text-align:center; width: 100%;">
-									<a href="/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
-										<img src="/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
+									<a href="<?=SITE_DIR.'/art'?>/<?=$data['main']['count']['art']['latest'][0]['id'];?>">		
+										<img src="<?=SITE_DIR.'/images'?>/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
 									</a>	
 								</div>
 							<? } ?>
 						</div>
 					<? } ?>		
 				</div>
-				<? if (isset($data['main']['news']['title'])) { ?>
+				<? if ($data['main']['news']['title']) { ?>
 					<div class="left index_largecolumn<?=($sets['news']['read'] >= $data['main']['news']['sortdate'] ? ' hidden' : '');?>">
 						<div class="post mainblock">
 							<p class="head">
-								<a href="/news/<?=$data['main']['news']['url'];?>/">
+								<a href="<?=SITE_DIR.'/news'?>/<?=$data['main']['news']['url'];?>/">
 									<?=$data['main']['news']['title'];?>
 								</a>
 							</p>					
 							<div class="entry">
-								<a href="/images/full/<?=$data['main']['news']['image'];?>" target="_blank">
-									<img src="/images/thumbs/<?=$data['main']['news']['image'];?>" align="left" class="news_image" />
+								<a href="<?=SITE_DIR.'/images'?>/full/<?=$data['main']['news']['image'];?>" target="_blank">
+									<img src="<?=SITE_DIR.'/images'?>/thumbs/<?=$data['main']['news']['image'];?>" align="left" class="news_image" />
 								</a>
 								<?=stripslashes($data['main']['news']['text']);?>
 							</div>
 							<span class="semi_large">
-								<a href="/news/<?=$data['main']['news']['url'];?>/">
+								<a href="<?=SITE_DIR.'/news'?>/<?=$data['main']['news']['url'];?>/">
 									Комментировать
 								</a>.
 								<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : '');?>
@@ -252,7 +251,7 @@
 								</a>
 							</span>
 							<div class="center clear">
-								<a href="/news/">
+								<a href="<?=SITE_DIR.'/news'?>/">
 									Архив новостей.
 								</a>						
 							</div>
@@ -263,7 +262,7 @@
 		</tr>
 		<tr>
 			<td id="footer">
-				<? include_once('side/footer.php'); ?>
+				<? include_once(SITE_FDIR._SL.'templates'.SL.'side'.SL.'footer.php');?>
 			</td>
 		</tr>
 	</table>

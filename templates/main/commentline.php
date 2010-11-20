@@ -4,7 +4,7 @@
 			<div class="shell post">
 				<div class="left">
 					<h2>
-						<a href="/<?=$block['place'];?>/<?=$block['id'];?>/" title="<?=$block['title'];?>">
+						<a href="<?=SITE_DIR?>/<?=$block['place'];?>/<?=$block['id'];?>/" title="<?=$block['title'];?>">
 							<?=$block['title'];?>
 						</a>
 					</h2>
@@ -21,7 +21,7 @@
 								?>
 									<td class="imageholder">
 										<div class="image-0">
-											<img src="<?=$block['image'];?>" />
+											<img src="<?=SITE_DIR?>/<?=$block['image'];?>" />
 										</div>
 									</td>
 								<?
@@ -32,7 +32,7 @@
 								'<p class="help">
 									Показываются только '.$sets['pp']['comment_in_post'].' последних '.
 									transform__text::wcase($sets['pp']['comment_in_post'],'комментарий','комментария','комментариев').'. 
-									<a href="/'.$block['place'].'/'.$block['id'].'/comments/all">
+									<a href="'.SITE_DIR.'/'.$block['place'].'/'.$block['id'].'/comments/all">
 										Читать все
 									</a>.
 								</p>' 
@@ -78,7 +78,7 @@
 							?>
 							<div style="margin-left:50px;">
 								<h2>
-									<a href="/<?=$block['place'];?>/<?=$block['id'];?>/">
+									<a href="<?=SITE_DIR?>/<?=$block['place'];?>/<?=$block['id'];?>/">
 										Ответить
 									</a>
 								</span>

@@ -6,5 +6,5 @@
 	);
 	
 	$item = $data['main']['order_single'];
-	include 'templates'.SL.'main'.SL.'single'.SL.'orders.php';	
+	include SITE_FDIR._SL.'templates'.SL.'main'.SL.'single'.SL.'orders.php';	
 ?>

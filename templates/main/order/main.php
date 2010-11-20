@@ -1,7 +1,7 @@
 <div class="shell">
 	<div class="post">
 		<h2>
-			<a href="/order/" title="Стол заказов 4отаку">
+			<a href="<?=SITE_DIR.'/order'?>/" title="Стол заказов 4отаку">
 				Стол заказов 4отаку
 			</a>
 		</h2>
@@ -10,7 +10,7 @@
 				<tr>
 					<td class="imageholder">
 						<div>
-							<img src="/images/order.jpg" alt="" />
+							<img src="<?=SITE_DIR.'/images'?>/order.jpg" alt="" />
 						</div>
 					</td>
 					<td valign="top">

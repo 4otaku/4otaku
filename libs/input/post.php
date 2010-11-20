@@ -1,6 +1,6 @@
 <?
 
-include_once 'libs'.SL.'input'.SL.'common.php';
+include_once SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php';
 class input__post extends input__common 
 {
 	function add() { 
@@ -25,7 +25,7 @@ class input__post extends input__common
 			if (is_array($post['images'])) $images = implode($post['images'],'|');
 
 			$post['bonus_link'] = $check->link_array($post['bonus_link']);
-			$links = $transform_link->similar($transform_link->parse($post['link']));
+			$links = $transform_link->similar($transform_link->parse($post['link'])); 
 			if (is_array($post['bonus_link'])) $bonus_links = $transform_link->parse($post['bonus_link']);
 
 			$db->insert('post',$insert_data = array($post['title'],$text,undo_safety($post['text']),$images,serialize($links),serialize($bonus_links),serialize($post['file']),
@@ -33,7 +33,7 @@ class input__post extends input__common
 			$db->insert('versions',array('post',$id = $db->sql('select @@identity from post',2),
 											base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));	
 			if (isset($post['transfer_to_main']) && $sets['user']['rights']) {
-				include_once('libs/input/common.php');						
+				include_once(SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php');						
 				$_post = array('id' => $id, 'sure' => 1, 'do' => array('post','transfer'), 'where' => 'main');							
 				input__common::transfer($_post);
 			} else {											

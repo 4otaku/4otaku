@@ -48,7 +48,7 @@
 																	<?
 															}	else $nonfirst2 = true;
 													?>
-													<a href="<?=($data['feed']['domain'] ? $linkurl : '/go?'.urlencode($linkurl));?>" target="_blank">
+													<a href="<?=($data['feed']['domain'] ? $linkurl : '<?=SITE_DIR?>/go?'.urlencode($linkurl));?>" target="_blank">
 														<?=$link['alias'][$key2];?>
 													</a>
 												<?

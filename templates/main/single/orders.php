@@ -5,7 +5,7 @@
 				<tr>
 					<td align="left">
 						<h2>
-							<a href="<?=$data['feed']['domain'];?>/order/<?=$item['id'];?>/" title="<?=$item['title'];?>">
+							<a href="<?=SITE_DIR.$data['feed']['domain'];?>/order/<?=$item['id'];?>/" title="<?=$item['title'];?>">
 								Ищу: <?=($data['feed']['domain'] ? mb_substr($item['title'],7) : $item['title']);?>
 							</a>
 						</h2>
@@ -26,7 +26,7 @@
 								if ($item['link']) {
 									?>
 										<p>
-											Ссылка на найденное: <a href="<?=$item['link'];?>"><?=($item['link']{0} == '/' ? 'http://4otaku.ru'.$item['link'] : $item['link']);?></a>.
+											Ссылка на найденное: <a href="<?=$item['link'];?>"><?=($item['link']{0} == '/' ? SITE_DIR.$item['link'] : $item['link']);?></a>.
 										</p>
 									<?
 								}
@@ -60,7 +60,7 @@
 											<?
 										}	else $nonfirst = true;
 										?>
-											<a href="/order/category/<?=$key;?>/">
+											<a href="<?=SITE_DIR?>/order/category/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
@@ -71,7 +71,7 @@
 									if ($sets['user']['rights']) {
 										?>
 											 | 
-											<a href="/admin/revisions/order/<?=$item['id'];?>/">История версий</a>	
+											<a href="<?=SITE_DIR?>/admin/revisions/order/<?=$item['id'];?>/">История версий</a>	
 										<?
 									}					
 								?>.
@@ -124,7 +124,7 @@
 						<input type="hidden" name="id" value="<?=$item['id'];?>">
 					</form>
 				</div>
-				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=SITE_DIR?>/images/ajax-loader.gif"></div>
 				<div id="edit-<?=$item['id'];?>" rel="orders" class="edit_field hidden"></div>								
 				<div class="clear"></div>
 			<?

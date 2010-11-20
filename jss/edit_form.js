@@ -14,9 +14,9 @@ $(document).ready(function(){
 		var type = $("form#edit_post input[name='type']").val();
 		var id = $("form#edit_post input[name='id']").val();
 		$("#post-"+id).css({'height':$("#post-"+id).height()});
-		$("#post-"+id).html('<table width="100%" height="100%"><tr><td align="center" valign="center"><img src="/images/ajax-loader.gif"></td></tr></table>');
-		$.post("/ajax.php?m=edit&f=save", post, function(){ 
-			$("#post-"+id).load("/ajax.php?m=edit&f=show&id="+id+"&type="+type+"&num="+$("input[name='save']").attr('rel')+"&path="+location.pathname ,function(){ 
+		$("#post-"+id).html('<table width="100%" height="100%"><tr><td align="center" valign="center"><img src="'+window.config.site_dir+'/images/ajax-loader.gif"></td></tr></table>');
+		$.post(window.config.site_dir+"/ajax.php?m=edit&f=save", post, function(){ 
+			$("#post-"+id).load(window.config.site_dir+"/ajax.php?m=edit&f=show&id="+id+"&type="+type+"&num="+$("input[name='save']").attr('rel')+"&path="+location.pathname ,function(){ 
 				$("div.post").css({'height':'auto'}); 
 				$(".art_translation").easyTooltip();				
 			});

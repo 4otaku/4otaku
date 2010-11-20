@@ -1,7 +1,7 @@
 <table width="100%" id="error">
 	<tr>
 		<td>
-			<img src="/images/yuugif.gif">
+			<img src="<?=SITE_DIR.'/images'?>/yuugif.gif">
 		</td>
 	</tr>			
 	<tr>

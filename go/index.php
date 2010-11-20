@@ -1,13 +1,16 @@
 <?
-$request = preg_replace('/^\/go\/?(\?|\/index\.php\?)?/i', '', urldecode($_SERVER['REQUEST_URI']));
 
-if(!$_GET) die;
-if (preg_match_all('/(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?(.*)?$/iD', $request, $matches) !== 1
-&& preg_match('/[^a-zа-яё\d_\-\+%&\.,=\/]/iu', $request))	die;
+if (!$_GET) die;
 
-$link = str_replace('"','\\"',$matches[0][0] ? $matches[0][0] : $request);
+$start = explode('?',$_SERVER['REQUEST_URI']);
+$link = urldecode(implode('?',array_slice($start,1)));
 
-header("Location: ".$link, true, 302);
+$array = explode ("/",$link);
+
+foreach ($array as $num => &$part) if ($num == 2) $part = str_replace('_','.',$part);
+
+$link = implode('/',$array);
+header("Location: ".$link,TRUE,302);
 
 ?>
 <html>
@@ -22,3 +25,5 @@ header("Location: ".$link, true, 302);
 		</a>
 	</body>
 </html>
+
+

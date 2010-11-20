@@ -7,13 +7,13 @@ foreach ($data['main']['updates'] as $update) {
 					<tr>
 						<td align="left">
 							<h2>
-								<a href="<?=$data['feed']['domain'];?>/post/<?=$update['post_id'];?>/show_updates/" title="<?=$update['title'];?>">
+								<a href="<?=SITE_DIR.$data['feed']['domain'];?>/post/<?=$update['post_id'];?>/show_updates/" title="<?=$update['title'];?>">
 									<?=$update['title'];?>
 								</a>
 							</h2>
 						</td>
 						<td align="right" valign="top">
-							<a href="<?=$data['feed']['domain'];?>/post/<?=$update['post_id'];?>">
+							<a href="<?=SITE_DIR.$data['feed']['domain'];?>/post/<?=$update['post_id'];?>">
 								Комментировать
 							</a>
 							<?
@@ -24,7 +24,7 @@ foreach ($data['main']['updates'] as $update) {
 								}
 								if ($sets['user']['rights']) {
 									?>
-										 &nbsp; <img src="/images/comment_delete.png" class="delete-post" rel="<?=$update['id'];?>">
+										 &nbsp; <img src="<?=SITE_DIR?>/images/comment_delete.png" class="delete-post" rel="<?=$update['id'];?>">
 									<?																				
 								}
 							?>									
@@ -38,8 +38,8 @@ foreach ($data['main']['updates'] as $update) {
 								?>
 									<td class="imageholder">
 										<div class="image-0">
-											<a href="<?=$data['feed']['domain'];?>/images/full/<?=current($update['image']);?>" target="_blank">
-												<img src="<?=$data['feed']['domain'];?>/images/thumbs/<?=current($update['image']);?>" />
+											<a href="<?=SITE_DIR.$data['feed']['domain'];?>/images/full/<?=current($update['image']);?>" target="_blank">
+												<img src="<?=SITE_DIR.$data['feed']['domain'];?>/images/thumbs/<?=current($update['image']);?>" />
 											</a>													
 										</div>
 									</td>
@@ -77,7 +77,7 @@ foreach ($data['main']['updates'] as $update) {
 																							<?
 																					}	else $nonfirst2 = true;
 																			?>
-																			<a href="/go?<?=urlencode($linkurl);?>" target="_blank">
+																			<a href="<?=SITE_DIR?>/go?<?=urlencode($linkurl);?>" target="_blank">
 																				<?=$link['alias'][$key2];?>
 																			</a>
 																		<?
