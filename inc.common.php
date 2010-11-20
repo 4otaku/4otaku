@@ -58,9 +58,8 @@ if (
 include_once 'engine'.SL.'config.php';
 
 if(!empty($def['site']['domain']) && $def['site']['domain'] != $_SERVER["SERVER_NAME"]) {
-  if(!empty($_GET['r']) && $_GET['r'] == '1') die('Неверная конфигурация сервера. Уберите домен из конфига, или поправьте настройки вебсервера.');
-  header("Location: http://".$def['site']['domain']."/?r=1");
-  exit();
+	header("HTTP/1.x 301 Moved Permanently");
+	header("Location: http://".$def['site']['domain'].$_SERVER["REQUEST_URI"]);
 }
 
 $db = new mysql();
