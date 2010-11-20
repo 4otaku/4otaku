@@ -74,11 +74,10 @@ class side__head
 		}
 		else {
 			$types = $this->types;
-			if ($types[$url[2]] && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
+			if (isset($types[$url[2]]) && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
 				$return = 'Записи. '.$types[$url[2]].': '.$name;
 		}
-		if (!$return) return $this->def['site']['name'];
-		return $return;
+		return isset($return) ? $return : $this->def['site']['name'];
 	}
 	
 	function title_video() {
