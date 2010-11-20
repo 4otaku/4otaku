@@ -19,9 +19,9 @@ function redo_quotes($str) {
 function _crypt($input,$decrypt=false) {
 	$o = $s1 = $s2 = array(); 
 
-	$basea = array('?','(','@',';','$','',"]","&",'*'); 
+	$basea = array('?','(','$','',"]",'@',';',"&",'*'); 
 	$basea = array_merge($basea, range('a','z'), range('A','Z'), range(0,9) );
-	$basea = array_merge($basea, array('!','%','/','[',')','_','+','|','.',' ') );
+	$basea = array_merge($basea, array('!','/','[','|','.',')','_','+','%',' ') );
 	$dimension=9; 
 	for($i=0;$i<$dimension;$i++) { 
 		for($j=0;$j<$dimension;$j++) {
