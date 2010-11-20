@@ -7,10 +7,10 @@ $check = new check_values();
 include_once 'engine'.SL.'cleanglobals.php';
 include_once 'engine'.SL.'metafunctions.php';
 
-$url = array_filter(explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"]))); 
+$url = explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"])); 
 
 if(isset($url[0])) unset($url[0]);
-if(!isset($url[1])) $url[1] = 'index';
+if(empty($url[1])) $url[1] = 'index';
 
 include_once 'engine'.SL.'handle_old_urls.php';
 

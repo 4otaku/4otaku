@@ -12,7 +12,7 @@ define('SL', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', dirname(__FILE__));
 
 function __autoload($class_name) {
-	$class = ROOT_DIR . SL . 'libs'.SL.str_replace('__',SL,$class_name) . '.php';
+	$class = ROOT_DIR.SL.'libs'.SL.str_replace('__',SL,$class_name).'.php';
 	if (file_exists($class)) {
 		include_once $class;
 	} else {
@@ -25,11 +25,10 @@ function __autoload($class_name) {
 }
 
 function myoutput($buffer) {
-	if (strpos($buffer,'<textarea') && _AJAX_) return $buffer;
+	if (strpos($buffer,'<textarea') && (_AJAX_)) return $buffer;
     return str_replace(array("\t","  ","\n","\r"),array(""," ","",""),$buffer);
 }
 
-// Moved from matafunctions cause now is used on startup
 function merge_settings(&$array1,&$array2) {
 	$merged = $array1;
 	if(is_array($array2))
@@ -46,7 +45,7 @@ mb_internal_encoding('UTF-8');
 if (
 	strpos($_SERVER["REQUEST_URI"], 'art/download') === false && 
 	!strpos($_SERVER["REQUEST_URI"], '/rss/') && 
-	!_CRON_
+	!(_CRON_)
 ) { 
 	ob_start('myoutput');
 }
@@ -57,16 +56,17 @@ $db = new mysql();
 
 $check = new check_values();
 
-if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
-if (isset($settings) && !(_CRON_)) {
-    $cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
-    setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
-    $sets = merge_settings($sets,$hide_sape = unserialize(base64_decode($settings)));
-} else if(!isset($settings) && _INDEX_) {
-    $hash = md5(microtime(true));
-    $cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];
-    setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-    $db->sql('insert into settings (cookie,lastchange) values ("'.$hash.'","'.time().'")',0);
-    $_COOKIE['settings'] = $hash;
+if (!(_CRON_)) {
+	if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
+	if (isset($settings)) {
+		$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
+		setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
+		$sets = merge_settings($sets, unserialize(base64_decode($settings)));
+	} else if(!isset($settings) && (_INDEX_)) {
+		$hash = md5(microtime(true));
+		$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];
+		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+		$db->sql('insert into settings (cookie,lastchange) values ("'.$hash.'","'.time().'")',0);
+		$_COOKIE['settings'] = $hash;
+	}
 }
-

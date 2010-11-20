@@ -1,6 +1,5 @@
 <? 
-include_once ('side'.SL.'head.php');
-if(!isset($data['main']['news']['sortdate'])) $data['main']['news']['sortdate'] = 0;
+	include_once ('side'.SL.'head.php');
 ?>
 <body class="wrapwindow">
 	<table class="wrapwindow">
