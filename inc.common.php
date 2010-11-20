@@ -1,7 +1,5 @@
 <?
 
-ini_set('display_errors', 0);
-
 switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 	case 'index': define('_INDEX_', true);  define('_AJAX_', false); define('_CRON_', false); break;
 	case 'ajax':  define('_INDEX_', false); define('_AJAX_', true);  define('_CRON_', false); break;
@@ -58,6 +56,12 @@ if (
 }
 
 include_once 'engine'.SL.'config.php';
+
+if(!empty($def['site']['domain']) && $def['site']['domain'] != $_SERVER["SERVER_NAME"]) {
+  if(!empty($_GET['r']) && $_GET['r'] == '1') die('Неверная конфигурация сервера. Уберите домен из конфига, или поправьте настройки вебсервера.');
+  header("Location: http://".$def['site']['domain']."/?r=1");
+  exit();
+}
 
 $db = new mysql();
 
