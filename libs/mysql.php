@@ -6,7 +6,7 @@ class mysql
 	
 	function __construct() {
 		global $def;
-		
+
 		$this->connection = mysql_connect($def['db']['host'], $def['db']['user'], $def['db']['pass']);
 		mysql_select_db($def['db']['main_db'], $this->connection);
 		$def['db']['current_db'] = 'main';
