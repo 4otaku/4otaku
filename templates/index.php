@@ -1,4 +1,7 @@
-<? include_once ('side'.SL.'head.php'); ?>
+<? 
+include_once ('side'.SL.'head.php');
+if(!isset($data['main']['news']['sortdate'])) $data['main']['news']['sortdate'] = 0;
+?>
 <body class="wrapwindow">
 	<table class="wrapwindow">
 		<tr>
@@ -85,7 +88,7 @@
 						</a>.
 					</span>
 				</div>
-				<? if ($data['main']['news']['title']) { ?>
+				<? if (isset($data['main']['news']['title'])) { ?>
 					<div class="compressed_news shell clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
 						<a href="/news/<?=$data['main']['news']['url'];?>/">
 							<?=$data['main']['news']['title'];?>
@@ -226,7 +229,7 @@
 						</div>
 					<? } ?>		
 				</div>
-				<? if ($data['main']['news']['title']) { ?>
+				<? if (isset($data['main']['news']['title'])) { ?>
 					<div class="left index_largecolumn<?=($sets['news']['read'] >= $data['main']['news']['sortdate'] ? ' hidden' : '');?>">
 						<div class="post mainblock">
 							<p class="head">

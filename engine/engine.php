@@ -20,14 +20,16 @@ class engine
 		$error = true;
 		foreach ($ways as $conditions) {
 			$error = false; 
+			// это какой-то лютый здец, но пока не слишком представляю, что тут делается, поэтому просто косметически подкрашу
 			foreach ($conditions as $key => $condition) {
-				if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;
+				$v = (isset($url[$key])) ? $url[$key] : '';
+				if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$v)) $error = true;
 				if ($condition == 'end') {						
-					if ($url[$key]) $error = true;
+					if ($v) $error = true;
 					foreach ($url as $ukey => $val) if (is_numeric($ukey) && $ukey > $key && isset($val)) $error = true;
 				}
-				elseif ($condition == 'num') { if (!is_numeric($url[$key]) && $url[$key]) $error = true; }
-				elseif (!strpos(' '.$condition,'|'.$url[$key].'|') && $url[$key] && $condition != 'any') $error = true;
+				elseif ($condition == 'num') { if (!is_numeric($v) && $v) $error = true; }
+				elseif (!strpos(' '.$condition,'|'.$v.'|') && $v && $condition != 'any') $error = true;
 
 				if ($error) break;
 			}
