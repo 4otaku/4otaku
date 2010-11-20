@@ -1,7 +1,5 @@
 <? 
-#include_once('engine/engine.php');
-include_once(SITE_FDIR.SL.'engine'.SL.'engine.php');
-
+include_once('engine/engine.php');
 class dinamic__edit extends engine
 {
 	public $template;	
@@ -49,6 +47,7 @@ class dinamic__edit extends engine
 		$new_data = $db->sql('select * from '.$post['type'].' where id='.$post['id'],1);
 		if ($old_data != $new_data) {
 			unset($new_data['id']);
+			$db->sql('update search set lastupdate=0 where place="'.$post['type'].'" and item_id="'.$post['id'].'"',0);
 			if ($post['type'] == 'orders') $post['type'] = 'order';
 			$db->insert('versions',array($post['type'],$post['id'],base64_encode(serialize($new_data)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 		}

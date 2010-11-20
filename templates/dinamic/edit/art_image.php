@@ -1,7 +1,7 @@
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
-<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/art.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/art.js"></script>
 <table width="100%">		
 	<tr>
 		<td width="20%">
@@ -12,11 +12,11 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 				<tr>
 					<td>
 						<div id="art-image" rel="single">
-							<img src="<?=SITE_DIR.'/images'?>/upload_button.png">
+							<img src="/images/upload_button.png">
 						</div>
 					</td>
 					<td>
-						<img class="processing hidden" src="<?=SITE_DIR.'/images'?>/ajax-processing.gif" />
+						<img class="processing hidden" src="/images/ajax-processing.gif" />
 					</td>
 					<td>
 						<span class="processing hidden">Изображение загружается.</span>
@@ -37,5 +37,5 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 	</tr>
 </table>
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

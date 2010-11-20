@@ -1,18 +1,18 @@
 <div class="cats">	
 	<h2>
-		<a href="<?=SITE_DIR.'/comments'?>/">
+		<a href="/comments/">
 			Комментарии
 		</a>
 		 <a href="#" class="bar_arrow" rel="comment">
 			<?
 				if ($sets['dir']['comment']) {
 					?>
-						<img src="<?=SITE_DIR.'/images'?>/text2391.png">
+						<img src="/images/text2391.png">
 					<?
 				}
 				else {
 					?>
-						<img src="<?=SITE_DIR.'/images'?>/text2387.png">
+						<img src="/images/text2387.png">
 					<?				
 				}
 			?>
@@ -30,7 +30,7 @@
 				?>
 					<?=$comment['username'];?>: <?=$comment['text'];?>
 					<br />
-					<a href="<?=SITE_DIR.$comment['href'].'comments/all#comment-'.$comment['id'];?>">
+					<a href="<?=$comment['href'].'comments/all#comment-'.$comment['id'];?>">
 						<?=$comment['title'];?>
 					</a>
 					<br />

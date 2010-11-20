@@ -2,9 +2,9 @@
 	<tr>
 		<td>
 			<? if ($url[2] != 'a') { ?>
-				<img src="<?=SITE_DIR.'/images'?>/search.gif">
+				<img src="/images/search.gif">
 			<? } else { ?>
-				<img src="<?=SITE_DIR.'/images'?>/booru_404_<?=rand(1,2);?>.jpg">
+				<img src="/images/booru_404_<?=rand(1,2);?>.jpg">
 			<? } ?>
 		</td>
 	</tr>			

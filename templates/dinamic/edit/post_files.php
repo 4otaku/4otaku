@@ -1,7 +1,7 @@
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
-<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/post.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/post.js"></script>
 <table class="margin20">
 	<tbody class="link_file">
 	<tr>
@@ -13,11 +13,11 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 				<tr>
 					<td>
 						<div id="post-file">
-							<img src="<?=SITE_DIR.'/images'?>/upload_button.png">
+							<img src="/images/upload_button.png">
 						</div>
 					</td>
 					<td>
-						<img class="processing-file hidden" src="<?=SITE_DIR.'/images'?>/ajax-processing.gif" />
+						<img class="processing-file hidden" src="/images/ajax-processing.gif" />
 					</td>
 					<td>
 						<span class="processing-file hidden">Файл загружается. (Вы можете загружать несколько файлов одновременно.)</span>
@@ -61,5 +61,5 @@ include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 	<tbody>
 </table>
 <? 
-include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
+include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

@@ -1,5 +1,5 @@
 <? 
-include_once(SITE_FDIR.SL.'engine'.SL.'engine.php');
+include_once('engine'.SL.'engine.php');
 class output__admin extends engine
 {
 	public $allowed_url = array(
@@ -43,7 +43,7 @@ class output__admin extends engine
 	}
 	
 	function tags($return) {
-		global $url; global $db;
+		global $url; global $db; global $sets;
 		unset ($this->side_modules['sidebar']);
 		if ($url[3] && $url[3] != 'search' && $url[3] != 'page') {
 			$return['display'][] = 'admin_problemtags';
@@ -70,13 +70,13 @@ class output__admin extends engine
 			if ($url[3] == 'search') {
 				$return['navi']['curr'] = max(1,$url[6]);
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/'.$url[4].'/';
-				$return['tags'] = $db->sql('select * from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name) order by id desc limit '.(($return['navi']['curr']-1)*40).', 40','id');
-				$return['navi']['last'] = ceil($db->sql('select count(id) from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name)',2)/40);
+				$return['tags'] = $db->sql('select * from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name) order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
+				$return['navi']['last'] = ceil($db->sql('select count(id) from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name)',2)/$sets['pp']['tags_admin']);
 			} else {
 				$return['navi']['curr'] = max(1,$url[4]);
 				$return['navi']['meta'] = $url[2].'/';
-				$return['tags'] = $db->sql('select * from tag order by id desc limit '.(($return['navi']['curr']-1)*40).', 40','id');
-				$return['navi']['last'] = ceil($db->sql('select count(id) from tag',2)/40);				
+				$return['tags'] = $db->sql('select * from tag order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
+				$return['navi']['last'] = ceil($db->sql('select count(id) from tag',2)/$sets['pp']['tags_admin']);				
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['base'] = '/admin/';		

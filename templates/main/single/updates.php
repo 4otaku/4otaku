@@ -1,7 +1,7 @@
 <div class="shell">
 	<div class="entry">
 		<h2>
-			<a href="<?=SITE_DIR.$data['feed']['domain'];?>/post/<?=$item['post_id'];?>/show_updates/" title="<?=$item['title'];?>">
+			<a href="<?=$data['feed']['domain'];?>/post/<?=$item['post_id'];?>/show_updates/" title="<?=$item['title'];?>">
 				<?=$item['title'];?>
 			</a>
 		</h2>
@@ -35,7 +35,7 @@
 														<?
 												}	else $nonfirst2 = true;
 										?>
-										<a href="<?=SITE_DIR.($data['feed']['domain'] ? $linkurl : '/go?'.urlencode($linkurl));?>" target="_blank">
+										<a href="<?=($data['feed']['domain'] ? $linkurl : '/go?'.urlencode($linkurl));?>" target="_blank">
 											<?=$link['alias'][$key2];?>
 										</a>
 									<?

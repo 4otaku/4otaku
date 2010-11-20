@@ -5,7 +5,7 @@
 				<tr>
 					<td align="left">
 						<h2>
-							<a href="<?=SITE_DIR?><?=$data['feed']['domain'];?>/post/<?=$item['id'];?>" title="<?=$item['title'];?>">
+							<a href="<?=$data['feed']['domain'];?>/post/<?=$item['id'];?>" title="<?=$item['title'];?>">
 								<?=$item['title'];?>
 							</a>
 						</h2>
@@ -24,7 +24,7 @@
 							}
 							else {
 								?>
-									<a href="<?=SITE_DIR?><?=$data['feed']['domain'];?>/post/<?=$item['id'];?>">
+									<a href="<?=$data['feed']['domain'];?>/post/<?=$item['id'];?>">
 										Комментировать
 									</a>
 									<?
@@ -72,8 +72,8 @@
 										foreach ($item['image'] as $key => $image) {
 											?>
 												<div class="image-<?=$key;?>"<?=($data['feed'] ? ($key ? ' style="margin: 10px 10px 0 0;"' : ' style="margin: 0 10px 0 0;"') : '');?>>
-													<a href="<?=SITE_DIR?><?=$data['feed']['domain'];?>/images/full/<?=$image;?>" target="_blank">
-														<img src="<?=SITE_DIR?><?=$data['feed']['domain'];?>/images/thumbs/<?=$image;?>" />
+													<a href="<?=$data['feed']['domain'];?>/images/full/<?=$image;?>" target="_blank">
+														<img src="<?=$data['feed']['domain'];?>/images/thumbs/<?=$image;?>" />
 													</a>													
 												</div>
 											<?
@@ -110,7 +110,7 @@
 																					<?
 																			}	else $nonfirst2 = true;
 																	?>
-																	<a href="<?=SITE_DIR?><?=($data['feed']['domain'] ? $linkurl : '/go?'.urlencode(str_replace('&apos;',"'",html_entity_decode($linkurl,ENT_QUOTES,'UTF-8'))));?>" target="_blank">
+																	<a href="<?=($data['feed']['domain'] ? $linkurl : '/go?'.urlencode(str_replace('&apos;',"'",html_entity_decode($linkurl,ENT_QUOTES,'UTF-8'))));?>" target="_blank">
 																		<?=$link['alias'][$key2];?>
 																	</a>
 																<?
@@ -137,9 +137,9 @@
 												}	else $nonfirst = true;
 												if ($file['type'] == 'plain') {
 													?>
-														<img src="<?=SITE_DIR?><?=$data['feed']['domain'];?>/images/file.png" class="post-image"> 
+														<img src="<?=$data['feed']['domain'];?>/images/file.png" class="post-image"> 
 														<?=$file['name'];?>: 
-														<a href="<?=SITE_DIR?><?=$data['feed']['domain'];?>/files/<?=$file['folder'];?>/<?=$file['filename'];?>">
+														<a href="<?=$data['feed']['domain'];?>/files/<?=$file['folder'];?>/<?=$file['filename'];?>">
 															<?=$file['filename'];?>
 														</a>
 														 (<?=$file['size'];?>)														
@@ -147,9 +147,9 @@
 												}
 												elseif ($file['type'] == 'image') {
 													?>
-														<img src="<?=SITE_DIR?><?=$data['feed']['domain'];?>/images/file-image.png" class="post-image"> 
+														<img src="<?=$data['feed']['domain'];?>/images/file-image.png" class="post-image"> 
 														<?=$file['name'];?>: 
-														<a href="<?=SITE_DIR?><?=$data['feed']['domain'];?>/files/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" rel="<?=$key.'-'.$item['id'];?>" target="_blank">
+														<a href="<?=$data['feed']['domain'];?>/files/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" rel="<?=$key.'-'.$item['id'];?>" target="_blank">
 															<?=$file['filename'];?>
 															<span rel="<?=$file['height'];?>">
 																<img class="hiddenthumb" id="hiddenthumb-<?=$key.'-'.$item['id'];?>" src="#" rel="/files/<?=$file['folder'];?>/thumb_<?=$file['filename'];?>" />
@@ -160,7 +160,7 @@
 												}
 												elseif ($file['type'] == 'audio') {
 													?>
-														<img src="<?=SITE_DIR?><?=$data['feed']['domain'];?>/images/file-audio.png" class="post-image"> 
+														<img src="<?=$data['feed']['domain'];?>/images/file-audio.png" class="post-image"> 
 														<span><?=$file['name'];?>: </span>
 														<object type="application/x-shockwave-flash" align="bottom" data="<?=$data['feed']['domain'];?>/jss/musicplayer/player_mp3_maxi.swf" width="250" height="16">
 															<param name="movie" value="<?=$data['feed']['domain'];?>/jss/musicplayer/player_mp3_maxi.swf" />
@@ -188,7 +188,7 @@
 												}	else $nonfirst = true;
 												?>
 													<?=$link['name'];?>: 
-													<a href="<?=SITE_DIR?><?=($data['feed']['domain'] ? $link['url'] : '/go?'.urlencode(str_replace('&apos;',"'",html_entity_decode($link['url'],ENT_QUOTES,'UTF-8'))));?>" target="_blank">
+													<a href="<?=($data['feed']['domain'] ? $link['url'] : '/go?'.urlencode(str_replace('&apos;',"'",html_entity_decode($link['url'],ENT_QUOTES,'UTF-8'))));?>" target="_blank">
 														<?=$link['alias'];?>
 													</a>.
 												<?
@@ -228,16 +228,16 @@
 											<?
 												if (!is_numeric($url[2]) && $url[1] != 'search') {
 													?>										
-														<a href="<?=SITE_DIR?><?=$output->mixed_add($key,'author');?>">
+														<a href="<?=$output->mixed_add($key,'author');?>">
 															+
 														</a> 
-														<a href="<?=SITE_DIR?><?=$output->mixed_add($key,'author','-');?>">
+														<a href="<?=$output->mixed_add($key,'author','-');?>">
 															-
 														</a> 
 													<?
 												}
 											?>																						
-											<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'];?>author/<?=$key;?>/">
+											<a href="<?=$data['main']['navi']['base'];?>author/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
@@ -265,16 +265,16 @@
 											<?
 												if (!is_numeric($url[2]) && $url[1] != 'search') {
 													?>										
-														<a href="<?=SITE_DIR?><?=$output->mixed_add($key,'category');?>">
+														<a href="<?=$output->mixed_add($key,'category');?>">
 															+
 														</a> 
-														<a href="<?=SITE_DIR?><?=$output->mixed_add($key,'category','-');?>">
+														<a href="<?=$output->mixed_add($key,'category','-');?>">
 															-
 														</a> 
 													<?
 												}
 											?>													
-											<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'];?>category/<?=$key;?>/">
+											<a href="<?=$data['main']['navi']['base'];?>category/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
@@ -302,16 +302,16 @@
 											<?
 												if (!is_numeric($url[2]) && $url[1] != 'search') {
 													?>										
-														<a href="<?=SITE_DIR?><?=$output->mixed_add($key,'language');?>">
+														<a href="<?=$output->mixed_add($key,'language');?>">
 															+
 														</a> 
-														<a href="<?=SITE_DIR?><?=$output->mixed_add($key,'language','-');?>">
+														<a href="<?=$output->mixed_add($key,'language','-');?>">
 															-
 														</a> 
 													<?
 												}
 											?>													 									
-											<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'];?>language/<?=$key;?>/">
+											<a href="<?=$data['main']['navi']['base'];?>language/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
@@ -319,11 +319,11 @@
 								?>
 								 | 
 								<?
-									include(SITE_FDIR._SL.'templates'.SL.'main'.SL.'single'.SL.'tags.php');
+									include('templates'.SL.'main'.SL.'single'.SL.'tags.php');
 									if ($sets['user']['rights']) {
 										?>
 											 | 
-											<a href="<?=SITE_DIR?>/admin/revisions/post/<?=$item['id'];?>/">История версий</a>	
+											<a href="/admin/revisions/post/<?=$item['id'];?>/">История версий</a>	
 										<?
 									}
 								?>									
@@ -338,7 +338,7 @@
 		if (!$data['feed'] && $item['updates_count']) { 
 			?>
 				<div class="center hidden" id="updates_field_loader">
-					<img src="<?=SITE_DIR.'/images'?>/ajax-loader.gif">
+					<img src="/images/ajax-loader.gif">
 				</div>
 				<div id="updates_field" class="hidden">
 					&nbsp;
@@ -401,7 +401,7 @@
 						</td>	
 					</tr>	
 				</table>
-				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=SITE_DIR?>/images/ajax-loader.gif"></div>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
 				<div id="edit-<?=$item['id'];?>" rel="post" class="edit_field hidden"></div>
 			<?
 		} 
@@ -417,7 +417,7 @@
 								<span class="arrow"> ↓</span> 
 							</div>
 							<div id="add_loader">
-								<img src="<?=SITE_DIR?>/images/ajax-loader.gif">
+								<img src="/images/ajax-loader.gif">
 							</div>
 							<div id="add_form" rel="<?=$item['id'];?>">
 								&nbsp;
@@ -425,7 +425,7 @@
 						</div>
 					</div>					
 				<? } ?>
-				<div id="updates_field_loader" class="hidden center loader"><img src="<?=SITE_DIR.'/images'?>/ajax-loader.gif"></div>
+				<div id="updates_field_loader" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
 				<div id="updates_field" class="hidden"></div>				
 			<?
 		}

@@ -1,6 +1,6 @@
 <div class="post">
 	<h2>
-		<a href="<?=SITE_DIR.'/admin'?>/">
+		<a href="/admin/">
 			Вас приветствует система управления сайтом 4отаку		
 		</a>
 	</h2>

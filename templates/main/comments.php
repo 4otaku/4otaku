@@ -18,9 +18,9 @@
 							?>
 								<div class="right">
 									<?=($sets['user']['rights'] > 1 ? $comment['ip'].'&nbsp;' : '');?>
-									<img src="<?=SITE_DIR.'/images'?>/comment_edit.png" alt="редактировать" rel="<?=$comment['id'];?>" class="edit_comment">
+									<img src="/images/comment_edit.png" alt="редактировать" rel="<?=$comment['id'];?>" class="edit_comment">
 									&nbsp;&nbsp;&nbsp;
-									<img src="<?=SITE_DIR.'/images'?>/comment_delete.png" alt="удалить" rel="<?=$comment['id'];?>" class="delete_comment">
+									<img src="/images/comment_delete.png" alt="удалить" rel="<?=$comment['id'];?>" class="delete_comment">
 								</div>
 							<?
 						}
@@ -84,7 +84,7 @@
 <? 
 	if ($data['main']['comments']['number'] > $sets['pp']['comment_in_post']) {
 		?>
-			<? include_once(SITE_FDIR._SL.'templates'.SL.'main'.SL.'navi.php'); ?>
+			<? include_once('templates'.SL.'main'.SL.'navi.php'); ?>
 		<?
 	}				
 ?>

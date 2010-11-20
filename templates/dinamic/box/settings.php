@@ -3,7 +3,7 @@
 		$(".settings").unbind('change').change(function(){
 			if ($(this).is(':checkbox')) val = '{'+$(this).is(':checked')+'}';
 			else val = $(this).val();
-			$.post("<?=SITE_DIR?>/ajax.php?m=cookie&f=set&field="+$(this).attr('rel')+"&val="+val);
+			$.post("/ajax.php?m=cookie&f=set&field="+$(this).attr('rel')+"&val="+val);
 			window.changed = true;
 		});	
 		$("#TB_closeWindowButton").unbind('click').click(function(e){
@@ -188,6 +188,9 @@
 			<br />
 			Уменьшать большие арты: 
 			<input type="checkbox" class="settings" rel="art.resized" value="1"<?=($sets['art']['resized'] ? ' checked' : '');?>>
+			<br />			
+			Режим скачивания: 
+			<input type="checkbox" class="settings" rel="art.download_mode" value="1"<?=($sets['art']['download_mode'] ? ' checked' : '');?>>
 		</td>
 	</tr>	
 </table>

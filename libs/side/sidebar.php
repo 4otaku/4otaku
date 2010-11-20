@@ -1,5 +1,5 @@
 <?
-include_once(SITE_FDIR._SL.'engine'.SL.'engine.php');
+include_once('engine'.SL.'engine.php');
 class side__sidebar extends engine
 {
 	function __construct() {
@@ -13,7 +13,11 @@ class side__sidebar extends engine
 	
 	function comments() {
 		global $db; global $sets; global $url;
-		if ($url[1] == "order") $area = "orders"; else $area = $url[1];
+		if ($url[1] == "order") $area = "orders"; 
+			else if ($url[2] == "a" && $url[1] == "search") $area = 'art'; 
+			else if ($url[2] == "p" && $url[1] == "search") $area = 'post'; 
+			else if ($url[2] == "v" && $url[1] == "search") $area = 'video'; 
+			else $area = $url[1];
 		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate')))
 			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
 		if (is_array($return)) {
@@ -30,10 +34,11 @@ class side__sidebar extends engine
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
-				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));
+				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
-				$comment['href'] = '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
+				if (mb_strlen($comment['text']) > 35) $comment['text'] = wordwrap($comment['text'], 30, " ", true);
+				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
 			}			
 			return $return;
