@@ -1,19 +1,25 @@
 <?
 
 class side__head
-{	
+{
+	public $def = array();
 	private $types = array(
 		'tag' => 'Тэг',
 		'category' => 'Категория',
 		'author' => 'Автор',
 		'language' => 'Язык'
 	);
+
+        function  __construct() {
+		global $def;
+                $this->def = $def;
+	}
 	
 	function title() {
 		global $url;
 		$func = 'title_'.$url[1];
 		if (method_exists($this, $func) && $return = $this->$func()) return $return;
-		else return '4отаку. Материалы для отаку.';
+		else return $this->def['site']['name'];
 	}
 	
 	function title_art() {
@@ -71,7 +77,7 @@ class side__head
 			if ($types[$url[2]] && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
 				$return = 'Записи. '.$types[$url[2]].': '.$name;
 		}
-		if (!$return) return '4отаку. Материалы для отаку.';
+		if (!$return) return $this->def['site']['name'];
 		return $return;
 	}
 	
@@ -91,42 +97,42 @@ class side__head
 			if ($types[$url[2]] && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
 				$return = 'Видео. '.$types[$url[2]].': '.$name;
 		}
-		if (!$return) return '4отаку. Материалы для отаку.';		
+		if (!$return) return $this->def['site']['name'];
 		return $return;
 	}
 	
 	function title_news() {
 		global $db; global $url;
 		if ($url[2])
-			return '4отаку. '.$db->sql('select title from news where url="'.$url[2].'"',2);
+			return $this->def['site']['short_name'] . ' '.$db->sql('select title from news where url="'.$url[2].'"',2);
 		else
-			return '4отаку. Материалы для отаку.';			
+			return $this->def['site']['name'];
 	}	
 	
 	function title_logs() {
 		global $data; global $url;
-		return '4отаку. Логи за '.$data['main']['navi']['today']['name'].', '.$url[2];
+		return $this->def['site']['short_name'] . ' Логи за '.$data['main']['navi']['today']['name'].', '.$url[2];
 	}
 	
 	function title_archive() {
-		return '4отаку. Архив.';
+		return $this->def['site']['short_name'] . ' Архив.';
 	}
 	
 	function title_comments() {
-		return '4отаку. Лента комментариев.';
+		return $this->def['site']['short_name'] . ' Лента комментариев.';
 	}
 	
 	function title_gouf() {
-		return '4отаку. Gouf Custom MS-07B-3.';
+		return $this->def['site']['short_name'] . ' Gouf Custom MS-07B-3.';
 	}
 	
 	function title_tags() {
-		return '4отаку. Облако тегов.';
+		return $this->def['site']['short_name'] . ' Облако тегов.';
 	}
 	
 	function title_order() {
 		global $data; global $url;
-		if (is_numeric($url[2])) return '4отаку. Заказ: '.$data['main']['order_single']['title'];
-		return '4отаку. Стол заказов.';
+		if (is_numeric($url[2])) return $this->def['site']['short_name'] . ' Заказ: '.$data['main']['order_single']['title'];
+		return $this->def['site']['short_name'] . ' Стол заказов.';
 	}
 }
