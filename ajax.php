@@ -1,7 +1,7 @@
 <?
 
 // Быстрый фикс. Обрабатываем запросы на /engine/upload в новом месте
-if(!empty($_GET['upload']) && file_exists('engine/upload/'.$_GET['upload'].'.php')) {
+if(!empty($_GET['upload']) && strpos($_GET['upload'], ".") === false && file_exists('engine/upload/'.$_GET['upload'].'.php')) {
     chdir('engine/upload/');
     include $_GET['upload'].'.php';
     exit();
