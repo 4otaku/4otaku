@@ -106,7 +106,7 @@ class cron
 
 	function clean_settings() {
 		global $db;
-		$db->sql('delete from settings where (data="" and lastchange < '.(time()-3600).')',0);
+		$db->sql('DELETE FROM settings WHERE ((data="YTowOnt" OR data="") AND lastchange < '.(time()-3600).')',0);
 	}
 
 	function send_mails() {
