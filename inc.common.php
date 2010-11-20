@@ -60,6 +60,7 @@ include_once 'engine'.SL.'config.php';
 if(!empty($def['site']['domain']) && $def['site']['domain'] != $_SERVER["SERVER_NAME"]) {
 	header("HTTP/1.x 301 Moved Permanently");
 	header("Location: http://".$def['site']['domain'].$_SERVER["REQUEST_URI"]);
+	exit();
 }
 
 $db = new mysql();
