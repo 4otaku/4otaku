@@ -17,17 +17,15 @@ class engine
 
 	function check_404($ways) {
 		global $url; global $error;
-		$error = true;
+		$error = true; 
 		foreach ($ways as $conditions) {
 			$error = false; 
 			foreach ($conditions as $key => $condition) {
-				if (isset($url[$key])) {
+				if (!empty($url[$key])) {
 					if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;					 
 					elseif ($condition == 'end') $error = true;
 					elseif ($condition == 'num') { if (!is_numeric($url[$key]) && $url[$key]) $error = true; }
 					elseif (!strpos(' '.$condition,'|'.$url[$key].'|') && $url[$key] && $condition != 'any') $error = true;
-				} else {
-					if ($condition != 'end') $error = true;					
 				}
 				if ($error) break;
 			}
