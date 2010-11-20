@@ -4,8 +4,10 @@ define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(dirname(dirname(__FILE__))) . SL);
 
-include_once ROOT_DIR.'engine/config.php';
-include_once ROOT_DIR.'libs/mysql.php';
+include_once ROOT_DIR.'pre_config.php';
+
+include_once ROOT_DIR.'engine'.SL.'config.php';
+include_once ROOT_DIR.'libs'.SL.'mysql.php';
 
 $file = $_FILES['filedata']['name'];
 $type = $_FILES['filedata']['type'];

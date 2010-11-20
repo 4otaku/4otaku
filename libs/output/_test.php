@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+include_once(SITE_FDIR.SL.'engine'.SL.'engine.php');
 class output__test extends engine
 {
 	public $allowed_url = array(

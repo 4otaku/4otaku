@@ -4,7 +4,7 @@
 		foreach ($data['main']['month'] as $key => $month) {
 			if ($key != 'current') {
 				?>
-					<a href="<?=$key;?>">
+					<a href="<?=SITE_DIR?><?=$key;?>">
 						<?=$month;?>
 					</a> : 
 				<?
@@ -30,7 +30,7 @@
 				}
 				if ($day['url']) {
 					?>
-						<a href="<?=$day['url'];?>">
+						<a href="<?=SITE_DIR?><?=$day['url'];?>">
 							<?=$day['name'];?>
 						</a>
 					<?

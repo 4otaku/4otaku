@@ -14,7 +14,7 @@
 			<? 	
 				if(($item['place'] == 'art') && ($item['preview_picture'])) {
 					?>
-					<img src="/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
+					<img src="<?=SITE_DIR.'/images'?>/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
 					<?
 				}
 				else

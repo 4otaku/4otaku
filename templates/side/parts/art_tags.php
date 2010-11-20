@@ -3,19 +3,19 @@
 		?>
 			<div class="cats">	
 				<h2>
-					<a href="/tags/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
+					<a href="<?=SITE_DIR.'/tags'?>/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
 						Теги
 					</a>
 					 <a href="#" class="bar_arrow" rel="art_tag">
 						<?
 							if ($sets['dir']['art_tag']) {
 								?>
-									<img src="/images/text2391.png">
+									<img src="<?=SITE_DIR.'/images'?>/text2391.png">
 								<?
 							}
 							else {
 								?>
-									<img src="/images/text2387.png">
+									<img src="<?=SITE_DIR.'/images'?>/text2387.png">
 								<?				
 							}
 						?>
@@ -30,16 +30,16 @@
 										<?
 											if ($url[2] == 'tag' || $url[2] == 'category' || $url[2] == 'author' || $url[2] == 'mixed') {
 												?>
-													<a href="<?=$output->mixed_add($tag['alias'],'tag');?>">
+													<a href="<?=SITE_DIR.$output->mixed_add($tag['alias'],'tag');?>">
 														+
 													</a> 
-													<a href="<?=$output->mixed_add($tag['alias'],'tag','-');?>">
+													<a href="<?=SITE_DIR.$output->mixed_add($tag['alias'],'tag','-');?>">
 														-
 													</a> 
 												<?
 											}
 										?>					
-										<a href="/art/tag/<?=$tag['alias'];?>/"<?=($tag['color'] ? ' style="color:#'.$tag['color'].';"' : '');?>>
+										<a href="<?=SITE_DIR.'/tags'?>/tag/<?=$tag['alias'];?>/"<?=($tag['color'] ? ' style="color:#'.$tag['color'].';"' : '');?>>
 											<?=str_replace('_',' ',$tag['name']);?>
 										</a> 
 										<span>

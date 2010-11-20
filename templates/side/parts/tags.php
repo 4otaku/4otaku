@@ -1,18 +1,18 @@
 <div class="cats">	
 	<h2>
-		<a href="/tags/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
+		<a href="<?=SITE_DIR.'/tags'?>/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
 			Частые теги
 		</a>
 		 <a href="#" class="bar_arrow" rel="tag">
 			<?
 				if ($sets['dir']['tag']) {
 					?>
-						<img src="/images/text2391.png">
+						<img src="<?=SITE_DIR.'/images'?>/text2391.png">
 					<?
 				}
 				else {
 					?>
-						<img src="/images/text2387.png">
+						<img src="<?=SITE_DIR.'/images'?>/text2387.png">
 					<?				
 				}
 			?>
@@ -27,7 +27,7 @@
 			}
 			else foreach ($data['sidebar']['tags'] as $name => $tag) {
 				?>
-					<a href="<?=($url['area'] == $def['area'][0] || $url['area'] == $def['area'][1] ? '/'.$url[1] : '/'.$url[1].'/'.$url['area']);?>/tag/<?=$tag['alias'];?>/" title="<?=$tag['count'];?> <?=$tag['word'];?>" style="font-size: <?=$tag['size'];?>pt;"><?=$name;?></a> 
+					<a href="<?=SITE_DIR.($url['area'] == $def['area'][0] || $url['area'] == $def['area'][1] ? '/'.$url[1] : '/'.$url[1].'/'.$url['area']);?>/tag/<?=$tag['alias'];?>/" title="<?=$tag['count'];?> <?=$tag['word'];?>" style="font-size: <?=$tag['size'];?>pt;"><?=$name;?></a> 
 				<?
 			}
 		?> 

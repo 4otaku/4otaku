@@ -1,6 +1,6 @@
 <?
 
-include_once('engine'.SL.'engine.php');
+include_once(SITE_FDIR.SL.'engine'.SL.'engine.php');
 class input__admin extends engine
 {
 	function login() { 

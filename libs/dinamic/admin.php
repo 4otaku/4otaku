@@ -1,6 +1,8 @@
 <?
 
-include_once('engine/engine.php');
+#include_once('engine/engine.php');
+include_once(SITE_FDIR.SL.'engine'.SL.'engine.php');
+
 class dinamic__admin extends engine
 {
 	function delete_tag() {

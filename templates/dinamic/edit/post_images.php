@@ -1,7 +1,7 @@
 <? 
-include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
+include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
-<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/post.js"></script>
+<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/post.js"></script>
 <table width="100%">		
 	<tr>
 		<td width="20%">
@@ -12,11 +12,11 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 				<tr>
 					<td>
 						<div id="post-image">
-							<img src="/images/upload_button.png">
+							<img src="<?=SITE_DIR.'/images'?>/upload_button.png">
 						</div>
 					</td>
 					<td>
-						<img class="processing-image hidden" src="/images/ajax-processing.gif" />
+						<img class="processing-image hidden" src="<?=SITE_DIR.'/images'?>/ajax-processing.gif" />
 					</td>
 					<td>
 						<span class="processing-image hidden">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
@@ -35,7 +35,7 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 			<?
 				foreach ($data['value'] as $image) {
 					?>
-						<div style="background-image: url(/images/thumbs/<?=$image;?>);"><img class="cancel" src="/images/cancel.png"><input type="hidden" name="images[]" value="<?=$image;?>"></div>
+						<div style="background-image: url(<?=SITE_DIR.'/images'?>/thumbs/<?=$image;?>);"><img class="cancel" src="<?=SITE_DIR.'/images'?>/cancel.png"><input type="hidden" name="images[]" value="<?=$image;?>"></div>
 					<?
 				}
 			?>
@@ -43,5 +43,5 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 	</tr>
 </table>
 <? 
-include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
+include_once(SITE_FDIR._SL.'templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
 ?>

@@ -3,7 +3,7 @@
 		<tr>
 			<td align="left">
 				<h2>
-					<a href="/art/pool/<?=$url[3];?>/">
+					<a href="<?=SITE_DIR.'/art'?>/pool/<?=$url[3];?>/">
 						<?=$data['main']['pool']['name'];?>
 					</a>
 				</h2>
@@ -35,19 +35,19 @@
 		<?
 			if ($url[4] != 'sort') {
 				?>
-					<a href="/art/pool/<?=$url[3];?>/sort/">
+					<a href="<?=SITE_DIR.'/art'?>/pool/<?=$url[3];?>/sort/">
 						Перейти к сортировке
 					</a>
 				<?
 			}
 			else {
 				?>
-					<script type="text/javascript" src="/jss/m/?b=jss&f=edit/sort.js,edit/pool.js"></script>
+					<script type="text/javascript" src="<?=SITE_DIR?>/jss/m/?b=jss&f=edit/sort.js,edit/pool.js"></script>
 					Сортировка: 
-					<a href="/art/pool/<?=$url[3];?>/sort/">
+					<a href="<?=SITE_DIR.'/art'?>/pool/<?=$url[3];?>/sort/">
 						Сбросить
 					</a> 
-					<a href="/art/pool/<?=$url[3];?>/" class="save_pool_order check_closed disabled" rel="<?=$data['main']['pool']['art'];?>">
+					<a href="<?=SITE_DIR.'/art'?>/pool/<?=$url[3];?>/" class="save_pool_order check_closed disabled" rel="<?=$data['main']['pool']['art'];?>">
 						Сохранить
 					</a>
 				<?

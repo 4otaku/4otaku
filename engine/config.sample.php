@@ -11,11 +11,6 @@ $def['db']['main_db'] = '';
 $def['db']['sub_db'] = '';
 $def['db']['chat_db'] = '';
 
-// Информация о сайте
-
-$def['site']['name'] = '4отаку. Материалы для отаку.';
-$def['site']['short_name'] = '4отаку.';
-
 // Загрузка файлов
 
 $def['booru']['filesize'] = 10*1024*1024;
@@ -64,7 +59,6 @@ $sets['pp']['art_tags'] = 20;
 $sets['pp']['art_pool'] = 40;
 $sets['pp']['art_cg_pool'] = 20;
 $sets['pp']['tags'] = 40;
-$sets['pp']['tags_admin'] = 40;
 $sets['pp']['news'] = 5;
 $sets['pp']['latest_comments'] = 3;
 $sets['pp']['random_orders'] = 5;
@@ -81,28 +75,16 @@ $sets['dir']['tag'] = 1;
 $sets['dir']['art_tag'] = 1;
 $sets['dir']['comments_tree'] = 1;
 
-// Режим скачивания для раздела с артом. 0 - выключено, 1 - включено
-
-$sets['art']['download_mode'] = 0;
-
 // Имя/мыло пользователя по умолчанию
 
 $def['user']['author'] = 'Анонимус';
 $def['user']['name'] = 'Анонимно';
 $def['user']['mail'] = 'default@avatar.mail';
-$sets['user']['rights'] = 0;
+
 $sets['user']['name'] = 'Анонимно';
 $sets['user']['mail'] = 'default@avatar.mail';
 
-// Presets - fight the notices
-
-$sets['visit']['post'] = 0;
-$sets['visit']['audio'] = 0;
-$sets['visit']['video'] = 0;
-$sets['visit']['art'] = 0;
-$sets['news']['read'] = 0;
-
-// Область rss по умолчанию
+//
 
 $sets['rss']['default'] = 'pvun';
 $def['rss']['default'] = 'pvun';

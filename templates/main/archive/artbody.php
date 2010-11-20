@@ -10,11 +10,11 @@
 			foreach ($data['main']['archives'] as $key => $type) { $i++
 				?>
 					<li>
-						<img src="/images/tb2.gif">
+						<img src="<?=SITE_DIR.'/images'?>/tb2.gif">
 						&nbsp;
 						<span>
 							<?=$data['main']['name'][$key];?>:  
-							<a href="/art/<?=$url[3];?>/<?=$key;?>/">
+							<a href="<?=SITE_DIR.'/art'?>/<?=$url[3];?>/<?=$key;?>/">
 								<?=$type;?> артов
 							</a>.
 						</span>

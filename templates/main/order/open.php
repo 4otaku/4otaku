@@ -12,7 +12,7 @@
 								foreach ($data['main']['order_open'] as $name => $category) {
 									?>
 										<li>
-											<img src="/images/tb2.gif"> 
+											<img src="<?=SITE_DIR.'/images'?>/tb2.gif"> 
 											<span rel="<?=($sets['order'][$name] ? 'open' : 'closed' );?>" class="car-yearmonth car-<?=$name;?> remember <?=$name;?>">
 												Заказы в категории <?=$data['main']['category'][$name];?> 
 												<span title="Всего заказов">
@@ -27,7 +27,7 @@
 														?>
 															<li>
 																<?=$order['username'];?> заказал 
-																<a href="/order/<?=$order['id'];?>" class="with_help" title="<?=strip_tags($order['text']);?>">
+																<a href="<?=SITE_DIR.'/order'?>/<?=$order['id'];?>" class="with_help" title="<?=strip_tags($order['text']);?>">
 																	<?=$order['title'];?>
 																</a>. 
 																(Комментариев: <?=$order['comment_count'];?>).
@@ -39,7 +39,7 @@
 													&nbsp;
 												</li>
 												<li>
-													<a href="/order/category/<?=$name;?>/">
+													<a href="<?=SITE_DIR.'/order'?>/category/<?=$name;?>/">
 														Все заказы в категории "<?=$data['main']['category'][$name];?>"
 													</a>
 												</li>
@@ -50,7 +50,7 @@
 							?>
 						</ul>
 						<br />
-						<a href="/order/all/">Все заказы</a>
+						<a href="<?=SITE_DIR.'/order'?>/all/">Все заказы</a>
 					</td>
 				</tr>
 			</table>		

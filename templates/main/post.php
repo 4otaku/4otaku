@@ -6,5 +6,5 @@
 	);
 	
 foreach ($data['main']['post'] as $item) {
-	include 'templates'.SL.'main'.SL.'single'.SL.'post.php';
+	include SITE_FDIR._SL.'templates'.SL.'main'.SL.'single'.SL.'post.php';
 }

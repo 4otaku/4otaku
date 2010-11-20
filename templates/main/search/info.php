@@ -69,7 +69,7 @@
 			</li>
 		</ul>
 		<br />
-		<a href="/<?=implode('/',$url);?>" class="secondary_search">
+		<a href="<?=SITE_DIR?>/<?=implode('/',$url);?>" class="secondary_search">
 			<input type ="submit" value="Искать в указанном">
 		</a>
 	</div>

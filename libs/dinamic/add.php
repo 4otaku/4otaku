@@ -20,21 +20,11 @@ class dinamic__add
 		return $return;
 	}		
 	
-	function board() {
-		global $db;
-		$return['category'] = $db->sql('select alias, name from category where locate("|board|",area) order by id','alias');
-		return $return;
-	}
-	
 	function order() {
 		global $db;
-		$return['category'] = $db->sql('select alias, name from category where !locate("|board|",area) order by id','alias');
+		$return['category'] = $db->sql('select alias, name from category order by id','alias');
 		return $return;
-	}
-	
-	function replay() {
-		return true;
-	}				
+	}		
 
 	function comment() {
 		return true;

@@ -1,6 +1,6 @@
 <?
 
-include_once 'libs'.SL.'input'.SL.'common.php';
+include_once SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php';
 class input__video extends input__common
 {
 	function add() { 
@@ -29,7 +29,7 @@ class input__video extends input__common
 														base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));	
 														
 						if (isset($post['transfer_to_main']) && $sets['user']['rights']) {
-							include_once('libs/input/common.php');						
+							include_once(SITE_FDIR.SL.'libs'.SL.'input'.SL.'common.php');						
 							$_post = array('id' => $id, 'sure' => 1, 'do' => array('video','transfer'), 'where' => 'main');							
 							input__common::transfer($_post);
 						} else {

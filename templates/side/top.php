@@ -29,7 +29,7 @@
 						?>
 					</div>
 					<div id="add_loader">
-						<img src="/images/ajax-loader.gif">
+						<img src="<?=SITE_DIR.'/images'?>/ajax-loader.gif">
 					</div>
 					<div id="add_form">
 						&nbsp;

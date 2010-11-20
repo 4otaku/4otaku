@@ -6,5 +6,5 @@
 	);
 	
 foreach ($data['main']['video'] as $item) {
-	include 'templates'.SL.'main'.SL.'single'.SL.'video.php';
+	include SITE_FDIR.SL.'templates'.SL.'main'.SL.'single'.SL.'video.php';
 }

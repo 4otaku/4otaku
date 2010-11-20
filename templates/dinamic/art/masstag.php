@@ -8,7 +8,7 @@
 if ($add_res['meta']) { ?>
 	Уехало <?=$lang['transfer'][$add_res['meta']];?>
 <? } else { ?>
-	<a href="/art/<?=$data['id'];?>" rel="<?=$data['id'];?>" class="with_help3" title="
+	<a href="<?=SITE_DIR.'/art'?>/<?=$data['id'];?>" rel="<?=$data['id'];?>" class="with_help3" title="
 			<?
 				if (count($data['meta']['tag']) > 1) {
 					?>
@@ -52,6 +52,6 @@ if ($add_res['meta']) { ?>
 				echo implode(', ',$data['meta']['category']);
 			?>
 	">
-		<img src="/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$data['thumb'];?>.jpg">
+		<img src="<?=SITE_DIR.'/images'?>/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$data['thumb'];?>.jpg">
 	</a>
 <? } ?>

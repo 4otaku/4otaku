@@ -11,7 +11,7 @@
 				}
 				if ($day['url']) {
 					?>
-						<a href="<?=$day['url'];?>">
+						<a href="<?=SITE_DIR?><?=$day['url'];?>">
 							<?=$day['name'];?>
 						</a>
 					<?

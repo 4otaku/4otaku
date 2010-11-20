@@ -19,7 +19,7 @@
 				if ($data['main']['navi']['curr']==2) {
 					?>
 						<li>
-							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
+							<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
 								&lt;
 							</a>
 						</li>
@@ -28,7 +28,7 @@
 				elseif ($data['main']['navi']['curr'] > 2) {
 					?>
 						<li>
-							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=($data['main']['navi']['curr']-1);?>/">
+							<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=($data['main']['navi']['curr']-1);?>/">
 								&lt;
 							</a>
 						</li>
@@ -37,7 +37,7 @@
 				if ($data['main']['navi']['curr']==1) {
 					?>
 						<li class="active_page">
-							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
+							<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
 								1
 							</a>
 						</li>						
@@ -46,7 +46,7 @@
 				else {
 					?>
 						<li class="first_last_page">
-							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
+							<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
 								1
 							</a>
 						</li>	
@@ -63,7 +63,7 @@
 					if ($data['main']['navi']['start'] == $data['main']['navi']['curr']) {
 						?>
 							<li class="active_page">
-								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['start'];?>/">
+								<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['start'];?>/">
 									<?=$data['main']['navi']['start'];?>
 								</a>
 							</li>
@@ -72,7 +72,7 @@
 					else {
 						?>
 							<li>
-								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['start'];?>/">
+								<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['start'];?>/">
 									<?=$data['main']['navi']['start'];?>
 								</a>
 							</li>
@@ -91,7 +91,7 @@
 					if ($data['main']['navi']['last'] == $data['main']['navi']['curr']) {
 						?>
 							<li class="active_page">
-								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['last'];?>/">
+								<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['last'];?>/">
 									<?=$data['main']['navi']['last'];?>
 								</a>
 							</li>
@@ -100,7 +100,7 @@
 					else {
 						?>
 							<li class="first_last_page">
-								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['last'];?>/">
+								<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['last'];?>/">
 									<?=$data['main']['navi']['last'];?>
 								</a>
 							</li>
@@ -108,7 +108,7 @@
 								if (is_numeric($data['main']['navi']['curr'])) {
 									?>
 										<li>
-											<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=($data['main']['navi']['curr']+1);?>/">
+											<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=($data['main']['navi']['curr']+1);?>/">
 												&gt;
 											</a>
 										</li>
@@ -123,7 +123,7 @@
 							
 						</li>
 						<li<?=($data['main']['navi']['curr'] == 'all' ? ' class="active_page"' : "");?>>
-							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>all/">
+							<a href="<?=SITE_DIR?><?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>all/">
 								Показать все
 							</a>
 						</li>											
