@@ -15,11 +15,11 @@
 					<div>
 						<a href="#bugfix" class="disabled">
 							<?=$lang['add'][$data['top']['add_bar']['type']];?>
-							<?=($data['top']['add_bar']['pool'] ? " в группу ".$data['top']['add_bar']['pool'] : "");?>
+							<?=(isset($data['top']['add_bar']['pool']) ? " в группу ".$data['top']['add_bar']['pool'] : "");?>
 						</a>
 						<span class="arrow"> ↓</span> 
 						<? 
-							if ($data['top']['add_bar']['pass']) {
+							if (isset($data['top']['add_bar']['pass'])) {
 								?>
 									<span class="right">
 										Пароль: <input name="password" class="password" type="text" rel="<?=$url[3];?>">
@@ -39,7 +39,7 @@
 			<br />
 		<?
 	}	
-	if ($add_res) {
+	if (isset($add_res)) {
 		?>
 			<div class="mini-shell addres">
 				<span class="span-<?=($add_res['error'] ? 'red' : 'green');?>">

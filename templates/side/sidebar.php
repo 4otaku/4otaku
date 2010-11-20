@@ -113,7 +113,7 @@
 					</a> 
 					<a href="#" class="bar_arrow" rel="settings">
 						<?
-							if ($sets['dir']['settings']) {
+							if (isset($sets['dir']['settings'])) {
 								?>
 									<img src="/images/text2391.png">
 								<?
