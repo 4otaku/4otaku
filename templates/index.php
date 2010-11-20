@@ -130,7 +130,7 @@
 							</p>				
 							Всего <?=$data['main']['count']['video']['total'];?> видео. 
 							<?=($data['main']['count']['video']['unseen'] ? $data['main']['count']['video']['unseen'].' из них новых. ' : '');?>
-							<? if (is_array($data['main']['count']['post']['latest'])) { ?>
+							<? if (is_array($data['main']['count']['video']['latest'])) { ?>
 								Последние видео: <br /><br />
 								<? foreach ($data['main']['count']['video']['latest'] as $key => $one) { ?>
 									<?=($key ? '<br />' : '');?>
