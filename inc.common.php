@@ -62,14 +62,14 @@ $db = new mysql();
 $check = new check_values();
 
 if (!(_CRON_)) {
-        if (isset($def['site']['domain']) && ($def['site']['domain'] != ''))
+        if (!empty($def['site']['domain']))
             $cookie_domain = $def['site']['domain'];
         else if ($_SERVER['SERVER_NAME'] == 'localhost')
             $cookie_domain = NULL;
         else
             $cookie_domain = '.'.$_SERVER['SERVER_NAME'];
         
-        $hash = (isset($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
+        $hash = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
                 
         $settings = $db->sql('SELECT data FROM settings WHERE cookie = "'.$hash.'"',2);
        
