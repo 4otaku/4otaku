@@ -34,5 +34,5 @@ $data = array_merge($data,$output->get_side_data($output->side_modules));
 if ($error) 
 	$output->make_404($output->error_template);
 
-include_once 'templates'.SL.str_replace('__',SL,$output->template).'.php';
+include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';
 ob_end_flush();

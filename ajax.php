@@ -14,7 +14,7 @@ $data = $output->$func();
 if (isset($output->template) || $data) {
     if (isset($output->textarea)) ob_end_clean();
     if (isset($output->template)) include_once($output->template);
-    else include_once 'templates'.SL.'dinamic'.SL.$get['m'].SL.$get['f'].'.php';
+    else include_once TEMPLATE_DIR.SL.'dinamic'.SL.$get['m'].SL.$get['f'].'.php';
 }
 
 if (isset($postparse)) {
