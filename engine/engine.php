@@ -21,14 +21,14 @@ class engine
 		foreach ($ways as $conditions) {
 			$error = false; 
 			foreach ($conditions as $key => $condition) {
-				if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;
-				if ($condition == 'end') {						
-					if ($url[$key]) $error = true;
-					foreach ($url as $ukey => $val) if (is_numeric($ukey) && $ukey > $key && isset($val)) $error = true;
+				if (isset($url[$key])) {
+					if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;					 
+					elseif ($condition == 'end') $error = true;
+					elseif ($condition == 'num') { if (!is_numeric($url[$key]) && $url[$key]) $error = true; }
+					elseif (!strpos(' '.$condition,'|'.$url[$key].'|') && $url[$key] && $condition != 'any') $error = true;
+				} else {
+					if ($condition != 'end') $error = true;					
 				}
-				elseif ($condition == 'num') { if (!is_numeric($url[$key]) && $url[$key]) $error = true; }
-				elseif (!strpos(' '.$condition,'|'.$url[$key].'|') && $url[$key] && $condition != 'any') $error = true;
-
 				if ($error) break;
 			}
 			if (!$error) break;
