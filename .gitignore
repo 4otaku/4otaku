@@ -1,6 +1,7 @@
 port.php
 port_action.php
 test.txt
+custom_templates/*
 files/*
 !files/.htaccess
 engine/config.php

@@ -10,6 +10,11 @@ switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(__FILE__));
+if (file_exists(ROOT_DIR . SL . 'custom_templates')) {
+	define('TEMPLATE_DIR', ROOT_DIR . SL . 'custom_templates');
+} else {
+	define('TEMPLATE_DIR', ROOT_DIR . SL . 'templates');
+}
 
 function __autoload($class_name) {
 	$class = ROOT_DIR.SL.'libs'.SL.str_replace('__',SL,$class_name).'.php';
