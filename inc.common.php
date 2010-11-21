@@ -88,7 +88,7 @@ if (!(_CRON_)) {
                 	$db->sql('UPDATE settings SET data = "YTowOnt9", lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
                 }
 	} else {
-        if(_INDEX_)  {
+		if(_INDEX_)  {
 			setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
 			$db->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
 			$_COOKIE['settings'] = $hash;
