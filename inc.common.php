@@ -105,15 +105,12 @@ if (!(_CRON_)) {
 			$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
 		}
 	} else {
-        	// Настроек нет
+        	// Настроек нет, создаем их
 
-          	// Ставим cookie (если имеем дело с обычным не-AJAX запросом)
-		if(_INDEX_)  {
-			setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-                        // Вносим в БД сессию с дефолтными настройками
-			$db->dsql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
-                        // @fixme Не самый удачный способ передать cookie в cookie.php
-                        $_COOKIE['settings'] = $hash;
-		}
+                setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+                // Вносим в БД сессию с дефолтными настройками
+                $db->dsql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
+                // @fixme Не самый удачный способ передать cookie в cookie.php
+                $_COOKIE['settings'] = $hash;
 	}
 }
