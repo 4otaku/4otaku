@@ -12,19 +12,22 @@
 				</div>
 				<div class="center margin20">
 				<a title="Dreams of Dead HQ" href="http://dod.4otaku.ru" class="with_help">
-					<img src="/images/dod2.png">
+					<img src="/images/buttons/dod.png">
+				</a>
+				<a title="Yukarin Subs" href="http://yukarinsubs.4otaku.ru" class="with_help">
+					<img src="/images/buttons/ys.png">
 				</a>
 				<a title="Архив" href="/archive/" class="with_help">
-					<img src="/images/arch2.png">
+					<img src="/images/buttons/arch.png">
 				</a>
 				<a title="Кикаки: додзинси и ёнкомы" href="http://raincat.4otaku.ru" class="with_help">
-					<img src="/images/ki2.png">
-				</a>				
-				<a title="Yukarin Subs" href="http://yukarinsubs.4otaku.ru" class="with_help">
-					<img src="/images/yukarin2.png">
-				</a>	
+					<img src="/images/buttons/ki.png">
+				</a>
+				<a title="Частые вопросы по сайту" href="http://wiki.4otaku.ru/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ" class="with_help">
+					<img src="/images/buttons/faq.png">
+				</a>
 				<a title="Что такое теория относительности?" href="http://comics.4otaku.ru" class="with_help">
-					<img src="/images/t_chtto.png">
+					<img src="/images/buttons/chtto.png">
 				</a>
 				</div>
 				<div class="center margin10">
@@ -52,12 +55,7 @@
 							<img align="middle" src="/images/feed_80x80.png" alt="RSS записей" />
 						</a>
 					</div>
-					<div class="margin10 box first_box">
-						<a href="http://wiki.4otaku.ru/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ" title="Частые вопросы по сайту">
-							Частые вопросы
-						</a>
-					</div>
-					<div class="margin10 box">
+					<div class="margin10 box first_index_box">
 						<a href="/ajax.php?m=box&f=rss&width=600&height=240" title="Выберите, что показывать вам в RSS" class="thickbox">
 							Выберите свой RSS
 						</a>
