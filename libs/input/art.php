@@ -4,7 +4,7 @@ class input__art extends input__common
 {
 	function add() { 
 		global $post; global $db; global $check; global $def; global $url; global $sets; 
-		global $transform_text; global $transform_meta; global $cookie; global $add_res;
+		global $transform_text; global $transform_meta; global $cookie;
 		if (!$transform_meta) $transform_meta = new transform__meta();
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$cookie) $cookie = new dinamic__cookie();
@@ -38,8 +38,8 @@ class input__art extends input__common
 						input__common::transfer($_post);
 					}		
 				} else {
-					if ($i > 1) $add_res['text'] = 'Ваши изображения успешно добавлены, и доступны в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.';
-					else $add_res['text'] = 'Ваше изображение успешно добавлено, и доступно по адресу <a href="/art/'.$id.'/">http://4otaku.ru/art/'.$id.'/</a> или в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.';
+					if ($i > 1) $this->add_res('Ваши изображения успешно добавлены, и доступны в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.');
+					else $this->add_res('Ваше изображение успешно добавлено, и доступно по адресу <a href="/art/'.$id.'/">http://4otaku.ru/art/'.$id.'/</a> или в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.');
 				}
 				
 				if ($data) {
@@ -49,9 +49,9 @@ class input__art extends input__common
 					$db->sql('update art_pool set count = count + '.$i.', art = concat("'.$newart.'",art) where id='.$url[3],0);
 				}
 			}
-			else $add_res = array('error' => true, 'text' => 'Неправильный пароль от группы.');
+			else $this->add_res('Неправильный пароль от группы.', true);
 		}
-		else $add_res = array('error' => true, 'text' => 'Не все обязательные поля заполнены.');
+		else $this->add_res('Не все обязательные поля заполнены.', true);
 	}
 	
 	function addpool() {

@@ -68,24 +68,23 @@ class output__order extends engine
 	}
 	
 	function action($action,$id) {
-		global $add_res; global $db; 
+		global $db; 
 		if ($id) {
 			if ($action == 'prolong') {
 				$data = $db->sql('select email,spam from orders where id='.$id,1);		
 				$action = new input__common();
 				if ($data['spam']) $action->set_events($id,$data['email']);
 				else $action->set_events($id);
-				$add_res['text'] = 'Заказ успешно продлен';
+				$this->add_res('Заказ успешно продлен');
 			}
 			elseif ($action == 'unsubscribe') {
 				$db->update('orders','spam',0,$id);
 				$db->sql('delete from misc where (type="mail_notify" and data5="'.$id.'")',0);			
-				$add_res['text'] = 'Вы отписались от уведомлений по заказу <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a>';
+				$this->add_res('Вы отписались от уведомлений по заказу <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a>');
 			}
 		}
 		else {
-			$add_res['text'] = 'Ошибка, неправильный URL';
-			$add_res['error'] = true;
+			$this->add_res('Ошибка, неправильный URL', true);
 		}
 	}
 	

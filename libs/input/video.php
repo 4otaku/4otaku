@@ -5,7 +5,7 @@ class input__video extends input__common
 {
 	function add() { 
 		global $post; global $db; global $check; global $def; global $transform_meta; global $sets;
-		global $transform_text; global $transform_video; global $cookie; global $add_res;
+		global $transform_text; global $transform_video; global $cookie;
 		if (!$transform_meta) $transform_meta = new transform__meta();
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$transform_video) $transform_video = new transform__video();
@@ -33,16 +33,16 @@ class input__video extends input__common
 							$_post = array('id' => $id, 'sure' => 1, 'do' => array('video','transfer'), 'where' => 'main');							
 							input__common::transfer($_post);
 						} else {
-							$add_res['text'] = 'Ваше видео успешно добавлено, и доступно по адресу <a href="/video/'.$id.'/">http://4otaku.ru/video/'.$id.'/</a> или в <a href="/video/'.$def['area'][1].'/">очереди на премодерацию</a>.';
+							$this->add_res('Ваше видео успешно добавлено, и доступно по адресу <a href="/video/'.$id.'/">http://4otaku.ru/video/'.$id.'/</a> или в <a href="/video/'.$def['area'][1].'/">очереди на премодерацию</a>.');
 						}
 					}
-					else $add_res = array('error' => true, 'text' => 'Извините, либо этого видеосервиса нет в нашей базе, либо с вашей ссылкой что-то не так.'); 
+					else $this->add_res('Извините, либо этого видеосервиса нет в нашей базе, либо с вашей ссылкой что-то не так.', true); 
 				}
-				else $add_res = array('error' => true, 'text' => 'Это видео уже у нас есть, оно находится по адресу <a href="/video/'.$id.'/">http://4otaku.ru/video/'.$id.'/</a>.');
+				else $this->add_res('Это видео уже у нас есть, оно находится по адресу <a href="/video/'.$id.'/">http://4otaku.ru/video/'.$id.'/</a>.', true);
 			}
-			else $add_res = array('error' => true, 'text' => 'Вы не предоставили ссылки, или же ссылка почему-то битая.');
+			else $this->add_res('Вы не предоставили ссылки, или же ссылка почему-то битая.', true);
 		}
-		else $add_res = array('error' => true, 'text' => 'Вы забыли указать заголовок для видео.');
+		else $this->add_res('Вы забыли указать заголовок для видео.', true);
 	}
 	
 	function edit_video_link() {

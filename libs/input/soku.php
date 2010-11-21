@@ -12,12 +12,12 @@ class input__soku
 			}
 			if (!$db->sql('select id from soku where nickname="'.$post['nickname'].'"',2)) {
 				$db->insert('soku',array($post['nickname'],$post['character'],$post['second_character'],$post['email']));
-				$add_res['text'] = $post['nickname'] . ', вы успешно зарегистрировались.';
+				$this->add_res('$post['nickname'] . ', вы успешно зарегистрировались.');
 			} else {
-				$add_res = array('error' => true, 'text' => 'Этот ник уже кем-то занят.');
+				$this->add_res('Этот ник уже кем-то занят.', true);
 			}
 		} else {
-			$add_res = array('error' => true, 'text' => 'Не все обязательные поля заполнены.');
+			$this->add_res('Не все обязательные поля заполнены.', true);
 		}
 */
 	}
