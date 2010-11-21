@@ -27,7 +27,7 @@ class dinamic__cookie
 		$settings = unserialize(base64_decode($settings));
 		if ($allow_empty || !empty($settings)) {
 			$settings[$parts[0]][$parts[1]] = $value;
-			$db->update('settings',array('data','lastchange'),array(base64_encode(serialize($settings)),time()),$_COOKIE['settings'],'cookie');
+			$db->update('settings',array('data'),array(base64_encode(serialize($settings))),$_COOKIE['settings'],'cookie');
 		}
 	}	
 }
