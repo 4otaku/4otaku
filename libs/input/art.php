@@ -19,7 +19,11 @@ class input__art extends input__common
 				foreach ($post['images'] as $image) {
 					$name = explode('#',$image);
 					$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]); 
-					if ($name[0] && $name[1] && $name[2] && !$db->base_sql('sub','select id from w8m_art where md5="'.$name[0].'"',2)) {
+					if (
+						$name[0] && $name[1] && $name[2] && 
+						!$db->base_sql('sub','select id from w8m_art where md5="'.$name[0].'"',2) && 
+						!$db->sql('select id from art where md5="'.$name[0].'"',2)
+					) {
 						$db->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],$author,$category,$tags,"|".$data['pool'],"",
 												$post['source'],0,0,$transform_text->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 						$db->insert('versions',array('art',$id = $db->sql('select @@identity from art',2),

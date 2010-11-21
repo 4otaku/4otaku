@@ -6,7 +6,10 @@
 		if (is_array($check)) {
 			$md5=md5_file($temp); 
 			$db = new mysql();
-			if (!($db->sql('select id from art where md5="'.$md5.'"',2,'id'))) {
+			if (
+				!$db->sql('select id from art where md5="'.$md5.'"',2,'id') && 
+				!$db->base_sql('sub','select id from w8m_art where md5="'.$md5.'"',2)
+			) {
 				$extension = strtolower(pathinfo($file,PATHINFO_EXTENSION));
 				$thumb=md5(microtime(true));
 				$newname = $md5.'.'.$extension;
