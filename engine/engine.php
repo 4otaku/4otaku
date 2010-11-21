@@ -113,8 +113,13 @@ class engine
 	}
 	
 	function add_res($text,$error = false) {
-		global $add_res;
+		global $add_res; global $post; global $cookie;
 		$add_res = array('text' => $text, 'error' => $error);
+		if (!empty($post['do'])) {
+			if (empty($cookie)) $cookie = new dinamic__cookie();
+			$cookie->inner_set('add_res.text',$text);
+			$cookie->inner_set('add_res.error',$error);
+		}
 	}
 	
 	function mixed_parse($string) {

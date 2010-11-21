@@ -2,6 +2,15 @@
 
 class side__top
 {
+	function __construct() {
+		global $sets; global $cookie; global $add_res;
+		if (!empty($sets['add_res']['text'])) {
+			$add_res = $sets['add_res'];
+			if (empty($cookie)) $cookie = new dinamic__cookie();
+			$cookie->inner_set('add_res.text','');
+			$cookie->inner_set('add_res.error',false);
+		}
+	}
 	
 	function add_bar() {
 		global $url; global $def; global $db;

@@ -4,14 +4,14 @@ include_once('engine'.SL.'engine.php');
 class input__admin extends engine
 {
 	function login() { 
-		global $post; global $db; global $sets; global $cookie; global $add_res;
+		global $post; global $db; global $sets; global $cookie;
 		if (!$cookie) $cookie = new dinamic__cookie();
 		if ($rights = $db->sql('select rights from user where login="'.$post['login'].'" and pass="'.md5($post['pass']).'"',2)) {
 			$cookie->inner_set('user.rights',$rights);
 			$sets['user']['rights'] = $rights;
 		}
 		else {
-			$add_res('Вы ввели неправильный логин или пароль.',true);
+			$this->add_res('Вы ввели неправильный логин или пароль.',true);
 		}
 	}	
 

@@ -1,6 +1,7 @@
 <?
 
-class input__common 
+include_once('engine'.SL.'engine.php');
+class input__common extends engine
 {
 	function edit_title() {
 		global $post; global $db; global $check; global $def;
@@ -73,7 +74,7 @@ class input__common
 	function transfer($post) {
 		if (empty($post)) global $post;
 		global $db; global $check; global $def; global $sets; 
-		global $transform_meta; global $transform_text; global $add_res;
+		global $transform_meta; global $transform_text;
 		if (!$transform_meta) $transform_meta = new transform__meta();
 		if (!$transform_text) $transform_text = new transform__text();
 		
@@ -84,11 +85,11 @@ class input__common
 				$data = $db->sql('select area, tag from '.$post['do'][0].' where id='.$post['id'],1);
 				$tags = array_unique(array_filter(explode('|',$data['tag'])));
 				if ($data['area'] == $post['where']) {
-					$add_res = array('error' => true, 'text' => 'То что вы пытаетесь переместить уже там куда вы хотите это переместить.');
+					$this->add_res('То что вы пытаетесь переместить уже там куда вы хотите это переместить.',true);
 					return false;
 				}	
 				if ($post['do'][0] == 'art' && count($tags) < 5 && $post['where'] == $def['area'][0]) {
-					$add_res = array('error' => true, 'text' => 'Слишком мало тегов чтобы отправить арт на главную.');
+					$this->add_res('Слишком мало тегов чтобы отправить арт на главную.',true);
 					return false;
 				}
 				if ($data['area'] == $def['area'][0] || $data['area'] == $def['area'][2])
@@ -105,7 +106,7 @@ class input__common
 			}			
 			$add_res['meta'] = $post['where'];
 		}
-		else $add_res = array('error' => true, 'text' => 'Не забывайте перед тем как утащить ставить галочку. Она здесь для защиты от случайных кликов.');
+		else $this->add_res('Не забывайте перед тем как утащить ставить галочку. Она здесь для защиты от случайных кликов.',true);
 	}
 	
 //  Секция из Order, для рассылки почты	
