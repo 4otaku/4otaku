@@ -22,7 +22,7 @@ function __autoload($class_name) {
 		include_once $class;
 	} else {
 		if (_INDEX_) {
-			include_once 'templates'.SL.'404'.SL.'fatal.php';
+			include_once ROOT_DIR.'templates'.SL.'404'.SL.'fatal.php';
 			ob_end_flush();
 		}
 		die;
@@ -55,7 +55,7 @@ if (
 	ob_start('myoutput');
 }
 
-include_once 'engine'.SL.'config.php';
+include_once ROOT_DIR.SL.'engine'.SL.'config.php';
 
 if(!empty($def['site']['domain']) && $def['site']['domain'] != $_SERVER["SERVER_NAME"]) {
 	header("HTTP/1.x 301 Moved Permanently");
@@ -81,12 +81,12 @@ if (!(_CRON_)) {
        
 	if (isset($settings)) {
 		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-                if ((base64_decode($settings) !== false) && is_array(unserialize(base64_decode($settings)))) {
-                	$sets = merge_settings($sets, unserialize(base64_decode($settings)));
-                        $db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
-                } else {
-                	$db->sql('UPDATE settings SET data = "YTowOnt9", lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
-                }
+		if ((base64_decode($settings) !== false) && is_array(unserialize(base64_decode($settings)))) {
+			$sets = merge_settings($sets, unserialize(base64_decode($settings)));
+				$db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
+		} else {
+			$db->sql('UPDATE settings SET data = "YTowOnt9", lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
+		}
 	} else {
 		if(_INDEX_)  {
 			setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
