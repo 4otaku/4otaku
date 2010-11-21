@@ -109,7 +109,7 @@ if (!(_CRON_)) {
 
                 setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
                 // Вносим в БД сессию с дефолтными настройками
-                $db->dsql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
+                $db->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
                 // @fixme Не самый удачный способ передать cookie в cookie.php
                 $_COOKIE['settings'] = $hash;
 	}
