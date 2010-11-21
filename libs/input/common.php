@@ -72,7 +72,7 @@ class input__common extends engine
 	}
 	
 	function transfer($post) {
-		if (empty($post)) global $post;
+		if (empty($post)) global $post; global $add_res;
 		global $db; global $check; global $def; global $sets; 
 		global $transform_meta; global $transform_text;
 		if (!$transform_meta) $transform_meta = new transform__meta();
