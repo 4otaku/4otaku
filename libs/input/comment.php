@@ -8,7 +8,7 @@ class input__comment extends input__common
 		global $cookie; global $transform_text; global $def;
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$cookie) $cookie = new dinamic__cookie();		
-
+		
 		if (!$post['name']) $post['name'] = $def['user']['name'];
 		elseif ($post['name'] != $def['user']['name']) $cookie->inner_set('user.name',$post['name']);
 		if (!$post['mail']) $post['mail'] = $def['user']['mail'];
@@ -20,8 +20,12 @@ class input__comment extends input__common
 		$field = $table == 'news' ? 'url' : 'id';
 		$item_id = in_array($url[2], $def['area']) ? $url[3] : $url[2];
 		
-		$area = $db->sql('select area from '.$table.' where '.$field.'="'.$item_id.'"',2);
-		
+		if (substr($item_id,0,3) == 'cg_') {
+			$area = $def['area'][0];
+		} else {
+			$area = $db->sql('select area from '.$table.' where '.$field.'="'.$item_id.'"',2);
+		}
+	
 		if (trim(strip_tags(str_replace('<img', 'img', $comment))) && $area) {
 
 			if ($post['parent'] && !($rootparent = $db->sql('select rootparent from comment where id='.$post['parent'],2)))
@@ -31,13 +35,14 @@ class input__comment extends input__common
 						$_SERVER['REMOTE_ADDR'],$comment,$post['text'],$date = $transform_text->rudate(true),
 						$time = ceil(microtime(true)*1000),$area));
 
-			if ($table == 'news') 
+			if ($table == 'news') {
 				$db->sql('update news set comment_count=comment_count+1, last_comment='.$time.' where url="'.$item_id.'"',0);
-			elseif ($table == 'art' && substr($item_id,0,3) == 'cg_')
+			} elseif ($table == 'art' && substr($item_id,0,3) == 'cg_') {
 				$db->base_sql('sub','update w8m_art set comment_count=comment_count+1, last_comment='.$time.' where id='.substr($item_id,3),0);
-			else
+			} else {
 				$db->sql('update '.$table.' set comment_count=comment_count+1, last_comment='.$time.' where id='.$item_id,0);
-
+			}
+			
 			if ($table == 'orders') {
 				$data = $db->sql('select email, spam from orders where id='.$url[2],1);
 				if ($data['spam'] && $data['email'] != $post['mail']) {	
