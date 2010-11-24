@@ -24,11 +24,13 @@ class output__search extends engine
 			foreach ($area as &$one) $one = $this->areas[$one];
 			$area = array_filter($area);
 			unset($one);
+		} else {
+			$area = array($url[2]);
 		}
-		else $area = array($url[2]);
 		
-		if ($url[2] != 'a') $pp = $sets['pp']['search'];
-		else {
+		if ($url[2] != 'a') {
+			$pp = $sets['pp']['search'];
+		} else {
 			$pp = $sets['pp']['art'];
 			$this->template = 'booru';
 			$this->error_template = 'booru';
@@ -40,8 +42,7 @@ class output__search extends engine
 		if ($url[3] == 'date') { 
 			$main = 'and area="main"';
 			$limit = ' order by sortdate desc limit '.(max(1,$url[6])-1)*$pp.', '.$pp;
-		}
-		elseif ($url[3] == 'rdate') {
+		} elseif ($url[3] == 'rdate') {
 			$main = 'and area="main"';			
 			$limit = ' order by sortdate limit '.(max(1,$url[6])-1)*$pp.', '.$pp;
 		}
@@ -58,9 +59,18 @@ class output__search extends engine
 					if (mb_strlen($term, 'UTF-8') > 2) $longterms[] = $term;
 					else $shortterms[] = $term;
 				}
-				if ($longterms) $longquery = ' and match (`index`) against ("+'.implode(' +',$longterms).'" in boolean mode)';
-				if ($shortterms) $shortquery = ' and `index` like "%|'.implode('=%" and `index` like "%|',$shortterms).'=%"';
-				$query = $query ? $query : '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery.$limit;
+				
+				if (!empty($longterms)) {
+					$longquery = ' and match (`index`) against ("+'.implode(' +',$longterms).'" in boolean mode)';
+				}
+				if (!empty($shortterms)) {
+					$shortquery = ' and `index` like "%|'.implode('=%" and `index` like "%|',$shortterms).'=%"';
+				}
+				
+				if (empty($query)) {
+					$query = '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery.$limit;
+					$navi_query = '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery;
+				}
 				$data = $db->sql('select place, item_id, `index`, area, sortdate from search where ' . $query); 
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
@@ -71,9 +81,8 @@ class output__search extends engine
 						$return['navi']['last'] = ceil(count($data)/$pp);
 						if (count($terms) > 1) $data = $this->relevance($data,$terms,$pp,max(1,$url[6]));
 						else $data = $this->relevance_simple($data,$terms,$pp,max(1,$url[6]));
-					}
-					else {
-						$return['navi']['last'] = ceil($db->sql('select count(id) from search where '. $query,2)/$pp);
+					} else {
+						$return['navi']['last'] = ceil($db->sql('select count(*) from search where '. $navi_query,2)/$pp);
 					}
 					
 					if ($url[2] != 'a') foreach ($data as $one) {
