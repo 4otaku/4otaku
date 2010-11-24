@@ -22,7 +22,7 @@ function __autoload($class_name) {
 		include_once $class;
 	} else {
 		if (_INDEX_) {
-			include_once ROOT_DIR.'templates'.SL.'404'.SL.'fatal.php';
+			include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
 			ob_end_flush();
 		}
 		die;
