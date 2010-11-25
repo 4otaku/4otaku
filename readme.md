@@ -11,3 +11,9 @@
 * [История версий](http://wiki.4otaku.ru/%D0%94%D0%B2%D0%B8%D0%B6%D0%BE%D0%BA)
 * [Лицензия](http://wiki.4otaku.ru/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F)
 
+В движке сайта используются несколько сторонних библиотек, они идут со всеми остальными файлами. Спасибо авторам этих библиотек за возможность бесплатно использовать их код.
+
+* [jQuery](https://github.com/jquery/jquery)
+* [Minify](http://code.google.com/p/minify/)
+* [phpMorphy](http://sourceforge.net/projects/phpmorphy/files/)
+* [Thickbox](http://jquery.com/demo/thickbox/)
