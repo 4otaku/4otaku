@@ -26,7 +26,7 @@
 						$resized = $sizes;
 				scale($def['booru']['largethumbsize'],$newlargethumb);
 				scale($def['booru']['thumbsize'],$newthumb);
-				echo '/images/booru/thumbs/'.$thumb.'.jpg|'.$md5.'#'.$thumb.'#'.$extension.'#'.$resized;
+				echo SITE_DIR.'/images/booru/thumbs/'.$thumb.'.jpg|'.$md5.'#'.$thumb.'#'.$extension.'#'.$resized;
 			}
 			else {echo 'error-already-have';}
 		}

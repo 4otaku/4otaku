@@ -622,4 +622,6 @@ $(document).ready(function(){
 	
 	/* Search end */	
 	
+	alert(window.config.image_dir);
+	
 });  

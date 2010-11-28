@@ -1,6 +1,7 @@
 php_value upload_max_filesize 20M
 php_value post_max_size 21M
 php_value max_execution_time 3000
+
 AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
 	RewriteEngine On
@@ -10,3 +11,7 @@ AddDefaultCharset UTF-8
 	RewriteRule . /index.php [NE,L]
 	RewriteRule "(^|/)(CVS|\.svn|\.git|engine|templates|libs)/" - [F]
 </IfModule>
+
+<FilesMatch "config.js">
+	AddHandler application/x-httpd-php .js
+</FilesMatch>
