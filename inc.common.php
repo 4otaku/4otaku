@@ -57,6 +57,8 @@ if (
 
 include_once ROOT_DIR.SL.'engine'.SL.'config.php';
 
+define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim($def['site']['dir'],'/')));
+
 if(!empty($def['site']['domain']) && $def['site']['domain'] != $_SERVER["SERVER_NAME"]) {
 	header("HTTP/1.x 301 Moved Permanently");
 	header("Location: http://".$def['site']['domain'].$_SERVER["REQUEST_URI"]);
@@ -69,48 +71,50 @@ $check = new check_values();
 
 // Тут мы работаем с сессиями
 if (!(_CRON_)) {
-        // Логично, что у крона сессии нет.
+	// Логично, что у крона сессии нет.
 
-        // Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
-        if (!empty($def['site']['domain']))
-            $cookie_domain = $def['site']['domain'];
-        else if ($_SERVER['SERVER_NAME'] == 'localhost')
-            $cookie_domain = NULL;
-        else
-            $cookie_domain = '.'.$_SERVER['SERVER_NAME'];
+	// Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
+	if (!empty($def['site']['domain'])) {
+		$cookie_domain = $def['site']['domain'];
+	} elseif ($_SERVER['SERVER_NAME'] == 'localhost') {
+		$cookie_domain = NULL;
+	} else {
+		$cookie_domain = '.'.$_SERVER['SERVER_NAME'];
+	}		
+	$cookie_domain .= SITE_DIR;
 
-        // Хэш. Берем либо из cookie, если валиден, либо генерим новый
-        $hash = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
+	// Хэш. Берем либо из cookie, если валиден, либо генерим новый
+	$hash = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
 
-        // Пробуем прочитать настройки для хэша
-        $sess = $db->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.$hash.'"', 1);
+	// Пробуем прочитать настройки для хэша
+	$sess = $db->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.$hash.'"', 1);
 
         // Проверяем полученные настройки
 	if (isset($sess['data']) && isset($sess['lastchange'])) {
 		// Настройки есть
 
 		// Обновляем cookie еще на 2 мес у клиента, если она поставлена больше месяца назад
-                if(intval($sess['lastchange']) < (time()-3600*24*30)) {
-                	setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-                        // Фиксируем факт обновления в БД
-                        $db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
-                }
+		if(intval($sess['lastchange']) < (time()-3600*24*30)) {
+			setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+			// Фиксируем факт обновления в БД
+			$db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
+		}
 
-                // Проверяем валидность настроек и исправляем, если что-то не так
+		// Проверяем валидность настроек и исправляем, если что-то не так
 		if ((base64_decode($sess['data']) !== false) && is_array(unserialize(base64_decode($sess['data'])))) {
-                	// Все ок, применяем сохраненные настройки
+			// Все ок, применяем сохраненные настройки
 			$sets = merge_settings($sets, unserialize(base64_decode($sess['data'])));
 		} else {
-                	// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
+			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
 			$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
 		}
 	} else {
-        	// Настроек нет, создаем их
+		// Настроек нет, создаем их
 
-                setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-                // Вносим в БД сессию с дефолтными настройками
-                $db->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
-                // @fixme Не самый удачный способ передать cookie в cookie.php
-                $_COOKIE['settings'] = $hash;
+		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+		// Вносим в БД сессию с дефолтными настройками
+		$db->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
+		// @fixme Не самый удачный способ передать cookie в cookie.php
+		$_COOKIE['settings'] = $hash;
 	}
 }
