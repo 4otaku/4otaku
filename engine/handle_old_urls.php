@@ -22,21 +22,21 @@ if ($url[1] == 'search' && (!$url[3] || $url[3] == 'page'))
 } 
 
 if (isset($link)) {
-	header("Location: ".$link,TRUE,302);
+	header("Location: ".SITE_DIR.$link,TRUE,302);
 
 	?>
 		<html>
 			<head>
 				<meta name="robots" content="noindex" />
-				<meta http-equiv="REFRESH" content="0;url=<?=$link;?>">
+				<meta http-equiv="REFRESH" content="0;url=<?=SITE_DIR.$link;?>">
 			</head>
 			<body>
 				Выполняется перенаправление на адрес 
-				<a href="<?=$link;?>">
-					<?=$link;?>
+				<a href="<?=SITE_DIR.$link;?>">
+					<?=get_protocol().($def['site']['domain'] ? $def['site']['domain'] : $_SERVER['SERVER_NAME']).SITE_DIR.$link;?>
 				</a>
 			</body>
 		</html>
 	<?
-	die;
+	exit();
 }

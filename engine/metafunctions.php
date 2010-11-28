@@ -96,3 +96,7 @@ function get_include_contents($filename) {
     }
     return false;
 }
+
+function get_protocol() {
+	return strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https://' : 'http://';
+} 

@@ -80,7 +80,7 @@ if (!(_CRON_)) {
 		$cookie_domain = NULL;
 	} else {
 		$cookie_domain = '.'.$_SERVER['SERVER_NAME'];
-	}		
+	}
 	$cookie_domain .= SITE_DIR;
 
 	// Хэш. Берем либо из cookie, если валиден, либо генерим новый
