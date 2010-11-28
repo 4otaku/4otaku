@@ -98,7 +98,7 @@ class transform__text
 					case 'url': $replacement = '<a href="/go?' . str_replace('http','⟯',($param? $param : $innertext)) . "\">".str_replace('http','⟯',$innertext)."</a>"; break;
 					case 'img':
 						$param = explode('x', strtolower($param));
-						$replacement = "<img align=\"left\" style=\"padding-right:10px;\" src=\"".str_replace('http','⟯',$innertext)."\" " . (is_numeric($param[0])? "width=\"".$param[0]."\" " : '') . (is_numeric($param[1])? "height=\"".$param[1]."\" " : '') . '/>';
+						$replacement = "<img src=\"".str_replace('http','⟯',$innertext)."\" " . (is_numeric($param[0])? "width=\"".$param[0]."\" " : '') . (is_numeric($param[1])? "height=\"".$param[1]."\" " : '') . '/><br />';
 					break;
 			        case 'spoiler':
 						$replacement = "<div class=\"mini-shell\"><div class=\"handler\" width=\"100%\">".
