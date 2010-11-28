@@ -70,7 +70,8 @@ class output__admin extends engine
 			if ($url[3] == 'search') {
 				$return['navi']['curr'] = max(1,$url[6]);
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/'.$url[4].'/';
-				$return['tags'] = $db->sql('select * from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name) order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
+				$locate = redo_safety(urldecode($url[4]));
+				$return['tags'] = $db->sql('select * from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name) order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
 				$return['navi']['last'] = ceil($db->sql('select count(id) from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name)',2)/$sets['pp']['tags_admin']);
 			} else {
 				$return['navi']['curr'] = max(1,$url[4]);
