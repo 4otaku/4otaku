@@ -7,6 +7,8 @@ define('ROOT_DIR', dirname(dirname(dirname(__FILE__))) . SL);
 include_once ROOT_DIR.'engine/config.php';
 include_once ROOT_DIR.'libs/mysql.php';
 
+define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim($def['site']['dir'],'/')));
+
 $file = $_FILES['filedata']['name'];
 $type = $_FILES['filedata']['type'];
 $sizefile = $_FILES['filedata']['size'];
