@@ -620,8 +620,6 @@ $(document).ready(function(){
 		document.location.href='/search/'+path[2]+'/'+$(this).val()+'/'+path[4]+'/';
 	});	
 	
-	/* Search end */	
-	
-	alert(window.config.image_dir);
+	/* Search end */
 	
 });  
