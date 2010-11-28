@@ -1,5 +1,7 @@
-<? header("Content-type: text/javascript"); ?>
-<?
+<? 
+	header("Content-type: text/javascript");
+	header("Expires: ".date('r',time() + 86400*30));
+
 	define('ROOT_DIR', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 	include ROOT_DIR.'engine'.DIRECTORY_SEPARATOR.'config.php';
 ?>
