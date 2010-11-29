@@ -73,7 +73,7 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		if (detect_animation($path)) {
 			if (!$thumbnail) return false;
 			$coalesced = $imagick->coalesceImages();
-			if (is_array($imagick)) {
+			if (is_array($coalesced)) {
 				$imagick = current($coalesced);			
 			} elseif ($image_class == 'Imagick') {
 				include_once 'imagick_substitute.php';
