@@ -251,7 +251,7 @@ div.mini-shell div.text {
 	line-height: 18pt;
 }
 
-#error td {
+.error td {
 	text-align: center;
 }
 

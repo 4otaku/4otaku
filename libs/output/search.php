@@ -75,6 +75,7 @@ class output__search extends engine
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
 					$db->update('search_queries',$area,$zero,$pretty_query,'query');
+					if ($url[2] != 'a') $return['variants'] = $this->get_variants($pretty_query, $area);
 					$return['display'] = array('search_info','search_error');
 				} else {
 					if (!$limit) {
@@ -160,12 +161,40 @@ class output__search extends engine
 			$item['relevance'] = ($item['relevance'] + $item['post_id']/100000) / sqrt($word_count);
 			if ($item['area'] != $def['area'][0] || $item['place'] == 'comment') $item['relevance'] = $item['relevance'] / 2;					
 		}
-		usort($items,array($this,'relevance_sort'));	
+		usort($items,array($this,'relevance_sort'));
 		return array_slice($items,($current_page-1)*$per_page,$per_page);
 	}	
 	
 	private function relevance_sort($a,$b) {
 		return ($a['relevance'] > $b['relevance']) ? -1 : 1;
+	}
+	
+	private function count_sort($a,$b) {
+		return ($a['count'] > $b['count']) ? -1 : 1;
+	}	
+	
+	private function get_variants($query, $area, $levenshtein_range = 0) {
+		global $def; global $check; global $db;
+		$levenshtein_range = $check->num($levenshtein_range, 5, $def['search']['levenstein'], 1);
+		$length = mb_strlen($query);
+		
+		$variants = $db->sql('select query, '.implode('+',$area).' as count from search_queries where (length >= '.($length - $levenshtein_range).' and length <= '.($length + $levenshtein_range).' and ('.implode('>0 or ', $area).'>0))');
+		if (is_array($variants)) {
+			usort($variants,array($this,'count_sort'));
+			
+			$return = array();
+			while (count($return) < $def['search']['variants'] && $variant = current($variants)) {
+				
+				if ($this->levenshtein($variant['query'],$query) <= $levenshtein_range) {
+					$return[] = $variant['query']; 
+				}
+				
+				next($variants);
+			}
+			return $return;
+		}
+		
+		return false;
 	}
 	
 	private function check_art_queries($query) {
@@ -261,6 +290,55 @@ class output__search extends engine
 		if ($item['place'] == 'orders') $item['place'] = 'order';
 		$item['template'] = 'comment';
 		return $item;
+	}
+	
+	function levenshtein($str1, $str2) {
+		$len1 = mb_strlen($str1);
+		$len2 = mb_strlen($str2);
+		$i = 0;
+		
+		do {
+			if(mb_substr($str1, $i, 1) != mb_substr($str2, $i, 1)) break;
+			$i++; $len1--; $len2--;
+		} while ($len1 > 0 && $len2 > 0);
+		
+		if($i > 0) {
+			$str1 = mb_substr($str1, $i);
+			$str2 = mb_substr($str2, $i);
+		}
+	   
+		$i = 0;
+		do {
+			if(mb_substr($str1, $len1-1, 1) != mb_substr($str2, $len2-1, 1)) break;
+			$i++; $len1--; $len2--;
+		} while($len1 > 0 && $len2 > 0);
+		
+		if($i > 0) {
+			$str1 = mb_substr($str1, 0, $len1);
+			$str2 = mb_substr($str2, 0, $len2);
+		}
+	   
+		if ($len1 == 0) return $len2;   
+		if ($len2 == 0) return $len1;
+	   
+		$v0 = range(0, $len1); $v1 = array();
+	   
+		for ($i = 1; $i <= $len2; $i++) {
+			$v1[0] = $i; $str2j = mb_substr($str2, $i - 1, 1);
+		   
+			for ($j = 1; $j <= $len1; $j++) {
+				$cost = (mb_substr($str1, $j - 1, 1) == $str2j) ? 0 : 1;
+			   
+				$m_min = $v0[$j] + 1; $b = $v1[$j - 1] + 1; $c = $v0[$j - 1] + $cost;			   
+				if ($b < $m_min) $m_min = $b;
+				if ($c < $m_min) $m_min = $c;			   
+				$v1[$j] = $m_min;
+			}
+		   
+			$vTmp = $v0; $v0 = $v1; $v1 = $vTmp;
+		}
+	   
+		return $v0[$len1];
 	}
 	
 }
