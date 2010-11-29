@@ -44,11 +44,13 @@ class input__comment extends input__common
 			}
 			
 			if ($table == 'orders') {
-				$data = $db->sql('select email, spam from orders where id='.$url[2],1);
+				$data = $db->sql('select email, spam from orders where id='.$item_id,1);
 				if ($data['spam'] && $data['email'] != $post['mail']) {	
-					$this->set_events($url[2],$data['email']);
+					$this->set_events($item_id,$data['email']);
 					$text = 'В вашем заказе на сайте 4отаку.ру, <a href="http://4otaku.ru/order/'.$item_id.'/">http://4otaku.ru/order/'.$item_id.'/</a> '.$post['name'].' '.($post['name'] != $def['user']['name'] ? 'оставил' : 'оставлен').' новый комментарий. <a href="http://4otaku.ru/order/'.$item_id.'/comments/all#comment-'.$db->sql('select @@identity from comment',2).'">Читать</a>. '.$this->unsubscribe($item_id);
 					$db->insert('misc',array('mail_notify',0,$data['email'],'',$text,$item_id));				
+				} else {
+					$this->set_events($item_id);
 				}
 			}
 		}
