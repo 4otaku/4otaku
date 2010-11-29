@@ -19,7 +19,7 @@
 				chmod($temp, 0755);
 				move_uploaded_file($temp, $newfile);			
 				$a = microtime(true);
-				$imagick =  new Imagick($path = $newfile);
+				$imagick =  new $image_class($path = $newfile);
 				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
 				if ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep'])
 					if (scale($def['booru']['resizewidth'],ROOT_DIR.'images/booru/resized/'.$md5.'.jpg',95,false))
