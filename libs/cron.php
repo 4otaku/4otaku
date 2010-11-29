@@ -190,7 +190,7 @@ class cron
 		$data['comment'] = $db->sql('select id, concat(id,"#comment") from comment where area != "deleted"','id');
 
 		$all = array();
-		foreach ($data as $table) if (empty($table)) $data[$key] = array();
+		foreach ($data as $key => $table) if (empty($table)) $data[$key] = array();
 		unset($table);
 		$all = array_merge($all,$data['post'],$data['video'],$data['art'],$data['news'],$data['orders'],$data['comment']);
 		unset($data);
