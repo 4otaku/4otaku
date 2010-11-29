@@ -16,7 +16,10 @@ $temp = $_FILES['filedata']['tmp_name'];
 $check = getImageSize($temp);	
 
 if (!class_exists('Imagick')) {
-	include 'imagick_substitute.php';
+	include_once 'imagick_substitute.php';
+	$image_class = 'imagick_substitute';
+} else {
+	$image_class = 'Imagick';
 }
 
 function undo_safety($str) {
@@ -36,7 +39,7 @@ function convert_to($source,$target_encoding) {
 }
 
 function scale($new_size,$target,$compression = 80,$thumbnail = true) {
-	global $imagick; global $path;
+	global $imagick; global $path; global $image_class;
 	$old_x = $imagick->getImageWidth(); $old_y = $imagick->getImageHeight();
 	if (!is_array($new_size)) $new_size = array('0' => $new_size, '1' => $new_size);
 	
@@ -58,16 +61,21 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		$imagick->$func($x,$y);	
 		$bg = $imagick->clone();
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
-		$bg->compositeImage($imagick,Imagick::COMPOSITE_OVER,0,0);
-		$bg->setImageCompression(Imagick::COMPRESSION_JPEG);
+		$bg->compositeImage($imagick,$image_class::COMPOSITE_OVER,0,0);
+		$bg->setImageCompression($image_class::COMPRESSION_JPEG);
 		$bg->setImageFormat('jpeg');
 		$bg->writeImage($target);	
-	}
-	elseif (strtolower($format) == 'gif') {
+	} elseif (strtolower($format) == 'gif') {
 		if (detect_animation($path)) {
 			if (!$thumbnail) return false;
 			$coalesced = $imagick->coalesceImages();
-			$imagick = current($coalesced);
+			if (is_array($imagick)) {
+				$imagick = current($coalesced);			
+			} elseif ($image_class == 'Imagick') {
+				include_once 'imagick_substitute.php';
+				$image_class = 'imagick_substitute';
+				$imagick = new $image_class($path); 
+			}
 			$old_x = $imagick->getImageWidth(); $old_y = $imagick->getImageHeight();
 			$aspect = min($new_size[0]/$old_x,$new_size[1]/$old_y);
 			$x = round($old_x*$aspect); $y = round($old_y*$aspect);				
@@ -76,20 +84,19 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		$imagick->$func($x,$y);
 		$bg = $imagick->clone();
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
-		$bg->compositeImage($imagick,Imagick::COMPOSITE_OVER,0,0);
-		$bg->setImageCompression(Imagick::COMPRESSION_JPEG);
+		$bg->compositeImage($imagick,$image_class::COMPOSITE_OVER,0,0);
+		$bg->setImageCompression($image_class::COMPRESSION_JPEG);
 		$imagick->setImageFormat('jpeg');				
 		$bg->writeImage($target);		
-	}
-	else {	
+	} else {	
 		$imagick->setImageCompressionQuality($compression);
 		$imagick->$func($x,$y);		
-		$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+		$imagick->setImageCompression($image_class::COMPRESSION_JPEG);
 		$imagick->setImageFormat('jpeg');
 		$imagick->writeImage($target);	
 	}
 	$imagick->clear();
-	$imagick = new Imagick($path = $target); 
+	$imagick = new $image_class($path = $target); 
 	return true;
 }
 
