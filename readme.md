@@ -17,3 +17,4 @@
 * [Minify](http://code.google.com/p/minify/)
 * [phpMorphy](http://sourceforge.net/projects/phpmorphy/files/)
 * [Thickbox](http://jquery.com/demo/thickbox/)
+* [Flash mp3 Player](http://flash-mp3-player.net/)
