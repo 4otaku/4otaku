@@ -202,4 +202,29 @@ class cron
 		$sql = 'INSERT INTO search (`item_id`, `place`) VALUES ("' . str_replace('#','","',implode('"), ("', $index)) . '");';
 		$db->sql($sql, 0);
 	}
+	
+	function search_balance_weights() {
+		global $db;
+		
+		$types = array('post', 'video', 'art', 'news', 'orders', 'comment');
+		
+		foreach ($types as $type) {
+			$data[$type] = $db->sql('select id, `index` from search where place = "'.$type.'" order by md5(id) limit 100','id');
+			empty($data[$type]) ? $stop = true : null;
+		}
+		
+		if (empty($stop)) {
+			foreach ($types as $type) {
+				$weights = array();
+				foreach ($data[$type] as $index) {
+					preg_match_all('/=(\d+)\|/u', $index, $tmp_weights);
+					$weights[] = array_sum($tmp_weights[1]);
+				}
+				if (!empty($weights)) {
+					$weight = array_sum($weights) / count($weights);
+					$db->sql('insert into search_weights values("'.$type.'","'.$weight.'") on duplicate key update weight = '.$weight,0);
+				}
+			}
+		}
+	}	
 }

@@ -120,7 +120,8 @@ INSERT INTO `cron` (`id`, `time`, `function`, `period`) VALUES
 (6, 0, 'clean_settings', 3600),
 (7, 0, 'add_to_search', 3600),
 (8, 0, 'update_search', 60),
-(9, 0, 'check_dropout_search', 86400);
+(9, 0, 'check_dropout_search', 86400),
+(10, 0, 'search_balance_weights', 864000);
 
 CREATE TABLE IF NOT EXISTS `gouf_base` (
   `id` int(11) NOT NULL auto_increment,
@@ -297,6 +298,12 @@ CREATE TABLE IF NOT EXISTS `search_queries` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `query` (`query`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE `4otaku`.`search_weights` (
+`place` VARCHAR( 256 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
+`weight` FLOAT NOT NULL DEFAULT '1',
+PRIMARY KEY ( `place` )
+) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL auto_increment,
