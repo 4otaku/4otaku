@@ -116,7 +116,7 @@ class output__search extends engine
 	}
 	
 	private function relevance($items,$terms,$per_page,$current_page) {
-		global $def;
+		global $def; global $sets;
 		foreach ($items as $key => $item) {
 			$index[$key] = explode('|',trim($item['index'],'|'));
 			foreach ($index[$key] as $pos => &$one) {
@@ -125,6 +125,7 @@ class output__search extends engine
 				$one = substr($one,0,strpos($one,'='));
 			}
 		}
+
 		foreach ($index as $index_key => $item) {
 			unset($matches,$distance,$relevance); $range = 1;
 			foreach ($terms as $term) {
@@ -139,7 +140,7 @@ class output__search extends engine
 			if (is_array($distance)) foreach ($distance as $one) $range = $range * pow(2,$one);
 			
 			foreach ($matches as $matched) foreach ($matched as $match) $relevance = $relevance + $strength[$index_key][$match];
-			$relevance = (($relevance + $items[$index_key]['post_id']/100000) / $range) / sqrt($word_count);
+			$relevance = (($relevance + $items[$index_key]['post_id']/100000) / $range) / sqrt($word_count[$index_key]);
 			if ($items[$index_key]['area'] != $def['area'][0] || $items[$index_key]['place'] == 'comment') $relevance = $relevance / 2;
 			$items[$index_key]['relevance'] = $relevance;
 		}		
