@@ -75,7 +75,7 @@ class output__search extends engine
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
 					$db->update('search_queries',$area,$zero,$pretty_query,'query');
-					if ($url[2] != 'a') $return['variants'] = $this->get_variants($pretty_query, $area);
+					$return['variants'] = $this->get_variants($pretty_query, $area);
 					$return['display'] = array('search_info','search_error');
 				} else {
 					if (!$limit) {
