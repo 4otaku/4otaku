@@ -144,7 +144,7 @@ class output__search extends engine
 			if (is_array($distance)) foreach ($distance as $one) $range = $range * pow(2,$one);
 			
 			foreach ($matches as $matched) foreach ($matched as $match) $relevance = $relevance + $strength[$index_key][$match];
-			$relevance = (($relevance + $items[$index_key]['post_id']/100000) / $range) / sqrt($word_count[$index_key]);
+			$relevance = (($relevance + $items[$index_key]['post_id']/100000) / $range) / sqrt($word_count[$index_key] / max($this->weights[$items[$index_key]['place']],1));
 			if ($items[$index_key]['area'] != $def['area'][0] || $items[$index_key]['place'] == 'comment') $relevance = $relevance / 2;
 			$items[$index_key]['relevance'] = $relevance;
 		}		
@@ -163,7 +163,7 @@ class output__search extends engine
 				if (substr($one,0,strpos($one,'=')) == $term) 
 					$item['relevance'] = $item['relevance'] + intval(substr($one,strpos($one,'=')+1));
 			}
-			$item['relevance'] = ($item['relevance'] + $item['post_id']/100000) / sqrt($word_count);
+			$item['relevance'] = ($item['relevance'] + $item['post_id']/100000) / sqrt($word_count / max($this->weights[$items[$index_key]['place']],1));
 			if ($item['area'] != $def['area'][0] || $item['place'] == 'comment') $item['relevance'] = $item['relevance'] / 2;					
 		}
 		usort($items,array($this,'relevance_sort'));
