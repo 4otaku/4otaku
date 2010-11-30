@@ -208,7 +208,7 @@ class cron
 		
 		$types = array('post', 'video', 'art', 'news', 'orders', 'comment');
 		
-		$time = time()
+		$time = time();
 		foreach ($types as $type) {
 			$data[$type] = $db->sql('select id, `index` from search where place = "'.$type.'" order by md5(id+'.$time.') limit 100','id');
 			empty($data[$type]) ? $stop = true : null;
