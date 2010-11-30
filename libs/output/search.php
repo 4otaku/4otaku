@@ -15,6 +15,8 @@ class output__search extends engine
 		'footer' => array()
 	);
 	
+	private $weights = array();
+	
 	function get_data() {
 		global $url; global $db; global $error; global $search; global $sets; global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();
@@ -80,6 +82,8 @@ class output__search extends engine
 				} else {
 					if (!$limit) {
 						$return['navi']['last'] = ceil(count($data)/$pp);
+						
+						$this->weights = $db->sql('select place, weight from search_weights','place');
 						if (count($terms) > 1) $data = $this->relevance($data,$terms,$pp,max(1,$url[6]));
 						else $data = $this->relevance_simple($data,$terms,$pp,max(1,$url[6]));
 					} else {
