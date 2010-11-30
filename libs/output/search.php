@@ -120,7 +120,7 @@ class output__search extends engine
 	}
 	
 	private function relevance($items,$terms,$per_page,$current_page) {
-		global $def; global $sets;
+		global $def;
 		foreach ($items as $key => $item) {
 			$index[$key] = explode('|',trim($item['index'],'|'));
 			foreach ($index[$key] as $pos => &$one) {
@@ -163,7 +163,7 @@ class output__search extends engine
 				if (substr($one,0,strpos($one,'=')) == $term) 
 					$item['relevance'] = $item['relevance'] + intval(substr($one,strpos($one,'=')+1));
 			}
-			$item['relevance'] = ($item['relevance'] + $item['post_id']/100000) / sqrt($word_count / max($this->weights[$items[$index_key]['place']],1));
+			$item['relevance'] = ($item['relevance'] + $item['post_id']/100000) / sqrt($word_count / max($this->weights[$item['place']],1));
 			if ($item['area'] != $def['area'][0] || $item['place'] == 'comment') $item['relevance'] = $item['relevance'] / 2;					
 		}
 		usort($items,array($this,'relevance_sort'));
