@@ -1,7 +1,7 @@
 <table width="100%" class="error">
 	<tr>
 		<td>
-			<? if ($url[2] != 'a' && is_array($data['main']['variants']) && !empty($data['main']['variants'])) { ?>
+			<? if (is_array($data['main']['variants']) && !empty($data['main']['variants'])) { ?>
 				Возможно вы искали: 
 				<? foreach ($data['main']['variants'] as $key => $variant) { ?>
 					<? if (!empty($key)) { ?>
