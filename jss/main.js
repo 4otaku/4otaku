@@ -183,13 +183,13 @@ $(document).ready(function(){
 		
 	$(".bar_arrow").click(function(event){
 		event.preventDefault();
-		if ($(this).parent().find('img').attr('src') == window.config.images_dir+"/text2387.png") {
-			$(this).parent().find('img').attr('src',window.config.images_dir+"/text2391.png");
+		if ($(this).parent().find('img').attr('src') == window.config.image_dir+"/text2387.png") {
+			$(this).parent().find('img').attr('src',window.config.image_dir+"/text2391.png");
 			$('#'+$(this).attr('rel')+'_bar').slideDown();
 			$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=dir."+$(this).attr('rel')+"&val=1");
 		}
 		else {
-			$(this).parent().find('img').attr('src',window.config.images_dir+"/text2387.png");
+			$(this).parent().find('img').attr('src',window.config.image_dir+"/text2387.png");
 			$('#'+$(this).attr('rel')+'_bar').slideUp();
 			$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=dir."+$(this).attr('rel')+"&val=0");
 		}
@@ -424,7 +424,7 @@ $(document).ready(function(){
 		if (window.masstag && $(".MassTag9001:visible").val()) {
 		 	event.preventDefault();
 			remove_total("#easyTooltip");
-			$(this).html('<img src="'+window.config.images_dir+'/ajax-loader.gif" style="margin-top:60px;">');
+			$(this).html('<img src="'+window.config.image_dir+'/ajax-loader.gif" style="margin-top:60px;">');
 			$(this).load(window.config.site_dir+"/ajax.php?m=art&f=masstag&data="+urlencode($(".MassTag9001:visible").val())+"&sign="+$("#MassTag9001_sign").val()+"&id="+$(this).attr('rel'),
 				function() { $("a.with_help3").unbind('easyTooltip').easyTooltip({ timeOut: 1000 });}
 			);
