@@ -62,7 +62,7 @@ class cron
 			break;
 
 		}
-		if ($return == 'error' && $one['alias'] == 'mediafire.com') {
+		if ($return == 'error' && $one['alias'] == 'megaupload.com') {
 			$fh = fopen("test.txt", 'w');
 			fwrite($fh, $link."\n\r\n\r".$input);
 			fclose($fh);
