@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `gouf_base` (
 INSERT INTO `gouf_base` (`id`, `alias`, `text`) VALUES
 (4, 'mediafire.com', 'Preparing download...'),
 (2, 'narod.ru', '<input type="hidden" name="action" value="sendcapcha" />'),
-(3, 'megaupload.com', 'but_dnld_file.gif|<center>The file you are trying to access is temporarily unavailable.</center>'),
+(3, 'megaupload.com', 'but_dnld_file.gif|<center>The file you are trying to access is temporarily unavailable.</center>|<center>Файл, который Вы пытаетесь открыть, временно недоступен|id="downloadlink"'),
 (1, 'mediafire.com/?sharekey=', ' '),
 (7, '4shared.com', '<font>Скачать</font>');
 
