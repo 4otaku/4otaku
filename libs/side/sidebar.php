@@ -59,13 +59,13 @@ class side__sidebar extends engine
 		global $db; global $transform_text; 		
 		if (!$transform_text) $transform_text = new transform__text();
 		
-		$update = $db->sql('select * from misc where type="latest_update" limit 1',1);
-		$return['text'] = undo_quotes(strip_tags($update['data4'],'<br>'));
+		$return = $db->sql('select * from updates order by sortdate desc limit 1',1);
+		$return['text'] = undo_quotes(strip_tags($return['text'],'<br>'));
 		if (mb_strlen($return['text']) > 100) $points = '...'; else $points = '';
 		$return['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),redo_quotes(mb_substr($return['text'],0,100))).$points;
 		$return['text'] = $transform_text->cut_long_words($return['text']);
-		$return['author'] = mb_substr($update['data3'],0,20);
-		$return['post_id'] = $update['data1'];$return['post_title'] = $update['data2'];
+		$return['author'] = mb_substr($return['username'],0,20);
+		$return['post_title'] = $db->sql('select title from post where id = '.$return['post_id'],2);
 		return $return;
 	}
 
