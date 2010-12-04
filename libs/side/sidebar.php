@@ -39,7 +39,7 @@ class side__sidebar extends engine
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
-				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
+		//		$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
 				$comment['text'] = $transform_text->cut_long_words($comment['text']);
@@ -51,11 +51,14 @@ class side__sidebar extends engine
 	}	
 	
 	function update() {
-		global $db;
+		global $db; global $transform_text; 		
+		if (!$transform_text) $transform_text = new transform__text();
+		
 		$update = $db->sql('select * from misc where type="latest_update" limit 1',1);
 		$return['text'] = undo_quotes(strip_tags($update['data4'],'<br>'));
 		if (mb_strlen($return['text']) > 100) $points = '...'; else $points = '';
 		$return['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),redo_quotes(mb_substr($return['text'],0,100))).$points;
+		$return['text'] = $transform_text->cut_long_words($return['text']);
 		$return['author'] = mb_substr($update['data3'],0,20);
 		$return['post_id'] = $update['data1'];$return['post_title'] = $update['data2'];
 		return $return;
