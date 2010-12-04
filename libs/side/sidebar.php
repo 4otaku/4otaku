@@ -39,7 +39,7 @@ class side__sidebar extends engine
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
-		//		$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
+				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
 				$comment['text'] = $transform_text->cut_long_words($comment['text']);
