@@ -1,15 +1,9 @@
-<script type="text/javascript">
-	$("input.disabled").click(function(event){  
-		event.preventDefault();
-	});
-
-	$("input.hide_updates").click(function(){  	
-		$("#updates_field").hide();
-		$("#updates_field").html('&nbsp;');
-	});	
-</script>
+<a href="/admin/updates">&lt;= Назад</a>
+<br /><br />
+Выберите обновление для редактирования:
+<br /><br />
 <?
-	foreach ($data as $update) {
+	foreach ($data['main']['updates'] as $id => $update) {
 		?>
 			<div class="shell">
 				<div class="right">
@@ -48,7 +42,7 @@
 																	<?
 															}	else $nonfirst2 = true;
 													?>
-													<a href="<?=($data['feed']['domain'] ? $linkurl : '/go?'.urlencode($linkurl));?>" target="_blank">
+													<a href="<?=$linkurl;?>" target="_blank">
 														<?=$link['alias'][$key2];?>
 													</a>
 												<?
@@ -59,6 +53,11 @@
 							}	unset($nonfirst);
 						?>
 					</p>
+					<p>
+						<a href="/admin/updates/<?=$update['post_id'];?>/<?=$id;?>/">
+							Редактировать
+						</a>
+					</p>					
 				</div>
 			</div>		
 		<?
