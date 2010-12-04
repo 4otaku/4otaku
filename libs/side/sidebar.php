@@ -12,7 +12,9 @@ class side__sidebar extends engine
 	}		
 	
 	function comments() {
-		global $db; global $sets; global $url;
+		global $db; global $sets; global $url; global $transform_text; 
+		
+		if (!$transform_text) $transform_text = new transform__text();
 		if ($url[1] == "order") $area = "orders";
 		else if ($url[1] == "search")
 		{
@@ -40,7 +42,7 @@ class side__sidebar extends engine
 				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
-				if (mb_strlen($comment['text']) > 35) $comment['text'] = wordwrap($comment['text'], 30, " ", true);
+				$comment['text'] = $transform_text->cut_long_words($comment['text']);
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
 			}			
@@ -125,32 +127,4 @@ class side__sidebar extends engine
 		global $db;
 		return $db->sql('select alias, name from category where locate("|art|",area) order by id','alias');
 	}	
-	
-/*	function test() {
-		global $db;
-		$a = microtime(true);
-		$main_tags = $db->sql('select alias, name, post_main from tag where alias != "18" order by post_main desc limit 10','post_main');
-		natsort($main_tags);		$main_tags = array_reverse($main_tags,true);
-		$tagsme  = $db->sql('select alias, name from tag','alias');
-		$posts  = $db->sql('select id,tag from post','id');
-		foreach ($main_tags as &$main_tag)
-			foreach ($posts as $post) if (stristr($post,'|'.$main_tag['alias'].'|')) {
-				$tags = explode('|',trim($post,'|'));
-				foreach ($tags as $tag) if ($tag != $main_tag['alias'] && $tag != "18") $main_tag['lesser'][$tag]++;
-			}
-		foreach ($main_tags as &$main_tag) {arsort($main_tag['lesser']); $main_tag['lesser'] = array_slice($main_tag['lesser'],10); };
-		
-		$return['alias'] = $tagsme; $return['tags'] = $main_tags; 
-		return $return;
-	}	
-		
-	function test2() {
-		global $db;
-
-		$return['tags'] = $db->sql('select alias, name from tag where alias != "18" order by post_main desc limit 30');
-		$return['cats'] = $db->sql('select alias, name from category where (locate("|post|",area) and alias != "none")');
-		$return['lang'] = $db->sql('select alias, name from language where (alias != "none")');
-
-		return $return;
-	}*/		
 }
