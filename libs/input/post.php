@@ -88,6 +88,7 @@ class input__post extends input__common
 	
 	function update() {
 		global $post; global $db; global $check; global $def; global $transform_text; global $transform_link;
+		global $cookie;
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$transform_link) $transform_link = new transform__link();
 		if (!$cookie) $cookie = new dinamic__cookie();
