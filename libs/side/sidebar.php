@@ -12,19 +12,24 @@ class side__sidebar extends engine
 	}		
 	
 	function comments() {
-		global $db; global $sets; global $url; global $transform_text; 
-		
+		global $db; global $sets; global $url; global $transform_text; 		
 		if (!$transform_text) $transform_text = new transform__text();
-		if ($url[1] == "order") $area = "orders";
-		else if ($url[1] == "search")
-		{
+		
+		if ($url[1] == "order") {
+			$area = "orders";
+		} elseif ($url[1] == "search") {
 			if ($url[2] == "a") $area = 'art'; 
 			else if ($url[2] == "p") $area = 'post'; 
 			else if ($url[2] == "v") $area = 'video'; 
+		} else {
+			$area = $url[1];
 		}
-		else $area = $url[1];
-		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate')))
+		
+		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate'))) {
 			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
+		} else {
+			$link = $area == 'orders' ? 'order' : $area;
+		}
 		if (is_array($return)) {
 			$used = array();
 			foreach ($return as $key => $one) {
@@ -46,7 +51,7 @@ class side__sidebar extends engine
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
 			}			
-			return $return;
+			return array('data' => $return, 'link' => $link);
 		}
 	}	
 	

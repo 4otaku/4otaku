@@ -37,7 +37,7 @@
 							?>
 								<br /><br />
 								<a href="#" rel="<?=$comment['id'];?>" class="disabled reply">Ответить</a>
-								<div class="reply-<?=$comment['id'];?>"></div>
+								<div id="reply-<?=$comment['id'];?>"></div>
 							<?
 						}
 					?>

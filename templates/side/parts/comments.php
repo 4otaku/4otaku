@@ -1,6 +1,6 @@
 <div class="cats">	
 	<h2>
-		<a href="/comments/">
+		<a href="/comments/<?=(empty($data['sidebar']['comments']['link']) ? '' : $data['sidebar']['comments']['link'].'/');?>">
 			Комментарии
 		</a>
 		 <a href="#" class="bar_arrow" rel="comment">
@@ -20,7 +20,7 @@
 	</h2>
 	<div id="comment_bar"<?=($sets['dir']['comment'] ? '' : ' style="display:none;"');?>>
 		<?
-			if (is_array($data['sidebar']['comments'])) foreach ($data['sidebar']['comments'] as $comment) {
+			if (is_array($data['sidebar']['comments']['data'])) foreach ($data['sidebar']['comments']['data'] as $comment) {
 				if ($nonfirst) {
 					?>
 						<br />
