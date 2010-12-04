@@ -79,7 +79,7 @@ if (!(_CRON_)) {
 	} elseif ($_SERVER['SERVER_NAME'] == 'localhost') {
 		$cookie_domain = NULL;
 	} else {
-		$cookie_domain = '.'.$_SERVER['SERVER_NAME'];
+		$cookie_domain = $_SERVER['SERVER_NAME'];
 	}
 	$cookie_domain .= SITE_DIR;
 
