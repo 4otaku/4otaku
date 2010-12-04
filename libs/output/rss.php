@@ -118,6 +118,7 @@ class output__rss extends engine
 		global $db;	
 		$item['title'] = 'Обновление записи '.$db->sql('select title from post where id='.$item['post_id'],2);
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/show_updates/';		
+		$item['link'] = unserialize($item['link']);
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);
 		$item['comments_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/comments/all/';	
