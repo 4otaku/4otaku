@@ -26,14 +26,16 @@ jQuery.cookie = function (key, value, options) {
 	/* Some Cookie Magic */	
 	
 	if (typeof localStorage == 'object') {
-		var cookie = $.cookie("settings");
-		var local = localStorage.getItem('4otaku_settings');
+		try {
+			var cookie = $.cookie("settings");
+			var local = localStorage.getItem('4otaku_settings');
 
-		if (cookie != null && local == null) {
-			localStorage.setItem('4otaku_settings', cookie);
-		} else if (cookie != local) {
-			$.cookie("settings", local, { expires: 60 , path : window.config.site_dir + '/' });
-		}
+			if (cookie != null && local == null) {
+				localStorage.setItem('4otaku_settings', cookie);
+			} else if (cookie != local) {
+				$.cookie("settings", local, { expires: 60 , path : window.config.site_dir + '/' });
+			}
+		} catch (err) {}
 	}
 
 (function($) {
