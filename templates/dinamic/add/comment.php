@@ -1,7 +1,7 @@
 <script type="text/javascript" src="/jss/m/?b=jss&f=add/text.js"></script>
 <h2 class="commentsh2">
 	Написать комментарий:
-  </h2>
+</h2>
   <form id="comment-form" method="post" enctype="multipart/form-data">
 	  <table>
 		  <tr>
