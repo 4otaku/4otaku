@@ -85,6 +85,27 @@ class transform__text
 		return $date;
 	}
 	
+	function cut_long_words($string, $length = 30, $break = '<wbr />') {
+		$parts = preg_split('/\s/',$string);
+		
+		foreach ($parts as $key => $part) {
+			if (
+				mb_strlen($part,'UTF-8') > $length && 
+				preg_match_all('/(&[a-z]{1,8};|.){'.($length+1).'}/iu', $part, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)
+			) {
+				$parts[$key] = ''; $last_position = 0;
+				foreach ($matches as $match) {
+					$parts[$key] .= substr($part, $last_position, $match[1][1] - $last_position);
+					$parts[$key] .= $break;
+					$last_position = $match[1][1];
+				}
+				$parts[$key] .= substr($part, $last_position, strlen($part) - $last_position);
+			}
+		}
+		
+		return implode(' ',$parts);
+	}
+	
 	function bb2html($string) {
         while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is', $string, $matches)) {
 			foreach ($matches[0] as $key => $match) {
