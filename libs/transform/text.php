@@ -90,7 +90,7 @@ class transform__text
 		
 		foreach ($parts as $key => $part) {
 			if (
-				strlen($part,'UTF-8') > $length && 
+				strlen($part) > $length && 
 				preg_match_all('/(&[a-z]{1,8};|.){'.($length+1).'}/iu', $part, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)
 			) {
 				$parts[$key] = ''; $last_position = 0;
