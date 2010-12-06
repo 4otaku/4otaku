@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `username` varchar(256) collate utf8_unicode_ci NOT NULL,
   `email` varchar(256) collate utf8_unicode_ci NOT NULL,
   `ip` varchar(16) collate utf8_unicode_ci NOT NULL,
+  `cookie` varchar(32) collate utf8_unicode_ci NOT NULL,
   `text` text collate utf8_unicode_ci NOT NULL,
   `pretty_text` text collate utf8_unicode_ci NOT NULL,
   `pretty_date` varchar(256) collate utf8_unicode_ci NOT NULL,
