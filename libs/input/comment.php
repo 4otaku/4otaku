@@ -32,7 +32,7 @@ class input__comment extends input__common
 				$rootparent = $post['parent'];
 
 			$db->insert('comment',array($rootparent,$post['parent'],$table,$item_id,$post['name'],$post['mail'],
-						$_SERVER['REMOTE_ADDR'],$comment,$post['text'],$date = $transform_text->rudate(true),
+						$_SERVER['REMOTE_ADDR'],$_COOKIE['settings'],$comment,$post['text'],$date = $transform_text->rudate(true),
 						$time = ceil(microtime(true)*1000),$area));
 
 			if ($table == 'news') {

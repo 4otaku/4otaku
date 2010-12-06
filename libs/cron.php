@@ -64,7 +64,7 @@ class cron
 		}
 		if ($return == 'error' && $one['alias'] == 'megaupload.com') {
 			$fh = fopen("test.txt", 'w');
-			fwrite($fh, $link."\n\r\n\r".$input);
+			fwrite($fh, $link."\n\n".implode("/n", $tests)."\n\n".$input);
 			fclose($fh);
 		}
 		return $return;
