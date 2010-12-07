@@ -12,7 +12,7 @@ class side__sidebar extends engine
 	}		
 	
 	function comments() {
-		global $db; global $sets; global $url; global $transform_text; 		
+		global $sets; global $url; global $transform_text; 		
 		if (!$transform_text) $transform_text = new transform__text();
 		
 		if ($url[1] == "order") {
@@ -25,8 +25,8 @@ class side__sidebar extends engine
 			$area = $url[1];
 		}
 		
-		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate'))) {
-			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
+		if (!($return = obj::db()->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate'))) {
+			$return = obj::db()->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
 		} else {
 			$link = $area == 'orders' ? 'order' : $area;
 		}
@@ -39,7 +39,7 @@ class side__sidebar extends engine
 			krsort($return);
 			$return = array_slice($return,0,$sets['pp']['latest_comments'],true);
 			foreach ($return as &$comment) {
-				if ($comment['place'] != 'art') $comment['title'] = $db->sql('select title from '.$comment['place'].' where ('.($comment['place']== 'news' ? 'url' : 'id').'="'.$comment['post_id'].'") limit 1',2);
+				if ($comment['place'] != 'art') $comment['title'] = obj::db()->sql('select title from '.$comment['place'].' where ('.($comment['place']== 'news' ? 'url' : 'id').'="'.$comment['post_id'].'") limit 1',2);
 				else {
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
