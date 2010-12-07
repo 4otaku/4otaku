@@ -41,15 +41,17 @@ function myoutput($buffer) {
     return str_replace(array("\t","  ","\n","\r"),array(""," ","",""),$buffer);
 }
 
-function merge_settings(&$array1,&$array2) {
-	$merged = $array1;
-	if(is_array($array2))
-	foreach ($array2 as $key => &$value)
-		if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
-			$merged[$key] = merge_settings($merged[$key], $value);
-		else
-			$merged[$key] = $value;
-	return $merged;
+if (!function_exists('array_replace_recursive')) {
+	function array_replace_recursive(&$array1,&$array2) {
+		$merged = $array1;
+		if(is_array($array2))
+		foreach ($array2 as $key => &$value)
+			if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
+				$merged[$key] = array_replace_recursive($merged[$key], $value);
+			else
+				$merged[$key] = $value;
+		return $merged;
+	}
 }
 
 mb_internal_encoding('UTF-8');
@@ -63,10 +65,11 @@ if (
 }
 
 include_once ROOT_DIR.SL.'engine'.SL.'config.php';
+def::import($def);
 
-define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim($def['site']['dir'],'/')));
+define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::get('site','dir'),'/')));
 
-if(!empty($def['site']['domain']) && $def['site']['domain'] != $_SERVER["SERVER_NAME"]) {
+if(def::get('site','domain') && def::get('site','domain') != $_SERVER["SERVER_NAME"]) {
 	header("HTTP/1.x 301 Moved Permanently");
 	header("Location: http://".$def['site']['domain'].$_SERVER["REQUEST_URI"]);
 	exit();
@@ -81,8 +84,8 @@ if (!(_CRON_)) {
 	// Логично, что у крона сессии нет.
 
 	// Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
-	if (!empty($def['site']['domain'])) {
-		$cookie_domain = $def['site']['domain'];
+	if (def::get('site','domain')) {
+		$cookie_domain = def::get('site','domain');
 	} elseif ($_SERVER['SERVER_NAME'] == 'localhost') {
 		$cookie_domain = NULL;
 	} else {
@@ -110,7 +113,9 @@ if (!(_CRON_)) {
 		// Проверяем валидность настроек и исправляем, если что-то не так
 		if ((base64_decode($sess['data']) !== false) && is_array(unserialize(base64_decode($sess['data'])))) {
 			// Все ок, применяем сохраненные настройки
-			$sets = merge_settings($sets, unserialize(base64_decode($sess['data'])));
+			$sets = array_replace_recursive($sets, unserialize(base64_decode($sess['data'])));
+			sets::import($sets);	
+			
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
 			$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
