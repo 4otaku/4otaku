@@ -53,8 +53,8 @@ class output__art extends engine
 			elseif (substr($url[2],0,3) == 'cg_' && is_numeric(substr($url[2],3))) {
 				if (!$sets['show']['nsfw']) $return['display'] = array('booru_w8m_nsfw','comments');
 				else $return['display'] = array('booru_w8m_art','comments');
-				$return['art'] = $db->base_sql('sub','select * from w8m_art where id='.substr($url[2],3),1);
-				$return['gallery'] = $db->base_sql('sub','select * from w8m_galleries where id='.$return['art']['gallery_id'],1);
+				$return['art'] = obj::db('sub')->sql('select * from w8m_art where id='.substr($url[2],3),1);
+				$return['gallery'] = obj::db('sub')->sql('select * from w8m_galleries where id='.$return['art']['gallery_id'],1);
 				$return['comments'] = $this->get_comments($url[1],$url[2],(is_numeric($url[5]) ? $url[5] : ($url[4] == 'all' ? false : 1)));
 				$return['navi']['curr'] = ($url[4] == 'all' ? 'all' : max(1,$url[5]));
 				$return['navi']['all'] = true;
@@ -140,7 +140,7 @@ class output__art extends engine
 						$return['navi']['curr'] = max(1,$url[5]);
 						$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 						$return['navi']['start'] = max($return['navi']['curr']-5,2);
-						$return['navi']['last'] = ceil($db->base_sql('sub','select count(id) from w8m_art where gallery_id='.$url[3],2)/$sets['pp']['art']);
+						$return['navi']['last'] = ceil(obj::db('sub')->sql('select count(id) from w8m_art where gallery_id='.$url[3],2)/$sets['pp']['art']);
 						$return['pool'] = obj::db('sub')->sql('select * from w8m_galleries where id='.$url[3],1);
 						$return['thumbs'] = obj::db('sub')->sql('select * from w8m_art where gallery_id='.$url[3].' order by folder, filename desc limit '.($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],'id');
 					}
