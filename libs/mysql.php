@@ -12,7 +12,7 @@ class mysql
 	}
 
 	public function set_connection($base) {
-		if ($this->mode != $base) {
+		if ($this->mode != $base && def::db($base.'_db')) {
 			mysql_select_db(def::db($base.'_db'), $this->connection);
 			mysql_query("SET NAMES 'UTF8'");
 			$this->mode = $base;
