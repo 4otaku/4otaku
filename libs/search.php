@@ -67,7 +67,7 @@ class search
 		global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$lower) $function = 'strtoupper_ru'; else $function = 'strtolower_ru';
-		$text = trim(preg_replace(array('/[^\p{L}\d]/u','/ +/'),' ',$transform_text->$function(strip_tags($text))));
+		$text = trim(preg_replace(array('/([^\p{L}\d]|　)/u','/ +/'),' ',$transform_text->$function(strip_tags($text))));
 		return $text;
 	}	
 	
