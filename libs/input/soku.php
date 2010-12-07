@@ -1,6 +1,5 @@
 <?
 
-include_once('engine'.SL.'engine.php');
 class input__soku
 {
 	function registration() { 

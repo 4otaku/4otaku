@@ -20,13 +20,20 @@ function __autoload($class_name) {
 	$class = ROOT_DIR.SL.'libs'.SL.str_replace('__',SL,$class_name).'.php';
 	if (file_exists($class)) {
 		include_once $class;
-	} else {
-		if (_INDEX_) {
-			include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
-			ob_end_flush();
-		}
-		die;
+		return true;
 	}
+	
+	$class = ROOT_DIR.SL.'engine'.SL.str_replace('__',SL,$class_name).'.php';
+	if (file_exists($class)) {
+		include_once $class;
+		return true;
+	}	
+	
+	if (_INDEX_) {
+		include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
+		ob_end_flush();
+	}
+	exit();
 }
 
 function myoutput($buffer) {

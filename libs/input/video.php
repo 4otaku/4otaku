@@ -1,6 +1,5 @@
 <?
 
-include_once 'libs'.SL.'input'.SL.'common.php';
 class input__video extends input__common
 {
 	function add() { 
