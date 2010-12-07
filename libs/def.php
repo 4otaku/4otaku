@@ -43,7 +43,23 @@ class def
 		return null;
 	}
 	
+	public static function __callStatic($name, $arguments) {
+		return self::get($name,$arguments[0]);
+	}	
+	
 	static function db($key) {
 		return self::get('db',$key);
+	}
+	
+	static function site($key) {
+		return self::get('site',$key);
+	}	
+	
+	static function video($key) {
+		return self::get('video',$key);
+	}		
+	
+	static function user($key) {
+		return self::get('user',$key);
 	}	
 }

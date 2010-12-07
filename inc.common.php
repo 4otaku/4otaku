@@ -67,9 +67,9 @@ if (
 include_once ROOT_DIR.SL.'engine'.SL.'config.php';
 def::import($def);
 
-define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::get('site','dir'),'/')));
+define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::get('site','domain') && def::get('site','domain') != $_SERVER["SERVER_NAME"]) {
+if(def::site('domain') && def::site('domain') != $_SERVER["SERVER_NAME"]) {
 	header("HTTP/1.x 301 Moved Permanently");
 	header("Location: http://".$def['site']['domain'].$_SERVER["REQUEST_URI"]);
 	exit();
@@ -84,8 +84,8 @@ if (!(_CRON_)) {
 	// Логично, что у крона сессии нет.
 
 	// Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
-	if (def::get('site','domain')) {
-		$cookie_domain = def::get('site','domain');
+	if (def::site('domain')) {
+		$cookie_domain = def::site('domain');
 	} elseif ($_SERVER['SERVER_NAME'] == 'localhost') {
 		$cookie_domain = NULL;
 	} else {
