@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__admin extends engine
 {
 	public $allowed_url = array(

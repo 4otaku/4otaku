@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__search extends engine
 {
 	private $areas = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comment', 'o' => 'orders');

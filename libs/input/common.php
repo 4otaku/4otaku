@@ -1,6 +1,5 @@
 <?
 
-include_once('engine'.SL.'engine.php');
 class input__common extends engine
 {
 	function edit_title() {
