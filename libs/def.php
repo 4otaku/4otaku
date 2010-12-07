@@ -4,10 +4,8 @@ class def
 {
 	static $data = array();
 	
-	static function import($sets) {
-		self::$data = array();
-		
-		foreach ($sets as $key => $value) {
+	static function import($def) {
+		foreach ($def as $key => $value) {
 			self::$data[$key] = $value;
 		}
 	}
@@ -24,7 +22,7 @@ class def
 		if ($key === false) {
 			return self::array_get($name);
 		}
-		
+
 		if (isset(self::$data[$name][$key])) {
 			return self::$data[$name][$key];
 		} 
@@ -44,4 +42,8 @@ class def
 
 		return null;
 	}
+	
+	static function db($key) {
+		return self::get('db',$key);
+	}	
 }

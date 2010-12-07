@@ -92,7 +92,7 @@ class input__art extends input__common
 			$pools = $db->sql('select pool from art where id='.$post['id'],2);
 			$post['group'] = array_filter(array_unique($post['group']));
 			foreach ($post['group'] as $key => $group)
-				if ($db->dsql('select id from art_pool where (id='.$group.' and (locate("|'.$post['id'].'|",art) or (password != "" and password != "'.md5($post['password']).'")))',2))
+				if ($db->sql('select id from art_pool where (id='.$group.' and (locate("|'.$post['id'].'|",art) or (password != "" and password != "'.md5($post['password']).'")))',2))
 					unset($post['group'][$key]);
 			if (count($post['group'])) {
 				foreach ($post['group'] as $group) $pools .= $group.'|';

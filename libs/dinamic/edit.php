@@ -65,7 +65,7 @@ class dinamic__edit extends engine
 		global $db; global $get; global $post; global $check;
 		if ($check->num($get['id'])) {
 			$post['art'] = '|'.implode('|',array_reverse($post['art'])).'|';
-			$db->dsql('update art_pool set art = "'.$post['art'].'" where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
+			$db->sql('update art_pool set art = "'.$post['art'].'" where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
 		}
 	}	
 
