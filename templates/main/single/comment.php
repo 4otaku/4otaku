@@ -12,10 +12,16 @@
 		<tr>
 			<td align="left" width="1">
 			<? 	
-				if(($item['place'] == 'art') && ($item['preview_picture'])) {
-					?>
-					<img src="/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
-					<?
+				if($item['place'] == 'art') {
+					if ($item['preview_picture']) {
+						?>
+						<img src="http://4otaku.ru/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
+						<?
+					} else {
+						?>
+						<img src="http://w8m.4otaku.ru/image/<?=$item['preview_cg']['gallery'];?>/thumb/<?=$item['preview_cg']['md5'];?>.jpg">
+						<?						
+					}
 				}
 				else
 				{
