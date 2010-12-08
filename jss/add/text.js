@@ -112,7 +112,8 @@ $(document).ready(function(){
 		event.preventDefault();
 		$('#comments').append($('#comments-field'));
 		$("#comment-parent").val('0');
-		$("#comment-main").hide();	
+		$("#comment-main").hide();
+		$(".commentsh2").show();
 	});
 
 });

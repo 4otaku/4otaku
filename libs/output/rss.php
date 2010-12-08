@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__rss extends engine
 {
 
@@ -15,26 +15,29 @@ class output__rss extends engine
 	public $side_modules = array(	);
 	
 	function get_data() {
-		global $url; global $db; global $data; global $error; global $check; global $sets;
+		global $url; global $data; global $error; global $check; global $sets;
 		if (substr($url[2],0,1) == '=') {
 			$alias = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'c' => 'comment', 'o' => 'orders', 'u' => 'updates', 'n' => 'news');
 			$types = array_filter(array_unique(str_split(substr($url[2],1))));
 			$data = array();
-			foreach ($types as $type) 
-				if ($type != 'm')
-					if (is_array($new_data = $db->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="'.($type != 'o' ? 'main' : 'workshop').'" order by sortdate desc limit 0, 30','sortdate')))
+			foreach ($types as $type) {
+				if ($type != 'm') {
+					if (is_array($new_data = obj::db()->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="'.($type != 'o' ? 'main' : 'workshop').'" order by sortdate desc limit 0, 30','sortdate'))) {
 						$data = $data + $new_data;
-			if($sets['user']['rights'] && array_search('m', $types))				/* Для очередей премодерации */	
+					}
+				}
+			}
+			if($sets['user']['rights'] && array_search('m', $types))				/* Для очередей премодерации */	/* О_о, ты используешь рсс-ридер где можно выставить куки?*/
 				foreach ($types as $type) 
 					if ($type != 'o' && $type != 'm')
-						if (is_array($new_data = $db->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="workshop" order by sortdate desc limit 0, 30','sortdate')))
+						if (is_array($new_data = obj::db()->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="workshop" order by sortdate desc limit 0, 30','sortdate')))
 							$data = $data + $new_data;	
 			krsort($data);
 			$return['items'] = array_slice($data,0,50,true);
 		}
 		elseif (is_array($condition = explode('|',_base64_decode($url[2])))) {
 			if ($check->lat(implode('',$condition)))
-				$return['items'] = $db->sql('select *,"'.$condition[0].'" as type from '.$condition[0].' where area="'.($condition[0] != 'orders' ? 'main' : 'workshop').'" and locate("|'.$condition[2].'|",'.$condition[1].') order by sortdate desc limit 0, 20','sortdate');
+				$return['items'] = obj::db()->sql('select *,"'.$condition[0].'" as type from '.$condition[0].' where area="'.($condition[0] != 'orders' ? 'main' : 'workshop').'" and locate("|'.$condition[2].'|",'.$condition[1].') order by sortdate desc limit 0, 20','sortdate');
 			else {
 				$error = true;
 				return '';
@@ -47,7 +50,6 @@ class output__rss extends engine
 		foreach ($return['items'] as &$item) {
 			$function = 'convert_'.$item['type'];
 			$item = $this->$function($item);
-			/*$item['text'] = $this->replace_spoilers($item['text']);*/
 			$item['rss_title'] = html_entity_decode($item['title']);
 			$item['guid'] = $alias[$type].'-'.$item['id'];
 		}
@@ -98,14 +100,23 @@ class output__rss extends engine
 	}
 	
 	function convert_comment($item) {
-		global $db;
 		if ($item['place'] == 'art') {
-		$item['title'] = 'Комментарий к изображению №'.$db->sql('select id from '.$item['place'].' where id='.$item['post_id'],2);
-		$item['preview_picture'] = $db->sql('select thumb from '.$item['place'].' where id='.$item['post_id'],2);
+			if (substr($item['post_id'],0,3) != 'cg_') {
+				$item['title'] = 'Комментарий к изображению №'.$item['post_id'];
+				$item['preview_picture'] = obj::db()->sql('select thumb from '.$item['place'].' where id='.$item['post_id'],2);
+			} else {
+				$item['title'] = 'Комментарий к CG №'.substr($item['post_id'],3);
+				$item['preview_cg'] = obj::db('sub')->sql('select md5, gallery_id from w8m_art where id="'.substr($item['post_id'],3).'"',1);
+				$item['preview_cg']['gallery'] = obj::db('sub')->sql('select md5 from w8m_galleries where id="'.$item['preview_cg']['gallery_id'].'"',2);
+			}
+		} elseif ($item['place'] == 'video') {
+			$item['title'] = 'Комментарий к видео "'.obj::db()->sql('select title from '.$item['place'].' where id='.$item['post_id'],2).'"';
+		} elseif ($item['place'] != 'news') {
+			$item['title'] = 'Комментарий к записи "'.obj::db()->sql('select title from '.$item['place'].' where id='.$item['post_id'],2).'"';
+		} else {
+			$item['title'] = 'Комментарий к записи "'.obj::db()->sql('select title from '.$item['place'].' where url="'.$item['post_id'].'"',2).'"';
 		}
-		else if ($item['place'] == 'video') $item['title'] = 'Комментарий к видео "'.$db->sql('select title from '.$item['place'].' where id='.$item['post_id'],2).'"';
-		else if ($item['place'] != 'news') $item['title'] = 'Комментарий к записи "'.$db->sql('select title from '.$item['place'].' where id='.$item['post_id'],2).'"';
-		else $item['title'] = 'Комментарий к записи "'.$db->sql('select title from '.$item['place'].' where url="'.$item['post_id'].'"',2).'"';
+		
 		if ($item['place'] == 'orders') $item['place'] = 'order';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/'.$item['place'].'/'.$item['post_id'].'/';		
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
@@ -115,9 +126,9 @@ class output__rss extends engine
 	}
 	
 	function convert_updates($item) {
-		global $db;	
-		$item['title'] = 'Обновление записи '.$db->sql('select title from post where id='.$item['post_id'],2);
+		$item['title'] = 'Обновление записи '.obj::db()->sql('select title from post where id='.$item['post_id'],2);
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/show_updates/';		
+		$item['link'] = unserialize($item['link']);
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);
 		$item['comments_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/comments/all/';	

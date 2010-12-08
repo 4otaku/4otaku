@@ -8,7 +8,7 @@ cleanGlobals($_POST);
 $get = parseIncomingRecursively($_GET, array());
 $post = parseIncomingRecursively($_POST, array());
 
-if ($post['remember']) {
+if (isset($post['remember'])) {
 	$md5 = md5(serialize($post));
 	if ($db->sql('select id from input_filter where md5 = "'.$md5.'"',2)) unset($post);
 	else $db->insert('input_filter',array($md5,time()));

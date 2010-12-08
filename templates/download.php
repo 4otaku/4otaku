@@ -4,6 +4,7 @@
 
 	$size = filesize($file);
 	$fileinfo = pathinfo($file);
+	$data['main']['name'] ? $fileinfo['basename'] = $data['main']['name'] : null;
    
 	$filename = (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) ?
 		preg_replace('/\./', '%2e', $fileinfo['basename'], substr_count($fileinfo['basename'], '.') - 1) :

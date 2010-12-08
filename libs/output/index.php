@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__index extends engine
 {
 	public $allowed_url = array(
@@ -13,7 +13,7 @@ class output__index extends engine
 	function get_data() {
 		global $db; global $sets; global $def;
 		
-		foreach ($def['type'] as $type) 
+		foreach ($def['type'] as $type) {
 			$return['count'][$type] = array(
 				'total' => $db->sql('select count(id) from '.$type.' where area="main"',2),
 				'unseen' => ($sets['visit'][$type] ? $db->sql('select count(id) from '.$type.' where (area="main" and sortdate > '.($sets['visit'][$type]*1000).')',2) : ''),
@@ -23,6 +23,7 @@ class output__index extends engine
 					($sets['show']['guro'] ? '' : ' and !(locate("|nsfw|",category) and locate("|guro|",tag))')
 					: ' and !locate("|nsfw|",category)').') order by sortdate desc limit '.($type == 'art' ? '1' : '3'))
 			);
+		}
 			
 		$return['count']['order'] = array(
 			'total' => $db->sql('select count(id) from orders where area!="deleted"',2),
@@ -35,8 +36,12 @@ class output__index extends engine
 			$return['count']['order']['latest'] = array_slice($return['count']['order']['latest'], 0, 2);
 		}
 		
-		$return['news'] = $db->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1);
-		$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
+		if ($return['news'] = $db->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
+			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
+		} else {
+			$return['news']['sortdate'] = 0;
+		}
+		
 		$return['links'] = $db->sql('select count(id) from gouf_links where status = "error"',2);
 		
 		return $return;

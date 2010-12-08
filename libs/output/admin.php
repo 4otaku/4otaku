@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__admin extends engine
 {
 	public $allowed_url = array(
@@ -42,6 +42,25 @@ class output__admin extends engine
 		return $return;		
 	}
 	
+	function updates($return) {
+		global $url; global $db;
+
+		if (empty($url[3])) {
+			$return['display'][] = 'admin_updates_posts';
+			$return['posts'] = $db->sql('select id, title, update_count from post where update_count order by update_count desc, sortdate desc','id');
+		} elseif (empty($url[4])) {
+			$return['display'][] = 'admin_updates_single';
+			$return['updates'] = $db->sql('select * from updates where post_id = '.$url[3].' order by sortdate desc','id');			
+			foreach ($return['updates'] as &$update) $update['link'] = unserialize($update['link']);
+		} else {
+			$return['display'][] = 'admin_updates_edit';
+			$return['update'] = $db->sql('select * from updates where id = '.$url[4],1);
+			$return['update']['link'] = unserialize($return['update']['link']);
+		}
+
+		return $return;
+	}	
+	
 	function tags($return) {
 		global $url; global $db; global $sets;
 		unset ($this->side_modules['sidebar']);
@@ -70,7 +89,8 @@ class output__admin extends engine
 			if ($url[3] == 'search') {
 				$return['navi']['curr'] = max(1,$url[6]);
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/'.$url[4].'/';
-				$return['tags'] = $db->sql('select * from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name) order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
+				$locate = redo_safety(urldecode($url[4]));
+				$return['tags'] = $db->sql('select * from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name) order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
 				$return['navi']['last'] = ceil($db->sql('select count(id) from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name)',2)/$sets['pp']['tags_admin']);
 			} else {
 				$return['navi']['curr'] = max(1,$url[4]);

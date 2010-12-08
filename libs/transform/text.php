@@ -34,32 +34,6 @@ class transform__text
 		return $text;
 	}
 	
-	function mb_wordwrap($str, $maxLength, $break) {
-		if (!preg_match('#(\S{'.$maxLength.',})#e',$str)) return $str;
-		$wordEndChars = array(" ", "\n", "\r", "\f", "\v", "\0", '\x20', '\xc2' ,' \xa0');
-		$count = 0;
-		$newStr = "";
-		$openTag = false;
-		for($i=0; $i < mb_strlen($str); $i++) {
-			$char = mb_substr($str,$i,1);
-		    $newStr .= $char; 		   
-		    if($char == "<") $openTag = true;
-		    if(($openTag) && ($char == ">")) $openTag = false;
-		    if(!$openTag){
-		        if(!in_array($char, $wordEndChars)) {
-		            $count++;
-		            if($count==$maxLength) {
-		                $newStr .= $break;
-		                $count = 0;
-		            }
-		        }
-		        else $count = 0;
-		    }
-		   
-		}  
-		return $newStr;
-	} 	
-	
 	function wcase($count, $case1, $case2, $case3) {
 		if ($count > 9) {
 			if ($count % 10 == 0 || $count % 10 > 4 || $count[strlen($count)-2] == 1) return $case3;
@@ -85,6 +59,31 @@ class transform__text
 		return $date;
 	}
 	
+	function cut_long_words($string, $length = false, $break = '<wbr />') {
+		global $def;
+		if (empty($length)) $length = $def['text']['word_length'];
+		
+		$parts = preg_split('/(<[^>]*>|\s)/',$string,null,PREG_SPLIT_DELIM_CAPTURE);
+		
+		foreach ($parts as $key => $part) {
+			if (
+				!in_array($part{0},array(' ',"\t","\r","\n",'<')) &&
+				strlen($part) > $length && 
+				preg_match_all('/(&[a-z]{1,8};|.){'.($length+1).'}/iu', $part, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)
+			) {
+				$parts[$key] = ''; $last_position = 0;
+				foreach ($matches as $match) {
+					$parts[$key] .= substr($part, $last_position, $match[1][1] - $last_position);
+					$parts[$key] .= $break;
+					$last_position = $match[1][1];
+				}
+				$parts[$key] .= substr($part, $last_position, strlen($part) - $last_position);
+			}
+		}
+		
+		return implode('',$parts);
+	}
+	
 	function bb2html($string) {
         while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is', $string, $matches)) {
 			foreach ($matches[0] as $key => $match) {
@@ -98,7 +97,7 @@ class transform__text
 					case 'url': $replacement = '<a href="/go?' . str_replace('http','⟯',($param? $param : $innertext)) . "\">".str_replace('http','⟯',$innertext)."</a>"; break;
 					case 'img':
 						$param = explode('x', strtolower($param));
-						$replacement = "<img align=\"left\" style=\"padding-right:10px;\" src=\"".str_replace('http','⟯',$innertext)."\" " . (is_numeric($param[0])? "width=\"".$param[0]."\" " : '') . (is_numeric($param[1])? "height=\"".$param[1]."\" " : '') . '/>';
+						$replacement = "<img src=\"".str_replace('http','⟯',$innertext)."\" " . (is_numeric($param[0])? "width=\"".$param[0]."\" " : '') . (is_numeric($param[1])? "height=\"".$param[1]."\" " : '') . '/><br />';
 					break;
 			        case 'spoiler':
 						$replacement = "<div class=\"mini-shell\"><div class=\"handler\" width=\"100%\">".

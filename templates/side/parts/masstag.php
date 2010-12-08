@@ -38,6 +38,7 @@
 							<select name="sign" id="MassTag9001_sign">
 								<option value="add_tag" rel="tag">+ теги</option>
 								<? if ($sets['user']['rights']) { ?>
+									<option value="danbooru" rel="danbooru">+ теги с</option>
 									<option value="substract_tag" rel="tag">- теги</option>
 								<? } ?>
 								<option value="add_category" rel="cat">+ категория</option>
@@ -67,6 +68,9 @@
 								}
 							?>
 							<option value="deleted"> в печь</option>						
+						</select>
+						<select class="MassTag9001 hidden MassTag9001_danbooru">
+							<option value="danbtag">danbooru</option>						
 						</select>
 					</div>
 				</div>			

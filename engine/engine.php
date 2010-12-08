@@ -17,18 +17,16 @@ class engine
 
 	function check_404($ways) {
 		global $url; global $error;
-		$error = true;
+		$error = true; 
 		foreach ($ways as $conditions) {
 			$error = false; 
 			foreach ($conditions as $key => $condition) {
-				if (preg_match("/[^a-zA-Zа-яА-ЯёЁ\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;
-				if ($condition == 'end') {						
-					if ($url[$key]) $error = true;
-					foreach ($url as $ukey => $val) if (is_numeric($ukey) && $ukey > $key && isset($val)) $error = true;
+				if (!empty($url[$key])) {
+					if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=]/iu",$url[$key])) $error = true;					 
+					elseif ($condition == 'end') $error = true;
+					elseif ($condition == 'num') { if (!is_numeric($url[$key]) && $url[$key]) $error = true; }
+					elseif (!strpos(' '.$condition,'|'.$url[$key].'|') && $url[$key] && $condition != 'any') $error = true;
 				}
-				elseif ($condition == 'num') { if (!is_numeric($url[$key]) && $url[$key]) $error = true; }
-				elseif (!strpos(' '.$condition,'|'.$url[$key].'|') && $url[$key] && $condition != 'any') $error = true;
-
 				if ($error) break;
 			}
 			if (!$error) break;
@@ -71,16 +69,16 @@ class engine
 	}
 	
 	function get_comments($place, $id, $pos = false) {
-		global $sets; global $db;
-		$return['number'] = $db->sql('select count(id) from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted")',2,'count(id)');
+		global $sets;
+		$return['number'] = obj::db()->sql('select count(id) from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted")',2,'count(id)');
 		if ($return['number']) { 
 			if ($pos === false) $limit='';
 				else $limit = ' limit '.($sets['pp']['comment_in_post']*($pos - 1)).', '.$sets['pp']['comment_in_post'];
 			if ($sets['dir']['comments_tree']) $order=' desc'; 
 				else $order = '';
-			$parents = $db->sql('select * from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted") order by sortdate'.$order.$limit);
+			$parents = obj::db()->sql('select * from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted") order by sortdate'.$order.$limit);
 			foreach ($parents as $parent) $condition .= ' or rootparent='.$parent['id'];	
-			$temp_children = $db->sql('select * from comment where (('.substr($condition,4).') and area != "deleted") order by sortdate'.$order);
+			$temp_children = obj::db()->sql('select * from comment where (('.substr($condition,4).') and area != "deleted") order by sortdate'.$order);
 			if (is_array($temp_children)) foreach ($temp_children as $child) $children[$child['rootparent']][$child['id']] = $child;
 			foreach ($parents as $parent) {
 				 if (is_array($children[$parent['id']]))
@@ -115,8 +113,13 @@ class engine
 	}
 	
 	function add_res($text,$error = false) {
-		global $add_res;
+		global $add_res; global $post; global $cookie;
 		$add_res = array('text' => $text, 'error' => $error);
+		if (!empty($post['do'])) {
+			if (empty($cookie)) $cookie = new dinamic__cookie();
+			$cookie->inner_set('add_res.text',$text);
+			$cookie->inner_set('add_res.error',$error);
+		}
 	}
 	
 	function mixed_parse($string) {

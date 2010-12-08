@@ -71,18 +71,14 @@
 			</tr>
 		</tfoot>       		
     </table>
-    <table>
-			<tr>
-	            <td class="input field_name">
-					<input class="submit" value="Обновить" type="submit">
-					<input type="hidden" name="do" value="post.update" />
-					<input type="hidden" name="id" value="<?=$get['id'];?>" />
-					<input type="hidden" name="remember" value="true" />					
-				</td>
-				<td class="inputdata">
-					&nbsp;
-				</td>
-			</tr>		  
-        </tfoot>		
+    <table width="100%">
+		<tr>
+			<td class="input field_name" colspan="2">
+				<input class="submit left" value="Обновить" type="submit">
+				<input type="hidden" name="do" value="post.update" />
+				<input type="hidden" name="id" value="<?=$get['id'];?>" />
+				<input type="hidden" name="remember" value="true" />					
+			</td>
+		</tr>	
     </table>
 </form>

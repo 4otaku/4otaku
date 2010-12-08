@@ -74,7 +74,7 @@
 		<br />
 	</span>
 <?	
-	if ($data['main']['rss']) {
+	if (isset($data['main']['rss'])) {
 		?>
 			<br />
 			<a href="/rss/<?=_base64_encode(implode('|',array_slice($data['main']['rss'],2)));?>" target="_blank">

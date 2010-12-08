@@ -16,22 +16,12 @@ function redo_quotes($str) {
 	return str_replace(array('&','"',"'"),array('&amp;','&quot;','&apos;'),$str);
 }
 
-function merge_settings(&$array1,&$array2) {
-	$merged = $array1;
-	foreach ($array2 as $key => &$value)
-		if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
-			$merged[$key] = merge_settings($merged[$key], $value);
-		else
-			$merged[$key] = $value;
-	return $merged;
-}
-
 function _crypt($input,$decrypt=false) {
 	$o = $s1 = $s2 = array(); 
 
-	$basea = array('?','(','@',';','$','',"]","&",'*'); 
+	$basea = array('?','(','$','',"]",'@',';',"&",'*'); 
 	$basea = array_merge($basea, range('a','z'), range('A','Z'), range(0,9) );
-	$basea = array_merge($basea, array('!','%','/','[',')','_','+','|','.',' ') );
+	$basea = array_merge($basea, array('!','/','[','|','.',')','_','+','%',' ') );
 	$dimension=9; 
 	for($i=0;$i<$dimension;$i++) { 
 		for($j=0;$j<$dimension;$j++) {
@@ -106,3 +96,7 @@ function get_include_contents($filename) {
     }
     return false;
 }
+
+function get_protocol() {
+	return strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https://' : 'http://';
+} 

@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__logs extends engine
 {
 	function __construct() {
@@ -63,7 +63,7 @@ class output__logs extends engine
 		global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();		
 		$text = str_replace(array('<','>'),array('&lt;','&gt;'),$text);
-		$text = $transform_text->mb_wordwrap(preg_replace(array("/http:\/\/([^\/]+)[^\s]*/","/[\r\n]+/su"), array("<a href='$0'>$0</a>","<br />"), $text),40,'<wbr />');
+		$text = $transform_text->cut_long_words(preg_replace(array("/http:\/\/([^\/]+)[^\s]*/","/[\r\n]+/su"), array("<a href='$0'>$0</a>","<br />"), $text),40);
 			
 		if (substr($text,0,3) == '/me') return '<span class="logs-nick">'.$author.'</span>'.substr($text,3);
 		else return '<span class="logs-nick">&lt;'.$author.'&gt;</span> '.$text;

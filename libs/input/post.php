@@ -1,11 +1,10 @@
 <?
 
-include_once 'libs'.SL.'input'.SL.'common.php';
 class input__post extends input__common 
 {
 	function add() { 
 		global $post; global $db; global $check; global $def; global $transform_meta; global $sets;
-		global $transform_text; global $transform_link; global $cookie; global $add_res;
+		global $transform_text; global $transform_link; global $cookie;
 		if (!$transform_meta) $transform_meta = new transform__meta();
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$transform_link) $transform_link = new transform__link();
@@ -25,7 +24,7 @@ class input__post extends input__common
 			if (is_array($post['images'])) $images = implode($post['images'],'|');
 
 			$post['bonus_link'] = $check->link_array($post['bonus_link']);
-			$links = $transform_link->similar($transform_link->parse($post['link'])); 
+			$links = $transform_link->similar($transform_link->parse($post['link']));
 			if (is_array($post['bonus_link'])) $bonus_links = $transform_link->parse($post['bonus_link']);
 
 			$db->insert('post',$insert_data = array($post['title'],$text,undo_safety($post['text']),$images,serialize($links),serialize($bonus_links),serialize($post['file']),
@@ -37,10 +36,10 @@ class input__post extends input__common
 				$_post = array('id' => $id, 'sure' => 1, 'do' => array('post','transfer'), 'where' => 'main');							
 				input__common::transfer($_post);
 			} else {											
-				$add_res['text'] = 'Ваша запись успешно добавлена, и доступна по адресу <a href="/post/'.$id.'/">http://4otaku.ru/post/'.$id.'/</a> или в <a href="/post/'.$def['area'][1].'/">мастерской</a>.';
+				$this->add_res('Ваша запись успешно добавлена, и доступна по адресу <a href="/post/'.$id.'/">http://4otaku.ru/post/'.$id.'/</a> или в <a href="/post/'.$def['area'][1].'/">мастерской</a>.');
 			}
 		}
-		else $add_res = array('text' => 'Не все обязательные поля заполнены', 'error' => true);
+		else $this->add_res('Не все обязательные поля заполнены',true);
 	}
 	
 	function edit_post_images() {
@@ -88,6 +87,7 @@ class input__post extends input__common
 	
 	function update() {
 		global $post; global $db; global $check; global $def; global $transform_text; global $transform_link;
+		global $cookie;
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$transform_link) $transform_link = new transform__link();
 		if (!$cookie) $cookie = new dinamic__cookie();

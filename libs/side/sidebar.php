@@ -1,5 +1,5 @@
 <?
-include_once('engine'.SL.'engine.php');
+
 class side__sidebar extends engine
 {
 	function __construct() {
@@ -12,10 +12,24 @@ class side__sidebar extends engine
 	}		
 	
 	function comments() {
-		global $db; global $sets; global $url;
-		if ($url[1] == "order") $area = "orders"; else $area = $url[1];
-		if (!($return = $db->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate')))
-			$return = $db->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
+		global $sets; global $url; global $transform_text; 		
+		if (!$transform_text) $transform_text = new transform__text();
+		
+		if ($url[1] == "order") {
+			$area = "orders";
+		} elseif ($url[1] == "search") {
+			if ($url[2] == "a") $area = 'art'; 
+			else if ($url[2] == "p") $area = 'post'; 
+			else if ($url[2] == "v") $area = 'video'; 
+		} else {
+			$area = $url[1];
+		}
+		
+		if (!($return = obj::db()->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate'))) {
+			$return = obj::db()->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
+		} else {
+			$link = $area == 'orders' ? 'order' : $area;
+		}
 		if (is_array($return)) {
 			$used = array();
 			foreach ($return as $key => $one) {
@@ -25,29 +39,33 @@ class side__sidebar extends engine
 			krsort($return);
 			$return = array_slice($return,0,$sets['pp']['latest_comments'],true);
 			foreach ($return as &$comment) {
-				if ($comment['place'] != 'art') $comment['title'] = $db->sql('select title from '.$comment['place'].' where ('.($comment['place']== 'news' ? 'url' : 'id').'="'.$comment['post_id'].'") limit 1',2);
+				if ($comment['place'] != 'art') $comment['title'] = obj::db()->sql('select title from '.$comment['place'].' where ('.($comment['place']== 'news' ? 'url' : 'id').'="'.$comment['post_id'].'") limit 1',2);
 				else {
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
-				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));
+				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
+				$comment['text'] = $transform_text->cut_long_words($comment['text']);
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
 			}			
-			return $return;
+			return array('data' => $return, 'link' => $link);
 		}
 	}	
 	
 	function update() {
-		global $db;
-		$update = $db->sql('select * from misc where type="latest_update" limit 1',1);
-		$return['text'] = undo_quotes(strip_tags($update['data4'],'<br>'));
+		global $db; global $transform_text; 		
+		if (!$transform_text) $transform_text = new transform__text();
+		
+		$return = $db->sql('select * from updates order by sortdate desc limit 1',1);
+		$return['text'] = undo_quotes(strip_tags($return['text'],'<br>'));
 		if (mb_strlen($return['text']) > 100) $points = '...'; else $points = '';
 		$return['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),redo_quotes(mb_substr($return['text'],0,100))).$points;
-		$return['author'] = mb_substr($update['data3'],0,20);
-		$return['post_id'] = $update['data1'];$return['post_title'] = $update['data2'];
+		$return['text'] = $transform_text->cut_long_words($return['text']);
+		$return['author'] = mb_substr($return['username'],0,20);
+		$return['post_title'] = $db->sql('select title from post where id = '.$return['post_id'],2);
 		return $return;
 	}
 
@@ -117,32 +135,4 @@ class side__sidebar extends engine
 		global $db;
 		return $db->sql('select alias, name from category where locate("|art|",area) order by id','alias');
 	}	
-	
-/*	function test() {
-		global $db;
-		$a = microtime(true);
-		$main_tags = $db->sql('select alias, name, post_main from tag where alias != "18" order by post_main desc limit 10','post_main');
-		natsort($main_tags);		$main_tags = array_reverse($main_tags,true);
-		$tagsme  = $db->sql('select alias, name from tag','alias');
-		$posts  = $db->sql('select id,tag from post','id');
-		foreach ($main_tags as &$main_tag)
-			foreach ($posts as $post) if (stristr($post,'|'.$main_tag['alias'].'|')) {
-				$tags = explode('|',trim($post,'|'));
-				foreach ($tags as $tag) if ($tag != $main_tag['alias'] && $tag != "18") $main_tag['lesser'][$tag]++;
-			}
-		foreach ($main_tags as &$main_tag) {arsort($main_tag['lesser']); $main_tag['lesser'] = array_slice($main_tag['lesser'],10); };
-		
-		$return['alias'] = $tagsme; $return['tags'] = $main_tags; 
-		return $return;
-	}	
-		
-	function test2() {
-		global $db;
-
-		$return['tags'] = $db->sql('select alias, name from tag where alias != "18" order by post_main desc limit 30');
-		$return['cats'] = $db->sql('select alias, name from category where (locate("|post|",area) and alias != "none")');
-		$return['lang'] = $db->sql('select alias, name from language where (alias != "none")');
-
-		return $return;
-	}*/		
 }

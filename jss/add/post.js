@@ -35,7 +35,7 @@ $(document).ready(function(){
 	});	
 
 	if ($('#post-image').length > 0) image_upload = new AjaxUpload('post-image', {
-		action: '/engine/upload/postimage.php',
+		action: window.config.site_dir+'/ajax.php?upload=postimage',
 		name: 'filedata',
 		data: {	  },
 		autoSubmit: true,
@@ -51,7 +51,7 @@ $(document).ready(function(){
 			if (response == 'error-filetype') {$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');}
 			else if (response == 'error-maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');}
 			else {				
-				$('#transparent td').append('<div style="background-image: url(/images/thumbs/'+response+');"><img class="cancel" src="/images/cancel.png"><input type="hidden" name="images[]" value="'+response+'"></div>');
+				$('#transparent td').append('<div style="background-image: url('+window.config.image_dir+'/thumbs/'+response+');"><img class="cancel" src="'+window.config.image_dir+'/cancel.png"><input type="hidden" name="images[]" value="'+response+'"></div>');
 				$("#transparent td img.cancel").click(function(){  
 					$(this).parent().remove();
 				}); 				
@@ -64,14 +64,14 @@ $(document).ready(function(){
 		window.processing_art = 0;
 		$(".processing").hide(); 
 		$('#error').html('');
-	})
+	});
 	
 	$("#transparent td img.cancel").click(function(){  
 		$(this).parent().remove();
 	}); 		
 	
 	if ($('#post-file').length > 0) file_upload = new AjaxUpload('post-file', {
-		action: '/engine/upload/postfile.php',
+		action: window.config.site_dir+'/ajax.php?upload=postfile',
 		name: 'filedata',
 		data: {	  },
 		autoSubmit: true,
@@ -101,6 +101,6 @@ $(document).ready(function(){
 		window.processing_art = 0;
 		$(".processing-file").hide(); 
 		$('#error').html('');
-	})
+	});
 	
 }); 

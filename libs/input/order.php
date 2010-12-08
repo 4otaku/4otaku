@@ -1,10 +1,10 @@
 <?
-include_once 'libs'.SL.'input'.SL.'common.php';
+
 class input__order extends input__common
 {
 	function add() { 
 		global $post; global $db; global $check; global $def; global $transform_meta; 
-		global $transform_text; global $cookie; global $add_res; global $sets;
+		global $transform_text; global $cookie; global $sets;
 		if (!$transform_meta) $transform_meta = new transform__meta();
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$cookie) $cookie = new dinamic__cookie();
@@ -25,11 +25,11 @@ class input__order extends input__common
 				$db->insert('versions',array('order',$id = $db->sql('select @@identity from orders',2),
 												base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));								
 				if ($post['subscribe']) $this->set_events($id,$post['mail']); else $this->set_events($id);
-				$add_res['text'] = 'Заказ успешно добавлен. Страница заказа: <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'</a>';
+				$this->add_res('Заказ успешно добавлен. Страница заказа: <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'</a>');
 			}
-			else $add_res = array('error' => true, 'text' => 'Вы указали неправильный е-мейл.');
+			else $this->add_res('Вы указали неправильный е-мейл.', true);
 		}
-		else $add_res = array('error' => true, 'text' => 'Не все обязательные поля заполнены.');
+		else $this->add_res('Не все обязательные поля заполнены.', true);
 	}
 	
 	function edit_orders_username() {

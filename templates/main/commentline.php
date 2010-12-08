@@ -57,16 +57,8 @@
 													</div>
 													<div class="comment-text">
 													<span><?=$comment['text'];?></span>
-													<?
-														if ($comment['position'] < 5) {
-															?>
-																<br /><br />
-																<a href="#" rel="<?=$comment['id'];?>" class="disabled reply">Ответить</a>
-																<div class="reply-<?=$comment['id'];?>"></div>
-															<?
-														}
-													?>
-													<div class="edit-<?=$comment['id'];?>"></div>					
+													<br /><br />
+													<a href="/<?=$block['place'];?>/<?=$block['id'];?>/comments/all#reply-<?=$comment['id'];?>">Ответить</a>
 													<div class="c-wrap"></div>
 													</div>
 												</div>

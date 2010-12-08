@@ -10,7 +10,7 @@
 			$newthumb = ROOT_DIR.'images'.SL.'thumbs'.SL.$time.'.'.$extension;
 			chmod($temp, 0755);
 			move_uploaded_file($temp, $newfile);
-			$imagick =  new Imagick($path = $newfile);
+			$imagick =  new $image_class($path = $newfile);
 			scale(array(0 => 200, 1 => 150),$newthumb);
 			echo $time.'.'.$extension;
 		}
