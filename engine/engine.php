@@ -69,16 +69,16 @@ class engine
 	}
 	
 	function get_comments($place, $id, $pos = false) {
-		global $sets; global $db;
-		$return['number'] = $db->sql('select count(id) from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted")',2,'count(id)');
+		global $sets;
+		$return['number'] = obj::db()->sql('select count(id) from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted")',2,'count(id)');
 		if ($return['number']) { 
 			if ($pos === false) $limit='';
 				else $limit = ' limit '.($sets['pp']['comment_in_post']*($pos - 1)).', '.$sets['pp']['comment_in_post'];
 			if ($sets['dir']['comments_tree']) $order=' desc'; 
 				else $order = '';
-			$parents = $db->sql('select * from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted") order by sortdate'.$order.$limit);
+			$parents = obj::db()->sql('select * from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted") order by sortdate'.$order.$limit);
 			foreach ($parents as $parent) $condition .= ' or rootparent='.$parent['id'];	
-			$temp_children = $db->sql('select * from comment where (('.substr($condition,4).') and area != "deleted") order by sortdate'.$order);
+			$temp_children = obj::db()->sql('select * from comment where (('.substr($condition,4).') and area != "deleted") order by sortdate'.$order);
 			if (is_array($temp_children)) foreach ($temp_children as $child) $children[$child['rootparent']][$child['id']] = $child;
 			foreach ($parents as $parent) {
 				 if (is_array($children[$parent['id']]))
