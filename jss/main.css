@@ -793,6 +793,18 @@ ol.orders_list {
 	color: #117743;
 }
 
+.boardpost {
+	width: 100%;
+	margin: 3px;
+	background-color: #E7E7E7;	
+}
+
+.boardthread {
+	width: 100%;
+	margin: 3px;
+	background-color:#CCCCCC;
+}
+
 /* Content, админка */
 
 #darklayer {
