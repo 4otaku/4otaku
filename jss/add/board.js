@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$("select .selected").attr('selected', 'selected');	
 	
 	board_upload = new AjaxUpload('board-image', {
-		action: '/engine/upload/board.php',
+		action: window.config.site_dir+'/ajax.php?upload=board',
 		name: 'filedata',
 		multiple: true,
 		data: {	  },
@@ -22,7 +22,7 @@ $(document).ready(function(){
 			else if (response == 'error-maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 5 мегабайт.</b>');}
 			else {
 				data = response.split("|");
-				$('#transparent td').html('<div style="background-image: url('+data[0]+');"><img class="cancel" src="/images/cancel.png"><input type="hidden" name="image" value="'+data[1]+'"></div>');
+				$('#transparent td').html('<div style="background-image: url('+data[0]+');"><img class="cancel" src="'+window.config.image_dir+'/images/cancel.png"><input type="hidden" name="image" value="'+data[1]+'"></div>');
 				$("#transparent td img.cancel").click(function(){  
 					$(this).parent().remove();
 				}); 				
