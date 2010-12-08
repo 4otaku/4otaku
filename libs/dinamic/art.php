@@ -72,8 +72,10 @@ class dinamic__art extends engine
 		global $db; global $get; global $check; global $sets;
 		if (is_numeric($get['id'])) {
 			if ($check->lat($function = $get['sign']) && $check->rights()) $this->$function(urldecode($get['data']),$get['id']);
-			$return = $db->sql('select id, category, tag, author, thumb from art where id='.$get['id'].' limit 1',1);
+			$return = $db->sql('select * from art where id='.$get['id'].' limit 1',1);
+			$db->insert('versions',array('art',$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 			$return['meta'] = $this->get_meta(array($return),array('category','author','tag'));
+			$db->sql('update search set lastupdate=0 where place="art" and item_id="'.$get['id'].'"',0);
 			return $return;
 		}
 	}
@@ -89,6 +91,39 @@ class dinamic__art extends engine
 		$tags = $transform_meta->add_tags($transform_meta->parse(str_replace('|',' ',$info['tag']).' '.$tags),$area);
 		$db->update('art','tag',$tags,$id);	
 	}
+	
+	function danbooru($temp, $did)
+	{
+		global $db;
+		$dmd5 = $db->sql('select md5 from art where id='.$did,2);
+						
+		$domdoc = new DOMDocument();	
+		$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
+		
+		$elements = $domdoc->getElementsByTagName('post');
+		foreach ($elements as $node) 
+		{
+			$dtagstr[] = $node->getAttribute('tags');
+		}
+		
+		$dtags[] = explode(" ", $dtagstr[0]);
+		
+		foreach ($dtags[0] as $key => &$tag)
+		{
+			if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
+			else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
+			else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+			
+			if (strpos($tag, 'hard_translated') === (int)0) { }	
+			else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
+
+			if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+		}
+		
+		$dtag = implode(", ", $dtags[0]); 
+
+		$this->add_tag($dtag, $did);
+	}	
 	
 	function substract_tag($tags,$id) {
 		global $db; global $def; global $transform_meta;
@@ -133,5 +168,5 @@ class dinamic__art extends engine
 		$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
 		include_once('libs/input/common.php');
 		input__common::transfer($post);
-	}			
+	}		
 }

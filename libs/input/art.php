@@ -1,10 +1,10 @@
 <?
-include_once 'libs'.SL.'input'.SL.'common.php';
+
 class input__art extends input__common
 {
 	function add() { 
 		global $post; global $db; global $check; global $def; global $url; global $sets; 
-		global $transform_text; global $transform_meta; global $cookie; global $add_res;
+		global $transform_text; global $transform_meta; global $cookie;
 		if (!$transform_meta) $transform_meta = new transform__meta();
 		if (!$transform_text) $transform_text = new transform__text();
 		if (!$cookie) $cookie = new dinamic__cookie();
@@ -19,7 +19,11 @@ class input__art extends input__common
 				foreach ($post['images'] as $image) {
 					$name = explode('#',$image);
 					$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]); 
-					if ($name[0] && $name[1] && $name[2] && !$db->base_sql('sub','select id from w8m_art where md5="'.$name[0].'"',2)) {
+					if (
+						$name[0] && $name[1] && $name[2] && 
+						!$db->base_sql('sub','select id from w8m_art where md5="'.$name[0].'"',2) && 
+						!$db->sql('select id from art where md5="'.$name[0].'"',2)
+					) {
 						$db->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],$author,$category,$tags,"|".$data['pool'],"",
 												$post['source'],0,0,$transform_text->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 						$db->insert('versions',array('art',$id = $db->sql('select @@identity from art',2),
@@ -38,8 +42,8 @@ class input__art extends input__common
 						input__common::transfer($_post);
 					}		
 				} else {
-					if ($i > 1) $add_res['text'] = 'Ваши изображения успешно добавлены, и доступны в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.';
-					else $add_res['text'] = 'Ваше изображение успешно добавлено, и доступно по адресу <a href="/art/'.$id.'/">http://4otaku.ru/art/'.$id.'/</a> или в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.';
+					if ($i > 1) $this->add_res('Ваши изображения успешно добавлены, и доступны в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.');
+					else $this->add_res('Ваше изображение успешно добавлено, и доступно по адресу <a href="/art/'.$id.'/">http://4otaku.ru/art/'.$id.'/</a> или в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.');
 				}
 				
 				if ($data) {
@@ -49,9 +53,9 @@ class input__art extends input__common
 					$db->sql('update art_pool set count = count + '.$i.', art = concat("'.$newart.'",art) where id='.$url[3],0);
 				}
 			}
-			else $add_res = array('error' => true, 'text' => 'Неправильный пароль от группы.');
+			else $this->add_res('Неправильный пароль от группы.', true);
 		}
-		else $add_res = array('error' => true, 'text' => 'Не все обязательные поля заполнены.');
+		else $this->add_res('Не все обязательные поля заполнены.', true);
 	}
 	
 	function addpool() {
@@ -88,7 +92,7 @@ class input__art extends input__common
 			$pools = $db->sql('select pool from art where id='.$post['id'],2);
 			$post['group'] = array_filter(array_unique($post['group']));
 			foreach ($post['group'] as $key => $group)
-				if ($db->dsql('select id from art_pool where (id='.$group.' and (locate("|'.$post['id'].'|",art) or (password != "" and password != "'.md5($post['password']).'")))',2))
+				if ($db->sql('select id from art_pool where (id='.$group.' and (locate("|'.$post['id'].'|",art) or (password != "" and password != "'.md5($post['password']).'")))',2))
 					unset($post['group'][$key]);
 			if (count($post['group'])) {
 				foreach ($post['group'] as $group) $pools .= $group.'|';

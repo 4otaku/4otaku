@@ -3,7 +3,7 @@ $(document).ready(function(){
 	window.processing_art = 0;
 	
 	replay = new AjaxUpload('replay_upload', {
-		action: '/engine/upload/postfile.php',
+		action: window.config.site_dir+'/ajax.php?upload=postfile',
 		name: 'filedata',
 		multiple: true,
 		data: {	  },

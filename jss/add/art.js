@@ -3,7 +3,7 @@ $(document).ready(function(){
 	window.processing_art = 0;
 	
 	art_upload = new AjaxUpload('art-image', {
-		action: '/engine/upload/art.php',
+		action: window.config.site_dir+'/ajax.php?upload=art',
 		name: 'filedata',
 		multiple: true,
 		data: {	  },
@@ -23,7 +23,7 @@ $(document).ready(function(){
 			else {
 				if ($("#art-image").attr('rel') == 'single') $('#transparent td').html('');
 				data = response.split("|");
-				$('#transparent td').append('<div style="background-image: url('+data[0]+');"><img class="cancel" src="/images/cancel.png"><input type="hidden" name="images[]" value="'+data[1]+'"></div>');
+				$('#transparent td').append('<div style="background-image: url('+data[0]+');"><img class="cancel" src="'+window.config.image_dir+'/cancel.png"><input type="hidden" name="images[]" value="'+data[1]+'"></div>');
 				$("#transparent td img.cancel").click(function(){  
 					$(this).parent().remove();
 				}); 				
@@ -36,6 +36,6 @@ $(document).ready(function(){
 		window.processing_art = 0;
 		$(".processing").hide(); 
 		$('#error').html('');
-	})
+	});
 	
 }); 

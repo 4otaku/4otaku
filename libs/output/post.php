@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__post extends engine
 {
 	function __construct() {
@@ -82,8 +82,8 @@ class output__post extends engine
 	}
 	
 	function get_post($limit, $area) {
-		global $error; global $db;
-		$return = $db->sql('select * from post where ('.$area.') order by sortdate desc limit '.$limit);
+		global $error;
+		$return = obj::db()->sql('select * from post where ('.$area.') order by sortdate desc limit '.$limit);
 		if (is_array($return)) {
 			foreach ($return as &$post) {
 				if (trim($post['image'])) $post['image'] = explode('|',$post['image']);

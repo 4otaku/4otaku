@@ -19,7 +19,7 @@
 				
 		if (is_array($check)) {
 			$newthumb = ROOT_DIR.'files'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
-			$imagick =  new Imagick($path = $newfile);
+			$imagick =  new $image_class($path = $newfile);
 			scale(200,$newthumb);
 			$type = 'image';
 			$name = 'Сэмпл ('.$extension.')';

@@ -17,7 +17,7 @@
 						if ($sets['user']['rights']) {
 							?>
 								<div class="right">
-									<?=($sets['user']['rights'] > 1 ? $comment['ip'].'&nbsp;' : '');?>
+									<?=($sets['user']['rights'] == 2 ? substr($comment['cookie'],0,6).'&nbsp;'.$comment['ip'].'&nbsp;' : '');?>
 									<img src="/images/comment_edit.png" alt="редактировать" rel="<?=$comment['id'];?>" class="edit_comment">
 									&nbsp;&nbsp;&nbsp;
 									<img src="/images/comment_delete.png" alt="удалить" rel="<?=$comment['id'];?>" class="delete_comment">
@@ -37,7 +37,7 @@
 							?>
 								<br /><br />
 								<a href="#" rel="<?=$comment['id'];?>" class="disabled reply">Ответить</a>
-								<div class="reply-<?=$comment['id'];?>"></div>
+								<div id="reply-<?=$comment['id'];?>"></div>
 							<?
 						}
 					?>

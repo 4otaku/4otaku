@@ -1,5 +1,5 @@
 <? 
-include_once('engine'.SL.'engine.php');
+
 class output__art extends engine
 {
 	function __construct() {
@@ -53,8 +53,8 @@ class output__art extends engine
 			elseif (substr($url[2],0,3) == 'cg_' && is_numeric(substr($url[2],3))) {
 				if (!$sets['show']['nsfw']) $return['display'] = array('booru_w8m_nsfw','comments');
 				else $return['display'] = array('booru_w8m_art','comments');
-				$return['art'] = $db->base_sql('sub','select * from w8m_art where id='.substr($url[2],3),1);
-				$return['gallery'] = $db->base_sql('sub','select * from w8m_galleries where id='.$return['art']['gallery_id'],1);
+				$return['art'] = obj::db('sub')->sql('select * from w8m_art where id='.substr($url[2],3),1);
+				$return['gallery'] = obj::db('sub')->sql('select * from w8m_galleries where id='.$return['art']['gallery_id'],1);
 				$return['comments'] = $this->get_comments($url[1],$url[2],(is_numeric($url[5]) ? $url[5] : ($url[4] == 'all' ? false : 1)));
 				$return['navi']['curr'] = ($url[4] == 'all' ? 'all' : max(1,$url[5]));
 				$return['navi']['all'] = true;
@@ -140,9 +140,9 @@ class output__art extends engine
 						$return['navi']['curr'] = max(1,$url[5]);
 						$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 						$return['navi']['start'] = max($return['navi']['curr']-5,2);
-						$return['navi']['last'] = ceil($db->base_sql('sub','select count(id) from w8m_art where gallery_id='.$url[3],2)/$sets['pp']['art']);
-						$return['pool'] = $db->base_sql('sub','select * from w8m_galleries where id='.$url[3],1);
-						$return['thumbs'] = $db->base_sql('sub','select * from w8m_art where gallery_id='.$url[3].' order by folder, filename desc limit '.($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],'id');
+						$return['navi']['last'] = ceil(obj::db('sub')->sql('select count(id) from w8m_art where gallery_id='.$url[3],2)/$sets['pp']['art']);
+						$return['pool'] = obj::db('sub')->sql('select * from w8m_galleries where id='.$url[3],1);
+						$return['thumbs'] = obj::db('sub')->sql('select * from w8m_art where gallery_id='.$url[3].' order by folder, filename desc limit '.($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],'id');
 					}
 					else {
 						if (!$sets['show']['nsfw']) $return['display'] = array('booru_w8m_nsfw','navi');
@@ -150,20 +150,20 @@ class output__art extends engine
 						$return['navi']['curr'] = max(1,$url[4]);
 						$return['navi']['meta'] = $url[2].'/';
 						$return['navi']['start'] = max($return['navi']['curr']-5,2);
-						$return['navi']['last'] = ceil($db->base_sql('sub','select count(id) from w8m_galleries where sort_order > 0',2)/$sets['pp']['art_cg_pool']);
-						$return['pools'] = $db->base_sql('sub','select * from w8m_galleries where sort_order > 0 order by sort_order desc limit '.($return['navi']['curr']-1)*$sets['pp']['art_cg_pool'].', '.$sets['pp']['art_cg_pool'],'id');
+						$return['navi']['last'] = ceil(obj::db('sub')->sql('select count(id) from w8m_galleries where sort_order > 0',2)/$sets['pp']['art_cg_pool']);
+						$return['pools'] = obj::db('sub')->sql('select * from w8m_galleries where sort_order > 0 order by sort_order desc limit '.($return['navi']['curr']-1)*$sets['pp']['art_cg_pool'].', '.$sets['pp']['art_cg_pool'],'id');
 					}
 				}
 				else {						
 					if (!preg_match('/\.(png|jpg|jpeg|gif)/iu',$url[3])) {
 						$string = bin2hex(_base64_decode($url[3]));
-						if ($name = $db->base_sql('sub','select name from w8m_galleries where md5="'.$string.'"',2)) {
+						if ($name = obj::db('sub')->sql('select name from w8m_galleries where md5="'.$string.'"',2)) {
 							$this->template = 'download';
 							$this->side_modules = array();
 							return array('file' => '/var/www/nameless/data/www/w8m.4otaku.ru/image/'.$string.'.zip', 'name' => str_replace(array(' ',';'),'_',$name).'.zip');
 						} 							
-						elseif ($data = $db->base_sql('sub','select filename, gallery_id, ext from w8m_art where md5="'.$string.'"',1)) {
-							$gallery = $db->base_sql('sub','select md5 from w8m_galleries where id='.$data['gallery_id'],2);
+						elseif ($data = obj::db('sub')->sql('select filename, gallery_id, ext from w8m_art where md5="'.$string.'"',1)) {
+							$gallery = obj::db('sub')->sql('select md5 from w8m_galleries where id='.$data['gallery_id'],2);
 							$this->template = 'download';
 							$this->side_modules = array();
 							if ($data['ext'] == 'jpg') $type = 'jpeg'; else $type = $data['ext'];

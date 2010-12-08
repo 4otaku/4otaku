@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `username` varchar(256) collate utf8_unicode_ci NOT NULL,
   `email` varchar(256) collate utf8_unicode_ci NOT NULL,
   `ip` varchar(16) collate utf8_unicode_ci NOT NULL,
+  `cookie` varchar(32) collate utf8_unicode_ci NOT NULL,
   `text` text collate utf8_unicode_ci NOT NULL,
   `pretty_text` text collate utf8_unicode_ci NOT NULL,
   `pretty_date` varchar(256) collate utf8_unicode_ci NOT NULL,
@@ -142,7 +143,9 @@ INSERT INTO `cron` (`id`, `time`, `function`, `period`) VALUES
 (5, 0, 'close_orders', 86400),
 (6, 0, 'clean_settings', 3600),
 (7, 0, 'add_to_search', 3600),
-(8, 0, 'update_search', 60);
+(8, 0, 'update_search', 60),
+(9, 0, 'check_dropout_search', 86400),
+(10, 0, 'search_balance_weights', 864000);
 
 CREATE TABLE IF NOT EXISTS `gouf_base` (
   `id` int(11) NOT NULL auto_increment,
@@ -154,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `gouf_base` (
 INSERT INTO `gouf_base` (`id`, `alias`, `text`) VALUES
 (4, 'mediafire.com', 'Preparing download...'),
 (2, 'narod.ru', '<input type="hidden" name="action" value="sendcapcha" />'),
-(3, 'megaupload.com', 'but_dnld_file.gif|<center>The file you are trying to access is temporarily unavailable.</center>'),
+(3, 'megaupload.com', 'but_dnld_file.gif|<center>The file you are trying to access is temporarily unavailable.</center>|<center>Файл, который Вы пытаетесь открыть, временно недоступен|id="downloadlink"'),
 (1, 'mediafire.com/?sharekey=', ' '),
 (7, '4shared.com', '<font>Скачать</font>');
 
@@ -319,6 +322,12 @@ CREATE TABLE IF NOT EXISTS `search_queries` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `query` (`query`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE `4otaku`.`search_weights` (
+`place` VARCHAR( 256 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
+`weight` FLOAT NOT NULL DEFAULT '1',
+PRIMARY KEY ( `place` )
+) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL auto_increment,

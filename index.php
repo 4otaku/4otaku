@@ -4,47 +4,39 @@ include_once 'inc.common.php';
 
 $check = new check_values();
 
-include_once 'engine'.SL.'cleanglobals.php';
-include_once 'engine'.SL.'metafunctions.php';
+include_once ROOT_DIR.SL.'engine'.SL.'cleanglobals.php';
+include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
 
-if ($check->hash($_COOKIE['settings'])) $settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
-if ($settings) {
-	$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];	
-	setcookie("settings", $_COOKIE['settings'], time()+3600*24*60, '/' , $cookie_domain);
-	$sets = merge_settings($sets,$hide_sape = unserialize(base64_decode($settings)));
-}
-else {
-	$hash = md5(microtime(true));
-	$cookie_domain = $_SERVER['SERVER_NAME'] == 'localhost' ? false : '.'.$_SERVER['SERVER_NAME'];
-	setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
-	$db->sql('insert into settings (cookie,lastchange) values ("'.$hash.'","'.time().'")',0);
-	$_COOKIE['settings'] = $hash;
-}
+$_SERVER["REQUEST_URI"] = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/','',$_SERVER["REQUEST_URI"]);
+$url = explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"])); 
 
-$url = array_filter(explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"]))); 
+if(isset($url[0])) unset($url[0]);
+if(empty($url[1])) $url[1] = 'index';
 
-unset($url[0]); if (!$url[1]) $url[1] = 'index';
-include_once 'engine'.SL.'handle_old_urls.php';
+include_once ROOT_DIR.SL.'engine'.SL.'handle_old_urls.php';
 
-if ($post['do']) {
+if (isset($post['do'])) {
 	$post['do'] = explode('.',$post['do']);
 	if (count($post['do']) == 2) {
 		$input_class = 'input__'.$post['do'][0]; $input = new $input_class;
 		$input_function = $post['do'][1]; $input->$input_function($post);		
-	}
+	}	
+	header("HTTP/1.x 302 Moved Temporarily");
+	header("Location: http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+	exit();	
+} else {
+	$data = array();
+
+	$output_class = 'output__'.$url[1]; $output = new $output_class;
+
+	$output->check_404($output->allowed_url); 
+	if (!$error) 
+		$data['main'] = $output->get_data();
+		
+	$data = array_merge($data,$output->get_side_data($output->side_modules));
+	if ($error) 
+		$output->make_404($output->error_template);
+
+	include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';
+	ob_end_flush();
 }
-
-$data = array();
-
-$output_class = 'output__'.$url[1]; $output = new $output_class;
-
-$output->check_404($output->allowed_url); 
-if (!$error) 
-	$data['main'] = $output->get_data();
-	
-$data = array_merge($data,$output->get_side_data($output->side_modules));
-if ($error) 
-	$output->make_404($output->error_template);
-
-include_once 'templates'.SL.str_replace('__',SL,$output->template).'.php';
-ob_end_flush();

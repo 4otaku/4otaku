@@ -6,12 +6,12 @@ class dinamic__edit extends engine
 	public $textarea = false;	
 	
 	function show() {
-		global $get; global $sets; global $postparse; global $url;
+		global $get; global $postparse; global $url;
 		$url = array_filter(explode('/',preg_replace('/\?[^\/]+$/','',$get['path']))); unset($url[0]); if (!$url[1]) $url[1] = 'index';
 		$output = 'output__'.$get['type'];
 		$output = new $output;
 		if ($get['type'] == 'video') 
-			if ($get['num']) $third = $sets['video']['full']; else $third = $sets['video']['thumb'];
+			if ($get['num']) $third = sets::video('full'); else $third = sets::video('thumb');
 		switch ($get['type']) {
 			case 'post': 
 				$data['main']['post'] = $output->get_post(1,'id='.$get['id']); 
@@ -38,17 +38,18 @@ class dinamic__edit extends engine
 	}
 
 	function save() {
-		global $post; global $db; global $sets;
+		global $post;
 		$input = 'input__'.$post['type']; $func = 'edit_'.$post['part'];
 		$input = new $input;
 		if ($post['type'] == 'order') $post['type'] = 'orders';
-		$old_data = $db->sql('select * from '.$post['type'].' where id='.$post['id'],1);
+		$old_data = obj::db()->sql('select * from '.$post['type'].' where id='.$post['id'],1);
 		$input->$func();
-		$new_data = $db->sql('select * from '.$post['type'].' where id='.$post['id'],1);
+		$new_data = obj::db()->sql('select * from '.$post['type'].' where id='.$post['id'],1);
 		if ($old_data != $new_data) {
 			unset($new_data['id']);
+			obj::db()->sql('update search set lastupdate=0 where place="'.$post['type'].'" and item_id="'.$post['id'].'"',0);
 			if ($post['type'] == 'orders') $post['type'] = 'order';
-			$db->insert('versions',array($post['type'],$post['id'],base64_encode(serialize($new_data)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+			obj::db()->insert('versions',array($post['type'],$post['id'],base64_encode(serialize($new_data)),ceil(microtime(true)*1000),sets::user('name'),$_SERVER['REMOTE_ADDR']));
 		}
 	}
 	
@@ -64,7 +65,7 @@ class dinamic__edit extends engine
 		global $db; global $get; global $post; global $check;
 		if ($check->num($get['id'])) {
 			$post['art'] = '|'.implode('|',array_reverse($post['art'])).'|';
-			$db->dsql('update art_pool set art = "'.$post['art'].'" where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
+			$db->sql('update art_pool set art = "'.$post['art'].'" where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
 		}
 	}	
 

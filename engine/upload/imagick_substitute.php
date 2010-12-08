@@ -9,7 +9,7 @@ if (!function_exists('exif_imagetype')) {
 	}
 }
 
-class Imagick {
+class imagick_substitute {
 
 	private $path;
 	private $data;
