@@ -15,26 +15,29 @@ class output__rss extends engine
 	public $side_modules = array(	);
 	
 	function get_data() {
-		global $url; global $db; global $data; global $error; global $check; global $sets;
+		global $url; global $data; global $error; global $check; global $sets;
 		if (substr($url[2],0,1) == '=') {
 			$alias = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'c' => 'comment', 'o' => 'orders', 'u' => 'updates', 'n' => 'news');
 			$types = array_filter(array_unique(str_split(substr($url[2],1))));
 			$data = array();
-			foreach ($types as $type) 
-				if ($type != 'm')
-					if (is_array($new_data = $db->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="'.($type != 'o' ? 'main' : 'workshop').'" order by sortdate desc limit 0, 30','sortdate')))
+			foreach ($types as $type) {
+				if ($type != 'm') {
+					if (is_array($new_data = obj::db()->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="'.($type != 'o' ? 'main' : 'workshop').'" order by sortdate desc limit 0, 30','sortdate'))) {
 						$data = $data + $new_data;
-			if($sets['user']['rights'] && array_search('m', $types))				/* Для очередей премодерации */	
+					}
+				}
+			}
+			if($sets['user']['rights'] && array_search('m', $types))				/* Для очередей премодерации */	/* О_о, ты используешь рсс-ридер где можно выставить куки?*/
 				foreach ($types as $type) 
 					if ($type != 'o' && $type != 'm')
-						if (is_array($new_data = $db->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="workshop" order by sortdate desc limit 0, 30','sortdate')))
+						if (is_array($new_data = obj::db()->sql('select *,"'.$alias[$type].'" as type from '.$alias[$type].' where area="workshop" order by sortdate desc limit 0, 30','sortdate')))
 							$data = $data + $new_data;	
 			krsort($data);
 			$return['items'] = array_slice($data,0,50,true);
 		}
 		elseif (is_array($condition = explode('|',_base64_decode($url[2])))) {
 			if ($check->lat(implode('',$condition)))
-				$return['items'] = $db->sql('select *,"'.$condition[0].'" as type from '.$condition[0].' where area="'.($condition[0] != 'orders' ? 'main' : 'workshop').'" and locate("|'.$condition[2].'|",'.$condition[1].') order by sortdate desc limit 0, 20','sortdate');
+				$return['items'] = obj::db()->sql('select *,"'.$condition[0].'" as type from '.$condition[0].' where area="'.($condition[0] != 'orders' ? 'main' : 'workshop').'" and locate("|'.$condition[2].'|",'.$condition[1].') order by sortdate desc limit 0, 20','sortdate');
 			else {
 				$error = true;
 				return '';
@@ -47,7 +50,6 @@ class output__rss extends engine
 		foreach ($return['items'] as &$item) {
 			$function = 'convert_'.$item['type'];
 			$item = $this->$function($item);
-			/*$item['text'] = $this->replace_spoilers($item['text']);*/
 			$item['rss_title'] = html_entity_decode($item['title']);
 			$item['guid'] = $alias[$type].'-'.$item['id'];
 		}
@@ -124,8 +126,7 @@ class output__rss extends engine
 	}
 	
 	function convert_updates($item) {
-		global $db;	
-		$item['title'] = 'Обновление записи '.$db->sql('select title from post where id='.$item['post_id'],2);
+		$item['title'] = 'Обновление записи '.obj::db()->sql('select title from post where id='.$item['post_id'],2);
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/show_updates/';		
 		$item['link'] = unserialize($item['link']);
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
