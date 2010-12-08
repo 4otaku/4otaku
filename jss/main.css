@@ -786,6 +786,13 @@ ol.orders_list {
 	font-weight: bold;
 }
 
+/* Content, борда */
+
+.boardname {
+	font-weight: bold;
+	color: #117743;
+}
+
 /* Content, админка */
 
 #darklayer {
