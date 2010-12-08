@@ -49,7 +49,7 @@ class input__board extends input__common
 					$text,
 					$category,
 					'|',
-					$transform_text->rudate(),
+					$transform_text->rudate(true),
 					$time,
 					$cookie->get()
 				);
