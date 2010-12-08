@@ -33,25 +33,20 @@ class output__board extends engine
 		$limit = 'limit '.($return['navi']['curr']-1)*$sets['pp']['board'].', '.$sets['pp']['board'];
 		$return['threads'] = $db->sql('select * from board where locate("|'.$url[2].'|",`boards`) and `type` = "2" order by updated '.$limit,'id');
 		if (is_array($return['threads'])) {
-			foreach ($return['threads'] as $key => $thread) {
-				if ($thread['content']{0} == '#') {
-					$return['threads'][$key]['image'] = explode('#', $thread['content']);
-				} else {
-					$return['threads'][$key]['video'] = str_replace(array('%video_width%','%video_height%'),array($def['board']['thumbwidth'],$def['board']['thumbheight']),$thread['content']);
-				}
-			}
+			$this->process_content($return['threads']);
 
 			$keys = 'thread='.implode(' or thread=', array_keys($return['threads']));
 			$posts = $db->sql('select * from board where '.$keys);
 		
 			if (is_array($posts)) {
+				$this->process_content($posts);
 				foreach ($posts as $post) {
 					$return['threads'][$post['thread']]['posts'][$post['sortdate']] = $post;
 				}
 			
 				foreach ($return['threads'] as $key => $thread) {
 					krsort($thread['posts']);
-					$return['threads'][$key] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
+					$return['threads'][$key]['posts'] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
 				}
 			}
 		} else {
@@ -65,7 +60,18 @@ class output__board extends engine
 	function thread() {
 		global $url; global $db; global $sets; 
 		$return['display'] = array('board_thread');
-		$return['posts'] = $db->sql('select * from board where thread = '.$url[4].' order by sortdate','id');
+		$return['posts'] = $db->sql('select * from board where thread = '.$url[4].' or id = '.$url[4].' order by sortdate');
+		$this->process_content($return['posts']);
 		return $return;
+	}
+	
+	function process_content(&$array) {
+		foreach ($array as $key => $item) {
+			if ($item['content']{0} == '#') {
+				$array[$key]['image'] = explode('#', $item['content']);
+			} else {
+				$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::get('board','thumbwidth'),def::get('board','thumbheight')),$item['content']);
+			}
+		}		
 	}
 }
