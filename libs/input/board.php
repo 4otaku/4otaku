@@ -28,8 +28,7 @@ class input__board extends input__common
 				$category = '|'.implode('|',$post['category']).'|';
 			}
 
-			$text = $transform_text->format($post['text']);
-//			$text = $transform_text->board($text);
+			$text = obj::transform('text')->wakaba($post['text']);
 
 			if ($content || trim(strip_tags($text))) {
 				

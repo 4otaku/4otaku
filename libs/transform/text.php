@@ -29,9 +29,64 @@ class transform__text
 	function format($text) {
 		$text = str_replace("\r","",$text);
 		$text = $this->bb2html($text);
-		$text = preg_replace('/(https?|ftp|file):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', '<a href="$0">$0</a>', $text);
+		$text = preg_replace('/(https?|ftp|irc):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', '<a href="$0">$0</a>', $text);
 		$text = str_replace('⟯','http',nl2br($text));
 		return $text;
+	}
+	
+	function wakaba($text) {
+		$text = str_replace("\r","",$text);
+		$text = explode("\n", $text."\n");
+		$state= '';
+		foreach ($text as &$string) $this->wakaba_mark($string,$state);
+		$text = str_replace("</li>\n",'</li>',implode("\n", $text));
+		$text = preg_replace('/(https?|ftp|irc):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', '<a href="$0">$0</a>', $text);
+		$text = nl2br(trim($text));
+		return $text;
+	}
+	
+	function wakaba_mark(&$string,&$state) {
+		$string = $this->wakaba_strike($string);
+		
+		if (preg_match('/^(?:\-|\+|\*)\s+(.*)$/',$string,$match)) {
+			$new_state = 'ul';
+		} elseif (preg_match('/^\d+\.\s+(.*)$/',$string,$match)) {
+			$new_state = 'ol';
+		} else {
+			$new_state = '';
+		}
+		
+		if ($state == $new_state) {
+			$string = empty($new_state) ? $string : '<li>'.$match[1].'</li>';
+		} else {
+			$tmp_string = '';
+			$tmp_string .= !empty($state) ? '</'.$state.'>' : '';
+			$tmp_string .= !empty($new_state) ? '<'.$new_state.'><li>'.$match[1].'</li>' : $string;
+			$string = $tmp_string;
+		}		
+		$state = $new_state;
+		
+		$string = preg_replace('/(\*{2}|_{2})(.+)\1/', '<b>$2</b>', $string);
+		$string = preg_replace('/(\*|_)(.+)\1/', '<i>$2</i>', $string);
+		$string = preg_replace('/`(.+)`|^ {4}(.+)$/', '<code>$1$2</code>', $string);
+		$string = preg_replace('/%{2}(.+)%{2}/', '<span class="board_spoiler">$1</span>', $string);
+		$string = preg_replace('/^&gt;(.+)$/', '<span class="board_quote">$1</span>', $string);
+	}
+	
+	function wakaba_strike($string) {
+		$parts = preg_split('/((?:\^H)+)/',$string,null,PREG_SPLIT_DELIM_CAPTURE);
+		foreach ($parts as $key => $part) {
+			if ($key && $part{0}.$part{1} == '^H') {
+				unset($parts[$key]);
+				$parts[$key-1] = undo_safety($parts[$key-1]);
+				
+				$parts[$key-1] = 
+					redo_safety(mb_substr($parts[$key-1], 0, -1/2 * strlen($part))) . '<s>' .
+					redo_safety(mb_substr($parts[$key-1], -1/2 * strlen($part))) . '</s>';
+			}
+		}
+		
+		return implode('',$parts);
 	}
 	
 	function wcase($count, $case1, $case2, $case3) {

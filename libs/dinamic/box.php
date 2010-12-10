@@ -12,5 +12,9 @@ class dinamic__box
 	
 	function settings() { 	
 		return true;
-	}		
+	}
+	
+	function wakaba() { 	
+		return true;
+	}			
 }

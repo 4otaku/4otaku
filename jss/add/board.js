@@ -1,3 +1,5 @@
+$(".thickbox").unbind('click');
+
 $(document).ready(function(){  	
 
 	window.processing_board = 0;
