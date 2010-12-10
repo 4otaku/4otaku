@@ -1,33 +1,23 @@
-<script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody>
 			<tr>
-				<td class="input field_name">
-					Текст
+				<td class="input">
+					<span class="field_name right">
+						Текст
+					</span>
+					<br />
+					<span class="right">
+						Форматирование с помощью 
+					</span>
+					<br />
+					<span class="right">
+						<a href="/ajax.php?m=box&f=wakaba&width=700&height=380" title="Справка по Wakaba Mark" class="thickbox">Wakaba Mark</a>
+					</span>						
 				</td>
 				<td class="inputdata">
 					<textarea name="text" cols="70" rows="8" id="textfield" class="left"></textarea>
-					<table cellspacing="3px" class="bbholder">
-						<tr>
-							<td><img src="/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
-						</tr>
-						<tr>
-							<td><img src="/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
-						</tr>
-						<tr>
-							<td><img src="/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
-						</tr>
-						<tr>
-							<td><img src="/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
-						</tr>								
-						<tr>
-							<td><img src="/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
-						</tr>
-						<tr>
-							<td><img src="/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
-						</tr>
-					</table>					
 				</td>
 			</tr>
 			<? if (!is_numeric($get['info'])) { ?>
