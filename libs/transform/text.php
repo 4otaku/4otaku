@@ -35,12 +35,23 @@ class transform__text
 	}
 	
 	function wakaba($text) {
-		$text = str_replace("\r","",$text);
+		$text = str_replace("\r","",$text);		
+		$i = 0; $links = array();
+		if (preg_match_all('/(https?|ftp|irc):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', $text, $matches)) {
+			foreach ($matches[0] as $match) {
+				$text = preg_replace('/'.preg_quote($match,'/').'/','{⟯link'.++$i.'}',$text,1);
+				$links[$i] = '<a href="'.$match.'">'.$match.'</a>';
+			}
+		}
 		$text = explode("\n", $text."\n");
 		$state= '';
 		foreach ($text as &$string) $this->wakaba_mark($string,$state);
 		$text = str_replace("</li>\n",'</li>',implode("\n", $text));
-		$text = preg_replace('/(https?|ftp|irc):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', '<a href="$0">$0</a>', $text);
+		
+		foreach($links as $key => $link) {
+			$text = str_replace('{⟯link'.$key.'}',$links[$key],$text);
+		}
+		
 		$text = nl2br(trim($text));
 		return $text;
 	}
@@ -74,9 +85,9 @@ class transform__text
 	}
 	
 	function wakaba_strike($string) {
-		$parts = preg_split('/((?:\^H)+)/',$string,null,PREG_SPLIT_DELIM_CAPTURE);
+		$parts = preg_split('/((?:\^H)+|\{⟯link\d+\})/',$string,null,PREG_SPLIT_DELIM_CAPTURE);
 		foreach ($parts as $key => $part) {
-			if ($key && $part{0}.$part{1} == '^H') {
+			if ($key && $part{0}.$part{1} == '^H' && $parts[$key-1]{1} != '⟯') {
 				unset($parts[$key]);
 				$parts[$key-1] = undo_safety($parts[$key-1]);
 				
