@@ -45,8 +45,8 @@ function parseIncomingRecursively(&$data,$input,$iteration = 0) {
 			$input[$k] = parseIncomingRecursively($data[$k], array(), $iteration + 1);
 		}
 		else {
-			$k = str_replace(array('&','"','<','>','\\',"'"),array('&amp;','&quot;','&lt;','&gt;','&#092;','&apos;'),$k);
-			$v = str_replace(array('&','"','<','>','\\',"'"),array('&amp;','&quot;','&lt;','&gt;','&#092;','&apos;'),$v);
+			$k = str_replace(array('&','"','<','>','\\',"'",'⟯'),array('&amp;','&quot;','&lt;','&gt;','&#092;','&apos;',''),$k);
+			$v = str_replace(array('&','"','<','>','\\',"'",'⟯'),array('&amp;','&quot;','&lt;','&gt;','&#092;','&apos;',''),$v);
 			$input[$k] = $v;
 		}
 	}
