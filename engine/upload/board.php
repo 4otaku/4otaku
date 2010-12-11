@@ -12,7 +12,7 @@
 			$newthumb = ROOT_DIR.'images'.SL.'board'.SL.'thumbs'.SL.$thumb.'.jpg';
 			chmod($temp, 0755);
 			if (!file_exists($newfile)) move_uploaded_file($temp, $newfile);
-			$imagick =  new Imagick($path = $newfile);
+			$imagick =  new $image_class($path = $newfile);
 			scale(array($def['board']['thumbwidth'],$def['board']['thumbheight']),$newthumb);
 			$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
 			echo '/images/board/thumbs/'.$thumb.'.jpg|#'.$newname.'#'.$thumb.'.jpg#'.$sizefile.'#'.$sizes;
