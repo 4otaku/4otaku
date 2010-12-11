@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `author` (
 
 CREATE TABLE IF NOT EXISTS `board` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `status` enum('2','1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `type` enum('2','1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
   `thread` int(11) NOT NULL,
   `updated` bigint(16) NOT NULL,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
