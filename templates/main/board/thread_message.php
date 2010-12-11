@@ -18,6 +18,14 @@
 			</a>]
 		</td>
 		<td align="right" valign="top">
+			[<? foreach($thread['boards'] as $key => $board) { ?>
+				<? if (!empty($key)) { ?>
+					/
+				<? } ?>
+				<a href="/board/<?=$board;?>/">
+					<?=$board;?>
+				</a>
+			<? } ?>] 
 			<?=$thread['pretty_date'];?>
 			<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?>
 				 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">

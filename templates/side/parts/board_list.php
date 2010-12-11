@@ -27,7 +27,7 @@
 							foreach ($data['sidebar']['board_list'] as $alias => $name) {
 								?>
 									<li>
-										[<a href="/board/<?=$alias;?>/">
+										[<a href="/board/<?=$alias;?>/"<?=($url[2] == $alias ? ' class="plaintext"' : '');?>>
 											<?=$name;?>
 										</a>]
 									</li>

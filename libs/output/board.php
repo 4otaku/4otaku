@@ -114,6 +114,9 @@ class output__board extends engine
 						$video++;
 					}
 				}
+				if (!empty($item['boards'])) {
+					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
+				}
 				if (!empty($item['text'])) {
 					preg_match_all('/&gt;&gt;(\d+)(\s|$)/',$item['text'],$inner_links);
 					foreach ($inner_links[1] as $inner_link) {
