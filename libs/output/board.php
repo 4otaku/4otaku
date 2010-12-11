@@ -28,6 +28,7 @@ class output__board extends engine
 
 	function main() {
 		$return['display'] = array('board_main');
+		$return['boards'] = obj::db()->sql('select alias, name from category where locate("|board|",area) order by id','alias');
 		return $return;
 	}
 
