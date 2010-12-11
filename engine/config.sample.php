@@ -27,7 +27,7 @@ $def['booru']['resizewidth'] = 750;
 $def['booru']['resizestep'] = 1.1;
 $def['board']['filesize'] = 5*1024*1024;
 $def['board']['thumbwidth'] = 240;
-$def['board']['thumbheight'] = 180; 
+$def['board']['thumbheight'] = 180;
 $def['post']['picturesize'] = 2*1024*1024;
 $def['post']['filesize'] = 10*1024*1024;
 $def['video']['filesize'] = 50*1024*1024;
@@ -80,16 +80,19 @@ $sets['pp']['news'] = 5;
 $sets['pp']['latest_comments'] = 3;
 $sets['pp']['random_orders'] = 5;
 
-// Свернутость/равзернутость блоков меню, направление комментов 
+// Свернутость/равзернутость блоков меню, направление комментов
 // 1 - развернутый блок/инвертированное дерево, 0 - свернутый блок/обычное дерево
 
 $sets['dir']['navi'] = 1;
+$sets['dir']['settings'] = 0;
 $sets['dir']['comment'] = 1;
 $sets['dir']['update'] = 1;
 $sets['dir']['order'] = 1;
 $sets['dir']['quick'] = 1;
 $sets['dir']['tag'] = 1;
 $sets['dir']['art_tag'] = 1;
+$sets['dir']['masstag'] = 0;
+$sets['dir']['board_list'] = 1;
 $sets['dir']['comments_tree'] = 1;
 
 // Режим скачивания для раздела с артом. 0 - выключено, 1 - включено

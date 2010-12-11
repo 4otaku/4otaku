@@ -1,31 +1,33 @@
-<? 
+<?
 include_once('engine'.SL.'engine.php');
 class output__board extends engine
 {
 	public $allowed_url = array(
-		array(1 => '|board|', 2 => 'any', 3=> '|page|thread|', 4 => 'num', 5 => 'end'),	
+		array(1 => '|board|', 2 => 'any', 3=> '|page|thread|', 4 => 'num', 5 => 'end'),
 	);
 	public $template = 'general';
 	public $side_modules = array(
-		'head' => array('title'),	
+		'head' => array('title'),
 		'header' => array('top_buttons'),
 		'top' => array('add_bar'),
-		'sidebar' => array('comments','quicklinks'),
+		'sidebar' => array('board_list','comments','quicklinks'),
 		'footer' => array()
 	);
-	
+
+	public $error_template = 'board';
+
 	function get_data() {
 		global $url;
 		if (!$url[2]) return $this->main();
 		elseif ($url[3] != 'thread') return $this->board();
 		else return $this->thread();
 	}
-	
+
 	function main() {
 		$return['display'] = array('board_main');
 		return $return;
 	}
-	
+
 	function board() {
 		global $url; global $db; global $sets; global $error;
 		$return['display'] = array('board_page', 'navi');
@@ -37,13 +39,13 @@ class output__board extends engine
 
 			$keys = 'thread='.implode(' or thread=', array_keys($return['threads']));
 			$posts = $db->sql('select * from board where '.$keys);
-		
+
 			if (is_array($posts)) {
 				$this->process_content($posts);
 				foreach ($posts as $post) {
 					$return['threads'][$post['thread']]['posts'][$post['sortdate']] = $post;
 				}
-			
+
 				foreach ($return['threads'] as $key => $thread) {
 					krsort($thread['posts']);
 					$return['threads'][$key]['posts'] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
@@ -56,15 +58,22 @@ class output__board extends engine
 		$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
 		return $return;
 	}
-	
+
 	function thread() {
-		global $url; global $db; global $sets; 
-		$return['display'] = array('board_thread');
-		$return['posts'] = $db->sql('select * from board where thread = '.$url[4].' or id = '.$url[4].' order by sortdate');
-		$this->process_content($return['posts']);
+		global $url; global $db; global $sets; global $error;
+
+		if (intval($url[4])) {
+			$return['display'] = array('board_thread');
+			$return['posts'] = $db->sql('select * from board where thread = '.$url[4].' or id = '.$url[4].' order by sortdate');
+			$this->process_content($return['posts']);
+		} else {
+			$error = true;
+			$this->side_modules['top'] = array('board_list');
+		}
+
 		return $return;
 	}
-	
+
 	function process_content(&$array) {
 		foreach ($array as $key => $item) {
 			if ($item['content']{0} == '#') {
@@ -72,6 +81,6 @@ class output__board extends engine
 			} else {
 				$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::get('board','thumbwidth'),def::get('board','thumbheight')),$item['content']);
 			}
-		}		
+		}
 	}
 }

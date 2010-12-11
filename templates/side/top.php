@@ -8,20 +8,38 @@
 		'board' => 'Открыть новый тред',
 		'thread' => 'Ответить в тред',
 	);
-?>
-<?
+
+	if (is_array($data['top']['board_list'])) {
+		?> 
+			<div class="center" width="100%">
+				Доски: [
+		<?
+		$first = 0;
+		foreach ($data['top']['board_list'] as $alias => $name) {
+			?>
+				<?=($first++ ? ' / ' : '');?>
+				<a href="/art/board/<?=$alias;?>/">
+					<?=$name;?>
+				</a>
+			<?
+		}
+		?>
+				]
+			</div>
+		<?		
+	}
 	if ($data['top']['add_bar']) {
 		if (!$data['top']['add_bar']['name']) $data['top']['add_bar']['name'] = $data['top']['add_bar']['type'];
 		?>
 			<div class="addborder">
-				<div id="downscroller" rel="<?=$data['top']['add_bar']['type'];?>#<?=$data['top']['add_bar']['info'];?>"> 
+				<div id="downscroller" rel="<?=$data['top']['add_bar']['type'];?>#<?=$data['top']['add_bar']['info'];?>">
 					<div>
 						<a href="#scroll" class="disabled">
 							<?=$lang['add'][$data['top']['add_bar']['name']];?>
 							<?=($data['top']['add_bar']['pool'] ? " в группу ".$data['top']['add_bar']['pool'] : "");?>
 						</a>
 						<span class="arrow"> ↓</span> 
-						<? 
+						<?
 							if (isset($data['top']['add_bar']['pass'])) {
 								?>
 									<span class="right">
@@ -41,7 +59,7 @@
 			</div>
 			<br />
 		<?
-	}	
+	}
 	if (isset($add_res)) {
 		?>
 			<div class="mini-shell addres">
@@ -51,4 +69,3 @@
 			</div>
 		<?
 	}
-?>
