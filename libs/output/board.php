@@ -155,8 +155,8 @@ class output__board extends engine
 				return '<a href="#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
 			} else {
 				$data['boards'] = explode('|',trim($data['boards'],'|'));
-				$data['board'] = $data['boards'][array_rand($data['boards'])];				
-				return '<a href="/board/'.$data['board'].'/thread/'.$data['thread'].'#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
+				$data['board'] = $data['boards'][array_rand($data['boards'])];		
+				return '<a href="/board/'.$data['board'].'/thread/'.($data['thread'] ? $data['thread'] : $id[1]).'#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
 			}
 		} else {
 			return $id[0];
