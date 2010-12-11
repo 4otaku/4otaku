@@ -96,6 +96,7 @@ class side__sidebar extends engine
 		global $data; global $db; global $check;
 
 		if (is_array($data['main']['art']['thumbs'])) {
+			$page_flag = true;
 			foreach ($data['main']['art']['thumbs'] as $art)
 				if (is_array($art['meta']['tag']))
 					foreach ($art['meta']['tag'] as $alias => $tag)
@@ -103,6 +104,7 @@ class side__sidebar extends engine
 						else $tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1);
 		}
 		elseif (is_array($data['main']['art'][0]['meta']['tag'])) {
+			$page_flag = false;
 			foreach ($data['main']['art'][0]['meta']['tag'] as $alias => $tag)
 				if ($tags[$alias]) $tags[$alias]['count']++;
 				else $tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1);
@@ -110,18 +112,30 @@ class side__sidebar extends engine
 		unset($tags['prostavte_tegi'],$tags['tagme'],$tags['deletion_request']);
 
 		if (!empty($tags)) {
-			$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
-			$global = $db->sql('select alias, art_main from tag '.$where,'alias');
+			if ($page_flag) {
+				$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
+				$global = $db->sql('select alias, art_main from tag '.$where,'alias');
 
-			foreach ($global as $alias => $global_count)
-				$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
+				foreach ($global as $alias => $global_count)
+					$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
 
-			krsort($return);
-			$return = array_slice($return,0,25);
-			shuffle($return);
+				krsort($return);
+				$return = array_slice($return,0,25);
+				shuffle($return);
 
-			return $return;
+				return $return;
+			} else {
+				uasort($tags,array('self','name_sort'));
+				return $tags;
+			}
 		}
+	}
+	
+	static function name_sort($a, $b) {
+		return (
+			obj::transform('text')->strtolower_ru($a['name']) > 
+			obj::transform('text')->strtolower_ru($b['name'])
+		) ? 1 : -1;
 	}
 
 	function admin_functions() {
