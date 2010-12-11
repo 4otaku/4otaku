@@ -140,7 +140,7 @@
 													Изображение уменьшено. 
 												</span>
 												<a href="#" class="disabled booru_show_toggle" rel="<?=$item['extension'];?>">
-													Показать в полном размере
+													Показать в полном размере <?=($item['resized'] !== 1 ? '('.$item['resized'].'px)' : '');?>
 												</a>. 
 												<a href="#" class="disabled booru_show_full_always">
 													 Всегда показывать в полном размере
