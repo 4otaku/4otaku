@@ -5,7 +5,7 @@
 			<? } ?></span>
 	<span class="author"><?=$post['name'];?></span>
 	<? if (!empty($post['trip'])) { ?><span class="trip"><?=$post['trip'];?></span><? } ?>
-	<span class="number"><a href="<?='/board/'.$url[2].'/thread/'.$id.'/#post-'.$post['id'];?>">#<?=$post['id'];?></a></span>
+	<span class="number"><a href="<?='/board/'.$url[2].'/thread/'.$id.'/#board-'.$post['id'];?>">#<?=$post['id'];?></a></span>
 	<span class="date"><?=$post['pretty_date'];?></span>
 	<div class="tbody">
 			<? if ($post['image']) { ?>
