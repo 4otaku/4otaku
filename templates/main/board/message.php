@@ -1,4 +1,4 @@
-<div class="message" id="post-<?=$post['id'];?>">	
+<div class="message" id="board-<?=$post['id'];?>">	
 	<span class="link_reply"><a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">Ответить</a></span>
 	<span class="link_delete"><? if ($post['cookie'] && $_COOKIE['settings'] === $post['cookie']) { ?>
 				 <img src="/images/comment_delete.png" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
