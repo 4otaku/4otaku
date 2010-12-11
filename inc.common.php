@@ -70,9 +70,7 @@ def::import($def);
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
 if(def::site('domain') && def::site('domain') != $_SERVER["SERVER_NAME"]) {
-	header("HTTP/1.x 301 Moved Permanently");
-	header("Location: http://".$def['site']['domain'].$_SERVER["REQUEST_URI"]);
-	exit();
+	Engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"])
 }
 
 $db = new mysql();
