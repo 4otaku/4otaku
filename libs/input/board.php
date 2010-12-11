@@ -22,9 +22,7 @@ class input__board extends input__common
 		
 		if (empty($post['id']) + empty($content) + empty($text) <= 1) {
 	
-			if (!trim($post['user'])) {
-				$post['user'] = $def['user']['name'];
-			} elseif ($post['user'] != $def['user']['name']) {
+			if (trim($post['user']) && $post['user'] != $def['user']['name']) {
 				$cookie->inner_set('user.name',$post['user']); 
 			}
 			
@@ -43,7 +41,7 @@ class input__board extends input__common
 				$post['id'] ? 1 : 2,
 				$post['id'],
 				$post['id'] ? 0 : $time,
-				$user[0],
+				trim($user[0]) ? trim($user[0]) : $def['user']['name'],
 				$trip,
 				$content,
 				undo_safety($post['text']),
