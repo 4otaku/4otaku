@@ -1067,3 +1067,31 @@ ul.art_tags span{
 	text-align: center;
 	width: 240px;
 }
+
+/* Борда */
+
+div.thread { display: block; padding: 5px 0 10px 0; clear: both; border-top: 1px solid #ddd; margin-top: 15px; }
+div.thread span { float: left; display: block; padding: 0 10px 0 10px; border-left: 1px solid #ddd;  }
+div.thread span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
+div.thread span.number, div.thread span.number a { color: #bbb; text-decoration: none; }
+div.thread span.link_read, div.thread span.link_reply, div.thread span.link_delete { float: right; }
+div.thread span.link_reply { padding: 0 0 0 10px; }
+div.thread span.date { color: #bbb; }
+div.thread span.trip { color: #C7C500; }
+div.thread div.tbody { clear: both; padding: 5px 0; }
+div.thread div.tbody img, div.thread div.video{ float: left; padding: 0 10px 10px 0px; }
+div.thread div.posttext { margin: 0; }
+
+div.message { display: block; padding: 5px; margin: 0 0 5px 0; border: 1px solid #ddd; background: #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
+div.message span { float: left; display: block; padding: 0 10px 0 10px; border-left: 1px solid #ddd;  }
+div.message span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
+div.message span.number, div.message span.number a { color: #bbb; text-decoration: none; }
+div.message span.link_reply, div.message span.link_delete { float: right; }
+div.message span.link_reply { padding: 0 0 0 10px; }
+div.message span.date { color: #bbb; }
+div.message span.trip { color: #C7C500; }
+div.message div.tbody { clear: both; padding: 5px 0; }
+div.message div.tbody img, div.message div.video { float: left; padding: 0 10px 10px 0px; }
+
+div.skipped { padding: 5px; margin: 0 0 5px 0; border: 1px solid #C7C500; background: #E8E7B7;  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
+div.skipped a.readmore { float: right; }
