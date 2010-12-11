@@ -9,22 +9,22 @@ class side__sidebar extends engine
 		$pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
 		if (preg_match_all($pattern, $agent, $matches))
 			$searchbutton[end($matches['browser'])] = end($matches['version']);
-	}		
-	
+	}
+
 	function comments() {
-		global $sets; global $url; global $transform_text; 		
+		global $sets; global $url; global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();
-		
+
 		if ($url[1] == "order") {
 			$area = "orders";
 		} elseif ($url[1] == "search") {
-			if ($url[2] == "a") $area = 'art'; 
-			else if ($url[2] == "p") $area = 'post'; 
-			else if ($url[2] == "v") $area = 'video'; 
+			if ($url[2] == "a") $area = 'art';
+			else if ($url[2] == "p") $area = 'post';
+			else if ($url[2] == "v") $area = 'video';
 		} else {
 			$area = $url[1];
 		}
-		
+
 		if (!($return = obj::db()->sql('select * from comment where (place="'.$area.'" and area != "deleted") order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate'))) {
 			$return = obj::db()->sql('select * from comment where area != "deleted" order by sortdate desc limit '.$sets['pp']['latest_comments']*5,'sortdate');
 		} else {
@@ -44,21 +44,21 @@ class side__sidebar extends engine
 					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
 					else $comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
-				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));			
+				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
 				$comment['text'] = $transform_text->cut_long_words($comment['text']);
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
-			}			
+			}
 			return array('data' => $return, 'link' => $link);
 		}
-	}	
-	
+	}
+
 	function update() {
-		global $db; global $transform_text; 		
+		global $db; global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();
-		
+
 		$return = $db->sql('select * from updates order by sortdate desc limit 1',1);
 		$return['text'] = undo_quotes(strip_tags($return['text'],'<br>'));
 		if (mb_strlen($return['text']) > 100) $points = '...'; else $points = '';
@@ -70,7 +70,7 @@ class side__sidebar extends engine
 	}
 
 	function orders() {
-		global $db; global $sets; 
+		global $db; global $sets;
 		if ($return = $db->sql('select id, username, title, text, comment_count from orders where area="workshop"')) {
 			shuffle($return);
 			return array_slice($return, 0, $sets['pp']['random_orders']);
@@ -79,25 +79,25 @@ class side__sidebar extends engine
 
 	function tags() {
 		global $sets; global $def; global $url;
-		
+
 		if ($url['area'] != $def['area'][0] && $url['area'] != $def['area'][2]) $area = $url[1].'_'.$def['area'][0];
 		else $area = $url[1].'_'.$url['area'];
-		
+
 		$words = array(
 			$def['type'][0] => array('запись','записи','записей'),
 			$def['type'][1] => array('видео','видео','видео'),
-			$def['type'][2] => array('арт','арта','артов')						
+			$def['type'][2] => array('арт','арта','артов')
 		);
 
 		return $this->tag_cloud(22,8,$area,$words[$url[1]],$sets['pp']['tags']);
 	}
-	
+
 	function art_tags() {
 		global $data; global $db; global $check;
 
 		if (is_array($data['main']['art']['thumbs'])) {
 			foreach ($data['main']['art']['thumbs'] as $art)
-				if (is_array($art['meta']['tag'])) 
+				if (is_array($art['meta']['tag']))
 					foreach ($art['meta']['tag'] as $alias => $tag)
 						if ($tags[$alias]) $tags[$alias]['count']++;
 						else $tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1);
@@ -108,31 +108,36 @@ class side__sidebar extends engine
 				else $tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1);
 		}
 		unset($tags['prostavte_tegi'],$tags['tagme'],$tags['deletion_request']);
-		
+
 		if (!empty($tags)) {
 			$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
 			$global = $db->sql('select alias, art_main from tag '.$where,'alias');
-			
-			foreach ($global as $alias => $global_count) 
+
+			foreach ($global as $alias => $global_count)
 				$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
-				
+
 			krsort($return);
 			$return = array_slice($return,0,25);
 			shuffle($return);
-			
+
 			return $return;
 		}
-	} 
+	}
 
 	function admin_functions() {
 		return true;
 	}
-	
+
 	function quicklinks() {
 		return true;
-	}	
+	}
+
+	function board_list() {
+		return obj::db()->sql('select alias, name from category where locate("|board|",area) order by id','alias');
+	}
+
 	function masstag() {
 		global $db;
 		return $db->sql('select alias, name from category where locate("|art|",area) order by id','alias');
-	}	
+	}
 }
