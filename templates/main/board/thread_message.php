@@ -2,7 +2,10 @@
 	<tr>
 		<td align="left">
 			<span class="boardname">
-				<?=$thread['name'].$thread['trip'];?>
+				<b>
+					<?=$thread['name'];?>
+				</b>
+				<?=$thread['trip'];?>
 			</span>, 
 			Тред № <?=$id;?> 
 			<? if ($url[3] != 'thread') { ?>

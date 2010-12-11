@@ -2,7 +2,10 @@
 	<tr>
 		<td align="left">
 			<span class="boardname">
-				<?=$post['name'].$post['trip'];?>
+				<b>
+					<?=$post['name'];?>
+				</b>
+				<?=$post['trip'];?>
 			</span>, 
 			Пост № <?=$post['id'];?> 
 			[<a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
