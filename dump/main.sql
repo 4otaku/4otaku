@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `board` (
   `thread` int(11) NOT NULL,
   `updated` bigint(16) NOT NULL,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `trip` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `trip` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `content` varchar(2048) COLLATE utf8_unicode_ci NOT NULL,
   `pretty_text` text COLLATE utf8_unicode_ci NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,

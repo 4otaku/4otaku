@@ -22,7 +22,9 @@ class input__board extends input__common
 		
 		if (empty($post['id']) + empty($content) + empty($text) <= 1) {
 	
-			if ($post['user'] != $def['user']['name']) {
+			if (!trim($post['user'])) {
+				$post['user'] = $def['user']['name'];
+			} elseif ($post['user'] != $def['user']['name']) {
 				$cookie->inner_set('user.name',$post['user']); 
 			}
 			
@@ -34,8 +36,8 @@ class input__board extends input__common
 
 			$time = ceil(microtime(true)*1000);
 			$user = explode('#', $post['user']);
-			$trip = $user[1] ? '!'.crypt($user[1]) : '';
-			$trip .= $user[2] || $user[3] ? '!!'.crypt(_crypt($user[2].$user[3])) : '';
+			$trip = $user[1] ? '!'.$this->trip($user[1]) : '';
+			$trip .= $user[2] || $user[3] ? '!!'.$this->trip(_crypt($user[2].$user[3])) : '';
 
 			$insert_data = array(
 				$post['id'] ? 1 : 2,
@@ -67,5 +69,12 @@ class input__board extends input__common
 				$this->add_res('Для ответа надо добавить текст, картинку или видео',true); 
 			}			
 		}
+	}
+	
+	function trip($string) {
+		$string = crypt($string, CRYPT_MD5);
+		$string = preg_replace('/^.+\$/','',$string);
+		$string = preg_replace('/[^\p{L}\d]+/','',$string);
+		return strtolower(substr($string,0,8));
 	}
 }
