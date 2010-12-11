@@ -1,53 +1,30 @@
-<table class="boardthread" id="board-<?=$id;?>">
-	<tr>
-		<td align="left">
-			<span class="boardname">
-				<b>
-					<?=$thread['name'];?>
-				</b>
-				<?=$thread['trip'];?>
-			</span>, 
-			Тред № <?=$id;?> 
-			<? if ($url[3] != 'thread') { ?>
-				[<a href="/board/<?=$url[2];?>/thread/<?=$id;?>/">
-					Читать
-				</a>] 
-			<? } ?>
-			[<a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply' : "javascript:add_text('>>".$id."')");?>">
-				Ответить
-			</a>]
-		</td>
-		<td align="right" valign="top">
-			[<? foreach($thread['boards'] as $key => $board) { ?>
+<div class="thread" id="board-<?=$id;?>">	
+	<span class="link_reply"><a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply' : "javascript:add_text('>>".$id."')");?>">Ответить</a></span>
+	<span class="link_read"><a href="/board/<?=$url[2];?>/thread/<?=$id;?>/">Читать</a></span>
+	<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?><span class="link_delete">
+				 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">
+			</span><? } ?>
+	<span class="author"><?=$thread['name'];?></span>
+	<? if (!empty($thread['trip'])) { ?><span class="trip"><?=$thread['trip'];?></span><? } ?>
+	<span class="number"><a href="/board/<?=$url[2];?>/thread/<?=$id;?>/">#<?=$id;?></a> в разделе <? foreach($thread['boards'] as $key => $board) { ?>
 				<? if (!empty($key)) { ?>
 					/
 				<? } ?>
 				<a href="/board/<?=$board;?>/">
 					<?=$board;?>
 				</a>
-			<? } ?>] 
-			<?=$thread['pretty_date'];?>
-			<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?>
-				 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">
-			<? } ?>
-		</td>
-	</tr>
-</table>
-<table width="100%">
-	<tr>
-		<td class="imageholder">
+			<? } ?></span>
+	<span class="date"><?=$thread['pretty_date'];?></span>
+	<div class="tbody">
 			<? if ($thread['image']) { ?>
 				<a href="/images/board/full/<?=$thread['image'][1];?>" target="_blank">
-					<img align="left" src="/images/board/thumbs/<?=$thread['image'][2];?>" rel="/images/board/full/<?=$thread['image'][1];?>">
+					<img src="/images/board/thumbs/<?=$thread['image'][2];?>" rel="/images/board/full/<?=$thread['image'][1];?>">
 				</a>	
 			<? } elseif ($thread['video']) { ?>
-				<?=$thread['video'];?>
+				<div class="video"><?=$thread['video'];?></div>
 			<? } ?>
-		</td>
-		<td valign="top">
 			<div class="posttext">
 				<?=$thread['text'];?>
 			</div>
-		</td>
-	</tr>		
-</table>
+	</div>
+</div>
