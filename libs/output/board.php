@@ -52,7 +52,7 @@ class output__board extends engine
 
 					foreach ($return['threads'] as $key => $thread) {
 						if (!empty($thread['posts'])) {
-							list($total_images, $total_video) = $this->process_content($thread['posts'], true);
+							list($total_images, $total_video) = $this->process_content($thread['posts']);
 							$total = count($thread['posts']);
 							krsort($thread['posts']);
 							$thread['posts'] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
