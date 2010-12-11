@@ -1,5 +1,5 @@
 <script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
-<form id="addform" method="post" enctype="multipart/form-data">
+<form id="addform" method="post" action="/board/add/thread/<?=$get['info'];?>" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody>
 			<tr>

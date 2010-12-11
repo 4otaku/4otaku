@@ -44,4 +44,7 @@ $(document).ready(function(){
 		$("#textfield").html(">>"+id);
 	}
 	
+	document.location.hash = '';
+	$("#addform").attr("action",document.location.href);
+	
 }); 
