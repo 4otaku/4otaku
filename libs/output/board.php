@@ -15,6 +15,9 @@ class output__board extends engine
 	);
 
 	public $error_template = 'board';
+	
+	private $inner_links = array();
+	private $thread = false;
 
 	function get_data() {
 		global $url;
@@ -71,6 +74,7 @@ class output__board extends engine
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
+			$this->build_inner_links($this->inner_links, $return['threads']);
 			return $return;
 		} else {
 			$error = true;
@@ -91,6 +95,8 @@ class output__board extends engine
 			$error = true;
 			$this->side_modules['top'] = array('board_list');
 		} else {
+			$this->thread = $url[4];
+			$this->build_inner_links($this->inner_links, $return['posts']);			
 			return $return;
 		}
 	}
@@ -108,8 +114,47 @@ class output__board extends engine
 						$video++;
 					}
 				}
+				if (!empty($item['text'])) {
+					preg_match_all('/&gt;&gt;(\d+)(\s|$)/',$item['text'],$inner_links);
+					foreach ($inner_links[1] as $inner_link) {
+						$this->inner_links[] = $inner_link;
+					}
+				}				
 			}
 		}
 		return array($images, $video);
+	}
+	
+	function build_inner_links($links, &$threads) {
+		$this->inner_links = obj::db()->sql('select id, thread, boards from board where `type`!="0" and (id='.implode(' or id=',$links).')','id');
+		if (is_array($threads)) {
+			foreach ($threads as $key => $thread) {
+				$threads[$key]['text'] = $this->set_inner_links($thread['text']);
+				if (is_array($thread['posts'])) {
+					foreach ($thread['posts'] as $post_key => $post) {
+						$threads[$key]['posts'][$post_key]['text'] = $this->set_inner_links($post['text']);
+					}
+				}
+			}
+		}
+	}
+	
+	function set_inner_links($text) {
+		return preg_replace_callback('/&gt;&gt;(\d+)(\s|$)/',array(&$this,'set_link'),$text);
+	}
+	
+	function set_link($id) {
+		if (isset($this->inner_links[$id[1]])) {
+			$data = $this->inner_links[$id[1]];
+			if ($data['thread'] === $this->thread) {
+				return '<a href="#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
+			} else {
+				$data['boards'] = explode('|',trim($data['boards'],'|'));
+				$data['board'] = $data['boards'][array_rand($data['boards'])];				
+				return '<a href="/board/'.$data['board'].'/thread/'.$data['thread'].'#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
+			}
+		} else {
+			return $id[0];
+		}
 	}
 }
