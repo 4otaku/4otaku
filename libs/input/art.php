@@ -124,7 +124,6 @@ class input__art extends input__common
 					$post['trans'][$key]['pretty_text'] = $translation['text']; $post['trans'][$key]['text'] = $text;
 				}
 			}
-			var_dump($post['trans']);
 			$db->insert('art_translation',array($post['id'],base64_encode(serialize($post['trans'])),$post['author'],$date,$time,1));
 			$db->sql('update art set translator="'.$post['author'].'" where id='.$post['id'].' and translator=""',0);			
 		}		

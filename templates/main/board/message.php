@@ -1,18 +1,18 @@
-<table class="boardpost">
+<table class="boardpost" id="board-<?=$post['id'];?>">
 	<tr>
 		<td align="left">
 			<span class="boardname">
 				<?=$post['name'].$post['trip'];?>
 			</span>, 
 			Пост № <?=$post['id'];?> 
-			[<a href="/board/<?=$url[2];?>/thread/<?=$id;?>#reply-<?=$post['id'];?>">
+			[<a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
 				Ответить
 			</a>]
 		</td>
 		<td align="right" valign="top">
 			<?=$post['pretty_date'];?>
 			<? if ($post['cookie'] && $_COOKIE['settings'] === $post['cookie']) { ?>
-				 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_thread">
+				 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$post['id'];?>" class="delete_from_board">
 			<? } ?>
 		</td>
 	</tr>

@@ -18,7 +18,7 @@
 		foreach ($data['top']['board_list'] as $alias => $name) {
 			?>
 				<?=($first++ ? ' / ' : '');?>
-				<a href="/art/board/<?=$alias;?>/">
+				<a href="/board/<?=$alias;?>/">
 					<?=$name;?>
 				</a>
 			<?
