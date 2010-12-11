@@ -21,7 +21,7 @@
 	<tr>
 		<td class="imageholder">
 			<? if ($post['image']) { ?>
-				<a href="/images/board/full/<?=$post['image'][1];?>">
+				<a href="/images/board/full/<?=$post['image'][1];?>" target="_blank">
 					<img align="left" src="/images/board/thumbs/<?=$post['image'][2];?>" rel="/images/board/full/<?=$post['image'][1];?>">
 				</a>
 			<? } elseif ($post['video']) { ?>
