@@ -57,6 +57,8 @@ class input__board extends input__common
 			
 			if (!empty($post['id'])) {
 				obj::db()->update('board','updated',$time,$post['id']);
+			} else {
+				$this->redirect = '/board/'.$post['category'][array_rand($post['category'])].'/thread/'.obj::db()->sql('select @@identity from board',2);
 			}
 		} else {
 			if (empty($post['id'])) {

@@ -66,11 +66,14 @@ if (
 
 include_once ROOT_DIR.SL.'engine'.SL.'config.php';
 def::import($def);
+if(!def::site('domain')) {
+	def::set('site','domain',$_SERVER["SERVER_NAME"]);
+}
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::site('domain') && def::site('domain') != $_SERVER["SERVER_NAME"]) {
-	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"]);
+if(def::site('domain') != $_SERVER["SERVER_NAME"]) {
+	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
 $db = new mysql();

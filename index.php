@@ -21,9 +21,8 @@ if (isset($post['do'])) {
 		$input_class = 'input__'.$post['do'][0]; $input = new $input_class;
 		$input_function = $post['do'][1]; $input->$input_function($post);		
 	}	
-	header("HTTP/1.x 302 Moved Temporarily");
-	header("Location: http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
-	exit();	
+	$redirect = 'http://'.def::site('domain') . (empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
+	engine::redirect($redirect);
 } else {
 	$data = array();
 

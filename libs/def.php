@@ -43,6 +43,10 @@ class def
 		return null;
 	}
 	
+	static function set($name, $key, $value) {
+		self::$data[$name][$key] = $value;
+	}	
+	
 	public static function __callStatic($name, $arguments) {
 		return self::get($name,$arguments[0]);
 	}	

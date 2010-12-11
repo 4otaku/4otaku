@@ -291,8 +291,8 @@ class engine
 		return $return;
 	}
 	
-	static function redirect($url) {
-		header("HTTP/1.x 301 Moved Permanently");
+	static function redirect($url, $permanent = false) {
+		$permanent ? header("HTTP/1.x 301 Moved Permanently") : header("HTTP/1.x 302 Moved Temporarily");
 		header("Location: $url");
 		exit();
 	}
