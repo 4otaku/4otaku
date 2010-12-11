@@ -290,4 +290,10 @@ class engine
 		}
 		return $return;
 	}
+	
+	static function redirect($url) {
+		header("HTTP/1.x 301 Moved Permanently");
+		header("Location: $url");
+		exit();
+	}
 }
