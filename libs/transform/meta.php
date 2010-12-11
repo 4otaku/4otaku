@@ -76,6 +76,7 @@ class transform__meta
 	function author($authors){
 		global $db;
 		foreach ($authors as &$author) {
+			$author = preg_replace('/#.*$/','',$author);
 			if ($check = $db->sql('select alias from author where name = "'.$author.'" or alias="'.$author.'"',2)) 
 				$author = $check;
 			else {

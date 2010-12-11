@@ -16,6 +16,8 @@ class input__order extends input__common
 				if (!trim($post['user'])) $post['user'] = $def['user']['author'];
 				if ($post['user'] != $def['user']['author']) $cookie->inner_set('user.name',$post['user']); else unset($post['user']);
 			
+				$post['user'] = preg_replace('/#.*$/','',$post['user']);
+				
 				$category = $transform_meta->category($post['category']);
 				$text = $transform_text->format($post['description']);				
 				if ($post['subscribe']) $post['subscribe'] = 1;

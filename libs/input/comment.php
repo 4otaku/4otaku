@@ -13,6 +13,8 @@ class input__comment extends input__common
 		if (!$post['mail']) $post['mail'] = $def['user']['mail'];
 		elseif ($post['mail'] != $def['user']['mail']) $cookie->inner_set('user.mail',$post['mail']);
 		
+		$post['name'] = preg_replace('/#.*$/','',$post['name']);
+		
 		$comment = $transform_text->format($post['text']);
 		
 		if ($url[1] == 'order') $table = 'orders'; else $table = $url[1];
