@@ -69,7 +69,7 @@
 								<span class="processing">Изображение загружается.</span>
 							</td>
 							<td class="cancel-holder">
-								<span class="processing">Отменить <img class="art_upload_stop" src="/images/cancel.png"></span>
+								<span class="processing">Отменить <img class="board_upload_stop" src="/images/cancel.png"></span>
 							</td>
 						</tr>
 					</table>
