@@ -13,13 +13,6 @@
 					<table width="100%" id="error">
 						<tr>
 							<td>
-								<h2>
-									404. Адрес не найден.
-								</h2>
-							</td>
-						</tr>
-						<tr>
-							<td>
 								<img src="/images/board404.jpg">
 							</td>
 						</tr>
