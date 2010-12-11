@@ -50,7 +50,7 @@ class input__board extends input__common
 				$text,
 				$category,
 				'|',
-				obj::transform('text')->rudate(true),
+				date('j.n.y - G:i'),
 				$time,
 				$cookie->get()
 			);
