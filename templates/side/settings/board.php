@@ -7,8 +7,8 @@
 	<option value="10"<?=($sets['pp']['board'] == 10 ? ' selected="yes"' : '');?>>10</option>
 	<option value="15"<?=($sets['pp']['board'] == 15 ? ' selected="yes"' : '');?>>15</option>
 	<option value="20"<?=($sets['pp']['board'] == 20 ? ' selected="yes"' : '');?>>20</option>
+</select>
 <br />
-
 Последних постов в треде: 
 <select class="settings" rel="pp.board_posts">
 	<option value="3"<?=($sets['pp']['board_posts'] == 3 ? ' selected="yes"' : '');?>>3</option>
