@@ -52,11 +52,11 @@ class output__board extends engine
 
 					foreach ($return['threads'] as $key => $thread) {
 						if (!empty($thread['posts'])) {
-							list($total_images, $total_video) = $this->process_content($thread['posts']);
+							list($total_images, $total_video) = $this->process_content($thread['posts'], true);
 							$total = count($thread['posts']);
 							krsort($thread['posts']);
 							$thread['posts'] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
-							list($images, $video) = $this->process_content($thread['posts']);
+							list($images, $video) = $this->process_content($thread['posts'], true);
 							$return['threads'][$key]['posts'] = array_reverse($thread['posts']);
 							$return['threads'][$key]['skipped'] = array(
 								'images' => ($total_images - $images),
@@ -101,7 +101,7 @@ class output__board extends engine
 		}
 	}
 
-	function process_content(&$array) {
+	function process_content(&$array, $count_only = false) {
 		$images = 0; $video = 0;
 		if (!empty($array)) {
 			foreach ($array as $key => $item) {
@@ -114,6 +114,7 @@ class output__board extends engine
 						$video++;
 					}
 				}
+				if ($count_only) continue;
 				if (!empty($item['boards'])) {
 					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
 				}
