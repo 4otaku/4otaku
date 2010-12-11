@@ -74,6 +74,7 @@ class output__board extends engine
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
+			$return['navi']['base'] = '/board/'.$url[2].'/';	
 			$this->build_inner_links($this->inner_links, $return['threads']);
 			return $return;
 		} else {
