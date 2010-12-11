@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `search_queries` (
   UNIQUE KEY `query` (`query`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-CREATE TABLE `4otaku`.`search_weights` (
+CREATE TABLE `search_weights` (
 `place` VARCHAR( 256 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
 `weight` FLOAT NOT NULL DEFAULT '1',
 PRIMARY KEY ( `place` )
