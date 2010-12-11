@@ -63,16 +63,26 @@
 				</a>
 			</li>
 			<li>				
+				<a href="/board/" class="margin30<?=($url[1] == 'board' ? ' plaintext' : '');?>">
+					Борда 4отаку
+				</a>
+			</li>
+			<li>				
 				<a href="/comments/" class="margin30<?=($url[1] == 'comments' ? ' plaintext' : '');?>">
 					Лента комментариев
 				</a>
 			</li>			
 			<li><hr /></li>
 			<li>
+				<a href="http://wiki.4otaku.ru/Category:FAQ" class="margin30">
+					Справка по сайту
+				</a>
+			</li>
+			<li>
 				<a href="/logs/" class="margin30<?=($url[1] == 'logs' ? ' plaintext' : '');?>">
 					Логи конференции
 				</a>
-			</li>
+			</li>			
 			<li>
 				<a href="/gouf/" class="margin30<?=($url[1] == 'gouf' ? ' plaintext' : '');?>">
 					Список битых ссылок
