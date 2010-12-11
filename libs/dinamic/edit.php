@@ -1,5 +1,5 @@
 <? 
-include_once('engine/engine.php');
+
 class dinamic__edit extends engine
 {
 	public $template;	

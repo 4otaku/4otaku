@@ -39,4 +39,9 @@ $(document).ready(function(){
 		$('#error').html('');
 	})
 	
+	if (document.location.hash.indexOf("#reply-") == 0) {
+		var id = parseInt(document.location.hash.replace("#reply-",""));
+		$("#textfield").html(">>"+id);
+	}
+	
 }); 

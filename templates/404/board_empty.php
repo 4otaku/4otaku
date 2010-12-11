@@ -1,5 +1,11 @@
 <? include_once('templates'.SL.'side'.SL.'head.php'); ?>
-<body>
+<script type="text/javascript">
+	window.halt_onbeforeunload = true;
+	$(document).ready(function(){ 
+		$("div#downscroller a.disabled").click();
+	});
+</script>
+<body>	
 	<table width="100%">
 		<tr>
 			<td colspan="2" id="header">
@@ -10,19 +16,16 @@
 			<td valign="top" id="content">
 				<div class="post">
 					<? include_once('templates'.SL.'side'.SL.'top.php'); ?>
-					<table width="100%" id="error">
+					<table width="100%">
 						<tr>
 							<td>
-								<h2>
-									404. Адрес не найден.
-								</h2>
+								<div class="post">
+									<h2>
+										Тредов в этом разделе пока еще нет. Будете первым?
+									</h2>
+								</div>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								<img src="/images/board404.jpg">
-							</td>
-						</tr>
+						</tr>			
 					</table>
 				</div>
 			</td>

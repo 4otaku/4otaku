@@ -135,6 +135,18 @@ function remove_total(remove_name) {
 		remove_total(remove_name);
 }
 
+function add_text(text) {
+	if ($("#textfield").length == 1) {
+		$("#textfield").append(text);
+		scrollTo(0,0);
+	} else {
+		var id = parseInt(text.replace(">>",""));
+		document.location.hash = "#reply-"+id;
+		$("div#downscroller a.disabled").click();
+		scrollTo(0,0);
+	}
+}
+
 $(document).ready(function(){  
 
 	/* Shared settings */
@@ -279,7 +291,13 @@ $(document).ready(function(){
 			$("#add_form").html('');
 			$("div#downscroller span.arrow").html(' ↓');
 		}
-	}); 
+	});
+	
+	if ($("#downscroller").length == 1) {
+		if (document.location.hash.indexOf("#reply") == 0) {
+			$("div#downscroller a.disabled").click();
+		}
+	}	
 	
 	$("input.edit").click(function(event){ 
 		$("div.edit_field").html(''); $("div.edit_field").hide();
@@ -677,5 +695,21 @@ $(document).ready(function(){
 	});	
 	
 	/* Search end */
+	
+	/* Board start */
+	
+	$(".delete_from_board").click(function(){
+		if ($(this).parents('table').is(".boardthread")) {
+			var type = "тред";
+		} else {
+			var type = "сообщение";	
+		}
+		if (confirm("Вы уверены что хотите удалить "+type+" №"+$(this).attr('rel')+"?")) {
+			$.post("/ajax.php?m=board&f=delete&id="+$(this).attr('rel'));
+			window.location.reload();
+		}		
+	});
+	
+	/* Board end */
 	
 });  

@@ -30,33 +30,52 @@ class output__board extends engine
 
 	function board() {
 		global $url; global $db; global $sets; global $error;
-		$return['display'] = array('board_page', 'navi');
-		$return['navi']['curr'] = max(1,$url[4]);
-		$limit = 'limit '.($return['navi']['curr']-1)*$sets['pp']['board'].', '.$sets['pp']['board'];
-		$return['threads'] = $db->sql('select * from board where locate("|'.$url[2].'|",`boards`) and `type` = "2" order by updated '.$limit,'id');
-		if (is_array($return['threads'])) {
-			$this->process_content($return['threads']);
+		
+		if (obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2)) {		
+			$return['display'] = array('board_page', 'navi');
+			$return['navi']['curr'] = max(1,$url[4]);
+			$limit = 'limit '.($return['navi']['curr']-1)*$sets['pp']['board'].', '.$sets['pp']['board'];
+			$return['threads'] = $db->sql('select * from board where locate("|'.$url[2].'|",`boards`) and `type`="2" order by updated desc '.$limit,'id');
+			if (is_array($return['threads'])) {
+				$this->process_content($return['threads']);
 
-			$keys = 'thread='.implode(' or thread=', array_keys($return['threads']));
-			$posts = $db->sql('select * from board where '.$keys);
+				$keys = 'thread='.implode(' or thread=', array_keys($return['threads']));
+				$posts = $db->sql('select * from board where `type`="1" and ('.$keys.')');
 
-			if (is_array($posts)) {
-				$this->process_content($posts);
-				foreach ($posts as $post) {
-					$return['threads'][$post['thread']]['posts'][$post['sortdate']] = $post;
+				if (is_array($posts)) {				
+					foreach ($posts as $post) {
+						$return['threads'][$post['thread']]['posts'][$post['sortdate']] = $post;
+					}
+
+					foreach ($return['threads'] as $key => $thread) {
+						if (!empty($thread['posts'])) {
+							list($total_images, $total_video) = $this->process_content($thread['posts']);
+							$total = count($thread['posts']);
+							krsort($thread['posts']);
+							$thread['posts'] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
+							list($images, $video) = $this->process_content($thread['posts']);
+							$return['threads'][$key]['posts'] = array_reverse($thread['posts']);
+							$return['threads'][$key]['skipped'] = array(
+								'images' => ($total_images - $images),
+								'video' => ($total_video - $video),
+								'posts' => ($total - count($thread['posts'])),
+							);
+						}
+					}
 				}
-
-				foreach ($return['threads'] as $key => $thread) {
-					krsort($thread['posts']);
-					$return['threads'][$key]['posts'] = array_slice($thread['posts'], 0, $sets['pp']['board_posts']);
+			} else {
+				$error = true;
+				if ($return['navi']['curr'] == 1) {
+					$this->error_template = 'board_empty';
 				}
 			}
+			$return['navi']['start'] = max($return['navi']['curr']-5,2);
+			$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
+			return $return;
 		} else {
-			if ($return['navi']['curr'] != 1) $error = true;
+			$error = true;
+			$this->side_modules['top'] = array('board_list');			
 		}
-		$return['navi']['start'] = max($return['navi']['curr']-5,2);
-		$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
-		return $return;
 	}
 
 	function thread() {
@@ -64,23 +83,33 @@ class output__board extends engine
 
 		if (intval($url[4])) {
 			$return['display'] = array('board_thread');
-			$return['posts'] = $db->sql('select * from board where thread = '.$url[4].' or id = '.$url[4].' order by sortdate');
+			$return['posts'] = $db->sql('select * from board where `type`!="0" and (thread = '.$url[4].' or id = '.$url[4].') order by type, sortdate');
 			$this->process_content($return['posts']);
-		} else {
-			$error = true;
-			$this->side_modules['top'] = array('board_list');
 		}
 
-		return $return;
+		if (empty($return['posts']) || $return['posts'][0]['type'] != 2) {
+			$error = true;
+			$this->side_modules['top'] = array('board_list');
+		} else {
+			return $return;
+		}
 	}
 
 	function process_content(&$array) {
-		foreach ($array as $key => $item) {
-			if ($item['content']{0} == '#') {
-				$array[$key]['image'] = explode('#', $item['content']);
-			} else {
-				$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::get('board','thumbwidth'),def::get('board','thumbheight')),$item['content']);
+		$images = 0; $video = 0;
+		if (!empty($array)) {
+			foreach ($array as $key => $item) {
+				if (!empty($item['content'])) {
+					if ($item['content']{0} == '#') {
+						$array[$key]['image'] = explode('#', $item['content']);
+						$images++;
+					} else {
+						$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::get('board','thumbwidth'),def::get('board','thumbheight')),$item['content']);
+						$video++;
+					}
+				}
 			}
 		}
+		return array($images, $video);
 	}
 }
