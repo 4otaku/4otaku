@@ -3,10 +3,10 @@
 	<span class="link_delete"><? if ($post['cookie'] && $_COOKIE['settings'] === $post['cookie']) { ?>
 				 <img src="/images/comment_delete.png" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
 			<? } ?></span>
-	<span class="author"><?=$thread['name'];?></span>
-	<? if (!empty($thread['trip'])) { ?><span class="trip"><?=$thread['trip'];?></span><? } ?>
+	<span class="author"><?=$post['name'];?></span>
+	<? if (!empty($post['trip'])) { ?><span class="trip"><?=$post['trip'];?></span><? } ?>
 	<span class="number"><a href="<?='/board/'.$url[2].'/thread/'.$id.'/#post-'.$post['id'];?>">#<?=$post['id'];?></a></span>
-	<span class="date"><?=$thread['pretty_date'];?></span>
+	<span class="date"><?=$post['pretty_date'];?></span>
 	<div class="tbody">
 			<? if ($post['image']) { ?>
 				<a href="/images/board/full/<?=$post['image'][1];?>" target="_blank">
