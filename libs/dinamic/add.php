@@ -2,19 +2,22 @@
 class dinamic__add
 {
 	function art() {
-		global $db;
+		global $db; global $sets;
+		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
 		$return['category'] = $db->sql('select alias, name from category where locate("|art|",area) order by id','alias');
 		return $return;
 	}	
 	
 	function video() {
-		global $db;
+		global $db; global $sets;
+		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
 		$return['category'] = $db->sql('select alias, name from category where locate("|video|",area) order by id','alias');
 		return $return;
 	}
 	
 	function post() {
-		global $db;
+		global $db; global $sets;
+		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
 		$return['category'] = $db->sql('select alias, name from category where locate("|post|",area) order by id','alias');
 		$return['language'] = $db->sql('select alias, name from language order by id','alias');
 		return $return;
@@ -27,7 +30,8 @@ class dinamic__add
 	}
 	
 	function order() {
-		global $db;
+		global $db; global $sets;
+		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
 		$return['category'] = $db->sql('select alias, name from category where !locate("|board|",area) order by id','alias');
 		return $return;
 	}
@@ -37,6 +41,8 @@ class dinamic__add
 	}				
 
 	function comment() {
+		global $sets;
+		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);	
 		return true;
 	}	
 
