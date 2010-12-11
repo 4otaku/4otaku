@@ -26,7 +26,7 @@
 	<tr>
 		<td class="imageholder">
 			<? if ($thread['image']) { ?>
-				<a href="/images/board/full/<?=$thread['image'][1];?>">
+				<a href="/images/board/full/<?=$thread['image'][1];?>" target="_blank">
 					<img align="left" src="/images/board/thumbs/<?=$thread['image'][2];?>" rel="/images/board/full/<?=$thread['image'][1];?>">
 				</a>	
 			<? } elseif ($thread['video']) { ?>
