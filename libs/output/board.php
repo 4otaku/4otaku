@@ -146,7 +146,7 @@ class output__board extends engine
 	}
 	
 	function set_inner_links($text) {
-		return preg_replace_callback('/&gt;&gt;(\d+)(\s|$)/',array(&$this,'set_link'),$text);
+		return preg_replace_callback('/&gt;&gt;(\d+)(\s|$|\n)/',array(&$this,'set_link'),$text);
 	}
 	
 	function set_link($id) {
