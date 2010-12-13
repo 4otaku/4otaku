@@ -3,7 +3,7 @@ include_once('engine'.SL.'engine.php');
 class output__board extends engine
 {
 	public $allowed_url = array(
-		array(1 => '|board|', 2 => 'any', 3=> '|page|thread|', 4 => 'num', 5 => 'end'),
+		array(1 => '|board|', 2 => 'any', 3=> 'any', 4 => 'num', 5 => 'end'),
 	);
 	public $template = 'general';
 	public $side_modules = array(
@@ -79,6 +79,7 @@ class output__board extends engine
 	
 	function get_threads($condition, $limit) {
 		$return = obj::db()->sql('select * from board where '.$condition.' `type`="2" order by updated desc '.$limit,'id');
+
 		if (is_array($return)) {
 			$this->process_content($return);
 
