@@ -235,7 +235,7 @@ class cron
 			foreach ($art as $id => $item) {
 				$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$item;
 				$sizes = getimagesize($file);
-				$filesize = get_file_size($file);
+				$filesize = filesize($file);
 				if ($filesize > 1024*1024) {
 					$filesize = round($filesize/(1024*1024),1).' мб';
 				} elseif ($filesize > 1024) {
