@@ -3,7 +3,7 @@
 		<? if (is_array($thread['posts'])) { ?>
 			<? if (!empty($thread['skipped']['posts'])) { ?>
 				<div class="skipped">
-					<a href="/board/<?=$url[2];?>/thread/<?=$id;?>/" class="readmore">
+					<a href="/board/<?=($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>/" class="readmore">
 						Читать
 					</a>
 					Пропущено: 

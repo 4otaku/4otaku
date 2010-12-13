@@ -1,11 +1,11 @@
 <div class="thread" id="board-<?=$id;?>">	
 	<span class="link_reply">
-		<a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply' : "javascript:add_text('>>".$id."')");?>">
+		<a href="<?=($url[3] != 'thread' ? '/board/'.($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]).'/thread/'.$id.'#reply' : "javascript:add_text('>>".$id."')");?>">
 			Ответить
 		</a>
 	</span>
 	<span class="link_read">
-		<a href="/board/<?=$url[2];?>/thread/<?=$id;?>/">
+		<a href="/board/<?=($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>/">
 			Читать
 		</a>
 	</span>

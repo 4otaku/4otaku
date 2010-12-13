@@ -1,6 +1,6 @@
 <div class="message" id="board-<?=$post['id'];?>">	
 	<span class="link_reply">
-		<a href="<?=($url[3] != 'thread' ? '/board/'.$url[2].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
+		<a href="<?=($url[3] != 'thread' ? '/board/'.($url[2] && $url[2] != 'page' ? $url[2] : $post['boards'][array_rand($post['boards'])]).'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
 			Ответить
 		</a>
 	</span>
