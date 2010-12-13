@@ -230,12 +230,20 @@ class cron
 	}	
 	
 	function actualize_image_size() {
-		$art = obj::db()->sql('select concat(md5,".",extension), id from art where resized != 1','id');
+		$art = obj::db()->sql('select concat(md5,".",extension), id from art where resized != ""','id');
 		if (is_array($art)) {
 			foreach ($art as $id => $item) {
-				$file = ROOT_DIR.'images'.SL.'booru'.SL.'full'.SL.$item;
+				$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$item;
 				$sizes = getimagesize($file);
-				obj::db()->update('art','resized',$sizes[0].'x'.$sizes[1],$id);
+				$filesize = get_file_size($file);
+				if ($filesize > 1024*1024) {
+					$filesize = round($filesize/(1024*1024),1).' мб';
+				} elseif ($filesize > 1024) {
+					$filesize = round($filesize/1024,1).' кб';
+				} else {
+					$filesize = $filesize.' б';
+				}
+				obj::db()->update('art','resized',$sizes[0].'x'.$sizes[1].'px; '.$filesize,$id);
 			}
 		}
 	}
