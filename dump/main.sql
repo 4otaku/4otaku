@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `art` (
   `md5` varchar(64) collate utf8_unicode_ci NOT NULL,
   `thumb` varchar(64) collate utf8_unicode_ci NOT NULL,
   `extension` varchar(16) collate utf8_unicode_ci NOT NULL,
-  `resized` varchar(32) collate utf8_unicode_ci NOT NULL,
+  `resized` varchar(256) collate utf8_unicode_ci NOT NULL,
   `author` text collate utf8_unicode_ci NOT NULL,
   `category` text collate utf8_unicode_ci NOT NULL,
   `tag` text collate utf8_unicode_ci NOT NULL,
