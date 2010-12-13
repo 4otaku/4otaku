@@ -83,6 +83,7 @@ class transform__text
 		$string = preg_replace('/`(.+?)`|^ {4}(.+)$/', '<code>$1$2</code>', $string);
 		$string = preg_replace('/%{2}(.+?)%{2}/', '<span class="board_spoiler">$1</span>', $string);
 		$string = preg_replace('/^&gt;(?!&gt;\d+(\s|$))(.+)$/', '<span class="board_quote">$0</span>', $string);
+		$string = preg_replace('/\s{2,}/e','str_replace(array(" ","\t"),"&nbsp;","$0")',$string);
 	}
 
 	function wakaba_strike($string) {
