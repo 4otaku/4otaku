@@ -112,22 +112,22 @@ class side__sidebar extends engine
 		unset($tags['prostavte_tegi'],$tags['tagme'],$tags['deletion_request']);
 
 		if (!empty($tags)) {
-			if ($page_flag) {
 				$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
 				$global = $db->sql('select alias, art_main from tag '.$where,'alias');
-
+			if ($page_flag) {
 				foreach ($global as $alias => $global_count)
 					$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
 
 				krsort($return);
 				$return = array_slice($return,0,25);
-				shuffle($return);
-
-				return $return;
+				shuffle($return);				
 			} else {
-				uasort($tags,array('self','name_sort'));
-				return $tags;
+				foreach ($global as $alias => $global_count)
+					$return[$alias] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
+				
+				uasort($return,array('self','name_sort'));
 			}
+			return $return;
 		}
 	}
 	
