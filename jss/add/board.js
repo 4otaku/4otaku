@@ -43,7 +43,7 @@ $(document).ready(function(){
 		var id = parseInt(document.location.hash.replace("#reply-",""));
 		$("#textfield").html(">>"+id);
 	}
-	
-	$("#addform").attr("action",document.location.href);
+
+	$("#addform").attr("action",document.location.href.split('#')[0]);
 	
 });

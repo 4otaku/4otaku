@@ -90,7 +90,7 @@
 					Ваш ник
 				</td>
 				<td class="inputdata">
-					<input size="35%" name="user" value="<?=$sets['user']['name'];?>" type="text" class="username">
+					<input size="35%" name="user" value="<?=$sets['user']['name'].($sets['user']['trip'] ? '#'.$sets['user']['trip'] : '');?>" type="text" class="username">
 				</td>
 			</tr>			
 			<tr>

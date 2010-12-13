@@ -111,6 +111,7 @@ $def['user']['name'] = 'Анонимно';
 $def['user']['mail'] = 'default@avatar.mail';
 $sets['user']['rights'] = 0;
 $sets['user']['name'] = 'Анонимно';
+$sets['user']['trip'] = '';
 $sets['user']['mail'] = 'default@avatar.mail';
 
 // Presets - fight the notices
