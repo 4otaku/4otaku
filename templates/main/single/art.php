@@ -136,9 +136,6 @@
 									?>
 										<div<?=(is_array($reason) ? ' class="hidden hidden_art"' : "");?>>
 											<div class="clear margin20 mini-shell art-bar">
-												<span>
-													Изображение уменьшено. 
-												</span>
 												<a href="#" class="disabled booru_show_toggle" rel="<?=$item['extension'];?>">
 													Показать в полном размере
 												</a><?=($item['resized'] !== 1 ? ' ('.$item['resized'].')' : '');?>. 
