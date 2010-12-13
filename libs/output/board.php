@@ -121,7 +121,7 @@ class output__board extends engine
 					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
 				}
 				if (!empty($item['text'])) {
-					preg_match_all('/&gt;&gt;(\d+)(\s|$)/',$item['text'],$inner_links);
+					preg_match_all('/&gt;&gt;(\d+)(\s|$|<br[^>]*>)/',$item['text'],$inner_links);
 					foreach ($inner_links[1] as $inner_link) {
 						$this->inner_links[] = $inner_link;
 					}
