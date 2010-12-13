@@ -710,6 +710,13 @@ $(document).ready(function(){
 		}		
 	});
 	
+	$(".switch_allboards").click(function(){
+		event.preventDefault();
+		$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=board.allthreads&val="+$(this).attr('rel'), function() {
+			document.location.reload();
+		});	
+	});	
+	
 	/* Board end */
 	
 });  

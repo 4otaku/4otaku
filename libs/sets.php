@@ -26,4 +26,8 @@ class sets extends def
 
 		return null;			
 	}
+	
+	static function pp($key) {
+		return self::get('pp',$key);
+	}	
 }

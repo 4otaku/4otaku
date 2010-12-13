@@ -8,25 +8,10 @@
 		'board' => 'Открыть новый тред',
 		'thread' => 'Ответить в тред',
 	);
-
+	
 	if (is_array($data['top']['board_list'])) {
-		?> 
-			<div class="center" width="100%">
-				Доски: [
-		<?
-		$first = 0;
-		foreach ($data['top']['board_list'] as $alias => $name) {
-			?>
-				<?=($first++ ? ' / ' : '');?>
-				<a href="/board/<?=$alias;?>/">
-					<?=$name;?>
-				</a>
-			<?
-		}
-		?>
-				]
-			</div>
-		<?		
+		$board_list = $data['top']['board_list'];
+		include_once(TEMPLATE_DIR.SL.'main'.SL.'board'.SL.'menu.php');
 	}
 	if ($data['top']['add_bar']) {
 		if (!$data['top']['add_bar']['name']) $data['top']['add_bar']['name'] = $data['top']['add_bar']['type'];

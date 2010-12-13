@@ -28,23 +28,7 @@
 			</p>
 			<?
 				if (is_array($data['main']['boards'])) {
-					?> 
-						<div class="center" width="100%">
-							Доски: [
-					<?
-					$first = 0;
-					foreach ($data['main']['boards'] as $alias => $name) {
-						?>
-							<?=($first++ ? ' / ' : '');?>
-							<a href="/board/<?=$alias;?>/">
-								<?=$name;?>
-							</a>
-						<?
-					}
-					?>
-							]
-						</div>
-					<?		
+					include_once(TEMPLATE_DIR.SL.'main'.SL.'board'.SL.'menu.php');
 				}
 			?>			
 		</td>
