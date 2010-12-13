@@ -22,10 +22,21 @@ class input__board extends input__common
 		
 		if (empty($post['id']) + empty($content) + empty($text) <= 1) {
 	
-			if (trim($post['user']) && $post['user'] != $def['user']['name']) {
-				$cookie->inner_set('user.name',$post['user']); 
-			}
-			
+			$trip = explode('#', $post['user']);
+			$user = array_shift($trip);
+			$user = preg_replace('/#.*$/','',$user);
+			$trip = array_slice($trip,0,3);
+
+			$tripcode = $trip[0] ? $this->trip($trip[0]) : '';
+			$tripcode .= $trip[1] || $trip[2] ? '!'.$this->trip(_crypt($trip[1].$trip[2])) : '';
+
+			if (trim($user) && $user != $def['user']['name']) {
+				$cookie->inner_set('user.name',$user); 
+			}			
+			if (implode('#',$trip)) {
+				$cookie->inner_set('user.trip',implode('#',$trip)); 
+			}			
+
 			if ($post['id']) {
 				$category = obj::db()->sql('select boards from board where id = '.$post['id'], 2);
 			} else {
@@ -33,16 +44,13 @@ class input__board extends input__common
 			}
 
 			$time = ceil(microtime(true)*1000);
-			$user = explode('#', $post['user']);
-			$trip = $user[1] ? $this->trip($user[1]) : '';
-			$trip .= $user[2] || $user[3] ? '!'.$this->trip(_crypt($user[2].$user[3])) : '';
 
 			$insert_data = array(
 				$post['id'] ? 1 : 2,
 				$post['id'],
 				$post['id'] ? 0 : $time,
-				trim($user[0]) ? trim($user[0]) : $def['user']['name'],
-				$trip,
+				trim($user) ? trim($user) : $def['user']['name'],
+				$tripcode,
 				$content,
 				undo_safety($post['text']),
 				$text,
