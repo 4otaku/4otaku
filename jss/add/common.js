@@ -1,9 +1,9 @@
 if (!window.halt_onbeforeunload) {
 	window.onbeforeunload = function (e) {
-	  var message = 'Вы точно хотите уйти с этой страницы? Если вы уйдете, то данные в форме добавления будут потеряны.';
-	  if (typeof e == 'undefined') e = window.event;
-	  if (e) e.returnValue = message;
-	  return message;
+		var message = 'Вы точно хотите уйти с этой страницы? Если вы уйдете, то данные в форме добавления будут потеряны.';
+		if (typeof e == 'undefined') e = window.event;
+		if (e) e.returnValue = message;
+		return message;
 	}
 }
 
