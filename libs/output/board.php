@@ -15,7 +15,7 @@ class output__board extends engine
 	);
 
 	public $error_template = 'board';
-	
+
 	private $inner_links = array();
 	private $thread = false;
 
@@ -34,8 +34,8 @@ class output__board extends engine
 
 	function board() {
 		global $url; global $db; global $sets; global $error;
-		
-		if (obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2)) {		
+
+		if (obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2)) {
 			$return['display'] = array('board_page', 'navi');
 			$return['navi']['curr'] = max(1,$url[4]);
 			$limit = 'limit '.($return['navi']['curr']-1)*$sets['pp']['board'].', '.$sets['pp']['board'];
@@ -46,7 +46,7 @@ class output__board extends engine
 				$keys = 'thread='.implode(' or thread=', array_keys($return['threads']));
 				$posts = $db->sql('select * from board where `type`="1" and ('.$keys.')');
 
-				if (is_array($posts)) {				
+				if (is_array($posts)) {
 					foreach ($posts as $post) {
 						$return['threads'][$post['thread']]['posts'][$post['sortdate']] = $post;
 					}
@@ -75,12 +75,12 @@ class output__board extends engine
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
-			$return['navi']['base'] = '/board/'.$url[2].'/';	
+			$return['navi']['base'] = '/board/'.$url[2].'/';
 			$this->build_inner_links($this->inner_links, $return['threads']);
 			return $return;
 		} else {
 			$error = true;
-			$this->side_modules['top'] = array('board_list');			
+			$this->side_modules['top'] = array('board_list');
 		}
 	}
 
@@ -98,7 +98,7 @@ class output__board extends engine
 			$this->side_modules['top'] = array('board_list');
 		} else {
 			$this->thread = $url[4];
-			$this->build_inner_links($this->inner_links, $return['posts']);			
+			$this->build_inner_links($this->inner_links, $return['posts']);
 			return $return;
 		}
 	}
@@ -125,12 +125,12 @@ class output__board extends engine
 					foreach ($inner_links[1] as $inner_link) {
 						$this->inner_links[] = $inner_link;
 					}
-				}				
+				}
 			}
 		}
 		return array($images, $video);
 	}
-	
+
 	function build_inner_links($links, &$threads) {
 		$this->inner_links = obj::db()->sql('select id, thread, boards from board where `type`!="0" and (id='.implode(' or id=',$links).')','id');
 		if (is_array($threads)) {
@@ -144,11 +144,11 @@ class output__board extends engine
 			}
 		}
 	}
-	
+
 	function set_inner_links($text) {
-		return preg_replace_callback('/&gt;&gt;(\d+)(\s|$)/s',array(&$this,'set_link'),$text);
+		return preg_replace_callback('/&gt;&gt;(\d+)(\s|$|<br[^>]*>)/s',array(&$this,'set_link'),$text);
 	}
-	
+
 	function set_link($id) {
 		if (isset($this->inner_links[$id[1]])) {
 			$data = $this->inner_links[$id[1]];
@@ -156,7 +156,7 @@ class output__board extends engine
 				return '<a href="#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
 			} else {
 				$data['boards'] = explode('|',trim($data['boards'],'|'));
-				$data['board'] = $data['boards'][array_rand($data['boards'])];		
+				$data['board'] = $data['boards'][array_rand($data['boards'])];
 				return '<a href="/board/'.$data['board'].'/thread/'.($data['thread'] ? $data['thread'] : $id[1]).'#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
 			}
 		} else {
