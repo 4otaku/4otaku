@@ -24,6 +24,18 @@
 				if ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep'])
 					if (scale($def['booru']['resizewidth'],ROOT_DIR.'images/booru/resized/'.$md5.'.jpg',95,false))
 						$resized = $sizes;
+						
+				if (!empty($resized)) {					
+					if ($sizefile > 1024*1024) {
+						$sizefile = round($sizefile/(1024*1024),1).' мб';
+					} elseif ($sizefile > 1024) {
+						$sizefile = round($sizefile/1024,1).' кб';
+					} else {
+						$sizefile = $sizefile.' б';
+					}
+					$resized .= 'px; '.$sizefile;
+				}
+				
 				scale($def['booru']['largethumbsize'],$newlargethumb);
 				scale($def['booru']['thumbsize'],$newthumb);
 				echo SITE_DIR.'/images/booru/thumbs/'.$thumb.'.jpg|'.$md5.'#'.$thumb.'#'.$extension.'#'.$resized;
