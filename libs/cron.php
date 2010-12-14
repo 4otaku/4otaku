@@ -233,17 +233,21 @@ class cron
 		$art = obj::db()->sql('select concat(md5,".",extension), id from art where resized != ""','id');
 		if (is_array($art)) {
 			foreach ($art as $id => $item) {
-				$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$item;
-				$sizes = getimagesize($file);
-				$filesize = filesize($file);
-				if ($filesize > 1024*1024) {
-					$filesize = round($filesize/(1024*1024),1).' мб';
-				} elseif ($filesize > 1024) {
-					$filesize = round($filesize/1024,1).' кб';
+				if (file_exists(ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$item)) {
+					$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$item;
+					$sizes = getimagesize($file);
+					$filesize = filesize($file);
+					if ($filesize > 1024*1024) {
+						$filesize = round($filesize/(1024*1024),1).' мб';
+					} elseif ($filesize > 1024) {
+						$filesize = round($filesize/1024,1).' кб';
+					} else {
+						$filesize = $filesize.' б';
+					}
+					obj::db()->update('art','resized',$sizes[0].'x'.$sizes[1].'px; '.$filesize,$id);
 				} else {
-					$filesize = $filesize.' б';
+					obj::db()->update('art','resized','',$id);	
 				}
-				obj::db()->update('art','resized',$sizes[0].'x'.$sizes[1].'px; '.$filesize,$id);
 			}
 		}
 	}
