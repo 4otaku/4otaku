@@ -106,7 +106,7 @@ class cron
 
 	function clean_settings() {
 		global $db;
-		$db->sql('DELETE FROM settings WHERE ((data="YTowOnt" OR data="") AND lastchange < '.(time()-3600).')',0);
+		$db->sql('DELETE FROM settings WHERE ((data="YTowOnt9" OR data="") AND lastchange < '.(time()-3600).')',0);
 	}
 
 	function send_mails() {
@@ -202,18 +202,18 @@ class cron
 		$sql = 'INSERT INTO search (`item_id`, `place`) VALUES ("' . str_replace('#','","',implode('"), ("', $index)) . '");';
 		$db->sql($sql, 0);
 	}
-	
+
 	function search_balance_weights() {
 		global $db;
-		
+
 		$types = array('post', 'video', 'art', 'news', 'orders', 'comment');
-		
+
 		$time = time();
 		foreach ($types as $type) {
 			$data[$type] = $db->sql('select id, `index` from search where place = "'.$type.'" order by md5(id+'.$time.') limit 100','id');
 			empty($data[$type]) ? $stop = true : null;
 		}
-		
+
 		if (empty($stop)) {
 			foreach ($types as $type) {
 				$weights = array();
@@ -227,8 +227,8 @@ class cron
 				}
 			}
 		}
-	}	
-	
+	}
+
 	function actualize_image_size() {
 		$art = obj::db()->sql('select concat(md5,".",extension), id from art where resized != ""','id');
 		if (is_array($art)) {
