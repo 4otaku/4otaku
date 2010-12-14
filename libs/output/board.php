@@ -61,10 +61,11 @@ class output__board extends engine
 			$return['threads'] = $this->get_threads($condition, $limit);
 			if (empty($return['threads'])) {
 				$error = true;
-				$this->side_modules['top'] = array('board_list');
 				if ($return['navi']['curr'] == 1) {
 					$this->error_template = 'board_empty';
-				}				
+				} else {
+					$this->side_modules['top'] = array('board_list');	
+				}
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
