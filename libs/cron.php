@@ -21,7 +21,7 @@ class cron
 	}
 
 	function gouf_refresh_links() {
-		$posts = obj::db()->sql('select id, title, link from post');
+		$posts = obj::db()->sql('select id, title, link from post where area = "main"');
 		$gouf_temp_links = obj::db()->sql('select id, link from gouf_links');
 
 		$post_links = array(); $gouf_links = array();
