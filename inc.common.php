@@ -116,7 +116,6 @@ if (!(_CRON_)) {
 			// Все ок, применяем сохраненные настройки
 			$sets = array_replace_recursive($sets, unserialize(base64_decode($sess['data'])));
 			sets::import($sets);	
-			
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
 			$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);

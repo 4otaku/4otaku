@@ -147,7 +147,18 @@ class output__board extends engine
 						$array[$key]['image'] = explode('#', $item['content']);
 						$images++;
 					} else {
-						$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::get('board','thumbwidth'),def::get('board','thumbheight')),$item['content']);
+						if (
+							!sets::board('embedvideo') &&
+							preg_match('/www\.youtube\.com\/v\/(?P<api>[\p{L}\d]{5,15})&/s',$item['content'],$match)
+						) {
+							$array[$key]['video'] = array(
+								'api' => $match['api'],
+								'width' => def::board('thumbwidth'),
+								'height' => def::board('thumbheight')
+							);
+						} else {
+							$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::board('thumbwidth'),def::board('thumbheight')),$item['content']);
+						}
 						$video++;
 					}
 				}

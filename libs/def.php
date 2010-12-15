@@ -37,7 +37,7 @@ class def
 		} 
 		
 		if ($sets_retrieve && ($sets = sets::get($name,$key,false))) {
-			return $sets;			
+//			return $sets;			
 		} 
 
 		return null;
@@ -65,5 +65,9 @@ class def
 	
 	static function user($key) {
 		return self::get('user',$key);
+	}
+	
+	static function board($key) {
+		return self::get('board',$key);
 	}	
 }
