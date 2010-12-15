@@ -699,7 +699,7 @@ $(document).ready(function(){
 	/* Board start */
 	
 	$(".delete_from_board").click(function(){
-		if ($(this).parents('table').is(".boardthread")) {
+		if ($(this).parents('div').is(".thread")) {
 			var type = "тред";
 		} else {
 			var type = "сообщение";	
@@ -715,6 +715,23 @@ $(document).ready(function(){
 		$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=board.allthreads&val="+$(this).attr('rel'), function() {
 			document.location.reload();
 		});	
+	});	
+	
+	$(".always_embed_video").click(function(event){
+		event.preventDefault();
+		$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=board.embedvideo&val=1", function() {
+			document.location.reload();
+		});	
+	});	
+	
+	$(".open_video").click(function(event){
+		event.preventDefault();
+		var flash_vars = $(this).attr('rel').split('#');
+		$(this).parent().flash({
+				swf:'http://www.youtube.com/v/'+flash_vars[0]+'?enablejsapi=1&amp;version=3&amp;border=0',
+				width: parseInt(flash_vars[1]),
+				height: parseInt(flash_vars[2])
+		});
 	});	
 	
 	/* Board end */

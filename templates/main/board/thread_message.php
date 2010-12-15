@@ -45,7 +45,16 @@
 				<img src="/images/board/thumbs/<?=$thread['image'][2];?>" rel="/images/board/full/<?=$thread['image'][1];?>">
 			</a>	
 		<? } elseif ($thread['video']) { ?>
-			<div class="video"><?=$thread['video'];?></div>
+			<div class="video">
+				<? if (is_array($thread['video'])) { ?>
+					<br />
+					<input type="button" class="open_video margin10" rel="<?=implode('#',$thread['video']);?>" value="Показать видео">
+					<br />
+					<input type="button" class="always_embed_video" value="Всегда показывать">				
+				<? } else { ?>
+					<?=$thread['video'];?>
+				<? } ?>
+			</div>
 		<? } ?>
 		<div class="posttext">
 			<?=$thread['text'];?>

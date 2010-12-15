@@ -31,7 +31,16 @@
 				<img align="left" src="/images/board/thumbs/<?=$post['image'][2];?>" rel="/images/board/full/<?=$post['image'][1];?>">
 			</a>
 		<? } elseif ($post['video']) { ?>
-			<div class="video"><?=$post['video'];?></div>
+			<div class="video">
+				<? if (is_array($post['video'])) { ?>
+					<br />
+					<input type="button" class="open_video margin10" rel="<?=implode('#',$post['video']);?>" value="Показать видео">
+					<br />
+					<input type="button" class="always_embed_video" value="Всегда показывать">				
+				<? } else { ?>
+					<?=$post['video'];?>
+				<? } ?>
+			</div>
 		<? } ?>
 		<div class="posttext">
 			<?=$post['text'];?>
