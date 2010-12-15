@@ -5,7 +5,7 @@
 		</a>
 	</span>
 	<span class="link_read">
-		<a href="/board/<?=($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>/">
+		<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
 			Читать
 		</a>
 	</span>
@@ -23,7 +23,7 @@
 		</span>
 	<? } ?>
 	<span class="number">
-		<a href="/board/<?=$url[2];?>/thread/<?=$id;?>/">
+		<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
 			#<?=$id;?>
 		</a>
 		 в разделе 

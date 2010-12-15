@@ -139,6 +139,7 @@ class output__board extends engine
 	}
 
 	function process_content(&$array, $count_only = false) {
+		global $url;
 		$images = 0; $video = 0;
 		if (!empty($array)) {
 			foreach ($array as $key => $item) {
@@ -166,6 +167,7 @@ class output__board extends engine
 				if (!empty($item['boards'])) {
 					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
 				}
+				$array[$key]['current_board'] = $url[2] && $url[2] != 'page' ? $url[2] : $array[$key]['boards'][array_rand($array[$key]['boards'])];
 				if (!empty($item['text'])) {
 					preg_match_all('/&gt;&gt;(\d+)(\s|$|<br[^>]*>)/',$item['text'],$inner_links);
 					foreach ($inner_links[1] as $inner_link) {
