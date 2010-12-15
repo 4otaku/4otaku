@@ -149,7 +149,7 @@ class output__board extends engine
 					} else {
 						if (
 							!sets::board('embedvideo') &&
-							preg_match('/www\.youtube\.com\/v\/(?P<api>[\p{L}\d]{5,15})&/s',$item['content'],$match)
+							preg_match('/www\.youtube\.com\/v\/(?P<api>[_\p{L}\d\-]{5,15})&/s',$item['content'],$match)
 						) {
 							$array[$key]['video'] = array(
 								'api' => $match['api'],
