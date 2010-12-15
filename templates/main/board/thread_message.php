@@ -23,7 +23,7 @@
 		</span>
 	<? } ?>
 	<span class="number">
-		<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
+		<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/" class="number_link">
 			#<?=$id;?>
 		</a>
 		 в разделе 
