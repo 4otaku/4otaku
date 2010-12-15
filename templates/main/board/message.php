@@ -18,7 +18,7 @@
 		</span>
 	<? } ?>
 	<span class="number">
-		<a href="<?='/board/'.$thread['current_board'].'/thread/'.$id.'/#board-'.$post['id'];?>">
+		<a href="<?='/board/'.$thread['current_board'].'/thread/'.$id.'/#board-'.$post['id'];?>" class="number_link">
 			#<?=$post['id'];?>
 		</a>
 	</span>
