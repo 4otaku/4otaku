@@ -15,7 +15,7 @@
 						<?=obj::transform('text')->wcase($thread['skipped']['images'],'картинка','картинки','картинок');?>
 					<? } ?>					
 					<? if (!empty($thread['skipped']['video'])) { ?>
-						,
+						, 
 						<?=$thread['skipped']['video'];?> 
 						видео
 					<? } ?>	
