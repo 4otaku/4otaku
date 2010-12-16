@@ -2,6 +2,8 @@
 
 class transform__text
 {
+	const URL_REGEX = '/(https?|ftp|irc):\/\/[:_\p{L}\d\-\.]+\.[:\p{L}\d]+(\/.+?(?=\.\s|"\s|\)\s|,\s|\s|$|&nbsp;|\[\/?[a-z]{1,8}|　))?/s';
+	
 	function strtolower_ru($text) {
 		$alfavitlover = array('ё','й','ц','у','к','е','н','г', 'ш','щ','з','х','ъ','ф','ы','в', 'а','п','р','о','л','д','ж','э', 'я','ч','с','м','и','т','ь','б','ю');
 		$alfavitupper = array('Ё','Й','Ц','У','К','Е','Н','Г', 'Ш','Щ','З','Х','Ъ','Ф','Ы','В', 'А','П','Р','О','Л','Д','Ж','Э', 'Я','Ч','С','М','И','Т','Ь','Б','Ю');
@@ -29,7 +31,7 @@ class transform__text
 	function format($text) {
 		$text = str_replace("\r","",$text);
 		$text = $this->bb2html($text);
-		$text = preg_replace('/(https?|ftp|irc):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', '<a href="$0">$0</a>', $text);
+		$text = preg_replace(self::URL_REGEX, '<a href="$0">$0</a>', $text);
 		$text = str_replace('⟯','http',nl2br($text));
 		return $text;
 	}
@@ -37,7 +39,7 @@ class transform__text
 	function wakaba($text) {
 		$text = str_replace("\r","",$text);
 		$i = 0; $links = array();
-		if (preg_match_all('/(https?|ftp|irc):\/\/[\-A-Z0-9\+&@#\/%\?\=~_|\!\:,\.;]*[\-A-Z0-9\+&@#\/%\=~_|]/ui', $text, $matches)) {
+		if (preg_match_all(self::URL_REGEX, $text, $matches)) {
 			foreach ($matches[0] as $match) {
 				$text = preg_replace('/'.preg_quote($match,'/').'/','{⟯link'.++$i.'}',$text,1);
 				$links[$i] = '<a href="'.$match.'">'.$match.'</a>';
