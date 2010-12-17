@@ -8,6 +8,7 @@ class transform__video
 
 		switch ($parts['host']) {
 			case 'youtube.com': $object = $this->youtube($this->parse_query($parts['query'])); break;
+			case 'vimeo.com': $object = $this->vimeo($parts['path']); break;
 			case 'nicovideo.jp': $object = $nico ? $this->nicovideo($parts['path']) : false; break;
 			case 'amvnews.ru': $object = $this->amvnews($this->parse_query($parts['query'])); break;
 			case 'dailymotion.com': $object = $this->dailymotion($parts['path']); break;
@@ -29,6 +30,15 @@ class transform__video
 					</object>';
 		else return false;
 	}
+	
+	function vimeo($path) {
+		$id = array_shift(array_filter(explode('/',$path)));
+		if (is_numeric($id)) {
+			return '<iframe src="http://player.vimeo.com/video/'.$id.'" width="%video_width%" height="%video_height%" frameborder="0"></iframe>';
+		} else {
+			return false;	
+		}
+	} 
 
 	function nicovideo($path) {
 		$parts = explode('/',$path);
