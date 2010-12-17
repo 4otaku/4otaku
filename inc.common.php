@@ -22,13 +22,13 @@ function __autoload($class_name) {
 		include_once $class;
 		return true;
 	}
-	
+
 	$class = ROOT_DIR.SL.'engine'.SL.str_replace('__',SL,$class_name).'.php';
 	if (file_exists($class)) {
 		include_once $class;
 		return true;
-	}	
-	
+	}
+
 	if (_INDEX_) {
 		include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
 		ob_end_flush();
@@ -57,10 +57,10 @@ if (!function_exists('array_replace_recursive')) {
 mb_internal_encoding('UTF-8');
 
 if (
-	strpos($_SERVER["REQUEST_URI"], 'art/download') === false && 
-	!strpos($_SERVER["REQUEST_URI"], '/rss/') && 
+	strpos($_SERVER["REQUEST_URI"], 'art/download') === false &&
+	!strpos($_SERVER["REQUEST_URI"], '/rss/') &&
 	!(_CRON_)
-) { 
+) {
 	ob_start('myoutput');
 }
 
@@ -72,7 +72,7 @@ if(!def::site('domain')) {
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::site('domain') != $_SERVER["SERVER_NAME"]) {
+if(def::site('domain') != $_SERVER["SERVER_NAME"] && !(_CRON_)) {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
@@ -115,7 +115,7 @@ if (!(_CRON_)) {
 		if ((base64_decode($sess['data']) !== false) && is_array(unserialize(base64_decode($sess['data'])))) {
 			// Все ок, применяем сохраненные настройки
 			$sets = array_replace_recursive($sets, unserialize(base64_decode($sess['data'])));
-			sets::import($sets);	
+			sets::import($sets);
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
 			$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
