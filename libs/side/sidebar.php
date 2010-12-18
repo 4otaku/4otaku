@@ -151,7 +151,6 @@ class side__sidebar extends engine
 	}
 
 	function masstag() {
-		global $db;
-		return $db->sql('select alias, name from category where locate("|art|",area) order by id','alias');
+		return obj::db()->sql('select alias, name from category where locate("|art|",area) order by id','alias');
 	}
 }

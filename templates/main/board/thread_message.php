@@ -41,7 +41,7 @@
 	</span>
 	<div class="tbody">
 		<? if ($thread['image']) { ?>
-			<a href="/images/board/full/<?=$thread['image'][1];?>" target="_blank">
+			<a href="/images/board/full/<?=$thread['image'][1];?>" target="_blank" class="board_image_thumb">
 				<img src="/images/board/thumbs/<?=$thread['image'][2];?>" rel="/images/board/full/<?=$thread['image'][1];?>">
 			</a>	
 		<? } elseif ($thread['video']) { ?>

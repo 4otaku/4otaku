@@ -734,6 +734,34 @@ $(document).ready(function(){
 		});
 	});	
 	
+	$(".board_image_thumb").live('click', function(event){
+		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+			event.preventDefault();
+			var img = $(this).children('img');
+			$(this).addClass('board_image_full').removeClass('board_image_thumb');
+			$(this).parents('div').addClass('clear');
+			if (img.attr('rel').indexOf('/full/') != -1) {
+				var tmp = img.attr('rel');
+				img.attr('rel', img.attr('src'));
+				img.attr('src', tmp);
+			}
+		}
+	});
+	
+	$(".board_image_full").live('click', function(event){
+		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+			event.preventDefault();
+			var img = $(this).children('img');
+			$(this).addClass('board_image_thumb').removeClass('board_image_full');
+			$(this).parents('div').removeClass('clear');
+			if (img.attr('rel').indexOf('/thumbs/') != -1) {
+				var tmp = img.attr('rel');
+				img.attr('rel', img.attr('src'));
+				img.attr('src', tmp);
+			}
+		}
+	});	
+	
 	/* Board end */
 	
 });  
