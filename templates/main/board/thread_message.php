@@ -1,14 +1,28 @@
 <div class="thread" id="board-<?=$id;?>">	
-	<span class="link_reply">
-		<a href="<?=($url[3] != 'thread' ? '/board/'.($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]).'/thread/'.$id.'#reply' : "javascript:add_text('>>".$id."')");?>">
-			Ответить
-		</a>
-	</span>
-	<span class="link_read">
-		<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
-			Читать
-		</a>
-	</span>
+	<? if ($url[3] != 'thread') { ?>
+		<span class="link_last">
+			<a href="/board/<?=($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>#reply">
+				Ответить
+			</a>
+		</span>
+		<span class="link_right">
+			<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
+				Читать
+			</a>
+		</span>
+	<? } else { ?>
+<!--
+		<span class="link_last">
+			<a href="#">
+				Скачать тред
+			</a>
+		</span>	
+-->		<span class="link_right">
+			<a href="#" rel="Свернуть все" class="board_unfold_all">
+				Развернуть все
+			</a>
+		</span>	
+	<? } ?>
 	<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?>
 		<span class="link_delete">
 			 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">

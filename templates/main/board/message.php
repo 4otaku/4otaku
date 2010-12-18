@@ -1,5 +1,5 @@
 <div class="message" id="board-<?=$post['id'];?>">	
-	<span class="link_reply">
+	<span class="link_last">
 		<a href="<?=($url[3] != 'thread' ? '/board/'.$thread['current_board'].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
 			Ответить
 		</a>

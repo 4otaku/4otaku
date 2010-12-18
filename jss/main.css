@@ -793,8 +793,8 @@ div.thread span { float: left; display: block; padding: 0 10px 0 10px; border-le
 div.thread span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
 div.thread span.number, div.thread span.number a { color: #bbb; text-decoration: none; }
 div.message span.number a.number_link:hover { color: #42A3B9; }
-div.thread span.link_read, div.thread span.link_reply, div.thread span.link_delete { float: right; }
-div.thread span.link_reply { padding: 0 0 0 10px; }
+div.thread span.link_right, div.thread span.link_last, div.thread span.link_delete { float: right; }
+div.thread span.link_last { padding: 0 0 0 10px; }
 div.thread span.date { color: #bbb; }
 div.thread span.trip { color: #C7C500; }
 div.thread div.tbody { clear: both; padding: 5px 0; }
@@ -807,8 +807,8 @@ div.message span { float: left; display: block; padding: 0 10px 0 10px; border-l
 div.message span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
 div.message span.number, div.message span.number a { color: #bbb; text-decoration: none; }
 div.message span.number a.number_link:hover { color: #42A3B9; }
-div.message span.link_reply, div.message span.link_delete { float: right; }
-div.message span.link_reply { padding: 0 0 0 10px; }
+div.message span.link_last, div.message span.link_delete { float: right; }
+div.message span.link_last { padding: 0 0 0 10px; }
 div.message span.date { color: #bbb; }
 div.message span.trip { color: #C7C500; }
 div.message div.tbody { clear: both; padding: 5px 0; }

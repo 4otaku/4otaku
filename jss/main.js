@@ -735,7 +735,11 @@ $(document).ready(function(){
 	});	
 	
 	$(".board_image_thumb").live('click', function(event){
-		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+		if(
+			event.button == undefined || 
+			!$.browser.msie && event.button == 0 || 
+			$.browser.msie && event.button == 1
+		) {
 			event.preventDefault();
 			var img = $(this).children('img');
 			$(this).addClass('board_image_full').removeClass('board_image_thumb');
@@ -745,11 +749,27 @@ $(document).ready(function(){
 				img.attr('rel', img.attr('src'));
 				img.attr('src', tmp);
 			}
+			if(
+				$(".board_image_thumb").length == 0 &&
+				$(".board_unfold_all").length > 0
+			) {
+				var new_text = $(".board_unfold_all").attr('rel');
+				var new_rel = $(".board_unfold_all").html();
+				$(".board_unfold_all")
+					.addClass('board_fold_all')
+					.removeClass('board_unfold_all')
+					.attr('rel', new_rel)
+					.html(new_text);
+			}
 		}
 	});
 	
 	$(".board_image_full").live('click', function(event){
-		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+		if(
+			event.button == undefined || 
+			!$.browser.msie && event.button == 0 || 
+			$.browser.msie && event.button == 1
+		) {
 			event.preventDefault();
 			var img = $(this).children('img');
 			$(this).addClass('board_image_thumb').removeClass('board_image_full');
@@ -759,6 +779,32 @@ $(document).ready(function(){
 				img.attr('rel', img.attr('src'));
 				img.attr('src', tmp);
 			}
+			if(
+				$(".board_image_thumb").length > 0 &&
+				$(".board_fold_all").length > 0
+			) {
+				var new_text = $(".board_fold_all").attr('rel');
+				var new_rel = $(".board_fold_all").html();
+				$(".board_fold_all")
+					.addClass('board_unfold_all')
+					.removeClass('board_fold_all')
+					.attr('rel', new_rel)
+					.html(new_text);
+			}			
+		}
+	});
+	
+	$(".board_unfold_all").live('click', function(event){
+		event.preventDefault();
+		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+			$(".board_image_thumb").click();
+		}
+	});
+	
+	$(".board_fold_all").live('click', function(event){
+		event.preventDefault();
+		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+			$(".board_image_full").click();
 		}
 	});	
 	
