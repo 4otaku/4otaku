@@ -13,6 +13,7 @@ class transform__video
 			case 'amvnews.ru': $object = $this->amvnews($this->parse_query($parts['query'])); break;
 			case 'dailymotion.com': $object = $this->dailymotion($parts['path']); break;
 			case 'gametrailers.com': $object = $this->gametrailers($parts['path']); break;
+			case 'rutube.ru': $object = $this->rutube($this->parse_query($parts['query'])); break;
 			default: $object = false;
 		}
 		
@@ -88,6 +89,21 @@ class transform__video
 						quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" 
 						type="application/x-shockwave-flash" width="%video_width%" height="%video_height%"></embed> 
 						</object>';
+		else return false;
+	}	
+		
+	function rutube($get) {
+		if ($get['v'])
+			return '
+				<OBJECT width="%video_width%" height="%video_height%">
+					<PARAM name="movie" value="http://video.rutube.ru/'.$get['v'].'"></PARAM>
+					<PARAM name="wmode" value="window"></PARAM>
+					<PARAM name="allowFullScreen" value="true"></PARAM>
+					<EMBED src="http://video.rutube.ru/'.$get['v'].'" 
+						type="application/x-shockwave-flash" wmode="window" 
+						width="%video_width%" height="%video_height%" allowFullScreen="true" >
+					</EMBED>
+				</OBJECT>';
 		else return false;
 	}	
 	
