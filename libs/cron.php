@@ -221,56 +221,5 @@ class cron
 				}
 			}
 		}
-	}
-
-	function actualize_image_size() {
-		$art = obj::db()->sql('select concat(md5,".",extension), id from art where resized != ""','id');
-		if (is_array($art)) {
-			foreach ($art as $id => $item) {
-				if (file_exists(ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$item)) {
-					$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$item;
-					$sizes = getimagesize($file);
-					$filesize = filesize($file);
-					if ($filesize > 1024*1024) {
-						$filesize = round($filesize/(1024*1024),1).' мб';
-					} elseif ($filesize > 1024) {
-						$filesize = round($filesize/1024,1).' кб';
-					} else {
-						$filesize = $filesize.' б';
-					}
-					obj::db()->update('art','resized',$sizes[0].'x'.$sizes[1].'px; '.$filesize,$id);
-				} else {
-					obj::db()->update('art','resized','',$id);	
-				}
-			}
-		}
-	}
-	
-	function actualize_board_content() {
-		$posts = obj::db()->sql('select content, id from board where `type` != "0"','id');
-		if (is_array($posts)) {
-			foreach ($posts as $id => $item) {
-				$content = array();
-				if ($item{0} == '#') {
-					$parts = explode('#', trim($item,'#'));
-					$content['image'][0]['full'] = $parts[0];
-					$content['image'][0]['thumb'] = $parts[1];
-					$content['image'][0]['weight'] = $parts[2];
-					$content['image'][0]['sizes'] = $parts[3];					
-				}
-				
-				if (preg_match('/youtube\.com\/v\/(.{11})&/is',$item,$id)) {
-						$content['video']['link'] = 'http://www.youtube.com/watch?v='.$id[1];
-						$content['video']['object'] =  obj::transform('video')->html($content['video']['link'], false);
-						$content['video']['is_api'] = obj::transform('video')->api;
-						$content['video']['api']['id'] = obj::transform('video')->id;
-						$content['video']['aspect'] = obj::transform('video')->aspect;						
-				}			
-				
-				if (!empty($content)) {
-					obj::db()->update('board','content',base64_encode(serialize($content)),$id);
-				}
-			}
-		}
 	}	
 }
