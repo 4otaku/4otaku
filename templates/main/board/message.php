@@ -27,12 +27,11 @@
 	</span>
 	<div class="tbody">
 		<? if (isset($post['content']['image'][0])) { ?>
-			<a href="/images/board/full/<?=$post['content']['image'][0]['full'];?>" target="_blank" class="board_image_thumb">
-				<img align="left" src="/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" 
-					rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>"
-					title="<?=$post['content']['image'][0]['full_size_info'];?>"
-					class="with_help"
-				>
+			<a href="/images/board/full/<?=$post['content']['image'][0]['full'];?>" 
+				target="_blank" class="board_image_thumb" 
+				title="<?=$post['content']['image'][0]['full_size_info'];?>"
+				class="with_help">
+				<img align="left" src="/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif ($post['content']['video']) { ?>
 			<? if (!sets::board('embedvideo') && $post['content']['video']['is_api']) { ?>
