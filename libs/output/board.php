@@ -180,7 +180,7 @@ class output__board extends engine
 						$video_count++;
 					}
 					
-					$array[$key]['content'] = $content;
+					if (!$count_only) $array[$key]['content'] = $content;
 				}
 				
 				if ($count_only) continue;
