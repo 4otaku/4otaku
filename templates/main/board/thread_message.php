@@ -76,7 +76,7 @@
 				target="_blank" class="board_image_thumb" 
 				title="<?=$thread['content']['image'][0]['full_size_info'];?>"
 				class="with_help">
-				<img align="left" src="/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>">
+				<img align="left" src="/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif ($thread['content']['video']) { ?>
 			<? if (!sets::board('embedvideo') && $thread['content']['video']['is_api']) { ?>
