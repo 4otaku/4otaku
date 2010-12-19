@@ -5,17 +5,24 @@ class input__board extends input__common
 {
 	function add() { 
 		global $post; global $check; global $def; global $sets; global $cookie; global $add_res;
-		if (!$cookie) $cookie = new dinamic__cookie();
-		
+		if (!$cookie) $cookie = new dinamic__cookie();		
 
 		if (!empty($post['image'])) {
-			$content = $post['image'];
+			$parts = explode('#', $post['image']);
+			$content['image'][0]['full'] = $parts[0];
+			$content['image'][0]['thumb'] = $parts[1];
+			$content['image'][0]['weight'] = $parts[2];
+			$content['image'][0]['sizes'] = $parts[3];
 		} elseif (!empty($post['video'])) {
-			$content =  obj::transform('video')->html(undo_safety($post['video']), false);
-			if (empty($content)) {
+			$content['video']['link'] = undo_safety($post['video']);
+			$content['video']['object'] =  obj::transform('video')->html($content['video']['link'], false);
+			if (empty($content['video']['object'])) {
 				$this->add_res('Извините, либо этого видеосервиса нет в нашей базе, либо с вашей ссылкой что-то не так.',true); 
 				return false;
 			}
+			$content['video']['is_api'] = obj::transform('video')->api;
+			$content['video']['api']['id'] = obj::transform('video')->id;
+			$content['video']['aspect'] = obj::transform('video')->aspect;
 		}
 		
 		$text = obj::transform('text')->wakaba($post['text']);
@@ -51,7 +58,7 @@ class input__board extends input__common
 				$post['id'] ? 0 : $time,
 				trim($user) ? trim($user) : $def['user']['name'],
 				$tripcode,
-				$content,
+				base64_encode(serialize($content)),
 				undo_safety($post['text']),
 				$text,
 				$category,

@@ -121,7 +121,8 @@ class output__board extends engine
 		if (intval($url[4])) {
 			$return['display'] = array('board_thread');
 			$return['posts'] = $db->sql('select * from board where `type`!="0" and (thread = '.$url[4].' or id = '.$url[4].') order by type, sortdate');
-			$this->process_content($return['posts']);
+			list($images, $video) = $this->process_content($return['posts']);
+			$return['posts'][0]['images_count'] = $images;
 		}
 
 		if (
@@ -140,30 +141,50 @@ class output__board extends engine
 
 	function process_content(&$array, $count_only = false) {
 		global $url;
-		$images = 0; $video = 0;
+		$images_count = 0; $video_count = 0;
 		if (!empty($array)) {
 			foreach ($array as $key => $item) {
-				if (!empty($item['content'])) {
-					if ($item['content']{0} == '#') {
-						$array[$key]['image'] = explode('#', $item['content']);
-						$images++;
-					} else {
-						if (
-							!sets::board('embedvideo') &&
-							preg_match('/www\.youtube\.com\/v\/(?P<api>[_\p{L}\d\-]{5,15})&/s',$item['content'],$match)
-						) {
-							$array[$key]['video'] = array(
-								'api' => $match['api'],
-								'width' => def::board('thumbwidth'),
-								'height' => def::board('thumbheight')
-							);
-						} else {
-							$array[$key]['video'] = str_replace(array('%video_width%','%video_height%'),array(def::board('thumbwidth'),def::board('thumbheight')),$item['content']);
+				if (!empty($item['content'])) {					
+					$content = unserialize(base64_decode($item['content']));
+					
+					if (is_array($content['image'])) {
+						foreach ($content['image'] as $image_key => $image) {
+							if ($image['weight'] > 1024*1024) {
+								$filesize = round($image['weight']/(1024*1024),1).' мегабайт';
+							} elseif ($filesize > 1024) {
+								$filesize = round($image['weight']/1024,1).' килобайт';
+							} else {
+								$filesize = $image['weight'].' байт';
+							}							
+							
+							$content['image'][$image_key]['full_size_info'] = 
+								$filesize . ' ' . $image['sizes'] . ' пикселей';
+								
+							$images_count++;
 						}
-						$video++;
 					}
+					
+					if (isset($content['video'])) {
+						$width = def::board('thumbwidth');
+						$height = $width * $content['video']['aspect'];
+						
+						$content['video']['object'] = str_replace(
+							array('%video_width%','%video_height%'),
+							array($width,$height), 
+							$content['video']['object']
+						);
+						
+						$content['video']['api']['width'] = $width;
+						$content['video']['api']['height'] = $height;
+						
+						$video_count++;
+					}
+					
+					$array[$key]['content'] = $content;
 				}
+				
 				if ($count_only) continue;
+				
 				if (!empty($item['boards'])) {
 					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
 				}
@@ -176,7 +197,7 @@ class output__board extends engine
 				}
 			}
 		}
-		return array($images, $video);
+		return array($images_count, $video_count);
 	}
 
 	function build_inner_links($links, &$threads) {

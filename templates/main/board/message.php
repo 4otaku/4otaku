@@ -26,21 +26,27 @@
 		<?=$post['pretty_date'];?>
 	</span>
 	<div class="tbody">
-		<? if ($post['image']) { ?>
-			<a href="/images/board/full/<?=$post['image'][1];?>" target="_blank" class="board_image_thumb">
-				<img align="left" src="/images/board/thumbs/<?=$post['image'][2];?>" rel="/images/board/full/<?=$post['image'][1];?>">
+		<? if (isset($post['content']['image'][0])) { ?>
+			<a href="/images/board/full/<?=$post['content']['image'][0]['full'];?>" target="_blank" class="board_image_thumb">
+				<img align="left" src="/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" 
+					rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>"
+					title="<?=$post['content']['image'][0]['full_size_info'];?>"
+					class="with_help"
+				>
 			</a>
-		<? } elseif ($post['video']) { ?>
-			<div class="video">
-				<? if (is_array($post['video'])) { ?>
+		<? } elseif ($post['content']['video']) { ?>
+			<? if (!sets::board('embedvideo') && $post['content']['video']['is_api']) { ?>
+				<div class="video" style="height:<?=$post['content']['video']['api']['height'];?>px;">
 					<br />
-					<input type="button" class="open_video margin10" rel="<?=implode('#',$post['video']);?>" value="Показать видео">
+					<input type="button" class="open_video margin10" rel="<?=implode('#',$post['content']['video']['api']);?>" value="Показать видео">
 					<br />
-					<input type="button" class="always_embed_video" value="Всегда показывать">				
-				<? } else { ?>
-					<?=$post['video'];?>
-				<? } ?>
-			</div>
+					<input type="button" class="always_embed_video" value="Всегда показывать">
+				</div>
+			<? } else { ?>
+				<div class="video">
+					<?=$post['content']['video']['object'];?>
+				</div>
+			<? } ?>			
 		<? } ?>
 		<div class="posttext">
 			<?=$post['text'];?>
