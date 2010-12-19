@@ -73,9 +73,8 @@
 	<div class="tbody">
 		<? if (isset($thread['content']['image'][0])) { ?>
 			<a href="/images/board/full/<?=$thread['content']['image'][0]['full'];?>" 
-				target="_blank" class="board_image_thumb" 
-				title="<?=$thread['content']['image'][0]['full_size_info'];?>"
-				class="with_help">
+				target="_blank" class="board_image_thumb with_help" 
+				title="<?=$thread['content']['image'][0]['full_size_info'];?>">
 				<img align="left" src="/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif ($thread['content']['video']) { ?>
