@@ -176,7 +176,7 @@ class output__board extends engine
 							}							
 							
 							$content['image'][$image_key]['full_size_info'] = 
-								$filesize . ' ' . $image['sizes'] . ' пикселей';
+								$filesize . ', ' . $image['sizes'] . ' пикселей';
 								
 							$images_count++;
 						}
