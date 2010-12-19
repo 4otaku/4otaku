@@ -11,17 +11,34 @@
 			</a>
 		</span>
 	<? } else { ?>
-<!--
-		<span class="link_last">
+<!--	<span class="link_last download_thread">
 			<a href="#">
-				Скачать тред
+				Скачать
 			</a>
+			<div class="relative">
+				<span class="variants">
+					<a href="#" class="download_pdf">
+						<nobr>
+							Тред в html
+						</nobr>
+					</a>
+					<br />
+					<a href="#" class="download_zip">
+						<nobr>
+							Все картинки
+						</nobr>
+					</a>
+				</span>
+			</div>	
 		</span>	
--->		<span class="link_right">
-			<a href="#" rel="Свернуть все" class="board_unfold_all">
-				Развернуть все
-			</a>
-		</span>	
+-->		
+		<? if ($thread['images_count'] > 0) { ?>
+			<span class="link_right">
+				<a href="#" rel="Свернуть все" class="board_unfold_all">
+					Развернуть все
+				</a>
+			</span> 
+		<? } ?>
 	<? } ?>
 	<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?>
 		<span class="link_delete">
@@ -54,21 +71,27 @@
 		<?=$thread['pretty_date'];?>
 	</span>
 	<div class="tbody">
-		<? if ($thread['image']) { ?>
-			<a href="/images/board/full/<?=$thread['image'][1];?>" target="_blank" class="board_image_thumb">
-				<img src="/images/board/thumbs/<?=$thread['image'][2];?>" rel="/images/board/full/<?=$thread['image'][1];?>">
-			</a>	
-		<? } elseif ($thread['video']) { ?>
-			<div class="video">
-				<? if (is_array($thread['video'])) { ?>
+		<? if (isset($thread['content']['image'][0])) { ?>
+			<a href="/images/board/full/<?=$thread['content']['image'][0]['full'];?>" target="_blank" class="board_image_thumb">
+				<img align="left" src="/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" 
+					rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>"
+					title="<?=$thread['content']['image'][0]['full_size_info'];?>"
+					class="with_help"
+				>
+			</a>
+		<? } elseif ($thread['content']['video']) { ?>
+			<? if (!sets::board('embedvideo') && $thread['content']['video']['is_api']) { ?>
+				<div class="video" style="height:<?=$thread['content']['video']['api']['height'];?>px;">
 					<br />
-					<input type="button" class="open_video margin10" rel="<?=implode('#',$thread['video']);?>" value="Показать видео">
+					<input type="button" class="open_video margin10" rel="<?=implode('#',$thread['content']['video']['api']);?>" value="Показать видео">
 					<br />
-					<input type="button" class="always_embed_video" value="Всегда показывать">				
-				<? } else { ?>
-					<?=$thread['video'];?>
-				<? } ?>
-			</div>
+					<input type="button" class="always_embed_video" value="Всегда показывать">
+				</div>
+			<? } else { ?>
+				<div class="video">
+					<?=$thread['content']['video']['object'];?>
+				</div>
+			<? } ?>			
 		<? } ?>
 		<div class="posttext">
 			<?=$thread['text'];?>

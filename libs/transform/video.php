@@ -2,9 +2,14 @@
 
 class transform__video
 {
+	public $aspect = 0;
+	public $id = '';
+	public $api = false;
+	
 	function html($link, $nico = true) {
 		$parts = parse_url($link);
 		if (substr($parts['host'],0,4) == 'www.') $parts['host'] = substr($parts['host'],4);
+		$this->id = ''; $this->aspect = 0; $this->api = false;
 
 		switch ($parts['host']) {
 			case 'youtube.com': $object = $this->youtube($this->parse_query($parts['query'])); break;
@@ -17,11 +22,19 @@ class transform__video
 			default: $object = false;
 		}
 		
-		return $object;
+		if (!empty($object)) {
+			return $object;
+		} else {
+			return false;
+		}
 	}
 	
 	function youtube($get) {
-		if (strlen($get['v']) == 11)
+		if (strlen($get['v']) == 11) {
+			$this->id = $get['v'];
+			$this->aspect = 3/4;
+			$this->api = true;
+			
 			return '<object width="%video_width%" height="%video_height%">
 					<param name="movie" value="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0"></param>
 					<param name="allowFullScreen" value="true"></param>
@@ -29,27 +42,34 @@ class transform__video
 					<embed src="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash" 
 					allowscriptaccess="always" allowfullscreen="true" width="%video_width%" height="%video_height%"></embed>
 					</object>';
-		else return false;
+		}
 	}
 	
 	function vimeo($path) {
 		$id = array_shift(array_filter(explode('/',$path)));
 		if (is_numeric($id)) {
+			$this->id = $id;
+			$this->aspect = 9/16;
+			
 			return '<iframe src="http://player.vimeo.com/video/'.$id.'" width="%video_width%" height="%video_height%" frameborder="0"></iframe>';
-		} else {
-			return false;	
 		}
 	} 
 
 	function nicovideo($path) {
 		$parts = explode('/',$path);
-		if ($part = array_search('watch',$parts) && $id = $parts[$part+2])
+		if ($part = array_search('watch',$parts) && $id = $parts[$part+2]) {
+			$this->id = $id;
+			$this->aspect = 1;			
+			
 			return '<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/'.$id.'"></script>';
-		else return false;
+		}
 	}
 	
 	function amvnews($get) {
-		if ($get['id'] && is_numeric($get['id']))
+		if ($get['id'] && is_numeric($get['id'])) {
+			$this->id = $get['id'];
+			$this->aspect = 3/4;	
+					
 			return '<center>
 						<object width="%video_width%" height="%video_height%">
 						<embed src="http://amvnews.ru/Video/player.swf" width="%video_width%" height="%video_height%" 
@@ -57,11 +77,14 @@ class transform__video
 						'file=http%3A%2F%2Famvnews.ru%2Findex.php%3Fgo%3DFiles%26file%3Dse%26id%3D'.$get['id'].'&amp;searchbar=false&amp;'.
 						'smoothing=true&amp;backcolor=CCFFFF&amp;frontcolor=000000" /></object>
 					</center>';
-		else return false;		
+		}
 	}	
 	
 	function dailymotion($path) {
-		if ($id = substr($path,1,strpos($path,'_') - 1))
+		if ($id = substr($path,1,strpos($path,'_') - 1)) {
+			$this->id = $id;
+			$this->aspect = 3/4;
+			
 			return '<object width="%video_width%" height="%video_height%">
 					<param name="movie" value="http://www.dailymotion.com/swf/'.$id.'" />
 					<param name="allowFullScreen" value="true" />
@@ -69,13 +92,16 @@ class transform__video
 					<embed src="http://www.dailymotion.com/swf/'.$id.'" type="application/x-shockwave-flash" width="%video_width%" 
 					height="%video_height%" allowFullScreen="true" allowScriptAccess="always"></embed>
 					</object>';
-		else return false;
+		}
 	}	
 		
 	function gametrailers($path) {
 		$parts = explode('/',$path);
 		foreach ($parts as $part) if (is_numeric($part)) $id = $part;
-		if ($id)
+		if (!empty($id)) {
+			$this->id = $id;
+			$this->aspect = 3/4;			
+			
 			return '<div style="width: %video_width%px;">
 						<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
 						codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" 
@@ -89,11 +115,14 @@ class transform__video
 						quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" 
 						type="application/x-shockwave-flash" width="%video_width%" height="%video_height%"></embed> 
 						</object>';
-		else return false;
+		}
 	}	
 		
 	function rutube($get) {
-		if ($get['v'])
+		if ($get['v']) {
+			$this->id = $get['v'];
+			$this->aspect = 3/4;			
+			
 			return '
 				<OBJECT width="%video_width%" height="%video_height%">
 					<PARAM name="movie" value="http://video.rutube.ru/'.$get['v'].'"></PARAM>
@@ -104,8 +133,8 @@ class transform__video
 						width="%video_width%" height="%video_height%" allowFullScreen="true" >
 					</EMBED>
 				</OBJECT>';
-		else return false;
-	}	
+		}
+	}
 	
 	function parse_query($query) {
 		$query = urldecode($query);

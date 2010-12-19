@@ -61,6 +61,10 @@ img.cancel {
 	text-align: center;
 }
 
+.relative {
+	position: relative;
+}
+
 .clear {
 	clear: both;
 }
@@ -799,8 +803,10 @@ div.thread span.date { color: #bbb; }
 div.thread span.trip { color: #C7C500; }
 div.thread div.tbody { clear: both; padding: 5px 0; }
 div.thread div.tbody img, div.thread div.video{ float: left; padding: 0 10px 10px 0px; }
-div.thread div.video{ text-align: center; width: 240px; height: 180px; }
+div.thread div.video { text-align: center; width: 240px; }
 div.thread div.posttext { margin: 0; }
+div.thread .download_thread .variants { display: none; position: absolute; right: 0px; padding: 10px 10px; }
+div.thread .download_thread:hover .variants { display: block; line-height: 180%;  border: 1px solid #C7C500; background: #E8E7B7; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 
 div.message { display: block; padding: 5px; margin: 0 0 5px 0; border: 1px solid #ddd; background: #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
 div.message span { float: left; display: block; padding: 0 10px 0 10px; border-left: 1px solid #ddd;  }
@@ -813,7 +819,7 @@ div.message span.date { color: #bbb; }
 div.message span.trip { color: #C7C500; }
 div.message div.tbody { clear: both; padding: 5px 0; }
 div.message div.tbody img, div.message div.video { float: left; padding: 0 10px 10px 0px; }
-div.message div.video{ text-align: center; width: 240px; height: 180px; }
+div.message div.video{ text-align: center; width: 240px; }
 
 span.board_spoiler { background: none repeat scroll 0 0 #E7E7E7; color: #E7E7E7; }
 span.board_spoiler:hover { background: none repeat scroll 0 0 #E7E7E7; color: #000000; }

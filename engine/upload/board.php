@@ -15,7 +15,7 @@
 			$imagick =  new $image_class($path = $newfile);
 			scale(array($def['board']['thumbwidth'],$def['board']['thumbheight']),$newthumb);
 			$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
-			echo '/images/board/thumbs/'.$thumb.'.jpg|#'.$newname.'#'.$thumb.'.jpg#'.$sizefile.'#'.$sizes;
+			echo '/images/board/thumbs/'.$thumb.'.jpg|'.$newname.'#'.$thumb.'.jpg#'.$sizefile.'#'.$sizes;
 		}
 		else {echo 'error-filetype';}
 	}
