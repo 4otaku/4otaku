@@ -24,6 +24,7 @@ $def['booru']['filesize'] = 10*1024*1024;
 $def['booru']['thumbsize'] = 150;
 $def['booru']['largethumbsize'] = 250;
 $def['booru']['resizewidth'] = 750;
+$def['booru']['resizeweight'] = 1.5*1024*1024;
 $def['booru']['resizestep'] = 1.1;
 $def['board']['filesize'] = 5*1024*1024;
 $def['board']['thumbwidth'] = 240;
