@@ -194,7 +194,7 @@ class output__art extends engine
 				if (is_array($return[0]['translations']['full'])) foreach ($return[0]['translations']['full'] as $key => $one) $return[0]['translations']['full'][$key]['text'] = str_replace('"','&quot;',$one['text']); 
 				if ($return[0]['resized'] && is_array($return[0]['translations']['full'])) {
 					$size = explode('x',$return[0]['resized']);
-					$small_size = getimagesize(ROOT_DIR.SL.'images/booru/resized/'.$info['md5'].'.jpg');
+					$small_size = getimagesize(ROOT_DIR.SL.'images/booru/resized/'.$return[0]['md5'].'.jpg');
 					$coeff = $size[0] / $small_size[0];
 					foreach ($return[0]['translations']['full'] as $one) {
 						foreach ($one as $key => $param) if ($key != 'text') $one[$key] = round($param / $coeff);
