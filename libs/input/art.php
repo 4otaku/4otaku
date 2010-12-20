@@ -74,7 +74,7 @@ class input__art extends input__common
 		global $post; global $db; global $check;
 		if ($check->num($post['id']) && $post['type'] == 'art') {
 			$name = explode('#',end($post['images']));
-			$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]); if ($name[3] != 1) $name[3] ='';
+			$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
 			$db->update('art',array('md5','thumb','extension','resized'),$name,$post['id']);
 		}		
 	}

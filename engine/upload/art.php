@@ -24,7 +24,7 @@
 				if ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep']) {
 					if (scale($def['booru']['resizewidth'],ROOT_DIR.'images/booru/resized/'.$md5.'.jpg',95,false))
 						$resized = $sizes;
-				} elseif ($sizefile > def::get('booru','resizeweight')) {
+				} elseif ($sizefile > $def['booru']['resizeweight']) {
 					if (scale(ceil($imagick->getImageWidth()/2),ROOT_DIR.'images/booru/resized/'.$md5.'.jpg',95,false))
 						$resized = $sizes;
 				}
