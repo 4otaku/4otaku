@@ -113,7 +113,7 @@ class input__art extends input__common
 			if ($post['size'] == 'resized') {
 				$info = $db->sql('select resized, md5 from art where id='.$post['id'],1);
 				$full_size = explode('x',$info['resized']);
-				$small_size = getimagesize(ROOT_DIR.'images/booru/resized/'.$info['md5'].'.jpg');
+				$small_size = getimagesize(ROOT_DIR.SL.'images/booru/resized/'.$info['md5'].'.jpg');
 				$coeff = $full_size[0] / $small_size[0];
 			} else {
 				$coeff = 1;
