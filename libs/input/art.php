@@ -111,11 +111,13 @@ class input__art extends input__common
 			$date = $transform_text->rudate();
 			$db->update('art_translation','active',0,$post['id'],'art_id');
 			if ($post['size'] == 'resized') {
-				$size = explode('x',$db->sql('select resized from art where id='.$post['id'],2));
-				$coeff = $size[0] / $def['booru']['resizewidth'];
+				$info = $db->sql('select resized, md5 from art where id='.$post['id'],1);
+				$full_size = explode('x',$info['resized']);
+				$small_size = getimagesize(ROOT_DIR.'images/booru/resized/'.$info['md5'].'.jpg');
+				$coeff = $full_size[0] / $small_size[0];
+			} else {
+				$coeff = 1;
 			}
-			else $coeff = 1;
-			var_dump($post['trans']);
 			foreach ($post['trans'] as $key => $translation) {
 				if (!$text = $transform_text->format($translation['text']))
 					unset ($post['trans'][$key]);
