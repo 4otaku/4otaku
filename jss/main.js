@@ -147,6 +147,13 @@ function add_text(text) {
 	}
 }
 
+function is_left_click(event) {
+	if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+		return true;
+	}
+	return false;
+}
+
 $(document).ready(function(){  
 
 	/* Shared settings */
@@ -448,27 +455,29 @@ $(document).ready(function(){
 		});	
 	});	
 	
-	$(".booru_show_toggle").live('click', function(){
-		if ($(".add_translation").length < 1) {
-			if ($(".booru_img").attr('rel') == 'full') {
-				src = $(".booru_img img").attr('src').replace('/full/','/resized/').replace('.'+$(this).attr('rel'),'.jpg');
-				$(".booru_img").attr('rel','resized');			
-				$("span.booru_show_full_container span").html('Изображение было уменьшено. ');
-				$("a.booru_show_toggle").html('Показать в полном размере');
-				$(".booru_img img").remove();
-				$(".booru_img").append('<img src="'+src+'">');
+	$(".booru_show_toggle").live('click', function(event){
+		if(is_left_click(event)) {
+			if ($(".add_translation").length < 1) {
+				if ($(".booru_img").attr('rel') == 'full') {
+					src = $(".booru_img img").attr('src').replace('/full/','/resized/').replace('.'+$(this).attr('rel'),'.jpg');
+					$(".booru_img").attr('rel','resized');			
+					$("span.booru_show_full_container span").html('Изображение было уменьшено. ');
+					$("a.booru_show_toggle").html('Показать в полном размере');
+					$(".booru_img img").remove();
+					$(".booru_img").append('<img src="'+src+'">');
+				}
+				else {
+					src = $(".booru_img img").attr('src').replace('/resized/','/full/').replace('.jpg','.'+$(this).attr('rel'));
+					$(".booru_img").attr('rel','full');			
+					$("span.booru_show_full_container span").html('Полный размер. ');
+					$("a.booru_show_toggle").html('Уменьшить изображение');
+					$(".booru_img img").remove();
+					$(".booru_img").append('<img src="'+src+'">');
+				}
+				$(".booru_main .image .art_translation").appendTo(".edit_field");
+				$(".translations_hideout .art_translation").appendTo(".booru_main .image");
+				$(".edit_field .art_translation").appendTo(".translations_hideout");			
 			}
-			else {
-				src = $(".booru_img img").attr('src').replace('/resized/','/full/').replace('.jpg','.'+$(this).attr('rel'));
-				$(".booru_img").attr('rel','full');			
-				$("span.booru_show_full_container span").html('Полный размер. ');
-				$("a.booru_show_toggle").html('Уменьшить изображение');
-				$(".booru_img img").remove();
-				$(".booru_img").append('<img src="'+src+'">');
-			}
-			$(".booru_main .image .art_translation").appendTo(".edit_field");
-			$(".translations_hideout .art_translation").appendTo(".booru_main .image");
-			$(".edit_field .art_translation").appendTo(".translations_hideout");			
 		}
 	});	
 
@@ -478,8 +487,10 @@ $(document).ready(function(){
 		});
 	});	
 
-	$(".booru_translation_toggle").live('click', function(){
-		$(".image .art_translation").toggle();
+	$(".booru_translation_toggle").live('click', function(event){
+		if(is_left_click(event)) {
+			$(".image .art_translation").toggle();
+		}
 	});	
 	
 		/* Art - masstag9001 */
@@ -735,11 +746,7 @@ $(document).ready(function(){
 	});	
 	
 	$(".board_image_thumb").live('click', function(event){
-		if(
-			event.button == undefined || 
-			!$.browser.msie && event.button == 0 || 
-			$.browser.msie && event.button == 1
-		) {
+		if(is_left_click(event)) {
 			event.preventDefault();
 			var img = $(this).children('img');
 			$(this).addClass('board_image_full').removeClass('board_image_thumb');
@@ -765,11 +772,7 @@ $(document).ready(function(){
 	});
 	
 	$(".board_image_full").live('click', function(event){
-		if(
-			event.button == undefined || 
-			!$.browser.msie && event.button == 0 || 
-			$.browser.msie && event.button == 1
-		) {
+		if(is_left_click(event)) {
 			event.preventDefault();
 			var img = $(this).children('img');
 			$(this).addClass('board_image_thumb').removeClass('board_image_full');
@@ -796,14 +799,14 @@ $(document).ready(function(){
 	
 	$(".board_unfold_all").live('click', function(event){
 		event.preventDefault();
-		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+		if(is_left_click(event)) {
 			$(".board_image_thumb").click();
 		}
 	});
 	
 	$(".board_fold_all").live('click', function(event){
 		event.preventDefault();
-		if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
+		if(is_left_click(event)) {
 			$(".board_image_full").click();
 		}
 	});	
