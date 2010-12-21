@@ -65,7 +65,7 @@ class output__comments extends engine
 					if ($_comments = obj::db()->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment')) 
 						$return = $return + $_comments;
 				} else {
-					if ($_comments = obj::db()->base_sql('sub','select '.$select[$key].', "art" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment'))
+					if ($_comments = obj::db('sub')->sql('select '.$select[$key].', "art" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment'))
 						$return = $return + $_comments;
 				}
 			krsort($return);
@@ -85,7 +85,7 @@ class output__comments extends engine
 						break;
 					case $def['type'][2]: 
 						if (substr($one['id'],0,3) == 'cg_') {
-							$one['image'] = 'http://w8m.4otaku.ru/image/'.obj::db()->base_sql('sub','select md5 from w8m_galleries where id='.$one['gallery_id'],2).'/thumb/'.$one['image'].'.jpg';
+							$one['image'] = 'http://w8m.4otaku.ru/image/'.obj::db('sub')->sql('select md5 from w8m_galleries where id='.$one['gallery_id'],2).'/thumb/'.$one['image'].'.jpg';
 							$one['title'] = "Game CG №".$one['title'];
 						} else {
 							$one['image'] = '/images/booru/thumbs/'.$one['image'].'.jpg';

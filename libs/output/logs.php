@@ -25,11 +25,12 @@ class output__logs extends engine
 	function get_data() {
 		global $url;
 		$return['display'] = array('logs_navi','logs_body','logs_arrows');
-		if (!$this->nocache) 
+		if (!$this->nocache) {
 			$return['logs'] = base64_decode(obj::db()->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].')',2,'cache'));
+		}
 		if (!$return['logs']) {
 			$today = mktime(0, 0, 0, $url[3], $url[4], $url[2])*1000;
-			$return['logs'] = obj::db()->base_sql('chat','select nickname, logTime, body from ofMucConversationLog where (roomID < 3 and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
+			$return['logs'] = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (roomID < 3 and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
 			if (is_array($return['logs'])) foreach ($return['logs'] as $key => &$log) {
 				if (trim($log['body'])) $log['text'] = $this->format_logs($log['body'],$log['nickname']);
 				else unset($return['logs'][$key]);
