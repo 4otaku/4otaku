@@ -9,13 +9,10 @@ class dinamic__art extends engine
 			$limit = ' order by sortdate desc limit '.($get['id'] - 1).', 5'; $area_prefix = 'area="'.$def['area'][0].'" and ';
 			switch ($get['type']) {
 				case "mixed": 
-					include_once ('engine/engine.php'); 
-					$engine = new engine();
 					$url['area'] = 'main';  $area_prefix = '';
-					$area = "(".$engine->mixed_make_sql($engine->mixed_parse(html_entity_decode(urldecode($get['area'])))).")"; 
+					$area = "(".engine::mixed_make_sql(engine::mixed_parse(html_entity_decode(urldecode($get['area'])))).")"; 
 					break;
 				case "date": 
-					obj::transform('text') = new transform__text(); 
 					$parts = explode('-',$get['area']);
 					if (is_numeric($parts[0].$parts[1].$parts[2]) && count($parts) == 3)
 						$area = '(pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'")';

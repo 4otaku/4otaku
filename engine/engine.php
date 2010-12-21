@@ -121,7 +121,7 @@ class engine
 		}
 	}
 	
-	function mixed_parse($string) {
+	static function mixed_parse($string) {
 		global $error; global $mixed;
 		$temp_params = explode('&',str_replace(' ','+',$string));
 		foreach ($temp_params as $param) {
@@ -151,7 +151,7 @@ class engine
 		return $mixed = $return;
 	}
 
-	function mixed_make_sql($mixed) {
+	static function mixed_make_sql($mixed) {
 		global $url;	
 		$return = 'area="'.$url['area'].'"';
 		$plusing = array('categories' => 'category','tags' => 'tag','languages' => 'language','authors' => 'author');
@@ -170,7 +170,7 @@ class engine
 		return $return;
 	}	
 	
-	function mixed_make_url($mixed) {
+	static function mixed_make_url($mixed) {
 		global $url; global $def;
 		
 		if ($url['area'] != $def['area'][0]) $base = '/'.$url[1].'/'.$url['area'].'/';
