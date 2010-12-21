@@ -25,7 +25,7 @@ class output__video extends engine
 	);
 	
 	function get_data() {
-		global $url; global $db; global $def; global $sets; 
+		global $url; global $def; global $sets; 
 		$return['navigation'] = $this->get_navigation(array('tag','category'));		
 		if (is_numeric($url[2]) && $url[2]>0) {
 			$return['display'] = array('video','comments');		
@@ -62,16 +62,16 @@ class output__video extends engine
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';			
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil($db->sql('select count(id) from video where ('.$area.')',2,'count(id)')/$sets['pp']['video']);		
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from video where ('.$area.')',2,'count(id)')/$sets['pp']['video']);		
 		}
 		$return['navi']['base'] = '/video'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';		
 		return $return;
 	}
 	
 	function get_video($limit, $area, $sizes) {
-		global $error; global $db;
+		global $error;
 		$sizes = explode('x',$sizes);
-		$return = $db->sql('select * from video where ('.$area.') order by sortdate desc limit '.$limit);
+		$return = obj::db()->sql('select * from video where ('.$area.') order by sortdate desc limit '.$limit);
 		if (is_array($return)) {
 			foreach ($return as &$video) {
 				$video['object'] = str_replace(array('%video_width%','%video_height%'),$sizes,$video['object']);

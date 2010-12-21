@@ -26,35 +26,35 @@ class output__order extends engine
 	}
 
 	function order_main() {		
-		global $db; global $url;
+		global $url;
 		$return['display'] = array('order_main','order_open');
-		$orders = $db->sql('select * from orders where area="workshop" order by sortdate');
+		$orders = obj::db()->sql('select * from orders where area="workshop" order by sortdate');
 		if (is_array($orders)) foreach ($orders as $order) {
 			$order['category'] = explode('|',trim($order['category'],'|'));
 			if (is_array($order['category'])) foreach ($order['category'] as $one)
 				$return['order_open'][$one][] = $order;
 		}
-		$return['category'] = $db->sql('select alias, name from category','alias');
+		$return['category'] = obj::db()->sql('select alias, name from category','alias');
 		if ($url[2]) $this->action($url[3],intval(decrypt($url[4])));
 		return $return; 
 	}
 
 	function order_all() {	
-		global $db; global $url; global $error;	
+		global $url; global $error;	
 		$return['display'] = array('order_all');	
-		if ($url[2] == 'all') $return['orders'] = $db->sql('select * from orders order by area desc, sortdate');
-			else $return['orders'] = $db->sql('select * from orders where locate("|'.mysql_real_escape_string($url[3]).'|",orders.category) order by area desc, sortdate');
+		if ($url[2] == 'all') $return['orders'] = obj::db()->sql('select * from orders order by area desc, sortdate');
+			else $return['orders'] = obj::db()->sql('select * from orders where locate("|'.mysql_real_escape_string($url[3]).'|",orders.category) order by area desc, sortdate');
 		if ($return['orders']) return $return;
 			else $error = true;		
 	}
 
 	function order_single($id) {	
-		global $db; global $sets; global $url; global $error;
+		global $sets; global $url; global $error;
 		$return['display'] = array('order_single','comments');
-		$return['order_single'] = $db->sql('select * from orders where id='.$id.' limit 1',1); 
+		$return['order_single'] = obj::db()->sql('select * from orders where id='.$id.' limit 1',1); 
 		if ($return['order_single']) {
-			if ($sets['user']['rights']) $return['order_single']['cat'] = $db->sql('select alias,name from category order by id');
-			$return['order_single']['category'] = $db->sql('select name, alias from category where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$return['order_single']['category'])))).'"','alias');
+			if ($sets['user']['rights']) $return['order_single']['cat'] = obj::db()->sql('select alias,name from category order by id');
+			$return['order_single']['category'] = obj::db()->sql('select name, alias from category where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$return['order_single']['category'])))).'"','alias');
 			$return['comments'] = $this->get_comments('orders',$url[2],(is_numeric($url[5]) ? $url[5] : ($url[4] == 'all' ? false : 1)));
 			$return['navi']['curr'] = ($url[4] == 'all' ? 'all' : max(1,$url[5]));
 			$return['navi']['all'] = true;
@@ -68,18 +68,17 @@ class output__order extends engine
 	}
 	
 	function action($action,$id) {
-		global $db; 
 		if ($id) {
 			if ($action == 'prolong') {
-				$data = $db->sql('select email,spam from orders where id='.$id,1);		
+				$data = obj::db()->sql('select email,spam from orders where id='.$id,1);		
 				$action = new input__common();
 				if ($data['spam']) $action->set_events($id,$data['email']);
 				else $action->set_events($id);
 				$this->add_res('Заказ успешно продлен');
 			}
 			elseif ($action == 'unsubscribe') {
-				$db->update('orders','spam',0,$id);
-				$db->sql('delete from misc where (type="mail_notify" and data5="'.$id.'")',0);			
+				obj::db()->update('orders','spam',0,$id);
+				obj::db()->sql('delete from misc where (type="mail_notify" and data5="'.$id.'")',0);			
 				$this->add_res('Вы отписались от уведомлений по заказу <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a>');
 			}
 		}

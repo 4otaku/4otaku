@@ -156,17 +156,5 @@ class output__rss extends engine
 	
 	private function replace_spoilers($text, $link)	{
 		return preg_replace('/<div\sclass="mini-shell"><div\sclass="handler"\swidth="100%"><span\sclass="sign">.<\/span>\s<a\shref="#"\sclass="disabled">([^<]*)<\/a><\/div><div\sclass="text\shidden">.*<\/div><\/div>/suiU','<a href="'.$link.'">$1</a> <br />',$text);
-	/*	$startTag 	= '<span class="sign">↓</span> <a href="#" class="disabled">';
-		$endTag 	= '</div></div>';
-		$return 	= substr_replace($workString, '->Spoiler here<-', strpos($workString, $startTag), (strrpos($workString, $endTag) - strpos($workString, $startTag)) + strlen($endTag));
-		return $return; */
-		/*
-		$startTag 	= '<span class="sign">↓</span> <a href="#" class="disabled">';
-		$endTag 	= '</div></div>';
-		if(preg_replace($startTag."/[.*]+/".endTag,"-->Spoiler Here<--",,,))
-		{
-		
-		}
-		*/
 	}
 }

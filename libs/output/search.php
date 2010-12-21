@@ -18,8 +18,7 @@ class output__search extends engine
 	private $weights = array();
 	
 	function get_data() {
-		global $url; global $db; global $error; global $search; global $sets; global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
+		global $url; global $error; global $search; global $sets;
 		$return['display'] = array('search_info','search_content','navi');
 		if (!in_array($url[2],$this->areas)) {
 			$area = str_split($url[2]);
@@ -73,21 +72,21 @@ class output__search extends engine
 					$query = '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery.$limit;
 					$navi_query = '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery;
 				}
-				$data = $db->sql('select place, item_id, `index`, area, sortdate from search where ' . $query); 
+				$data = obj::db()->sql('select place, item_id, `index`, area, sortdate from search where ' . $query); 
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
-					$db->update('search_queries',$area,$zero,$pretty_query,'query');
+					obj::db()->update('search_queries',$area,$zero,$pretty_query,'query');
 					$return['variants'] = $this->get_variants($pretty_query, $area);
 					$return['display'] = array('search_info','search_error');
 				} else {
 					if (!$limit) {
 						$return['navi']['last'] = ceil(count($data)/$pp);
 						
-						$this->weights = $db->sql('select place, weight from search_weights','place');
+						$this->weights = obj::db()->sql('select place, weight from search_weights','place');
 						if (count($terms) > 1) $data = $this->relevance($data,$terms,$pp,max(1,$url[6]));
 						else $data = $this->relevance_simple($data,$terms,$pp,max(1,$url[6]));
 					} else {
-						$return['navi']['last'] = ceil($db->sql('select count(*) from search where '. $navi_query,2)/$pp);
+						$return['navi']['last'] = ceil(obj::db()->sql('select count(*) from search where '. $navi_query,2)/$pp);
 					}
 					
 					if ($url[2] != 'a') foreach ($data as $one) {
@@ -106,7 +105,7 @@ class output__search extends engine
 					}
 					if (!strpos($pretty_query, 'md5:'))
 					{
-						$db->sql("insert into search_queries (`id` ,`query` ,`length` , `".implode("` ,`",$area)."`) values('','".$pretty_query."',".mb_strlen($pretty_query).$insert.") on duplicate key update ".substr($update,1).";",0);
+						obj::db()->sql("insert into search_queries (`id` ,`query` ,`length` , `".implode("` ,`",$area)."`) values('','".$pretty_query."',".mb_strlen($pretty_query).$insert.") on duplicate key update ".substr($update,1).";",0);
 					}
 					
 					$return['navi']['curr'] = max(1,$url[6]);
@@ -179,11 +178,11 @@ class output__search extends engine
 	}	
 	
 	private function get_variants($query, $area, $levenshtein_range = 0) {
-		global $def; global $check; global $db;
+		global $def; global $check;
 		$levenshtein_range = $check->num($levenshtein_range, 5, $def['search']['levenstein'], 1);
 		$length = mb_strlen($query);
 		
-		$variants = $db->sql('select query, '.implode('+',$area).' as count from search_queries where (length >= '.($length - $levenshtein_range).' and length <= '.($length + $levenshtein_range).' and ('.implode('>0 or ', $area).'>0))');
+		$variants = obj::db()->sql('select query, '.implode('+',$area).' as count from search_queries where (length >= '.($length - $levenshtein_range).' and length <= '.($length + $levenshtein_range).' and ('.implode('>0 or ', $area).'>0))');
 		if (is_array($variants)) {
 			usort($variants,array($this,'count_sort'));
 			
@@ -203,11 +202,11 @@ class output__search extends engine
 	}
 	
 	private function check_art_queries($query) {
-		global $error; global $db;
+		global $error;
 		$parts = explode(':',$query);
 		switch ($parts[0]) {
 			case 'md5': 
-				if ($id = $db->sql('select id from art where md5="'.$parts[1].'"',2)) {
+				if ($id = obj::db()->sql('select id from art where md5="'.$parts[1].'"',2)) {
 					return 'place="art" and item_id='.$id;
 				} else {
 					$error = true;
@@ -218,15 +217,13 @@ class output__search extends engine
 	}
 	
 	function process_art($data) {
-		global $db;
 		include_once('libs/output/art.php');
 		foreach ($data as $one) $where .= ' or id='.$one['item_id'];
 		return output__art::get_art(false,substr($where,4));
 	}
 	
 	function fetch_post($id) {
-		global $db;
-		$post = $db->sql('select * from post where id='.$id,1);
+		$post = obj::db()->sql('select * from post where id='.$id,1);
 		if (trim($post['image'])) $post['image'] = explode('|',$post['image']);
 		$post['links'] = unserialize($post['link']);
 		$post['files'] = unserialize($post['file']);
@@ -245,9 +242,9 @@ class output__search extends engine
 	}
 
 	function fetch_video($id) {
-		global $sets; global $db;
+		global $sets;
 		$sizes = explode('x',$sets['video']['thumb']);
-		$video = $db->sql('select * from video where id='.$id,1);
+		$video = obj::db()->sql('select * from video where id='.$id,1);
 		$video['object'] = str_replace(array('%video_width%','%video_height%'),$sizes,$video['object']);
 		$video['text'] = trim($video['text']);
 		$meta = $this->get_meta(array($video),array('category','author','tag'));
@@ -260,8 +257,8 @@ class output__search extends engine
 	}
 	
 	function fetch_art($id) {
-		global $db; global $check; 
-		$art = $db->sql('select * from art where id='.$id,1);
+		global $check; 
+		$art = obj::db()->sql('select * from art where id='.$id,1);
 		if ($check->link($art['source'])) $art['source'] = '<a href="'.$art['source'].'" target="_blank">'.$art['source'].'</a>';
 		$meta = $this->get_meta(array($art),array('category','author','tag'));
 		foreach ($meta as $key => $type) 
@@ -273,25 +270,22 @@ class output__search extends engine
 	}
 	
 	function fetch_news($id) {
-		global $db;
-		$news = $db->sql('select * from news where id='.$id,1);
+		$news = obj::db()->sql('select * from news where id='.$id,1);
 		$news['template'] = 'news'; $news['navi'] = '/news/';							
 		return $news;
 	}
 	
 	function fetch_orders($id) {
-		global $db;		
-		$orders = $db->sql('select * from orders where id='.$id.' limit 1',1); 
-		$orders['category'] = $db->sql('select name, alias from category where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$orders['category'])))).'"','alias');
+		$orders = obj::db()->sql('select * from orders where id='.$id.' limit 1',1); 
+		$orders['category'] = obj::db()->sql('select name, alias from category where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$orders['category'])))).'"','alias');
 		$orders['template'] = 'orders'; $orders['navi'] = '/orders/';	
 		return $orders;
 	}
 		
 	function fetch_comment($id) {
-		global $db;				
-		$item = $db->sql('select * from comment where id='.$id.' limit 1',1); 		
-		if ($item['place'] != 'news') $item['title'] = 'Комментарий к записи '.$db->sql('select title from '.$item['place'].' where id='.$item['post_id'],2);
-		else $item['title'] = 'Комментарий к записи '.$db->sql('select title from '.$item['place'].' where url="'.$item['post_id'].'"',2);
+		$item = obj::db()->sql('select * from comment where id='.$id.' limit 1',1); 		
+		if ($item['place'] != 'news') $item['title'] = 'Комментарий к записи '.obj::db()->sql('select title from '.$item['place'].' where id='.$item['post_id'],2);
+		else $item['title'] = 'Комментарий к записи '.obj::db()->sql('select title from '.$item['place'].' where url="'.$item['post_id'].'"',2);
 		if ($item['place'] == 'orders') $item['place'] = 'order';
 		$item['template'] = 'comment';
 		return $item;

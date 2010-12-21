@@ -24,7 +24,6 @@ class search
 	}
 	
   	function morphyphp($words) {
-		global $db;
 		if (empty($this->morphy_ru) || empty($this->morphy_en)) $this->init_morphy();		
 		
 		if (!empty($words)) {
@@ -56,7 +55,7 @@ class search
 			
 			$query = 'insert into morphy_cache (`word`, `cache`) values ';
 			foreach ($words as $key => $word) $query .= '("'.$word.'","'.$return[$key].'"),';
-			$db->sql(rtrim($query,',').';',0);
+			obj::db()->sql(rtrim($query,',').';',0);
 			
 			ksort($return);
 			return $return;
@@ -64,17 +63,14 @@ class search
 	}
 	
 	function prepare_string($text,$lower = false) {
-		global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
 		if (!$lower) $function = 'strtoupper_ru'; else $function = 'strtolower_ru';
-		$text = trim(preg_replace(array('/([^\p{L}\d]|　)/u','/ +/'),' ',$transform_text->$function(strip_tags($text))));
+		$text = trim(preg_replace(array('/([^\p{L}\d]|　)/u','/ +/'),' ',obj::transform('text')->$function(strip_tags($text))));
 		return $text;
 	}	
 	
 	function parse_text($text) {
-		global $db;
 		$text = explode(' ',$this->prepare_string($text));
-		$cache = $db->sql('select * from morphy_cache where word="'.implode('" or word="',$text).'"','word');
+		$cache = obj::db()->sql('select * from morphy_cache where word="'.implode('" or word="',$text).'"','word');
 		if (empty($cache)) $cache = array();
 		
 		$delta = array_diff($text,array_keys($cache));		
@@ -104,12 +100,10 @@ class search
 			else $this->preparsed_links .= ' '.$item;
 	}
 	
-	function parse_meta($meta,$table) {
-		global $db;
-		
+	function parse_meta($meta,$table) {		
 		$fields = 'alias, name';
 		if ($table == 'tag') $fields .= ', variants';
-		$data = $db->sql('select '.$fields.' from '.$table.' where alias = "'.str_replace('|','" or alias = "',$meta).'"');
+		$data = obj::db()->sql('select '.$fields.' from '.$table.' where alias = "'.str_replace('|','" or alias = "',$meta).'"');
 		if (is_array($data)) foreach ($data as $one)
 			$text .= ' '.$one['alias'].' '.$one['name'].' '.$one['variants'];
 		return $this->parse_text($text);
@@ -122,7 +116,6 @@ class search
 	}
 	
 	function post($item,$id) {
-		global $db;		
 		$index = $this->wrap($this->parse_text($item['title']),'|',3);
 		$index = $this->wrap($this->parse_text($item['text']),$index);
 		$index = $this->wrap($this->parse_links($item['link']),$index);
@@ -132,46 +125,41 @@ class search
 		$index = $this->wrap($this->parse_meta($item['author'],'author'),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);
 		$index = $this->wrap($this->parse_meta($item['language'],'language'),$index,2);
-		$db->insert('search',array('post',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->insert('search',array('post',$id,$index,$item['area'],$item['sortdate'],time()));
 	}
 	
 	function video($item,$id) {
-		global $db;
 		$index = $this->wrap($this->parse_text($item['title']),'|',3);
 		$index = $this->wrap($this->parse_text($item['text']),$index);
 		$index = $this->wrap($this->parse_meta($item['tag'],'tag'),$index,2);
 		$index = $this->wrap($this->parse_meta($item['author'],'author'),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);		
-		$db->insert('search',array('video',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->insert('search',array('video',$id,$index,$item['area'],$item['sortdate'],time()));
 	}	
 	
 	function art($item,$id) {
-		global $db;
 		$index = $this->wrap($this->parse_meta($item['tag'],'tag'),'|',2);
 		$index = $this->wrap($this->parse_meta($item['author'],'author'),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);	
-		$db->insert('search',array('art',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->insert('search',array('art',$id,$index,$item['area'],$item['sortdate'],time()));
 	}	
 	
 	function comment($item,$id) {
-		global $db;
 		$index = $this->wrap($this->parse_text($item['text']));
-		$db->insert('search',array('comment',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->insert('search',array('comment',$id,$index,$item['area'],$item['sortdate'],time()));
 	}
 	
 	function news($item,$id) {
-		global $db;
 		$index = $this->wrap($this->parse_text($item['title']),'|',3);
 		$index = $this->wrap($this->parse_text($item['text']),$index);
-		$db->insert('search',array('news',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->insert('search',array('news',$id,$index,$item['area'],$item['sortdate'],time()));
 	}	
 	
 	function orders($item,$id) {
-		global $db;
 		$index = $this->wrap($this->parse_text($item['title']),'|',3);
 		$index = $this->wrap($this->parse_text($item['text']),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);		
-		$db->insert('search',array('orders',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->insert('search',array('orders',$id,$index,$item['area'],$item['sortdate'],time()));
 	}	
 }
 ?>

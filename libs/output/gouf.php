@@ -14,10 +14,9 @@ class output__gouf extends engine
 	);
 	
 	function get_data() {
-		global $db;
 		$return['display'] = array('gouf');		
-		$posts = $db->sql('select id, link, title from post','id');
-		$errors = $db->sql('select * from gouf_links where status = "error"');
+		$posts = obj::db()->sql('select id, link, title from post','id');
+		$errors = obj::db()->sql('select * from gouf_links where status = "error"');
 		
 		if (is_array($errors) && is_array($posts)) {
 			foreach ($errors as $error) {
@@ -42,7 +41,7 @@ class output__gouf extends engine
 			uasort($posts, array($this, 'compare_severity'));
 			
 			$return['posts'] = $posts;
-			$return['total'] = $db->sql('select count(id) from gouf_links where status = "error"',2);
+			$return['total'] = obj::db()->sql('select count(id) from gouf_links where status = "error"',2);
 			return $return;
 		}
 		return array('total' => 0);

@@ -51,7 +51,7 @@ class output__board extends engine
 	}
 
 	function board() {
-		global $url; global $db; global $sets; global $error;
+		global $url; global $sets; global $error;
 
 		if (obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2)) {
 			$return['display'] = array('board_page', 'navi');
@@ -68,7 +68,7 @@ class output__board extends engine
 				}
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil($db->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(*) from board where locate("|'.$url[2].'|",`boards`) and `type` = "2"',2)/$sets['pp']['board']);
 			$return['navi']['base'] = '/board/'.$url[2].'/';
 			
 			return $return;
@@ -116,11 +116,11 @@ class output__board extends engine
 	}	
 
 	function thread() {
-		global $url; global $db; global $sets; global $error;
+		global $url; global $sets; global $error;
 
 		if (intval($url[4])) {
 			$return['display'] = array('board_thread');
-			$return['posts'] = $db->sql('select * from board where `type`!="0" and (thread = '.$url[4].' or id = '.$url[4].') order by type, sortdate');
+			$return['posts'] = obj::db()->sql('select * from board where `type`!="0" and (thread = '.$url[4].' or id = '.$url[4].') order by type, sortdate');
 			list($images, $video) = $this->process_content($return['posts']);
 			$return['posts'][0]['images_count'] = $images;
 		}

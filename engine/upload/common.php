@@ -2,7 +2,7 @@
 
 define('SL', DIRECTORY_SEPARATOR);
 
-define('ROOT_DIR', dirname(dirname(dirname(__FILE__))) . SL);
+define('ROOT_DIR', dirname(dirname(dirname(__FILE__))));
 
 function __autoload($class_name) {
 	$class = ROOT_DIR.SL.'libs'.SL.str_replace('__',SL,$class_name).'.php';
@@ -16,7 +16,7 @@ function __autoload($class_name) {
 	}	
 }
 
-include_once ROOT_DIR.'engine/config.php';
+include_once ROOT_DIR.SL.'engine/config.php';
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim($def['site']['dir'],'/')));
 

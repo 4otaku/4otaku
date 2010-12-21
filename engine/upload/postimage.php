@@ -6,8 +6,8 @@
 		if (is_array($check)) {	
 			$time = str_replace('.','',microtime(true));
 			$extension =  strtolower(pathinfo($file, PATHINFO_EXTENSION));
-			$newfile = ROOT_DIR.'images'.SL.'full'.SL.$time.'.'.$extension;
-			$newthumb = ROOT_DIR.'images'.SL.'thumbs'.SL.$time.'.'.$extension;
+			$newfile = ROOT_DIR.SL.'images'.SL.'full'.SL.$time.'.'.$extension;
+			$newthumb = ROOT_DIR.SL.'images'.SL.'thumbs'.SL.$time.'.'.$extension;
 			chmod($temp, 0755);
 			move_uploaded_file($temp, $newfile);
 			$imagick =  new $image_class($path = $newfile);
