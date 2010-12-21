@@ -37,7 +37,7 @@ class input__comment extends input__common
 			if ($table == 'news') {
 				obj::db()->sql('update news set comment_count=comment_count+1, last_comment='.$time.' where url="'.$item_id.'"',0);
 			} elseif ($table == 'art' && substr($item_id,0,3) == 'cg_') {
-				obj::db()->base_sql('sub','update w8m_art set comment_count=comment_count+1, last_comment='.$time.' where id='.substr($item_id,3),0);
+				obj::db('sub')->sql('update w8m_art set comment_count=comment_count+1, last_comment='.$time.' where id='.substr($item_id,3),0);
 			} else {
 				obj::db()->sql('update '.$table.' set comment_count=comment_count+1, last_comment='.$time.' where id='.$item_id,0);
 			}

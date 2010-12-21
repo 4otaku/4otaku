@@ -18,13 +18,6 @@ class mysql
 			$this->mode = $base;
 		}
 	}
-
-	function base_sql($base,$sql,$i = 3) { 	
-		$this->set_connection($base);
-		$return = $this->sql($sql,$i);
-		$this->set_connection('main');
-		return $return;
-	}
 	
 	function return_row($result) {
 		$row = mysql_fetch_array($result);

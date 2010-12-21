@@ -18,7 +18,7 @@ class input__art extends input__common
 					$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]); 
 					if (
 						$name[0] && $name[1] && $name[2] && 
-						!obj::db()->base_sql('sub','select id from w8m_art where md5="'.$name[0].'"',2) && 
+						!obj::db('sub')->sql('select id from w8m_art where md5="'.$name[0].'"',2) && 
 						!obj::db()->sql('select id from art where md5="'.$name[0].'"',2)
 					) {
 						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],$author,$category,$tags,"|".$data['pool'],"",
