@@ -30,7 +30,7 @@
 												?>
 													<li>
 														<?=$daykey;?> числа: добавлено 
-														<a href="/<?=$url[2];?>/date/<?=$yearkey;?>-<?=$transform_text->rumonth($monthkey);?>-<?=$daykey;?>/">
+														<a href="/<?=$url[2];?>/date/<?=$yearkey;?>-<?=obj::transform('text')->rumonth($monthkey);?>-<?=$daykey;?>/">
 															<?=$day;?> артов.
 														</a>
 													</li>
