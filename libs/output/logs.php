@@ -3,7 +3,7 @@
 class output__logs extends engine
 {
 	function __construct() {
-		global $url; global $logs_url; global $db; 
+		global $url;
 		if (!$url[2]) $this->nocache = true;
 		if (!$url[2]) $url[2] = date("Y");
 		if (!$url[3]) $url[3] = date("n");
@@ -23,20 +23,20 @@ class output__logs extends engine
 	);
 	
 	function get_data() {
-		global $url; global $db; 
+		global $url;
 		$return['display'] = array('logs_navi','logs_body','logs_arrows');
 		if (!$this->nocache) 
-			$return['logs'] = base64_decode($db->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].')',2,'cache'));
+			$return['logs'] = base64_decode(obj::db()->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].')',2,'cache'));
 		if (!$return['logs']) {
 			$today = mktime(0, 0, 0, $url[3], $url[4], $url[2])*1000;
-			$return['logs'] = $db->base_sql('chat','select nickname, logTime, body from ofMucConversationLog where (roomID < 3 and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
+			$return['logs'] = obj::db()->base_sql('chat','select nickname, logTime, body from ofMucConversationLog where (roomID < 3 and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
 			if (is_array($return['logs'])) foreach ($return['logs'] as $key => &$log) {
 				if (trim($log['body'])) $log['text'] = $this->format_logs($log['body'],$log['nickname']);
 				else unset($return['logs'][$key]);
 			}
 		}
 		if (!$return['logs']) $return['nologs'] = 'За этот день нет ни одного лога.';
-		$start = array_values($db->sql('select data1,data2,data3 from misc where type="logs_start"',1));
+		$start = array_values(obj::db()->sql('select data1,data2,data3 from misc where type="logs_start"',1));
 		$end = array(date("Y"),date("n"),date("j"));
 		$current = array($url[2],$url[3],$url[4]);
 		if (array_diff_assoc($end,$current) && is_array($return['logs'])) $this->make_logs_cache($return['logs'],$url[2],$url[3],$url[4]);
@@ -60,17 +60,14 @@ class output__logs extends engine
 	}
 	
 	function format_logs ($text,$author) {	
-		global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();		
 		$text = str_replace(array('<','>'),array('&lt;','&gt;'),$text);
-		$text = $transform_text->cut_long_words(preg_replace(array("/http:\/\/([^\/]+)[^\s]*/","/[\r\n]+/su"), array("<a href='$0'>$0</a>","<br />"), $text),40);
+		$text = obj::transform('text')->cut_long_words(preg_replace(array("/http:\/\/([^\/]+)[^\s]*/","/[\r\n]+/su"), array("<a href='$0'>$0</a>","<br />"), $text),40);
 			
 		if (substr($text,0,3) == '/me') return '<span class="logs-nick">'.$author.'</span>'.substr($text,3);
 		else return '<span class="logs-nick">&lt;'.$author.'&gt;</span> '.$text;
 	}
 
 	function make_logs_cache($logs,$year,$month,$day) {
-		global $db;
 		if (is_array($logs)) {
 			$key = 'even';
 			foreach ($logs as &$log) {
@@ -84,8 +81,8 @@ class output__logs extends engine
 								 '.$log['text'].
 						  '</div>';
 			}
-			if (!$db->sql('select id from logs where (year='.$year.' and month ='.$month.' and day='.$day.')',2,'id'))
-				$db->insert('logs',array(base64_encode($cache),$year,$month,$day));
+			if (!obj::db()->sql('select id from logs where (year='.$year.' and month ='.$month.' and day='.$day.')',2,'id'))
+				obj::db()->insert('logs',array(base64_encode($cache),$year,$month,$day));
 		}
 	}
 }

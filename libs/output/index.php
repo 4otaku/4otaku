@@ -11,13 +11,13 @@ class output__index extends engine
 	);
 	
 	function get_data() {
-		global $db; global $sets; global $def;
+		global $sets; global $def;
 		
 		foreach ($def['type'] as $type) {
 			$return['count'][$type] = array(
-				'total' => $db->sql('select count(id) from '.$type.' where area="main"',2),
-				'unseen' => ($sets['visit'][$type] ? $db->sql('select count(id) from '.$type.' where (area="main" and sortdate > '.($sets['visit'][$type]*1000).')',2) : ''),
-				'latest' => $db->sql('select id, '.($type == 'art' ? 'thumb, extension' : 'title, comment_count, text').' from '.$type.' where (area="main"'.($sets['show']['nsfw'] ? 
+				'total' => obj::db()->sql('select count(id) from '.$type.' where area="main"',2),
+				'unseen' => ($sets['visit'][$type] ? obj::db()->sql('select count(id) from '.$type.' where (area="main" and sortdate > '.($sets['visit'][$type]*1000).')',2) : ''),
+				'latest' => obj::db()->sql('select id, '.($type == 'art' ? 'thumb, extension' : 'title, comment_count, text').' from '.$type.' where (area="main"'.($sets['show']['nsfw'] ? 
 					($sets['show']['furry'] ? '' : ' and !(locate("|nsfw|",category) and locate("|furry|",tag))') .
 					($sets['show']['yaoi'] ? '' : ' and !(locate("|nsfw|",category) and locate("|yaoi|",tag))') .
 					($sets['show']['guro'] ? '' : ' and !(locate("|nsfw|",category) and locate("|guro|",tag))')
@@ -26,9 +26,9 @@ class output__index extends engine
 		}
 			
 		$return['count']['order'] = array(
-			'total' => $db->sql('select count(id) from orders where area!="deleted"',2),
-			'open' => $db->sql('select count(id) from orders where area="workshop"',2),			
-			'latest' => $db->sql('select id,username,title,text,comment_count from orders where area="workshop"')
+			'total' => obj::db()->sql('select count(id) from orders where area!="deleted"',2),
+			'open' => obj::db()->sql('select count(id) from orders where area="workshop"',2),			
+			'latest' => obj::db()->sql('select id,username,title,text,comment_count from orders where area="workshop"')
 		);
 		
 		if (is_array($return['count']['order']['latest'])) {
@@ -36,13 +36,13 @@ class output__index extends engine
 			$return['count']['order']['latest'] = array_slice($return['count']['order']['latest'], 0, 2);
 		}
 		
-		if ($return['news'] = $db->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
+		if ($return['news'] = obj::db()->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
 			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
 		} else {
 			$return['news']['sortdate'] = 0;
 		}
 		
-		$return['links'] = $db->sql('select count(id) from gouf_links where status = "error"',2);
+		$return['links'] = obj::db()->sql('select count(id) from gouf_links where status = "error"',2);
 		
 		return $return;
 	}

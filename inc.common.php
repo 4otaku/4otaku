@@ -76,8 +76,6 @@ if(def::site('domain') != $_SERVER["SERVER_NAME"] && !(_CRON_)) {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
-$db = new mysql();
-
 $check = new check_values();
 
 // Тут мы работаем с сессиями
@@ -98,7 +96,7 @@ if (!(_CRON_)) {
 	$hash = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
 
 	// Пробуем прочитать настройки для хэша
-	$sess = $db->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.$hash.'"', 1);
+	$sess = obj::db()->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.$hash.'"', 1);
 
         // Проверяем полученные настройки
 	if (isset($sess['data']) && isset($sess['lastchange'])) {
@@ -108,7 +106,7 @@ if (!(_CRON_)) {
 		if(intval($sess['lastchange']) < (time()-3600*24*30)) {
 			setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
 			// Фиксируем факт обновления в БД
-			$db->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
+			obj::db()->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
 		}
 
 		// Проверяем валидность настроек и исправляем, если что-то не так
@@ -118,14 +116,14 @@ if (!(_CRON_)) {
 			sets::import($sets);
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
-			$db->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
+			obj::db()->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
 		}
 	} else {
 		// Настроек нет, создаем их
 
 		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
 		// Вносим в БД сессию с дефолтными настройками
-		$db->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
+		obj::db()->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
 		// @fixme Не самый удачный способ передать cookie в cookie.php
 		$_COOKIE['settings'] = $hash;
 	}

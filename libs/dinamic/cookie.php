@@ -2,9 +2,8 @@
 
 class dinamic__cookie
 {
-
 	function set() { 	
-		global $db; global $check; global $get;
+		global $check; global $get;
 		$fields = explode(',',$get['field']);
 		if (is_array($fields) && $check->hash($_COOKIE['settings']))
 			foreach ($fields as $field)
@@ -20,14 +19,13 @@ class dinamic__cookie
 				}
 	}
 	
-	function inner_set($field,$value,$allow_empty = true) { 	
-		global $db;
+	function inner_set($field,$value,$allow_empty = true) {
 		$parts = explode('.',$field);
-		$settings = $db->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
+		$settings = obj::db()->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
 		$settings = unserialize(base64_decode($settings));
 		if ($allow_empty || !empty($settings)) {
 			$settings[$parts[0]][$parts[1]] = $value;
-			$db->update('settings',array('data'),array(base64_encode(serialize($settings))),$_COOKIE['settings'],'cookie');
+			obj::db()->update('settings',array('data'),array(base64_encode(serialize($settings))),$_COOKIE['settings'],'cookie');
 		}
 	}
 	

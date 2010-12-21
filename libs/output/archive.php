@@ -40,12 +40,11 @@ class output__archive extends engine
 	}
 
 	function archive_date() {		
-		global $db;	global $url; global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
+		global $url;
 		if ($url[2] != 'art') { $title = ' title,'; $return['display'] = array('archive_date'); }
 		else $return['display'] = array('archive_artdate');
-		$items = $db->sql('select pretty_date,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
-		$return['count'] = count($items).' '.$transform_text->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
+		$items = obj::db()->sql('select pretty_date,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
+		$return['count'] = count($items).' '.obj::transform('text')->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
 		if (is_array($items)) foreach ($items as $item) {
 			$item['pretty_date'] = explode(' ',str_replace(',','',$item['pretty_date']));
 			if ($url[2] != 'art') $return['archives'][$item['pretty_date'][2]][$item['pretty_date'][0]][] = $item;
@@ -55,36 +54,34 @@ class output__archive extends engine
 	}
 
 	function archive_category() {	
-		global $db; global $url; global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
+		global $url;
 		if ($url[2] != 'art') { $title = ' title,'; $return['display'] = array('archive_body'); }
 		else $return['display'] = array('archive_artbody');
-		$items = $db->sql('select category,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
-		$return['count'] = count($items).' '.$transform_text->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
+		$items = obj::db()->sql('select category,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
+		$return['count'] = count($items).' '.obj::transform('text')->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
 		if (is_array($items)) foreach ($items as $item) {
 			$categories = explode('|',trim($item['category'],'|'));
 			foreach ($categories as $category)
 				if ($url[2] != 'art') $return['archives'][$category][] = $item;
 				else $return['archives'][$category]++;
 		}
-		$return['name'] = $db->sql('select alias,name from category','alias');
+		$return['name'] = obj::db()->sql('select alias,name from category','alias');
 		return $return;	
 	}
 
 	function archive_author() {	
-		global $db; global $url; global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
+		global $url;
 		if ($url[2] != 'art') { $title = ' title,'; $return['display'] = array('archive_body'); }
 		else $return['display'] = array('archive_artbody');	
-		$items = $db->sql('select author,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
-		$return['count'] = count($items).' '.$transform_text->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
+		$items = obj::db()->sql('select author,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
+		$return['count'] = count($items).' '.obj::transform('text')->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
 		if (is_array($items)) foreach ($items as $item) {
 			$authors = explode('|',trim($item['author'],'|'));
 			foreach ($authors as $author)
 				if ($url[2] != 'art') $return['archives'][$author][] = $item;
 				else $return['archives'][$author]++;
 		}
-		$return['name'] = $db->sql('select alias,name from author','alias');
+		$return['name'] = obj::db()->sql('select alias,name from author','alias');
 		return $return;
 	}
 	

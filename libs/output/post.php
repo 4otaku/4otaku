@@ -26,7 +26,7 @@ class output__post extends engine
 	);
 	
 	function get_data() {
-		global $url; global $db; global $def; global $sets; 
+		global $url; global $def; global $sets; 
 		$return['navigation'] = $this->get_navigation(array('tag','category','language'));
 		if (is_numeric($url[2]) && $url[2]>0) {
 			$return['display'] = array('post','comments');
@@ -63,15 +63,15 @@ class output__post extends engine
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil($db->sql('select count(id) from post where ('.$area.')',2)/$sets['pp']['post']);
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from post where ('.$area.')',2)/$sets['pp']['post']);
 		}
 		else {
 			$return['display'] = array('updates','navi');
 			$return['navi']['meta'] = $url[2].'/';
 			$return['navi']['curr'] = max(1,$url[4]);
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil($db->sql('select count(id) from updates',2)/$sets['pp']['updates_in_line']);
-			$return['updates'] = $db->sql('select updates.*, post.title, post.image, post.comment_count from updates, post where updates.post_id = post.id order by updates.sortdate desc limit '.($return['navi']['curr']-1)*$sets['pp']['updates_in_line'].', '.$sets['pp']['updates_in_line']);
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from updates',2)/$sets['pp']['updates_in_line']);
+			$return['updates'] = obj::db()->sql('select updates.*, post.title, post.image, post.comment_count from updates, post where updates.post_id = post.id order by updates.sortdate desc limit '.($return['navi']['curr']-1)*$sets['pp']['updates_in_line'].', '.$sets['pp']['updates_in_line']);
 			foreach ($return['updates'] as &$update) {
 				$update['link'] = unserialize($update['link']);
 				$update['image'] = explode('|',trim($update['image'],'|'));

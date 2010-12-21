@@ -23,36 +23,34 @@ class transform__meta
 	);
 	
 	function parse($items, $default = 'Проставьте_теги', $separators = ', ') {
-		global $db; global $sets;
+		global $sets;
 		if (!$items = trim($items,$separators)) return array($default);
 		$tags = array_unique(array_filter(explode(',',str_replace(str_split($separators),',',$items))));
 		foreach ($tags as $key => $tag)
 			if (preg_match('/(^&lt;\p{L}+&gt;|&lt;\p{L}+&gt;$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
 				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
-				if (!$color || !$sets['user']['rights']) $db->insert('misc',array('tag_type',$tags[$key],substr($type[0],4,-4),$color,'',''));
+				if (!$color || !$sets['user']['rights']) obj::db()->insert('misc',array('tag_type',$tags[$key],substr($type[0],4,-4),$color,'',''));
 				elseif ($color) $this->colors[$tags[$key]] = $color;
 			}
 		return $tags;
 	}
 	
 	function erase_tags($erase, $erasearea){
-		global $db;
 		foreach ($erase as $one)
-			$db->sql('update tag set '.$erasearea.' = '.$erasearea.' - 1 where alias="'.$one.'"',0);
+			obj::db()->sql('update tag set '.$erasearea.' = '.$erasearea.' - 1 where alias="'.$one.'"',0);
 	}
 
 	function add_tags($tags, $update = false){
-		global $db;
 		foreach ($tags as $key => $tag) {
-			if ($check = $db->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
-				if ($update) $db->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
-				if ($this->colors[$tag]) $db->update('tag','color',$this->colors[$tag],$check,'alias');
+			if ($check = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
+				if ($update) obj::db()->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
+				if ($this->colors[$tag]) obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
 				$tags[$key] = $check;
 			} else {
 				$alias = $this->make_alias($tag); 
-				$db->insert('tag',array($alias,$tag,'|',$this->colors[$tag],0,0,0,0,0,0));
-				if ($update) $db->update('tag',$update,1,$alias,'alias');
+				obj::db()->insert('tag',array($alias,$tag,'|',$this->colors[$tag],0,0,0,0,0,0));
+				if ($update) obj::db()->update('tag',$update,1,$alias,'alias');
 				$tags[$key] = $alias;
 			}
 		}
@@ -60,28 +58,25 @@ class transform__meta
 	}
 	
 	function category($categories) {
-		global $db;
 		foreach ($categories as &$category) 
-			$category = $db->sql('select alias from category where name = "'.$category.'" or alias="'.$category.'"',2);
+			$category = obj::db()->sql('select alias from category where name = "'.$category.'" or alias="'.$category.'"',2);
 		return '|'.implode('|',array_filter(array_unique($categories))).'|';
 	}
 	
 	function language($languages) {
-		global $db;
 		foreach ($languages as &$language) 
-			$language = $db->sql('select alias from language where name = "'.$language.'" or alias="'.$language.'"',2);
+			$language = obj::db()->sql('select alias from language where name = "'.$language.'" or alias="'.$language.'"',2);
 		return '|'.implode('|',array_filter(array_unique($languages))).'|';
 	}
 
 	function author($authors){
-		global $db;
 		foreach ($authors as &$author) {
 			$author = preg_replace('/#.*$/','',$author);
-			if ($check = $db->sql('select alias from author where name = "'.$author.'" or alias="'.$author.'"',2)) 
+			if ($check = obj::db()->sql('select alias from author where name = "'.$author.'" or alias="'.$author.'"',2)) 
 				$author = $check;
 			else {
 				$alias = $this->make_alias($author); 
-				$db->insert('author',array($alias,$author));
+				obj::db()->insert('author',array($alias,$author));
 				$author = $alias;
 			}
 		}

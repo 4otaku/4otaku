@@ -5,14 +5,14 @@ class engine
 	public $error_template = 'main';
 	
 	function parse_area() {
-		global $url; global $def; global $db;
+		global $url; global $def;
 		if (in_array($url[2],$def['area'])) {
 			$area = $url[2];
 			foreach ($url as $key => $one) if ($key > 2) $url[$key-1] = $one;
 			$url = array_slice($url,0,-1,true); $url['area'] = $area;
 		}
 		else $url['area'] = $def['area'][0];
-		if ($url[2] == 'tag') $url['tag'] = $db->sql('select alias from tag where locate("|'.mysql_real_escape_string(urldecode($url[3])).'|",variants)',2);
+		if ($url[2] == 'tag') $url['tag'] = obj::db()->sql('select alias from tag where locate("|'.mysql_real_escape_string(urldecode($url[3])).'|",variants)',2);
 	}	
 
 	function check_404($ways) {
@@ -54,14 +54,13 @@ class engine
 	}
 	
 	function get_meta($rows,$tables) {
-		global $db;
 		foreach ($rows as $row) 
 			foreach ($tables as $table)
 				$alias[$table] .= $row[$table];
 		foreach ($tables as $table) {
-			if ($table != 'tag') $return[$table] = $db->sql('select alias, name from '.$table.' where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$alias[$table])))).'"','alias');
+			if ($table != 'tag') $return[$table] = obj::db()->sql('select alias, name from '.$table.' where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$alias[$table])))).'"','alias');
 			else {
-				$return[$table] = $db->sql('select alias, name, color, variants from '.$table.' where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$alias[$table])))).'"','alias');
+				$return[$table] = obj::db()->sql('select alias, name, color, variants from '.$table.' where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$alias[$table])))).'"','alias');
 				if ($return[$table]) foreach ($return[$table] as &$one) $one['variants'] = array_filter(explode('|',trim($one['variants'],'|')));
 			}
 		}
@@ -232,13 +231,10 @@ class engine
 	}	
 	
 	function tag_cloud ($maxsize,$minsize,$area,$words,$limit = false) {
-		global $db; global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
-
 		if ($limit) $limit =  ' limit '.$limit; 
 		$tags = array('ru' => array(), 'nonru' => array());
 
-		$temp_tags = $db->sql('select alias, name, '.$area.' from tag where ('.$area.' > 0 and alias != "prostavte_tegi") order by '.$area.' desc'.$limit);
+		$temp_tags = obj::db()->sql('select alias, name, '.$area.' from tag where ('.$area.' > 0 and alias != "prostavte_tegi") order by '.$area.' desc'.$limit);
 		if ($temp_tags) {
 			$max = $temp_tags[0][$area];
 			$min = end(end($temp_tags));
@@ -246,9 +242,9 @@ class engine
 			if ($max - $min < 4) return true;
 
 			foreach ($temp_tags as $tag) {
-				$name = $transform_text->strtolower_ru($tag['name']);
+				$name = obj::transform('text')->strtolower_ru($tag['name']);
 				$calc = round(($maxsize - $minsize)*($tag[$area]-$min)/($max-$min) + $minsize);
-				$word = $transform_text->wcase($tag[$area],$words[0],$words[1],$words[2]);
+				$word = obj::transform('text')->wcase($tag[$area],$words[0],$words[1],$words[2]);
 				if (preg_match('/[а-яА-Я]/u', mb_substr($tag['name'],0,1)))
 					$tags['ru'][str_replace('_','_<wbr />',$name)]= array('alias' => $tag['alias'], 'count' => $tag[$area], 'size' => $calc, 'word' => $word);
 				else 
@@ -261,10 +257,9 @@ class engine
 	}
 	
 	function make_rss($area,$type,$value) {
-		global $db; 	
 		$name = array('tag' => 'тега', 'author' => 'автора', 'language' => 'языка', 'category' => 'Категории', 'pool' => 'Группы');
-		if ($type == 'pool') $metaname = $db->sql('select name from art_pool where id='.$value,2);
-		else $metaname = $db->sql('select name from '.$type.' where alias="'.$value.'"',2);
+		if ($type == 'pool') $metaname = obj::db()->sql('select name from art_pool where id='.$value,2);
+		else $metaname = obj::db()->sql('select name from '.$type.' where alias="'.$value.'"',2);
 		return array(
 			'type-name' => $name[$type],
 			'meta-name' => $metaname,
@@ -275,17 +270,17 @@ class engine
 	}
 	
 	function get_navigation($parts) {
-		global $url; global $db; global $def;
+		global $url; global $def;
 		foreach ($parts as $part) {
 			if ($part == 'tag') { 
 				if ($url['area'] != $def['area'][2]) $area = $url[1].'_'.$def['area'][0];
 				else $area = $url[1].'_'.$def['area'][2];
-				if ($return[$part] = $db->sql('select alias, name from '.$part.' order by '.$area.' desc limit 70','alias')) {
+				if ($return[$part] = obj::db()->sql('select alias, name from '.$part.' order by '.$area.' desc limit 70','alias')) {
 					foreach($return[$part] as &$tag) $tag = str_replace('_',' ',$tag);
 				}
 			}
 			else {
-				$return[$part] = $db->sql('select alias, name from '.$part.($part == 'category' ? ' where locate("|'.$url[1].'|",area)' : '').' order by id','alias');
+				$return[$part] = obj::db()->sql('select alias, name from '.$part.($part == 'category' ? ' where locate("|'.$url[1].'|",area)' : '').' order by id','alias');
 			}
 		}
 		return $return;

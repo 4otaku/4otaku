@@ -36,7 +36,7 @@ class output__art extends engine
 	
 	function get_data() {
 		if ($this->template != 'slideshow') {
-			global $db; global $url; global $error; global $sets; global $def;
+			global $url; global $error; global $sets; global $def;
 			if (is_numeric($url[2])) {
 				$return['display'] = array('booru_single','comments');
 				$return['art'] = $this->get_art(1,'id='.$url[2].' and area != "deleted"');
@@ -74,10 +74,9 @@ class output__art extends engine
 					else $return['art']['thumbs'] = $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'], $area);
 				}
 				elseif ($url[2] == 'date') {
-					$parts = explode('-',$url[3]); global $transform_text;
-					if (!$transform_text) $transform_text = new transform__text();
+					$parts = explode('-',$url[3]);
 					if (is_numeric($parts[0].$parts[1].$parts[2]) && count($parts) == 3) {
-						$area = 'area = "'.$url['area'].'" and pretty_date ="'.$transform_text->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'"';
+						$area = 'area = "'.$url['area'].'" and pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'"';
 						$return['navi']['curr'] = max(1,$url[5]);				
 						$return['art']['thumbs'] = $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],$area);
 						$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
@@ -99,14 +98,14 @@ class output__art extends engine
 					$return['navi']['meta'] = $url[2].'/'.$url[3].'/';					
 				}
 				$return['navi']['start'] = max($return['navi']['curr']-5,2);
-				$return['navi']['last'] = ceil($db->sql('select count(id) from art where ('.$area.')',2)/$sets['pp']['art']);
+				$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from art where ('.$area.')',2)/$sets['pp']['art']);
 			}
 			else {
 				if ($url[2] == 'pool') {
 					if (is_numeric($url[3])) {
 						if ($url[4] != 'sort') $return['display'] = array('booru_poolsingle','booru_page','navi');
 						else $return['display'] = array('booru_poolsingle','booru_page');
-						$return['pool'] = $db->sql('select * from art_pool where id='.$url[3],1);
+						$return['pool'] = obj::db()->sql('select * from art_pool where id='.$url[3],1);
 						$pool = array_reverse(array_filter(array_unique(explode('|',$return['pool']['art']))));
 						if ($url[4] != 'sort') {
 							$return['navi']['curr'] = max(1,$url[5]);
@@ -128,8 +127,8 @@ class output__art extends engine
 						$return['navi']['curr'] = max(1,$url[4]);
 						$return['navi']['meta'] = $url[2].'/';
 						$return['navi']['start'] = max($return['navi']['curr']-5,2);
-						$return['navi']['last'] = ceil($db->sql('select count(id) from art_pool',2)/$sets['pp']['art_pool']);
-						$return['pools'] = $db->sql('select id, name, count from art_pool order by sortdate desc limit '.($return['navi']['curr']-1)*$sets['pp']['art_pool'].', '.$sets['pp']['art_pool'],'id');
+						$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from art_pool',2)/$sets['pp']['art_pool']);
+						$return['pools'] = obj::db()->sql('select id, name, count from art_pool order by sortdate desc limit '.($return['navi']['curr']-1)*$sets['pp']['art_pool'].', '.$sets['pp']['art_pool'],'id');
 					}
 				}
 				elseif ($url[2] == 'cg_packs') {
@@ -185,12 +184,12 @@ class output__art extends engine
 	}
 	
 	function get_art($limit, $area, $order = 'order by sortdate desc') {
-		global $error; global $db; global $url; global $check; global $def; global $sets;
+		global $error; global $url; global $check; global $def; global $sets;
 		if ($limit) $limit = 'limit '.$limit;
-		$return = $db->sql('select * from art where ('.$area.') '.$order.' '.$limit);
+		$return = obj::db()->sql('select * from art where ('.$area.') '.$order.' '.$limit);
 		if (is_array($return)) {
 			if ($limit == 'limit 1') {
-				$return[0]['translations']['full'] = unserialize(base64_decode($db->sql('select data from art_translation where (art_id='.$return[0]['id'].' and active = 1)',2)));
+				$return[0]['translations']['full'] = unserialize(base64_decode(obj::db()->sql('select data from art_translation where (art_id='.$return[0]['id'].' and active = 1)',2)));
 				if (is_array($return[0]['translations']['full'])) foreach ($return[0]['translations']['full'] as $key => $one) $return[0]['translations']['full'][$key]['text'] = str_replace('"','&quot;',$one['text']); 
 				if ($return[0]['resized'] && is_array($return[0]['translations']['full'])) {
 					$size = explode('x',$return[0]['resized']);
@@ -202,7 +201,7 @@ class output__art extends engine
 					}
 				}
 				if ($pools = trim($return[0]['pool'],'|')) {
-					$return[0]['pool'] = $db->sql('select id, name, art from art_pool where id='.str_replace('|',' or id=',$pools),'id');
+					$return[0]['pool'] = obj::db()->sql('select id, name, art from art_pool where id='.str_replace('|',' or id=',$pools),'id');
 					foreach ($return[0]['pool'] as &$pool) {
 						$pool['art'] = array_reverse(explode('|',trim($pool['art'],'|')));
 						$pool['left'] = $pool['art'][array_search($return[0]['id'],$pool['art'])-1];

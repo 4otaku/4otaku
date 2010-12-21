@@ -10,8 +10,8 @@ $post = parseIncomingRecursively($_POST, array());
 
 if (isset($post['remember'])) {
 	$md5 = md5(serialize($post));
-	if ($db->sql('select id from input_filter where md5 = "'.$md5.'"',2)) unset($post);
-	else $db->insert('input_filter',array($md5,time()));
+	if (obj::db()->sql('select id from input_filter where md5 = "'.$md5.'"',2)) unset($post);
+	else obj::db()->insert('input_filter',array($md5,time()));
 }
 
 function cleanGlobals(&$data,$iteration = 0) {

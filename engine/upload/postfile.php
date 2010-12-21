@@ -2,23 +2,20 @@
 
 	include_once 'common.php';
 	
-	include_once ROOT_DIR.'libs'.SL.'transform'.SL.'meta.php';
-	$transform = new transform__meta();
-
 	if ($sizefile<$def['post']['filesize']) {
 		$time = str_replace('.','',microtime(true));
 		$extension =  pathinfo($file, PATHINFO_EXTENSION);
-		$filename = substr($transform->make_alias(pathinfo($file,PATHINFO_FILENAME)),0,200);
+		$filename = substr(obj::transform('meta')->make_alias(pathinfo($file,PATHINFO_FILENAME)),0,200);
 		if ($sizefile > 1048576) $sizefile = str_replace('.',',',round(($sizefile / 1048576), 1)).' мб';
 		elseif ($sizefile > 1024) $sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
 		else $sizefile .= ' байт';				
-		mkdir(ROOT_DIR.'files'.SL.$time, 0755);
-		$newfile = ROOT_DIR.'files'.SL.$time.SL.$filename.'.'.$extension;		
+		mkdir(ROOT_DIR.SL.'files'.SL.$time, 0755);
+		$newfile = ROOT_DIR.SL.'files'.SL.$time.SL.$filename.'.'.$extension;		
 		chmod($temp, 0755);
 		move_uploaded_file($temp, $newfile);
 				
 		if (is_array($check)) {
-			$newthumb = ROOT_DIR.'files'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
+			$newthumb = ROOT_DIR.SL.'files'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
 			$imagick =  new $image_class($path = $newfile);
 			scale(200,$newthumb);
 			$type = 'image';

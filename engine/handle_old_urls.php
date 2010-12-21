@@ -9,7 +9,7 @@ elseif ($url[1] == 'orders') {
 	$url[1] = 'order';
 	$link = '/'.implode('/',$url);
 }
-elseif (!file_exists('libs/output/'.$url[1].'.php') && $db->sql('select id from news where url="'.$url[1].'"',2)) {
+elseif (!file_exists('libs/output/'.$url[1].'.php') && obj::db()->sql('select id from news where url="'.$url[1].'"',2)) {
 	$link = '/news/'.implode('/',$url);
 }
 

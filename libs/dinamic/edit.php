@@ -54,117 +54,117 @@ class dinamic__edit extends engine
 	}
 	
 	function remove_from_pool() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->num($get['val'])) {
-			$db->sql('update art_pool set count = count - 1, art = replace(art,"|'.$get['val'].'|","|") where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
-			$db->sql('update art set pool = replace(pool,"|'.$get['id'].'|","|") where id="'.$get['val'].'"',0);			
+			obj::db()->sql('update art_pool set count = count - 1, art = replace(art,"|'.$get['val'].'|","|") where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
+			obj::db()->sql('update art set pool = replace(pool,"|'.$get['id'].'|","|") where id="'.$get['val'].'"',0);			
 		}
 	}	
 	
 	function sort_pool() {
-		global $db; global $get; global $post; global $check;
+		global $get; global $post; global $check;
 		if ($check->num($get['id'])) {
 			$post['art'] = '|'.implode('|',array_reverse($post['art'])).'|';
-			$db->sql('update art_pool set art = "'.$post['art'].'" where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
+			obj::db()->sql('update art_pool set art = "'.$post['art'].'" where (id="'.$get['id'].'" and (password="" or password="'.md5($get['password']).'"))',0);
 		}
 	}	
 
 	function title() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->lat($get['type'])) 
-			return array('value' => $db->sql('select title from '.$get['type'].' where id='.$get['id'],2));
+			return array('value' => obj::db()->sql('select title from '.$get['type'].' where id='.$get['id'],2));
 	}
 	
 	function text() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		$this->textarea = true;
 		if ($check->num($get['id']) && $check->lat($get['type'])) 
-			return array('value' => $db->sql('select pretty_text from '.$get['type'].' where id='.$get['id'],2));
+			return array('value' => obj::db()->sql('select pretty_text from '.$get['type'].' where id='.$get['id'],2));
 	}
 
 	function post_images() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'post') 
-			return array('value' => array_filter(explode('|',$db->sql('select image from post where id='.$get['id'],2))));
+			return array('value' => array_filter(explode('|',obj::db()->sql('select image from post where id='.$get['id'],2))));
 	}	
 	
 	function post_links() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'post') 
-			return array('value' => unserialize($db->sql('select link from post where id='.$get['id'],2)));
+			return array('value' => unserialize(obj::db()->sql('select link from post where id='.$get['id'],2)));
 	}	
 	
 	function post_bonus_links() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'post') {
-			$value = unserialize($db->sql('select info from post where id='.$get['id'],2));
+			$value = unserialize(obj::db()->sql('select info from post where id='.$get['id'],2));
 			$value ? null : $value = array(false);
 			return array('value' => $value);
 		}
 	}	
 	
 	function post_files() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'post') 
-			return array('value' => unserialize($db->sql('select file from post where id='.$get['id'],2)));
+			return array('value' => unserialize(obj::db()->sql('select file from post where id='.$get['id'],2)));
 	}
 	
 	function video_link() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'video') 
-			return array('value' => $db->sql('select link from video where id='.$get['id'],2));
+			return array('value' => obj::db()->sql('select link from video where id='.$get['id'],2));
 	}	
 	
 	function category() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->lat($get['type'])) 
-			return array('value' => array_filter(explode('|',$db->sql('select category from '.$get['type'].' where id='.$get['id'],2))),
-						'categories' => $db->sql('select name, alias from category'.($get['type'] != 'orders' ? ' where locate("|'.$get['type'].'|",area)' : '').' order by id','alias'));
+			return array('value' => array_filter(explode('|',obj::db()->sql('select category from '.$get['type'].' where id='.$get['id'],2))),
+						'categories' => obj::db()->sql('select name, alias from category'.($get['type'] != 'orders' ? ' where locate("|'.$get['type'].'|",area)' : '').' order by id','alias'));
 	}	
 	
 	function language() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->lat($get['type'])) 
-			return array('value' => array_filter(explode('|',$db->sql('select language from '.$get['type'].' where id='.$get['id'],2))),
-						'languages' => $db->sql('select name, alias from language order by id','alias'));			
+			return array('value' => array_filter(explode('|',obj::db()->sql('select language from '.$get['type'].' where id='.$get['id'],2))),
+						'languages' => obj::db()->sql('select name, alias from language order by id','alias'));			
 	}
 	
 	function tag() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->lat($get['type'])) {
-			$return['value'] = array_unique(array_filter(explode('|',$db->sql('select tag from '.$get['type'].' where id='.$get['id'],2))));
-			$meta = $db->sql('select alias, name from tag where alias="'.implode('" or alias="',$return['value']).'"','alias');
+			$return['value'] = array_unique(array_filter(explode('|',obj::db()->sql('select tag from '.$get['type'].' where id='.$get['id'],2))));
+			$meta = obj::db()->sql('select alias, name from tag where alias="'.implode('" or alias="',$return['value']).'"','alias');
 			foreach ($return['value'] as &$one) if ($meta[$one]) $one = $meta[$one];
 		}
 		return $return;
 	}			
 	
 	function author() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->lat($get['type'])) {
-			$return['value'] = array_unique(array_filter(explode('|',$db->sql('select author from '.$get['type'].' where id='.$get['id'],2))));
-			$meta = $db->sql('select alias, name from author where alias="'.implode('" or alias="',$return['value']).'"','alias');
+			$return['value'] = array_unique(array_filter(explode('|',obj::db()->sql('select author from '.$get['type'].' where id='.$get['id'],2))));
+			$meta = obj::db()->sql('select alias, name from author where alias="'.implode('" or alias="',$return['value']).'"','alias');
 			foreach ($return['value'] as &$one) if ($meta[$one]) $one = $meta[$one];
 		}
 		return $return;
 	}
 
 	function orders_username() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'orders') 
-			return array('value' => $db->sql('select username from orders where id='.$get['id'],2));
+			return array('value' => obj::db()->sql('select username from orders where id='.$get['id'],2));
 	}
 	
 	function orders_mail() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'orders') 
-			return array('value' => $db->sql('select email, spam from orders where id='.$get['id'],1));
+			return array('value' => obj::db()->sql('select email, spam from orders where id='.$get['id'],1));
 	}	
 	
 	function art_source() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'art') 
-			return array('value' => $db->sql('select source from art where id='.$get['id'],2));
+			return array('value' => obj::db()->sql('select source from art where id='.$get['id'],2));
 	}		
 	
 	function art_image() {
@@ -174,9 +174,9 @@ class dinamic__edit extends engine
 	}		
 	
 	function art_groups() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $get['type'] == 'art') {
-			$return = $db->sql('select id, name from art_pool','id');
+			$return = obj::db()->sql('select id, name from art_pool','id');
 			asort($return);
 			return $return;			
 		}
@@ -189,8 +189,8 @@ class dinamic__edit extends engine
 	}	
 		
 	function comment() {
-		global $db; global $get; global $check;
+		global $get; global $check;
 		if ($check->num($get['id']) && $check->rights()) 
-			return $db->sql('select pretty_text,username from comment where id='.$get['id'],1);
+			return obj::db()->sql('select pretty_text,username from comment where id='.$get['id'],1);
 	}			
 }

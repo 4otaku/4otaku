@@ -100,7 +100,7 @@ class cron
 		foreach ($tags as $alias => $tag)
 			foreach ($tag as $key => $field)
 				if (strpos($key,'_') && $field != $update[$alias][$key])
-					$db->update('tag',$key,$update[$alias][$key],$tag['id']);
+					obj::db()->update('tag',$key,$update[$alias][$key],$tag['id']);
 */	}
 
 	function clean_settings() {
@@ -124,14 +124,13 @@ class cron
 	function close_orders() {
 		$data = obj::db()->sql('select * from misc where type = "close_order" and data1 < '.time());
 		if (!empty($data)) {
-			$transform_text = new transform__text();
 			foreach ($data as $delete) {
 				if ($id = obj::db()->sql('select id from orders where (id ='.$delete['data2'].' and area = "workshop")',2)) {
 					obj::db()->sql('delete from misc where id ='.$delete['id'],0);
 					obj::db()->sql('update orders set area = "flea_market", comment_count=comment_count+1, last_comment='.($time = ceil(microtime(true)*1000)).' where id='.$id,0);
 					obj::db()->insert('comment',array(0,0,'orders',$id,'Gouf Custom MS-07B-3','gouf@4otaku.ru','255.255.255.255',
 						'Закрыл автоматом за долгое отсутствие интереса и прогресса','Закрыл автоматом за долгое отсутствие интереса и прогресса',
-						$transform_text->rudate(),$time,'workshop'));
+						obj::transform('text')->rudate(),$time,'workshop'));
 				}
 			}
 		}

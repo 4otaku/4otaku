@@ -3,7 +3,7 @@ include_once('engine/engine.php');
 class dinamic__art extends engine
 {
 	function slideshow() {
-		global $db; global $get; global $check; global $def; global $sets; global $url;
+		global $get; global $check; global $def; global $sets; global $url;
 		$types = array ('tag','author','category','mixed','date','pool');
 		if (in_array($get['type'],$types) && $check->num($get['id'])) {
 			$limit = ' order by sortdate desc limit '.($get['id'] - 1).', 5'; $area_prefix = 'area="'.$def['area'][0].'" and ';
@@ -15,13 +15,13 @@ class dinamic__art extends engine
 					$area = "(".$engine->mixed_make_sql($engine->mixed_parse(html_entity_decode(urldecode($get['area'])))).")"; 
 					break;
 				case "date": 
-					$transform_text = new transform__text(); 
+					obj::transform('text') = new transform__text(); 
 					$parts = explode('-',$get['area']);
 					if (is_numeric($parts[0].$parts[1].$parts[2]) && count($parts) == 3)
-						$area = '(pretty_date ="'.$transform_text->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'")';
+						$area = '(pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'")';
 					break;
 				case "pool":
-					$pool = $db->sql('select art from art_pool where id='.$get['area'],2);
+					$pool = obj::db()->sql('select art from art_pool where id='.$get['area'],2);
 					$pool = array_slice(array_reverse(array_filter(array_unique(explode('|',$pool)))),$get['id'] - 1,5);
 					$area = "(id=".implode(' or id=',$pool).")";
 					$limit = ''; $area_prefix = '';
@@ -36,7 +36,7 @@ class dinamic__art extends engine
 				if (!$sets['show']['furry']) $area .= ' and !(locate("|furry|",art.tag) and locate("|nsfw|",art.category))';
 				if (!$sets['show']['guro']) $area .= ' and !(locate("|guro|",art.tag) and locate("|nsfw|",art.category))';
 			}
-			$return = $db->sql('select id, md5, extension, resized from art where ('.$area_prefix.$area.')'.$limit,'id');
+			$return = obj::db()->sql('select id, md5, extension, resized from art where ('.$area_prefix.$area.')'.$limit,'id');
 			if ($get['type'] == 'pool') {
 				$_return = $return; unset($return);
 				foreach ($pool as $one) $return[$one] = $_return[$one];
@@ -49,7 +49,7 @@ class dinamic__art extends engine
 				}
 				if ($sets['show']['translation']) {
 					$where = 'art_id='.implode(' or art_id=',array_keys($return));
-					$translations = $db->sql('select art_id, data from art_translation where ('.$where.' and active = 1)','art_id');
+					$translations = obj::db()->sql('select art_id, data from art_translation where ('.$where.' and active = 1)','art_id');
 					if (is_array($translations)) foreach ($translations as $key => $translation) {
 						$return[$key]['translations']['full'] = unserialize(base64_decode($translation));
 						if ($return[$key]['resized'] && is_array($return[$key]['translations']['full'])) {
@@ -69,33 +69,31 @@ class dinamic__art extends engine
 	}
 	
 	function masstag() {
-		global $db; global $get; global $check; global $sets;
+		global $get; global $check; global $sets;
 		if (is_numeric($get['id'])) {
 			if ($check->lat($function = $get['sign']) && $check->rights()) $this->$function(urldecode($get['data']),$get['id']);
-			$return = $db->sql('select * from art where id='.$get['id'].' limit 1',1);
-			$db->insert('versions',array('art',$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+			$return = obj::db()->sql('select * from art where id='.$get['id'].' limit 1',1);
+			obj::db()->insert('versions',array('art',$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 			$return['meta'] = $this->get_meta(array($return),array('category','author','tag'));
-			$db->sql('update search set lastupdate=0 where place="art" and item_id="'.$get['id'].'"',0);
+			obj::db()->sql('update search set lastupdate=0 where place="art" and item_id="'.$get['id'].'"',0);
 			return $return;
 		}
 	}
 	
 	function add_tag($tags,$id) {
-		global $db; global $def; global $transform_meta;
-		if (!$transform_meta) $transform_meta = new transform__meta();		
-		$info = $db->sql('select area, tag from art where id='.$id,1);	
+		global $def;		
+		$info = obj::db()->sql('select area, tag from art where id='.$id,1);	
 		if ($info['area'] != $def['area'][1]) {
 			$area = 'art_'.$info['area'];
-			$transform_meta->erase_tags(array_unique(array_filter(explode('|',$info['tag']))),$area);
+			obj::transform('meta')->erase_tags(array_unique(array_filter(explode('|',$info['tag']))),$area);
 		}
-		$tags = $transform_meta->add_tags($transform_meta->parse(str_replace('|',' ',$info['tag']).' '.$tags),$area);
-		$db->update('art','tag',$tags,$id);	
+		$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(str_replace('|',' ',$info['tag']).' '.$tags),$area);
+		obj::db()->update('art','tag',$tags,$id);	
 	}
 	
 	function danbooru($temp, $did)
 	{
-		global $db;
-		$dmd5 = $db->sql('select md5 from art where id='.$did,2);
+		$dmd5 = obj::db()->sql('select md5 from art where id='.$did,2);
 						
 		$domdoc = new DOMDocument();	
 		$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
@@ -126,42 +124,37 @@ class dinamic__art extends engine
 	}	
 	
 	function substract_tag($tags,$id) {
-		global $db; global $def; global $transform_meta;
-		if (!$transform_meta) $transform_meta = new transform__meta();		
+		global $def;	
 		
-		$info = $db->sql('select area, tag from art where id='.$id,1);
+		$info = obj::db()->sql('select area, tag from art where id='.$id,1);
 		$old_tags = array_unique(array_filter(explode('|',$info['tag'])));
 		if ($data['area'] != $def['area'][1]) {
 			$area = 'art_'.$info['area'];
-			$transform_meta->erase_tags($old_tags,$area);
+			obj::transform('meta')->erase_tags($old_tags,$area);
 		}
 				
-		$tags = $transform_meta->parse($tags);
+		$tags = obj::transform('meta')->parse($tags);
 		foreach ($tags as &$tag) 
-			$tag = $db->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2);
+			$tag = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2);
 		
 		$tags = array_diff($old_tags,$tags);
-		$tags = $transform_meta->add_tags($tags,$area);
-		$db->update('art','tag',$tags,$id);		
+		$tags = obj::transform('meta')->add_tags($tags,$area);
+		obj::db()->update('art','tag',$tags,$id);		
 	}
 	
 	function add_category($category,$id) {
-		global $db; global $transform_meta;
-		if (!$transform_meta) $transform_meta = new transform__meta();	
-		$categories = explode('|',trim($db->sql('select category from art where id='.$id,2),'|'));
+		$categories = explode('|',trim(obj::db()->sql('select category from art where id='.$id,2),'|'));
 		$categories[] = $category;
-		$category = $transform_meta->category($categories);
-		$db->update('art','category',$category,$id);		
+		$category = obj::transform('meta')->category($categories);
+		obj::db()->update('art','category',$category,$id);		
 	}
 	
-	function substract_category($category,$id) {
-		global $db; global $transform_meta;
-		if (!$transform_meta) $transform_meta = new transform__meta();	
-		$categories = explode('|',trim($db->sql('select category from art where id='.$id,2),'|'));
+	function substract_category($category,$id) {	
+		$categories = explode('|',trim(obj::db()->sql('select category from art where id='.$id,2),'|'));
 		$categories = array_diff($categories,array($category));
 		if (empty($categories)) $categories = array('none');
-		$category = $transform_meta->category($categories);
-		$db->update('art','category',$category,$id);	
+		$category = obj::transform('meta')->category($categories);
+		obj::db()->update('art','category',$category,$id);	
 	}	
 	
 	function transfer($area,$id) {

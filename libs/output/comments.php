@@ -22,17 +22,17 @@ class output__comments extends engine
 	);
 	
 	function get_data() {
-		global $url; global $db; global $def; global $sets; 
+		global $url; global $def; global $sets; 
 		$return['display'] = array('commentline', 'navi');
 		if ($url[2] == 'page' || !$url[2]) {
 			$return['navi']['curr'] = max(1,$url[3]);
 			$return['blocks'] = $this->get_comments(($return['navi']['curr']-1)*$sets['pp']['comment_in_line'].', '.$sets['pp']['comment_in_line'],'');
-			$return['navi']['last'] = ceil(count($db->sql('select id from comment where area != "deleted" group by place, post_id'))/$sets['pp']['comment_in_line']);
+			$return['navi']['last'] = ceil(count(obj::db()->sql('select id from comment where area != "deleted" group by place, post_id'))/$sets['pp']['comment_in_line']);
 		}
 		else {
 			$return['navi']['curr'] = max(1,$url[4]);				
 			$return['blocks'] = $this->get_comments(($return['navi']['curr']-1)*$sets['pp']['comment_in_line'].', '.$sets['pp']['comment_in_line'],' and place="'.$url[2].'"');
-			$return['navi']['last'] = ceil(count($db->sql('select id from comment where area != "deleted" and place="'.$url[2].'" group by place, post_id'))/$sets['pp']['comment_in_line']);
+			$return['navi']['last'] = ceil(count(obj::db()->sql('select id from comment where area != "deleted" and place="'.$url[2].'" group by place, post_id'))/$sets['pp']['comment_in_line']);
 			$return['navi']['meta'] = $url[2].'/';
 		}
 		$return['navi']['start'] = max($return['navi']['curr']-5,2);				
@@ -42,8 +42,8 @@ class output__comments extends engine
 	}
 	
 	function get_comments($limit, $area) {
-		global $error; global $db; global $def;
-		$return = $db->sql('select place, post_id from comment where (area != "deleted"'.$area.') group by place, post_id order by max(sortdate) desc limit '.$limit);
+		global $error; global $def;
+		$return = obj::db()->sql('select place, post_id from comment where (area != "deleted"'.$area.') group by place, post_id order by max(sortdate) desc limit '.$limit);
 		if (is_array($return)) {
 			$select = array(
 				$def['type'][0] => "id, comment_count, title, image, last_comment",
@@ -62,14 +62,14 @@ class output__comments extends engine
 			$return = array();
 			foreach ($queries as $key => $query) 
 				if ($key != "w8m_art") {
-					if ($_comments = $db->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment')) 
+					if ($_comments = obj::db()->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment')) 
 						$return = $return + $_comments;
 				} else {
-					if ($_comments = $db->base_sql('sub','select '.$select[$key].', "art" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment'))
+					if ($_comments = obj::db()->base_sql('sub','select '.$select[$key].', "art" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment'))
 						$return = $return + $_comments;
 				}
 			krsort($return);
-			$comments = $db->sql('select * from comment where (('.substr($comment_query,4).') and area != "deleted") order by sortdate');
+			$comments = obj::db()->sql('select * from comment where (('.substr($comment_query,4).') and area != "deleted") order by sortdate');
 			foreach ($return as &$one) {
 				foreach ($comments as $comment)
 					if ($comment['post_id'] == $one['id'] && $comment['place'] == $one['place'])
@@ -85,7 +85,7 @@ class output__comments extends engine
 						break;
 					case $def['type'][2]: 
 						if (substr($one['id'],0,3) == 'cg_') {
-							$one['image'] = 'http://w8m.4otaku.ru/image/'.$db->base_sql('sub','select md5 from w8m_galleries where id='.$one['gallery_id'],2).'/thumb/'.$one['image'].'.jpg';
+							$one['image'] = 'http://w8m.4otaku.ru/image/'.obj::db()->base_sql('sub','select md5 from w8m_galleries where id='.$one['gallery_id'],2).'/thumb/'.$one['image'].'.jpg';
 							$one['title'] = "Game CG №".$one['title'];
 						} else {
 							$one['image'] = '/images/booru/thumbs/'.$one['image'].'.jpg';
