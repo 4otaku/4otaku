@@ -1,7 +1,5 @@
 <?
-
-	global $db;
-	$participants = $db->sql('select * from soku order by id');
+	$participants = obj::db()->sql('select * from soku order by id');
 	
 	if ($participants) {
 ?>

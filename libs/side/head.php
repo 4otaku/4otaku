@@ -23,7 +23,7 @@ class side__head
 	}
 	
 	function title_art() {
-		global $url; global $data; global $db;
+		global $url; global $data;
 		if (is_numeric($url[2])) {
 			$return = ' -';
 			$cat = $data['main']['art'][0]['meta']['category'];
@@ -48,14 +48,14 @@ class side__head
 		}
 		else {
 			$types = $this->types;
-			if ($types[$url[2]] && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
+			if ($types[$url[2]] && $name = obj::db()->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
 				$return = '. '.$types[$url[2]].': '.$name;
 		}	
 		return 'Арт'.$return;
 	}
 	
 	function title_post() {
-		global $url; global $data; global $db;
+		global $url; global $data;
 		if (is_numeric($url[2])) {
 			$return = $data['main']['post'][0]['title'];
 			if (is_array($data['main']['post'][0]['links'])) foreach ($data['main']['post'][0]['links'] as $link) 
@@ -74,14 +74,14 @@ class side__head
 		}
 		else {
 			$types = $this->types;
-			if (isset($types[$url[2]]) && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
+			if (isset($types[$url[2]]) && $name = obj::db()->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
 				$return = 'Записи. '.$types[$url[2]].': '.$name;
 		}
 		return isset($return) ? $return : $this->def['site']['name'];
 	}
 	
 	function title_video() {
-		global $url; global $data; global $db;
+		global $url; global $data;
 		if (is_numeric($url[2])) {
 			$return = 'Видео: '.$data['main']['video'][0]['title'];
 		}
@@ -93,7 +93,7 @@ class side__head
 		}
 		else {
 			$types = $this->types;
-			if ($types[$url[2]] && $name = $db->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
+			if ($types[$url[2]] && $name = obj::db()->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
 				$return = 'Видео. '.$types[$url[2]].': '.$name;
 		}
 		if (!$return) return $this->def['site']['name'];
@@ -101,9 +101,9 @@ class side__head
 	}
 	
 	function title_news() {
-		global $db; global $url;
+		global $url;
 		if ($url[2])
-			return $this->def['site']['short_name'] . ' '.$db->sql('select title from news where url="'.$url[2].'"',2);
+			return $this->def['site']['short_name'] . ' '.obj::db()->sql('select title from news where url="'.$url[2].'"',2);
 		else
 			return $this->def['site']['name'];
 	}	

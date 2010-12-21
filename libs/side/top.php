@@ -13,10 +13,10 @@ class side__top
 	}
 
 	function add_bar() {
-		global $url; global $def; global $db;
+		global $url; global $def;
 		if ($url[2] == 'pool' && $url[1] == $def['type'][2]) {
 			if (!is_numeric($url[3])) return array('type' => $url[2]);
-			$data = $db->sql('select name, password from art_pool where id='.$url[3],1);
+			$data = obj::db()->sql('select name, password from art_pool where id='.$url[3],1);
 			return array('type' => $url[1], 'pool' => $data['name'], 'pass' => $data['password']);
 		}
 		if ($url[3] == 'thread') return array('type' => $url[1], 'name' => $url[3], 'info' => $url[4]);
