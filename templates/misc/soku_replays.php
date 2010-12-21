@@ -1,8 +1,5 @@
 <?
-
-
-	global $db;
-	$replays = $db->sql('select * from misc where type = "soku_replay" order by data5','id');
+	$replays = obj::db()->sql('select * from misc where type = "soku_replay" order by data5','id');
 	
 	if ($replays) {
 ?>

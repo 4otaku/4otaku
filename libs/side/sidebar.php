@@ -56,22 +56,22 @@ class side__sidebar extends engine
 	}
 
 	function update() {
-		global $db; global $transform_text;
+		global $transform_text;
 		if (!$transform_text) $transform_text = new transform__text();
 
-		$return = $db->sql('select * from updates order by sortdate desc limit 1',1);
+		$return = obj::db()->sql('select * from updates order by sortdate desc limit 1',1);
 		$return['text'] = undo_quotes(strip_tags($return['text'],'<br>'));
 		if (mb_strlen($return['text']) > 100) $points = '...'; else $points = '';
 		$return['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),redo_quotes(mb_substr($return['text'],0,100))).$points;
 		$return['text'] = $transform_text->cut_long_words($return['text']);
 		$return['author'] = mb_substr($return['username'],0,20);
-		$return['post_title'] = $db->sql('select title from post where id = '.$return['post_id'],2);
+		$return['post_title'] = obj::db()->sql('select title from post where id = '.$return['post_id'],2);
 		return $return;
 	}
 
 	function orders() {
-		global $db; global $sets;
-		if ($return = $db->sql('select id, username, title, text, comment_count from orders where area="workshop"')) {
+		global $sets;
+		if ($return = obj::db()->sql('select id, username, title, text, comment_count from orders where area="workshop"')) {
 			shuffle($return);
 			return array_slice($return, 0, $sets['pp']['random_orders']);
 		}
@@ -93,7 +93,7 @@ class side__sidebar extends engine
 	}
 
 	function art_tags() {
-		global $data; global $db; global $check;
+		global $data; global $check;
 
 		if (is_array($data['main']['art']['thumbs'])) {
 			$page_flag = true;
@@ -113,7 +113,7 @@ class side__sidebar extends engine
 
 		if (!empty($tags)) {
 				$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
-				$global = $db->sql('select alias, art_main from tag '.$where,'alias');
+				$global = obj::db()->sql('select alias, art_main from tag '.$where,'alias');
 			if ($page_flag) {
 				foreach ($global as $alias => $global_count)
 					$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
