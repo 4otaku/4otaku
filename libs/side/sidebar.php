@@ -12,8 +12,7 @@ class side__sidebar extends engine
 	}
 
 	function comments() {
-		global $sets; global $url; global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
+		global $sets; global $url;
 
 		if ($url[1] == "order") {
 			$area = "orders";
@@ -47,7 +46,7 @@ class side__sidebar extends engine
 				$comment['text'] = nl2br(strip_tags($comment['text'],'<br />'));
 				if (mb_strlen($comment['text']) > 100) $points = '...'; else $points = '';
 				$comment['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),mb_substr($comment['text'],0,100)).$points;
-				$comment['text'] = $transform_text->cut_long_words($comment['text']);
+				$comment['text'] = obj::transform('text')->cut_long_words($comment['text']);
 				$comment['href'] =  '/'.($comment['place'] == "orders" ? "order" : $comment['place']).'/'.$comment['post_id'].'/';
 				$comment['username'] = mb_substr($comment['username'],0,30);
 			}
@@ -56,14 +55,11 @@ class side__sidebar extends engine
 	}
 
 	function update() {
-		global $transform_text;
-		if (!$transform_text) $transform_text = new transform__text();
-
 		$return = obj::db()->sql('select * from updates order by sortdate desc limit 1',1);
 		$return['text'] = undo_quotes(strip_tags($return['text'],'<br>'));
 		if (mb_strlen($return['text']) > 100) $points = '...'; else $points = '';
 		$return['text'] = str_replace(array('<br /><br /><br />','<br /><br />'),array('<br />','<br />'),redo_quotes(mb_substr($return['text'],0,100))).$points;
-		$return['text'] = $transform_text->cut_long_words($return['text']);
+		$return['text'] = obj::transform('text')->cut_long_words($return['text']);
 		$return['author'] = mb_substr($return['username'],0,20);
 		$return['post_title'] = obj::db()->sql('select title from post where id = '.$return['post_id'],2);
 		return $return;

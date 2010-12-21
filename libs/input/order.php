@@ -3,10 +3,7 @@
 class input__order extends input__common
 {
 	function add() { 
-		global $post; global $check; global $def; global $transform_meta; 
-		global $transform_text; global $cookie; global $sets;
-		if (!$transform_meta) $transform_meta = new transform__meta();
-		if (!$transform_text) $transform_text = new transform__text();
+		global $post; global $check; global $def; global $cookie; global $sets;
 		if (!$cookie) $cookie = new dinamic__cookie();
 		
 		if ($post['mail'] && $post['subject']) {
@@ -18,12 +15,12 @@ class input__order extends input__common
 			
 				$post['user'] = preg_replace('/#.*$/','',$post['user']);
 				
-				$category = $transform_meta->category($post['category']);
-				$text = $transform_text->format($post['description']);				
+				$category = obj::transform('meta')->category($post['category']);
+				$text = obj::transform('text')->format($post['description']);				
 				if ($post['subscribe']) $post['subscribe'] = 1;
 				
 				obj::db()->insert('orders',$insert_data = array($post['subject'],$post['user'],$post['mail'],$post['subscribe'],$text,undo_safety($post['description']),"",
-							$category,0,0,$transform_text->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
+							$category,0,0,obj::transform('text')->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 				obj::db()->insert('versions',array('order',$id = obj::db()->sql('select @@identity from orders',2),
 												base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));								
 				if ($post['subscribe']) $this->set_events($id,$post['mail']); else $this->set_events($id);
