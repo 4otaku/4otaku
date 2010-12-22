@@ -29,7 +29,7 @@
 						<? if ($thread['downloads']['zip']) { ?>
 							<a href="#download-<?=$url[4];?>-zip" class="board_download">
 								<nobr>
-									Все картинки в архиве
+									Все картинки, архивом
 								</nobr>
 							</a>
 							<br />
