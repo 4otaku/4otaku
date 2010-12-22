@@ -97,6 +97,20 @@ jQuery.cookie = function (key, value, options) {
 
 })(jQuery);
 
+jQuery.download = function(url, data, method){
+	if(url && data){ 
+		data = typeof data == 'string' ? data : jQuery.param(data);
+		var inputs = '';
+		jQuery.each(data.split('&'), function(){ 
+			var pair = this.split('=');
+			inputs+='<input type="hidden" name="'+ pair[0] +'" value="'+ pair[1] +'" />'; 
+		});
+		jQuery('<form action="'+ url +'" method="'+ (method||'get') +'">'+inputs+'</form>')
+		.appendTo('body').submit().remove();
+	};
+};
+
+
 function trim (str) {
 	str = str.replace(/^\s+/, '');
 	for (var i = str.length - 1; i >= 0; i--) {
@@ -808,6 +822,14 @@ $(document).ready(function(){
 		event.preventDefault();
 		if(is_left_click(event)) {
 			$(".board_image_full").click();
+		}
+	});	
+	
+	$("a.board_download").click(function(event){
+		event.preventDefault();
+		if(is_left_click(event)) {
+			var data = $(this).attr('href').split('-');
+			$.download('/ajax.php','m=board&f=download&thread='+data[1]+'&type='+data[2]);
 		}
 	});	
 	

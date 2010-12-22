@@ -11,27 +11,33 @@
 			</a>
 		</span>
 	<? } else { ?>
-<!--	<span class="link_last download_thread">
-			<a href="#">
-				Скачать
-			</a>
-			<div class="relative">
-				<span class="variants">
-					<a href="#" class="download_pdf">
-						<nobr>
-							Тред в html
-						</nobr>
-					</a>
-					<br />
-					<a href="#" class="download_zip">
-						<nobr>
-							Все картинки
-						</nobr>
-					</a>
-				</span>
-			</div>	
-		</span>	
--->		
+		<? if ($thread['downloads']) { ?>
+			<span class="link_last download_thread">
+				<a href="#">
+					Скачать
+				</a>
+				<div class="relative">
+					<span class="variants">
+						<? if ($thread['downloads']['pdf']) { ?>
+							<a href="#" class="board_download">
+								<nobr>
+									Тред в html
+								</nobr>
+							</a>
+							<br />
+						<? } ?>
+						<? if ($thread['downloads']['zip']) { ?>
+							<a href="#download-<?=$url[4];?>-zip" class="board_download">
+								<nobr>
+									Все картинки в архиве
+								</nobr>
+							</a>
+							<br />
+						<? } ?>
+					</span>
+				</div>	
+			</span>	
+		<? } ?>
 		<? if ($thread['images_count'] > 0) { ?>
 			<span class="link_right">
 				<a href="#" rel="Свернуть все" class="board_unfold_all">

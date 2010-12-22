@@ -135,8 +135,19 @@ class output__board extends engine
 		} else {
 			$this->thread = $url[4];
 			$this->build_inner_links($this->inner_links, $return['posts']);
+			$return = $this->check_downloads($return);
 			return $return;
 		}
+	}
+	
+	function check_downloads($return) {
+		if (
+			$return['posts'][0]['images_count'] > 1 &&
+			class_exists('ZipArchive')
+		) {
+			$return['posts'][0]['downloads']['zip'] = $return['posts'][0]['updated'];
+		}
+		return $return;
 	}
 	
 	function count_content($array) {
