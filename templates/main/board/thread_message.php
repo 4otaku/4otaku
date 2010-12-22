@@ -13,7 +13,7 @@
 	<? } else { ?>
 		<? if ($thread['downloads']) { ?>
 			<span class="link_last download_thread">
-				<a href="#">
+				<a href="#" class="disabled">
 					Скачать
 				</a>
 				<div class="relative">
