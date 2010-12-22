@@ -59,7 +59,8 @@ mb_internal_encoding('UTF-8');
 if (
 	strpos($_SERVER["REQUEST_URI"], 'art/download') === false &&
 	!strpos($_SERVER["REQUEST_URI"], '/rss/') &&
-	!(_CRON_)
+	!(_CRON_) &&
+	!((_AJAX_) && $_GET['f'] == 'download')
 ) {
 	ob_start('myoutput');
 }
