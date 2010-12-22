@@ -139,7 +139,7 @@
 													?>
 														<img src="<?=$data['feed']['domain'];?>/images/file.png" class="post-image"> 
 														<?=$file['name'];?>: 
-														<a href="<?=$data['feed']['domain'];?>/files/<?=$file['folder'];?>/<?=$file['filename'];?>">
+														<a href="<?=$data['feed']['domain'];?>/files/post/<?=$file['folder'];?>/<?=$file['filename'];?>">
 															<?=$file['filename'];?>
 														</a>
 														 (<?=$file['size'];?>)														
@@ -149,10 +149,10 @@
 													?>
 														<img src="<?=$data['feed']['domain'];?>/images/file-image.png" class="post-image"> 
 														<?=$file['name'];?>: 
-														<a href="<?=$data['feed']['domain'];?>/files/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" rel="<?=$key.'-'.$item['id'];?>" target="_blank">
+														<a href="<?=$data['feed']['domain'];?>/files/post/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" rel="<?=$key.'-'.$item['id'];?>" target="_blank">
 															<?=$file['filename'];?>
 															<span rel="<?=$file['height'];?>">
-																<img class="hiddenthumb" id="hiddenthumb-<?=$key.'-'.$item['id'];?>" src="#" rel="/files/<?=$file['folder'];?>/thumb_<?=$file['filename'];?>" />
+																<img class="hiddenthumb" id="hiddenthumb-<?=$key.'-'.$item['id'];?>" src="#" rel="/files/post/<?=$file['folder'];?>/thumb_<?=$file['filename'];?>" />
 															</span>	
 														</a>
 														 (<?=$file['size'];?>)
@@ -165,7 +165,7 @@
 														<object type="application/x-shockwave-flash" align="bottom" data="<?=$data['feed']['domain'];?>/jss/musicplayer/player_mp3_maxi.swf" width="250" height="16">
 															<param name="movie" value="<?=$data['feed']['domain'];?>/jss/musicplayer/player_mp3_maxi.swf" />
 															<param name="bgcolor" value="#ffffff" />
-															<param name="FlashVars" value="mp3=<?=urlencode($data['feed']['domain']);?>/files/<?=$file['folder'];?>/<?=urlencode($file['filename']);?>&amp;width=250&amp;height=16&amp;showstop=1&amp;showvolume=1&amp;buttonwidth=20&amp;sliderwidth=15&amp;volumewidth=40" />
+															<param name="FlashVars" value="mp3=<?=urlencode($data['feed']['domain']);?>/files/post/<?=$file['folder'];?>/<?=urlencode($file['filename']);?>&amp;width=250&amp;height=16&amp;showstop=1&amp;showvolume=1&amp;buttonwidth=20&amp;sliderwidth=15&amp;volumewidth=40" />
 														</object>
 													<?
 												}

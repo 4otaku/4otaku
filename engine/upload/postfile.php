@@ -9,13 +9,13 @@
 		if ($sizefile > 1048576) $sizefile = str_replace('.',',',round(($sizefile / 1048576), 1)).' мб';
 		elseif ($sizefile > 1024) $sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
 		else $sizefile .= ' байт';				
-		mkdir(ROOT_DIR.SL.'files'.SL.$time, 0755);
-		$newfile = ROOT_DIR.SL.'files'.SL.$time.SL.$filename.'.'.$extension;		
+		mkdir(ROOT_DIR.SL.'files'.SL.'post'.SL.$time, 0755);
+		$newfile = ROOT_DIR.SL.'files'.SL.'post'.SL.$time.SL.$filename.'.'.$extension;		
 		chmod($temp, 0755);
 		move_uploaded_file($temp, $newfile);
 				
 		if (is_array($check)) {
-			$newthumb = ROOT_DIR.SL.'files'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
+			$newthumb = ROOT_DIR.SL.'files'.SL.'post'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
 			$imagick =  new $image_class($path = $newfile);
 			scale(200,$newthumb);
 			$type = 'image';

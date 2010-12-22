@@ -2,8 +2,12 @@ port.php
 port_action.php
 test.txt
 custom_templates/*
-files/*
-!files/.htaccess
+
+files/board_cache/*
+!files/board_cache/index.php
+files/post/*
+!files/post/index.php
+
 engine/config.php
 images/full/*
 !images/full/index.php
