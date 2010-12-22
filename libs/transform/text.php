@@ -162,7 +162,7 @@ class transform__text
 					case 'b': $replacement = "<strong>$innertext</strong>"; break;
 					case 'i': $replacement = "<em>$innertext</em>"; break;
 					case 's': $replacement = "<s>$innertext</s>"; break;
-					case 'size': $replacement = "<span style=\"font-size: +$param;\">$innertext</span>"; break;
+					case 'size': $replacement = "<font size=\"+$param;\">$innertext</span>"; break;
 					case 'color': $replacement = "<span style=\"color: $param;\">$innertext</span>"; break;
 					case 'url': $replacement = '<a href="/go?' . str_replace('http','⟯',($param? $param : $innertext)) . "\">".str_replace('http','⟯',$innertext)."</a>"; break;
 					case 'img':
