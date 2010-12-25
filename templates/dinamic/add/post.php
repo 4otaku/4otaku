@@ -112,28 +112,6 @@
 					</table>					
 				</td>
 			</tr>
-			<tr class="link" rel="0">
-				<td class="input field_name">
-					Дополнительная ссылка
-				</td>
-				<td class="inputdata">
-					<input size="12%" type="text" name="bonus_link[0][name]" value="" />: 
-					<input size="36%" type="text" name="bonus_link[0][link]" value="http://" />
-					<input type="submit" class="disabled sign remove_link" rel="bonus" value="-" />
-				</td>
-			</tr>
-        </thead>
-        <tbody class="link_file">	
-			<tr>
-				<td class="input field_name">
-					Добавить еще ссылку
-				</td>
-				<td class="inputdata">
-					<input type="submit" class="disabled add_link" rel="bonus" value="+" />
-				</td>
-			</tr>
-		</tbody>
-		<tfoot>
 			<tr>
 				<td class="input field_name">
 					Загрузить файл
@@ -156,7 +134,29 @@
 						</tr>
 					</table>
 				</td>
+			</tr>			
+			<tr class="link" rel="0">
+				<td class="input field_name">
+					Дополнительная ссылка
+				</td>
+				<td class="inputdata">
+					<input size="12%" type="text" name="bonus_link[0][name]" value="" />: 
+					<input size="36%" type="text" name="bonus_link[0][link]" value="http://" />
+					<input type="submit" class="disabled sign remove_link" rel="bonus" value="-" />
+				</td>
+			</tr>			
+        </thead>
+        <tbody class="link_file">	
+			<tr>
+				<td class="input field_name">
+					Добавить еще ссылку
+				</td>
+				<td class="inputdata">
+					<input type="submit" class="disabled add_link" rel="bonus" value="+" />
+				</td>
 			</tr>
+		</tbody>
+		<tfoot>
 			<tr>
 				<td class="input field_name">
 					Теги
