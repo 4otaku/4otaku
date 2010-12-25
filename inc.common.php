@@ -41,18 +41,7 @@ function myoutput($buffer) {
     return str_replace(array("\t","  ","\n","\r"),array(""," ","",""),$buffer);
 }
 
-if (!function_exists('array_replace_recursive')) {
-	function array_replace_recursive(&$array1,&$array2) {
-		$merged = $array1;
-		if(is_array($array2))
-		foreach ($array2 as $key => &$value)
-			if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
-				$merged[$key] = array_replace_recursive($merged[$key], $value);
-			else
-				$merged[$key] = $value;
-		return $merged;
-	}
-}
+include_once ROOT_DIR.SL.'engine'.SL.'backwards_compatibility.php';
 
 mb_internal_encoding('UTF-8');
 
@@ -66,6 +55,7 @@ if (
 }
 
 include_once ROOT_DIR.SL.'engine'.SL.'config.php';
+
 def::import($def);
 if(!def::site('domain')) {
 	def::set('site','domain',$_SERVER["SERVER_NAME"]);
