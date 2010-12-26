@@ -1,4 +1,5 @@
 $(".thickbox").unbind('click');
+window.onbeforeunload = null;
 
 $(document).ready(function(){  	
 
