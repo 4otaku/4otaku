@@ -70,7 +70,7 @@
 		</tr>
 		<tr>		
 			<td class="index_centerholder" valign="top">
-				<div class="shell">
+				<div class="mini-shell margin10">
 					Наша комната в джаббере: main@room.4otaku.ru; 
 					<a href="http://jabberworld.info/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%8B_Jabber">
 						Помощь по настройке
@@ -79,14 +79,34 @@
 						Логи
 					</a>. 
 					<span class="right">
-					<?=$data['main']['links'];?> битых ссылок. 
+						<?=$data['main']['links'];?> битых ссылок. 
 						<a href="/gouf/">
 							Помочь
 						</a>.
 					</span>
 				</div>
+				<div class="mini-shell margin10">
+					<a href="/board/">
+						Борда сайта
+					</a>. 
+					Всего тредов: <?=$data['main']['board']['all'];?>
+					<? if (!empty($data['main']['board']['new'])) { ?>
+						, <a href="/board/new/<?=$data['main']['board']['link'];?>">
+							<?=$data['main']['board']['new'];?> из них новых
+						</a>
+					<? } ?>
+					<? if (!empty($data['main']['board']['updated'])) { ?>
+						, <a href="/board/updated/<?=$data['main']['board']['link'];?>">
+							<?=$data['main']['board']['updated'];?> обновилось
+						</a>
+					<? } ?>					
+					.
+					<span class="right">
+
+					</span>
+				</div>				
 				<? if (isset($data['main']['news']['title'])) { ?>
-					<div class="compressed_news shell clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
+					<div class="compressed_news mini-shell margin10 clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
 						<a href="/news/<?=$data['main']['news']['url'];?>/">
 							<?=$data['main']['news']['title'];?>
 						</a>

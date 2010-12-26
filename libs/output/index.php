@@ -35,7 +35,14 @@ class output__index extends engine
 			shuffle($return['count']['order']['latest']);
 			$return['count']['order']['latest'] = array_slice($return['count']['order']['latest'], 0, 2);
 		}
-		
+			
+		$return['board'] = array(
+			'all' => obj::db()->sql('select count(*) from board where `type` = "2"',2),
+			'new' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate > '.$sets['visit']['board']*1000,2),
+			'updated' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
+			'link' => _base64_encode(pack('i*',$sets['visit']['board'])),
+		);
+	
 		if ($return['news'] = obj::db()->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
 			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
 		} else {

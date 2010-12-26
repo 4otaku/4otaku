@@ -5,11 +5,11 @@ class output__board extends engine
 	function __construct() {
 		global $cookie;
 		if (!$cookie) $cookie = new dinamic__cookie();
-		$cookie->inner_set('visit.art',time(),false);
+		$cookie->inner_set('visit.board',time(),false);
 	}	
 	
 	public $allowed_url = array(
-		array(1 => '|board|', 2 => 'any', 3=> 'any', 4 => 'num', 5 => 'end'),
+		array(1 => '|board|', 2 => 'any', 3=> 'any', 4 => 'any', 5 => 'num', 6 => 'end'),
 	);
 	public $template = 'general';
 	public $side_modules = array(
@@ -19,7 +19,7 @@ class output__board extends engine
 		'sidebar' => array('board_list','comments','quicklinks'),
 		'footer' => array()
 	);
-//unpack('i*',_base64_decode());
+
 	public $error_template = 'board';
 
 	private $inner_links = array();
@@ -28,6 +28,7 @@ class output__board extends engine
 	function get_data() {
 		global $url;
 		if (!$url[2] || $url[2] == 'page') return $this->main();
+		elseif ($url[2] == 'new' || $url[2] == 'updated') return $this->updated();
 		elseif ($url[3] != 'thread') return $this->board();
 		else return $this->thread();
 	}
@@ -47,12 +48,36 @@ class output__board extends engine
 			if (empty($return['threads'])) {
 				$error = true;
 				$this->side_modules['top'] = array('board_list');
-			}			
+			}
 
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil(obj::db()->sql('select count(*) from board where `type` = "2"',2)/sets::pp('board'));
 			$return['navi']['base'] = '/board/';
 		}
+		return $return;
+	}
+	
+	function updated() {
+		global $url; global $error;
+		
+		$time = current(unpack('i*',_base64_decode($url[3])))*1000;	
+		
+		$return['boards'] = obj::db()->sql('select alias, name from category where locate("|board|",area) order by id','alias');
+		
+		$return['display'] = array('board_page','navi','board_menu');			
+		$return['navi']['curr'] = max(1,$url[5]);
+		$limit = 'limit '.($return['navi']['curr']-1)*sets::pp('board').', '.sets::pp('board');
+		$condition = $url[2] == 'new' ? 'sortdate > '.$time.' and ' : 'updated > '.$time.' and sortdate < '.$time.' and ';
+		$return['threads'] = $this->get_threads($condition, $limit);
+		if (empty($return['threads'])) {
+			$error = true;
+			$this->side_modules['top'] = array('board_list');
+		}
+		
+		$return['navi']['start'] = max($return['navi']['curr']-5,2);
+		$return['navi']['last'] = ceil(obj::db()->sql('select count(*) from board where '.$condition.' `type` = "2"',2)/sets::pp('board'));
+		$return['navi']['base'] = '/board/'.$url[2].'/'.$url[3].'/';
+		
 		return $return;
 	}
 
