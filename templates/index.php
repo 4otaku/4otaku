@@ -99,10 +99,18 @@
 						, <a href="/board/updated/<?=$data['main']['board']['link'];?>">
 							<?=$data['main']['board']['updated'];?> обновилось
 						</a>
-					<? } ?>					
+					<? } ?>
 					.
 					<span class="right">
-
+						<? if (!empty($data['main']['wiki'])) { ?>
+							<a href="http://wiki.4otaku.ru">
+								Вики сайта
+							</a>. 
+							Последняя правка: 
+							<a href="http://wiki.4otaku.ru/<?=urlencode($data['main']['wiki']);?>">
+								<?=$data['main']['wiki'];?>
+							</a>.
+						<? } ?>
 					</span>
 				</div>				
 				<? if (isset($data['main']['news']['title'])) { ?>

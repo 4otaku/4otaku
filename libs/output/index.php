@@ -42,6 +42,8 @@ class output__index extends engine
 			'updated' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
 			'link' => _base64_encode(pack('i*',$sets['visit']['board'])),
 		);
+		
+		$return['wiki'] = obj::db('wiki')->sql('select rc_title from recentchanges order by rc_id desc limit 1',2);
 	
 		if ($return['news'] = obj::db()->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
 			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
