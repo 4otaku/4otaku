@@ -90,10 +90,10 @@
 				<img align="left" src="/images/flash.png">
 			</a>				
 		<? } elseif (isset($thread['content']['video'])) { ?>
-			<? if (!sets::board('embedvideo') && $thread['content']['video']['is_api']) { ?>
-				<div class="video" style="height:<?=$thread['content']['video']['api']['height'];?>px;">
+			<? if (!sets::board('embedvideo')) { ?>
+				<div class="video" style="height:<?=$thread['content']['video']['height'];?>px;">
 					<br />
-					<input type="button" class="open_video margin10" rel="<?=implode('#',$thread['content']['video']['api']);?>" value="Показать видео">
+					<input type="button" class="open_video margin10" rel="<?=$thread['id'];?>" value="Показать видео">
 					<br />
 					<input type="button" class="always_embed_video" value="Всегда показывать">
 				</div>

@@ -18,6 +18,18 @@ class dinamic__board extends engine
 		}
 	}
 	
+	function load_video(){
+		global $get;
+		$data = obj::db()->sql('select content from board where id='.$get['id'],2);
+
+		$data = unserialize(base64_decode($data));
+		if (isset($data['video']['object'])) {
+			return $data['video']['object']; 
+		}
+		
+		return '<b>Ошибка!</b>';
+	}
+	
 	function download(){
 		global $get;
 		$this->template = 'templates/download_error.php';

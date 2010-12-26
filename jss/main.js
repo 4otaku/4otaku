@@ -301,7 +301,7 @@ $(document).ready(function(){
 				$("div.edit_field").html(''); $("div.edit_field").hide();
 				if ($("#add_form").attr('rel')) var id = "&id=" + $("#add_form").attr('rel'); else var id = ""; 
 				vars = $(this).parent().parent().attr('rel').split('#');
-				$("div#add_form").load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id);
+				$("div#add_form").load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id);
 			}
 		}
 		else {
@@ -751,12 +751,7 @@ $(document).ready(function(){
 	
 	$(".open_video").click(function(event){
 		event.preventDefault();
-		var flash_vars = $(this).attr('rel').split('#');
-		$(this).parent().flash({
-				swf:'http://www.youtube.com/v/'+flash_vars[0]+'?enablejsapi=1&amp;version=3&amp;border=0',
-				width: parseInt(flash_vars[1]),
-				height: parseInt(flash_vars[2])
-		});
+		$(this).parent().html($("div#add_loader").html()).load(window.config.site_dir+"/ajax.php?m=board&f=load_video&id="+$(this).attr('rel'));
 	});	
 	
 	$(".board_image_thumb").live('click', function(event){
