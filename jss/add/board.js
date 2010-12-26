@@ -22,6 +22,7 @@ $(document).ready(function(){
 			$(".processing").hide(); 
 			if (response == 'error-filetype') {$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');}
 			else if (response == 'error-maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 5 мегабайт.</b>');}
+			else if (response == 'error-flashmaxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');}
 			else {
 				data = response.split("|");
 				$('#transparent td').html('<div style="background-image: url('+data[0]+');"><img class="cancel" src="'+window.config.image_dir+'/images/cancel.png"><input type="hidden" name="image" value="'+data[1]+'"></div>');

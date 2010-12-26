@@ -32,7 +32,13 @@
 				title="<?=$post['content']['image'][0]['full_size_info'];?>">
 				<img align="left" src="/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>">
 			</a>
-		<? } elseif ($post['content']['video']) { ?>
+		<? } elseif (isset($post['content']['flash'])) { ?>
+			<a href="/images/board/full/<?=$post['content']['flash']['full'];?>" 
+				target="_blank" class="with_help" 
+				title="<?=$post['content']['flash']['full_size_info'];?>">
+				<img align="left" src="/images/flash.png">
+			</a>		
+		<? } elseif (isset($post['content']['video'])) { ?>
 			<? if (!sets::board('embedvideo') && $post['content']['video']['is_api']) { ?>
 				<div class="video" style="height:<?=$post['content']['video']['api']['height'];?>px;">
 					<br />
