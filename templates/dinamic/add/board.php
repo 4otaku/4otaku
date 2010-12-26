@@ -49,7 +49,7 @@
 					Ссылка на видео
 				</td>
 				<td class="inputdata">
-					<input size="65%" name="video" value="" type="text">
+					<input size="55%" name="video" value="" type="text">
 				</td>
 			</tr>				
 			<tr>
