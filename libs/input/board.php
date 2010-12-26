@@ -9,10 +9,15 @@ class input__board extends input__common
 
 		if (!empty($post['image'])) {
 			$parts = explode('#', $post['image']);
-			$content['image'][0]['full'] = $parts[0];
-			$content['image'][0]['thumb'] = $parts[1];
-			$content['image'][0]['weight'] = $parts[2];
-			$content['image'][0]['sizes'] = $parts[3];
+			if ($parts[1] == 'flash') {
+				$content['flash']['full'] = $parts[0];
+				$content['flash']['weight'] = $parts[2];				
+			} else {
+				$content['image'][0]['full'] = $parts[0];
+				$content['image'][0]['thumb'] = $parts[1];
+				$content['image'][0]['weight'] = $parts[2];
+				$content['image'][0]['sizes'] = $parts[3];
+			}
 		} elseif (!empty($post['video'])) {
 			$content['video']['link'] = undo_safety($post['video']);
 			$content['video']['object'] =  obj::transform('video')->html($content['video']['link'], false);

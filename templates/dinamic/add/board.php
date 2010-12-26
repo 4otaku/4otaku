@@ -54,7 +54,7 @@
 			</tr>				
 			<tr>
 				<td class="input field_name">
-					Загрузить изображение
+					Загрузить изображение или flash
 				</td>
 				<td class="inputdata">
 					<table>
@@ -66,7 +66,7 @@
 								<img class="processing" src="/images/ajax-processing.gif" />
 							</td>
 							<td>
-								<span class="processing">Изображение загружается.</span>
+								<span class="processing">Изображение/flash загружается.</span>
 							</td>
 							<td class="cancel-holder">
 								<span class="processing">Отменить <img class="board_upload_stop" src="/images/cancel.png"></span>

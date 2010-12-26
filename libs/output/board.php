@@ -94,14 +94,15 @@ class output__board extends engine
 
 				foreach ($return as $key => $thread) {
 					if (!empty($thread['posts'])) {
-						list($total_images, $total_video) = $this->process_content($thread['posts']);
+						list($total_images, $total_flash, $total_video) = $this->process_content($thread['posts']);
 						$total = count($thread['posts']);
 						krsort($thread['posts']);
 						$thread['posts'] = array_slice($thread['posts'],0,sets::pp('board_posts'));
-						list($images, $video) = $this->count_content($thread['posts']);
+						list($images, $flash, $video) = $this->count_content($thread['posts']);
 						$return[$key]['posts'] = array_reverse($thread['posts']);
 						$return[$key]['skipped'] = array(
 							'images' => ($total_images - $images),
+							'flash' => ($total_flash - $flash),
 							'video' => ($total_video - $video),
 							'posts' => ($total - count($thread['posts'])),
 						);
@@ -151,12 +152,16 @@ class output__board extends engine
 	}
 	
 	function count_content($array) {
-		$images_count = 0; $video_count = 0;
+		$images_count = 0; $video_count = 0; $flash_count = 0;
 		if (!empty($array)) {
 			foreach ($array as $key => $item) {
 				if (!empty($item['content'])) {					
 					if (isset($item['content']['image'])) {
 						$images_count += count($item['content']['image']);
+					}
+					
+					if (isset($item['content']['flash'])) {
+						$flash_count++;
 					}
 					
 					if (isset($item['content']['video'])) {
@@ -165,33 +170,33 @@ class output__board extends engine
 				}
 			}
 		}
-		return array($images_count, $video_count);
+		return array($images_count, $flash_count, $video_count);
 	}	
 
 	function process_content(&$array) {
 		global $url;
-		$images_count = 0; $video_count = 0;
+		$images_count = 0; $video_count = 0; $flash_count = 0;
 		if (!empty($array)) {
 			foreach ($array as $key => $item) {
 				if (!empty($item['content'])) {					
 					$content = unserialize(base64_decode($item['content']));
 					
 					if (is_array($content['image'])) {
-						foreach ($content['image'] as $image_key => $image) {
-							if ($image['weight'] > 1024*1024) {
-								$filesize = round($image['weight']/(1024*1024),1).' мегабайт';
-							} elseif ($filesize > 1024) {
-								$filesize = round($image['weight']/1024,1).' килобайт';
-							} else {
-								$filesize = $image['weight'].' байт';
-							}							
-							
+						foreach ($content['image'] as $image_key => $image) {							
 							$content['image'][$image_key]['full_size_info'] = 
-								$filesize . ', ' . $image['sizes'] . ' пикселей';
+								obj::transform('file')->weight($image['weight']) . 
+								', ' . $image['sizes'] . ' пикселей';
 								
 							$images_count++;
 						}
 					}
+					
+					if (isset($content['flash'])) {
+						$content['flash']['full_size_info'] = 
+							obj::transform('file')->weight($content['flash']['weight']);
+							
+						$flash_count++;
+					}					
 					
 					if (isset($content['video'])) {
 						$width = def::board('thumbwidth');
@@ -224,7 +229,7 @@ class output__board extends engine
 				}
 			}
 		}
-		return array($images_count, $video_count);
+		return array($images_count, $flash_count, $video_count);
 	}
 
 	function build_inner_links($links, &$threads) {

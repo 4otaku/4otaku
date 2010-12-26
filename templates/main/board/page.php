@@ -14,6 +14,11 @@
 						<?=$thread['skipped']['images'];?> 
 						<?=obj::transform('text')->wcase($thread['skipped']['images'],'картинка','картинки','картинок');?>
 					<? } ?>					
+					<? if (!empty($thread['skipped']['flash'])) { ?>
+						, 
+						<?=$thread['skipped']['flash'];?> 
+						<?=obj::transform('text')->wcase($thread['skipped']['flash'],'флешка','флешки','флешек');?>
+					<? } ?>						
 					<? if (!empty($thread['skipped']['video'])) { ?>
 						, 
 						<?=$thread['skipped']['video'];?> 

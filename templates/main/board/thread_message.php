@@ -83,7 +83,13 @@
 				title="<?=$thread['content']['image'][0]['full_size_info'];?>">
 				<img align="left" src="/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>">
 			</a>
-		<? } elseif ($thread['content']['video']) { ?>
+		<? } elseif (isset($thread['content']['flash'])) { ?>
+			<a href="/images/board/full/<?=$thread['content']['flash']['full'];?>" 
+				target="_blank" class="with_help" 
+				title="<?=$thread['content']['flash']['full_size_info'];?>">
+				<img align="left" src="/images/flash.png">
+			</a>				
+		<? } elseif (isset($thread['content']['video'])) { ?>
 			<? if (!sets::board('embedvideo') && $thread['content']['video']['is_api']) { ?>
 				<div class="video" style="height:<?=$thread['content']['video']['api']['height'];?>px;">
 					<br />
