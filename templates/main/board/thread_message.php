@@ -1,7 +1,7 @@
 <div class="thread" id="board-<?=$id;?>">	
 	<? if ($url[3] != 'thread') { ?>
 		<span class="link_last">
-			<a href="/board/<?=($url[2] && $url[2] != 'page' ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>#reply">
+			<a href="/board/<?=($url[2] && strlen($url[2]) < 3 ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>#reply">
 				Ответить
 			</a>
 		</span>
