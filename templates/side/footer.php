@@ -1,7 +1,7 @@
 	<div class="left">
 		© 2008-<?=date("Y");?> 4otaku.ru. <br />
 		При перепечатке материалов сайта, указание активной ссылки на 4otaku.ru обязательно. <br />
-		E-mail для любых вопросов: admin@4otaku.ru.
+		E-mail для любых вопросов: <a href="mailto:admin@4otaku.ru" target="_blank">admin@4otaku.ru</a>.
 	</div>
 	<div class="right">
 		<div>
