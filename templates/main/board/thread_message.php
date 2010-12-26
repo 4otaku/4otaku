@@ -93,7 +93,7 @@
 			<? if (!sets::board('embedvideo')) { ?>
 				<div class="video" style="height:<?=$thread['content']['video']['height'];?>px;">
 					<br />
-					<input type="button" class="open_video margin10" rel="<?=$thread['id'];?>" value="Показать видео">
+					<input type="button" class="open_video margin10" rel="<?=$id;?>" value="Показать видео">
 					<br />
 					<input type="button" class="always_embed_video" value="Всегда показывать">
 				</div>
