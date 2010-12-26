@@ -250,7 +250,7 @@ class output__board extends engine
 				if (!empty($item['boards'])) {
 					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
 				}
-				$array[$key]['current_board'] = $url[2] && $url[2] != 'page' ? $url[2] : $array[$key]['boards'][array_rand($array[$key]['boards'])];
+				$array[$key]['current_board'] = $url[2] && strlen($url[2]) < 3 ? $url[2] : $array[$key]['boards'][array_rand($array[$key]['boards'])];
 				if (!empty($item['text'])) {
 					preg_match_all('/&gt;&gt;(\d+)(\s|$|<br[^>]*>)/',$item['text'],$inner_links);
 					foreach ($inner_links[1] as $inner_link) {
