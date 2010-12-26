@@ -199,17 +199,13 @@ class output__board extends engine
 					}					
 					
 					if (isset($content['video'])) {
-						$width = def::board('thumbwidth');
-						$height = $width * $content['video']['aspect'];
-						
 						$content['video']['object'] = str_replace(
 							array('%video_width%','%video_height%'),
 							array($width,$height), 
 							$content['video']['object']
 						);
 						
-						$content['video']['api']['width'] = $width;
-						$content['video']['api']['height'] = $height;
+						$content['video']['height'] = def::board('thumbwidth') * $content['video']['aspect'];
 						
 						$video_count++;
 					}

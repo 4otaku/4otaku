@@ -25,8 +25,7 @@ class input__board extends input__common
 				$this->add_res('Извините, либо этого видеосервиса нет в нашей базе, либо с вашей ссылкой что-то не так.',true); 
 				return false;
 			}
-			$content['video']['is_api'] = obj::transform('video')->api;
-			$content['video']['api']['id'] = obj::transform('video')->id;
+			$content['video']['service_id'] = obj::transform('video')->id;
 			$content['video']['aspect'] = obj::transform('video')->aspect;
 		}
 		

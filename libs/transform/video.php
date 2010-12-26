@@ -4,7 +4,6 @@ class transform__video
 {
 	public $aspect = 0;
 	public $id = '';
-	public $api = false;
 	
 	function html($link, $nico = true) {
 		$parts = parse_url($link);
@@ -33,7 +32,6 @@ class transform__video
 		if (strlen($get['v']) == 11) {
 			$this->id = $get['v'];
 			$this->aspect = 3/4;
-			$this->api = true;
 			
 			return '<object width="%video_width%" height="%video_height%">
 					<param name="movie" value="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0"></param>

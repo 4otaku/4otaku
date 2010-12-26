@@ -39,10 +39,10 @@
 				<img align="left" src="/images/flash.png">
 			</a>		
 		<? } elseif (isset($post['content']['video'])) { ?>
-			<? if (!sets::board('embedvideo') && $post['content']['video']['is_api']) { ?>
-				<div class="video" style="height:<?=$post['content']['video']['api']['height'];?>px;">
+			<? if (!sets::board('embedvideo')) { ?>
+				<div class="video" style="height:<?=$post['content']['video']['height'];?>px;">
 					<br />
-					<input type="button" class="open_video margin10" rel="<?=implode('#',$post['content']['video']['api']);?>" value="Показать видео">
+					<input type="button" class="open_video margin10" rel="<?=$post['id'];?>" value="Показать видео">
 					<br />
 					<input type="button" class="always_embed_video" value="Всегда показывать">
 				</div>
