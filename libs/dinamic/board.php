@@ -21,10 +21,17 @@ class dinamic__board extends engine
 	function load_video(){
 		global $get;
 		$data = obj::db()->sql('select content from board where id='.$get['id'],2);
-
 		$data = unserialize(base64_decode($data));
+		
+		$width = def::board('thumbwidth');
+		$height = $width * $content['video']['aspect'];
+		
 		if (isset($data['video']['object'])) {
-			return $data['video']['object']; 
+			return str_replace(
+				array('%video_width%','%video_height%'),
+				array($width,$height), 
+				$data['video']['object']
+			); 
 		}
 		
 		return '<b>Ошибка!</b>';
