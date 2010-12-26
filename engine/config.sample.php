@@ -124,7 +124,7 @@ $sets['user']['mail'] = 'default@avatar.mail';
 // Presets - fight the notices
 
 $sets['visit']['post'] = 0;
-$sets['visit']['audio'] = 0;
+$sets['visit']['board'] = 0;
 $sets['visit']['video'] = 0;
 $sets['visit']['art'] = 0;
 $sets['news']['read'] = 0;

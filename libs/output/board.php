@@ -2,6 +2,12 @@
 include_once('engine'.SL.'engine.php');
 class output__board extends engine
 {
+	function __construct() {
+		global $cookie;
+		if (!$cookie) $cookie = new dinamic__cookie();
+		$cookie->inner_set('visit.art',time(),false);
+	}	
+	
 	public $allowed_url = array(
 		array(1 => '|board|', 2 => 'any', 3=> 'any', 4 => 'num', 5 => 'end'),
 	);
@@ -13,7 +19,7 @@ class output__board extends engine
 		'sidebar' => array('board_list','comments','quicklinks'),
 		'footer' => array()
 	);
-
+//unpack('i*',_base64_decode());
 	public $error_template = 'board';
 
 	private $inner_links = array();
