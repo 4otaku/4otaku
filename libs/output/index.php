@@ -36,12 +36,14 @@ class output__index extends engine
 			$return['count']['order']['latest'] = array_slice($return['count']['order']['latest'], 0, 2);
 		}
 			
-		$return['board'] = array(
-			'all' => obj::db()->sql('select count(*) from board where `type` = "2"',2),
-			'new' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate > '.$sets['visit']['board']*1000,2),
-			'updated' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
-			'link' => _base64_encode(pack('i*',$sets['visit']['board'])),
-		);
+		if (!empty($sets['visit']['board'])) {
+			$return['board'] = array(			
+				'new' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate > '.$sets['visit']['board']*1000,2),
+				'updated' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
+				'link' => _base64_encode(pack('i*',$sets['visit']['board'])),
+			);
+		}		
+		$return['board']['all'] = obj::db()->sql('select count(*) from board where `type` = "2"',2);
 		
 		$return['wiki'] = obj::db('wiki')->sql('select rc_title from recentchanges order by rc_id desc limit 1',2);
 	
