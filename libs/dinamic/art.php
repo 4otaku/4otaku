@@ -88,36 +88,87 @@ class dinamic__art extends engine
 		obj::db()->update('art','tag',$tags,$id);	
 	}
 	
-	function danbooru($temp, $did)
+	function danbooru($section, $did)
 	{
-		$dmd5 = obj::db()->sql('select md5 from art where id='.$did,2);
-						
-		$domdoc = new DOMDocument();	
-		$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
-		
-		$elements = $domdoc->getElementsByTagName('post');
-		foreach ($elements as $node) 
+		if ($section == 'danbtag')
 		{
-			$dtagstr[] = $node->getAttribute('tags');
-		}
+			$dmd5 = obj::db()->sql('select md5 from art where id='.$did,2);
 		
-		$dtags[] = explode(" ", $dtagstr[0]);
-		
-		foreach ($dtags[0] as $key => &$tag)
-		{
-			if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
-			else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
-			else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+			$domdoc = new DOMDocument();	
+			$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
 			
-			if (strpos($tag, 'hard_translated') === (int)0) { }	
-			else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
-
-			if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+			$elements = $domdoc->getElementsByTagName('post');
+			foreach ($elements as $node) 
+			{
+				$dtagstr[] = $node->getAttribute('tags');
+			}
+			
+			$dtags[] = explode(" ", $dtagstr[0]);
+			
+			foreach ($dtags[0] as $key => &$tag)
+			{
+				if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
+				else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
+				else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+				
+				if (strpos($tag, 'hard_translated') === (int)0) { }	
+				else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
+	
+				if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+			}
+			
+			$dtag = implode(", ", $dtags[0]); 
+			
+			$this->add_tag($dtag, $did);														/* Another function call */
 		}
+		else if ($section == 'iqdb')
+		{
+			$mass = obj::db()->sql('select md5,extension from art where id='.$did,1);
 		
-		$dtag = implode(", ", $dtags[0]); 
+			if (isset($mass)) 
+			{
+				include(ROOT_DIR.SL.'libs'.SL.'simple_html_dom.php');
+				
+				$html = file_get_html('http://iqdb.hanyuu.net/?url=http://4otaku.ru/images/booru/full/'.$mass['md5'].'.'.$mass['extension']);
+				$tables= $html->find(table);
 
-		$this->add_tag($dtag, $did);
+				foreach($tables as $table)
+				{	
+					if($table->children(4) != NULL)												/* First table doesn't have this field */
+					{
+						$a = $table->children(1)->children(0)->find('a');						/* Needed couse simple_html_dom syntax */
+						if(isset($a) && (strpos($a[0]->href,'http://danbooru.donmai.us/post/show/') === (int)0) && (preg_match('/(?P<digit>\d+)% (?P<name>\w+)/', $table->children(4)->children(0), $matches)))
+						{
+							if($matches['digit'] >= 95)
+							{
+								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */
+								$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
+								
+								foreach ($dtags[0] as $key => &$tag)
+								{
+									if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
+									else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
+									else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+									
+									if (strpos($tag, 'hard_translated') === (int)0) { }	
+									else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
+						
+									if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+								}
+								
+								$dtag = implode(", ", $dtags[0]);
+							
+								$this->add_tag($dtag, $did);									/* Another function call */
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			echo 'Please, select option first.';
+		}
 	}	
 	
 	function substract_tag($tags,$id) {
