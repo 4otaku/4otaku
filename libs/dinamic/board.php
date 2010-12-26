@@ -24,7 +24,7 @@ class dinamic__board extends engine
 		$data = unserialize(base64_decode($data));
 		
 		$width = def::board('thumbwidth');
-		$height = $width * $content['video']['aspect'];
+		$height = $width * $data['video']['aspect'];
 		
 		if (isset($data['video']['object'])) {
 			return str_replace(
