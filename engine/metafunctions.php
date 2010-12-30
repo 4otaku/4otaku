@@ -63,8 +63,8 @@ function _crypt($input,$decrypt=false) {
 	return implode('',$o);
 }
 
-function _base64_encode($input) {
-	return str_replace(array('+','/','='),array('-','_','.'),base64_encode($input));
+function _base64_encode($input, $nodotes = false) {
+	return str_replace(array('+','/','='),array('-','_',($nodotes ? '' : '.')),base64_encode($input));
 }
 
 function _base64_decode($input) {
