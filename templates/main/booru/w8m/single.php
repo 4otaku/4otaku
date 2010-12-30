@@ -1,7 +1,7 @@
 <div class="shell">
 	Вы просматриваете CG из игры "<?=$data['main']['pool']['name'];?>". 
 	<? if (file_exists('/var/www/nameless/data/www/w8m.4otaku.ru/image/'.$data['main']['pool']['md5'].'.zip')) { ?>
-	<a href="/art/download/<?=_base64_encode(hex2bin($data['main']['pool']['md5']));?>" target="_blank">Скачать их одним архивом.</a> (~<?=ceil($data['main']['pool']['filesize']/1024/1024);?> мб)
+		<a href="/art/download/<?=_base64_encode(hex2bin($data['main']['pool']['md5']),true);?>" target="_blank">Скачать их одним архивом.</a> (~<?=ceil($data['main']['pool']['filesize']/1024/1024);?> мб)
 	<? } ?>
 	<br />	
 	Дополнительная информация:

@@ -40,7 +40,7 @@ class output__index extends engine
 			$return['board'] = array(			
 				'new' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate > '.$sets['visit']['board']*1000,2),
 				'updated' => obj::db()->sql('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
-				'link' => _base64_encode(pack('i*',$sets['visit']['board'])),
+				'link' => _base64_encode(pack('i*',$sets['visit']['board']), true),
 			);
 		}		
 		$return['board']['all'] = obj::db()->sql('select count(*) from board where `type` = "2"',2);
