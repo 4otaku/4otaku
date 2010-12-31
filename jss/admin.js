@@ -19,6 +19,42 @@ $(document).ready(function(){
 		else window.location = "/admin/tags/";
 	});
 	
+	$(".dinamic_search_tags").click(function(){  
+		if ($(".searchtags").val().length > 0) {
+			$("#dinamic_tags").html($("#tag_loader").html()).load("/ajax.php?m=admin&f=dinamic_tag&query="+urlencode($(".searchtags").val()));
+		}
+	});
+	
+	$(".dinamic_tag_page").live('change', function(){
+		$("#dinamic_tags").html($("#tag_loader").html()).load("/ajax.php?m=admin&f=dinamic_tag&query="+urlencode($(".searchtags").val())+"&current="+$(this).find('option:selected').val());
+	});
+	
+	$(".choose_dinamic_tag").live('click', function(){
+		var row = $(this).parents('tr');
+		$(".second_tag b").html(row.find("input[name=name]").val());
+		$(".second_tag").attr('rel', row.find("input[name=id]").val());
+		$(".merge_field").show();
+	});
+	
+	$(".dinamic_tag_change_direction").click(function(e){ 
+		e.preventDefault();	
+		if ($(this).html() == '=&gt;') {
+			$(this).html('&lt;=');
+			$(".first_tag").addClass('master_tag').removeClass('slave_tag');
+			$(".second_tag").removeClass('master_tag').addClass('slave_tag');	
+		} else {
+			$(this).html('=&gt;');
+			$(".first_tag").removeClass('master_tag').addClass('slave_tag');
+			$(".second_tag").addClass('master_tag').removeClass('slave_tag');	
+		}
+	});
+	
+	$(".merge_tag").click(function(){  
+		$.post("/ajax.php?m=admin&f=merge_tag&master="+$(".master_tag").attr('rel')+"&slave="+$(".slave_tag").attr('rel'), function() {
+	//		window.location.reload();
+		});
+	});
+	
 	$("input.searchtags").keydown(function(e){
 		switch (e.which) {
 			case 13:
@@ -35,7 +71,7 @@ $(document).ready(function(){
 			$.post("/ajax.php?m=admin&f=delete_tag&id="+$(this).attr('rel').split('|')[0]+"&old_alias="+$(this).attr('rel').split('|')[1]);
 			$(this).parents('#admin_tags tr').remove();
 		}
-	});	
+	});
 
 	$(".save_all").click(function(){  
 		$("body").append('<div id="darklayer"><div id="message">Подождите, выполняю работу.</div></div>');

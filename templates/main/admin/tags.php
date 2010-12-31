@@ -68,6 +68,9 @@
 						</td>		
 						<td>
 							<input type="submit" value="Сохранить">
+							<a href="/admin/tags/merge/<?=$item['alias'];?>" class="plaintext"> 
+								<input type="button" value="Объединить">
+							</a>
 							<input type="submit" value="Удалить" class="delete_tag disabled" rel="<?=$id;?>|<?=$item['alias'];?>">
 						</td>
 					</form>
