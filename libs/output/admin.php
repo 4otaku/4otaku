@@ -64,7 +64,7 @@ class output__admin extends engine
 	function tags($return) {
 		global $url; global $sets;
 		unset ($this->side_modules['sidebar']);
-		if ($url[3] && $url[3] != 'search' && $url[3] != 'page') {
+		if ($url[3] && $url[3] != 'search' && $url[3] != 'page' && $url[3] != 'merge') {
 			$return['display'][] = 'admin_problemtags';
 			if ($url[4] == 'match') {
 				$tags = obj::db()->sql('select * from tag','id');	
@@ -84,23 +84,33 @@ class output__admin extends engine
 				$return['tags'] = obj::db()->sql('select * from tag where (length(alias) - length(replace(alias,"_","")) > 2 or left(alias,1) = "_" or right(alias,1) = "_") order by id desc','id');				
 			}
 		} else {
-			$return['display'][] = 'admin_tags';
-			$return['display'][] = 'navi';
-			if ($url[3] == 'search') {
-				$return['navi']['curr'] = max(1,$url[6]);
-				$return['navi']['meta'] = $url[2].'/'.$url[3].'/'.$url[4].'/';
-				$locate = redo_safety(urldecode($url[4]));
-				$return['tags'] = obj::db()->sql('select * from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name) order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
-				$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from tag where locate("'.urldecode($url[4]).'",alias) or locate("'.urldecode($url[4]).'",variants) or locate("'.urldecode($url[4]).'",name)',2)/$sets['pp']['tags_admin']);
-			} else {
-				$return['navi']['curr'] = max(1,$url[4]);
-				$return['navi']['meta'] = $url[2].'/';
-				$return['tags'] = obj::db()->sql('select * from tag order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
-				$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from tag',2)/$sets['pp']['tags_admin']);				
+			if ($url[3] == 'merge') {
+				$return['display'][] = 'admin_mergetags';
+				$return['tag'] = obj::db()->sql('select * from tag where alias = "'.$url[4].'"',1);
+			} else {				
+				$return['display'][] = 'admin_tags';
+				$return['display'][] = 'navi';
+				if ($url[3] == 'search') {
+					$return['navi']['curr'] = max(1,$url[6]);
+					$return['navi']['meta'] = $url[2].'/'.$url[3].'/'.$url[4].'/';					
+					list($return['tags'], $return['navi']['last']) = self::search_tags($url[4],$return['navi']['curr'],$sets['pp']['tags_admin']);
+				} else {
+					$return['navi']['curr'] = max(1,$url[4]);
+					$return['navi']['meta'] = $url[2].'/';
+					$return['tags'] = obj::db()->sql('select * from tag order by id desc limit '.(($return['navi']['curr']-1)*$sets['pp']['tags_admin']).', '.$sets['pp']['tags_admin'],'id');
+					$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from tag',2)/$sets['pp']['tags_admin']);				
+				}
+				$return['navi']['start'] = max($return['navi']['curr']-5,2);
+				$return['navi']['base'] = '/admin/';		
 			}
-			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['base'] = '/admin/';		
 		}
 		return $return;		
+	}
+	
+	static function search_tags($query, $current, $step) {
+		$locate = redo_safety(urldecode($query));
+		$tags = obj::db()->sql('select * from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name) order by id desc limit '.(($current-1)*$step).', '.$step,'id');
+		$page_count = ceil(obj::db()->sql('select count(id) from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name)',2)/$step);
+		return array($tags, $page_count);
 	}
 }
