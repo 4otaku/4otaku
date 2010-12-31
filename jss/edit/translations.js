@@ -1,4 +1,11 @@
 function initialize_translations() {
+	window.onbeforeunload = function (e) {
+		var message = 'Вы точно хотите уйти с этой страницы? Если вы уйдете, то потеряете прогресс сделанный в переводе.';
+		if (typeof e == 'undefined') e = window.event;
+		if (e) e.returnValue = message;
+		return message;
+	}	
+	
 	$(".art_translation_active").unbind('draggable').draggable({containment: 'parent'});
 	$(".art_translation_active").unbind('resizable').resizable({
 		containment: 'parent', 
@@ -34,6 +41,8 @@ function initialize_translations() {
 }
 
 function get_data() {
+	window.onbeforeunload = null;
+	
 	$(".translation_author").appendTo(".booru_main form");
 	$(".booru_main div.image").appendTo(".booru_main form");
 	window.count = 0;
