@@ -51,7 +51,7 @@ $(document).ready(function(){
 	
 	$(".merge_tag").click(function(){  
 		$.post("/ajax.php?m=admin&f=merge_tag&master="+$(".master_tag").attr('rel')+"&slave="+$(".slave_tag").attr('rel'), function() {
-	//		window.location.reload();
+			window.location.reload();
 		});
 	});
 	
