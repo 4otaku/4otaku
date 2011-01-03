@@ -1,5 +1,5 @@
 <? 
-include_once('engine/engine.php');
+
 class dinamic__art extends engine
 {
 	function slideshow() {
@@ -127,7 +127,7 @@ class dinamic__art extends engine
 		
 			if (isset($mass)) 
 			{
-				include(ROOT_DIR.SL.'libs'.SL.'simple_html_dom.php');
+				include(ROOT_DIR.SL.'engine'.SL.'external'.SL.'simple_html_dom.php');
 				
 				$html = file_get_html('http://iqdb.hanyuu.net/?url=http://4otaku.ru/images/booru/full/'.$mass['md5'].'.'.$mass['extension']);
 				$tables= $html->find(table);
