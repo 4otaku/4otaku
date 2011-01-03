@@ -22,8 +22,8 @@ class query
 	static function get_globals($get, $post) {
 		self::clean_globals($get);
 		self::clean_globals($post);
-		self::$get = self::parse_incoming_recursively($get, array());
-		self::$post = self::parse_incoming_recursively($post, array());
+		self::$get = self::safety_globals($get, array());
+		self::$post = self::safety_globals($post, array());
 
 		if (isset($post['remember'])) {
 			$md5 = md5(serialize($post));
@@ -54,14 +54,14 @@ class query
 		}
 	}
 
-	static function parse_incoming_recursively(&$data,$input,$iteration = 0) {
+	static function safety_globals(&$data,$input,$iteration = 0) {
 		if ($iteration > 10) {
 			return $input;
 		}
 
 		foreach($data as $k => $v) {
 			if (is_array($v)) {
-				$input[$k] = self::parse_incoming_recursively($data[$k], array(), $iteration + 1);
+				$input[$k] = self::safety_globals($data[$k], array(), $iteration + 1);
 			} else {
 				$k = str_replace(
 					array_keys(self::$safe_replacements),
