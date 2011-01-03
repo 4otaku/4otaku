@@ -42,9 +42,14 @@ class output__logs extends engine
 		$current = array($url[2],$url[3],$url[4]);
 		if (array_diff_assoc($end,$current) && is_array($return['logs'])) $this->make_logs_cache($return['logs'],$url[2],$url[3],$url[4]);
 		$rumonth = array('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');		
-		for ($i = $start[0]; $i <= $end[0]; $i++)
-			for ($j = $start[1]; $j <= $end[1]; $j++)
+		
+		for ($i = $start[0]; $i <= $end[0]; $i++) {
+			$start_month = $i == $start[0] ? $start[1] : 1;
+			$end_month = $i == $end[0] ? $end[1] : 12;
+			for ($j = $start_month; $j <= $end_month; $j++) {
 				$return['month'][($i == $current[0] && $j == $current[1] ? 'current' : '/logs/'.$i.'/'.$j.'/'.($j > $start[1] ? 1 : $start[2]).'/')] = $rumonth[($j-1)].' '.$i;
+			}
+		}
 		$yesterday = mktime(12,0,0,$url[3],$url[4]-1,$url[2]); $tomorrow = mktime(12,0,0,$url[3],$url[4]+1,$url[2]);
 		if ($yesterday > mktime(0,0,0,$start[1],$start[2],$start[0])) $return['navi']['yesterday']= array(
 			'url' => '/logs/'.date("Y",$yesterday).'/'.date("n",$yesterday).'/'.date("j",$yesterday).'/',
