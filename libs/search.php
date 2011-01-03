@@ -8,9 +8,9 @@ class search
 	
 	function init_morphy() {
 		global $morphy_ru; global $morphy_en;
-		include_once(ROOT_DIR . SL . 'engine'. SL .'phpmorphy'. SL .'src'. SL .'common.php');
+		include_once(ROOT_DIR.SL.'engine'.SL.'external'.SL.'phpmorphy'.SL.'src'.SL.'common.php');
 		$opts = array( 'storage' => PHPMORPHY_STORAGE_FILE, 'predict_by_suffix' => true, 'predict_by_db' => true, 'graminfo_as_text' => true);
-		$dir = ROOT_DIR . SL . 'engine'. SL .'phpmorphy'. SL .'dicts';
+		$dir = ROOT_DIR.SL.'engine'.SL.'external'.SL.'phpmorphy'.SL.'dicts';
 		$lang = 'ru_RU'; 
 		try { $this->morphy_ru = new phpMorphy($dir, $lang, $opts); } 
 		catch(phpMorphy_Exception $e) { 
