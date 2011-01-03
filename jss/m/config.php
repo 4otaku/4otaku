@@ -4,7 +4,6 @@
  * @package Minify
  */
 
-
 /**
  * In 'debug' mode, Minify can combine files with no minification and 
  * add comments to indicate line #s of the original files. 
@@ -54,7 +53,7 @@ $min_cachePath = dirname(__FILE__) . '/tmp';
  * If /min/ is directly inside your document root, just uncomment the 
  * second line. The third line might work on some Apache servers.
  */
-$min_documentRoot = '';
+$min_documentRoot = dirname(dirname(dirname(__FILE__)));
 //$min_documentRoot = substr(__FILE__, 0, strlen(__FILE__) - 15);
 //$min_documentRoot = $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'];
 
