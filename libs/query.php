@@ -54,7 +54,7 @@ class query
 		}
 	}
 
-	function parse_incoming_recursively(&$data,$input,$iteration = 0) {
+	static function parse_incoming_recursively(&$data,$input,$iteration = 0) {
 		if ($iteration > 10) {
 			return $input;
 		}
