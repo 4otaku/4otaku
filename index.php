@@ -2,11 +2,6 @@
 
 include_once 'inc.common.php';
 
-$check = new check_values();
-
-include_once ROOT_DIR.SL.'engine'.SL.'cleanglobals.php';
-include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
-
 $_SERVER["REQUEST_URI"] = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/','',$_SERVER["REQUEST_URI"]);
 $url = explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"])); 
 
