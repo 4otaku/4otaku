@@ -69,9 +69,7 @@ if(def::site('domain') != $_SERVER["SERVER_NAME"] && !(_CRON_)) {
 
 if (!(_CRON_)) {
 	$check = new check_values();
-
-	// fixme: когда закончу замену $get $post, то в list($get, $post) отпадет смысл
-	list($get, $post) = query::get_globals($_GET, $_POST);
+	query::get_globals($_GET, $_POST);
 	include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
 }
 

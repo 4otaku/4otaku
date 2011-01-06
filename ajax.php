@@ -9,16 +9,16 @@ if(!empty($_GET['upload']) && strpos($_GET['upload'], ".") === false && file_exi
 
 include_once 'inc.common.php';
 
-$output_class = 'dynamic__'.$get['m'];
+$output_class = 'dynamic__'.query::$get['m'];
 $output = new $output_class();
 
-$func = $get['f'];
+$func = query::$get['f'];
 
 $data = $output->$func();
 if (isset($output->template) || $data) {
     if (!empty($output->textarea)) ob_end_clean();
     if (isset($output->template)) include_once($output->template);
-    else include_once TEMPLATE_DIR.SL.'dinamic'.SL.$get['m'].SL.$get['f'].'.php';
+    else include_once TEMPLATE_DIR.SL.'dinamic'.SL.query::$get['m'].SL.query::$get['f'].'.php';
 }
 
 if (isset($postparse)) {
