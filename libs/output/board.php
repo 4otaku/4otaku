@@ -116,11 +116,11 @@ class output__board extends engine
 			$this->process_content($return);
 
 			$keys = 'thread='.implode(' or thread=', array_keys($return));
-			query::$posts = obj::db()->sql('select * from board where `type`="1" and ('.$keys.')');
+			$posts = obj::db()->sql('select * from board where `type`="1" and ('.$keys.')');
 
-			if (is_array(query::$posts)) {
-				foreach (query::$posts as query::$post) {
-					$return[query::$post['thread']]['posts'][query::$post['sortdate']] = query::$post;
+			if (is_array($posts)) {
+				foreach ($posts as $post) {
+					$return[$post['thread']]['posts'][$post['sortdate']] = $post;
 				}
 
 				foreach ($return as $key => $thread) {
@@ -268,8 +268,8 @@ class output__board extends engine
 			foreach ($threads as $key => $thread) {
 				$threads[$key]['text'] = $this->set_inner_links($thread['text']);
 				if (is_array($thread['posts'])) {
-					foreach ($thread['posts'] as query::$post_key => query::$post) {
-						$threads[$key]['posts'][query::$post_key]['text'] = $this->set_inner_links(query::$post['text']);
+					foreach ($thread['posts'] as $post_key => $post) {
+						$threads[$key]['posts'][$post_key]['text'] = $this->set_inner_links($post['text']);
 					}
 				}
 			}

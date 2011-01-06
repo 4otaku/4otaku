@@ -1,12 +1,12 @@
 Выберите запись, имеющую обновления:
 <br /><br />
 <ul>
-	<? foreach ($data['main']['posts'] as $id => query::$post) { ?>
+	<? foreach ($data['main']['posts'] as $id => $post) { ?>
 		<li>
 			<a href="/admin/updates/<?=$id;?>/">
-				<?=query::$post['title'];?>
+				<?=$post['title'];?>
 			</a> 
-			(<?=query::$post['update_count'];?>)
+			(<?=$post['update_count'];?>)
 		</li>
 	<? } ?>
 </ul>
