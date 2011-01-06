@@ -2,6 +2,9 @@
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
 	<br /> 
 	<a href="/admin/tags/problem/alias/">Проблемные теги - алиас</a>. <a href="/admin/tags/problem/match/">Проблемные теги - совпадения</a>. <a href="/admin/tags/problem/empty/">Проблемные теги - пустые</a>. 
+	<div class="right"> 
+	 <input type="submit" value="Сохранить все" class="disabled save_all">
+	</div>	
 	 <br /><br />
 	 <? if ($url[4] != 'match') { ?>
 		<? if ($url[4] != 'empty') { ?>
