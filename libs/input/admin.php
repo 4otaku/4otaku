@@ -3,9 +3,9 @@
 class input__admin extends engine
 {
 	function login() { 
-		global $post; global $sets; global $cookie;
+		global $sets; global $cookie;
 		if (!$cookie) $cookie = new dynamic__cookie();
-		if ($rights = obj::db()->sql('select rights from user where login="'.$post['login'].'" and pass="'.md5($post['pass']).'"',2)) {
+		if ($rights = obj::db()->sql('select rights from user where login="'.query::$post['login'].'" and pass="'.md5(query::$post['pass']).'"',2)) {
 			$cookie->inner_set('user.rights',$rights);
 			$sets['user']['rights'] = $rights;
 		}
@@ -22,27 +22,27 @@ class input__admin extends engine
 	}
 	
 	function edittag() {
-		global $post; global $check;
+		global $check;
 		$check->rights();
-		if ($post['old_alias'] != $post['alias']) {
-			obj::db()->sql('update post set tag = replace(tag,"|'.$post['old_alias'].'|","|'.$post['alias'].'|")',0);
-			obj::db()->sql('update video set tag = replace(tag,"|'.$post['old_alias'].'|","|'.$post['alias'].'|")',0);
-			obj::db()->sql('update art set tag = replace(tag,"|'.$post['old_alias'].'|","|'.$post['alias'].'|")',0);
+		if (query::$post['old_alias'] != query::$post['alias']) {
+			obj::db()->sql('update post set tag = replace(tag,"|'.query::$post['old_alias'].'|","|'.query::$post['alias'].'|")',0);
+			obj::db()->sql('update video set tag = replace(tag,"|'.query::$post['old_alias'].'|","|'.query::$post['alias'].'|")',0);
+			obj::db()->sql('update art set tag = replace(tag,"|'.query::$post['old_alias'].'|","|'.query::$post['alias'].'|")',0);
 		}
-		$variants = array_unique(array_filter(explode(' ',str_replace(',',' ',$post['variants']))));
+		$variants = array_unique(array_filter(explode(' ',str_replace(',',' ',query::$post['variants']))));
 		if (!empty($variants)) $variants = '|'.implode('|',$variants).'|'; else $variants = '|';
-		obj::db()->update('tag',array('alias','name','variants','color'),array($post['alias'],$post['name'],$variants,$post['color']),$post['id']);
+		obj::db()->update('tag',array('alias','name','variants','color'),array(query::$post['alias'],query::$post['name'],$variants,query::$post['color']),query::$post['id']);
 	}
 	
 	function edit_update() {
-		global $post; global $check; global $def;
+		global $check; global $def;
 		if ($check->rights()) {
-			$text = obj::transform('text')->format($post['text']);	
-			$links = obj::transform('link')->similar(obj::transform('link')->parse($post['link'])); 
+			$text = obj::transform('text')->format(query::$post['text']);	
+			$links = obj::transform('link')->similar(obj::transform('link')->parse(query::$post['link'])); 
 			obj::db()->update('updates',
 				array('username','text','pretty_text','link'),
-				array($post['author'],$text,undo_safety($post['text']),serialize($links)),
-				$post['id']
+				array(query::$post['author'],$text,undo_safety(query::$post['text']),serialize($links)),
+				query::$post['id']
 			);
 		}			
 	}

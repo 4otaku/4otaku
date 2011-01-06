@@ -32,7 +32,6 @@ class query
 		}		
 		
 		unset ($_GET, $_POST);
-		return array(self::$get, self::$post);
 	}
 
 	static function clean_globals(&$data,$iteration = 0) {

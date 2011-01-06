@@ -10,11 +10,11 @@ if(empty($url[1])) $url[1] = 'index';
 
 include_once ROOT_DIR.SL.'engine'.SL.'handle_old_urls.php';
 
-if (isset($post['do'])) {
-	$post['do'] = explode('.',$post['do']);
-	if (count($post['do']) == 2) {
-		$input_class = 'input__'.$post['do'][0]; $input = new $input_class;
-		$input_function = $post['do'][1]; $input->$input_function($post);		
+if (isset(query::$post['do'])) {
+	query::$post['do'] = explode('.',query::$post['do']);
+	if (count(query::$post['do']) == 2) {
+		$input_class = 'input__'.query::$post['do'][0]; $input = new $input_class;
+		$input_function = query::$post['do'][1]; $input->$input_function(query::$post);		
 	}	
 	$redirect = 'http://'.def::site('domain') . (empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
 	engine::redirect($redirect);

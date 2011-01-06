@@ -50,17 +50,17 @@ class dynamic__add
 	}	
 
 	function update() {
-		global $get; global $check;
-		if ($check->num($get['id'])) {
-			$links = obj::db()->sql('select link from post where id='.$get['id'],2);
+		 global $check;
+		if ($check->num(query::$get['id'])) {
+			$links = obj::db()->sql('select link from post where id='.query::$get['id'],2);
 		}		
 		return unserialize($links);
 	}
 	
 	function checkpassword() {
-		global $get; global $check;
-		if (!$check->num($get['id'])) echo 'fail';
-		elseif (obj::db()->sql('select password from art_pool where id='.$get['id'],2) == md5($get['val'])) echo 'success';
+		 global $check;
+		if (!$check->num(query::$get['id'])) echo 'fail';
+		elseif (obj::db()->sql('select password from art_pool where id='.query::$get['id'],2) == md5(query::$get['val'])) echo 'success';
 		else echo 'fail';
 	}
 }

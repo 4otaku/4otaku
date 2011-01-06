@@ -3,70 +3,70 @@
 class input__common extends engine
 {
 	function edit_title() {
-		global $post; global $check; global $def;
-		if ($check->num($post['id']) && $check->lat($post['type'])) {
-			$area = obj::db()->sql('select area from '.$post['type'].' where id='.$post['id'],2);
+		global $check; global $def;
+		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
+			$area = obj::db()->sql('select area from '.query::$post['type'].' where id='.query::$post['id'],2);
 			if ($area != $def['area'][1]) $check->rights();			
-			obj::db()->update($post['type'],'title',$post['title'],$post['id']);
+			obj::db()->update(query::$post['type'],'title',query::$post['title'],query::$post['id']);
 		}
 	}
 	
 	function edit_text() {
-		global $post; global $check; global $def;
-		if ($check->num($post['id']) && $check->lat($post['type'])) {
-			$area = obj::db()->sql('select area from '.$post['type'].' where id='.$post['id'],2);
+		global $check; global $def;
+		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
+			$area = obj::db()->sql('select area from '.query::$post['type'].' where id='.query::$post['id'],2);
 			if ($area != $def['area'][1]) $check->rights();
-			$text = obj::transform('text')->format($post['text']);
-			obj::db()->update($post['type'],array('text','pretty_text'),array($text,undo_safety($post['text'])),$post['id']);
+			$text = obj::transform('text')->format(query::$post['text']);
+			obj::db()->update(query::$post['type'],array('text','pretty_text'),array($text,undo_safety(query::$post['text'])),query::$post['id']);
 		}
 	}
 	
 	function edit_category() {
-		global $post; global $check; global $def;
-		if ($check->num($post['id']) && $check->lat($post['type'])) {
-			if ($post['type'] != $def['type'][2]) $area = obj::db()->sql('select area from '.$post['type'].' where id='.$post['id'],2);
+		global $check; global $def;
+		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
+			if (query::$post['type'] != $def['type'][2]) $area = obj::db()->sql('select area from '.query::$post['type'].' where id='.query::$post['id'],2);
 			if ($area && $area != $def['area'][1]) $check->rights();
-			$category = obj::transform('meta')->category($post['category']);
-			obj::db()->update($post['type'],'category',$category,$post['id']);
+			$category = obj::transform('meta')->category(query::$post['category']);
+			obj::db()->update(query::$post['type'],'category',$category,query::$post['id']);
 		}
 	}	
 	
 	function edit_language() {
-		global $post; global $check; global $def;
-		if ($check->num($post['id']) && $check->lat($post['type'])) {
-			$area = obj::db()->sql('select area from '.$post['type'].' where id='.$post['id'],2);
+		global $check; global $def;
+		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
+			$area = obj::db()->sql('select area from '.query::$post['type'].' where id='.query::$post['id'],2);
 			if ($area != $def['area'][1]) $check->rights();
-			$language = obj::transform('meta')->language($post['language']);
-			obj::db()->update($post['type'],'language',$language,$post['id']);
+			$language = obj::transform('meta')->language(query::$post['language']);
+			obj::db()->update(query::$post['type'],'language',$language,query::$post['id']);
 		}		
 	}
 	
 	function edit_tag() {
-		global $post; global $check; global $def;
-		if ($check->num($post['id']) && $check->lat($post['type'])) {
-			$data = obj::db()->sql('select area, tag from '.$post['type'].' where id='.$post['id'],1);
+		global $check; global $def;
+		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
+			$data = obj::db()->sql('select area, tag from '.query::$post['type'].' where id='.query::$post['id'],1);
 			if ($data['area'] != $def['area'][1]) {
-				if ($post['type'] != $def['type'][2]) $check->rights();
-				$area = $post['type'].'_'.$data['area'];
+				if (query::$post['type'] != $def['type'][2]) $check->rights();
+				$area = query::$post['type'].'_'.$data['area'];
 				obj::transform('meta')->erase_tags(array_unique(array_filter(explode('|',$data['tag']))),$area);
 			}
-			$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse($post['tags']),$area);
-			obj::db()->update($post['type'],'tag',$tags,$post['id']);
+			$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(query::$post['tags']),$area);
+			obj::db()->update(query::$post['type'],'tag',$tags,query::$post['id']);
 		}
 	}			
 	
 	function edit_author() {
-		global $post; global $check; global $def;
-		if ($check->num($post['id']) && $check->lat($post['type'])) {
-			$area = obj::db()->sql('select area from '.$post['type'].' where id='.$post['id'],2);
+		global $check; global $def;
+		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
+			$area = obj::db()->sql('select area from '.query::$post['type'].' where id='.query::$post['id'],2);
 			if ($area != $def['area'][1]) $check->rights();
-			$author = obj::transform('meta')->author(obj::transform('meta')->parse($post['author'],$def['user']['author']));
-			obj::db()->update($post['type'],'author',$author,$post['id']);
+			$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
+			obj::db()->update(query::$post['type'],'author',$author,query::$post['id']);
 		}
 	}
 	
 	function transfer($post) {
-		if (empty($post)) global $post; 
+		if (empty($post)) $post = query::$post;
 		global $add_res; global $check; global $def; global $sets; 
 		
 		if (isset($post['sure'])) {

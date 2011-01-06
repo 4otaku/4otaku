@@ -3,18 +3,18 @@
 class dynamic__cookie
 {
 	function set() { 	
-		global $check; global $get;
-		$fields = explode(',',$get['field']);
+		global $check; 
+		$fields = explode(',',query::$get['field']);
 		if (is_array($fields) && $check->hash($_COOKIE['settings']))
 			foreach ($fields as $field)
 				if (preg_match('/^[A-Za-z0-9_.]+$/',$field)) {
-					if (substr($get['val'],0,1) == '{' && substr($get['val'],-1) == '}') switch ($get['val']) {
+					if (substr(query::$get['val'],0,1) == '{' && substr(query::$get['val'],-1) == '}') switch (query::$get['val']) {
 						case '{time}': $value = microtime(true)*1000; break;
 						case '{false}': $value = 0; break;
 						case '{true}': $value = 1; break;								
-						default: $value = trim($get['val'],'{}');
+						default: $value = trim(query::$get['val'],'{}');
 					}
-					else $value = $get['val'];
+					else $value = query::$get['val'];
 					$this->inner_set($field,$value);
 				}
 	}

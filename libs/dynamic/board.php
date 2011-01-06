@@ -3,24 +3,24 @@
 class dynamic__board extends engine
 {
 	function delete(){
-		global $get;
 		
-		$data = obj::db()->sql('select type, cookie from board where id='.$get['id'],1);
+		
+		$data = obj::db()->sql('select type, cookie from board where id='.query::$get['id'],1);
 		
 		if ($data['cookie'] != $_COOKIE['settings']) {
 			return false;
 		}
 		
-		obj::db()->update('board','type',0,$get['id']);
+		obj::db()->update('board','type',0,query::$get['id']);
 
 		if ($data['type'] == 2) {
-			obj::db()->update('board','type',0,$get['id'],'thread');
+			obj::db()->update('board','type',0,query::$get['id'],'thread');
 		}
 	}
 	
 	function load_video(){
-		global $get;
-		$data = obj::db()->sql('select content from board where id='.$get['id'],2);
+		
+		$data = obj::db()->sql('select content from board where id='.query::$get['id'],2);
 		$data = unserialize(base64_decode($data));
 		
 		$width = def::board('thumbwidth');
@@ -38,15 +38,15 @@ class dynamic__board extends engine
 	}
 	
 	function download(){
-		global $get;
+		
 		$this->template = 'templates/download_error.php';
 		
-		$get['thread'] = (int) $get['thread'];
+		query::$get['thread'] = (int) query::$get['thread'];
 		
-		switch ($get['type']) {
+		switch (query::$get['type']) {
 			case 'zip': 
-				$return['main']['file'] = $this->get_zip($get['thread']); 
-				$return['main']['name'] = 'thread_'.$get['thread'].'.zip';
+				$return['main']['file'] = $this->get_zip(query::$get['thread']); 
+				$return['main']['name'] = 'thread_'.query::$get['thread'].'.zip';
 				break;
 			default: return;
 		}		
