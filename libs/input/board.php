@@ -1,11 +1,10 @@
 <?
 
-include_once 'libs'.SL.'input'.SL.'common.php';
 class input__board extends input__common
 {
 	function add() { 
 		global $post; global $check; global $def; global $sets; global $cookie; global $add_res;
-		if (!$cookie) $cookie = new dinamic__cookie();		
+		if (!$cookie) $cookie = new dynamic__cookie();		
 
 		if (!empty($post['image'])) {
 			$parts = explode('#', $post['image']);

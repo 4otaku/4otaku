@@ -6,7 +6,7 @@ class side__top
 		global $sets; global $cookie; global $add_res;
 		if (!empty($sets['add_res']['text'])) {
 			$add_res = $sets['add_res'];
-			if (empty($cookie)) $cookie = new dinamic__cookie();
+			if (empty($cookie)) $cookie = new dynamic__cookie();
 			$cookie->inner_set('add_res.text','');
 			$cookie->inner_set('add_res.error',false);
 		}

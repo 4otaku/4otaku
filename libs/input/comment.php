@@ -4,7 +4,7 @@ class input__comment extends input__common
 {
 	function add() { 
 		global $post; global $check; global $url; global $cookie; global $def;
-		if (!$cookie) $cookie = new dinamic__cookie();		
+		if (!$cookie) $cookie = new dynamic__cookie();		
 		
 		if (!$post['name']) $post['name'] = $def['user']['name'];
 		elseif ($post['name'] != $def['user']['name']) $cookie->inner_set('user.name',$post['name']);

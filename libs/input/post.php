@@ -4,7 +4,7 @@ class input__post extends input__common
 {
 	function add() { 
 		global $post; global $check; global $def; global $sets; global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		
 		$post['link'] = $check->link_array($post['link']);		
 		if ($post['title'] && $post['link']) {
@@ -81,7 +81,7 @@ class input__post extends input__common
 	
 	function update() {
 		global $post; global $check; global $def; global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		if ($check->rights()) {
 			$text = obj::transform('text')->format($post['text']);	
 			$links = obj::transform('link')->similar(obj::transform('link')->parse($post['link'])); 
