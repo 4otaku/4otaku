@@ -223,22 +223,22 @@ class output__search extends engine
 	}
 	
 	function fetch_post($id) {
-		$post = obj::db()->sql('select * from post where id='.$id,1);
-		if (trim($post['image'])) $post['image'] = explode('|',$post['image']);
-		$post['links'] = unserialize($post['link']);
-		$post['files'] = unserialize($post['file']);
-		$post['info'] = unserialize($post['info']);		
-		$post['text'] = preg_replace(array(
+		query::$post = obj::db()->sql('select * from post where id='.$id,1);
+		if (trim(query::$post['image'])) query::$post['image'] = explode('|',query::$post['image']);
+		query::$post['links'] = unserialize(query::$post['link']);
+		query::$post['files'] = unserialize(query::$post['file']);
+		query::$post['info'] = unserialize(query::$post['info']);		
+		query::$post['text'] = preg_replace(array(
 			'/(<\/a><\/div><div class="text hidden">)(\s*<br[^>]*>)+/s',
 			'/(<br[^>]*>\s*)+(<\/div><\/div>)/s'
-			),array('$1','$2'),$post['text']);
-		$meta = $this->get_meta(array($post),array('category','author','language','tag'));
+			),array('$1','$2'),query::$post['text']);
+		$meta = $this->get_meta(array(query::$post),array('category','author','language','tag'));
 		foreach ($meta as $key => $type) 
 			if (is_array($type))
 				foreach ($type as $alias => $name) 
-					$post['meta'][$key][$alias] = $name;
-		$post['template'] = 'post'; $post['navi'] = '/post/';
-		return $post;
+					query::$post['meta'][$key][$alias] = $name;
+		query::$post['template'] = 'post'; query::$post['navi'] = '/post/';
+		return query::$post;
 	}
 
 	function fetch_video($id) {

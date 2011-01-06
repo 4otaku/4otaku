@@ -76,7 +76,7 @@
 			<td class="input field_name" colspan="2">
 				<input class="submit left" value="Обновить" type="submit">
 				<input type="hidden" name="do" value="post.update" />
-				<input type="hidden" name="id" value="<?=$get['id'];?>" />
+				<input type="hidden" name="id" value="<?=query::$get['id'];?>" />
 				<input type="hidden" name="remember" value="true" />					
 			</td>
 		</tr>	

@@ -3,17 +3,17 @@
 class input__comment extends input__common 
 {
 	function add() { 
-		global $post; global $check; global $url; global $cookie; global $def;
-		if (!$cookie) $cookie = new dinamic__cookie();		
+		global $check; global $url; global $cookie; global $def;
+		if (!$cookie) $cookie = new dynamic__cookie();		
 		
-		if (!$post['name']) $post['name'] = $def['user']['name'];
-		elseif ($post['name'] != $def['user']['name']) $cookie->inner_set('user.name',$post['name']);
-		if (!$post['mail']) $post['mail'] = $def['user']['mail'];
-		elseif ($post['mail'] != $def['user']['mail']) $cookie->inner_set('user.mail',$post['mail']);
+		if (!query::$post['name']) query::$post['name'] = $def['user']['name'];
+		elseif (query::$post['name'] != $def['user']['name']) $cookie->inner_set('user.name',query::$post['name']);
+		if (!query::$post['mail']) query::$post['mail'] = $def['user']['mail'];
+		elseif (query::$post['mail'] != $def['user']['mail']) $cookie->inner_set('user.mail',query::$post['mail']);
 		
-		$post['name'] = preg_replace('/#.*$/','',$post['name']);
+		query::$post['name'] = preg_replace('/#.*$/','',query::$post['name']);
 		
-		$comment = obj::transform('text')->format($post['text']);
+		$comment = obj::transform('text')->format(query::$post['text']);
 		
 		if ($url[1] == 'order') $table = 'orders'; else $table = $url[1];
 		$field = $table == 'news' ? 'url' : 'id';
@@ -27,11 +27,11 @@ class input__comment extends input__common
 	
 		if (trim(strip_tags(str_replace('<img', 'img', $comment))) && $area) {
 
-			if ($post['parent'] && !($rootparent = obj::db()->sql('select rootparent from comment where id='.$post['parent'],2)))
-				$rootparent = $post['parent'];
+			if (query::$post['parent'] && !($rootparent = obj::db()->sql('select rootparent from comment where id='.query::$post['parent'],2)))
+				$rootparent = query::$post['parent'];
 
-			obj::db()->insert('comment',array($rootparent,$post['parent'],$table,$item_id,$post['name'],$post['mail'],
-						$_SERVER['REMOTE_ADDR'],$_COOKIE['settings'],$comment,$post['text'],$date = obj::transform('text')->rudate(true),
+			obj::db()->insert('comment',array($rootparent,query::$post['parent'],$table,$item_id,query::$post['name'],query::$post['mail'],
+						$_SERVER['REMOTE_ADDR'],$_COOKIE['settings'],$comment,query::$post['text'],$date = obj::transform('text')->rudate(true),
 						$time = ceil(microtime(true)*1000),$area));
 
 			if ($table == 'news') {
@@ -44,9 +44,9 @@ class input__comment extends input__common
 			
 			if ($table == 'orders') {
 				$data = obj::db()->sql('select email, spam from orders where id='.$item_id,1);
-				if ($data['spam'] && $data['email'] != $post['mail']) {	
+				if ($data['spam'] && $data['email'] != query::$post['mail']) {	
 					$this->set_events($item_id,$data['email']);
-					$text = 'В вашем заказе на сайте 4отаку.ру, <a href="http://4otaku.ru/order/'.$item_id.'/">http://4otaku.ru/order/'.$item_id.'/</a> '.$post['name'].' '.($post['name'] != $def['user']['name'] ? 'оставил' : 'оставлен').' новый комментарий. <a href="http://4otaku.ru/order/'.$item_id.'/comments/all#comment-'.obj::db()->sql('select @@identity from comment',2).'">Читать</a>. '.$this->unsubscribe($item_id);
+					$text = 'В вашем заказе на сайте 4отаку.ру, <a href="http://4otaku.ru/order/'.$item_id.'/">http://4otaku.ru/order/'.$item_id.'/</a> '.query::$post['name'].' '.(query::$post['name'] != $def['user']['name'] ? 'оставил' : 'оставлен').' новый комментарий. <a href="http://4otaku.ru/order/'.$item_id.'/comments/all#comment-'.obj::db()->sql('select @@identity from comment',2).'">Читать</a>. '.$this->unsubscribe($item_id);
 					obj::db()->insert('misc',array('mail_notify',0,$data['email'],'',$text,$item_id));				
 				} else {
 					$this->set_events($item_id);
@@ -56,31 +56,31 @@ class input__comment extends input__common
 	}
 	
 	function edit() {
-		global $post; global $check; global $url;
+		global $check; global $url;
 
 		$check->rights();
 		
-		$comment = obj::transform('text')->format($post['text']);
-		if (str_replace('*','',$post['mail']))
-			obj::db()->update('comment',array('username','email','text','pretty_text'),array($post['author'],$post['mail'],$comment,$post['text']),$post['id']);
+		$comment = obj::transform('text')->format(query::$post['text']);
+		if (str_replace('*','',query::$post['mail']))
+			obj::db()->update('comment',array('username','email','text','pretty_text'),array(query::$post['author'],query::$post['mail'],$comment,query::$post['text']),query::$post['id']);
 		else
-			obj::db()->update('comment',array('username','text','pretty_text'),array($post['author'],$comment,$post['text']),$post['id']);		
+			obj::db()->update('comment',array('username','text','pretty_text'),array(query::$post['author'],$comment,query::$post['text']),query::$post['id']);		
 	}	
 	
 	function delete() {
-		global $post; global $check; global $url;
+		global $check; global $url;
 
 		$check->rights(); 
 		
-		if (isset($post['sure'])) {
+		if (isset(query::$post['sure'])) {
 		
-			$comment = obj::db()->sql('select parent,rootparent from comment where id='.$post['id'],1);		
+			$comment = obj::db()->sql('select parent,rootparent from comment where id='.query::$post['id'],1);		
 			
-			obj::db()->update('comment','area','deleted',$post['id']);
-			obj::db()->update('comment',array('parent','rootparent'),array($comment['parent'],$comment['rootparent']),$post['id'],'parent');
+			obj::db()->update('comment','area','deleted',query::$post['id']);
+			obj::db()->update('comment',array('parent','rootparent'),array($comment['parent'],$comment['rootparent']),query::$post['id'],'parent');
 
 			if (!$comment['rootparent']) {
-				$comments = obj::db()->sql('select * from comment where rootparent='.$post['id'],'id');
+				$comments = obj::db()->sql('select * from comment where rootparent='.query::$post['id'],'id');
 				if (!empty($comments)) foreach ($comments as $id => $one) {
 					$temp = $one; $i = 0;
 					while($temp['rootparent'] && $i < 20) {

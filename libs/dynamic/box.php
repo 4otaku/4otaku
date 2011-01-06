@@ -1,6 +1,6 @@
 <?
 
-class dinamic__box
+class dynamic__box
 {
 	function rss() { 	
 		return true;

@@ -3,15 +3,15 @@
 class input__soku
 {
 	function registration() { 
-		global $post;
+		
 /*		
-		if ($post['nickname']) {
-			if ($post['character'] == 'Yakumo Yukari' && $post['second_character'] == 'Cirno' && $post['email'] && preg_match('/^[a-z]+$/',$post['nickname'])) {
+		if (query::$post['nickname']) {
+			if (query::$post['character'] == 'Yakumo Yukari' && query::$post['second_character'] == 'Cirno' && query::$post['email'] && preg_match('/^[a-z]+$/',query::$post['nickname'])) {
 				die;
 			}
-			if (!obj::db()->sql('select id from soku where nickname="'.$post['nickname'].'"',2)) {
-				obj::db()->insert('soku',array($post['nickname'],$post['character'],$post['second_character'],$post['email']));
-				$this->add_res('$post['nickname'] . ', вы успешно зарегистрировались.');
+			if (!obj::db()->sql('select id from soku where nickname="'.query::$post['nickname'].'"',2)) {
+				obj::db()->insert('soku',array(query::$post['nickname'],query::$post['character'],query::$post['second_character'],query::$post['email']));
+				$this->add_res('query::$post['nickname'] . ', вы успешно зарегистрировались.');
 			} else {
 				$this->add_res('Этот ник уже кем-то занят.', true);
 			}
@@ -22,10 +22,10 @@ class input__soku
 	}
 	
 	function replay_add() {
-		global $post;
-		if ($post['file']) {
-			$file = current($post['file']);
-			obj::db()->insert('misc',array('soku_replay',$file['folder'],$file['filename'],$post['nick1'],$post['nick2'],$post['stage']));
+		
+		if (query::$post['file']) {
+			$file = current(query::$post['file']);
+			obj::db()->insert('misc',array('soku_replay',$file['folder'],$file['filename'],query::$post['nick1'],query::$post['nick2'],query::$post['stage']));
 		}
 	}
 }

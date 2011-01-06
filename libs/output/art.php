@@ -4,7 +4,7 @@ class output__art extends engine
 {
 	function __construct() {
 		global $cookie; global $url; global $sets;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.art',time(),false);
 		$this->parse_area();
 		if (!$url[2]) $this->error_template = 'booru_empty';		

@@ -1,29 +1,30 @@
 <? 
-class dinamic__search
+
+class dynamic__search
 {
 	private $areas = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comment', 'o' => 'orders');
 
 	function searchtip() {
-		global $get; global $check; global $search;
+		 global $check; global $search;
 		if (!$search) $search = new search();
-		$query = mysql_real_escape_string($search->prepare_string(urldecode($get['data']),true));
+		$query = mysql_real_escape_string($search->prepare_string(urldecode(query::$get['data']),true));
 		if (!empty($query)) {
 			
-			if (!in_array($get['area'],$this->areas)) {
-				$area = str_split($get['area']);
+			if (!in_array(query::$get['area'],$this->areas)) {
+				$area = str_split(query::$get['area']);
 				foreach ($area as &$one) $one = $this->areas[$one];
 				$area = array_filter($area);
 				unset($one);
 			}
-			else $area = array($get['area']);	
+			else $area = array(query::$get['area']);	
 			
 			$order = implode('+',$area);
 			$where = 'and ('.implode('>0 or ',$area).'> 0)';
 					
 			$variants[] = obj::db()->sql('select id, query, query as alias, "search" as type from search_queries where (Left(query , '.mb_strlen($query).') = "'.$query.'" '.$where.') order by '.$order.' desc limit 10','id');
 			
-			if ($get['area'] == 'a' || $get['area'] == 'p' || $get['area'] == 'v') {
-				switch ($get['area']) {
+			if (query::$get['area'] == 'a' || query::$get['area'] == 'p' || query::$get['area'] == 'v') {
+				switch (query::$get['area']) {
 					case 'a': $area = "art"; break;
 					case 'p': $area = "post"; break;
 					case 'v': $area = "video"; break;
