@@ -67,11 +67,19 @@ if(def::site('domain') != $_SERVER["SERVER_NAME"] && !(_CRON_)) {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
-$check = new check_values();
+if (!(_CRON_)) {
+	$check = new check_values();
+	query::get_globals($_GET, $_POST);
+	include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
+}
+
 
 // Тут мы работаем с сессиями
 if (!(_CRON_)) {
 	// Логично, что у крона сессии нет.
+	
+	// Удалим все левые куки, нечего захламлять пространство
+	foreach ($_COOKIE as $key => $cook) if ($key != 'settings') setcookie ($key, "", time() - 3600);
 
 	// Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
 	if (def::site('domain')) {

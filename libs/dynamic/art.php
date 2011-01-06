@@ -1,40 +1,40 @@
 <? 
 
-class dinamic__art extends engine
+class dynamic__art extends engine
 {
 	function slideshow() {
-		global $get; global $check; global $def; global $sets; global $url;
+		 global $check; global $def; global $sets; global $url;
 		$types = array ('tag','author','category','mixed','date','pool');
-		if (in_array($get['type'],$types) && $check->num($get['id'])) {
-			$limit = ' order by sortdate desc limit '.($get['id'] - 1).', 5'; $area_prefix = 'area="'.$def['area'][0].'" and ';
-			switch ($get['type']) {
+		if (in_array(query::$get['type'],$types) && $check->num(query::$get['id'])) {
+			$limit = ' order by sortdate desc limit '.(query::$get['id'] - 1).', 5'; $area_prefix = 'area="'.$def['area'][0].'" and ';
+			switch (query::$get['type']) {
 				case "mixed": 
 					$url['area'] = 'main';  $area_prefix = '';
-					$area = "(".engine::mixed_make_sql(engine::mixed_parse(html_entity_decode(urldecode($get['area'])))).")"; 
+					$area = "(".engine::mixed_make_sql(engine::mixed_parse(html_entity_decode(urldecode(query::$get['area'])))).")"; 
 					break;
 				case "date": 
-					$parts = explode('-',$get['area']);
+					$parts = explode('-',query::$get['area']);
 					if (is_numeric($parts[0].$parts[1].$parts[2]) && count($parts) == 3)
 						$area = '(pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'")';
 					break;
 				case "pool":
-					$pool = obj::db()->sql('select art from art_pool where id='.$get['area'],2);
-					$pool = array_slice(array_reverse(array_filter(array_unique(explode('|',$pool)))),$get['id'] - 1,5);
+					$pool = obj::db()->sql('select art from art_pool where id='.query::$get['area'],2);
+					$pool = array_slice(array_reverse(array_filter(array_unique(explode('|',$pool)))),query::$get['id'] - 1,5);
 					$area = "(id=".implode(' or id=',$pool).")";
 					$limit = ''; $area_prefix = '';
 					break;
 				default:
-					$area = '(locate("|'.urldecode($get['area']).'|",art.'.$get['type'].'))';
+					$area = '(locate("|'.urldecode(query::$get['area']).'|",art.'.query::$get['type'].'))';
 			}
-			if (!$sets['show']['nsfw'] && $get['type'] != 'pool')
+			if (!$sets['show']['nsfw'] && query::$get['type'] != 'pool')
 				$area .= ' and !locate("|nsfw|",art.category)';
-			elseif ($sets['show']['nsfw'] && $get['type'] != 'pool') {
+			elseif ($sets['show']['nsfw'] && query::$get['type'] != 'pool') {
 				if (!$sets['show']['yaoi']) $area .= ' and !(locate("|yaoi|",art.tag) and locate("|nsfw|",art.category))';
 				if (!$sets['show']['furry']) $area .= ' and !(locate("|furry|",art.tag) and locate("|nsfw|",art.category))';
 				if (!$sets['show']['guro']) $area .= ' and !(locate("|guro|",art.tag) and locate("|nsfw|",art.category))';
 			}
 			$return = obj::db()->sql('select id, md5, extension, resized from art where ('.$area_prefix.$area.')'.$limit,'id');
-			if ($get['type'] == 'pool') {
+			if (query::$get['type'] == 'pool') {
 				$_return = $return; unset($return);
 				foreach ($pool as $one) $return[$one] = $_return[$one];
 			}
@@ -66,13 +66,13 @@ class dinamic__art extends engine
 	}
 	
 	function masstag() {
-		global $get; global $check; global $sets;
-		if (is_numeric($get['id'])) {
-			if ($check->lat($function = $get['sign']) && $check->rights()) $this->$function(urldecode($get['data']),$get['id']);
-			$return = obj::db()->sql('select * from art where id='.$get['id'].' limit 1',1);
-			obj::db()->insert('versions',array('art',$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+		 global $check; global $sets;
+		if (is_numeric(query::$get['id'])) {
+			if ($check->lat($function = query::$get['sign']) && $check->rights()) $this->$function(urldecode(query::$get['data']),query::$get['id']);
+			$return = obj::db()->sql('select * from art where id='.query::$get['id'].' limit 1',1);
+			obj::db()->insert('versions',array('art',query::$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 			$return['meta'] = $this->get_meta(array($return),array('category','author','tag'));
-			obj::db()->sql('update search set lastupdate=0 where place="art" and item_id="'.$get['id'].'"',0);
+			obj::db()->sql('update search set lastupdate=0 where place="art" and item_id="'.query::$get['id'].'"',0);
 			return $return;
 		}
 	}
@@ -206,8 +206,8 @@ class dinamic__art extends engine
 	}	
 	
 	function transfer($area,$id) {
-		$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
+		query::$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
 		include_once('libs/input/common.php');
-		input__common::transfer($post);
+		input__common::transfer(query::$post);
 	}		
 }

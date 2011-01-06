@@ -4,7 +4,7 @@ class output__post extends engine
 {
 	function __construct() {
 		global $cookie; global $url;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.post',time(),false);
 		$this->parse_area();
 		if (!$url[2]) $this->error_template = 'empty';		
@@ -85,23 +85,23 @@ class output__post extends engine
 		global $error;
 		$return = obj::db()->sql('select * from post where ('.$area.') order by sortdate desc limit '.$limit);
 		if (is_array($return)) {
-			foreach ($return as &$post) {
-				if (trim($post['image'])) $post['image'] = explode('|',$post['image']);
-				$post['links'] = unserialize($post['link']);
-				$post['files'] = unserialize($post['file']);
-				$post['info'] = unserialize($post['info']);
-				$post['text'] = preg_replace(array(
+			foreach ($return as &query::$post) {
+				if (trim(query::$post['image'])) query::$post['image'] = explode('|',query::$post['image']);
+				query::$post['links'] = unserialize(query::$post['link']);
+				query::$post['files'] = unserialize(query::$post['file']);
+				query::$post['info'] = unserialize(query::$post['info']);
+				query::$post['text'] = preg_replace(array(
 					'/(<\/a><\/div><div class="text hidden">)(\s*<br[^>]*>)+/s',
 					'/(<br[^>]*>\s*)+(<\/div><\/div>)/s'
-					),array('$1','$2'),$post['text']);
+					),array('$1','$2'),query::$post['text']);
 			}
 			$meta = $this->get_meta($return,array('category','author','language','tag'));
 			foreach ($meta as $key => $type) 
 				if (is_array($type))
-					foreach ($return as &$post) 
+					foreach ($return as &query::$post) 
 						 foreach ($type as $alias => $name) 
-							if (stristr($post[$key],'|'.$alias.'|')) 
-								$post['meta'][$key][$alias] = $name;
+							if (stristr(query::$post[$key],'|'.$alias.'|')) 
+								query::$post['meta'][$key][$alias] = $name;
 			return $return;
 		}
 		else $error = true;

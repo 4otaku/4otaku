@@ -112,10 +112,10 @@ class engine
 	}
 	
 	static function add_res($text, $error = false, $force_cookie = false) {
-		global $add_res; global $post; global $cookie;
+		global $add_res; global $cookie;
 		$add_res = array('text' => $text, 'error' => $error);
-		if (!empty($post['do']) || $force_cookie) {
-			if (empty($cookie)) $cookie = new dinamic__cookie();
+		if (!empty(query::$post['do']) || $force_cookie) {
+			if (empty($cookie)) $cookie = new dynamic__cookie();
 			$cookie->inner_set('add_res.text',$text);
 			$cookie->inner_set('add_res.error',$error);
 		}

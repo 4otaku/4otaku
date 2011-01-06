@@ -1,14 +1,13 @@
 <?
 
-include_once 'libs'.SL.'input'.SL.'common.php';
 class input__board extends input__common
 {
 	function add() { 
-		global $post; global $check; global $def; global $sets; global $cookie; global $add_res;
-		if (!$cookie) $cookie = new dinamic__cookie();		
+		global $check; global $def; global $sets; global $cookie; global $add_res;
+		if (!$cookie) $cookie = new dynamic__cookie();		
 
-		if (!empty($post['image'])) {
-			$parts = explode('#', $post['image']);
+		if (!empty(query::$post['image'])) {
+			$parts = explode('#', query::$post['image']);
 			if ($parts[1] == 'flash') {
 				$content['flash']['full'] = $parts[0];
 				$content['flash']['weight'] = $parts[2];				
@@ -18,8 +17,8 @@ class input__board extends input__common
 				$content['image'][0]['weight'] = $parts[2];
 				$content['image'][0]['sizes'] = $parts[3];
 			}
-		} elseif (!empty($post['video'])) {
-			$content['video']['link'] = undo_safety($post['video']);
+		} elseif (!empty(query::$post['video'])) {
+			$content['video']['link'] = undo_safety(query::$post['video']);
 			$content['video']['object'] =  obj::transform('video')->html($content['video']['link'], false);
 			if (empty($content['video']['object'])) {
 				$this->add_res('Извините, либо этого видеосервиса нет в нашей базе, либо с вашей ссылкой что-то не так.',true); 
@@ -29,11 +28,11 @@ class input__board extends input__common
 			$content['video']['aspect'] = obj::transform('video')->aspect;
 		}
 		
-		$text = obj::transform('text')->wakaba($post['text']);
+		$text = obj::transform('text')->wakaba(query::$post['text']);
 		
-		if (empty($post['id']) + empty($content) + empty($text) <= 1) {
+		if (empty(query::$post['id']) + empty($content) + empty($text) <= 1) {
 	
-			$trip = explode('#', $post['user']);
+			$trip = explode('#', query::$post['user']);
 			$user = array_shift($trip);
 			$user = preg_replace('/#.*$/','',$user);
 			$trip = array_slice($trip,0,3);
@@ -48,22 +47,22 @@ class input__board extends input__common
 				$cookie->inner_set('user.trip',implode('#',$trip)); 
 			}			
 
-			if ($post['id']) {
-				$category = obj::db()->sql('select boards from board where id = '.$post['id'], 2);
+			if (query::$post['id']) {
+				$category = obj::db()->sql('select boards from board where id = '.query::$post['id'], 2);
 			} else {
-				$category = '|'.implode('|',$post['category']).'|';
+				$category = '|'.implode('|',query::$post['category']).'|';
 			}
 
 			$time = ceil(microtime(true)*1000);
 
 			$insert_data = array(
-				$post['id'] ? 1 : 2,
-				$post['id'],
-				$post['id'] ? 0 : $time,
+				query::$post['id'] ? 1 : 2,
+				query::$post['id'],
+				query::$post['id'] ? 0 : $time,
 				trim($user) ? trim($user) : $def['user']['name'],
 				$tripcode,
 				base64_encode(serialize($content)),
-				undo_safety($post['text']),
+				undo_safety(query::$post['text']),
 				$text,
 				$category,
 				'|',
@@ -74,13 +73,13 @@ class input__board extends input__common
 			
 			obj::db()->insert('board',$insert_data);
 			
-			if (!empty($post['id'])) {
-				obj::db()->update('board','updated',$time,$post['id']);
+			if (!empty(query::$post['id'])) {
+				obj::db()->update('board','updated',$time,query::$post['id']);
 			} else {
-				$this->redirect = '/board/'.$post['category'][array_rand($post['category'])].'/thread/'.obj::db()->sql('select @@identity from board',2);
+				$this->redirect = '/board/'.query::$post['category'][array_rand(query::$post['category'])].'/thread/'.obj::db()->sql('select @@identity from board',2);
 			}
 		} else {
-			if (empty($post['id'])) {
+			if (empty(query::$post['id'])) {
 				$this->add_res('При создании нового треда вам надо написать текст, а также добавить картинку или видео',true); 
 			} else {
 				$this->add_res('Для ответа надо добавить текст, картинку или видео',true); 

@@ -28,16 +28,16 @@ class transform__video
 		}
 	}
 	
-	function youtube($get) {
-		if (strlen($get['v']) == 11) {
-			$this->id = $get['v'];
+	function youtube(query::$get) {
+		if (strlen(query::$get['v']) == 11) {
+			$this->id = query::$get['v'];
 			$this->aspect = 3/4;
 			
 			return '<object width="%video_width%" height="%video_height%">
-					<param name="movie" value="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0"></param>
+					<param name="movie" value="http://www.youtube.com/v/'.query::$get['v'].'&hl=ru_RU&fs=1&border=0"></param>
 					<param name="allowFullScreen" value="true"></param>
 					<param name="allowscriptaccess" value="always"></param>
-					<embed src="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash" 
+					<embed src="http://www.youtube.com/v/'.query::$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash" 
 					allowscriptaccess="always" allowfullscreen="true" width="%video_width%" height="%video_height%"></embed>
 					</object>';
 		}
@@ -63,16 +63,16 @@ class transform__video
 		}
 	}
 	
-	function amvnews($get) {
-		if ($get['id'] && is_numeric($get['id'])) {
-			$this->id = $get['id'];
+	function amvnews(query::$get) {
+		if (query::$get['id'] && is_numeric(query::$get['id'])) {
+			$this->id = query::$get['id'];
 			$this->aspect = 3/4;	
 					
 			return '<center>
 						<object width="%video_width%" height="%video_height%">
 						<embed src="http://amvnews.ru/Video/player.swf" width="%video_width%" height="%video_height%" 
 						allowscriptaccess="always" allowfullscreen="true" flashvars="height=%video_height%&amp;width=%video_width%&amp;'.
-						'file=http%3A%2F%2Famvnews.ru%2Findex.php%3Fgo%3DFiles%26file%3Dse%26id%3D'.$get['id'].'&amp;searchbar=false&amp;'.
+						'file=http%3A%2F%2Famvnews.ru%2Findex.php%3Fgo%3DFiles%26file%3Dse%26id%3D'.query::$get['id'].'&amp;searchbar=false&amp;'.
 						'smoothing=true&amp;backcolor=CCFFFF&amp;frontcolor=000000" /></object>
 					</center>';
 		}
@@ -116,17 +116,17 @@ class transform__video
 		}
 	}	
 		
-	function rutube($get) {
-		if ($get['v']) {
-			$this->id = $get['v'];
+	function rutube(query::$get) {
+		if (query::$get['v']) {
+			$this->id = query::$get['v'];
 			$this->aspect = 3/4;			
 			
 			return '
 				<OBJECT width="%video_width%" height="%video_height%">
-					<PARAM name="movie" value="http://video.rutube.ru/'.$get['v'].'"></PARAM>
+					<PARAM name="movie" value="http://video.rutube.ru/'.query::$get['v'].'"></PARAM>
 					<PARAM name="wmode" value="window"></PARAM>
 					<PARAM name="allowFullScreen" value="true"></PARAM>
-					<EMBED src="http://video.rutube.ru/'.$get['v'].'" 
+					<EMBED src="http://video.rutube.ru/'.query::$get['v'].'" 
 						type="application/x-shockwave-flash" wmode="window" 
 						width="%video_width%" height="%video_height%" allowFullScreen="true" >
 					</EMBED>

@@ -21,23 +21,23 @@ class cron
 	}
 
 	function gouf_refresh_links() {
-		$posts = obj::db()->sql('select id, title, link from post where area = "main"');
+		query::$posts = obj::db()->sql('select id, title, link from post where area = "main"');
 		$gouf_temp_links = obj::db()->sql('select id, link from gouf_links');
 
-		$post_links = array(); $gouf_links = array();
+		query::$post_links = array(); $gouf_links = array();
 		if (is_array($gouf_temp_links)) foreach ($gouf_temp_links as $link) {
 			$link['link'] = html_entity_decode($link['link'], ENT_QUOTES, "utf-8" );
 			$gouf_links[$link['link']] = $link;
 		}
-		if (is_array($posts)) foreach ($posts as $post) {
-			$links = unserialize ($post['link']);
+		if (is_array(query::$posts)) foreach (query::$posts as query::$post) {
+			$links = unserialize (query::$post['link']);
 			if (is_array($links)) foreach ($links as $row)
 				  if (is_array($row['url'])) foreach ($row['url'] as $link)
-					  $post_links[$link] = array('id' => $post['id'],'link' => $link,'title' => $post['title']);
+					  query::$post_links[$link] = array('id' => query::$post['id'],'link' => $link,'title' => query::$post['title']);
 		}
 
-		$delete_row = array_diff_key($gouf_links,$post_links);
-		$insert_row = array_diff_key($post_links,$gouf_links);
+		$delete_row = array_diff_key($gouf_links,query::$post_links);
+		$insert_row = array_diff_key(query::$post_links,$gouf_links);
 
 		if (is_array($delete_row)) foreach ($delete_row as $link) obj::db()->sql('delete from gouf_links where id='.$link['id'],0);
 		if (is_array($insert_row)) foreach ($insert_row as $link) obj::db()->insert('gouf_links',array($link['id'],$link['title'],0,'works',$link['link']));
