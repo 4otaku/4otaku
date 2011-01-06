@@ -47,7 +47,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/arg/cg_packs/" class="margin30<?=($url[1] == 'arg' && $url[2] == 'cg_packs' ? ' plaintext' : '');?>">
+				<a href="/art/cg_packs/" class="margin30<?=($url[1] == 'art' && $url[2] == 'cg_packs' ? ' plaintext' : '');?>">
 					CG паки
 				</a>
 			</li>
