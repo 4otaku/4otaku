@@ -20,18 +20,18 @@
 	</b>
 	<br /><br />
 	<?
-		foreach ($data['main']['posts'] as $key => query::$post) {
+		foreach ($data['main']['posts'] as $key => $post) {
 			?>
 				<div class="shell">
 					<b>
 						Запись №<?=$key;?>:
 					</b> 
 					<a href="/post/<?=$key;?>">
-						<?=query::$post['title'];?>
+						<?=$post['title'];?>
 					</a>
 					<br /><br />
 					<?
-						if (query::$post['critical_errors']) {
+						if ($post['critical_errors']) {
 							?>
 								<div class="mini-shell">
 									<span style="color: #FF0033; font-weight: bold;">
@@ -39,7 +39,7 @@
 									</span>
 									<br />
 									<?
-										foreach (query::$post['critical_errors'] as $output1) {
+										foreach ($post['critical_errors'] as $output1) {
 											?>
 												<?=$output1;?><br />
 											<?
@@ -48,7 +48,7 @@
 								</div>
 							<?
 						}
-						if (query::$post['errors']) {
+						if ($post['errors']) {
 							?>
 								<div class="mini-shell">
 									<span style="color: #FF6633;font-weight: bold;">
@@ -56,7 +56,7 @@
 									</span>
 									<br />
 									<?
-										foreach (query::$post['errors'] as $output2) {
+										foreach ($post['errors'] as $output2) {
 											?>
 												<?=$output2;?><br />
 											<?
@@ -65,7 +65,7 @@
 								</div>
 							<?
 						}
-						if (query::$post['warnings']) {
+						if ($post['warnings']) {
 							?>
 								<div class="mini-shell">
 									<span style="color: #CC9900; font-weight: bold;">
@@ -73,7 +73,7 @@
 									</span>
 									<br />
 									<?
-										foreach (query::$post['warnings'] as $output3) {
+										foreach ($post['warnings'] as $output3) {
 											?>
 												<?=$output3;?><br />
 											<?
@@ -88,7 +88,7 @@
 		}
 	?>
 <? } else { ?>
-	<b>
+	 <b>
 		Все чисто!
 	</b>
 <? } ?>

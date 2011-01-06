@@ -26,7 +26,7 @@
 					<? } ?>	
 				</div>
 			<? } ?>		
-			<? foreach ($thread['posts'] as query::$post) { ?>
+			<? foreach ($thread['posts'] as $post) { ?>
 				<? include TEMPLATE_DIR . '/main/board/message.php'; ?>
 			<? } ?>
 		<? } ?>
