@@ -4,7 +4,7 @@ class input__order extends input__common
 {
 	function add() { 
 		global $post; global $check; global $def; global $cookie; global $sets;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		
 		if ($post['mail'] && $post['subject']) {
 			if ($check->email($post['mail'],false) && $post['mail'] != $def['user']['mail']) {

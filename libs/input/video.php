@@ -4,7 +4,7 @@ class input__video extends input__common
 {
 	function add() { 
 		global $post; global $check; global $def; global $sets; global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		
 		if ($post['title']) {
 			$post['link'] = undo_safety($post['link']);

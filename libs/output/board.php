@@ -4,7 +4,7 @@ class output__board extends engine
 {
 	function __construct() {
 		global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.board',time(),false);
 	}	
 	

@@ -4,7 +4,7 @@ class input__admin extends engine
 {
 	function login() { 
 		global $post; global $sets; global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		if ($rights = obj::db()->sql('select rights from user where login="'.$post['login'].'" and pass="'.md5($post['pass']).'"',2)) {
 			$cookie->inner_set('user.rights',$rights);
 			$sets['user']['rights'] = $rights;
@@ -16,7 +16,7 @@ class input__admin extends engine
 
 	function logout() { 
 		global $sets; global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('user.rights',0);
 		$sets['user']['rights'] = 0;
 	}

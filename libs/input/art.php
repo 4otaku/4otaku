@@ -4,7 +4,7 @@ class input__art extends input__common
 {
 	function add() { 
 		global $post; global $check; global $def; global $url; global $sets; global $cookie;
-		if (!$cookie) $cookie = new dinamic__cookie();
+		if (!$cookie) $cookie = new dynamic__cookie();
 		
 		if (is_array($post['images'])) {
 			if ($url[2] == 'pool' && is_numeric($url[3])) $data = obj::db()->sql('select concat(id,"|") as pool, password from art_pool where id='.$url[3],1);

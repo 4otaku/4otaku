@@ -9,7 +9,7 @@ if(!empty($_GET['upload']) && strpos($_GET['upload'], ".") === false && file_exi
 
 include_once 'inc.common.php';
 
-$output_class = 'dinamic__'.$get['m'];
+$output_class = 'dynamic__'.$get['m'];
 $output = new $output_class();
 
 $func = $get['f'];
