@@ -39,7 +39,6 @@ class dynamic__edit extends engine
 
 	function save() {		
 		$input = 'input__'.query::$post['type']; $func = 'edit_'.query::$post['part'];
-		var_dump($input);var_dump($func);
 		$input = new $input;
 		if (query::$post['type'] == 'order') query::$post['type'] = 'orders';
 		$old_data = obj::db()->sql('select * from '.query::$post['type'].' where id='.query::$post['id'],1);
