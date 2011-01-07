@@ -50,7 +50,7 @@
 		</span>
 	</div>
 	<table width="100%">		
-		<thead class="link_bonus">						
+		<thead class="link_file">						
 			<tr>
 				<td class="input field_name">
 					Загрузить картинку
@@ -134,7 +134,9 @@
 						</tr>
 					</table>
 				</td>
-			</tr>			
+			</tr>		
+        </thead>
+        <tbody class="link_bonus">			
 			<tr class="link" rel="0">
 				<td class="input field_name">
 					Дополнительная ссылка
@@ -144,9 +146,9 @@
 					<input size="36%" type="text" name="bonus_link[0][link]" value="http://" />
 					<input type="submit" class="disabled sign remove_link" rel="bonus" value="-" />
 				</td>
-			</tr>			
-        </thead>
-        <tbody class="link_file">	
+			</tr>
+		</tbody>
+		<tfoot>
 			<tr>
 				<td class="input field_name">
 					Добавить еще ссылку
@@ -155,8 +157,6 @@
 					<input type="submit" class="disabled add_link" rel="bonus" value="+" />
 				</td>
 			</tr>
-		</tbody>
-		<tfoot>
 			<tr>
 				<td class="input field_name">
 					Теги
