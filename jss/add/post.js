@@ -84,7 +84,7 @@ $(document).ready(function(){
 		onComplete: function(file, response) {
 			window.processing_files = window.processing_files - 1;
 			if (window.processing_files == 0) $(".processing-file").hide(); 
-			if (response == 'error') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');}
+			if (response == 'error-maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');}
 			else {	
 				if ($('.link_file').children("tr.link:last").length != 0)
 					var num = parseInt($('.link_file').children("tr.link:last").attr('rel')) + 1;
