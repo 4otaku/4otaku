@@ -9,7 +9,7 @@
 		foreach ($board_list as $alias => $name) {
 			?>
 				<?=($first++ ? ' / ' : '');?>
-				<a href="/board/<?=$alias;?>/">
+				<a href="<?=$def['site']['dir']?>/board/<?=$alias;?>/">
 					<?=$name;?>
 				</a>
 			<?

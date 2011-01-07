@@ -28,5 +28,5 @@ if ($sets['user']['rights'])
 }
 ?>
 <div class="center clear">
-	<a href="/rss/=<?=$sets['rss']['default'];?>" id="rss_link">Подписаться на выбранное</a>
+	<a href="<?=$def['site']['dir']?>/rss/=<?=$sets['rss']['default'];?>" id="rss_link">Подписаться на выбранное</a>
 </div>

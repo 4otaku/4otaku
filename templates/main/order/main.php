@@ -1,7 +1,7 @@
 <div class="shell">
 	<div class="post">
 		<h2>
-			<a href="/order/" title="Стол заказов 4отаку">
+			<a href="<?=$def['site']['dir']?>/order/" title="Стол заказов 4отаку">
 				Стол заказов 4отаку
 			</a>
 		</h2>
@@ -10,7 +10,7 @@
 				<tr>
 					<td class="imageholder">
 						<div>
-							<img src="/images/order.jpg" alt="" />
+							<img src="<?=$def['site']['dir']?>/images/order.jpg" alt="" />
 						</div>
 					</td>
 					<td valign="top">

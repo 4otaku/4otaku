@@ -3,19 +3,19 @@
 		?>
 			<div class="cats">
 				<h2>
-					<a href="/board/">
+					<a href="<?=$def['site']['dir']?>/board/">
 						Доски
 					</a>
 					 <a href="#" class="bar_arrow" rel="board_list">
 						<?
 							if ($sets['dir']['board_list']) {
 								?>
-									<img src="/images/text2391.png">
+									<img src="<?=$def['site']['dir']?>/images/text2391.png">
 								<?
 							}
 							else {
 								?>
-									<img src="/images/text2387.png">
+									<img src="<?=$def['site']['dir']?>/images/text2387.png">
 								<?
 							}
 						?>
@@ -27,7 +27,7 @@
 							foreach ($data['sidebar']['board_list'] as $alias => $name) {
 								?>
 									<li>
-										[<a href="/board/<?=$alias;?>/"<?=($url[2] == $alias ? ' class="plaintext"' : '');?>>
+										[<a href="<?=$def['site']['dir']?>/board/<?=$alias;?>/"<?=($url[2] == $alias ? ' class="plaintext"' : '');?>>
 											<?=$name;?>
 										</a>]
 									</li>

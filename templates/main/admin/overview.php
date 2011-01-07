@@ -1,11 +1,11 @@
 <? if (!class_exists('Imagick', false)) { ?>
 <h2>Imagick не установлен! Юзаю GD!</h2>
 <? } ?>
-<a href="/post/workshop/">
+<a href="<?=$def['site']['dir']?>/post/workshop/">
 	Всего <?=count($data['main']['post']);?> записей в мастерской
 </a>
 <br /><br />
-<img src="/images/tb2.gif">
+<img src="<?=$def['site']['dir']?>/images/tb2.gif">
 &nbsp;
 <span class="car-yearmonth car-post" rel="open">
 	<span title="Всего записей">
@@ -18,7 +18,7 @@
 		if (is_array($data['main']['post'])) foreach ($data['main']['post'] as $item) {
 			?>
 				<li>
-					<a href="/post/<?=$item['id'];?>">
+					<a href="<?=$def['site']['dir']?>/post/<?=$item['id'];?>">
 						<?=$item['title'];?>
 					</a>.
 					<?
@@ -36,11 +36,11 @@
 	?>
 </ul>
 <hr />
-<a href="/video/workshop/">
+<a href="<?=$def['site']['dir']?>/video/workshop/">
 	Всего <?=count($data['main']['video']);?> видео на премодерации
 </a>
 <br /><br />
-<img src="/images/tb2.gif">
+<img src="<?=$def['site']['dir']?>/images/tb2.gif">
 &nbsp;
 <span class="car-yearmonth car-video" rel="open">
 	<span title="Всего записей">
@@ -53,7 +53,7 @@
 		if (is_array($data['main']['video'])) foreach ($data['main']['video'] as $item) {
 			?>
 				<li>
-					<a href="/video/<?=$item['id'];?>">
+					<a href="<?=$def['site']['dir']?>/video/<?=$item['id'];?>">
 						<?=$item['title'];?>
 					</a>.
 					<?
@@ -71,7 +71,7 @@
 	?>
 </ul>
 <hr />
-<a href="/art/workshop/">
+<a href="<?=$def['site']['dir']?>/art/workshop/">
 	Всего <?=($data['main']['art']);?> артов на премодерации
 </a>
 <br /><br />
@@ -81,14 +81,14 @@
 		if (is_array($data['main']['tags'])) foreach ($data['main']['tags'] as $key => $item) {
 			?>
 				<li>
-					<a href="/art/tag/<?=$item['data1'];?>/"><?=$item['data1'];?></a> 
+					<a href="<?=$def['site']['dir']?>/art/tag/<?=$item['data1'];?>/"><?=$item['data1'];?></a> 
 					сделать "<?=($item['data3'] ? '<span style="color:#'.$item['data3'].';">' : '').$item['data2'].($item['data3'] ? '</span>' : '');?>"; 
 					<? if ($item['data3']) { ?>
 						<a href="#" class="admin_color_tag" rel="<?=$item['data3'].'|'.$item['data1'].'|'.$key;?>">
 							Одобрить
 						</a>.
 					<? } else { ?>
-						<a href="/admin/tags/search/<?=$item['data1'];?>/">
+						<a href="<?=$def['site']['dir']?>/admin/tags/search/<?=$item['data1'];?>/">
 							Перейти к тегам
 						</a>.
 					<? } ?> 
@@ -101,11 +101,11 @@
 	?>
 </ul>
 <hr />
-<a href="/order/">
+<a href="<?=$def['site']['dir']?>/order/">
 	Всего <?=count($data['main']['order']);?> заказов не выполнено
 </a>
 <br /><br />
-<img src="/images/tb2.gif">
+<img src="<?=$def['site']['dir']?>/images/tb2.gif">
 &nbsp;
 <span class="car-yearmonth car-order" rel="closed">
 	<span title="Всего записей">
@@ -118,7 +118,7 @@
 		if (is_array($data['main']['order'])) foreach ($data['main']['order'] as $item) {
 			?>
 				<li>
-					<a href="/order/<?=$item['id'];?>">
+					<a href="<?=$def['site']['dir']?>/order/<?=$item['id'];?>">
 						<?=$item['title'];?>
 					</a>.
 					<?
@@ -141,7 +141,7 @@
 			?>
 				<div class="mini-shell">
 					<?=$item['username'];?>: <?=$item['text'];?> (К 
-					<a href="/<?=($item['place'] == 'orders' ? 'order' : $item['place']);?>/<?=$item['post_id'];?>/comments/all#comment-<?=$item['id'];?>">
+					<a href="<?=$def['site']['dir']?>/<?=($item['place'] == 'orders' ? 'order' : $item['place']);?>/<?=$item['post_id'];?>/comments/all#comment-<?=$item['id'];?>">
 						<?=$item['place'];?> № <?=$item['post_id'];?>
 					</a> ).
 				</div>

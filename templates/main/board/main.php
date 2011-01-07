@@ -1,7 +1,7 @@
 <table>
 	<tr>
 		<td class="imageholder">
-			<img src="/images/board.jpg">
+			<img src="<?=$def['site']['dir']?>/images/board.jpg">
 		</td>
 		<td>
 			<p>

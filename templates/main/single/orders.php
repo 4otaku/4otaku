@@ -60,7 +60,7 @@
 											<?
 										}	else $nonfirst = true;
 										?>
-											<a href="/order/category/<?=$key;?>/">
+											<a href="<?=$def['site']['dir']?>/order/category/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
@@ -71,7 +71,7 @@
 									if ($sets['user']['rights']) {
 										?>
 											 | 
-											<a href="/admin/revisions/order/<?=$item['id'];?>/">История версий</a>	
+											<a href="<?=$def['site']['dir']?>/admin/revisions/order/<?=$item['id'];?>/">История версий</a>	
 										<?
 									}					
 								?>.
@@ -124,7 +124,7 @@
 						<input type="hidden" name="id" value="<?=$item['id'];?>">
 					</form>
 				</div>
-				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
 				<div id="edit-<?=$item['id'];?>" rel="orders" class="edit_field hidden"></div>								
 				<div class="clear"></div>
 			<?
