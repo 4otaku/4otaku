@@ -3,19 +3,19 @@
 		?>
 			<div class="cats">	
 				<h2>
-					<a href="/tags/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
+					<a href="<?=$def['site']['dir']?>/tags/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
 						Теги
 					</a>
 					 <a href="#" class="bar_arrow" rel="art_tag">
 						<?
 							if ($sets['dir']['art_tag']) {
 								?>
-									<img src="/images/text2391.png">
+									<img src="<?=$def['site']['dir']?>/images/text2391.png">
 								<?
 							}
 							else {
 								?>
-									<img src="/images/text2387.png">
+									<img src="<?=$def['site']['dir']?>/images/text2387.png">
 								<?				
 							}
 						?>
@@ -39,7 +39,7 @@
 												<?
 											}
 										?>					
-										<a href="/art/tag/<?=$tag['alias'];?>/"<?=($tag['color'] ? ' style="color:#'.$tag['color'].';"' : '');?>>
+										<a href="<?=$def['site']['dir']?>/art/tag/<?=$tag['alias'];?>/"<?=($tag['color'] ? ' style="color:#'.$tag['color'].';"' : '');?>>
 											<?=str_replace('_',' ',$tag['name']);?>
 										</a> 
 										<span>

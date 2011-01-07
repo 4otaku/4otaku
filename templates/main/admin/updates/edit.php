@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/jss/m/?b=jss&f=add/text.js,add/post.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=add/text.js,add/post.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody class="link_main">
@@ -20,22 +20,22 @@
 					</textarea>
 					<table cellspacing="3px" class="bbholder">
 						<tr>
-							<td><img src="/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
 						</tr>								
 						<tr>
-							<td><img src="/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
 						</tr>
 					</table>					
 				</td>

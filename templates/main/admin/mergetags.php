@@ -28,7 +28,7 @@
 			<div id="tag_loader" class="hidden">
 				<br /><br /><br />
 				<center>
-					<img src="/images/ajax-loader.gif">
+					<img src="<?=$def['site']['dir']?>/images/ajax-loader.gif">
 				</center>
 			</div>
 		</td>

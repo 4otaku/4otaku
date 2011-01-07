@@ -14,7 +14,7 @@
 									?>
 										<li>
 											<?=$data['main']['orders'][$i]['username'];?> заказал 
-											<a href="/order/<?=$data['main']['orders'][$i]['id'];?>">
+											<a href="<?=$def['site']['dir']?>/order/<?=$data['main']['orders'][$i]['id'];?>">
 												<?=$data['main']['orders'][$i]['title'];?>
 											</a>. 
 											(Комментариев: <?=$data['main']['orders'][$i]['comment_count'];?>).
@@ -45,7 +45,7 @@
 									?>
 										<li>
 											<?=$data['main']['orders'][$i]['username'];?> заказал 
-											<a href="/order/<?=$data['main']['orders'][$i]['id'];?>">
+											<a href="<?=$def['site']['dir']?>/order/<?=$data['main']['orders'][$i]['id'];?>">
 												<?=$data['main']['orders'][$i]['title'];?>
 											</a>. 
 											(Комментариев: <?=$data['main']['orders'][$i]['comment_count'];?>).
@@ -82,7 +82,7 @@
 									?>
 										<li>
 											<?=$data['main']['orders'][$i]['username'];?> заказал 
-											<a href="/order/<?=$data['main']['orders'][$i]['id'];?>">
+											<a href="<?=$def['site']['dir']?>/order/<?=$data['main']['orders'][$i]['id'];?>">
 												<?=$data['main']['orders'][$i]['title'];?>
 											</a>. 
 											(Комментариев: <?=$data['main']['orders'][$i]['comment_count'];?>).

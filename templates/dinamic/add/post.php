@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/post.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/post.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<div class="fields">
 		<span>
@@ -59,16 +59,16 @@
 					<table>
 						<tr>
 							<td>
-								<img src="/images/upload_button.png" id="post-image">
+								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="post-image">
 							</td>
 							<td>
-								<img class="processing-image" src="/images/ajax-processing.gif" />
+								<img class="processing-image" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
 							</td>
 							<td>
 								<span class="processing-image">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
 							</td>
 							<td class="cancel-holder">
-								<span class="processing-image">Отменить <img class="image_upload_stop right" src="/images/cancel.png"></span>
+								<span class="processing-image">Отменить <img class="image_upload_stop right" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
 							</td>
 						</tr>
 					</table>
@@ -92,22 +92,22 @@
 					<textarea name="text" cols="70" rows="8" id="textfield" class="left"></textarea>
 					<table cellspacing="3px" class="bbholder">
 						<tr>
-							<td><img src="/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
 						</tr>								
 						<tr>
-							<td><img src="/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
 						</tr>
 						<tr>
-							<td><img src="/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
+							<td><img src="<?=$def['site']['dir']?>/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
 						</tr>
 					</table>					
 				</td>
@@ -120,16 +120,16 @@
 					<table>
 						<tr>
 							<td>
-								<img src="/images/upload_button.png" id="post-file" rel="add">
+								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="post-file" rel="add">
 							</td>
 							<td>
-								<img class="processing-file" src="/images/ajax-processing.gif" />
+								<img class="processing-file" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
 							</td>
 							<td>
 								<span class="processing-file">Файл загружается. (Вы можете загружать несколько файлов одновременно.)</span>
 							</td>
 							<td class="cancel-holder">
-								<span class="processing-file">Отменить <img class="file_upload_stop right" src="/images/cancel.png"></span>
+								<span class="processing-file">Отменить <img class="file_upload_stop right" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
 							</td>
 						</tr>
 					</table>

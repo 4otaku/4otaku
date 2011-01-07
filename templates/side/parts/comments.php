@@ -1,18 +1,18 @@
 <div class="cats">	
 	<h2>
-		<a href="/comments/<?=(empty($data['sidebar']['comments']['link']) ? '' : $data['sidebar']['comments']['link'].'/');?>">
+		<a href="<?=$def['site']['dir']?>/comments/<?=(empty($data['sidebar']['comments']['link']) ? '' : $data['sidebar']['comments']['link'].'/');?>">
 			Комментарии
 		</a>
 		 <a href="#" class="bar_arrow" rel="comment">
 			<?
 				if ($sets['dir']['comment']) {
 					?>
-						<img src="/images/text2391.png">
+						<img src="<?=$def['site']['dir']?>/images/text2391.png">
 					<?
 				}
 				else {
 					?>
-						<img src="/images/text2387.png">
+						<img src="<?=$def['site']['dir']?>/images/text2387.png">
 					<?				
 				}
 			?>

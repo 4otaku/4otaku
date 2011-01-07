@@ -7,7 +7,7 @@
 	
 	foreach ($lang['link'] as $key => $one) {
 		?>
-			<a href="/post/<?=($key == $def['area'][0] ? "" : $key."/");?>"<?=($url['area'] == $key ? ' class="plaintext"' : '');?>>
+			<a href="<?=$def['site']['dir']?>/post/<?=($key == $def['area'][0] ? "" : $key."/");?>"<?=($url['area'] == $key ? ' class="plaintext"' : '');?>>
 				<?=$one;?>
 			</a>
 			<br />				
@@ -77,7 +77,7 @@
 	if (isset($data['main']['rss'])) {
 		?>
 			<br />
-			<a href="/rss/<?=_base64_encode(implode('|',array_slice($data['main']['rss'],2)));?>" target="_blank">
+			<a href="<?=$def['site']['dir']?>/rss/<?=_base64_encode(implode('|',array_slice($data['main']['rss'],2)));?>" target="_blank">
 				Подписаться на rss <?=$data['main']['rss']['type-name'];?> <?=$data['main']['rss']['meta-name'];?>
 			</a>
 		<?

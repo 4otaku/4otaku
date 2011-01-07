@@ -1,4 +1,4 @@
-<a href="/admin/updates">&lt;= Назад</a>
+<a href="<?=$def['site']['dir']?>/admin/updates">&lt;= Назад</a>
 <br /><br />
 Выберите обновление для редактирования:
 <br /><br />
@@ -54,7 +54,7 @@
 						?>
 					</p>
 					<p>
-						<a href="/admin/updates/<?=$update['post_id'];?>/<?=$id;?>/">
+						<a href="<?=$def['site']['dir']?>/admin/updates/<?=$update['post_id'];?>/<?=$id;?>/">
 							Редактировать
 						</a>
 					</p>					

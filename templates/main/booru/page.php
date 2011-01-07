@@ -65,7 +65,7 @@
 						<?
 					}
 						?>
-							<a href="/art/<?=($sets['art']['download_mode'] ? 'download/'.$picture['md5'].'.'.$picture['extension'] : $picture['id']);?>" rel="<?=$picture['id'];?>" class="with_help3<?=(is_array($reason) ? " hidden hidden_art" : "");?>" title="
+							<a href="<?=$def['site']['dir']?>/art/<?=($sets['art']['download_mode'] ? 'download/'.$picture['md5'].'.'.$picture['extension'] : $picture['id']);?>" rel="<?=$picture['id'];?>" class="with_help3<?=(is_array($reason) ? " hidden hidden_art" : "");?>" title="
 									<?
 										if (count($picture['meta']['tag']) > 1) {
 											?>
@@ -111,7 +111,7 @@
 										echo implode(', ',$picture['meta']['category']);
 									?>
 							">
-								<img src="/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$picture['thumb'];?>.jpg">
+								<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$picture['thumb'];?>.jpg">
 							</a>					
 						<?
 				

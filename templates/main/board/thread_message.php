@@ -1,12 +1,12 @@
 <div class="thread" id="board-<?=$id;?>">	
 	<? if ($url[3] != 'thread') { ?>
 		<span class="link_last">
-			<a href="/board/<?=($url[2] && strlen($url[2]) < 3 ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>#reply">
+			<a href="<?=$def['site']['dir']?>/board/<?=($url[2] && strlen($url[2]) < 3 ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>#reply">
 				Ответить
 			</a>
 		</span>
 		<span class="link_right">
-			<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
+			<a href="<?=$def['site']['dir']?>/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
 				Читать
 			</a>
 		</span>
@@ -48,7 +48,7 @@
 	<? } ?>
 	<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?>
 		<span class="link_delete">
-			 <img src="/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">
+			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">
 		</span>
 	<? } ?>
 	<span class="author">
@@ -60,7 +60,7 @@
 		</span>
 	<? } ?>
 	<span class="number">
-		<a href="/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/" class="number_link">
+		<a href="<?=$def['site']['dir']?>/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/" class="number_link">
 			#<?=$id;?>
 		</a>
 		 в разделе 
@@ -68,7 +68,7 @@
 			<? if (!empty($key)) { ?>
 				/
 			<? } ?>
-			<a href="/board/<?=$board;?>/">
+			<a href="<?=$def['site']['dir']?>/board/<?=$board;?>/">
 				<?=$board;?>
 			</a>
 		<? } ?>
@@ -78,16 +78,16 @@
 	</span>
 	<div class="tbody">
 		<? if (isset($thread['content']['image'][0])) { ?>
-			<a href="/images/board/full/<?=$thread['content']['image'][0]['full'];?>" 
+			<a href="<?=$def['site']['dir']?>/images/board/full/<?=$thread['content']['image'][0]['full'];?>" 
 				target="_blank" class="board_image_thumb with_help" 
 				title="<?=$thread['content']['image'][0]['full_size_info'];?>">
-				<img align="left" src="/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>">
+				<img align="left" src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif (isset($thread['content']['flash'])) { ?>
-			<a href="/images/board/full/<?=$thread['content']['flash']['full'];?>" 
+			<a href="<?=$def['site']['dir']?>/images/board/full/<?=$thread['content']['flash']['full'];?>" 
 				target="_blank" class="with_help" 
 				title="<?=$thread['content']['flash']['full_size_info'];?>">
-				<img align="left" src="/images/flash.png">
+				<img align="left" src="<?=$def['site']['dir']?>/images/flash.png">
 			</a>				
 		<? } elseif (isset($thread['content']['video'])) { ?>
 			<? if (!sets::board('embedvideo')) { ?>

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/replay.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/replay.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<table width="40%">		
 		<tbody>
@@ -10,10 +10,10 @@
 					<table>
 						<tr>
 							<td>
-								<img src="/images/upload_button.png" id="replay_upload">
+								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="replay_upload">
 							</td>
 							<td>
-								<img class="processing" src="/images/ajax-processing.gif" />
+								<img class="processing" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
 							</td>
 							<td>
 								<span class="processing">Реплей загружается.</span>

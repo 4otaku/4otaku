@@ -10,7 +10,7 @@
 			foreach ($data['main']['archives'] as $key => $type) { $i++
 				?>
 					<li>
-						<img src="/images/tb2.gif">
+						<img src="<?=$def['site']['dir']?>/images/tb2.gif">
 						&nbsp;
 						<span class="car-yearmonth car-<?=$i;?>" rel="closed">
 							<?=$data['main']['name'][$key];?> 
@@ -23,7 +23,7 @@
 								foreach ($type as $item) {
 									?>
 										<li>
-											<a href="/<?=$url[2];?>/<?=$item['id'];?>">
+											<a href="<?=$def['site']['dir']?>/<?=$url[2];?>/<?=$item['id'];?>">
 												<?=$item['title'];?>
 											</a>.
 											<?

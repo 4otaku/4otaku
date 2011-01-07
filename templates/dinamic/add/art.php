@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/art.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/art.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<div class="fields">
 		<span>
@@ -15,16 +15,16 @@
 					<table>
 						<tr>
 							<td>
-								<img src="/images/upload_button.png" id="art-image">
+								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="art-image">
 							</td>
 							<td>
-								<img class="processing" src="/images/ajax-processing.gif" />
+								<img class="processing" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
 							</td>
 							<td>
 								<span class="processing">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
 							</td>
 							<td class="cancel-holder">
-								<span class="processing">Отменить <img class="art_upload_stop" src="/images/cancel.png"></span>
+								<span class="processing">Отменить <img class="art_upload_stop" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
 							</td>
 						</tr>
 					</table>

@@ -16,7 +16,7 @@
 					<table width="100%" id="error">
 						<tr>
 							<td>
-								<img src="/images/booru_404_<?=rand(1,2);?>.jpg">
+								<img src="<?=$def['site']['dir']?>/images/booru_404_<?=rand(1,2);?>.jpg">
 							</td>
 						</tr>			
 					</table>

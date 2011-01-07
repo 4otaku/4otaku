@@ -11,7 +11,7 @@
 							foreach ($line as $one) {
 								?>
 									<li<?=($one[$key] != $logs_url[$key] ? 
-										'><a href="/logs/'.($key == 'year' ? $one[$key] : $logs_url['year']).'/'.($key == 'month' ? $one[$key] : $logs_url['month']).'/'.($key == 'day' ? $one[$key] : $logs_url['day']).'/">'.($key == 'month' ? str_replace($eng_month,$ru_month,$one[$key]) : $one[$key]).'</a>' : ' class="logs-menu-inactive">'.($key == 'month' ? str_replace($eng_month,$ru_month,$one[$key]) 
+										'><a href="<?=$def['site']['dir']?>/logs/'.($key == 'year' ? $one[$key] : $logs_url['year']).'/'.($key == 'month' ? $one[$key] : $logs_url['month']).'/'.($key == 'day' ? $one[$key] : $logs_url['day']).'/">'.($key == 'month' ? str_replace($eng_month,$ru_month,$one[$key]) : $one[$key]).'</a>' : ' class="logs-menu-inactive">'.($key == 'month' ? str_replace($eng_month,$ru_month,$one[$key]) 
 										: $one[$key]));?>
 									</li>
 								<?

@@ -4,7 +4,7 @@
 		if ($art['resized'] && $sets['art']['resized']) {
 			?>
 				<div class="image" id="art-<?=$i++;?>" style="display: none;">
-					<img src="/images/booru/resized/<?=$art['md5'];?>.jpg" rel="<?=$art['height'];?>">
+					<img src="<?=$def['site']['dir']?>/images/booru/resized/<?=$art['md5'];?>.jpg" rel="<?=$art['height'];?>">
 			
 					<?
 						if (is_array($art['translations']['resized'])) foreach ($art['translations']['resized'] as $translation) {
@@ -22,7 +22,7 @@
 		else {
 			?>
 				<div class="image" id="art-<?=$i++;?>" style="display: none;">
-					<img src="/images/booru/full/<?=$art['md5'].'.'.$art['extension'];?>" rel="<?=$art['height'];?>">
+					<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$art['md5'].'.'.$art['extension'];?>" rel="<?=$art['height'];?>">
 					<?
 						if (is_array($art['translations']['full'])) foreach ($art['translations']['full'] as $translation) {
 							?>
