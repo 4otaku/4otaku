@@ -8,9 +8,9 @@
 	<span>E-mail</span><br>
 	<textarea rows="10" cols="50" name="text"><?=$data['pretty_text'];?></textarea><br>
 	<input type="hidden" value="comment.edit" name="do">
-	<input type="hidden" value="<?=$get['id'];?>" name="id">
+	<input type="hidden" value="<?=query::$get['id'];?>" name="id">
 	<input type="submit" value="Редактировать" name="submit">
-	<a class="comment-not-edit" href="#" rel="<?=$get['id'];?>">
+	<a class="comment-not-edit" href="#" rel="<?=query::$get['id'];?>">
 		<input type="submit" value="Не редактировать" name="submit">
 	</a>
 </form>
