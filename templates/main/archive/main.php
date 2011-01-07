@@ -1,7 +1,7 @@
 <div class="shell">
 	<div class="post">
 		<h2>
-			<a href="/archive/" title="Архив 4отаку">
+			<a href="<?=$def['site']['dir']?>/archive/" title="Архив 4отаку">
 				Архив сайта 4отаку
 			</a>
 		</h2>
@@ -10,7 +10,7 @@
 				<tr>
 					<td class="imageholder">
 						<div>
-							<img src="/images/archive.jpg" alt="" />
+							<img src="<?=$def['site']['dir']?>/images/archive.jpg" alt="" />
 						</div>
 					</td>
 					<td valign="top">
@@ -36,7 +36,7 @@
 							И тем и другим мог бы помочь поиск по сайту, благо подразумевается, что название они помнят. Но поиск на нашем сайте - штука умная, и порой даже слишком, а ctrl+f в своей простоте безотказен.							
 						</p>
 						<p>
-							Если же вы ищете архив логов конференции сайта, то он расположен здесь: <a href="/logs/">http://4otaku.ru/logs/</a>
+							Если же вы ищете архив логов конференции сайта, то он расположен здесь: <a href="<?=$def['site']['dir']?>/logs/">http://4otaku.ru/logs/</a>
 						</p>						
 					</td>
 				</tr>
@@ -48,26 +48,26 @@
 	<tr>
 		<td width="33%">
 			<div class="shell post">
-				<h2><a href="/archive/post/">Записи:</a></h2>
-				<a href="/archive/post/date/" class="margin30">По датам</a><br />
-				<a href="/archive/post/author/" class="margin30">По авторам</a><br />
-				<a href="/archive/post/category/" class="margin30">По категориям</a><br />
+				<h2><a href="<?=$def['site']['dir']?>/archive/post/">Записи:</a></h2>
+				<a href="<?=$def['site']['dir']?>/archive/post/date/" class="margin30">По датам</a><br />
+				<a href="<?=$def['site']['dir']?>/archive/post/author/" class="margin30">По авторам</a><br />
+				<a href="<?=$def['site']['dir']?>/archive/post/category/" class="margin30">По категориям</a><br />
 			</div>
 		</td>	
 		<td width="33%">
 			<div class="shell post">		
-				<h2><a href="/archive/video/">Видео:</a></h2>
-				<a href="/archive/video/date/" class="margin30">По датам</a><br />
-				<a href="/archive/video/author/" class="margin30">По авторам</a><br />
-				<a href="/archive/video/category/" class="margin30">По категориям</a><br />	
+				<h2><a href="<?=$def['site']['dir']?>/archive/video/">Видео:</a></h2>
+				<a href="<?=$def['site']['dir']?>/archive/video/date/" class="margin30">По датам</a><br />
+				<a href="<?=$def['site']['dir']?>/archive/video/author/" class="margin30">По авторам</a><br />
+				<a href="<?=$def['site']['dir']?>/archive/video/category/" class="margin30">По категориям</a><br />	
 			</div>
 		</td>
 		<td width="33%">
 			<div class="shell post">
-				<h2><a href="/archive/art/">Арт:</a></h2>
-				<a href="/archive/art/date/" class="margin30">По датам</a><br />
-				<a href="/archive/art/author/" class="margin30">По авторам</a><br />
-				<a href="/archive/art/category/" class="margin30">По категориям</a><br />
+				<h2><a href="<?=$def['site']['dir']?>/archive/art/">Арт:</a></h2>
+				<a href="<?=$def['site']['dir']?>/archive/art/date/" class="margin30">По датам</a><br />
+				<a href="<?=$def['site']['dir']?>/archive/art/author/" class="margin30">По авторам</a><br />
+				<a href="<?=$def['site']['dir']?>/archive/art/category/" class="margin30">По категориям</a><br />
 			</div>			
 		</td>	
 	</tr>

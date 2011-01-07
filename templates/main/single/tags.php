@@ -65,7 +65,7 @@
 								echo " ";
 							}
 							?>
-								<a href="/<?=$url[1];?>/tag/<?=urlencode($one);?>">
+								<a href="<?=$def['site']['dir']?>/<?=$url[1];?>/tag/<?=urlencode($one);?>">
 									<?=$one;?>
 								</a>
 							<?

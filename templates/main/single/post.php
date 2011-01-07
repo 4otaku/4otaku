@@ -323,7 +323,7 @@
 									if ($sets['user']['rights']) {
 										?>
 											 | 
-											<a href="/admin/revisions/post/<?=$item['id'];?>/">История версий</a>	
+											<a href="<?=$def['site']['dir']?>/admin/revisions/post/<?=$item['id'];?>/">История версий</a>	
 										<?
 									}
 								?>									
@@ -338,7 +338,7 @@
 		if (!$data['feed'] && $item['updates_count']) { 
 			?>
 				<div class="center hidden" id="updates_field_loader">
-					<img src="/images/ajax-loader.gif">
+					<img src="<?=$def['site']['dir']?>/images/ajax-loader.gif">
 				</div>
 				<div id="updates_field" class="hidden">
 					&nbsp;
@@ -401,7 +401,7 @@
 						</td>	
 					</tr>	
 				</table>
-				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
 				<div id="edit-<?=$item['id'];?>" rel="post" class="edit_field hidden"></div>
 			<?
 		} 
@@ -417,7 +417,7 @@
 								<span class="arrow"> ↓</span> 
 							</div>
 							<div id="add_loader">
-								<img src="/images/ajax-loader.gif">
+								<img src="<?=$def['site']['dir']?>/images/ajax-loader.gif">
 							</div>
 							<div id="add_form" rel="<?=$item['id'];?>">
 								&nbsp;
@@ -425,7 +425,7 @@
 						</div>
 					</div>					
 				<? } ?>
-				<div id="updates_field_loader" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+				<div id="updates_field_loader" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
 				<div id="updates_field" class="hidden"></div>				
 			<?
 		}

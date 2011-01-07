@@ -7,12 +7,12 @@
 			<?
 				if ($sets['dir']['navi']) {
 					?>
-						<img src="/images/text2391.png">
+						<img src="<?=$def['site']['dir']?>/images/text2391.png">
 					<?
 				}
 				else {
 					?>
-						<img src="/images/text2387.png">
+						<img src="<?=$def['site']['dir']?>/images/text2387.png">
 					<?				
 				}
 			?>
@@ -55,22 +55,22 @@
 			<tr>
 				<td>
 					<a href="#" class="shift-switcher disabled" rel="russian" title="<?=($sets['flag']['ru'] != 'off' ? 'on' : 'off');?>">
-						<img src="/images/ru.<?=($sets['flag']['ru'] != 'off' ? 'png' : 'gif');?>">
+						<img src="<?=$def['site']['dir']?>/images/ru.<?=($sets['flag']['ru'] != 'off' ? 'png' : 'gif');?>">
 					</a>
 				</td>
 				<td>
 					<a href="#" class="shift-switcher disabled" rel="english" title="<?=($sets['flag']['en'] != 'off' ? 'on' : 'off');?>">
-						<img src="/images/en.<?=($sets['flag']['en'] != 'off' ? 'png' : 'gif');?>">
+						<img src="<?=$def['site']['dir']?>/images/en.<?=($sets['flag']['en'] != 'off' ? 'png' : 'gif');?>">
 					</a>
 				</td>
 				<td>
 					<a href="#" class="shift-switcher disabled" rel="japanese" title="<?=($sets['flag']['jp'] != 'off' ? 'on' : 'off');?>">
-						<img src="/images/jp.<?=($sets['flag']['jp'] != 'off' ? 'png' : 'gif');?>">
+						<img src="<?=$def['site']['dir']?>/images/jp.<?=($sets['flag']['jp'] != 'off' ? 'png' : 'gif');?>">
 					</a>
 				</td>
 				<td>
 					<a href="#" class="shift-switcher disabled" rel="nolanguage" title="<?=($sets['flag']['no'] != 'off' ? 'on' : 'off');?>">
-						<img src="/images/no.<?=($sets['flag']['no'] != 'off' ? 'png' : 'gif');?>">
+						<img src="<?=$def['site']['dir']?>/images/no.<?=($sets['flag']['no'] != 'off' ? 'png' : 'gif');?>">
 					</a>
 				</td>
 			</tr>

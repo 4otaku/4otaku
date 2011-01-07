@@ -85,12 +85,12 @@
 						<?
 							if ($sets['dir']['navi']) {
 								?>
-									<img src="/images/text2391.png">
+									<img src="<?=$def['site']['dir']?>/images/text2391.png">
 								<?
 							}
 							else {
 								?>
-									<img src="/images/text2387.png">
+									<img src="<?=$def['site']['dir']?>/images/text2387.png">
 								<?				
 							}
 						?>
@@ -115,12 +115,12 @@
 						<?
 							if (isset($sets['dir']['settings'])) {
 								?>
-									<img src="/images/text2391.png">
+									<img src="<?=$def['site']['dir']?>/images/text2391.png">
 								<?
 							}
 							else {
 								?>
-									<img src="/images/text2387.png">
+									<img src="<?=$def['site']['dir']?>/images/text2387.png">
 								<?				
 							}
 						?>

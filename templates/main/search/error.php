@@ -7,7 +7,7 @@
 					<? if (!empty($key)) { ?>
 						, 
 					<? } ?>
-					<a href="/search/<?=$url[2];?>/<?=$url[3];?>/<?=urlencode($variant);?>/">
+					<a href="<?=$def['site']['dir']?>/search/<?=$url[2];?>/<?=$url[3];?>/<?=urlencode($variant);?>/">
 						<?=$variant;?>
 					</a>
 				<? } ?>
@@ -18,9 +18,9 @@
 	<tr>
 		<td>
 			<? if ($url[2] != 'a') { ?>
-				<img src="/images/search.gif">
+				<img src="<?=$def['site']['dir']?>/images/search.gif">
 			<? } else { ?>
-				<img src="/images/booru_404_<?=rand(1,2);?>.jpg">
+				<img src="<?=$def['site']['dir']?>/images/booru_404_<?=rand(1,2);?>.jpg">
 			<? } ?>
 		</td>
 	</tr>			

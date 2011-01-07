@@ -13,7 +13,7 @@
 					<table width="100%" id="error">
 						<tr>
 							<td>
-								<img src="/images/board404.jpg">
+								<img src="<?=$def['site']['dir']?>/images/board404.jpg">
 							</td>
 						</tr>
 					</table>

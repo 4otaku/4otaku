@@ -24,7 +24,7 @@ foreach ($data['main']['updates'] as $update) {
 								}
 								if ($sets['user']['rights']) {
 									?>
-										 &nbsp; <img src="/images/comment_delete.png" class="delete-post" rel="<?=$update['id'];?>">
+										 &nbsp; <img src="<?=$def['site']['dir']?>/images/comment_delete.png" class="delete-post" rel="<?=$update['id'];?>">
 									<?																				
 								}
 							?>									
@@ -77,7 +77,7 @@ foreach ($data['main']['updates'] as $update) {
 																							<?
 																					}	else $nonfirst2 = true;
 																			?>
-																			<a href="/go?<?=urlencode($linkurl);?>" target="_blank">
+																			<a href="<?=$def['site']['dir']?>/go?<?=urlencode($linkurl);?>" target="_blank">
 																				<?=$link['alias'][$key2];?>
 																			</a>
 																		<?

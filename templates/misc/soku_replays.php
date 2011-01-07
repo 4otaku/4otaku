@@ -39,7 +39,7 @@
 					<?=$replay['data4'];?>
 				</td>
 				<td>
-					<a href="/files/<?=$replay['data1'];?>/<?=$replay['data2'];?>">
+					<a href="<?=$def['site']['dir']?>/files/<?=$replay['data1'];?>/<?=$replay['data2'];?>">
 						Скачать
 					</a>
 				</td>

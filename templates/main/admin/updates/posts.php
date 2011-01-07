@@ -3,7 +3,7 @@
 <ul>
 	<? foreach ($data['main']['posts'] as $id => $post) { ?>
 		<li>
-			<a href="/admin/updates/<?=$id;?>/">
+			<a href="<?=$def['site']['dir']?>/admin/updates/<?=$id;?>/">
 				<?=$post['title'];?>
 			</a> 
 			(<?=$post['update_count'];?>)

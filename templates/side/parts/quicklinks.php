@@ -1,18 +1,18 @@
 <div class="cats">	
 	<h2>
-		<a href="/">
+		<a href="<?=$def['site']['dir']?>/">
 			Быстрые ссылки
 		</a>
 		 <a href="#" class="bar_arrow" rel="quick">
 			<?
 				if ($sets['dir']['quick']) {
 					?>
-						<img src="/images/text2391.png">
+						<img src="<?=$def['site']['dir']?>/images/text2391.png">
 					<?
 				}
 				else {
 					?>
-						<img src="/images/text2387.png">
+						<img src="<?=$def['site']['dir']?>/images/text2387.png">
 					<?				
 				}
 			?>
@@ -21,54 +21,54 @@
 	<div id="quick_bar"<?=($sets['dir']['quick'] ? '' : ' style="display:none;"');?>>
 		<ul>
 			<li>
-				<a href="/" class="margin30">
+				<a href="<?=$def['site']['dir']?>/" class="margin30">
 					Главная страница
 				</a>
 			</li>
 			<li><hr /></li>
 			<li>
-				<a href="/post/" class="margin30<?=($url[1] == 'post' && $url[2] != 'updates' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/post/" class="margin30<?=($url[1] == 'post' && $url[2] != 'updates' ? ' plaintext' : '');?>">
 					Записи
 				</a>
 			</li>
 			<li>
-				<a href="/post/updates/" class="margin30<?=($url[1] == 'post' && $url[2] == 'updates' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/post/updates/" class="margin30<?=($url[1] == 'post' && $url[2] == 'updates' ? ' plaintext' : '');?>">
 					Обновления записей
 				</a>
 			</li>
 			<li>
-				<a href="/video/" class="margin30<?=($url[1] == 'video' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/video/" class="margin30<?=($url[1] == 'video' ? ' plaintext' : '');?>">
 					Видео
 				</a>
 			</li>
 			<li>				
-				<a href="/art/" class="margin30<?=($url[1] == 'art' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/art/" class="margin30<?=($url[1] == 'art' ? ' plaintext' : '');?>">
 					Арты
 				</a>
 			</li>
 			<li>
-				<a href="/art/cg_packs/" class="margin30<?=($url[1] == 'art' && $url[2] == 'cg_packs' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/art/cg_packs/" class="margin30<?=($url[1] == 'art' && $url[2] == 'cg_packs' ? ' plaintext' : '');?>">
 					CG паки
 				</a>
 			</li>
 			<li><hr /></li>
 			<li>				
-				<a href="/news/" class="margin30<?=($url[1] == 'news' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/news/" class="margin30<?=($url[1] == 'news' ? ' plaintext' : '');?>">
 					Новости
 				</a>
 			</li>
 			<li>				
-				<a href="/order/" class="margin30<?=($url[1] == 'order' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/order/" class="margin30<?=($url[1] == 'order' ? ' plaintext' : '');?>">
 					Стол заказов
 				</a>
 			</li>
 			<li>				
-				<a href="/board/" class="margin30<?=($url[1] == 'board' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/board/" class="margin30<?=($url[1] == 'board' ? ' plaintext' : '');?>">
 					Борда 4отаку
 				</a>
 			</li>
 			<li>				
-				<a href="/comments/" class="margin30<?=($url[1] == 'comments' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/comments/" class="margin30<?=($url[1] == 'comments' ? ' plaintext' : '');?>">
 					Лента комментариев
 				</a>
 			</li>			
@@ -79,17 +79,17 @@
 				</a>
 			</li>
 			<li>
-				<a href="/logs/" class="margin30<?=($url[1] == 'logs' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/logs/" class="margin30<?=($url[1] == 'logs' ? ' plaintext' : '');?>">
 					Логи конференции
 				</a>
 			</li>			
 			<li>
-				<a href="/gouf/" class="margin30<?=($url[1] == 'gouf' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/gouf/" class="margin30<?=($url[1] == 'gouf' ? ' plaintext' : '');?>">
 					Список битых ссылок
 				</a>
 			</li>
 			<li>
-				<a href="/archive/" class="margin30<?=($url[1] == 'archive' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/archive/" class="margin30<?=($url[1] == 'archive' ? ' plaintext' : '');?>">
 					Архив материалов
 				</a>
 			</li>

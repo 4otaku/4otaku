@@ -139,7 +139,7 @@
 									if ($sets['user']['rights']) {
 										?>
 											 | 
-											<a href="/admin/revisions/video/<?=$item['id'];?>/">История версий</a>	
+											<a href="<?=$def['site']['dir']?>/admin/revisions/video/<?=$item['id'];?>/">История версий</a>	
 										<?
 									}
 								?>								
@@ -233,7 +233,7 @@
 						</td>	
 					</tr>	
 				</table>
-				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
 				<div id="edit-<?=$item['id'];?>" rel="video" class="edit_field hidden"></div>
 			<?
 		} 

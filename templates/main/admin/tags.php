@@ -1,6 +1,6 @@
 <div id="admin_tags">
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
-	 <a href="/admin/tags/problem">Проблемные теги</a>.
+	 <a href="<?=$def['site']['dir']?>/admin/tags/problem">Проблемные теги</a>.
 	<div class="right"> 
 	 <input type="submit" value="Сохранить все" class="disabled save_all"><br />	 
 	Тегов: 
@@ -60,7 +60,7 @@
 						<td>
 							<? foreach ($area_types as $key => $area_type) { ?>
 								<? if ($item[$key]) { ?>
-									<a href="/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
+									<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 										<?=$area_type;?>
 									</a> 
 								<? } ?>
@@ -68,7 +68,7 @@
 						</td>		
 						<td>
 							<input type="submit" value="Сохранить">
-							<a href="/admin/tags/merge/<?=$item['alias'];?>" class="plaintext"> 
+							<a href="<?=$def['site']['dir']?>/admin/tags/merge/<?=$item['alias'];?>" class="plaintext"> 
 								<input type="button" value="Объединить">
 							</a>
 							<input type="submit" value="Удалить" class="delete_tag disabled" rel="<?=$id;?>|<?=$item['alias'];?>">

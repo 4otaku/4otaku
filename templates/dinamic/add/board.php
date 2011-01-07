@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
 <form id="addform" method="post" action="/board/add/thread/<?=query::$get['info'];?>" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody>
@@ -13,7 +13,7 @@
 					</span>
 					<br />
 					<span class="right">
-						<a href="/ajax.php?m=box&f=wakaba&width=700&height=380" title="Справка по Wakaba Mark" class="thickbox">Wakaba Mark</a>
+						<a href="<?=$def['site']['dir']?>/ajax.php?m=box&f=wakaba&width=700&height=380" title="Справка по Wakaba Mark" class="thickbox">Wakaba Mark</a>
 					</span>						
 				</td>
 				<td class="inputdata">
@@ -60,16 +60,16 @@
 					<table>
 						<tr>
 							<td>
-								<img src="/images/upload_button.png" id="board-image">
+								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="board-image">
 							</td>
 							<td>
-								<img class="processing" src="/images/ajax-processing.gif" />
+								<img class="processing" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
 							</td>
 							<td>
 								<span class="processing">Изображение/flash загружается.</span>
 							</td>
 							<td class="cancel-holder">
-								<span class="processing">Отменить <img class="board_upload_stop" src="/images/cancel.png"></span>
+								<span class="processing">Отменить <img class="board_upload_stop" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
 							</td>
 						</tr>
 					</table>

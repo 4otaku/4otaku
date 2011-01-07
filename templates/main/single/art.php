@@ -14,13 +14,13 @@
 						<tr>
 							<td align="left">
 								<h2>
-									<a href="/art/<?=$item['id'];?>">
+									<a href="<?=$def['site']['dir']?>/art/<?=$item['id'];?>">
 										Изображение №<?=$item['id'];?>
 									</a>
 								</h2>
 							</td>
 							<td align="right" valign="top">
-								<a href="/art/<?=$item['id'];?>">
+								<a href="<?=$def['site']['dir']?>/art/<?=$item['id'];?>">
 									Комментировать
 								</a>
 								<?
@@ -46,20 +46,20 @@
 										?>
 											<div class="mini-shell art-bar">
 												Эта картинка принадлежит к группе: 
-												<a href="/art/pool/<?=$id;?>/">
+												<a href="<?=$def['site']['dir']?>/art/pool/<?=$id;?>/">
 													<?=$pool['name'];?>
 												</a>. 
 												<? if ($pool['left']) { ?>
-													<a href="/art/<?=$pool['left'];?>/">
+													<a href="<?=$def['site']['dir']?>/art/<?=$pool['left'];?>/">
 														Предыдущая
 													</a>. 									
 												<? } ?>
 												<? if ($pool['right']) { ?>
-													<a href="/art/<?=$pool['right'];?>/">
+													<a href="<?=$def['site']['dir']?>/art/<?=$pool['right'];?>/">
 														Следующая
 													</a>. 									
 												<? } ?>												
-												<a href="/art/slideshow/pool/<?=$id;?>#1">
+												<a href="<?=$def['site']['dir']?>/art/slideshow/pool/<?=$id;?>#1">
 													Перейти в слайдшоу
 												</a>. 												
 											</div>
@@ -142,12 +142,12 @@
 												<a href="#" class="disabled booru_show_full_always">
 													 Всегда показывать в полном размере
 												</a>. 
-												<a href="/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
+												<a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
 													 Скачать
 												</a>.												
 											</div>								
 											<div class="booru_img image booru_translation_toggle" rel="resized">
-												<img src="/images/booru/resized/<?=$item['md5'];?>.jpg">
+												<img src="<?=$def['site']['dir']?>/images/booru/resized/<?=$item['md5'];?>.jpg">
 												<?  
 													if (is_array($item['translations']['resized'])) foreach ($item['translations']['resized'] as $translation) {
 														?>
@@ -163,7 +163,7 @@
 									?>
 										<div<?=(is_array($reason) ? ' class="hidden hidden_art"' : "");?>>
 											<div class="image booru_translation_toggle">						
-												<img src="/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
+												<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
 												<?
 													if (is_array($item['translations']['full'])) foreach ($item['translations']['full'] as $translation) {
 														?>
@@ -178,8 +178,8 @@
 							}
 							else {
 								?>
-									<a href="/art/<?=$item['id'];?>/">
-										<img src="/images/booru/thumbs/large_<?=$item['thumb'];?>.jpg">
+									<a href="<?=$def['site']['dir']?>/art/<?=$item['id'];?>/">
+										<img src="<?=$def['site']['dir']?>/images/booru/thumbs/large_<?=$item['thumb'];?>.jpg">
 									</a>
 								<?
 							}
@@ -269,14 +269,14 @@
 								}
 							?>	
 							 | 
-							<a href="/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
+							<a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
 								 Скачать
 							</a>
 							<?								
 								if ($sets['user']['rights']) {
 									?>
 										 | 
-										<a href="/admin/revisions/art/<?=$item['id'];?>/">История версий</a>	
+										<a href="<?=$def['site']['dir']?>/admin/revisions/art/<?=$item['id'];?>/">История версий</a>	
 									<?
 								}
 							?>												
@@ -358,7 +358,7 @@
 					?>
 				</tr>	
 			</table>
-			<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="/images/ajax-loader.gif"></div>
+			<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
 			<div id="edit-<?=$item['id'];?>" rel="art" class="edit_field hidden"></div>
 		<?
 	}

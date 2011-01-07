@@ -6,7 +6,7 @@
 	</span>
 	<span class="link_delete">
 		<? if ($post['cookie'] && $_COOKIE['settings'] === $post['cookie']) { ?>
-			 <img src="/images/comment_delete.png" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
+			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
 		<? } ?>
 	</span>
 	<span class="author">
@@ -27,16 +27,16 @@
 	</span>
 	<div class="tbody">
 		<? if (isset($post['content']['image'][0])) { ?>
-			<a href="/images/board/full/<?=$post['content']['image'][0]['full'];?>" 
+			<a href="<?=$def['site']['dir']?>/images/board/full/<?=$post['content']['image'][0]['full'];?>" 
 				target="_blank" class="board_image_thumb with_help" 
 				title="<?=$post['content']['image'][0]['full_size_info'];?>">
-				<img align="left" src="/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>">
+				<img align="left" src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif (isset($post['content']['flash'])) { ?>
-			<a href="/images/board/full/<?=$post['content']['flash']['full'];?>" 
+			<a href="<?=$def['site']['dir']?>/images/board/full/<?=$post['content']['flash']['full'];?>" 
 				target="_blank" class="with_help" 
 				title="<?=$post['content']['flash']['full_size_info'];?>">
-				<img align="left" src="/images/flash.png">
+				<img align="left" src="<?=$def['site']['dir']?>/images/flash.png">
 			</a>		
 		<? } elseif (isset($post['content']['video'])) { ?>
 			<? if (!sets::board('embedvideo')) { ?>
