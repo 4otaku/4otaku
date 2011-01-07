@@ -1,5 +1,5 @@
 <script type="text/javascript" src="/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
-<form id="addform" method="post" action="/board/add/thread/<?=$get['info'];?>" enctype="multipart/form-data">
+<form id="addform" method="post" action="/board/add/thread/<?=query::$get['info'];?>" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody>
 			<tr>
@@ -20,7 +20,7 @@
 					<textarea name="text" cols="70" rows="8" id="textfield" class="left"></textarea>
 				</td>
 			</tr>
-			<? if (!is_numeric($get['info'])) { ?>
+			<? if (!is_numeric(query::$get['info'])) { ?>
 				<tr>
 					<td class="input field_name">
 						Доска
@@ -30,7 +30,7 @@
 							<? 
 								foreach($data['category'] as $alias => $name) {
 									?>
-										<option value="<?=$alias;?>"<?=($alias == $get['info'] ? ' class="selected"' : '');?>>
+										<option value="<?=$alias;?>"<?=($alias == query::$get['info'] ? ' class="selected"' : '');?>>
 											<?=$name;?>
 										</option>
 									<?
@@ -42,7 +42,7 @@
 					</td>
 				</tr>
 			<? } else { ?>
-				<input type="hidden" name="id" value="<?=$get['info'];?>" />
+				<input type="hidden" name="id" value="<?=query::$get['info'];?>" />
 			<? } ?>				
 			<tr>
 				<td class="input field_name">
