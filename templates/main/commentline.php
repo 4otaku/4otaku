@@ -32,7 +32,7 @@
 								'<p class="help">
 									Показываются только '.$sets['pp']['comment_in_post'].' последних '.
 									obj::transform('text')->wcase(sets::pp('comment_in_post'),'комментарий','комментария','комментариев').'. 
-									<a href="<?=$def['site']['dir']?>/'.$block['place'].'/'.$block['id'].'/comments/all">
+									<a href="'.$def['site']['dir'].'/'.$block['place'].'/'.$block['id'].'/comments/all">
 										Читать все
 									</a>.
 								</p>' 
