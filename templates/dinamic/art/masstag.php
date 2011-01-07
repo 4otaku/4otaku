@@ -10,46 +10,52 @@ if ($add_res['meta']) { ?>
 <? } else { ?>
 	<a href="/art/<?=$data['id'];?>" rel="<?=$data['id'];?>" class="with_help3" title="
 			<?
-				if (count($data['meta']['tag']) > 1) {
-					?>
-						Теги: 
-					<?
+				if (!empty($data['meta']['tag'])) {
+					if (count($data['meta']['tag']) > 1) {
+						?>
+							Теги: 
+						<?
+					}
+					else {
+						?>
+							Тег: 
+						<?
+					}
+					foreach ($data['meta']['tag'] as &$tag) $tag = $tag['name'];
+					echo implode(', ',$data['meta']['tag']);
 				}
-				else {
-					?>
-						Тег: 
-					<?
-				}
-				foreach ($data['meta']['tag'] as &$tag) $tag = $tag['name'];
-				echo implode(', ',$data['meta']['tag']);
 			?>
 			  | 
 			<?	
-				if (count($data['meta']['author']) > 1) {
-					?>
-						Опубликовали: 
-					<?
+				if (!empty($data['meta']['author'])) {
+					if (count($data['meta']['author']) > 1) {
+						?>
+							Опубликовали: 
+						<?
+					}
+					else {
+						?>
+							Опубликовал: 
+						<?
+					}
+					echo implode(', ',$data['meta']['author']);
 				}
-				else {
-					?>
-						Опубликовал: 
-					<?
-				}
-				echo implode(', ',$data['meta']['author']);
 			?>
 			  | 
 			<?
-				if (count($data['meta']['category']) > 1) {
-					?>
-						Категории: 
-					<?
+				if (!empty($data['meta']['category'])) {
+					if (count($data['meta']['category']) > 1) {
+						?>
+							Категории: 
+						<?
+					}
+					else {
+						?>
+							Категория: 
+						<?
+					}
+					echo implode(', ',$data['meta']['category']);
 				}
-				else {
-					?>
-						Категория: 
-					<?
-				}
-				echo implode(', ',$data['meta']['category']);
 			?>
 	">
 		<img src="/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$data['thumb'];?>.jpg">
