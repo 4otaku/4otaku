@@ -31,7 +31,7 @@
 							<?=($block['comment_count'] > $sets['pp']['comment_in_post'] ? 
 								'<p class="help">
 									Показываются только '.$sets['pp']['comment_in_post'].' последних '.
-									transform__text::wcase($sets['pp']['comment_in_post'],'комментарий','комментария','комментариев').'. 
+									obj::transform('text')->wcase(sets::pp('comment_in_post'),'комментарий','комментария','комментариев').'. 
 									<a href="<?=$def['site']['dir']?>/'.$block['place'].'/'.$block['id'].'/comments/all">
 										Читать все
 									</a>.
