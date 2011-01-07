@@ -1,7 +1,7 @@
 <div id="admin_tags">
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
 	<br /> 
-	<a href="/admin/tags/problem/alias/">Проблемные теги - алиас</a>. <a href="/admin/tags/problem/match/">Проблемные теги - совпадения</a>. <a href="/admin/tags/problem/empty/">Проблемные теги - пустые</a>. 
+	<a href="<?=$def['site']['dir']?>/admin/tags/problem/alias/">Проблемные теги - алиас</a>. <a href="<?=$def['site']['dir']?>/admin/tags/problem/match/">Проблемные теги - совпадения</a>. <a href="<?=$def['site']['dir']?>/admin/tags/problem/empty/">Проблемные теги - пустые</a>. 
 	<div class="right"> 
 	 <input type="submit" value="Сохранить все" class="disabled save_all">
 	</div>	
@@ -58,7 +58,7 @@
 							<td>
 								<? foreach ($area_types as $key => $area_type) { ?>
 									<? if ($item[$key]) { ?>
-										<a href="/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
+										<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 											<?=$area_type;?>
 										</a> 
 									<? } ?>
@@ -122,7 +122,7 @@
 							<td>
 								<? foreach ($area_types as $key => $area_type) { ?>
 									<? if ($item[$key]) { ?>
-										<a href="/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
+										<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 											<?=$area_type;?>
 										</a> 
 									<? } ?>

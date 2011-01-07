@@ -4,7 +4,7 @@
 			<div class="shell post">
 				<div class="left">
 					<h2>
-						<a href="/<?=$block['place'];?>/<?=$block['id'];?>/" title="<?=$block['title'];?>">
+						<a href="<?=$def['site']['dir']?>/<?=$block['place'];?>/<?=$block['id'];?>/" title="<?=$block['title'];?>">
 							<?=$block['title'];?>
 						</a>
 					</h2>
@@ -32,7 +32,7 @@
 								'<p class="help">
 									Показываются только '.$sets['pp']['comment_in_post'].' последних '.
 									transform__text::wcase($sets['pp']['comment_in_post'],'комментарий','комментария','комментариев').'. 
-									<a href="/'.$block['place'].'/'.$block['id'].'/comments/all">
+									<a href="<?=$def['site']['dir']?>/'.$block['place'].'/'.$block['id'].'/comments/all">
 										Читать все
 									</a>.
 								</p>' 
@@ -58,7 +58,7 @@
 													<div class="comment-text">
 													<span><?=$comment['text'];?></span>
 													<br /><br />
-													<a href="/<?=$block['place'];?>/<?=$block['id'];?>/comments/all#reply-<?=$comment['id'];?>">Ответить</a>
+													<a href="<?=$def['site']['dir']?>/<?=$block['place'];?>/<?=$block['id'];?>/comments/all#reply-<?=$comment['id'];?>">Ответить</a>
 													<div class="c-wrap"></div>
 													</div>
 												</div>
@@ -70,7 +70,7 @@
 							?>
 							<div style="margin-left:50px;">
 								<h2>
-									<a href="/<?=$block['place'];?>/<?=$block['id'];?>/">
+									<a href="<?=$def['site']['dir']?>/<?=$block['place'];?>/<?=$block['id'];?>/">
 										Ответить
 									</a>
 								</span>

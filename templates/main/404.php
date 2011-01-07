@@ -1,7 +1,7 @@
 <table width="100%" id="error">
 	<tr>
 		<td>
-			<img src="/images/yuugif.gif">
+			<img src="<?=$def['site']['dir']?>/images/yuugif.gif">
 		</td>
 	</tr>			
 	<tr>

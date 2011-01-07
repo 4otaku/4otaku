@@ -1,18 +1,18 @@
 <div class="cats">	
 	<h2>
-		<a href="/tags/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
+		<a href="<?=$def['site']['dir']?>/tags/<?=$url[1];?>/<?=($url['area'] == $def['area'][2] ? $url['area'] : '');?>">
 			Частые теги
 		</a>
 		 <a href="#" class="bar_arrow" rel="tag">
 			<?
 				if ($sets['dir']['tag']) {
 					?>
-						<img src="/images/text2391.png">
+						<img src="<?=$def['site']['dir']?>/images/text2391.png">
 					<?
 				}
 				else {
 					?>
-						<img src="/images/text2387.png">
+						<img src="<?=$def['site']['dir']?>/images/text2387.png">
 					<?				
 				}
 			?>
