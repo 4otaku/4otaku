@@ -1,7 +1,7 @@
 <div>
 	<select class="dinamic_tag_page">
 		<? $i=0; while (++$i <= $data['page_count']) { ?>
-			<option value="<?=$i;?>"<?=($i == $get['current'] ? ' selected="selected"' : '');?>>
+			<option value="<?=$i;?>"<?=($i == query::$get['current'] ? ' selected="selected"' : '');?>>
 				Страница № <?=$i;?>
 			</option>
 		<? } ?>
