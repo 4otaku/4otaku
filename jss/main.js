@@ -314,7 +314,10 @@ $(document).ready(function(){
 		}
 	});
 	
-	if ($("#downscroller").length == 1) {
+	if (
+		$("#downscroller").length == 1 &&
+		$("#downscroller").attr('rel').indexOf('board#') == 0
+	) {
 		if (document.location.hash.indexOf("#reply") == 0) {
 			$("div#downscroller a.disabled").click();
 		}
