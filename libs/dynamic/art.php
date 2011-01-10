@@ -97,29 +97,20 @@ class dynamic__art extends engine
 			$domdoc = new DOMDocument();	
 			$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
 			
-			$elements = $domdoc->getElementsByTagName('post');
-			foreach ($elements as $node) 
+			if (isset($domdoc)) 
 			{
-				$dtagstr[] = $node->getAttribute('tags');
-			}
-			
-			$dtags[] = explode(" ", $dtagstr[0]);
-			
-			foreach ($dtags[0] as $key => &$tag)
-			{
-				if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
-				else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
-				else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+				$elements = $domdoc->getElementsByTagName('post');
+				foreach ($elements as $node) 
+				{
+					$dtagstr[] = $node->getAttribute('tags');
+				}
 				
-				if (strpos($tag, 'hard_translated') === (int)0) { }	
-				else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
-	
-				if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+				$dtags[] = explode(" ", $dtagstr[0]);	
+				filter_external_tags(&$dtags[0]);		
+				$dtag = implode(", ", $dtags[0]); 
+				
+				$this->add_tag($dtag, $did);
 			}
-			
-			$dtag = implode(", ", $dtags[0]); 
-			
-			$this->add_tag($dtag, $did);														/* Another function call */
 		}
 		else if ($section == 'iqdb')
 		{
@@ -131,37 +122,36 @@ class dynamic__art extends engine
 				
 				$html = file_get_html('http://iqdb.hanyuu.net/?url=http://4otaku.ru/images/booru/full/'.$mass['md5'].'.'.$mass['extension']);
 				$tables= $html->find(table);
-
+				
 				foreach($tables as $table)
 				{	
 					if($table->children(4) != NULL)												/* First table doesn't have this field */
 					{
 						$a = $table->children(1)->children(0)->find('a');						/* Needed couse simple_html_dom syntax */
-						if(isset($a) && (strpos($a[0]->href,'http://danbooru.donmai.us/post/show/') === (int)0) && (preg_match('/(?P<digit>\d+)% (?P<name>\w+)/', $table->children(4)->children(0), $matches)))
+						if(isset($a) && (preg_match('/(?P<digit>\d+)% (?P<name>\w+)/', $table->children(4)->children(0), $matches)))
 						{
-							if($matches['digit'] >= 95)
+							if($matches['digit'] >= 93)
 							{
 								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */
-								$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
-								
-								foreach ($dtags[0] as $key => &$tag)
-								{
-									if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
-									else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
-									else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
 									
-									if (strpos($tag, 'hard_translated') === (int)0) { }	
-									else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
-						
-									if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
-								}
-								
-								$dtag = implode(", ", $dtags[0]);
-							
-								$this->add_tag($dtag, $did);									/* Another function call */
+								$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
+								if ($dtags[0][0] !== "") $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];
 							}
 						}
 					}
+				}
+				if (isset($diff_arr))
+				{
+					krsort($diff_arr);															/* Может быть оно уже отсортировано iqdb */
+					
+					$dtag = html_entity_decode(implode(", ", $this->filter_external_tags(reset($diff_arr))));
+	
+					$this->substract_tag('prostavte_tegi', $did);	
+					$this->add_tag($dtag, $did);
+				}
+				else
+				{
+					/*echo "Sorry, can't found any tags >_<";								   		/* TODO: Придумать, как обработать неудачи масстега */
 				}
 			}
 		}
@@ -170,6 +160,23 @@ class dynamic__art extends engine
 			echo 'Please, select option first.';
 		}
 	}	
+		
+	function filter_external_tags($tags)
+	{
+		foreach ($tags as $key => &$tag)
+		{
+			if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }	
+			else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }	
+			else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }	
+			
+			if (strpos($tag, 'hard_translated') === (int)0) { }	
+			else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }	
+	
+			if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
+		}
+		
+		return $tags;
+	}
 	
 	function substract_tag($tags,$id) {
 		global $def;	
