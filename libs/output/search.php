@@ -4,7 +4,7 @@ class output__search extends engine
 {
 	private $areas = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comment', 'o' => 'orders');
 	
-	private $cyrillic_stoplist = array('а', 'и', 'о', 'у', 'не');
+	private $cyrillic_stoplist = array('А', 'И', 'О', 'У', 'НЕ');
 	
 	public $allowed_url = array(
 		array(1 => '|search|', 2 => 'any', 3 => '|rel|date|rdate|', 4 => 'any', 5 => '|page|', 6 => 'num', 7 => 'end')
