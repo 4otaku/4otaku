@@ -70,8 +70,8 @@
 							<option value="deleted"> в печь</option>						
 						</select>
 						<select class="MassTag9001 hidden MassTag9001_danbooru">
-							<option value="danbtag">danbooru</option>	
-							<option value="iqdb">iqdb</option>							
+							<option value="iqdb">iqdb</option>	
+							<option value="danbtag">danbooru</option>							
 						</select>
 					</div>
 				</div>			
