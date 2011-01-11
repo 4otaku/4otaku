@@ -71,7 +71,7 @@ if(def::site('domain') != $_SERVER["SERVER_NAME"] && !(_CRON_)) {
 
 if (!(_CRON_)) {
 	$check = new check_values();
-	query::get_globals($_GET, $_POST);
+	list($get, $post) = query::get_globals($_GET, $_POST);
 	include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
 }
 
