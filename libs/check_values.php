@@ -41,9 +41,12 @@ class check_values
 		return (!ctype_alnum(str_replace(array('-', '_'), '', $str))) ? $default : $str;
 	}		
 	
-	function rights() {
+	function rights($soft = false) {
 		global $sets;
-		if (!$sets['user']['rights']) die;
+		if (!$sets['user']['rights']) {
+			if ($soft) return false;
+			die;
+		}
 		return true;
 	}	
 }
