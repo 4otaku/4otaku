@@ -16,7 +16,7 @@ header("Location: ".$link, true, 302);
 		<meta http-equiv="REFRESH" content="0;url=<?=$link;?>">
 	</head>
 	<body>
-		Выполняется перенаправление на адрес 
+		Выполняется перенаправление на адрес
 		<a href="<?=$link;?>">
 			<?=$link;?>
 		</a>
