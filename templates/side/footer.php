@@ -1,6 +1,12 @@
 	<div class="left">
 		2008-<?=date("Y");?> 4otaku.ru. <br />
 		<noindex>E-mail для любых вопросов: <a href="mailto:admin@4otaku.ru" target="_blank">admin@4otaku.ru</a>.</noindex>
+		<?
+			define('LINKFEED_USER', '710b0d6fa7ec6448eca963128d748c348f259c44');
+			require_once($_SERVER['DOCUMENT_ROOT'].'/'.LINKFEED_USER.'/linkfeed.php');
+			$linkfeed = new LinkfeedClient();
+			echo $linkfeed->return_links();
+		?>
 	</div>
 	<div class="right">
 		<div>
