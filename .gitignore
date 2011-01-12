@@ -8,7 +8,6 @@ files/board_cache/*
 files/post/*
 !files/post/index.php
 
-templates/side/footer.php
 engine/config.php
 images/full/*
 !images/full/index.php
