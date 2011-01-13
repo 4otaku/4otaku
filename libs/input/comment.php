@@ -108,12 +108,22 @@ class input__comment extends input__common
 		
 		$check = self::check_subscription_right(query::$cookie,query::$post['email']);
 		
+		if (!empty(query::$post['rule_type'])) {			
+			$area = query::$post['area'];
+			$rule = rtrim(query::$post['rule_type'].'|'.query::$post['rule'],'|');
+			$id = null;
+		} else {
+			$area = $url[1];
+			$rule = null;
+			$id = $url[2];					
+		}
+		
 		if ($check == 'blocked') {
 			self::add_res('Владелец этого Е-мейла отказался от подписок на комментарии.',true);
 		} elseif ($check) {
-			self::subscribe_comments(query::$post['email'],$url[1],$url[2]);
+			self::subscribe_comments(query::$post['email'],$area,$rule,$id);
 		} else {
-			self::send_confirmation_mail(query::$post['email'],$url[1],$url[2]);
+			self::send_confirmation_mail(query::$post['email'],$area,$rule,$id);
 		}
 	}
 }

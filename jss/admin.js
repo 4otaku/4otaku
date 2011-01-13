@@ -99,4 +99,11 @@ $(document).ready(function(){
 			});
 		}
 	});	
+	
+	$(".subscribe_type").change(function(){
+		$(".subscribe_field").hide();
+		$(".subscribe_field select").attr('name','');
+		$(".subscribe_"+$(this).val()).show();
+		$(".subscribe_"+$(this).val()+" select").attr('name','rule');
+	});
 });  

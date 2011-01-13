@@ -140,8 +140,8 @@ class input__common extends engine
 		return (bool) $check;
 	}
 	
-	static function subscribe_comments($email, $area, $id) {
-		$values = array(query::$cookie,$email,$area,null,$id);
+	static function subscribe_comments($email, $area, $rule, $id) {
+		$values = array(query::$cookie,$email,$area,$rule,$id);
 		obj::db()->insert('subscription',$values);
 		self::add_res('Вы успешно подписались на рассылку комментариев.',false,true);
 	}
@@ -154,16 +154,23 @@ class input__common extends engine
 		self::add_res($message,false,true);
 	}
 	
-	static function send_confirmation_mail($email, $area, $id) {
+	static function send_confirmation_mail($email, $area, $rule, $id) {
 		$code = encrypt($email,true);
+		
+		if (!empty($rule)) {
+			$second = $rule == 'all' ? '' : str_replace('|','/',$rule).'/';
+		} else {
+			$second = $id.'/';
+		}
+		
 		$text = 
 			'Вы захотели подписаться на сайте 4отаку.ру на комментарии. '.
 			'Подтвердите пожалуйста, что этот Е-мейл принадлежит вам, пройдя по ссылке '.
-			'http://4otaku.ru/confirm/'.$code.'/'.$area.'/'.$id.'/. <br /><br />'.
+			'http://4otaku.ru/confirm/'.$code.'/'.$area.'/'.$second.'. <br /><br />'.
 			'Если вы получили это письмо по ошибке, просто проигнорируйте его. <br />'.'
 			Если вы больше не хотите получать писем о подписке на комментарии 4отаку.ру, '.
 			'пройдите по этой ссылке: '.
-			'http://4otaku.ru/stop_emails/'.$code.'/'.$area.'/'.$id.'/.';
+			'http://4otaku.ru/stop_emails/'.$code.'/'.$area.'/'.$second.'.';
 		obj::db()->insert('misc',array('mail_notify',0,$email,'',$text,''));
 		self::add_res('Вам выслано письмо для подтверждения прав пользования Е-мейлом.');
 	}		
