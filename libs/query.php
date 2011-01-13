@@ -8,6 +8,7 @@ class query
 	static public $vars = array();
 	static public $post = array();
 	static public $get = array();
+	static public $cookie;
 	
 	static private $safe_replacements = array(
 		'&' => '&amp;',

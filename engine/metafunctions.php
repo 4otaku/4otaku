@@ -71,8 +71,8 @@ function _base64_decode($input) {
 	return base64_decode(str_replace(array('-','_','.'),array('+','/','='),$input));
 }
 
-function encrypt($input) {
-	return _base64_encode(_crypt($input));
+function encrypt($input, $nodotes = false) {
+	return _base64_encode(_crypt($input),$nodotes);
 }
 
 function decrypt($input) {	

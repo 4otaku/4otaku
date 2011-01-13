@@ -31,7 +31,7 @@ class input__comment extends input__common
 				$rootparent = query::$post['parent'];
 
 			obj::db()->insert('comment',array($rootparent,query::$post['parent'],$table,$item_id,query::$post['name'],query::$post['mail'],
-						$_SERVER['REMOTE_ADDR'],$_COOKIE['settings'],$comment,query::$post['text'],$date = obj::transform('text')->rudate(true),
+						$_SERVER['REMOTE_ADDR'],query::$cookie,$comment,query::$post['text'],$date = obj::transform('text')->rudate(true),
 						$time = ceil(microtime(true)*1000),$area));
 
 			if ($table == 'news') {
@@ -97,5 +97,23 @@ class input__comment extends input__common
 			else
 				obj::db()->sql('update '.($url[1] == 'order' ? 'orders' : $url[1]).' set comment_count=comment_count-1 where id='.$url[2],0);			
 		}
-	}	
+	}
+	
+	function subscription() {
+		global $check; global $url;
+		if (!$check->email(query::$post['email'],false)) {
+			self::add_res('Вы указали неправильный Е-мейл.',true);
+			return;
+		}		
+		
+		$check = self::check_subscription_right(query::$cookie,query::$post['email']);
+		
+		if ($check == 'blocked') {
+			self::add_res('Владелец этого Е-мейла отказался от подписок на комментарии.',true);
+		} elseif ($check) {
+			self::subscribe_comments(query::$post['email'],$url[1],$url[2]);
+		} else {
+			self::send_confirmation_mail(query::$post['email'],$url[1],$url[2]);
+		}
+	}
 }

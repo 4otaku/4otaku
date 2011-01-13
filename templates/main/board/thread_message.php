@@ -46,7 +46,7 @@
 			</span> 
 		<? } ?>
 	<? } ?>
-	<? if ($thread['cookie'] && $_COOKIE['settings'] === $thread['cookie']) { ?>
+	<? if ($thread['cookie'] && query::$cookie === $thread['cookie']) { ?>
 		<span class="link_delete">
 			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">
 		</span>

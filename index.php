@@ -10,13 +10,23 @@ if(empty($url[1])) $url[1] = 'index';
 
 include_once ROOT_DIR.SL.'engine'.SL.'handle_old_urls.php';
 
+if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
+	if ($url[1] == 'confirm') {
+		input__common::subscribe_comments(decrypt($url[2]),$url[3],$url[4]);
+	} else {
+		input__common::add_to_black_list(decrypt($url[2]));
+	}
+	$redirect = 'http://'.def::site('domain').'/'.$url[3].'/'.$url[4].'/';
+	engine::redirect($redirect);	
+}
+
 if (isset(query::$post['do'])) {
 	query::$post['do'] = explode('.',query::$post['do']);
 	if (count(query::$post['do']) == 2) {
 		$input_class = 'input__'.query::$post['do'][0]; $input = new $input_class;
 		$input_function = query::$post['do'][1]; $input->$input_function(query::$post);		
 	}	
-	$redirect = 'http://'.def::site('domain') . (empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
+	$redirect = 'http://'.def::site('domain').(empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
 	engine::redirect($redirect);
 } else {
 	$data = array();

@@ -186,6 +186,10 @@ $(document).ready(function(){
 					$(".commentsh2").hide();
 				}
 			}
+			
+			$(".email_subscription").click(function(){
+				$(".email_subscription_field").slideDown();
+			});
 		});
 	}
 	
