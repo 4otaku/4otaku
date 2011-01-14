@@ -83,4 +83,3 @@
 	<br /><br />
 	<a href="#" class="disabled">Не отвечать</a>
 </div>
-</div>

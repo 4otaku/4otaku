@@ -123,5 +123,4 @@ class input__common extends engine
 	}
 	
 // Секция кончилась
-	
 }

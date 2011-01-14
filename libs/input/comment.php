@@ -268,6 +268,5 @@ class input__comment extends input__common
 				}
 			}
 		}
-	}	
-
+	}
 }
