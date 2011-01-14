@@ -119,10 +119,10 @@
 							<?=$data['main']['news']['title'];?>
 						</a>
 						<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : ''); ?>
-						<a href="#" class="uncompress_news togglenews">
+						<a href="#" class="uncompress_news togglenews news_bar">
 							Развернуть новость.
 						</a>
-						<a href="<?=$def['site']['dir']?>/news/" class="uncompress_news">
+						<a href="<?=$def['site']['dir']?>/news/" class="news_bar">
 							Архив новостей.
 						</a>						
 					</div>			
