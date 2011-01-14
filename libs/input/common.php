@@ -122,56 +122,6 @@ class input__common extends engine
 				Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: <a href="http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/">http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/</a>';
 	}
 	
-	static function check_subscription_right($cookie, $email) {
-		$check = obj::db()->sql(
-			'select id from subscription where 
-				rule = "blacklist" and 
-				email="'.$email.'"
-			limit 1', 2);			
-		if ($check) {
-			return 'blocked';
-		}
-		
-		$check = obj::db()->sql(
-			'select id from subscription where 
-				cookie="'.$cookie.'" and 
-				email="'.$email.'"
-			limit 1', 2);
-		return (bool) $check;
-	}
+// Секция кончилась
 	
-	static function subscribe_comments($email, $area, $rule, $id) {
-		$values = array(query::$cookie,$email,$area,$rule,$id);
-		obj::db()->insert('subscription',$values);
-		self::add_res('Вы успешно подписались на рассылку комментариев.',false,true);
-	}
-	
-	static function add_to_black_list($email) {
-		obj::db()->sql('delete from subscription where email="'.$email.'"',0);
-		$values = array(query::$cookie,$email,'all','blacklist',null);
-		obj::db()->insert('subscription',$values);
-		$message = 'Вы отписались от всех рассылок комментариев, и исключили возможность повторной подписки.';
-		self::add_res($message,false,true);
-	}
-	
-	static function send_confirmation_mail($email, $area, $rule, $id) {
-		$code = encrypt($email,true);
-		
-		if (!empty($rule)) {
-			$second = $rule == 'all' ? '' : str_replace('|','/',$rule).'/';
-		} else {
-			$second = $id.'/';
-		}
-		
-		$text = 
-			'Вы захотели подписаться на сайте 4отаку.ру на комментарии. '.
-			'Подтвердите пожалуйста, что этот Е-мейл принадлежит вам, пройдя по ссылке '.
-			'http://4otaku.ru/confirm/'.$code.'/'.$area.'/'.$second.'. <br /><br />'.
-			'Если вы получили это письмо по ошибке, просто проигнорируйте его. <br />'.'
-			Если вы больше не хотите получать писем о подписке на комментарии 4отаку.ру, '.
-			'пройдите по этой ссылке: '.
-			'http://4otaku.ru/stop_emails/'.$code.'/'.$area.'/'.$second.'.';
-		obj::db()->insert('misc',array('mail_notify',0,$email,'',$text,''));
-		self::add_res('Вам выслано письмо для подтверждения прав пользования Е-мейлом.');
-	}		
 }

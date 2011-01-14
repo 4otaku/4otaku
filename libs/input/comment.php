@@ -42,6 +42,12 @@ class input__comment extends input__common
 				obj::db()->sql('update '.$table.' set comment_count=comment_count+1, last_comment='.$time.' where id='.$item_id,0);
 			}
 			
+			$mail = $this->check_simple_subscriptions($table,$item_id);
+			$mail = array_merge($mail, $this->check_complex_subscriptions($table,$item_id));
+			if (!empty($mail)) {
+				$this->batch_send_mail($mail,$this->subscription_notify_text($table,$item_id,$comment));
+			}
+			
 			if ($table == 'orders') {
 				$data = obj::db()->sql('select email, spam from orders where id='.$item_id,1);
 				if ($data['spam'] && $data['email'] != query::$post['mail']) {	
@@ -126,4 +132,142 @@ class input__comment extends input__common
 			self::send_confirmation_mail(query::$post['email'],$area,$rule,$id);
 		}
 	}
+	
+	function check_simple_subscriptions($table, $id) {
+		$emails = obj::db()->sql(
+			'select id, email from subscription where 
+			area = "'.$table.'" and 
+			item_id = "'.$id.'"'
+		,'id');
+		
+		return empty($emails) ? array() : $emails;
+	}
+	
+	function check_complex_subscriptions($table, $id) {
+		$emails = array();
+		
+		$all = obj::db()->sql(
+			'select id, email from subscription where 
+			area = "'.$table.'" and 
+			rule = "all"',
+		'id');
+		
+		if (is_array($all)) {
+			$emails = $all;
+		}
+		
+		if ($table == 'video' || $table == 'art' || $table == 'post') {
+			$data = obj::db()->sql('select * from '.$table.' where id = '.$id,1);
+			
+			$check['category'] = array_filter(explode('|', $data['category']));
+			$check['language'] = array_filter(explode('|', $data['language']));
+			$check['author'] = array_filter(explode('|', $data['author']));
+			
+			$condition = '';
+			foreach ($check as $type => $aliases) {
+				foreach ($aliases as $alias) {
+					$condition .= ' or rule="'.$type.'|'.$alias.'"';
+				}
+			}
+			$condition = substr($condition,4);
+			
+			if (!empty($condition)) {
+				$custom = obj::db()->sql(
+					'select id, email from subscription where 
+					area = "'.$table.'" and '.$condition,
+				'id');				
+			}
+			
+			if (is_array($custom)) {
+				$emails = array_merge($custom, $emails);
+			}
+		}
+		
+		return $emails;
+	}
+	
+	function subscription_notify_text($table, $id, $text) {
+		$table = $table == 'orders' ? 'order' : $table;
+		
+		$text = 
+			'По адресу http://'.def::site('domain').'/'.$table.'/'.$id.'/ '.
+			', по которому вы вы подписаны на комментарии оставлен новый комментарий: '.
+			'<br /><br />'."\n\n".$text;
+			
+		return $text;
+	}
+	
+	static function check_subscription_right($cookie, $email) {
+		$check = obj::db()->sql(
+			'select id from subscription where 
+				rule = "blacklist" and 
+				email="'.$email.'"
+			limit 1', 2);			
+		if ($check) {
+			return 'blocked';
+		}
+		
+		$check = obj::db()->sql(
+			'select id from subscription where 
+				cookie="'.$cookie.'" and 
+				email="'.$email.'"
+			limit 1', 2);
+		return (bool) $check;
+	}
+	
+	static function subscribe_comments($email, $area, $rule, $id) {
+		$values = array(query::$cookie,$email,$area,$rule,$id);
+		obj::db()->insert('subscription',$values);
+		self::add_res('Вы успешно подписались на рассылку комментариев.',false,true);
+	}
+	
+	static function add_to_black_list($email) {
+		obj::db()->sql('delete from subscription where email="'.$email.'"',0);
+		$values = array(query::$cookie,$email,'all','blacklist',null);
+		obj::db()->insert('subscription',$values);
+		$message = 'Вы отписались от всех рассылок комментариев, и исключили возможность повторной подписки.';
+		self::add_res($message,false,true);
+	}
+	
+	static function send_confirmation_mail($email, $area, $rule, $id) {
+		$code = encrypt($email,true);
+		
+		if (!empty($rule)) {
+			$second = $rule == 'all' ? '' : str_replace('|','/',$rule).'/';
+		} else {
+			$second = $id.'/';
+		}
+		
+		$text = 
+			'Вы захотели подписаться на сайте 4отаку.ру на комментарии. '.
+			'Подтвердите пожалуйста, что этот Е-мейл принадлежит вам, пройдя по ссылке '.
+			'http://'.def::site('domain').'/confirm/'.$code.'/'.$area.'/'.$second.'. <br /><br />'."\n\n".
+			'Если вы получили это письмо по ошибке, просто проигнорируйте его. <br />'."\n".
+			'Если вы больше не хотите получать писем о подписке на комментарии 4отаку.ру, '.
+			'пройдите по этой ссылке: '.
+			'http://'.def::site('domain').'/stop_emails/'.$code.'/'.$area.'/'.$second.'.';
+		obj::db()->insert('misc',array('mail_notify',0,$email,'',$text,''));
+		self::add_res('Вам выслано письмо для подтверждения прав пользования Е-мейлом.');
+	}
+	
+	function batch_send_mail($emails, $text) {
+		global $check;
+		
+		$emails = array_unique($emails);
+		
+		if (!empty($emails) && is_array($emails)) {
+			foreach ($emails as $email) {
+				if ($check->email($email,false)) {
+					$code = encrypt($email,true);
+					$send_text = 
+						$text.' <br /><br />'."\n\n".
+						'Если вы больше не хотите получать писем о подписке на комментарии 4отаку.ру, '.
+						'пройдите по этой ссылке: '.
+						'http://'.def::site('domain').'/stop_emails/'.$code.'/';
+					obj::db()->insert('misc',array('mail_notify',0,$email,'',$send_text,''));
+				}
+			}
+		}
+	}	
+
 }

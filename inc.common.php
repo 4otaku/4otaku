@@ -60,7 +60,7 @@ include_once ROOT_DIR.SL.'engine'.SL.'config.php';
 
 def::import($def);
 if(!def::site('domain')) {
-	def::set('site','domain',$_SERVER["SERVER_NAME"]);
+	def::set('site','domain',$_SERVER['SERVER_NAME']);
 }
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
@@ -83,15 +83,7 @@ if (!(_CRON_)) {
 	// Удалим все левые куки, нечего захламлять пространство
 	foreach ($_COOKIE as $key => $cook) if ($key != 'settings') setcookie ($key, "", time() - 3600);
 
-	// Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
-	if (def::site('domain')) {
-		$cookie_domain = def::site('domain');
-	} elseif ($_SERVER['SERVER_NAME'] == 'localhost') {
-		$cookie_domain = NULL;
-	} else {
-		$cookie_domain = $_SERVER['SERVER_NAME'];
-	}
-	$cookie_domain .= SITE_DIR;
+	$cookie_domain = def::site('domain').SITE_DIR;
 
 	// Хэш. Берем либо из cookie, если валиден, либо генерим новый
 	query::$cookie = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));

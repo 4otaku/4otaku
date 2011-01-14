@@ -12,16 +12,16 @@ include_once ROOT_DIR.SL.'engine'.SL.'handle_old_urls.php';
 
 if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 	if ($url[1] == 'confirm') {
-		input__common::subscribe_comments(
+		input__comment::subscribe_comments(
 			decrypt($url[2]),
 			$url[3],
 			$url[5] ? $url[4].'|'.$url[5] : null, 
 			$url[5] ? null: $url[4]
 		);
 	} else {
-		input__common::add_to_black_list(decrypt($url[2]));
+		input__comment::add_to_black_list(decrypt($url[2]));
 	}
-	$redirect = 'http://'.def::site('domain').'/'.$url[3].'/'.$url[4].'/'.$url[5];
+	$redirect = 'http://'.def::site('domain').'/'.(empty($url[3]) ? 'news/' : $url[3].'/'.$url[4].'/'.$url[5]);
 	engine::redirect($redirect);	
 }
 
