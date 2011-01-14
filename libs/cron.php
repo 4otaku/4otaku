@@ -112,7 +112,7 @@ class cron
 		if (!empty($data)) {
 			$mail = new mail('html');
 			foreach ($data as $send) {
-				if (obj::db()->sql('select id from orders where (id ='.$send['data5'].' and spam = 1)',2)) {
+				if (!obj::db()->sql('select id from orders where (id ='.$send['data5'].' and spam = 0)',2)) {
 					if ($send['data3']) $mail->text($send['data4'])->send($send['data2'],$send['data3']);
 					else $mail->text($send['data4'])->send($send['data2']);
 					obj::db()->sql('delete from misc where id ='.$send['id'],0);
