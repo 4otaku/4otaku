@@ -162,6 +162,11 @@ function add_text(text) {
 }
 
 function is_left_click(event) {
+	if(event.button == undefined) {
+		// Клик вызван функцией jQuery .click(), считаем за левый
+		return true;
+	}
+	
 	if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
 		return true;
 	}
