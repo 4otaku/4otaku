@@ -9,7 +9,6 @@ AddDefaultCharset UTF-8
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !go/
 	RewriteRule . /index.php [NE,L]
-	RewriteRule "(^|/)(CVS|\.svn|\.git|engine|templates|libs)/" - [F]
 </IfModule>
 
 <FilesMatch "config.js">
