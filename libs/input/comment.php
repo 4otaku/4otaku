@@ -44,6 +44,9 @@ class input__comment extends input__common
 			
 			$mail = $this->check_simple_subscriptions($table,$item_id);
 			$mail = array_merge($mail, $this->check_complex_subscriptions($table,$item_id));
+			if (array_key_exists(query::$post['mail'],$mail)) {
+				unset ($mail[array_search(query::$post['mail'],$mail)]);
+			}
 			if (!empty($mail)) {
 				$this->batch_send_mail($mail,$this->subscription_notify_text($table,$item_id,$comment));
 			}
@@ -192,7 +195,9 @@ class input__comment extends input__common
 		$text = 
 			'По адресу http://'.def::site('domain').'/'.$table.'/'.$id.'/ '.
 			', по которому вы вы подписаны на комментарии оставлен новый комментарий: '.
-			'<br /><br />'."\n\n".$text;
+			'-------------------------'.
+			'<br /><br />'."\n\n".$text.
+			'-------------------------';
 			
 		return $text;
 	}
