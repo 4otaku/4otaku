@@ -5,7 +5,7 @@
 		</a>
 	</span>
 	<span class="link_delete">
-		<? if ($post['cookie'] && $_COOKIE['settings'] === $post['cookie']) { ?>
+		<? if ($post['cookie'] && query::$cookie === $post['cookie']) { ?>
 			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
 		<? } ?>
 	</span>

@@ -116,7 +116,6 @@ input, textarea {
 }
 
 button, input {
-
     background-color:#FFFFFF !important;
     text-decoration:none !important;
     font-weight:bold !important; 
@@ -538,6 +537,7 @@ a.comments {
   font-size: 14pt; 	
   font-weight: normal;
   color: #42A3B9;
+  margin-top: 0px !important;
 }
 
 .datetime {

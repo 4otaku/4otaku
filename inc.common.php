@@ -60,7 +60,7 @@ include_once ROOT_DIR.SL.'engine'.SL.'config.php';
 
 def::import($def);
 if(!def::site('domain')) {
-	def::set('site','domain',$_SERVER["SERVER_NAME"]);
+	def::set('site','domain',$_SERVER['SERVER_NAME']);
 }
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
@@ -83,21 +83,13 @@ if (!(_CRON_)) {
 	// Удалим все левые куки, нечего захламлять пространство
 	foreach ($_COOKIE as $key => $cook) if ($key != 'settings') setcookie ($key, "", time() - 3600);
 
-	// Определяем домен для cookie. Если в настройках задан домен - берем его, иначе опираемся на окружение
-	if (def::site('domain')) {
-		$cookie_domain = def::site('domain');
-	} elseif ($_SERVER['SERVER_NAME'] == 'localhost') {
-		$cookie_domain = NULL;
-	} else {
-		$cookie_domain = $_SERVER['SERVER_NAME'];
-	}
-	$cookie_domain .= SITE_DIR;
+	$cookie_domain = def::site('domain').SITE_DIR;
 
 	// Хэш. Берем либо из cookie, если валиден, либо генерим новый
-	$hash = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
+	query::$cookie = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
 
 	// Пробуем прочитать настройки для хэша
-	$sess = obj::db()->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.$hash.'"', 1);
+	$sess = obj::db()->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.query::$cookie.'"', 1);
 
         // Проверяем полученные настройки
 	if (isset($sess['data']) && isset($sess['lastchange'])) {
@@ -105,9 +97,9 @@ if (!(_CRON_)) {
 
 		// Обновляем cookie еще на 2 мес у клиента, если она поставлена больше месяца назад
 		if(intval($sess['lastchange']) < (time()-3600*24*30)) {
-			setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+			setcookie("settings", query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
 			// Фиксируем факт обновления в БД
-			obj::db()->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.$hash.'"',0);
+			obj::db()->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.query::$cookie.'"',0);
 		}
 
 		// Проверяем валидность настроек и исправляем, если что-то не так
@@ -117,15 +109,13 @@ if (!(_CRON_)) {
 			sets::import($sets);
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
-			obj::db()->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.$hash.'"',0);
+			obj::db()->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.query::$cookie.'"',0);
 		}
 	} else {
 		// Настроек нет, создаем их
 
-		setcookie("settings", $hash, time()+3600*24*60, '/' , $cookie_domain);
+		setcookie("settings", query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
 		// Вносим в БД сессию с дефолтными настройками
-		obj::db()->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.$hash.'", "YTowOnt9", "'.time().'")',0);
-		// @fixme Не самый удачный способ передать cookie в cookie.php
-		$_COOKIE['settings'] = $hash;
+		obj::db()->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.query::$cookie.'", "YTowOnt9", "'.time().'")',0);
 	}
 }

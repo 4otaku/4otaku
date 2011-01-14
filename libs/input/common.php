@@ -120,5 +120,7 @@ class input__common extends engine
 		return '<br /><br />
 		
 				Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: <a href="http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/">http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/</a>';
-	}		
+	}
+	
+// Секция кончилась
 }

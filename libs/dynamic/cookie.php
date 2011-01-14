@@ -5,7 +5,7 @@ class dynamic__cookie
 	function set() { 	
 		global $check; 
 		$fields = explode(',',query::$get['field']);
-		if (is_array($fields) && $check->hash($_COOKIE['settings']))
+		if (is_array($fields) && $check->hash(query::$cookie))
 			foreach ($fields as $field)
 				if (preg_match('/^[A-Za-z0-9_.]+$/',$field)) {
 					if (substr(query::$get['val'],0,1) == '{' && substr(query::$get['val'],-1) == '}') switch (query::$get['val']) {
@@ -21,17 +21,17 @@ class dynamic__cookie
 	
 	function inner_set($field,$value,$allow_empty = true) {
 		$parts = explode('.',$field);
-		$settings = obj::db()->sql('select data from settings where cookie = "'.$_COOKIE['settings'].'"',2);
+		$settings = obj::db()->sql('select data from settings where cookie = "'.query::$cookie.'"',2);
 		$settings = unserialize(base64_decode($settings));
 		if ($allow_empty || !empty($settings)) {
 			$settings[$parts[0]][$parts[1]] = $value;
-			obj::db()->update('settings',array('data'),array(base64_encode(serialize($settings))),$_COOKIE['settings'],'cookie');
+			obj::db()->update('settings',array('data'),array(base64_encode(serialize($settings))),query::$cookie,'cookie');
 		}
 	}
 	
 	function get() {
 		global $check;
-		if ($check->hash($_COOKIE['settings']))
-			return $_COOKIE['settings'];
+		if ($check->hash(query::$cookie))
+			return query::$cookie;
 	}
 }

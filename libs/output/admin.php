@@ -42,6 +42,14 @@ class output__admin extends engine
 		return $return;		
 	}
 	
+	function subscribe($return) {
+		$return['display'][] = 'admin_subscribe';
+		$return['author'] = obj::db()->sql('select alias, name from author','alias');
+		$return['category'] = obj::db()->sql('select alias, name from category','alias');
+		$return['language'] = obj::db()->sql('select alias, name from language','alias');
+		return $return;		
+	}	
+	
 	function updates($return) {
 		global $url;
 

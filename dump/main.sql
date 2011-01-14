@@ -139,7 +139,7 @@ INSERT INTO `cron` (`id`, `time`, `function`, `period`) VALUES
 (1, 0, 'gouf_check', 60),
 (2, 0, 'gouf_refresh_links', 86400),
 (3, 0, 'clean_tags', 86400),
-(4, 0, 'send_mails', 3600),
+(4, 0, 'send_mails', 60),
 (5, 0, 'close_orders', 86400),
 (6, 0, 'clean_settings', 3600),
 (7, 0, 'add_to_search', 3600),
@@ -337,6 +337,19 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY  (`id`),
   KEY `cookie` (`cookie`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `subscription` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `cookie` varchar(32) NOT NULL,
+  `email` varchar(512) NOT NULL,
+  `area` varchar(16) NOT NULL,
+  `rule` text default NULL,
+  `item_id` varchar(128) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `check_email_rights` (`cookie`,`email`(255)),
+  KEY `subscription_rule` (`area`,`rule`(255)),
+  KEY `subscription_id` (`area`,`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `tag` (
   `id` int(11) NOT NULL auto_increment,

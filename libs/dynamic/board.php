@@ -7,7 +7,7 @@ class dynamic__board extends engine
 		
 		$data = obj::db()->sql('select type, cookie from board where id='.query::$get['id'],1);
 		
-		if ($data['cookie'] != $_COOKIE['settings']) {
+		if ($data['cookie'] != query::$cookie) {
 			return false;
 		}
 		
