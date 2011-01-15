@@ -10,6 +10,11 @@ class output__index extends engine
 		'head' => array('title')
 	);
 	
+	private $wiki_namespaces = array(
+		1 => 'Обсуждение',
+		6 => 'Файл',
+	);
+	
 	function get_data() {
 		global $sets; global $def;
 		
@@ -45,7 +50,12 @@ class output__index extends engine
 		}		
 		$return['board']['all'] = obj::db()->sql('select count(*) from board where `type` = "2"',2);
 		
-		$return['wiki'] = obj::db('wiki')->sql('select rc_title from recentchanges order by rc_id desc limit 1',2);
+		$wiki = obj::db('wiki')->sql('select rc_title, rc_namespace from recentchanges order by rc_id desc limit 1',1);
+		if (array_key_exists($wiki['rc_namespace'],$this->wiki_namespaces)) {
+			$return['wiki'] = $this->wiki_namespaces[$wiki['rc_namespace']].':'.$wiki['rc_title'];
+		} else {
+			$return['wiki'] = $wiki['rc_title'];
+		}
 	
 		if ($return['news'] = obj::db()->sql('select url,title,text,image,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
 			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
