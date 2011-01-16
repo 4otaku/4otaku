@@ -127,7 +127,7 @@ class input__comment extends input__common
 			$id = $url[2];					
 		}
 		
-		if ($check == 'blocked') {
+		if ($check === 'blocked') {
 			self::add_res('Владелец этого Е-мейла отказался от подписок на комментарии.',true);
 		} elseif ($check) {
 			self::subscribe_comments(query::$post['email'],$area,$rule,$id);
