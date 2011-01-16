@@ -213,7 +213,7 @@ class output__board extends engine
 					$content = unserialize(base64_decode($item['content']));
 					
 					if (is_array($content['image'])) {
-						foreach ($content['image'] as $image_key => $image) {							
+						foreach ($content['image'] as $image_key => $image) {
 							$content['image'][$image_key]['full_size_info'] = 
 								obj::transform('file')->weight($image['weight']) . 
 								', ' . $image['sizes'] . ' пикселей';

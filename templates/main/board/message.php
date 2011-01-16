@@ -29,7 +29,8 @@
 		<? if (isset($post['content']['image'][0])) { ?>
 			<a href="<?=$def['site']['dir']?>/images/board/full/<?=$post['content']['image'][0]['full'];?>" 
 				target="_blank" class="board_image_thumb with_help" 
-				title="<?=$post['content']['image'][0]['full_size_info'];?>">
+				title="<?=$post['content']['image'][0]['full_size_info'];?>" 
+				rel="<?=$post['content']['image'][0]['sizes'];?>">
 				<img align="left" src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$post['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$post['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif (isset($post['content']['flash'])) { ?>

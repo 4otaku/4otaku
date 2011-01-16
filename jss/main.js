@@ -760,7 +760,9 @@ $(document).ready(function(){
 	$(".board_image_thumb").live('click', function(event){
 		if(is_left_click(event)) {
 			event.preventDefault();
+			var sizes = $(this).attr('rel').split('x');
 			var img = $(this).children('img');
+			img.css({'width':sizes[0]+'px','height':sizes[1]+'px'});
 			$(this).addClass('board_image_full').removeClass('board_image_thumb');
 			$(this).parents('div').addClass('clear');
 			if (img.attr('rel').indexOf('/full/') != -1) {
@@ -787,6 +789,7 @@ $(document).ready(function(){
 		if(is_left_click(event)) {
 			event.preventDefault();
 			var img = $(this).children('img');
+			img.css({'width':'auto','height':'auto'});
 			$(this).addClass('board_image_thumb').removeClass('board_image_full');
 			$(this).parents('div').removeClass('clear');
 			if (img.attr('rel').indexOf('/thumbs/') != -1) {

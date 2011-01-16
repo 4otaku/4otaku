@@ -80,7 +80,8 @@
 		<? if (isset($thread['content']['image'][0])) { ?>
 			<a href="<?=$def['site']['dir']?>/images/board/full/<?=$thread['content']['image'][0]['full'];?>" 
 				target="_blank" class="board_image_thumb with_help" 
-				title="<?=$thread['content']['image'][0]['full_size_info'];?>">
+				title="<?=$thread['content']['image'][0]['full_size_info'];?>" 
+				rel="<?=$thread['content']['image'][0]['sizes'];?>">
 				<img align="left" src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$thread['content']['image'][0]['thumb'];?>" rel="/images/board/full/<?=$thread['content']['image'][0]['full'];?>">
 			</a>
 		<? } elseif (isset($thread['content']['flash'])) { ?>
