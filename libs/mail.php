@@ -12,11 +12,11 @@ class mail
  
 	function __construct($type = 'body') {
 		$this->attachments = array();
-		$this->boundary = '_mail_boundary_';
+		$this->boundary = '_mail_'.md5(microtime(true).'4otaku').'_boundary_';
 		$this->headers = array(
 			 'From' => '4otaku.ru <gouf@4otaku.ru>',
 			 'MIME-Version' => '1.0',
-			 'Content-Type' => "multipart/mixed; boundary=\"$this->boundary\""
+			 'Content-Type' => 'multipart/mixed; boundary="'.$this->boundary.'"',
 		);
 		$this->textfunction = $type.'text';
 	}
@@ -79,8 +79,7 @@ class mail
  
 	function htmltext($text) {
 		$this->htmlbody = "\n--" . $this->boundary . "\n";
-		$this->htmlbody .= "Content-Type: text/html\n";
-		$this->htmlbody .= "Content-Transfer-Encoding: 8bit\n\n";
+		$this->htmlbody .= "Content-Type: text/html; charset=utf-8\n";
 		$this->htmlbody .= $text;
 	}
 
