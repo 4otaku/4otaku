@@ -54,6 +54,7 @@ jQuery.cookie = function (key, value, options) {
 		this.each(function() {
 			var title = $(this).attr("title");
 			$(this).hover(function(e){
+				$("#" + options.tooltipId).remove();
 				$(this).attr("title","");
 				content = (options.content != "") ? options.content : title;
 				content = (options.useElement != "") ? $("#" + options.useElement).html() : content;									  				
@@ -65,14 +66,13 @@ jQuery.cookie = function (key, value, options) {
 							.css("top",(e.pageY - options.yOffset) + "px")
 							.css("left",(e.pageX + options.xOffset) + "px")						
 							.css("display","none");
-							setTimeout( function() {	$("#" + options.tooltipId).fadeIn("fast")			}, options.timeOut);	
-					}
-					else {
+							setTimeout(function() {$("#" + options.tooltipId).fadeIn("fast")}, options.timeOut);	
+					} else {
 						$("#" + options.tooltipId)
 							.css("position","absolute")
 							.css("top",(e.pageY - options.yOffset) + "px")
 							.css("left",(e.pageX + options.xOffset) + "px")						
-							.css("display","none").fadeIn("fast")
+							.css("display","none").fadeIn("fast");
 					}
 				}
 			},
@@ -91,10 +91,8 @@ jQuery.cookie = function (key, value, options) {
 					$(this).attr("title",title);
 				});				
 			}
-		});
-	  
+		});	  
 	};
-
 })(jQuery);
 
 jQuery.download = function(url, data, method){
@@ -141,12 +139,6 @@ function show_updates(id) {
 		$("div#updates_field_loader img").hide();
 		$("div#updates_field").slideDown();
 	});		
-}
-
-function remove_total(remove_name) {
-	$(remove_name).remove();
-	if ($(remove_name).length > 0)
-		remove_total(remove_name);
 }
 
 function add_text(text) {
@@ -533,7 +525,6 @@ $(document).ready(function(){
 	$("div.thumbnail").click(function(event){
 		if (window.masstag && $(".MassTag9001:visible").val()) {
 		 	event.preventDefault();
-			remove_total("#easyTooltip");
 			$(this).html('<img src="'+window.config.image_dir+'/ajax-loader.gif" style="margin-top:60px;">');
 			$(this).load(window.config.site_dir+"/ajax.php?m=art&f=masstag&data="+urlencode($(".MassTag9001:visible").val())+"&sign="+$("#MassTag9001_sign").val()+"&id="+$(this).attr('rel'),
 				function() { $("a.with_help3").unbind('easyTooltip').easyTooltip({ timeOut: 1000 });}
