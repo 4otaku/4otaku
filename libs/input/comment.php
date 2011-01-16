@@ -192,8 +192,9 @@ class input__comment extends input__common
 	function subscription_notify_text($table, $id, $text) {
 		$table = $table == 'orders' ? 'order' : $table;
 		
+		$url = 'http://'.def::site('domain').'/'.$table.'/'.$id.'/';
 		$text = 
-			'По адресу http://'.def::site('domain').'/'.$table.'/'.$id.'/ '.
+			'По адресу <a href="'.$url.'">'.$url.'</a> '.
 			', по которому вы вы подписаны на комментарии оставлен новый комментарий: '.
 			'<br /><br />'."\n\n".
 			'-------------------------'.
