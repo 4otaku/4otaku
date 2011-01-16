@@ -14,7 +14,7 @@
 	if (engine::have_tag_variants($item['meta']['tag'])) {
 		?>
 			<span class="synonims">
-				<a href="#" class="disabled" title="Показать синонимы">
+				<a href="#" class="disabled" title="Показать синонимы" rel="<?=$item['id'];?>">
 					&gt;&gt;
 				</a>
 			</span> 
@@ -42,24 +42,22 @@
 			<? if (++$i != $total) { ?>
 				, 
 			<? } ?>
-			<? if ($meta_total = count($meta['variants'])) { ?>
-				<span class="hidden tag_synonims">
-					<?
-						if ($i == $total) { ?>, <? }				
-						$j = 0;
-						foreach ($meta['variants'] as $synonim) {
-							?>
-								<a href="<?=$def['site']['dir']?>/<?=$url[1];?>/tag/<?=urlencode($synonim);?>">
-									<?=$synonim;?>
-								</a>
-								<? if (++$j != $meta_total) { ?>
-									, 
-								<? } ?>
-							<?
-						}
-					?>
-				</span>										
-			<? }
-		}
+			<span class="hidden tag_synonims tag_synonims_<?=$item['id'];?>">
+				<? if ($meta_total = count($meta['variants'])) {
+					if ($i == $total) { ?>, <? }				
+					$j = 0;
+					foreach ($meta['variants'] as $synonim) {
+						?>
+							<a href="<?=$def['site']['dir']?>/<?=$url[1];?>/tag/<?=urlencode($synonim);?>">
+								<?=$synonim;?>
+							</a>
+							<? if (++$j != $meta_total) { ?>
+								, 
+							<? } ?>
+						<?
+					}
+				} ?>
+			</span>
+		<?	}
 	}		
 ?>

@@ -424,16 +424,18 @@ $(document).ready(function(){
 		show_updates($(this).attr("rel"));
 	});
 
-	$(".synonims a.disabled").live('click',function(){
-		if ($(this).html()=='&gt;&gt;') {
-			$('.tag_synonims').show();
-			$(this).attr('title','Спрятать синонимы');
-			$(this).html('&lt;&lt;');
-		}
-		else {
-			$('.tag_synonims').hide();
-			$(this).attr('title','Показать синонимы');
-			$(this).html('&gt;&gt;');
+	$(".synonims a.disabled").live('click',function(event){
+		if (is_left_click(event)) {
+			if ($(this).html()=='&gt;&gt;') {
+				$('.tag_synonims_'+$(this).attr('rel')).show();
+				$(this).attr('title','Спрятать синонимы');
+				$(this).html('&lt;&lt;');
+			}
+			else {
+				$('.tag_synonims_'+$(this).attr('rel')).hide();
+				$(this).attr('title','Показать синонимы');
+				$(this).html('&gt;&gt;');
+			}
 		}
 	}); 
 	
