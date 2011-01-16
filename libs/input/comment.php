@@ -48,7 +48,7 @@ class input__comment extends input__common
 				unset ($mail[array_search(query::$post['mail'],$mail)]);
 			}
 			if (!empty($mail)) {
-				$this->batch_send_mail($mail,$this->subscription_notify_text($table,$item_id,$comment));
+				$this->batch_send_mail($mail,$this->subscription_notify_text($table,$item_id,query::$post['name'].': '.$comment));
 			}
 			
 			if ($table == 'orders') {
