@@ -10,6 +10,10 @@
 			</td>
 			<td align="right" valign="top">
 				Изображений: <?=$data['main']['pool']['count'];?>
+				<br />
+				<a href="<?=$def['site']['dir'];?>/art/slideshow/pool/<?=$url[3];?>#1" target="_blank">
+					Запустить слайдшоу
+				</a>
 			</td>
 		</tr>
 	</table>
