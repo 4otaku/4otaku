@@ -108,6 +108,7 @@ img.cancel {
 input, textarea {
     -moz-border-radius: 0.5em !important;
 	-webkit-border-radius: 0.5em !important;
+	border-radius: 0.5em !important;
     background-color:#efefef ;
     border:1px solid #CCCCCC !important;
     border-bottom:1px solid #eee !important;
