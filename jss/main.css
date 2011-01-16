@@ -284,7 +284,15 @@ div.addborder > a {
 }
 
 .synonims {
-	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.tag_synonims {
+	margin-right: 10px;
+}
+
+.tag_synonims a {
+	color: #CC99FF !important;
 }
 
 /* Content, верхний блок, до содержимого */

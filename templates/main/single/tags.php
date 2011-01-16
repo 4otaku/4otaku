@@ -10,69 +10,56 @@
 			Тег: 
 		<?
 	}
-
-	$synonims = array();
-	if (count($item['meta']['tag']))
-	{
-		foreach ($item['meta']['tag'] as $key => $meta) {
-			if (!empty($meta['variants'])) $synonims = array_merge($synonims,$meta['variants']);	
-			if ($nonfirst) {
-				?>
-				, 
-				<?
-			}	else $nonfirst = true;
-			?>
-			<?
-				if ($url[1] == 'post' || $url[1] == 'video') {
-					if (!is_numeric($url[2]) && $url[1] != 'search') {
-						?>										
-							<a href="<?=$output->mixed_add($key,'tag');?>">
-								+
-							</a> 
-							<a href="<?=$output->mixed_add($key,'tag','-');?>">
-								-
-							</a> 	
-						<?
-					}
-				}
-			?>
-				<a href="<?=$data['main']['navi']['base'];?>tag/<?=$key;?>/">
-					<?=$meta['name'];?>
-				</a>
-			<?
-		}	unset($nonfirst);
-	}
 	
-	if (!empty($synonims)) {
+	if (engine::have_tag_variants($item['meta']['tag'])) {
 		?>
-		,
 			<span class="synonims">
 				<a href="#" class="disabled" title="Показать синонимы">
 					&gt;&gt;
 				</a>
-				<span class="hidden">
-					<?
-						foreach ($synonims as $one) {
-							if ($nonfirst) 
-							{
-								?>
-								, 
-								<?
-							}	
-							else 
-							{
-								$nonfirst = true;
-								echo " ";
-							}
-							?>
-								<a href="<?=$def['site']['dir']?>/<?=$url[1];?>/tag/<?=urlencode($one);?>">
-									<?=$one;?>
-								</a>
-							<?
-						}	unset($nonfirst);
-					?>
-				</span>
-			</span>												
+			</span> 
 		<?
-	}								
+	}
+	
+	if ($total = count($item['meta']['tag'])) {
+		$i = 0;
+		foreach ($item['meta']['tag'] as $key => $meta) {
+			if ($url[1] == 'post' || $url[1] == 'video') {
+				if (!is_numeric($url[2]) && $url[1] != 'search') {
+					?>										
+						<a href="<?=$output->mixed_add($key,'tag');?>">
+							+
+						</a> 
+						<a href="<?=$output->mixed_add($key,'tag','-');?>">
+							-
+						</a> 	
+					<?
+				}
+			} ?>			
+			<a href="<?=$data['main']['navi']['base'];?>tag/<?=$key;?>/">
+				<?=$meta['name'];?>
+			</a>
+			<? if (++$i != $total) { ?>
+				, 
+			<? } ?>
+			<? if ($meta_total = count($meta['variants'])) { ?>
+				<span class="hidden tag_synonims">
+					<?
+						if ($i == $total) { ?>, <? }				
+						$j = 0;
+						foreach ($meta['variants'] as $synonim) {
+							?>
+								<a href="<?=$def['site']['dir']?>/<?=$url[1];?>/tag/<?=urlencode($synonim);?>">
+									<?=$synonim;?>
+								</a>
+								<? if (++$j != $meta_total) { ?>
+									, 
+								<? } ?>
+							<?
+						}
+					?>
+				</span>										
+			<? }
+		}
+	}		
 ?>

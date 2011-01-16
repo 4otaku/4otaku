@@ -426,12 +426,12 @@ $(document).ready(function(){
 
 	$(".synonims a.disabled").live('click',function(){
 		if ($(this).html()=='&gt;&gt;') {
-			$(this).parent('span').children('span').show();
+			$('.tag_synonims').show();
 			$(this).attr('title','Спрятать синонимы');
 			$(this).html('&lt;&lt;');
 		}
 		else {
-			$(this).parent('span').find('span').hide();
+			$('.tag_synonims').hide();
 			$(this).attr('title','Показать синонимы');
 			$(this).html('&gt;&gt;');
 		}
@@ -458,7 +458,7 @@ $(document).ready(function(){
 	/* Art section start */
 	
 	$(".art_translation").easyTooltip();
-	$("a.with_help3").easyTooltip({	timeOut: 1000 });
+	$("a.with_help3").easyTooltip({timeOut:1000});
 	
 	$('.booru_main img').unbind('mousemove');	
 	

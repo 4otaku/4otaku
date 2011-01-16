@@ -67,6 +67,17 @@ class engine
 		return $return;	
 	}
 	
+	static function have_tag_variants($tags) {
+		if (is_array($tags)) {
+			foreach ($tags as $tag) {
+				if (!empty($tag['variants'])) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	function get_comments($place, $id, $pos = false) {
 		global $sets;
 		$return['number'] = obj::db()->sql('select count(id) from comment where (place="'.$place.'" and post_id="'.$id.'" and rootparent=0 and area != "deleted")',2,'count(id)');
