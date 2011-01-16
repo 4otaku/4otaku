@@ -162,18 +162,21 @@ class transform__text
 					case 'b': $replacement = "<strong>$innertext</strong>"; break;
 					case 'i': $replacement = "<em>$innertext</em>"; break;
 					case 's': $replacement = "<s>$innertext</s>"; break;
-					case 'size': $replacement = "<font size=\"+$param;\">$innertext</span>"; break;
+					case 'size': 
+						if ($param{0} != '+' && $param{0} != '-') $param = '+'.$param;
+						$replacement = "<font size=\"$param;\">$innertext</span>"; 
+						break;
 					case 'color': $replacement = "<span style=\"color: $param;\">$innertext</span>"; break;
 					case 'url': $replacement = '<a href="/go?' . str_replace('http','⟯',($param? $param : $innertext)) . "\">".str_replace('http','⟯',$innertext)."</a>"; break;
 					case 'img':
 						$param = explode('x', strtolower($param));
 						$replacement = "<img src=\"".str_replace('http','⟯',$innertext)."\" " . (is_numeric($param[0])? "width=\"".$param[0]."\" " : '') . (is_numeric($param[1])? "height=\"".$param[1]."\" " : '') . '/><br />';
-					break;
+						break;
 			        case 'spoiler':
 						$replacement = "<div class=\"mini-shell\"><div class=\"handler\" width=\"100%\">".
 							"<span class=\"sign\">↓</span> <a href=\"#\" class=\"disabled\">".str_replace(array('[',']'),array('',''),$param)."</a></div>".
 							"<div class=\"text hidden\">".ltrim($innertext)."</div></div>";
-					break;
+						break;
 				}
 				$string = str_replace($match, $replacement, $string);
 			}
