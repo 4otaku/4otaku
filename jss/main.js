@@ -764,7 +764,11 @@ $(document).ready(function(){
 			event.preventDefault();
 			var sizes = $(this).attr('rel').split('x');
 			var img = $(this).children('img');
-			img.css({'width':sizes[0]+'px','height':sizes[1]+'px'});
+			
+			if (sizes[0] > 240) {
+				img.css({'width':sizes[0]+'px','height':sizes[1]+'px'});
+			}
+			
 			$(this).addClass('board_image_full').removeClass('board_image_thumb');
 			$(this).parents('div').addClass('clear');
 			if (img.attr('rel').indexOf('/full/') != -1) {
