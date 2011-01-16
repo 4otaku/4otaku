@@ -195,7 +195,7 @@ class input__comment extends input__common
 		$url = 'http://'.def::site('domain').'/'.$table.'/'.$id.'/';
 		$text = 
 			'<br /><br />'."\n\n".
-			'По адресу <a href="'.$url.'">'.$url.'</a> '.
+			'По адресу <a href="'.$url.'">'.$url.'</a>'.
 			', по которому вы подписаны на комментарии оставлен новый комментарий: '.
 			'<br /><br />'."\n\n".
 			'-------------------------'.
