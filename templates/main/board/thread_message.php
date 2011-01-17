@@ -19,7 +19,7 @@
 				<div class="relative">
 					<span class="variants">
 						<? if ($thread['downloads']['pdf']) { ?>
-							<a href="#" class="board_download">
+							<a href="#download-<?=$url[4];?>-html" class="board_download">
 								<nobr>
 									Тред в html
 								</nobr>

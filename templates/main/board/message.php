@@ -1,6 +1,6 @@
 <div class="message" id="board-<?=$post['id'];?>">	
 	<span class="link_last">
-		<a href="<?=($url[3] != 'thread' ? '/board/'.$thread['current_board'].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
+		<a href="<?=$def['site']['dir'];?><?=($url[3] != 'thread' ? '/board/'.$thread['current_board'].'/thread/'.$id.'#reply-'.$post['id'] : "javascript:add_text('>>".$post['id']."')");?>">
 			Ответить
 		</a>
 	</span>
@@ -18,7 +18,7 @@
 		</span>
 	<? } ?>
 	<span class="number">
-		<a href="<?='/board/'.$thread['current_board'].'/thread/'.$id.'/#board-'.$post['id'];?>" class="number_link">
+		<a href="<?=$def['site']['dir'];?><?='/board/'.$thread['current_board'].'/thread/'.$id.'/#board-'.$post['id'];?>" class="number_link">
 			#<?=$post['id'];?>
 		</a>
 	</span>

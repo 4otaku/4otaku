@@ -157,10 +157,17 @@ class output__board extends engine
 			$return['posts'][0]['images_count'] = $images;
 		}
 
+		$wrong_board = !obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2);
+		
+		if ($url[2] == 'download') {
+			$this->template = 'main__board__download';
+			$wrong_board = false;
+		}
+		
 		if (
 			empty($return['posts']) || 
 			$return['posts'][0]['type'] != 2 ||
-			!obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2)
+			$wrong_board
 		) {
 			$error = true;
 			$this->side_modules['top'] = array('board_list');
@@ -173,11 +180,12 @@ class output__board extends engine
 	}
 	
 	function check_downloads($return) {
+		$return['posts'][0]['downloads']['pdf'] = true;
 		if (
 			$return['posts'][0]['images_count'] > 1 &&
 			class_exists('ZipArchive')
 		) {
-			$return['posts'][0]['downloads']['zip'] = $return['posts'][0]['updated'];
+			$return['posts'][0]['downloads']['zip'] = true;
 		}
 		return $return;
 	}
