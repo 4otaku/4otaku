@@ -12,6 +12,7 @@ class output__index extends engine
 	
 	private $wiki_namespaces = array(
 		1 => 'Обсуждение',
+		4 => 'wiki',
 		5 => 'Обсуждение_wiki',
 		6 => 'Файл',
 	);
