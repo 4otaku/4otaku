@@ -1,4 +1,4 @@
-<? 
+ï»¿<? 
 
 class dynamic__art extends engine
 {
@@ -88,11 +88,11 @@ class dynamic__art extends engine
 		obj::db()->update('art','tag',$tags,$id);	
 	}
 	
-	function danbooru($section, $did)
+	function danbooru($section, $id)
 	{
 		if ($section == 'danbtag')
 		{
-			$dmd5 = obj::db()->sql('select md5 from art where id='.$did,2);
+			$dmd5 = obj::db()->sql('select md5 from art where id='.$id,2);
 		
 			$domdoc = new DOMDocument();	
 			$domdoc->load('http://danbooru.donmai.us/post/index.xml?tags=md5:'.$dmd5);
@@ -109,12 +109,12 @@ class dynamic__art extends engine
 				filter_external_tags(&$dtags[0]);		
 				$dtag = implode(", ", $dtags[0]); 
 				
-				$this->add_tag($dtag, $did);
+				$this->add_tag($dtag, $id);
 			}
 		}
 		else if ($section == 'iqdb')
 		{
-			$mass = obj::db()->sql('select md5,extension from art where id='.$did,1);
+			$mass = obj::db()->sql('select md5,extension from art where id='.$id,1);
 		
 			if (isset($mass)) 
 			{
@@ -135,23 +135,32 @@ class dynamic__art extends engine
 								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */
 									
 								$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
-								if ($dtags[0][0] !== "") $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];
+								if ($dtags[sizeof($dtags)-1][0] !== "") $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];
+								
+								$category = substr($temp[0]->alt,strpos($temp[0]->alt,'Rating: ')+8,1);
+								if ($category == 'q' || $category == 'e') $explicit = true;
 							}
 						}
 					}
 				}
+				
 				if (isset($diff_arr))
 				{
-					krsort($diff_arr);															/* Ìîæåò áûòü îíî óæå îòñîðòèðîâàíî iqdb */
-					
+					krsort($diff_arr);															/* ÐœÐ¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ð½Ð¾ ÑƒÐ¶Ðµ Ð¾Ñ‚ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¾ iqdb */
+			
 					$dtag = html_entity_decode(implode(", ", $this->filter_external_tags(reset($diff_arr))));
-	
-					$this->substract_tag('prostavte_tegi', $did);	
-					$this->add_tag($dtag, $did);
+						
+					if ($explicit) 
+					{
+						$this->add_category('nsfw',$id);
+						$this->substract_category('none',$id);
+					}
+					$this->substract_tag('prostavte_tegi', $id);	
+					$this->add_tag($dtag, $id);
 				}
 				else
 				{
-					/*echo "Sorry, can't found any tags >_<";								   		/* TODO: Ïðèäóìàòü, êàê îáðàáîòàòü íåóäà÷è ìàññòåãà */
+					/*echo "Sorry, can't found any tags >_<";								   	/* TODO: ÐŸÑ€Ð¸Ð´ÑƒÐ¼Ð°Ñ‚ÑŒ, ÐºÐ°Ðº Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ð½ÐµÑƒÐ´Ð°Ñ‡Ð¸ Ð¼Ð°ÑÑÑ‚ÐµÐ³Ð° */
 				}
 			}
 		}
