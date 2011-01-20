@@ -1,10 +1,9 @@
 <?
 
-include_once('engine/engine.php');
 class dynamic__admin extends engine
 {
 	function delete_tag() {
-		 global $check;
+		global $check;
 		$check->rights();
 		obj::db()->sql('delete from tag where id='.query::$get['id'],0);
 		obj::db()->sql('update post set tag = replace(tag,"|'.query::$get['old_alias'].'|","|")',0);
@@ -13,20 +12,20 @@ class dynamic__admin extends engine
 	}
 	
 	function color_tag() {
-		 global $check;
+		global $check;
 		$check->rights();
 		obj::db()->update('tag','color',query::$get['color'],urldecode(query::$get['tag']),'name');
 		$this->delete_color_tag();
 	}
-		
+		 
 	function delete_color_tag() {
-		 global $check;
+		global $check;
 		$check->rights();
 		obj::db()->sql('delete from misc where id='.query::$get['id'],0);		
 	}	
 	
 	function dinamic_tag() {
-		 global $check;
+		global $check;
 		$check->rights();
 		$return['current'] = max(1, query::$get['current']);
 		list($return['tags'], $return['page_count']) = output__admin::search_tags(query::$get['query'],$return['current'],10);
@@ -34,7 +33,7 @@ class dynamic__admin extends engine
 	}
 	
 	function merge_tag() {
-		 global $check;
+		global $check;
 		$check->rights();
 		
 		if (query::$get['master'] != query::$get['slave']) {

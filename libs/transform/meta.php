@@ -27,7 +27,7 @@ class transform__meta
 		if (!$items = trim($items,$separators)) return array($default);
 		$tags = array_unique(array_filter(explode(',',str_replace(str_split($separators),',',$items))));
 		foreach ($tags as $key => $tag)
-			if (preg_match('/(^&lt;\p{L}+&gt;|&lt;\p{L}+&gt;$)/u',$tag,$type)) {
+			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
 				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
 				if (!$color || !$sets['user']['rights']) obj::db()->insert('misc',array('tag_type',$tags[$key],substr($type[0],4,-4),$color,'',''));
