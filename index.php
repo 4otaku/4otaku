@@ -2,8 +2,8 @@
 
 include_once 'inc.common.php';
 
-$_SERVER["REQUEST_URI"] = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/','',$_SERVER["REQUEST_URI"]);
-$url = explode('/',preg_replace('/\?[^\/]+$/','',$_SERVER["REQUEST_URI"])); 
+$request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/','',$_SERVER["REQUEST_URI"]);
+$url = explode('/',preg_replace('/\?[^\/]+$/','',$request)); 
 
 if(isset($url[0])) unset($url[0]);
 if(empty($url[1])) $url[1] = 'index';
