@@ -6,9 +6,8 @@
 		if (is_array($check)) {
 			$md5=md5_file($temp);
 			if (
-				1 // теста для
-//				!obj::db()->sql('select id from art where md5="'.$md5.'"',2,'id') && 
-//				!obj::db('sub')->sql('select id from w8m_art where md5="'.$md5.'"',2)
+				!obj::db()->sql('select id from art where md5="'.$md5.'"',2,'id') && 
+				!obj::db('sub')->sql('select id from w8m_art where md5="'.$md5.'"',2)
 			) {
 				$extension = strtolower(pathinfo($file,PATHINFO_EXTENSION));
 				$thumb=md5(microtime(true));
