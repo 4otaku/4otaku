@@ -56,8 +56,7 @@ function convert_to($source,$target_encoding) {
 function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	global $imagick; global $path; global $image_class; global $composite;
 	$old_x = $imagick->getImageWidth(); $old_y = $imagick->getImageHeight();
-	if (!is_array($new_size)) $new_size = array('0' => $new_size, '1' => $new_size);
-	
+	if (!is_array($new_size)) $new_size = array('0' => $new_size, '1' => $new_size);	
 	if ($thumbnail) {
 		$aspect = min ($new_size[0]/$old_x,$new_size[1]/$old_y);
 		$x = round($old_x*$aspect); $y = round($old_y*$aspect);
@@ -81,24 +80,16 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		$bg->setImageFormat('jpeg');
 		$bg->writeImage($target);	
 	} elseif (strtolower($format) == 'gif') {
-		if (detect_animation($path)) {
-			if (!$thumbnail) return false;
-			$coalesced = $imagick->coalesceImages();
-			if (is_array($coalesced)) {
-				$imagick = current($coalesced);			
-			} elseif ($image_class == 'Imagick') {
-				include_once 'imagick_substitute.php';
-				$image_class = 'imagick_substitute';
-				$composite['over'] = imagick_substitute::COMPOSITE_OVER;
-				$composite['jpeg'] = imagick_substitute::COMPRESSION_JPEG;					
-				$imagick = new $image_class($path); 
-			}
-			$old_x = $imagick->getImageWidth(); $old_y = $imagick->getImageHeight();
-			$aspect = min($new_size[0]/$old_x,$new_size[1]/$old_y);
-			$x = round($old_x*$aspect); $y = round($old_y*$aspect);				
-		}	
+		$imagick = $imagick->coalesceImages();
+		if (is_array($imagick) && count($imagick > 1)) {
+			$imagick = array_shift($imagick);
+			$imagick = array_shift($imagick); // да, это такая особая магия, потому что coalesceImages работает со 2-го кадра :3
+		} else {
+			$imagick = $imagick;
+		}
 		$imagick->setImageCompressionQuality($compression);
 		$imagick->$func($x,$y);
+		$imagick->setImagePage($x,$y,0,0); // и это очень важно для gif
 		$bg = $imagick->clone();
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
 		$bg->compositeImage($imagick,$composite['over'],0,0);
@@ -115,16 +106,4 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	$imagick->clear();
 	$imagick = new $image_class($path = $target); 
 	return true;
-}
-
-function detect_animation($file) {
-	if(!($fh = @fopen($file, 'rb')))
-		return false;
-	$count = 0;
-	while(!feof($fh) && $count < 2) {
-		$chunk = fread($fh, 1024 * 100); 
-		$count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00\x2C#s', $chunk, $matches);
-	}
-	fclose($fh);
-	return $count > 1;
 }
