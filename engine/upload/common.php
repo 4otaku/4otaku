@@ -81,15 +81,9 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		$bg->writeImage($target);	
 	} elseif (strtolower($format) == 'gif') {
 		$imagick = $imagick->coalesceImages();
-		if (is_array($imagick) && count($imagick > 1)) {
-			$imagick = array_shift($imagick);
-			$imagick = array_shift($imagick); // да, это такая особая магия, потому что coalesceImages работает со 2-го кадра :3
-		} else {
-			$imagick = $imagick;
-		}
 		$imagick->setImageCompressionQuality($compression);
 		$imagick->$func($x,$y);
-		$imagick->setImagePage($x,$y,0,0); // и это очень важно для gif
+		$imagick->setImagePage($x,$y,0,0);
 		$bg = $imagick->clone();
 		$bg->colorFloodFillImage('#ffffff',100,'#777777',0,0);
 		$bg->compositeImage($imagick,$composite['over'],0,0);
