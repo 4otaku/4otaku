@@ -55,6 +55,7 @@ function convert_to($source,$target_encoding) {
 
 function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	global $imagick; global $path; global $image_class; global $composite;
+	$format = $imagick->getImageFormat();
 	if (strtolower($format) == 'gif') {
 		$imagick = $imagick->coalesceImages();
 	}
@@ -70,9 +71,6 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 		$x = round($old_x*$aspect); $y = round($old_y*$aspect);
 		$func = 'scaleImage';
 	}	
-
-	$format = $imagick->getImageFormat();
-	
 	if (strtolower($format) == 'png') {
 		$imagick->setImageCompressionQuality($compression);	
 		$imagick->$func($x,$y);	
