@@ -4,7 +4,9 @@ class output__search extends engine
 {
 	private $areas = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comment', 'o' => 'orders');
 	
-	private $cyrillic_stoplist = array('А', 'И', 'О', 'У', 'НЕ');
+	private $cyrillic_stoplist = array('А', 'И', 'О', 'У', 'С', 'НО');
+	
+	private $minus_words = array('no', 'without', 'not', 'не', 'без');
 	
 	public $allowed_url = array(
 		array(1 => '|search|', 2 => 'any', 3 => '|rel|date|rdate|', 4 => 'any', 5 => '|page|', 6 => 'num', 7 => 'end')
@@ -53,21 +55,27 @@ class output__search extends engine
 		if (empty($area)) $return['display'] = array('search_info','search_error');
 		else {
 			if (!$search) $search = new search();
-			$terms = $search->parse_text(urldecode($url[4]));
-			$pretty_query = $query ? urldecode($url[4]) : $search->prepare_string(urldecode($url[4]),true);
+			$request = preg_replace('/(\s|^)('.implode('|',$this->minus_words).')\s+/uis', ' -', urldecode($url[4]));
+			$request = preg_replace('/(\s|^)('.implode('|',$this->cyrillic_stoplist).')\s+/uis', ' ', $request);
+			$terms = $search->parse_text($request);
+			$pretty_query = $query ? $request : $search->prepare_string(urldecode($url[4]),true);
 
 			if (empty($terms)) $return['display'] = array('search_info','search_error');
 			else {
 				foreach ($terms as $term) {
 					if (mb_strlen($term, 'UTF-8') > 2) $longterms[] = $term;
-					elseif (!in_array($term, $this->cyrillic_stoplist)) $shortterms[] = $term;
+					else $shortterms[] = $term;
 				}
-				
+		
 				if (!empty($longterms)) {
-					$longquery = ' and match (`index`) against ("+'.implode(' +',$longterms).'" in boolean mode)';
+					$longquery = ' and match (`index`) against ("'.implode(' ',$longterms).'" in boolean mode)';
 				}
 				if (!empty($shortterms)) {
-					$shortquery = ' and `index` like "%|'.implode('=%" and `index` like "%|',$shortterms).'=%"';
+					$shortquery = '';
+					foreach ($shortterms as $shortterm) {
+						$not = $shortterm{0} == '-';						
+						$shortquery .= 'and `index` '.($not ? 'not ' : '').'like "%|'.substr($shortterm,1).'=%"';
+					}
 				}
 				
 				if (empty($query)) {
@@ -75,6 +83,7 @@ class output__search extends engine
 					$navi_query = '(place="'.implode('" or place="',$area).'") '.$main.$shortquery.$longquery;
 				}
 				$data = obj::db()->sql('select place, item_id, `index`, area, sortdate from search where ' . $query); 
+
 				if (empty($data)) {	
 					foreach ($area as $one) $zero[] = 0;
 					obj::db()->update('search_queries',$area,$zero,$pretty_query,'query');

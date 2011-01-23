@@ -7,7 +7,6 @@ class search
 	private $morphy_en;
 	
 	function init_morphy() {
-		global $morphy_ru; global $morphy_en;
 		include_once(ROOT_DIR.SL.'engine'.SL.'external'.SL.'phpmorphy'.SL.'src'.SL.'common.php');
 		$opts = array( 'storage' => PHPMORPHY_STORAGE_FILE, 'predict_by_suffix' => true, 'predict_by_db' => true, 'graminfo_as_text' => true);
 		$dir = ROOT_DIR.SL.'engine'.SL.'external'.SL.'phpmorphy'.SL.'dicts';
@@ -25,7 +24,7 @@ class search
 	
   	function morphyphp($words) {
 		if (empty($this->morphy_ru) || empty($this->morphy_en)) $this->init_morphy();		
-		
+	
 		if (!empty($words)) {
 			foreach ($words as $key => $word) {
 				if (preg_match('/[А-ЯЁ]/u',$word)) {
@@ -64,12 +63,22 @@ class search
 	
 	function prepare_string($text,$lower = false) {
 		if (!$lower) $function = 'strtoupper_ru'; else $function = 'strtolower_ru';
-		$text = trim(preg_replace(array('/([^\p{L}\d]|　)/u','/ +/'),' ',obj::transform('text')->$function(strip_tags($text))));
+		$text = trim(preg_replace(array('/([^\p{L}\d\-]|　)/u','/\-(?![\p{L}\d])/','/ +/'),' ',obj::transform('text')->$function(strip_tags($text))));
 		return $text;
 	}	
 	
 	function parse_text($text) {
 		$text = explode(' ',$this->prepare_string($text));
+		
+		foreach ($text as $key => $word) {
+			if ($word{0} == '-') {
+				$text[$key] = substr($word,1);
+				$signs[$key] = '-';
+			} else {
+				$signs[$key] = '+';
+			}
+		}
+
 		$cache = obj::db()->sql('select * from morphy_cache where word="'.implode('" or word="',$text).'"','word');
 		if (empty($cache)) $cache = array();
 		
@@ -81,6 +90,11 @@ class search
 		if (empty($return)) $return = array();
 		
 		$return = $return + $delta;
+		
+		foreach ($return as $key => $word) {
+			$return[$key] = $signs[$key].$word;
+		}		
+		
 		ksort($return);
 		return $return;
 	}
