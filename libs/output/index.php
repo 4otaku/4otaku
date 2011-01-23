@@ -15,6 +15,7 @@ class output__index extends engine
 		4 => 'wiki',
 		5 => 'Обсуждение_wiki',
 		6 => 'Файл',
+		14 => 'Категория'
 	);
 	
 	function get_data() {
