@@ -145,6 +145,7 @@ class search
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);
 		$index = $this->wrap($this->parse_meta($item['language'],'language'),$index,2);
 		obj::db()->insert('search',array('post',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->debug();
 	}
 	
 	function video($item,$id) {
@@ -154,6 +155,7 @@ class search
 		$index = $this->wrap($this->parse_meta($item['author'],'author'),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);		
 		obj::db()->insert('search',array('video',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->debug();
 	}	
 	
 	function art($item,$id) {
@@ -161,17 +163,20 @@ class search
 		$index = $this->wrap($this->parse_meta($item['author'],'author'),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);	
 		obj::db()->insert('search',array('art',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->debug();
 	}	
 	
 	function comment($item,$id) {
 		$index = $this->wrap($this->parse_text($item['text']));
 		obj::db()->insert('search',array('comment',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->debug();
 	}
 	
 	function news($item,$id) {
 		$index = $this->wrap($this->parse_text($item['title']),'|',3);
 		$index = $this->wrap($this->parse_text($item['text']),$index);
 		obj::db()->insert('search',array('news',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->debug();
 	}	
 	
 	function orders($item,$id) {
@@ -179,6 +184,7 @@ class search
 		$index = $this->wrap($this->parse_text($item['text']),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);		
 		obj::db()->insert('search',array('orders',$id,$index,$item['area'],$item['sortdate'],time()));
+		obj::db()->debug();
 	}	
 }
 ?>
