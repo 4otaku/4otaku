@@ -124,8 +124,13 @@ class search
 	}	
 	
 	function wrap($text,$index = '|',$strength = 1) {
-		if (is_array($text)) foreach ($text as $word)
-			$index .= ltrim($word,'-+').'='.$strength.'|';
+		if (is_array($text)) {
+			foreach ($text as $word) {
+				$word = explode('-',$word);
+				foreach ($word as $add)
+					$index .= ltrim($add,'-+').'='.$strength.'|';
+			}
+		}
 		return $index;
 	}
 	
