@@ -114,11 +114,6 @@
 					Комикс ЧТТО
 				</a>
 			</li>
-			<li>
-				<a href="/go?http%3a%2f%2fhex.4otaku.ru" class="margin30">
-					CG экстрактор
-				</a>
-			</li>
 		</ul>
 	</div>
 </div>
