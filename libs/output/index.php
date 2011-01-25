@@ -63,7 +63,7 @@ class output__index extends engine
 		}		
 		$return['board']['all'] = obj::db()->sql('select count(*) from board where `type` = "2"',2);
 		
-		$wiki = obj::db('wiki')->sql('select rc_title, rc_namespace from recentchanges order by rc_id desc limit 1',1);
+		$wiki = obj::db('wiki')->sql('select rc_title, rc_namespace from recentchanges where rc_type < 2 order by rc_id desc limit 1',1);
 		if (array_key_exists($wiki['rc_namespace'],$this->wiki_namespaces)) {
 			$return['wiki'] = $this->wiki_namespaces[$wiki['rc_namespace']].':'.$wiki['rc_title'];
 		} else {

@@ -107,7 +107,7 @@
 								Вики сайта
 							</a>. 
 							Последняя правка: 
-							<a href="http://wiki.4otaku.ru/<?=urlencode($data['main']['wiki']);?>">
+							<a href="http://wiki.4otaku.ru/<?=str_replace('%3A', ':', urlencode($data['main']['wiki']));?>">
 								<?=$data['main']['wiki'];?>
 							</a>.
 						<? } ?>
