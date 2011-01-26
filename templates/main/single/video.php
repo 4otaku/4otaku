@@ -202,7 +202,7 @@
 								<option value="category">Категории</option>
 								<option value="tag">Теги</option>
 							</select> 
-							<input type="submit" value="Редактировать" class="edit" rel="<?=$item['id'];?>" />
+							<input type="submit" value="Редактировать" class="edit<?=(!empty($item['full_reload']) ? ' full_reload' : '');?>" rel="<?=$item['id'];?>" />
 							<?
 								if ($sets['user']['rights']) {
 									?>

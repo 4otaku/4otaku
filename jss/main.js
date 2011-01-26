@@ -338,6 +338,10 @@ $(document).ready(function(){
 		$("div#edit-"+rel).load(window.config.site_dir+"/ajax.php?m=edit&f="+$("#edit_type-"+rel+" option:selected").val()+"&id="+rel+"&type="+$("div#edit-"+rel).attr("rel")+"&num="+numeric);
 	});		
 	
+	$("input.full_reload").click(function(event){ 
+		window.full_reload = true;
+	});
+	
 	$("a.car-toggler").click(function(event){  
 		event.preventDefault();
 		if ( $(this).attr('rel') == 'closed' ) {

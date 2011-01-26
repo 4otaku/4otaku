@@ -74,6 +74,9 @@ class output__video extends engine
 		$return = obj::db()->sql('select * from video where ('.$area.') order by sortdate desc limit '.$limit);
 		if (is_array($return)) {
 			foreach ($return as &$video) {
+				if (!preg_match('/%video_width%.*%video_height%|%video_height%.*%video_width%/s', $video['object'])) {
+					$video['full_reload'] = true;
+				}
 				$video['object'] = str_replace(array('%video_width%','%video_height%'),$sizes,$video['object']);
 				$video['text'] = trim($video['text']);
 			}
