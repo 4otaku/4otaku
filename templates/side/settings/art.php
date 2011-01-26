@@ -68,3 +68,6 @@
 <br />
 Режим скачивания: 
 <input type="checkbox" class="settings" rel="art.download_mode" value="1"<?=($sets['art']['download_mode'] ? ' checked' : '');?>>
+<br />
+Открывать в новом окне: 
+<input type="checkbox" class="settings" rel="art.blank_mode" value="1"<?=($sets['art']['blank_mode'] ? ' checked' : '');?>>

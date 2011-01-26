@@ -191,6 +191,9 @@
 			<br />
 			Уменьшать большие арты: 
 			<input type="checkbox" class="settings" rel="art.resized" value="1"<?=(sets::get('art','resized') ? ' checked' : '');?>>
+			<br />
+			Открывать арты в новом окне: 
+			<input type="checkbox" class="settings" rel="art.blank_mode" value="1"<?=($sets['art']['blank_mode'] ? ' checked' : '');?>>			
 			<br />			
 			Режим скачивания: 
 			<input type="checkbox" class="settings" rel="art.download_mode" value="1"<?=(sets::get('art','download_mode') ? ' checked' : '');?>>

@@ -110,7 +110,7 @@
 										}
 										echo implode(', ',$picture['meta']['category']);
 									?>
-							">
+							"<?=($sets['art']['blank_mode'] ? ' target="_blank"' : '');?>>
 								<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$picture['thumb'];?>.jpg">
 							</a>					
 						<?

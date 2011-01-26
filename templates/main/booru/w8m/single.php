@@ -12,7 +12,7 @@
 		if (is_array($data['main']['thumbs'])) foreach ($data['main']['thumbs'] as $key => $picture) {
 			?>
 			<div class="thumbnail <?=($sets['art']['largethumbs'] ? 'large_thumbnail' : 'small_thumbnail');?>">
-				<a href="<?=$def['site']['dir']?>/art/cg_<?=$key;?>">
+				<a href="<?=$def['site']['dir']?>/art/cg_<?=$key;?>"<?=($sets['art']['blank_mode'] ? ' target="_blank"' : '');?>>
 					<img src="http://w8m.4otaku.ru/image/<?=$data['main']['pool']['md5'];?>/<?=($sets['art']['largethumbs'] ? 'large' : 'thumb');?>/<?=$picture['md5'];?>.jpg">
 				</a>					
 			</div>
