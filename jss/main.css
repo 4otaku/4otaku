@@ -830,6 +830,8 @@ div.message div.tbody { clear: both; padding: 5px 0; }
 div.message div.tbody img, div.message div.video { float: left; padding: 0 10px 10px 0px; }
 div.message div.video{ text-align: center; width: 240px; }
 
+div.posttext ul, div.posttext ol, div.posttext p { overflow: hidden; } /* фикс для выползающего контента */
+
 span.board_spoiler { background: none repeat scroll 0 0 #E7E7E7; color: #E7E7E7; }
 span.board_spoiler:hover { background: none repeat scroll 0 0 #E7E7E7; color: #000000; }
 span.board_quote { margin-left: 20px; color: #789922; }
