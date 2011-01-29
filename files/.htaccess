@@ -1,2 +1,0 @@
-RewriteEngine On
-RewriteRule \.(php|php3|php4|php5|phps|phtml|shtm|shtml|cgi|pl|pm|asp|cfm|jse|jsp|jar|py|com|dll|pif|scr|reg|inf|htaccess)$ - [F]
