@@ -50,6 +50,14 @@
 	
 	define('SITE_DIR', Config::main('website', 'Directory'));
 	
+	// Загрузим найденные плагины
+	
+	$plugin_files = glob(dirname(__DIR__).SL.'plugins'.SL.'*.php');
+	
+	foreach ($plugin_files as $plugin_file) {		
+		Plugins::load($plugin_file);
+	}	
+	
 	// Загружаем глобальные переменные
 	
 	$user_info = array(
