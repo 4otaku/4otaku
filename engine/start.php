@@ -4,7 +4,10 @@
 	
 	define('SL', DIRECTORY_SEPARATOR);
 
-	$autoload_directories = glob(__DIR__.SL.'*',GLOB_ONLYDIR);
+	// Задаем autoloader
+	// Он ищет классы во всех под-директориях внтури engine/
+	
+	$autoload_directories = glob(__DIR__.SL.'*', GLOB_ONLYDIR);
 	
 	function autoload($name) {
 		global $autoload_directories;
@@ -14,12 +17,12 @@
 
 		foreach ($autoload_directories as $directory) {
 
-			if (file_exists($directory.SL.$name.'.php')) {
+			if (is_readable($directory.SL.$name.'.php')) {
 				include_once($directory.SL.$name.'.php');
 				return true;
 			}
 
-			if (file_exists($directory.SL.$alt_name.'.php')) {
+			if (is_readable($directory.SL.$alt_name.'.php')) {
 				include_once($directory.SL.$alt_name.'.php');
 				return true;
 			}			
@@ -29,6 +32,17 @@
 	}
 	
 	// Не __autoload, потому как в дальнейшем плагину может потребоваться добавить свой autoload
-	spl_autoload_register('autoload', false);
+	spl_autoload_register('autoload', false);	
 	
-	include('../test.php');
+	// Подгружаем конфиг, если не нашли - бросаем ошибку,
+	// т.к. сайт без конфига нежизнеспособен.
+	
+	$config_files = glob(dirname(__DIR__).SL.'config'.SL.'*');
+	
+	if (!empty($config_files)) {
+		foreach ($config_files as $config_file) {
+			Config::load($config_file);
+		}
+	} else {
+		Error::fatal('Конфиг не найден.');
+	}
