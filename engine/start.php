@@ -1,7 +1,8 @@
 <?
 	
-	// Начальные определения, подгрузка конфига, autoload
+	// Начало работы скрипта, подгрузка конфига, autoload
 	
+	mb_internal_encoding('UTF-8');
 	define('SL', DIRECTORY_SEPARATOR);
 
 	// Задаем autoloader
@@ -46,3 +47,23 @@
 	} else {
 		Error::fatal('Конфиг не найден.');
 	}
+	
+	define('SITE_DIR', Config::main('website', 'Directory'));
+	
+	// Загружаем глобальные переменные
+	
+	$user_info = array(
+		'cookie' => $_COOKIE[Config::main('cookie', 'Name')],
+		'agent' => $_SERVER['HTTP_USER_AGENT'],
+		'accept' => $_SERVER['HTTP_ACCEPT'],
+		'mobile' => $_SERVER['HTTP_PROFILE'] ? 
+			$_SERVER['HTTP_PROFILE'] : $_SERVER['HTTP_X_WAP_PROFILE'],
+		'ip' => $_SERVER['REMOTE_ADDR'],
+	);
+	
+	Globals::get_vars($_GET);
+	Globals::get_vars($_POST);	
+	Globals::get_url($_SERVER['REQUEST_URI']);
+	Globals::get_user($user_info);
+	
+	include_once('controllers/base.php');

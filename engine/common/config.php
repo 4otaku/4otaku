@@ -19,4 +19,23 @@ final class Config
 		
 		return true;
 	}
+	
+	public static function __callStatic($name, $arguments) {
+		
+		if (isset(self::$data[$name])) {
+			$return = self::$data[$name];
+			while ($next = array_shift($arguments)) {
+				if (isset($return[$next])) {
+					$return = $return[$next];
+				} else {
+					$return = false;
+					break;
+				}
+			}
+		
+			return $return;
+		}
+
+		trigger_error("Missing config file $name.ini", E_USER_ERROR);
+	} 
 }
