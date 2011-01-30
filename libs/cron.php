@@ -221,4 +221,38 @@ class cron
 			}
 		}
 	}	
+
+	function resize_arts() {
+		global $def;
+		
+		$arts = obj::db()->sql('select md5, extension from art where locate("|need_resize|",tag)');
+		
+		include_once ROOT_DIR.SL.'engine'.SL.'upload'.SL.'functions.php';
+		
+		foreach ($arts as $art) {
+			$imagick =  new $image_class($path = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension']);
+			
+			$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
+			if ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep']) {
+				if (scale($def['booru']['resizewidth'],ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$md5.'.jpg',95,false))
+					$resized = $sizes;
+			} elseif ($sizefile > $def['booru']['resizeweight']) {
+				if (scale(ceil($imagick->getImageWidth()/2),ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$md5.'.jpg',95,false))
+					$resized = $sizes;
+			}
+			
+			if (!empty($resized)) {					
+				if ($sizefile > 1024*1024) {
+					$sizefile = round($sizefile/(1024*1024),1).' мб';
+				} elseif ($sizefile > 1024) {
+					$sizefile = round($sizefile/1024,1).' кб';
+				} else {
+					$sizefile = $sizefile.' б';
+				}
+				$resized .= 'px; '.$sizefile;
+			}
+			# tag=replace(tag,"|need_resize|","|")
+			obj::db()->sql('update art set resized="'.$resized.'" and where md5="'.$art['md5'].'"',0);
+		}
+	}	
 }

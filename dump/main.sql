@@ -145,7 +145,8 @@ INSERT INTO `cron` (`id`, `time`, `function`, `period`) VALUES
 (7, 0, 'add_to_search', 3600),
 (8, 0, 'update_search', 60),
 (9, 0, 'check_dropout_search', 86400),
-(10, 0, 'search_balance_weights', 864000);
+(10, 0, 'search_balance_weights', 864000),
+(11, 0, 'resize_arts', 86400);
 
 CREATE TABLE IF NOT EXISTS `gouf_base` (
   `id` int(11) NOT NULL auto_increment,

@@ -21,7 +21,7 @@
 			exit;
 		}
 	}
-	
+
 	if ($sizefile<$def['board']['filesize']) {
 		if (is_array($check)) {
 			if (!file_exists($newfile)) move_uploaded_file($temp, $newfile);
