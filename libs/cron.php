@@ -276,6 +276,27 @@ class cron
 			return;
 		}
 		
+		$all = obj::db()->sql('select id,vector from art_similar where vector != ""','id');
+		$arts = obj::db()->sql('select * from art_similar where vector != "" order by lastcheck desc limit 100','id');
+		
+		foreach ($all as $compare_id => $compare) {
+			$all[$compare_id]['vector'] = base64_decode(puzzle_uncompress_cvec($compare['vector']));
+		}
+		
+		foreach ($arts as $id => $art) {
+			$art['vector'] = base64_decode(puzzle_uncompress_cvec($art['vector']));
+			$art['similar'] = explode(',',$art['similar']);
+			foreach ($all as $compare_id => $compare) {
+				if (
+					$id != $compare_id &&
+					puzzle_vector_normalized_distance($art['vector'], $compare['vector']);
+				) {
+					$art['similar'][] = $compare_id;
+				}
+			}
+			$arts[$id]['similar'] = implode(','array_unique($art['similar']));
+		}
+/*		
 		$arts = obj::db()->sql('select id, md5, extension from art');
 		
 		foreach ($arts as $art) {
@@ -285,5 +306,6 @@ class cron
 			
 			obj::db()->insert('art_similar',array($art['id'], $vector, 0, ''),false);
 		}
+*/
 	}		
 }
