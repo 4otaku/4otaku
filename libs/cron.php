@@ -225,22 +225,28 @@ class cron
 	function resize_arts() {
 		global $def;
 		
-		$arts = obj::db()->sql('select md5, extension from art where locate("|need_resize|",tag)');
+		$arts = obj::db()->sql('select id, md5, extension from art where locate("|need_resize|",tag)');
 		
 		if (!empty($arts)) {
 		
 			global $imagick; global $path; global $image_class; global $composite;
 			include_once ROOT_DIR.SL.'engine'.SL.'upload'.SL.'functions.php';
 			
-			foreach ($arts as $art) {
+			foreach ($arts as $art) {				
 				$imagick =  new $image_class($path = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension']);
+				$sizefile = filesize($path);
+				$resized = '';
 				
 				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
-				if ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep']) {
-					if (scale($def['booru']['resizewidth'],ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$md5.'.jpg',95,false))
+				$resize_address = ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$art['md5'].'.jpg';
+
+				if (file_exists($resize_address)) {
+					$resized = $sizes;
+				} elseif ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep']) {
+					if (scale($def['booru']['resizewidth'],$resize_address,95,false))
 						$resized = $sizes;
 				} elseif ($sizefile > $def['booru']['resizeweight']) {
-					if (scale(ceil($imagick->getImageWidth()/2),ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$md5.'.jpg',95,false))
+					if (scale(ceil($imagick->getImageWidth()/2),$resize_address,95,false))
 						$resized = $sizes;
 				}
 				
@@ -254,8 +260,8 @@ class cron
 					}
 					$resized .= 'px; '.$sizefile;
 				}
-				# tag=replace(tag,"|need_resize|","|")
-				obj::db()->sql('update art set resized="'.$resized.'" and where md5="'.$art['md5'].'"',0);
+
+				obj::db()->sql('update art set resized="'.$resized.'", tag=replace(tag,"|need_resize|","|") where id='.$art['id'],0);
 			}
 		}
 	}	
