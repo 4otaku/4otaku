@@ -5,7 +5,7 @@ include_once 'inc.common.php';
 
 $cron = new cron();
 
-if (in_array('slow', $argv)) {
+if (is_array($argv) && in_array('slow', $argv)) {
 	$time = time();
 	$tasks = obj::db()->sql('select * from cron where time < '.$time.' and period >= 5400');
 	set_time_limit(1800);
