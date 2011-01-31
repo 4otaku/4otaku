@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `art` (
   `category` text collate utf8_unicode_ci NOT NULL,
   `tag` text collate utf8_unicode_ci NOT NULL,
   `pool` text collate utf8_unicode_ci NOT NULL,
+  `variation` text character set utf8 NOT NULL,
   `translator` varchar(256) collate utf8_unicode_ci NOT NULL,
   `source` varchar(4096) collate utf8_unicode_ci NOT NULL,
   `comment_count` int(11) NOT NULL,
@@ -41,6 +42,15 @@ CREATE TABLE IF NOT EXISTS `art_pool` (
   UNIQUE KEY `name` (`name`),
   KEY `sortdate` (`sortdate`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE  `4otaku`.`art_similar` (
+`id` INT NOT NULL ,
+`vector` VARCHAR( 2048 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`lastcheck` INT NOT NULL ,
+`similar` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+PRIMARY KEY (  `id` ) ,
+INDEX (  `lastcheck` )
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `art_translation` (
   `id` int(11) NOT NULL auto_increment,
@@ -146,7 +156,8 @@ INSERT INTO `cron` (`id`, `time`, `function`, `period`) VALUES
 (8, 0, 'update_search', 60),
 (9, 0, 'check_dropout_search', 86400),
 (10, 0, 'search_balance_weights', 864000),
-(11, 0, 'resize_arts', 86400);
+(11, 0, 'resize_arts', 86400),
+(12, 0, 'track_similar_pictures', 3600);
 
 CREATE TABLE IF NOT EXISTS `gouf_base` (
   `id` int(11) NOT NULL auto_increment,

@@ -24,7 +24,16 @@ class input__art extends input__common
 						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],$author,$category,$tags,"|".$data['pool'],"",
 												query::$post['source'],0,0,obj::transform('text')->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 						obj::db()->insert('versions',array('art',$id = obj::db()->sql('select @@identity from art',2),
-														base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));					
+														base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+						
+						if (function_exists('puzzle_fill_cvec_from_file') && function_exists('puzzle_compress_cvec')) {
+							$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$name[0].'.'.$name[2];
+							$vector = puzzle_fill_cvec_from_file($image);
+							$vector = base64_encode(puzzle_compress_cvec($vector));
+							
+							obj::db()->insert('art_similar',array($id, $vector, 0, ''),false);							
+						}
+														
 						$i++;
 					}
 				}

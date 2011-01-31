@@ -67,9 +67,9 @@ class mysql
 		echo $this->debug;
 	}
 
-	function insert($table, $values) {
+	function insert($table, $values, $prepend_index = true) {
 		foreach ($values as &$value) $value = mysql_real_escape_string($value);
-		$values = '"","'.implode('","',$values).'"';
+		$values = ($prepend_index ? '"",' : '').'"'.implode('","',$values).'"';
 		$this->sql('insert into '.$table.' values('.$values.')',0);
 	}
 	

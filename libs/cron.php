@@ -265,4 +265,25 @@ class cron
 			}
 		}
 	}	
+	
+	function track_similar_pictures() {
+		if (
+			!function_exists('puzzle_fill_cvec_from_file') ||
+			!function_exists('puzzle_vector_normalized_distance') ||
+			!function_exists('puzzle_compress_cvec') ||
+			!function_exists('puzzle_uncompress_cvec')
+		) {
+			return;
+		}
+		
+		$arts = obj::db()->sql('select id, md5, extension from art');
+		
+		foreach ($arts as $art) {
+			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
+			$vector = puzzle_fill_cvec_from_file($image);
+			$vector = base64_encode(puzzle_compress_cvec($vector));
+			
+			obj::db()->insert('art_similar',array($art['id'], $vector, 0, ''),false);
+		}
+	}		
 }
