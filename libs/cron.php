@@ -275,29 +275,8 @@ class cron
 		) {
 			return;
 		}
-		
-		$all = obj::db()->sql('select id,vector from art_similar where vector != ""','id');
-		$arts = obj::db()->sql('select * from art_similar where vector != "" order by lastcheck desc limit 100','id');
-		
-		foreach ($all as $compare_id => $compare) {
-			$all[$compare_id]['vector'] = base64_decode(puzzle_uncompress_cvec($compare['vector']));
-		}
-		
-		foreach ($arts as $id => $art) {
-			$art['vector'] = base64_decode(puzzle_uncompress_cvec($art['vector']));
-			$art['similar'] = explode(',',$art['similar']);
-			foreach ($all as $compare_id => $compare) {
-				if (
-					$id != $compare_id &&
-					puzzle_vector_normalized_distance($art['vector'], $compare['vector']);
-				) {
-					$art['similar'][] = $compare_id;
-				}
-			}
-			$arts[$id]['similar'] = implode(','array_unique($art['similar']));
-		}
 /*		
-		$arts = obj::db()->sql('select id, md5, extension from art');
+		$arts = obj::db()->sql('select id, md5, extension from art where id>16600');
 		
 		foreach ($arts as $art) {
 			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
@@ -305,7 +284,29 @@ class cron
 			$vector = base64_encode(puzzle_compress_cvec($vector));
 			
 			obj::db()->insert('art_similar',array($art['id'], $vector, 0, ''),false);
+		}		
+*/		
+		$all = obj::db()->sql('select id, vector from art_similar where vector != ""','id');
+		$arts = obj::db()->sql('select * from art_similar where vector != "" order by lastcheck desc limit 100','id');
+		
+		foreach ($all as $compare_id => $vector) {
+			$all[$compare_id] = puzzle_uncompress_cvec(base64_decode($vector));			
 		}
-*/
+
+		foreach ($arts as $id => $art) { 
+			$art['vector'] = puzzle_uncompress_cvec(base64_decode($art['vector'])); 
+			$art['similar'] = explode(',',$art['similar']);
+			foreach ($all as $compare_id => $vector) { 
+				if (
+					$id != $compare_id &&
+					puzzle_vector_normalized_distance($art['vector'], $vector) > 0.99
+				) {
+					$art['similar'][] = $compare_id;
+				}
+			}
+			$art['similar'] = implode(',',array_filter(array_unique($art['similar'])));
+			obj::db()->update('art_similar',array('lastcheck','similar'),array(time(),$art['similar']),$id);
+		}
+
 	}		
 }
