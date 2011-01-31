@@ -126,7 +126,7 @@ class search
 	function wrap($text,$index = '|',$strength = 1) {
 		if (is_array($text)) {
 			foreach ($text as $word) {
-				$index .= ltrim($word,'-+').'='.$strength.'|';
+				$index .= str_replace('-','_',ltrim($word,'-+')).'='.$strength.'|';
 			}
 		}
 		return $index;

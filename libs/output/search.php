@@ -63,7 +63,7 @@ class output__search extends engine
 			if (empty($terms)) $return['display'] = array('search_info','search_error');
 			else {
 				foreach ($terms as $term) {
-					if (mb_strlen($term, 'UTF-8') > 2) $longterms[] = $term;
+					if (mb_strlen($term, 'UTF-8') > 2) $longterms[] = str_replace('-','_',$term);
 					else $shortterms[] = $term;
 				}
 		
