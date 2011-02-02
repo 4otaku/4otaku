@@ -288,7 +288,7 @@ class cron
 		}
 */
 		$all = obj::db()->sql('select id, vector from art_similar where vector != ""','id');
-		$arts = obj::db()->sql('select * from art_similar where vector != "" where checked=0 desc limit 200','id');
+		$arts = obj::db()->sql('select * from art_similar where vector != "" and checked=0 limit 100','id');
 		
 		if (is_array($all) && is_array($arts)) {
 			foreach ($all as $compare_id => $vector) {
@@ -301,7 +301,7 @@ class cron
 				foreach ($all as $compare_id => $vector) { 
 					if (
 						$id != $compare_id &&
-						puzzle_vector_normalized_distance($art['vector'], $vector) > 0.99
+						puzzle_vector_normalized_distance($art['vector'], $vector) < 0.2
 					) {
 						$similar .= $compare_id.'|';
 					}					
