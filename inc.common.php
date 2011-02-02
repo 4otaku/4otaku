@@ -65,7 +65,7 @@ if(!def::site('domain')) {
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::site('domain') != $_SERVER["SERVER_NAME"] && !(_CRON_)) {
+if(def::site('domain') != $_SERVER['SERVER_NAME'] && !(_CRON_)) {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
@@ -83,7 +83,7 @@ if (!(_CRON_)) {
 	// Удалим все левые куки, нечего захламлять пространство
 	foreach ($_COOKIE as $key => $cook) if ($key != 'settings') setcookie ($key, "", time() - 3600);
 
-	$cookie_domain = def::site('domain').SITE_DIR;
+	$cookie_domain = (def::site('domain') != 'localhost' ? def::site('domain') : '').SITE_DIR;
 
 	// Хэш. Берем либо из cookie, если валиден, либо генерим новый
 	query::$cookie = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
