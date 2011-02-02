@@ -46,4 +46,44 @@ class input__admin extends engine
 			);
 		}			
 	}
+	
+	function similar() {
+		global $check;
+		
+		if ($check->rights()) {
+			$action = explode('|', query::$post['action']);
+			switch ($action[0]) {
+				case 'delete':
+					$this->delete_art(query::$post[$action[1]]);
+					break;
+				case 'move_tags':
+					$from = query::$post[$action[1]{0}];
+					$to = query::$post[$action[1]{1}];
+					$this->move_art_tags($from, $to);
+					break;
+				case 'make_similar':
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	
+	private function delete_art($id) {
+		global $def;
+		
+		$data = obj::db()->sql('select area, tag from art where id='.$id,1);
+		$tags = array_unique(array_filter(explode('|',$data['tag'])));
+		if ($data['area'] == $def['area'][0] || $data['area'] == $def['area'][2])
+			obj::transform('meta')->erase_tags($tags,'art_'.$data['area']);
+		
+		obj::db()->sql('update comment set area="deleted" where place="art" and post_id='.$id,0);
+		obj::db()->sql('update art set area="deleted" where id='.$id,0);
+		obj::db()->sql('delete from art_similar where id='.$id,0);
+	}
+	
+	private function move_art_tags($from, $to) {
+		$tags = obj::db()->sql('select tag from art where id='.$from,2);
+		dynamic__art::add_tag(str_replace('|', ' ', $tags), $to);
+	}
 }

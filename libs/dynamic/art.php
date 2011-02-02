@@ -66,7 +66,7 @@ class dynamic__art extends engine
 	}
 	
 	function masstag() {
-		 global $check; global $sets;
+		global $check; global $sets;
 		if (is_numeric(query::$get['id'])) {
 			if ($check->lat($function = query::$get['sign']) && $check->rights()) $this->$function(urldecode(query::$get['data']),query::$get['id']);
 			$return = obj::db()->sql('select * from art where id='.query::$get['id'].' limit 1',1);
@@ -77,7 +77,7 @@ class dynamic__art extends engine
 		}
 	}
 	
-	function add_tag($tags,$id) {
+	static function add_tag($tags,$id) {
 		global $def;		
 		$info = obj::db()->sql('select area, tag from art where id='.$id,1);	
 		if ($info['area'] != $def['area'][1]) {
