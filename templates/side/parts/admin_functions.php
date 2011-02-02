@@ -9,6 +9,7 @@
 			<br /><a href="<?=$def['site']['dir']?>/admin/tags/">Управление тегами</a>
 			<br /><a href="<?=$def['site']['dir']?>/admin/updates/">Редактирование обновлений</a>
 			<br /><a href="<?=$def['site']['dir']?>/admin/subscribe/">Подписаться на комментарии</a>
+			<br /><a href="<?=$def['site']['dir']?>/admin/dublicates/">Дубликаты картинок</a>
 	<!--		
 			
 			<br /><br /><a href="<?=$def['site']['dir']?>/admin/re-check/">Обновить индексы мета-данных</a>

@@ -50,6 +50,14 @@ class output__admin extends engine
 		return $return;		
 	}	
 	
+	function dublicates($return) {
+		$return['display'][] = 'admin_dublicatelist';
+		$return['dublictates'] = obj::db()->sql('select id, similar from art_similar where similar != "|"','id');
+		$return['category'] = obj::db()->sql('select alias, name from category','alias');
+		$return['language'] = obj::db()->sql('select alias, name from language','alias');
+		return $return;		
+	}	
+	
 	function updates($return) {
 		global $url;
 

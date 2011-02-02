@@ -30,7 +30,7 @@ class input__art extends input__common
 							$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$name[0].'.'.$name[2];
 							$vector = puzzle_fill_cvec_from_file($image);
 							$vector = base64_encode(puzzle_compress_cvec($vector));
-							obj::db()->insert('art_similar',array($id, $vector, 0, ''),false);
+							obj::db()->insert('art_similar',array($id, $vector, 0, '|'),false);
 						}
 														
 						$i++;
@@ -80,6 +80,7 @@ class input__art extends input__common
 			$name = explode('#',end(query::$post['images']));
 			$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
 			obj::db()->update('art',array('md5','thumb','extension','resized'),$name,query::$post['id']);
+			obj::db()->update('art_similar',array('checked','similar'),array(0,'|'),query::$post['id']);
 		}		
 	}
 		

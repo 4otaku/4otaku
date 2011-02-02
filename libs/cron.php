@@ -287,25 +287,27 @@ class cron
 		}		
 */		
 		$all = obj::db()->sql('select id, vector from art_similar where vector != ""','id');
-		$arts = obj::db()->sql('select * from art_similar where vector != "" order by lastcheck desc limit 100','id');
+		$arts = obj::db()->sql('select * from art_similar where vector != "" where checked=0 desc limit 200','id');
 		
-		foreach ($all as $compare_id => $vector) {
-			$all[$compare_id] = puzzle_uncompress_cvec(base64_decode($vector));			
-		}
-
-		foreach ($arts as $id => $art) { 
-			$art['vector'] = puzzle_uncompress_cvec(base64_decode($art['vector'])); 
-			$art['similar'] = explode(',',$art['similar']);
-			foreach ($all as $compare_id => $vector) { 
-				if (
-					$id != $compare_id &&
-					puzzle_vector_normalized_distance($art['vector'], $vector) > 0.99
-				) {
-					$art['similar'][] = $compare_id;
-				}
+		if (is_array($all) && is_array($arts)) {
+			foreach ($all as $compare_id => $vector) {
+				$all[$compare_id] = puzzle_uncompress_cvec(base64_decode($vector));			
 			}
-			$art['similar'] = implode(',',array_filter(array_unique($art['similar'])));
-			obj::db()->update('art_similar',array('lastcheck','similar'),array(time(),$art['similar']),$id);
+
+			foreach ($arts as $id => $art) { 
+				$art['vector'] = puzzle_uncompress_cvec(base64_decode($art['vector'])); 
+				$similar = '|';
+				foreach ($all as $compare_id => $vector) { 
+					if (
+						$id != $compare_id &&
+						puzzle_vector_normalized_distance($art['vector'], $vector) > 0.99
+					) {
+						$similar .= $compare_id.'|';
+					}
+				}
+				$art['similar'] = implode(',',array_filter(array_unique($art['similar'])));
+				obj::db()->update('art_similar',array('checked','similar'),array(1,$similar),$id);
+			}
 		}
 
 	}		

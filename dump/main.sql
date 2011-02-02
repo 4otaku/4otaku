@@ -43,14 +43,13 @@ CREATE TABLE IF NOT EXISTS `art_pool` (
   KEY `sortdate` (`sortdate`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-CREATE TABLE  `4otaku`.`art_similar` (
-`id` INT NOT NULL ,
-`vector` VARCHAR( 2048 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-`lastcheck` INT NOT NULL ,
-`similar` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-PRIMARY KEY (  `id` ) ,
-INDEX (  `lastcheck` )
-) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE TABLE IF NOT EXISTS `art_similar` (
+  `id` int(11) unsigned NOT NULL,
+  `vector` varchar(2048) NOT NULL,
+  `checked` tinyint(1) NOT NULL,
+  `similar` varchar(4096) NOT NULL DEFAULT '|',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `art_translation` (
   `id` int(11) NOT NULL auto_increment,
