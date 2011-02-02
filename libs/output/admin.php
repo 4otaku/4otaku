@@ -52,9 +52,41 @@ class output__admin extends engine
 	
 	function dublicates($return) {
 		$return['display'][] = 'admin_dublicatelist';
-		$return['dublictates'] = obj::db()->sql('select id, similar from art_similar where similar != "|"','id');
-		$return['category'] = obj::db()->sql('select alias, name from category','alias');
-		$return['language'] = obj::db()->sql('select alias, name from language','alias');
+		$dublictates = obj::db()->sql('select id, similar from art_similar where similar != "|"','id');
+		
+		$art_ids = array();
+		$pairings = array();
+		
+		foreach ($dublictates as $id => $similar) {
+			$similar = explode('|', trim($similar, '|'));
+			foreach ($similar as $item) {
+				$art_ids[] = $item;
+				$pairings[] = min($id,$item).'-'.max($id,$item);
+			}
+			$art_ids[] = $id;
+		}
+		
+		$art_ids = array_unique($art_ids);
+		$return['doubles'] = array_unique($pairings);
+		
+		$return['arts'] = obj::db()->sql('select * from art where id in ('.implode(',', $art_ids).')','id');
+		
+		foreach ($return['arts'] as &$art) {
+			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
+			$fileinfo = getimagesize($image);
+			$art['width'] = $fileinfo[0];
+			$art['height'] = $fileinfo[1];
+			$art['size'] = obj::transform('file')->weight(filesize($image));
+		}
+		unset ($art);
+		
+		$meta = $this->get_meta($return['arts'],array('tag'));
+		foreach ($return['arts'] as &$art) 
+			 foreach ($meta['tag'] as $alias => $name) 
+				if (stristr($art['tag'],'|'.$alias.'|')) 
+					$art['meta']['tag'][$alias] = $name;				
+		unset ($art);
+		
 		return $return;		
 	}	
 	
