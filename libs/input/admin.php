@@ -85,5 +85,6 @@ class input__admin extends engine
 	private function move_art_tags($from, $to) {
 		$tags = obj::db()->sql('select tag from art where id='.$from,2);
 		dynamic__art::add_tag(str_replace('|', ' ', $tags), $to);
+		obj::db()->sql('update search set lastupdate=0 where place="art" and item_id="'.$to.'"',0);
 	}
 }
