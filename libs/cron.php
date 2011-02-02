@@ -304,9 +304,9 @@ class cron
 						puzzle_vector_normalized_distance($art['vector'], $vector) > 0.99
 					) {
 						$similar .= $compare_id.'|';
-					}
-					obj::db()->update('art_similar',array('checked','similar'),array(1,$similar),$id);
+					}					
 				}
+				obj::db()->update('art_similar',array('checked','similar'),array(1,$similar),$id);
 			}
 		}
 	}
