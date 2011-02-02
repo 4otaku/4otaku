@@ -220,23 +220,23 @@ class cron
 				}
 			}
 		}
-	}	
+	}
 
 	function resize_arts() {
 		global $def;
-		
+
 		$arts = obj::db()->sql('select id, md5, extension from art where locate("|need_resize|",tag)');
-		
+
 		if (!empty($arts)) {
-		
+
 			global $imagick; global $path; global $image_class; global $composite;
 			include_once ROOT_DIR.SL.'engine'.SL.'upload'.SL.'functions.php';
-			
-			foreach ($arts as $art) {				
+
+			foreach ($arts as $art) {
 				$imagick =  new $image_class($path = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension']);
 				$sizefile = filesize($path);
 				$resized = '';
-				
+
 				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
 				$resize_address = ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$art['md5'].'.jpg';
 
@@ -249,8 +249,8 @@ class cron
 					if (scale(ceil($imagick->getImageWidth()/2),$resize_address,95,false))
 						$resized = $sizes;
 				}
-				
-				if (!empty($resized)) {					
+
+				if (!empty($resized)) {
 					if ($sizefile > 1024*1024) {
 						$sizefile = round($sizefile/(1024*1024),1).' мб';
 					} elseif ($sizefile > 1024) {
@@ -264,8 +264,8 @@ class cron
 				obj::db()->sql('update art set resized="'.$resized.'", tag=replace(tag,"|need_resize|","|") where id='.$art['id'],0);
 			}
 		}
-	}	
-	
+	}
+
 	function track_similar_pictures() {
 		if (
 			!function_exists('puzzle_fill_cvec_from_file') ||
@@ -275,17 +275,18 @@ class cron
 		) {
 			return;
 		}
-/*		
-		$arts = obj::db()->sql('select id, md5, extension from art where id>16600');
-		
+/*
+		$max  = obj::db()->sql('select max(id) from art_similar',2);
+		$arts = obj::db()->sql('select id, thumb from art where id > '.($max ? $max : 0).' and area != "deleted" order by id limit 2000');
+
 		foreach ($arts as $art) {
-			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
+			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$art['thumb'].'.jpg';
 			$vector = puzzle_fill_cvec_from_file($image);
 			$vector = base64_encode(puzzle_compress_cvec($vector));
-			
+
 			obj::db()->insert('art_similar',array($art['id'], $vector, 0, ''),false);
-		}		
-*/		
+		}
+*/
 		$all = obj::db()->sql('select id, vector from art_similar where vector != ""','id');
 		$arts = obj::db()->sql('select * from art_similar where vector != "" where checked=0 desc limit 200','id');
 		
@@ -304,11 +305,9 @@ class cron
 					) {
 						$similar .= $compare_id.'|';
 					}
+					obj::db()->update('art_similar',array('checked','similar'),array(1,$similar),$id);
 				}
-				$art['similar'] = implode(',',array_filter(array_unique($art['similar'])));
-				obj::db()->update('art_similar',array('checked','similar'),array(1,$similar),$id);
 			}
 		}
-
-	}		
+	}
 }
