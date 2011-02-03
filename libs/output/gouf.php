@@ -35,7 +35,7 @@ class output__gouf extends engine
 						foreach ($link['url'] as $key3 => $url) {
 							if (in_array($url,$post['errorlinks'])) { 
 								$post['errors'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.
-									$url.'" target="_blank">'.obj::transform('text')->($url,200).'</a> (~'.
+									$url.'" target="_blank">'.obj::transform('text')->cut_long_words($url,200).'</a> (~'.
 									$link['size'].' '.$link['sizetype'].')'; 
 								$post['severity'] = $post['severity'] + 100; 
 							}
@@ -44,7 +44,7 @@ class output__gouf extends engine
 							foreach ($link['url'] as $key3 => $url) {
 								if (!in_array($url,$post['errorlinks'])) { 
 									$post['warnings'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.
-										$url.'" target="_blank">'.obj::transform('text')->($url,200).'</a> (~'.
+										$url.'" target="_blank">'.obj::transform('text')->cut_long_words($url,200).'</a> (~'.
 										$link['size'].' '.$link['sizetype'].')'; 
 									$post['severity'] = $post['severity'] + 1; 
 								}
