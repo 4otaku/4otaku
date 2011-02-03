@@ -34,18 +34,18 @@ class output__gouf extends engine
 						
 						foreach ($link['url'] as $key3 => $url) {
 							if (in_array($url,$post['errorlinks'])) { 
-								$post['errors'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.$url.
-									'" target="_blank">'.cut_long_words($url,200).'</a> (~'.$link['size'].' '.
-									$link['sizetype'].')'; 
+								$post['errors'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.
+									$url.'" target="_blank">'.obj::transform('text')->($url,200).'</a> (~'.
+									$link['size'].' '.$link['sizetype'].')'; 
 								$post['severity'] = $post['severity'] + 100; 
 							}
 						}
 						if ($number < 2) {
 							foreach ($link['url'] as $key3 => $url) {
 								if (!in_array($url,$post['errorlinks'])) { 
-									$post['warnings'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.$url.
-										'" target="_blank">'.cut_long_words($url,200).'</a> (~'.$link['size'].' '.
-										$link['sizetype'].')'; 
+									$post['warnings'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.
+										$url.'" target="_blank">'.obj::transform('text')->($url,200).'</a> (~'.
+										$link['size'].' '.$link['sizetype'].')'; 
 									$post['severity'] = $post['severity'] + 1; 
 								}
 							}
@@ -54,8 +54,8 @@ class output__gouf extends engine
 							foreach ($link['url'] as $key3 => $url) {
 								if (in_array($url,$post['errorlinks'])) { 
 									$post['critical_errors'][$key.'-'.$key2.'-'.$key3] = $link['name'].': <a href="'.
-										$url.'" target="_blank">'.cut_long_words($url,200).'</a> (~'.$link['size'].
-										' '.$link['sizetype'].')'; 
+										$url.'" target="_blank">'.obj::transform('text')->cut_long_words($url,200).
+										'</a> (~'.$link['size'].' '.$link['sizetype'].')'; 
 									$post['severity'] = $post['severity'] + 9900; 
 									unset($post['errors'][$key.'-'.$key2.'-'.$key3]);
 								}
