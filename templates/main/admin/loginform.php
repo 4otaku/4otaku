@@ -24,7 +24,7 @@
 					<input type="password" name="pass">
 				</td>
 			</tr>
-		</table>							
+		</table>
 		<input type="submit" value="Вперед">
 	</form>
 </div>
