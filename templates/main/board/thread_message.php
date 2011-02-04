@@ -1,12 +1,12 @@
 <div class="thread" id="board-<?=$id;?>">	
 	<? if ($url[3] != 'thread') { ?>
 		<span class="link_last">
-			<a href="<?=$def['site']['dir']?>/board/<?=($url[2] && strlen($url[2]) < 3 ? $url[2] : $thread['boards'][array_rand($thread['boards'])]);?>/thread/<?=$id;?>#reply">
+			<a href="<?=$def['site']['dir'].$thread_url;?>#reply">
 				Ответить
 			</a>
 		</span>
 		<span class="link_right">
-			<a href="<?=$def['site']['dir']?>/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/">
+			<a href="<?=$def['site']['dir'].$thread_url;?>/">
 				Читать
 			</a>
 		</span>
@@ -30,7 +30,7 @@
 							<a href="#download-<?=$url[4];?>-zip" class="board_download">
 								<nobr>
 									Все картинки, архивом
-								</nobr>
+								</nobr>thread_url
 							</a>
 							<br />
 						<? } ?>
@@ -105,7 +105,11 @@
 			<? } ?>			
 		<? } ?>
 		<div class="posttext">
-			<?=$thread['text'];?>
+			<? if ($url[3] != 'thread') { ?>
+				<?=obj::transform('text')->cut_long_text($thread['text'],1000,$read_all,100);?>
+			<? } else { ?>
+				<?=$thread['text'];?>
+			<? } ?>
 		</div>
 	</div>
 </div>

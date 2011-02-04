@@ -55,7 +55,7 @@ class transform__text
 		}
 
 		$text = nl2br(trim($text));
-		$text = $this->cut_long_words($text,100);
+		
 		return $text;
 	}
 
@@ -151,7 +151,44 @@ class transform__text
 			}
 		}
 
-		return implode('',$parts);
+		return implode($break,$parts);
+	}
+	
+	function cut_long_text($text, $length, $prepend = ' ...', $cut_words = false) {
+		if (strlen($text) < $length) {
+			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);	
+		}
+
+		if (!preg_match('/^(&\p{L}{1,8};|(<.+?>)*.){0,'.$length.'}/ius', $text, $match)) {
+			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
+		}
+	
+		preg_match_all('/<([^\s>\/]+)(?![^>]*\/>)[^>]*>/is', $match[0], $opening_tags);
+		preg_match_all('/<\/([^\s>]+)[^>]*>/is', $match[0], $ending_tags);
+		
+		$tags = array();
+		
+		foreach ($opening_tags[1] as $tag_name) {
+			$tags[$tag_name]++;			
+		}
+		
+		foreach ($ending_tags[1] as $tag_name) {
+			$tags[$tag_name]--;			
+		}
+		
+		$return = empty($cut_words) ? $match[0] : $this->cut_long_words($match[0],$cut_words);
+
+		foreach ($tags as $tag_name => $count) {
+			if ($count > 0) {
+				$return .= str_repeat('</'.$tag_name.'>',$count);
+			} elseif ($count < 0) {
+				$return = str_repeat('<'.$tag_name.'>',$count).$return;
+			}
+		}
+		
+		if (strlen($match[0]) < strlen($text)) $return .= $prepend;
+		
+		return $return;
 	}
 
 	function bb2html($string) {

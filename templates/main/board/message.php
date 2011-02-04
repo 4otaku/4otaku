@@ -54,7 +54,11 @@
 			<? } ?>			
 		<? } ?>
 		<div class="posttext">
-			<?=$post['text'];?>
+			<? if ($url[3] != 'thread') { ?>
+				<?=obj::transform('text')->cut_long_text($post['text'],800,$read_all,100);?>
+			<? } else { ?>
+				<?=$post['text'];?>
+			<? } ?>
 		</div>
 	</div>
 </div>
