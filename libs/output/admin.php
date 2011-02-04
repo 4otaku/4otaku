@@ -70,13 +70,15 @@ class output__admin extends engine
 		$return['doubles'] = array_unique($pairings);
 		
 		$return['arts'] = obj::db()->sql('select * from art where id in ('.implode(',', $art_ids).')','id');
+		$translations = obj::db()->sql('select art_id from art_translation where art_id in ('.implode(',', $art_ids).')');
 		
-		foreach ($return['arts'] as &$art) {
+		foreach ($return['arts'] as $id => $art) {
 			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
 			$fileinfo = getimagesize($image);
-			$art['width'] = $fileinfo[0];
-			$art['height'] = $fileinfo[1];
-			$art['size'] = obj::transform('file')->weight(filesize($image));
+			$return['arts'][$id]['width'] = $fileinfo[0];
+			$return['arts'][$id]['height'] = $fileinfo[1];
+			$return['arts'][$id]['size'] = obj::transform('file')->weight(filesize($image));
+			$return['arts'][$id]['translation'] = in_array($id, $translations);
 		}
 		unset ($art);
 		

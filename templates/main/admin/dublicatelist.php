@@ -1,4 +1,6 @@
 <? 
+	$areas = array('main' => 'на главной', 'workshop' => 'в очереди', 'flea_market' => 'на барахолке');
+	
 	foreach ($data['main']['doubles'] as $double) {
 		$double = explode('-', $double);
 		?>
@@ -35,6 +37,11 @@
 							ТТХ: <?=$data['main']['arts'][$one]['width'];?>x<?=$data['main']['arts'][$one]['height'];?>px; <?=strtoupper($data['main']['arts'][$one]['extension']);?>; <?=$data['main']['arts'][$one]['size'];?>;
 							<br />
 							Комментариев: <?=$data['main']['arts'][$one]['comment_count'];?>
+							<br />
+							Проживает <?=$areas[$data['main']['arts'][$one]['area']];?>
+							<? if ($data['main']['arts'][$one]['translation']) { ?>
+								<br /><b>Есть переводы!</b>
+							<? } ?>
 						</td>
 					<?
 				}
