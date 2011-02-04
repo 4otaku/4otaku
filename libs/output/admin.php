@@ -78,7 +78,7 @@ class output__admin extends engine
 			$return['arts'][$id]['width'] = $fileinfo[0];
 			$return['arts'][$id]['height'] = $fileinfo[1];
 			$return['arts'][$id]['size'] = obj::transform('file')->weight(filesize($image));
-			$return['arts'][$id]['translation'] = in_array($id, $translations);
+			$return['arts'][$id]['translation'] = in_array($id, (array) $translations);
 		}
 		unset ($art);
 		
