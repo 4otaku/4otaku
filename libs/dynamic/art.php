@@ -132,10 +132,10 @@ class dynamic__art extends engine
 						{
 							if($matches['digit'] >= 93)
 							{
-								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */
-									
+								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */		
+								
 								$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
-								if ($dtags[sizeof($dtags)-1][0] !== "") $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];
+								if ($dtags[sizeof($dtags)-1][0] !== "" || isset($dtags[sizeof($dtags)-1][1])) $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];
 								
 								$category = substr($temp[0]->alt,strpos($temp[0]->alt,'Rating: ')+8,1);
 								if ($category == 'q' || $category == 'e') $explicit = true;
