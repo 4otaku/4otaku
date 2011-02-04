@@ -52,16 +52,17 @@ class input__admin extends engine
 		
 		if ($check->rights()) {
 			$action = explode('|', query::$post['action']);
+			$from = query::$post[$action[1]{0}];
+			$to = query::$post[$action[1]{1}];
 			switch ($action[0]) {
 				case 'delete':
-					$this->delete_art(query::$post[$action[1]]);
+					$this->delete_art($from, $to);
 					break;
-				case 'move_tags':
-					$from = query::$post[$action[1]{0}];
-					$to = query::$post[$action[1]{1}];
-					$this->move_art_tags($from, $to);
+				case 'move_meta':
+					$this->move_art_meta($from, $to);
 					break;
 				case 'make_similar':
+					$this->make_similar($from, $to);
 					break;
 				default:
 					break;
@@ -69,7 +70,7 @@ class input__admin extends engine
 		}
 	}
 	
-	private function delete_art($id) {
+	private function delete_art($id, $move_to) {
 		global $def;
 		
 		$data = obj::db()->sql('select area, tag from art where id='.$id,1);
@@ -77,14 +78,36 @@ class input__admin extends engine
 		if ($data['area'] == $def['area'][0] || $data['area'] == $def['area'][2])
 			obj::transform('meta')->erase_tags($tags,'art_'.$data['area']);
 		
-		obj::db()->sql('update comment set area="deleted" where place="art" and post_id='.$id,0);
+		$this->move_art_comments($id, $move_to);
+		
 		obj::db()->sql('update art set area="deleted" where id='.$id,0);
 		obj::db()->sql('delete from art_similar where id='.$id,0);
 	}
 	
-	private function move_art_tags($from, $to) {
+	private function move_art_meta($from, $to) {
 		$tags = obj::db()->sql('select tag from art where id='.$from,2);
+		$categories = obj::db()->sql('select tag from category where id='.$from,2);
+		$categories = array_filter(explode('|', $categories));
+		
 		dynamic__art::add_tag(str_replace('|', ' ', $tags), $to);
+		foreach ($categories as $category) {
+			dynamic__art::add_category($category, $to);
+		}
+		
 		obj::db()->sql('update search set lastupdate=0 where place="art" and item_id="'.$to.'"',0);
+	}
+	
+	private function move_art_comments($from, $to) {
+		obj::db()->sql('update comment set post_id = '.$to.' where post_id='.$from,0);
+		obj::db()->sql('update art set comment_count = (select count(*) from comment where area!="deleted" and post_id='.$to.' and place="art") where id='.$to,0);
+	}
+	
+	private function make_similar($erase, $update) {
+		$this->move_art_meta($erase, $update);
+		
+		$image = obj::db()->sql('select thumb, md5, extension from art where id='.$erase,1);
+		obj::db()->sql('update art set variation = concat(variation, "'.implode(',',$image).'|") where id='.$update,0);
+		
+		$this->delete_art($erase, $update);		
 	}
 }

@@ -44,17 +44,17 @@
 					<td colspan="2" align="center">
 						<form method="post">
 							<select name="action">
-								<option value="delete|A">
+								<option value="delete|AB">
 									Удалить первую картинку
 								</option>
-								<option value="delete|B">
+								<option value="delete|BA">
 									Удалить вторую картинку
 								</option>
-								<option value="move_tags|AB">
-									Копировать теги из первой во вторую
+								<option value="move_meta|AB">
+									Копировать теги/категории из первой во вторую
 								</option>
-								<option value="move_tags|BA">
-									Копировать теги из второй в первую
+								<option value="move_meta|BA">
+									Копировать теги/категории из второй в первую
 								</option>
 								<option value="make_similar|AB">
 									Прикрепить первую ко второй

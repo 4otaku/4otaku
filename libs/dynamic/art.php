@@ -190,7 +190,7 @@ class dynamic__art extends engine
 		return $tags;
 	}
 	
-	function substract_tag($tags,$id) {
+	static function substract_tag($tags,$id) {
 		global $def;	
 		
 		$info = obj::db()->sql('select area, tag from art where id='.$id,1);
