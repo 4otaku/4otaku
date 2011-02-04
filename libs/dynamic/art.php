@@ -166,6 +166,8 @@ class dynamic__art extends engine
 			
 			$html->clear(); 
 			unset($html);
+			unset($tables);
+			unset($temp);
 		}
 		else
 		{
