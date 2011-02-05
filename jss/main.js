@@ -463,11 +463,7 @@ $(document).ready(function(){
 	/* Video section end */	
 	
 	/* Art section start */
-	
-	if ($(".similar_navi").length > 0) {
-		$(".similar_navi_"+document.location.hash.split('#')[1]).click();
-	}
-	
+
 	$(".similar_navi").click(function(e){
 		if (is_left_click(e)) {
 			var new_src = $("div.image img").attr('src').split('/');
@@ -869,5 +865,9 @@ $(document).ready(function(){
 	});	
 	
 	/* Board end */
+	
+	if ($(".similar_navi").length > 0) {
+		$(".similar_navi_"+document.location.hash.split('#')[1]).click();
+	}	
 	
 });  
