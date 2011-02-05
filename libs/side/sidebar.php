@@ -91,7 +91,7 @@ class side__sidebar extends engine
 		
 		if (in_array($url['area'], def::get('area')) && $url['area'] != 'workshop') {
 			$area = $url['area'];
-		} else { 
+		} else {
 			$area = def::get('area',0);
 		}
 
