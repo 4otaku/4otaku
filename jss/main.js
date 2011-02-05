@@ -469,9 +469,9 @@ $(document).ready(function(){
 			var new_src = $("div.image img").attr('src').split('/');
 			
 			if (navigator.userAgent.indexOf("Opera") == -1) {
-				$("div.image").css({'height':$("div.image img").height()});
-				$("div.image img").css({'margin-top':'200px'});
-				$("div.image img").attr('src', window.config.site_dir+'/images/ajax-loader.gif');
+				$("div.image").css({'height':$("div.image img").height()}).
+				children('img').css({'margin-top':'200px'}).
+				attr('src', window.config.site_dir+'/images/ajax-loader.gif');
 			}			
 			
 			var img_file = new_src.pop();
