@@ -83,9 +83,9 @@ class input__common extends engine
 					$this->add_res('Слишком мало тегов чтобы отправить арт на главную.',true);
 					return false;
 				}
-				if ($data['area'] == $def['area'][0] || $data['area'] == $def['area'][2])
+				if (in_array($data['area'],$def['area']) && $data['area'] != $def['area'][1])
 					obj::transform('meta')->erase_tags($tags,$post['do'][0].'_'.$data['area']);
-				if ($post['where'] == $def['area'][0] || $post['where'] == $def['area'][2])
+				if (in_array($post['where'],$def['area']) && $post['where'] != $def['area'][1])
 					obj::transform('meta')->add_tags($tags,$post['do'][0].'_'.$post['where']);
 			}
 			if ($post['do'][0] != 'orders') obj::db()->update($post['do'][0],array('area','pretty_date','sortdate'),array($post['where'],obj::transform('text')->rudate(),ceil(microtime(true)*1000)),$post['id']);
