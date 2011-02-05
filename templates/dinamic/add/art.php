@@ -34,6 +34,11 @@
 				<td colspan="2" id="error">
 				
 				</td>
+			</tr>
+			<tr>
+				<td colspan="2" id="is_dublicates">
+				
+				</td>
 			</tr>			
 			<tr id="transparent" class="art_images">
 				<td colspan="2">

@@ -230,5 +230,35 @@ class dynamic__art extends engine
 		query::$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
 		include_once('libs/input/common.php');
 		input__common::transfer(query::$post);
-	}		
+	}
+	
+	function is_dublicates() {
+		$arts = explode(',', query::$get['data']);
+		
+		if (
+			count($arts) < 2 || 
+			!function_exists('puzzle_fill_cvec_from_file') ||
+			!function_exists('puzzle_vector_normalized_distance')			
+		) {
+			return false;
+		}
+		
+		foreach ($arts as $key => $art) {
+			$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$art.'.jpg';
+			$arts[$key] = puzzle_fill_cvec_from_file($file);
+		}
+		
+		foreach ($arts as $key => $art) {
+			foreach ($arts as $key2 => $compare_art) {
+				if (
+					$key != $key2 && 
+					puzzle_vector_normalized_distance($art, $compare_art) > 0.6
+				) {
+					return false;
+				}
+			}
+		}
+		
+		return count($arts);
+	}
 }

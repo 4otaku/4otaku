@@ -13,6 +13,20 @@ class input__art extends input__common
 				$category = obj::transform('meta')->category(query::$post['category']);
 				$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
 				query::$post['images'] = array_reverse(query::$post['images']);
+				
+				$similar = '|';
+				
+				if (!empty(query::$post['dublicates'])) {
+					foreach (query::$post['images'] as $image_key => $image) {
+						if (query::$post['dublicates'] != $image_key + 1) {
+							$name = explode('#',$image);
+							$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
+							unset(query::$post['images'][$image_key]);
+							$similar .= $name[1].'.'.$name[0].'.'.$name[2].'|';
+						}
+					}
+				}
+				
 				foreach (query::$post['images'] as $image) {
 					$name = explode('#',$image);
 					$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
@@ -20,8 +34,8 @@ class input__art extends input__common
 						$name[0] && $name[1] && $name[2] &&
 						!obj::db('sub')->sql('select id from w8m_art where md5="'.$name[0].'"',2) &&
 						!obj::db()->sql('select id from art where md5="'.$name[0].'"',2)
-					) {
-						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],$author,$category,$tags,"|".$data['pool'],"|","",
+					) {						
+						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],$author,$category,$tags,"|".$data['pool'],$similar,"",
 												query::$post['source'],0,0,obj::transform('text')->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 						obj::db()->insert('versions',array('art',$id = obj::db()->sql('select @@identity from art',2),
 														base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));

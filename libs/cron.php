@@ -301,7 +301,7 @@ class cron
 				foreach ($all as $compare_id => $vector) { 
 					if (
 						$id != $compare_id &&
-						puzzle_vector_normalized_distance($art['vector'], $vector) < 0.2
+						puzzle_vector_normalized_distance($art['vector'], $vector) < 0.4
 					) {
 						$similar .= $compare_id.'|';
 					}					
