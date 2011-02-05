@@ -52,43 +52,46 @@ class output__admin extends engine
 	
 	function dublicates($return) {
 		$return['display'][] = 'admin_dublicatelist';
-		$dublictates = obj::db()->sql('select id, similar from art_similar where similar != "|"','id');
+		$duplicates = obj::db()->sql('select id, similar from art_similar where similar != "|"','id');
 		
-		$art_ids = array();
-		$pairings = array();
-		
-		foreach ($dublictates as $id => $similar) {
-			$similar = explode('|', trim($similar, '|'));
-			foreach ($similar as $item) {
-				$art_ids[] = $item;
-				$pairings[] = min($id,$item).'-'.max($id,$item);
+		if(isset($duplicates))
+		{
+			$art_ids = array();
+			$pairings = array();
+			
+			foreach ($duplicates as $id => $similar) {
+				$similar = explode('|', trim($similar, '|'));
+				foreach ($similar as $item) {
+					$art_ids[] = $item;
+					$pairings[] = min($id,$item).'-'.max($id,$item);
+				}
+				$art_ids[] = $id;
 			}
-			$art_ids[] = $id;
+			
+			$art_ids = array_unique($art_ids);
+			$return['doubles'] = array_unique($pairings);
+			
+			$return['arts'] = obj::db()->sql('select * from art where id in ('.implode(',', $art_ids).')','id');
+			$translations = obj::db()->sql('select art_id from art_translation where art_id in ('.implode(',', $art_ids).')');
+			
+			foreach ($return['arts'] as $id => $art) {
+				$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
+				$fileinfo = getimagesize($image);
+				$return['arts'][$id]['width'] = $fileinfo[0];
+				$return['arts'][$id]['height'] = $fileinfo[1];
+				$return['arts'][$id]['size'] = obj::transform('file')->weight(filesize($image));
+				$return['arts'][$id]['translation'] = in_array($id, (array) $translations);
+			}
+			unset ($art);
+			
+			$meta = $this->get_meta($return['arts'],array('tag'));
+			foreach ($return['arts'] as &$art) 
+				foreach ($meta['tag'] as $alias => $name)
+					if (stristr($art['tag'],'|'.$alias.'|')) 
+						$art['meta']['tag'][$alias] = $name['name'];				
+	
+			unset ($art);
 		}
-		
-		$art_ids = array_unique($art_ids);
-		$return['doubles'] = array_unique($pairings);
-		
-		$return['arts'] = obj::db()->sql('select * from art where id in ('.implode(',', $art_ids).')','id');
-		$translations = obj::db()->sql('select art_id from art_translation where art_id in ('.implode(',', $art_ids).')');
-		
-		foreach ($return['arts'] as $id => $art) {
-			$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
-			$fileinfo = getimagesize($image);
-			$return['arts'][$id]['width'] = $fileinfo[0];
-			$return['arts'][$id]['height'] = $fileinfo[1];
-			$return['arts'][$id]['size'] = obj::transform('file')->weight(filesize($image));
-			$return['arts'][$id]['translation'] = in_array($id, (array) $translations);
-		}
-		unset ($art);
-		
-		$meta = $this->get_meta($return['arts'],array('tag'));
-		foreach ($return['arts'] as &$art) 
-			 foreach ($meta['tag'] as $alias => $name)
-				if (stristr($art['tag'],'|'.$alias.'|')) 
-					$art['meta']['tag'][$alias] = $name['name'];				
-
-		unset ($art);
 		
 		return $return;		
 	}	
