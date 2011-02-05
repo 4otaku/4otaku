@@ -91,8 +91,10 @@ class side__sidebar extends engine
 		
 		if (in_array($url['area'], def::get('area')) && $url['area'] != 'workshop') {
 			$area = $url['area'];
+			$prefix = $url['area'].'/';
 		} else {
 			$area = def::get('area',0);
+			$prefix = '';
 		}
 
 		if (is_array($data['main']['art']['thumbs'])) {
@@ -112,8 +114,8 @@ class side__sidebar extends engine
 		unset($tags['prostavte_tegi'],$tags['tagme'],$tags['deletion_request']);
 
 		if (!empty($tags)) {
-				$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
-				$global = obj::db()->sql('select alias, art_'.$area.' from tag '.$where,'alias');
+			$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
+			$global = obj::db()->sql('select alias, art_'.$area.' from tag '.$where,'alias');
 			if ($page_flag) {
 				foreach ($global as $alias => $global_count)
 					$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
@@ -127,6 +129,10 @@ class side__sidebar extends engine
 				
 				uasort($return,array('self','name_sort'));
 			}
+			
+			foreach ($return as $key => $tag)
+				$return[$key]['alias'] = $prefix.$tag['alias'];
+			
 			return $return;
 		}
 	}
