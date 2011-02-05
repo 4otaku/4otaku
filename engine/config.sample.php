@@ -141,6 +141,7 @@ $def['rss']['default'] = 'pvun';
 $def['area'][] = 'main';
 $def['area'][] = 'workshop';
 $def['area'][] = 'flea_market';
+$def['area'][] = 'sprites';
 
 // Разделы сайта
 

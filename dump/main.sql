@@ -373,6 +373,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `video_main` int(11) NOT NULL,
   `video_flea_market` int(11) NOT NULL,
   `art_main` int(11) NOT NULL,
+  `art_sprites` int(11) NOT NULL,
   `art_flea_market` int(11) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `alias` (`alias`)
