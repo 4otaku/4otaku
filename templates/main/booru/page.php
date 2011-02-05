@@ -111,9 +111,9 @@
 										echo implode(', ',$picture['meta']['category']);
 									?>
 							"<?=($sets['art']['blank_mode'] ? ' target="_blank"' : '');?>>
-								<?=(!empty($picture['similar']) ? '<img class="similar_sign" src="/images/plus_'.min(5,count($picture['similar'])).'.png">' : '');?>
 								<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$picture['thumb'];?>.jpg">
-							</a>					
+							</a>
+							<?=(!empty($picture['similar']) ? '<img class="similar_sign" src="/images/plus_'.min(5,count($picture['similar'])).'.png">' : '');?>
 						<?
 				
 				?>

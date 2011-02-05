@@ -715,6 +715,7 @@ ol.orders_list {
   display: inline-block;
   float: left;
   text-align: center;
+  position: relative;
 }
 
 .large_thumbnail {
@@ -797,6 +798,12 @@ ol.orders_list {
 
 .cg_name {
 	font-weight: bold;
+}
+
+.similar_sign {
+	position: absolute;
+	top: 2px;
+	right: 5px;
 }
 
 /* Content, борда */
