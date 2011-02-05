@@ -415,13 +415,14 @@ $(document).ready(function(){
 		}
 	});	
 	
-	$("a.imageholder").hover(function(){
-		if ($("#hiddenthumb-"+$(this).attr('rel')).attr('src') == '#') {
-			$("#hiddenthumb-"+$(this).attr('rel')).attr('src',$("#hiddenthumb-"+$(this).attr('rel')).attr('rel'));  
+	$("a.imageholder, a.similar_navi").hover(function(){
+		var imagethumb = $(this).find(".hiddenthumb");
+		if (imagethumb.attr('src') == '#') {
+			imagethumb.attr('src',imagethumb.attr('rel'));  
 		}
-		$("#hiddenthumb-"+$(this).attr('rel')).css( {left : ($(this).offset().left + 15) + 'px',top : parseInt($(this).offset().top) - 15 - $("#hiddenthumb-"+$(this).attr('rel')).parent().attr('rel') + 'px'} ).show();
+		imagethumb.css( {left : ($(this).offset().left + 15) + 'px',top : parseInt($(this).offset().top) - 15 - imagethumb.parent().attr('rel') + 'px'} ).show();
 	}, function(){
-		$("#hiddenthumb-"+$(this).attr('rel')).hide();
+		imagethumb.hide();
 	});	
 	
 	$(".show_updates").live('click',function(){

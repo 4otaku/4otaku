@@ -149,7 +149,7 @@
 													?>
 														<img src="<?=$data['feed']['domain'];?>/images/file-image.png" class="post-image"> 
 														<?=$file['name'];?>: 
-														<a href="<?=$data['feed']['domain'];?>/files/post/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" rel="<?=$key.'-'.$item['id'];?>" target="_blank">
+														<a href="<?=$data['feed']['domain'];?>/files/post/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" target="_blank">
 															<?=$file['filename'];?>
 															<span rel="<?=$file['height'];?>">
 																<img class="hiddenthumb" id="hiddenthumb-<?=$key.'-'.$item['id'];?>" src="#" rel="/files/post/<?=$file['folder'];?>/thumb_<?=$file['filename'];?>" />
