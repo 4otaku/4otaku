@@ -422,7 +422,7 @@ $(document).ready(function(){
 		}
 		imagethumb.css( {left : ($(this).offset().left + 15) + 'px',top : parseInt($(this).offset().top) - 15 - imagethumb.parent().attr('rel') + 'px'} ).show();
 	}, function(){
-		imagethumb.hide();
+		$(this).find(".hiddenthumb").hide();
 	});	
 	
 	$(".show_updates").live('click',function(){

@@ -152,7 +152,7 @@
 														<a href="<?=$data['feed']['domain'];?>/files/post/<?=$file['folder'];?>/<?=$file['filename'];?>" class="imageholder" target="_blank">
 															<?=$file['filename'];?>
 															<span rel="<?=$file['height'];?>">
-																<img class="hiddenthumb" id="hiddenthumb-<?=$key.'-'.$item['id'];?>" src="#" rel="/files/post/<?=$file['folder'];?>/thumb_<?=$file['filename'];?>" />
+																<img class="hiddenthumb" src="#" rel="/files/post/<?=$file['folder'];?>/thumb_<?=$file['filename'];?>" />
 															</span>	
 														</a>
 														 (<?=$file['size'];?>)

@@ -79,7 +79,7 @@
 										<a href="/art/<?=$item['id'];?>#1" class="similar_navi similar_navi_1" rel="<?=$item['md5'].'.'.$item['extension'];?>">
 											1
 											<span rel="0">
-												<img class="hiddenthumb" id="hiddenthumb-1-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
+												<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
 											</span>
 										</a>
 										<? foreach ($item['similar'] as $number => $similar) { ?>
@@ -87,7 +87,7 @@
 											<a href="/art/<?=$item['id'];?>#<?=($number+1);?>" class="similar_navi similar_navi_<?=($number+1);?>" rel="<?=$similar[1].'.'.$similar[2];?>">
 												<?=($number+1);?>
 												<span rel="0">
-													<img class="hiddenthumb" id="hiddenthumb-<?=($number+2);?>-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$similar[0];?>.jpg" />
+													<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$similar[0];?>.jpg" />
 												</span>
 											</a>
 										<? } ?>
