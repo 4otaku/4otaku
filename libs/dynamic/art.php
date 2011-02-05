@@ -252,7 +252,7 @@ class dynamic__art extends engine
 			foreach ($arts as $key2 => $compare_art) {
 				if (
 					$key != $key2 && 
-					puzzle_vector_normalized_distance($art, $compare_art) > 0.6
+					puzzle_vector_normalized_distance($art, $compare_art) > 0.5
 				) {
 					return false;
 				}
