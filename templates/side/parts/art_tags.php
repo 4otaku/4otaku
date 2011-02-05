@@ -39,7 +39,7 @@
 												<?
 											}
 										?>					
-										<a href="<?=$def['site']['dir']?>/art/tag/<?=$tag['alias'];?>/"<?=($tag['color'] ? ' style="color:#'.$tag['color'].';"' : '');?>>
+										<a href="<?=$def['site']['dir']?>/art/<?=$tag['alias'];?>/"<?=($tag['color'] ? ' style="color:#'.$tag['color'].';"' : '');?>>
 											<?=str_replace('_',' ',$tag['name']);?>
 										</a> 
 										<span>

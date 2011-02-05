@@ -131,7 +131,7 @@ class side__sidebar extends engine
 			}
 			
 			foreach ($return as $key => $tag)
-				$return[$key]['alias'] = $prefix.$tag['alias'];
+				$return[$key]['alias'] = $prefix.'tag/'.$tag['alias'];
 			
 			return $return;
 		}
