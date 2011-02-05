@@ -465,7 +465,7 @@ $(document).ready(function(){
 	/* Art section start */
 	
 	if ($(".similar_navi").length > 0) {
-		var current = document.location.href.split('#')[1];
+		var current = document.location.hash.split('#')[1];
 		if (current == undefined) current = "1";
 		else $(".similar_navi_"+current).click();
 	}
@@ -473,6 +473,7 @@ $(document).ready(function(){
 	$(".similar_navi").click(function(e){
 		if (is_left_click(e)) {
 			var new_src = $("div.image img").attr('src').split('/');
+			$("div.image img").attr('src', window.config.site_dir+'/images/ajax-processing.gif');
 			var img_file = new_src.pop();
 			var img_size = new_src.pop();
 			
