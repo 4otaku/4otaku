@@ -465,9 +465,7 @@ $(document).ready(function(){
 	/* Art section start */
 	
 	if ($(".similar_navi").length > 0) {
-		var current = document.location.hash.split('#')[1];
-		if (current == undefined) current = "1";
-		else $(".similar_navi_"+current).click();
+		$(".similar_navi_"+document.location.hash.split('#')[1]).click();
 	}
 	
 	$(".similar_navi").click(function(e){
