@@ -78,7 +78,7 @@
 										На эту картинку есть вариации. 
 										<a href="/art/<?=$item['id'];?>#1" class="similar_navi similar_navi_1" rel="<?=$item['md5'].'.'.$item['extension'];?>">
 											1
-											<span rel="0">
+											<span rel="-35">
 												<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
 											</span>
 										</a>
@@ -86,7 +86,7 @@
 											, 
 											<a href="/art/<?=$item['id'];?>#<?=($number+1);?>" class="similar_navi similar_navi_<?=($number+1);?>" rel="<?=$similar[1].'.'.$similar[2];?>">
 												<?=($number+1);?>
-												<span rel="0">
+												<span rel="-35">
 													<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$similar[0];?>.jpg" />
 												</span>
 											</a>
