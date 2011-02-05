@@ -84,9 +84,10 @@ class output__admin extends engine
 		
 		$meta = $this->get_meta($return['arts'],array('tag'));
 		foreach ($return['arts'] as &$art) 
-			 foreach ($meta['tag'] as $alias => $name) 
+			 foreach ($meta['tag'] as $alias => $name)
 				if (stristr($art['tag'],'|'.$alias.'|')) 
-					$art['meta']['tag'][$alias] = $name;				
+					$art['meta']['tag'][$alias] = $name['name'];				
+
 		unset ($art);
 		
 		return $return;		

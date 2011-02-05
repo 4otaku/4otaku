@@ -24,10 +24,7 @@
 												Тег: 
 											<?
 										}
-										if (is_array($data['main']['arts'][$one]['meta']['tag'])) {
-											foreach ($data['main']['arts'][$one]['meta']['tag'] as &$tag) $tag = $tag['name'];
-											echo implode(', ',$data['main']['arts'][$one]['meta']['tag']);
-										}
+										echo implode(', ',$data['main']['arts'][$one]['meta']['tag']);
 									?>								
 								"
 							>

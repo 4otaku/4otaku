@@ -6,6 +6,11 @@ class input__art extends input__common
 		global $check; global $def; global $url; global $sets; global $cookie;
 		if (!$cookie) $cookie = new dynamic__cookie();
 
+		if (function_exists('puzzle_set_max_width') && function_exists('puzzle_set_max_height')) {
+			puzzle_set_max_width(20000);
+			puzzle_set_max_height(20000);
+		}
+		
 		if (is_array(query::$post['images'])) {
 			if ($url[2] == 'pool' && is_numeric($url[3])) $data = obj::db()->sql('select concat(id,"|") as pool, password from art_pool where id='.$url[3],1);
 			if (!$data['password'] || $data['password'] == md5(query::$post['password'])) {
