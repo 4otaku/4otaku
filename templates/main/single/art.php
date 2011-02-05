@@ -81,14 +81,15 @@
 											<span rel="0">
 												<img class="hiddenthumb" id="hiddenthumb-1-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
 											</span>
-										</a>, 
+										</a>
 										<? foreach ($item['similar'] as $number => $similar) { ?>
-											<a href="/art/<?=$item['id'];?>#<?=($number+2);?>" class="similar_navi similar_navi_<?=($number+2);?>" rel="<?=$similar['md5'].'.'.$similar['ext'];?>">
-												<?=($number+2);?>
+											, 
+											<a href="/art/<?=$item['id'];?>#<?=($number+1);?>" class="similar_navi similar_navi_<?=($number+1);?>" rel="<?=$similar[1].'.'.$similar[2];?>">
+												<?=($number+1);?>
 												<span rel="0">
-													<img class="hiddenthumb" id="hiddenthumb-<?=($number+2);?>-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$similar['thumb'];?>.jpg" />
+													<img class="hiddenthumb" id="hiddenthumb-<?=($number+2);?>-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$similar[0];?>.jpg" />
 												</span>
-											</a>, 
+											</a>
 										<? } ?>
 										.
 									</div>

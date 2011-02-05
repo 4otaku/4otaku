@@ -215,11 +215,7 @@ class output__art extends engine
 				if (trim($art['variation'],'|')) {
 					$art['similar'] = array_filter(explode('|',$art['variation']));
 					foreach ($art['similar'] as $similar_key => $similar) {
-						list(
-							$art['similar'][$similar_key]['thumb'],
-							$art['similar'][$similar_key]['md5'],
-							$art['similar'][$similar_key]['ext']
-						) = explode('.', $similar);
+						$art['similar'][$similar_key] = explode('.', $similar);
 					}
 				}
 			}
