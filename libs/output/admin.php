@@ -54,7 +54,7 @@ class output__admin extends engine
 		$return['display'][] = 'admin_dublicatelist';
 		$duplicates = obj::db()->sql('select id, similar from art_similar where similar != "|"','id');
 		
-		if(isset($duplicates))
+		if(is_array($duplicates))
 		{
 			$art_ids = array();
 			$pairings = array();

@@ -115,7 +115,7 @@ class dynamic__art extends engine
 		else if ($section == 'iqdb')
 		{
 			$mass = obj::db()->sql('select md5,extension from art where id='.$id,1);
-		
+			
 			if (isset($mass)) 
 			{
 				include(ROOT_DIR.SL.'engine'.SL.'external'.SL.'simple_html_dom.php');
@@ -130,11 +130,12 @@ class dynamic__art extends engine
 						$a = $table->children(1)->children(0)->find('a');						/* Needed couse simple_html_dom syntax */
 						if(isset($a) && (preg_match('/(?P<digit>\d+)% (?P<name>\w+)/', $table->children(4)->children(0), $matches)))
 						{
-							if($matches['digit'] >= 93)
+							if($matches['digit'] >= 90)
 							{
 								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */		
 								
 								$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
+								
 								if ($dtags[sizeof($dtags)-1][0] !== "" || isset($dtags[sizeof($dtags)-1][1])) $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];
 								
 								$category = substr($temp[0]->alt,strpos($temp[0]->alt,'Rating: ')+8,1);
