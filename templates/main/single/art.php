@@ -369,7 +369,7 @@
 											 &nbsp; 
 											<select name="where">
 												<?
-													foreach ($def['area'] as $area) if ($item['area'] != $area) {
+													foreach ($def['area'] as $area) if ($item['area'] != $area && !empty($lang['transfer'][$area])) {
 														?>
 															<option value="<?=$area;?>"> <?=$lang['transfer'][$area];?></option>	
 														<?

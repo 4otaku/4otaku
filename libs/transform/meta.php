@@ -49,7 +49,7 @@ class transform__meta
 				$tags[$key] = $check;
 			} else {
 				$alias = $this->make_alias($tag); 
-				obj::db()->insert('tag',array($alias,$tag,'|',$this->colors[$tag],0,0,0,0,0,0));
+				obj::db()->insert('tag',array($alias,$tag,'|',$this->colors[$tag],0,0,0,0,0,0,0));
 				if ($update) obj::db()->update('tag',$update,1,$alias,'alias');
 				$tags[$key] = $alias;
 			}
