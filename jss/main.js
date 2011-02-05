@@ -467,7 +467,7 @@ $(document).ready(function(){
 	$(".similar_navi").click(function(e){
 		if (is_left_click(e)) {
 			var new_src = $("div.image img").attr('src').split('/');
-			$("div.image img").attr('src', window.config.site_dir+'/images/ajax-processing.gif');
+			$("div.image img").attr('src', window.config.site_dir+'/images/ajax-loader.gif');
 			var img_file = new_src.pop();
 			var img_size = new_src.pop();
 			
@@ -479,7 +479,11 @@ $(document).ready(function(){
 			
 			$(".similar_navi").removeClass('plaintext');
 			$(this).addClass('plaintext');
-			$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file);
+
+			var img = new Image();
+			$(img).load(new_src.join('/')+'/'+img_size+'/'+img_file, function () {
+				$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file);
+			});
 		}
 	});	
 	
@@ -867,7 +871,9 @@ $(document).ready(function(){
 	/* Board end */
 	
 	if ($(".similar_navi").length > 0) {
-		$(".similar_navi_"+document.location.hash.split('#')[1]).click();
+		var current = document.location.hash.split('#')[1];
+		if (current == undefined) current = 1;
+		$(".similar_navi_"+current).click();
 	}	
 	
 });  
