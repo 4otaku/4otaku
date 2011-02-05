@@ -212,8 +212,8 @@ class output__art extends engine
 			}
 			foreach ($return as &$art) {
 				if ($check->link($art['source'])) $art['source'] = '<a href="'.$art['source'].'" target="_blank">'.$art['source'].'</a>';
-				if (trim($art['variations'],'|')) {
-					$art['similar'] = array_filter(explode('|',$art['variations']));
+				if (trim($art['variation'],'|')) {
+					$art['similar'] = array_filter(explode('|',$art['variation']));
 					foreach ($art['similar'] as $similar_key => $similar) {
 						list(
 							$art['similar'][$similar_key]['thumb'],
