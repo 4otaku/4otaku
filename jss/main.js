@@ -489,9 +489,8 @@ $(document).ready(function(){
 			if (navigator.userAgent.indexOf("Opera") == -1) {
 				var img = new Image();
 				$(img).load(new_src.join('/')+'/'+img_size+'/'+img_file, function () {
-					$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file);
-					$("div.image").css({'height':'auto'});
-					$("div.image img").css({'margin-top':'auto'});
+					$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file)
+					.css({'margin-top':'auto'}).parent()..css({'height':'auto'});
 				});
 			} else {
 				$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file);
