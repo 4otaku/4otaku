@@ -64,6 +64,9 @@ class input__admin extends engine
 				case 'make_similar':
 					$this->make_similar($from, $to);
 					break;
+				case 'nondublicates':
+					$this->nondublicates($from, $to);
+					break;				
 				default:
 					break;
 			}
@@ -82,7 +85,7 @@ class input__admin extends engine
 		
 		obj::db()->sql('update art set area="deleted" where id='.$id,0);
 		obj::db()->sql('delete from art_similar where id='.$id,0);
-		obj::db()->sql('update art_similar set similar=replace(similar,"'.$id.'|","") where id='.$move_to,0);
+		obj::db()->sql('update art_similar set similar=replace(similar,"|'.$id.'|","|") where id='.$move_to,0);
 	}
 	
 	private function move_art_meta($from, $to) {
@@ -110,5 +113,10 @@ class input__admin extends engine
 		obj::db()->sql('update art set variation = concat(variation, "'.implode('.',$image).'|") where id='.$update,0);
 		
 		$this->delete_art($erase, $update);		
+	}
+	
+	private function nondublicates($first, $second) {
+		obj::db()->sql('update art_similar set similar=replace(similar,"|'.$second.'|","|") where id='.$first,0);
+		obj::db()->sql('update art_similar set similar=replace(similar,"|'.$first.'|","|") where id='.$second,0);	
 	}
 }

@@ -69,6 +69,9 @@
 								<option value="make_similar|BA">
 									Прикрепить вторую к первой
 								</option>
+								<option value="nondublicates|AB">
+									Это не дубликаты
+								</option>
 							</select>
 							<br /><br />
 							<input type="hidden" name="A" value="<?=reset($double);?>">
