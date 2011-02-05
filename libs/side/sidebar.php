@@ -87,7 +87,9 @@ class side__sidebar extends engine
 	}
 
 	function art_tags() {
-		global $data; global $check;
+		global $data; global $check; global $url; 
+		
+		$area = in_array($url['area'], def::('area')) ? $url['area'] : def::('area',0);
 
 		if (is_array($data['main']['art']['thumbs'])) {
 			$page_flag = true;
@@ -107,7 +109,7 @@ class side__sidebar extends engine
 
 		if (!empty($tags)) {
 				$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
-				$global = obj::db()->sql('select alias, art_main from tag '.$where,'alias');
+				$global = obj::db()->sql('select alias, art_'.$area.' from tag '.$where,'alias');
 			if ($page_flag) {
 				foreach ($global as $alias => $global_count)
 					$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
