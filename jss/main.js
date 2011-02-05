@@ -467,6 +467,8 @@ $(document).ready(function(){
 	$(".similar_navi").click(function(e){
 		if (is_left_click(e)) {
 			var new_src = $("div.image img").attr('src').split('/');
+			$("div.image").css({'height':$("div.image img").height()});
+			$("div.image img").css({'margin-top':'200px'});
 			$("div.image img").attr('src', window.config.site_dir+'/images/ajax-loader.gif');
 			var img_file = new_src.pop();
 			var img_size = new_src.pop();
@@ -483,6 +485,8 @@ $(document).ready(function(){
 			var img = new Image();
 			$(img).load(new_src.join('/')+'/'+img_size+'/'+img_file, function () {
 				$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file);
+				$("div.image").css({'height':'auto'});
+				$("div.image img").css({'margin-top':'auto'});
 			});
 		}
 	});	
