@@ -210,8 +210,19 @@ class output__art extends engine
 					unset($pool);
 				}
 			}
-			foreach ($return as &$art) 
+			foreach ($return as &$art) {
 				if ($check->link($art['source'])) $art['source'] = '<a href="'.$art['source'].'" target="_blank">'.$art['source'].'</a>';
+				if (trim($art['variations'],'|')) {
+					$art['similar'] = array_filter(explode('|',$art['variations']));
+					foreach ($art['similar'] as $similar_key => $similar) {
+						list(
+							$art['similar'][$similar_key]['thumb'],
+							$art['similar'][$similar_key]['md5'],
+							$art['similar'][$similar_key]['ext']
+						) = explode('.', $similar);
+					}
+				}
+			}
 			$meta = $this->get_meta($return,array('category','author','tag'));
 			foreach ($meta as $key => $type) 
 				if (is_array($type))

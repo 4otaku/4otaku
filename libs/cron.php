@@ -276,9 +276,6 @@ class cron
 			return;
 		}
 /*
- 		puzzle_set_max_width(20000);
-		puzzle_set_max_height(20000);
- 
 		$max  = obj::db()->sql('select max(id) from art_similar',2);
 		$arts = obj::db()->sql('select id, thumb from art where id > '.($max ? $max : 0).' and area != "deleted" order by id limit 2000');
 
