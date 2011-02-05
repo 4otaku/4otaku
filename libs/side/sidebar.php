@@ -89,7 +89,11 @@ class side__sidebar extends engine
 	function art_tags() {
 		global $data; global $check; global $url; 
 		
-		$area = in_array($url['area'], def::get('area')) && $url['area'] != def::get('area',1) ? $url['area'] : def::get('area',0);
+		if (in_array($url['area'], def::get('area')) && $url['area'] != 'workshop') {
+			$area = $url['area'];
+		} else {
+			$area = def::get('area',0);
+		}
 
 		if (is_array($data['main']['art']['thumbs'])) {
 			$page_flag = true;
