@@ -71,6 +71,32 @@
 						}
 					?>
 					<?
+						if (!$data['feed'] && is_array($item['similar'])) {
+							?>
+								<div class="margin10">
+									<div class="mini-shell art-bar">
+										На эту картинку есть вариации. 
+										<a href="/art/<?=$item['id'];?>#1" class="similar_navi similar_navi_1" rel="<?=$item['md5'].'.'.$item['extension'];?>">
+											1
+											<span rel="0">
+												<img class="hiddenthumb" id="hiddenthumb-1-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
+											</span>
+										</a>, 
+										<? foreach ($item['similar'] as $number => $similar) { ?>
+											<a href="/art/<?=$item['id'];?>#<?=($number+2);?>" class="similar_navi similar_navi_<?=($number+2);?>" rel="<?=$similar['md5'].'.'.$similar['ext'];?>">
+												<?=($number+2);?>
+												<span rel="0">
+													<img class="hiddenthumb" id="hiddenthumb-<?=($number+2);?>-<?=$item['id'];?>" src="#" rel="/images/booru/thumbs/<?=$similar['thumb'];?>.jpg" />
+												</span>
+											</a>, 
+										<? } ?>
+										.
+									</div>
+								</div>
+							<?	
+						}
+					?>					
+					<?
 						if (!$data['feed']) {							
 							if (array_key_exists('nsfw',$item['meta']['category'])) {
 								if (!$sets['show']['nsfw']) $reason['nsfw'] = true;

@@ -463,6 +463,30 @@ $(document).ready(function(){
 	
 	/* Art section start */
 	
+	if ($(".similar_navi").length > 0) {
+		var current = document.location.href.split('#')[1];
+		if (current == undefined) current = "1";
+		else $(".similar_navi_"+current).click();
+	}
+	
+	$(".similar_navi").live('click', function(e){
+		if (is_left_click(e)) {
+			var new_src = $("div.image img").src().split('/');
+			var img_file = new_src.pop();
+			var img_size = new_src.pop();
+			
+			if (img_size == 'resized') {
+				img_file = $(this).attr('rel').split('.')[0]+'.jpg';
+			} else {
+				img_file = $(this).attr('rel');
+			}
+			
+			$(".similar_navi").css('color', '#42A3B9');
+			$(this).css('color', '#000000');		
+			$("div.image img").src(new_src.join('/')+'/'+img_size+'/'+img_file);
+		}
+	});	
+	
 	$(".art_translation").easyTooltip();
 	$("a.with_help3").easyTooltip({timeOut:1000});
 	
