@@ -342,7 +342,7 @@
 							<option value="tag">Теги</option>		
 							<option value="category">Категории</option>					
 							<option value="art_source">Источник</option>
-							<option value="art_groups">Добавить в группы</option>				
+							<option value="art_groups">Добавить в группы</option>
 							<option value="art_translations">Переводы</option>
 							<?
 								if ($sets['user']['rights']) {
@@ -350,6 +350,7 @@
 										<option value="art_image">Картинку</option>
 										<option value="author">Автора</option>
 										<option value="art_source">Имя переводчика</option>
+										<option value="art_variation">Прикрепить сюда картинку</option>
 									<?
 								}
 							?>

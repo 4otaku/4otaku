@@ -106,7 +106,7 @@ class input__admin extends engine
 		obj::db()->sql('update art set comment_count = (select count(*) from comment where area!="deleted" and post_id='.$to.' and place="art") where id='.$to,0);
 	}
 	
-	private function make_similar($erase, $update) {
+	public function make_similar($erase, $update) {
 		$this->move_art_meta($erase, $update);
 		
 		$image = obj::db()->sql('select thumb, md5, extension from art where id='.$erase,1);

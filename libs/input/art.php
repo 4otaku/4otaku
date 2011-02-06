@@ -148,5 +148,21 @@ class input__art extends input__common
 			obj::db()->sql('update art set translator="'.query::$post['author'].'" where id='.query::$post['id'].' and translator=""',0);
 		}
 	}
+	
+	function edit_art_variation() {
+		global $def; global $check;
+		
+		if ($check->rights()) {
+			preg_match('/(?:^|\/)(\d+)(?:\/|#|$)/', query::$post['from'], $from);
+			
+			$from = (int) $from[1];
+			$to = (int) query::$post['to'];
+			
+			if ($from && $to) {
+				$admin = new input__admin();
+				$admin->make_similar($from, $to);
+			}
+		}
+	}	
 
 }
