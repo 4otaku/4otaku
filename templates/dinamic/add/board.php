@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=fileupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
 <form id="addform" method="post" action="/board/add/thread/<?=query::$get['info'];?>" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody>
@@ -60,7 +60,7 @@
 					<table>
 						<tr>
 							<td>
-								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="board-image">
+								<div id="board-image"></div>
 							</td>
 							<td>
 								<img class="processing" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />

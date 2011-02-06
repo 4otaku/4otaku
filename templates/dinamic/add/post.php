@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ajaxupload.js,add/common.js,add/text.js,add/post.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=fileupload.js,add/common.js,add/text.js,add/post.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<div class="fields">
 		<span>
@@ -59,7 +59,7 @@
 					<table>
 						<tr>
 							<td>
-								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="post-image">
+								<div id="post-image"></div>
 							</td>
 							<td>
 								<img class="processing-image" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
@@ -120,7 +120,7 @@
 					<table>
 						<tr>
 							<td>
-								<img src="<?=$def['site']['dir']?>/images/upload_button.png" id="post-file" rel="add">
+								<div id="post-file" rel="add"></div>
 							</td>
 							<td>
 								<img class="processing-file" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />

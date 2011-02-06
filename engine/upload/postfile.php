@@ -12,17 +12,18 @@
 		mkdir(ROOT_DIR.SL.'files'.SL.'post'.SL.$time, 0755);
 		$newfile = ROOT_DIR.SL.'files'.SL.'post'.SL.$time.SL.$filename.'.'.$extension;		
 		chmod($temp, 0755);
-		move_uploaded_file($temp, $newfile);
+		if (!move_uploaded_file($temp, $newfile)) file_put_contents($newfile, file_get_contents($temp));
 				
+		$return_data = '';
+		
 		if (is_array($check)) {
 			$newthumb = ROOT_DIR.SL.'files'.SL.'post'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
 			$imagick =  new $image_class($path = $newfile);
 			scale(200,$newthumb);
 			$type = 'image';
 			$name = 'Сэмпл ('.$extension.')';
-			?>
-				<input type="hidden" name="file[0][height]" value="<?=$imagick->getImageHeight();?>" />
-			<?
+			$return_data .= 
+				'<input type="hidden" name="file[0][height]" value="'.($imagick->getImageHeight()).'" />'."\n";
 		}
 		elseif ($extension == 'mp3') {
 			$type = 'audio';
@@ -41,13 +42,19 @@
 			$name = "Новый файл";
 		}
 		
-		?>
-			<input size="24%" type="text" name="file[0][name]" value="<?=$name;?>" />:
-			<input readonly size="24%" type="text" name="file[0][filename]" value="<?=$filename.'.'.$extension;?>" />
-			<input type="hidden" name="file[0][folder]" value="<?=$time;?>" />
-			<input type="hidden" name="file[0][type]" value="<?=$type;?>" />
-			<input readonly size="4%" type="text" name="file[0][size]" value="<?=$sizefile;?>" />
-			<input type="submit" class="disabled sign remove_link" rel="file" value="-" />
-		<?
+		$return_data .= 
+			'<input size="24%" type="text" name="file[0][name]" value="'.$name.'" />:'."\n".
+			'<input readonly size="24%" type="text" name="file[0][filename]" value="'.$filename.'.'.$extension.'" />'."\n".
+			'<input type="hidden" name="file[0][folder]" value="'.$time.'" />'."\n".
+			'<input type="hidden" name="file[0][type]" value="'.$type.'" />'."\n".
+			'<input readonly size="4%" type="text" name="file[0][size]" value="'.$sizefile.'" />'."\n".
+			'<input type="submit" class="disabled sign remove_link" rel="file" value="-" />';
+			
+		$result = array(
+			'success' => true, 
+			'data' => $return_data, 
+		);			
 	}
-	else {echo 'error-maxsize';}
+	else {$result = array('error' => 'maxsize');} 
+
+echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);

@@ -32,7 +32,7 @@ class imagick_substitute {
 			case 'png': $this->data = imagecreatefrompng($this->path); break;
 			case 'jpeg': $this->data = imagecreatefromjpeg($this->path); break;
 			case 'gif': $this->data = imagecreatefromgif($this->path); break;
-			default: echo 'error-filetype'; die;
+			default: die;
 		}		
 	}
 	

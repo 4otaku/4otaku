@@ -34,27 +34,25 @@ $(document).ready(function(){
 		$(".arrow-down:visible:last").hide();
 	});	
 
-	if ($('#post-image').length > 0) image_upload = new AjaxUpload('post-image', {
+	if ($('#post-image').length > 0) image_upload = new qq.FileUploader({
+		element: document.getElementById('post-image'),
 		action: window.config.site_dir+'/ajax.php?upload=postimage',
-		name: 'filedata',
-		data: {	  },
 		autoSubmit: true,
-		responseType: 'text/html',
-		onSubmit: function(file, extension) {
+		onSubmit: function(id, file) {
 			$(".processing-image").show();
 			$('#error').html('');
-			window.processing_art++;			
+			window.processing_art++;
 		},
-		onComplete: function(file, response) {
+		onComplete: function(id, file, response) {
 			window.processing_art = window.processing_art - 1;
 			if (window.processing_art == 0) $(".processing-image").hide(); 
-			if (response == 'error-filetype') {$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');}
-			else if (response == 'error-maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');}
-			else {				
-				$('#transparent td').append('<div style="background-image: url('+window.config.image_dir+'/thumbs/'+response+');"><img class="cancel" src="'+window.config.image_dir+'/cancel.png"><input type="hidden" name="images[]" value="'+response+'"></div>');
+			if (response['error'] == 'filetype') {$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');}
+			else if (response['error'] == 'maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');}
+			else {
+				$('#transparent td').html('<div style="background-image: url('+response['image']+');"><img class="cancel" src="'+window.config.image_dir+'/cancel.png"><input type="hidden" name="images[]" value="'+response['data']+'"></div>');
 				$("#transparent td img.cancel").click(function(){  
 					$(this).parent().remove();
-				}); 				
+				});
 			}
 		}
 	});
@@ -70,27 +68,27 @@ $(document).ready(function(){
 		$(this).parent().remove();
 	}); 		
 	
-	if ($('#post-file').length > 0) file_upload = new AjaxUpload('post-file', {
+	if ($('#post-file').length > 0) file_upload = new qq.FileUploader({
+		element: document.getElementById('post-file'),
 		action: window.config.site_dir+'/ajax.php?upload=postfile',
-		name: 'filedata',
-		data: {	  },
 		autoSubmit: true,
-		responseType: 'text/html',
-		onSubmit: function(file, extension) {
+		onSubmit: function(id, file) {
 			$(".processing-file").show();
 			$('#error').html('');
 			window.processing_files++;
 		},
-		onComplete: function(file, response) {
+		onComplete: function(id, file, response) {
 			window.processing_files = window.processing_files - 1;
 			if (window.processing_files == 0) $(".processing-file").hide(); 
-			if (response == 'error-maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');}
-			else {	
+			if (response['error'] == 'maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');}
+			else {
+				var decoded = $('<textarea/>').html(response['data']).val();
+				
 				if ($('.link_file').children("tr.link:last").length != 0)
 					var num = parseInt($('.link_file').children("tr.link:last").attr('rel')) + 1;
 				else num = 1;
-				if ($('#post-file').attr('rel') == 'add') $('.link_file').append('<tr class="link" rel="0"><td class="input field_name">Прикрепленный файл</td><td class="inputdata">'+response.replaceall('[0]','['+num+']')+'</td></tr>');
-				else $('.link_file').append('<tr class="link" rel="0"><td colspan="2">'+response.replaceall('[0]','['+num+']')+'</td></tr>'); 
+				if ($('#post-file').attr('rel') == 'add') $('.link_file').append('<tr class="link" rel="0"><td class="input field_name">Прикрепленный файл</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
+				else $('.link_file').append('<tr class="link" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
 				$('.link_file').children("tr.link:last").attr('rel', num);
 			}
 		}

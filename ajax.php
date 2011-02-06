@@ -11,7 +11,6 @@ include_once 'inc.common.php';
 
 $output_class = 'dynamic__'.query::$get['m'];
 $output = new $output_class();
-
 $func = query::$get['f'];
 
 $data = $output->$func();

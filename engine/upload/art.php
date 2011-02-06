@@ -16,7 +16,7 @@
 				$newthumb = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.$thumb.'.jpg';
 				$newlargethumb = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$thumb.'.jpg';
 				chmod($temp, 0755);
-				move_uploaded_file($temp, $newfile);			
+				if (!move_uploaded_file($temp, $newfile)) file_put_contents($newfile, file_get_contents($temp));
 				$a = microtime(true);
 				$imagick =  new $image_class($path = $newfile);
 				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
@@ -41,10 +41,17 @@
 				
 				scale($def['booru']['largethumbsize'],$newlargethumb);
 				scale($def['booru']['thumbsize'],$newthumb);
-				echo SITE_DIR.'/images/booru/thumbs/'.$thumb.'.jpg|'.$md5.'#'.$thumb.'#'.$extension.'#'.$resized;
+				$result = array(
+					'success' => true, 
+					'image' => SITE_DIR.'/images/booru/thumbs/'.$thumb.'.jpg', 
+					'md5' => $md5, 
+					'data' => $md5.'#'.$thumb.'#'.$extension.'#'.$resized, 
+				);
 			}
-			else {echo 'error-already-have';}
+			else {$result = array('error' => 'already-have');}
 		}
-		else {echo 'error-filetype';}
+		else {$result = array('error' => 'filetype');}
 	}
-	else {echo 'error-maxsize';} 
+	else {$result = array('error' => 'maxsize');} 
+
+echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
