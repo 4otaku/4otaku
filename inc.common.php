@@ -44,7 +44,7 @@ function myoutput($buffer) {
 	$pattern = '#(?<browser>'.implode('|', $known).')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
 	preg_match_all($pattern, $agent, $matches);
 	
-	if (end($matches['browser']) == 'opera') {
+	if (end($matches['browser']) == 'opera' && end($matches['version']) < 11) {
 		$buffer = str_replace('<br /><wbr />','<br />',$buffer);
 		$buffer = str_replace('<wbr /><br />','<br />',$buffer);
 		$buffer = str_replace('<wbr />','&shy;',$buffer);
