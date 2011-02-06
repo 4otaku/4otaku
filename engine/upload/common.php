@@ -28,7 +28,7 @@ if (!empty($_FILES)) {
 	$check = getImageSize($temp);
 	$file = $file['name'];
 } else {
-	$temp = ROOT_DIR.SL.'files'.SL.'tmp'.SL.$_GET['qqfile'];
+	$temp = ROOT_DIR.SL.'files'.SL.'tmp'.SL.microtime().'_'.$_GET['qqfile'];
 
 	$handle = fopen($temp, "w");
 	fwrite($handle, file_get_contents('php://input'));
