@@ -7,7 +7,8 @@
 			$md5=md5_file($temp);
 			if (
 				!obj::db()->sql('select id from art where md5="'.$md5.'"',2,'id') && 
-				!obj::db('sub')->sql('select id from w8m_art where md5="'.$md5.'"',2)
+				!obj::db('sub')->sql('select id from w8m_art where md5="'.$md5.'"',2) && 
+				!obj::db('sub')->sql('select id from art where variation like "%.'.$md5.'.%"',2)
 			) {
 				$extension = strtolower(pathinfo($file,PATHINFO_EXTENSION));
 				$thumb=md5(microtime(true));
