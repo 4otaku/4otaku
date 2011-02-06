@@ -45,6 +45,8 @@ function myoutput($buffer) {
 	preg_match_all($pattern, $agent, $matches);
 	
 	if (end($matches['browser']) == 'opera') {
+		$buffer = str_replace('<br /><wbr />','<br />',$buffer);
+		$buffer = str_replace('<wbr /><br />','<br />',$buffer);
 		$buffer = str_replace('<wbr />','&shy;',$buffer);
 	}
 	
