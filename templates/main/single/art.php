@@ -45,7 +45,7 @@
 									foreach ($item['pool'] as $id => $pool) {	
 										?>
 											<div class="mini-shell art-bar">
-												Эта картинка принадлежит к группе: 
+												Эта картинка принадлежит группе: 
 												<a href="<?=$def['site']['dir']?>/art/pool/<?=$id;?>/">
 													<?=$pool['name'];?>
 												</a>. 
