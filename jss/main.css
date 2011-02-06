@@ -969,8 +969,8 @@ input.sign {
 }
 
 .upload_button {
-	width: 61px; 
-	height: 26px; 
+	width: 61px !important; 
+	height: 26px !important; 
 	background-image: url('/images/upload_button.png');
 }
 
