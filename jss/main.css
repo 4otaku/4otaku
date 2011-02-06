@@ -968,6 +968,12 @@ input.sign {
 	margin: 5px 10px;
 }
 
+.upload_button {
+	width: 61px; 
+	height: 26px; 
+	background-image: url('/images/upload_button.png');
+}
+
 .post_images div {
 	width: 200px; 
 	height: 150px !important;	
