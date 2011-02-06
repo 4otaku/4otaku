@@ -5,7 +5,7 @@ class input__art extends input__common
 	function add() {
 		global $check; global $def; global $url; global $sets; global $cookie;
 		if (!$cookie) $cookie = new dynamic__cookie();
-
+		
 		if (is_array(query::$post['images'])) {
 			if ($url[2] == 'pool' && is_numeric($url[3])) $data = obj::db()->sql('select concat(id,"|") as pool, password from art_pool where id='.$url[3],1);
 			if (!$data['password'] || $data['password'] == md5(query::$post['password'])) {
@@ -52,9 +52,8 @@ class input__art extends input__common
 					}
 				}
 
-				if (isset(query::$post['transfer_to_main']) && $sets['user']['rights']) {
-					$_post = array('sure' => 1, 'do' => array('art','transfer'), 'where' => 'main');
-					include_once('libs/input/common.php');
+				if (!empty(query::$post['transfer_to']) && $sets['user']['rights']) {
+					$_post = array('sure' => 1, 'do' => array('art','transfer'), 'where' => query::$post['transfer_to']);
 					if (!$id) $id = obj::db()->sql('select @@identity from art',2);
 					$j = $i;
 					while ($j > 0) {

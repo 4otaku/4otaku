@@ -112,7 +112,11 @@
 				</td>
 				<td class="inputdata">
 					&nbsp;
-					<?=($sets['user']['rights'] ? '<input type="checkbox" name="transfer_to_main" /> Сразу на главную' : '');?>
+					<? if (!empty($sets['user']['rights'])) { ?>						
+						<input type="radio" name="transfer_to" value="main" /> Сразу на главную 
+						<input type="radio" name="transfer_to" value="sprites" /> Сразу в спрайты 
+						<input type="radio" name="transfer_to" value="" checked="checked" /> Как обычно
+					<? } ?>
 				</td>
 			</tr>		  
         </tbody>		
