@@ -1,4 +1,4 @@
-<? if ($url[2] == def::get('area',2)) { ?>
+<? if ($url['area'] == def::get('area',2)) { ?>
 	<div class="mini-shell">
 		Графические ресурсы для создания любительских ВН. 
 		<a href="http://wiki.4otaku.ru/%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D0%BB%D1%8E%D0%B1%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%BE%D0%B9_%D0%92%D0%9D">
