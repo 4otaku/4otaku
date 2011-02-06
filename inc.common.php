@@ -39,6 +39,15 @@ function __autoload($class_name) {
 }
 
 function myoutput($buffer) {
+	$known = array('msie', 'firefox', 'opera');
+	$agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	$pattern = '#(?<browser>'.implode('|', $known).')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
+	preg_match_all($pattern, $agent, $matches);
+	
+	if (end($matches['browser']) == 'opera') {
+		$buffer = str_replace('<wbr />','&shy;',$buffer);
+	}
+	
 	if (strpos($buffer,'<textarea') && (_AJAX_)) return $buffer;
     return str_replace(array("\t","  ","\n","\r"),array(""," ","",""),$buffer);
 }

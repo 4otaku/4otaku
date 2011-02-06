@@ -2,15 +2,6 @@
 
 class side__sidebar extends engine
 {
-	function __construct() {
-		global $url; global $searchbutton;
-		$known = array('msie', 'firefox');
-		$agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-		$pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
-		if (preg_match_all($pattern, $agent, $matches))
-			$searchbutton[end($matches['browser'])] = end($matches['version']);
-	}
-
 	function comments() {
 		global $sets; global $url;
 

@@ -15,7 +15,7 @@
 		</tr>
 	</table>
 </div>
-<?
+<? /*
 if ($data['sidebar']['searchbutton']['firefox'] > 1.9 || $data['sidebar']['searchbutton']['msie'] > 6.9) {
 	?>
 		<a onclick='addp("http://4otaku.ru/otaku_search.xml");' class="disabled" href="#">
@@ -23,4 +23,4 @@ if ($data['sidebar']['searchbutton']['firefox'] > 1.9 || $data['sidebar']['searc
 		</a>
 		<br /><br />
 	<?
-}
+} */
