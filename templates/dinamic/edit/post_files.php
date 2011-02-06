@@ -1,7 +1,7 @@
 <? 
 include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
-<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=edit_form.js,ajaxupload.js,add/post.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=edit_form.js,fileupload.js,add/post.js"></script>
 <table class="margin20">
 	<tbody class="link_file">
 	<tr>
@@ -12,9 +12,7 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 			<table>
 				<tr>
 					<td>
-						<div id="post-file">
-							<img src="<?=$def['site']['dir']?>/images/upload_button.png">
-						</div>
+						<div id="post-file"></div>
 					</td>
 					<td>
 						<img class="processing-file hidden" src="<?=$def['site']['dir']?>/images/ajax-processing.gif" />
