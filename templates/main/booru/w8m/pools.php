@@ -7,7 +7,7 @@
 					<?=$gallery['name'];?>
 				</a>
 				<br /><br />
-				<a href="<?=$def['site']['dir']?>/art/cg_packs/<?=$key;?>/" title="<?=($gallery['text'] ? trim(ltrim(strip_tags(preg_replace('/(<br[^>]*>)+/s','; ',$gallery['text'])),';')) : $gallery['name']);?>" class="with_help3">
+				<a href="<?=$def['site']['dir']?>/art/cg_packs/<?=$key;?>/" title="<?=($gallery['text'] ? trim(ltrim(strip_tags(preg_replace('/(<br[^>]*>\s*)+/s','; ',$gallery['text'])),';')) : $gallery['name']);?>" class="with_help3">
 					<img src="http://w8m.4otaku.ru/image/<?=$gallery['md5'];?>/<?=($sets['art']['largethumbs'] ? 'large' : 'thumb');?>/<?=pathinfo($gallery['image'],PATHINFO_FILENAME);?>.jpg">
 				</a>					
 			</div>
