@@ -806,6 +806,14 @@ ol.orders_list {
 	right: 5px;
 }
 
+.loading_variation {
+	margin-left: 30px;
+	padding: 0px;
+    display: inline;
+	overflow: hidden;
+	height: 13px;
+}
+
 /* Content, борда */
 
 div.thread { display: block; padding: 5px 0 10px 0; clear: both; border-top: 1px solid #ddd; margin-top: 15px; }

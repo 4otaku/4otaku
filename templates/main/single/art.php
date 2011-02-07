@@ -91,7 +91,8 @@
 												</span>
 											</a>
 										<? } ?>
-										.
+										. 
+										<img src="/images/loading_variation.gif" class="loading_variation" />
 									</div>
 								</div>
 							<?	

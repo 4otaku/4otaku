@@ -468,11 +468,7 @@ $(document).ready(function(){
 		if (is_left_click(e)) {
 			var new_src = $("div.image img").attr('src').split('/');
 			
-			if (navigator.userAgent.indexOf("Opera") == -1) {
-				$("div.image").css({'height':$("div.image").height()}).
-				children('img').css({'margin-top':'200px'}).
-				attr('src', window.config.site_dir+'/images/ajax-loader.gif');
-			}			
+			$(".loading_variation").css({'height':'13px','overflow':'auto'});
 			
 			var img_file = new_src.pop();
 			var img_size = new_src.pop();
@@ -486,15 +482,11 @@ $(document).ready(function(){
 			$(".similar_navi").removeClass('plaintext');
 			$(this).addClass('plaintext');
 
-			if (navigator.userAgent.indexOf("Opera") == -1) {
-				var img = new Image();
-				$(img).load(new_src.join('/')+'/'+img_size+'/'+img_file, function () {
-					$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file)
-					.css({'margin-top':'auto'}).parent().css({'height':'auto'});
-				});
-			} else {
+			var img = new Image();
+			$(img).load(new_src.join('/')+'/'+img_size+'/'+img_file, function () {
 				$("div.image img").attr('src',new_src.join('/')+'/'+img_size+'/'+img_file);
-			}
+				$(".loading_variation").css({'height':'0px','overflow':'hidden'});
+			});
 		}
 	});	
 	
