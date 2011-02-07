@@ -468,7 +468,7 @@ $(document).ready(function(){
 		if (is_left_click(e)) {
 			var new_src = $("div.image img").attr('src').split('/');
 			
-			$(".loading_variation").css({'height':'13px','overflow':'auto'});
+			$(".loading_variation").css({'height':'auto','overflow':'auto'});
 			
 			var img_file = new_src.pop();
 			var img_size = new_src.pop();

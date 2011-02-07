@@ -811,7 +811,7 @@ ol.orders_list {
 	padding: 0px;
     display: inline;
 	overflow: hidden;
-	height: 13px;
+	height: 0px;
 }
 
 /* Content, борда */
