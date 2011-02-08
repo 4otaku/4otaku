@@ -5,6 +5,9 @@ final class Plugins
 	// Хранилище для загруженных плагинов
 	public static $instances = array();
 	
+	// Для рабочего объекта
+	private static $worker;
+	
 	public static function load($file) {
 		if (
 			!is_readable($file) || 
@@ -24,12 +27,24 @@ final class Plugins
 		return true;
 	}
 	
-	private static test($file) {
+	private static function test($file) {
 		// TODO: придумать формат для плагинов и написать проверку
 		return true;
 	}
 	
 	public function __call($name, $arguments) {
 
+	} 
+	
+	public static function extend() {
+		if (!is_object(self::$worker)) {
+			self::init();
+		}
+		
+		return self::$worker;
+	} 
+	
+	public static function init() {
+		self::$worker = new Plugins();
 	} 
 }

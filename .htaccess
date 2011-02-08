@@ -3,5 +3,5 @@ AddDefaultCharset UTF-8
 	RewriteEngine On
 	RewriteBase /
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^ /engine/start.php [NE,L]
+	RewriteRule ^ /engine/run.php [NE,L]
 </IfModule>

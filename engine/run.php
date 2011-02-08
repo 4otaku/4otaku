@@ -56,7 +56,8 @@
 	
 	foreach ($plugin_files as $plugin_file) {		
 		Plugins::load($plugin_file);
-	}	
+	}
+	Plugins::init();	
 	
 	// Загружаем глобальные переменные
 	
@@ -64,8 +65,9 @@
 		'cookie' => $_COOKIE[Config::main('cookie', 'Name')],
 		'agent' => $_SERVER['HTTP_USER_AGENT'],
 		'accept' => $_SERVER['HTTP_ACCEPT'],
-		'mobile' => $_SERVER['HTTP_PROFILE'] ? 
-			$_SERVER['HTTP_PROFILE'] : $_SERVER['HTTP_X_WAP_PROFILE'],
+		'mobile' => !empty($_SERVER['HTTP_PROFILE']) ? $_SERVER['HTTP_PROFILE'] 
+			: !empty($_SERVER['HTTP_X_WAP_PROFILE']) ? $_SERVER['HTTP_X_WAP_PROFILE'] 
+			: null,
 		'ip' => $_SERVER['REMOTE_ADDR'],
 	);
 	
@@ -74,4 +76,12 @@
 	Globals::get_url($_SERVER['REQUEST_URI']);
 	Globals::get_user($user_info);
 	
-	include_once('controllers/base.php');
+	// Контроллер формирует запрос общего вида в ядро.
+	$query = new Query();
+	$query->get_controller();
+	$query->controller->build();
+	$query->make_clean();
+	
+	// Ядро обрабатывает запрос
+	$core = new Core($query);
+	$data = $core->process();
