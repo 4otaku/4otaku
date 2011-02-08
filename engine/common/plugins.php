@@ -8,6 +8,13 @@ final class Plugins
 	// Для рабочего объекта
 	private static $worker;
 	
+	// Для ссылки назад, на функции класса
+	private static $parent;	
+	
+	function __construct($class) {
+		$this->parent = $class;
+	}	
+	
 	public static function load($file) {
 		if (
 			!is_readable($file) || 
@@ -36,15 +43,12 @@ final class Plugins
 
 	} 
 	
-	public static function extend() {
-		if (!is_object(self::$worker)) {
-			self::init();
+	public static function extend(& $class) {
+		// TODO: Тут проверка есть ли плагины для класса
+		if (1 == 1) {
+			return new Plugins($class);
 		}
 		
-		return self::$worker;
-	} 
-	
-	public static function init() {
-		self::$worker = new Plugins();
-	} 
+		return $class;
+	}
 }

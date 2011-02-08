@@ -57,7 +57,6 @@
 	foreach ($plugin_files as $plugin_file) {		
 		Plugins::load($plugin_file);
 	}
-	Plugins::init();	
 	
 	// Загружаем глобальные переменные
 	
