@@ -35,7 +35,7 @@
 				</a>
 			</div>		
 			<div class="margin10 box first_box">
-				<a href="http://wiki.4otaku.ru/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ" title="Частые вопросы по сайту">
+				<a href="/go?http%3A%2F%2Fwiki.4otaku.ru%2F%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ" title="Частые вопросы по сайту">
 					Частые вопросы
 				</a>
 			</div>

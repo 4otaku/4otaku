@@ -33,14 +33,17 @@ class engine
 		}
 	}
 	
-	function make_404($type) {
-		global $sape_links; 
-		$this->template = '404__'.$type;
+	function make_404($type = false) {
+		if (!empty($type)) $this->template = '404__'.$type;
+		self::error_headers();
+	}
+	
+	static function error_headers() {
 		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Pragma: no-cache");
-		header("HTTP/1.x 404 Not Found");
+		header("HTTP/1.x 404 Not Found");		
 	}
 
 	function get_side_data($input) {

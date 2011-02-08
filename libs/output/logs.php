@@ -51,17 +51,25 @@ class output__logs extends engine
 			}
 		}
 		$yesterday = mktime(12,0,0,$url[3],$url[4]-1,$url[2]); $tomorrow = mktime(12,0,0,$url[3],$url[4]+1,$url[2]);
-		if ($yesterday > mktime(0,0,0,$start[1],$start[2],$start[0])) $return['navi']['yesterday']= array(
-			'url' => '/logs/'.date("Y",$yesterday).'/'.date("n",$yesterday).'/'.date("j",$yesterday).'/',
-			'name' => $rumonth[(date("n",$yesterday)-1)].' '.date("j",$yesterday)
-		);
-		elseif ($yesterday < mktime(0,0,0,$start[1],$start[2]-1,$start[0])) $return['nologs'] = "Логи раньше, чем за 30-ое мая 2010 к сожалению не сохранились.";
+		if ($yesterday > mktime(0,0,0,$start[1],$start[2],$start[0])) {
+			$return['navi']['yesterday']= array(
+				'url' => '/logs/'.date("Y",$yesterday).'/'.date("n",$yesterday).'/'.date("j",$yesterday).'/',
+				'name' => $rumonth[(date("n",$yesterday)-1)].' '.date("j",$yesterday)
+			);
+		} elseif ($yesterday < mktime(0,0,0,$start[1],$start[2]-1,$start[0])) {
+			$return['nologs'] = "Логи раньше, чем за 30-ое мая 2010 к сожалению не сохранились.";
+			engine::error_headers();
+		}
 		$return['navi']['today']= array('name' => $rumonth[($url[3]-1)].' '.$url[4]);
-		if ($tomorrow < mktime(24,0,0,$end[1],$end[2],$end[0])) $return['navi']['tomorrow']= array(
-			'url' => '/logs/'.date("Y",$tomorrow).'/'.date("n",$tomorrow).'/'.date("j",$tomorrow).'/',
-			'name' => $rumonth[(date("n",$tomorrow)-1)].' '.date("j",$tomorrow)
-		);
-		elseif ($tomorrow > mktime(24,0,0,$end[1],$end[2]+1,$end[0])) $return['nologs'] = "Забегаем в будущее?";
+		if ($tomorrow < mktime(24,0,0,$end[1],$end[2],$end[0])) {
+			$return['navi']['tomorrow']= array(
+				'url' => '/logs/'.date("Y",$tomorrow).'/'.date("n",$tomorrow).'/'.date("j",$tomorrow).'/',
+				'name' => $rumonth[(date("n",$tomorrow)-1)].' '.date("j",$tomorrow)
+			);
+		} elseif ($tomorrow > mktime(24,0,0,$end[1],$end[2]+1,$end[0])) {
+			$return['nologs'] = "Забегаем в будущее?";
+			engine::error_headers();
+		}
 		return $return;
 	}
 	

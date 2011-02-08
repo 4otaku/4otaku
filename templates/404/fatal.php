@@ -1,3 +1,4 @@
+<? engine::make_404(); ?>
 <? include_once('templates'.SL.'side'.SL.'head.php'); ?>
 <body>	
 	<table width="100%">

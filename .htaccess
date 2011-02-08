@@ -8,6 +8,7 @@ AddDefaultCharset UTF-8
 	RewriteBase /
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !go/
+	RewriteCond %{REQUEST_FILENAME} !myadmin/
 	RewriteRule . /index.php [NE,L]
 </IfModule>
 
