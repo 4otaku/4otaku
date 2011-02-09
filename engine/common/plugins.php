@@ -40,7 +40,9 @@ final class Plugins
 	}
 	
 	public function __call($name, $arguments) {
-
+		// TODO: Тут проверка на наличие подходящих плагинов и вызов их
+		
+		return call_user_func_array(array($this->parent, $name), $arguments);
 	} 
 	
 	public static function extend(& $class) {

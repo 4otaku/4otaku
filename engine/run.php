@@ -4,11 +4,13 @@
 	
 	mb_internal_encoding('UTF-8');
 	define('SL', DIRECTORY_SEPARATOR);
+	define('ENGINE', __DIR__);
+	define('ROOT', dirname(__DIR__));
 
 	// Задаем autoloader
 	// Он ищет классы во всех под-директориях внтури engine/
 	
-	$autoload_directories = glob(__DIR__.SL.'*', GLOB_ONLYDIR);
+	$autoload_directories = glob(ENGINE.SL.'*', GLOB_ONLYDIR);
 	
 	function autoload($name) {
 		global $autoload_directories;
@@ -32,13 +34,14 @@
 		return false;
 	}
 	
-	// Не __autoload, потому как в дальнейшем плагину может потребоваться добавить свой autoload
+	// Не __autoload, потому как в дальнейшем плагину или шаблонизатору 
+	// может потребоваться добавить свой autoload
 	spl_autoload_register('autoload', false);	
 	
 	// Подгружаем конфиг, если не нашли - бросаем ошибку,
 	// т.к. сайт без конфига нежизнеспособен.
 	
-	$config_files = glob(dirname(__DIR__).SL.'config'.SL.'*');
+	$config_files = glob(ROOT.SL.'config'.SL.'*');
 	
 	if (!empty($config_files)) {
 		foreach ($config_files as $config_file) {
@@ -52,7 +55,7 @@
 	
 	// Загрузим найденные плагины
 	
-	$plugin_files = glob(dirname(__DIR__).SL.'plugins'.SL.'*.php');
+	$plugin_files = glob(ROOT.SL.'plugins'.SL.'*.php');
 	
 	foreach ($plugin_files as $plugin_file) {		
 		Plugins::load($plugin_file);
@@ -77,10 +80,19 @@
 	
 	// Контроллер формирует запрос общего вида в ядро.
 	$query = new Query();
-	$query->get_controller();
-	$query->controller->build();
-	$query->make_clean();
+	$query->call->get_controller();
+	$query->controller->call->build();
+	$query->call->make_clean();
 	
 	// Ядро обрабатывает запрос
 	$core = new Core($query);
-	$data = $core->process();
+	$data = $core->call->process();
+	
+	// Полученный результат подхватывает менеджер представлений
+	$view = new Manager($data);
+	$view->call->postprocess();
+	
+	// И выводит пользователю, используя подходящий шаблонизатор
+	$view->call->output();
+	
+	

@@ -23,4 +23,14 @@ class Query
 		
 		$this->controller = new Default_Controller($this);
 	}
+	
+	public function make_clean() {
+		$params = get_object_vars($this);
+		
+		foreach (array ($params) as $name => $param) {
+			if (Validate::is_invalid($name, $param)) {
+				unset($this->$name);
+			}
+		}
+	}
 }

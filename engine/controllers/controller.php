@@ -6,6 +6,7 @@ abstract class Controller
 	
 	public function __construct(&$query) {
 		$this->query = $query;
+		$this->call = Plugins::extend($this);
 	}
 	
 	abstract function build();
