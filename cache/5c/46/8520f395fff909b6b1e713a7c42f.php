@@ -9,8 +9,9 @@ class __TwigTemplate_5c468520f395fff909b6b1e713a7c42f extends Twig_Template
 
         // line 1
         echo "Hello world!
+<br />
 ";
-        // line 2
+        // line 3
         echo twig_escape_filter($this->env, (isset($context['agent']) ? $context['agent'] : null), "html");
         echo "
 ";
