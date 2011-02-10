@@ -18,7 +18,6 @@ final class Globals
 		'>' => '&gt;',
 		'\\' => '&#092;',
 		"'" => '&apos;',
-		'⟯' => '',
 	);
 	
 	public static function get_vars($data) {
