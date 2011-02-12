@@ -179,12 +179,20 @@
 		
 		$htaccess = preg_replace('/([\n\r]RewriteBase\s*)\/[^\n\r]*/', '$1 '.$_POST['subfolder'], $htaccess);
 		
-		file_put_contents($config_name, $config);
-		file_put_contents($database_name, $database);
-		file_put_contents($htaccess_name, $htaccess);
+		$dir = opendir(__DIR__.SL.'sample.config'); 
+		@mkdir(__DIR__.SL.'config'); 
+		while(false !== ($file = readdir($dir))) { 
+			if (($file != '.') && ($file != '..' ) && !is_dir(__DIR__.SL.'sample.config/'.$file)) { 
+				copy(__DIR__.SL.'sample.config/'.$file, __DIR__.SL.'config/'.$file); 
+			} 
+		} 
+		closedir($dir); 	
 		
-		rename(__DIR__.SL.'sample.config', __DIR__.SL.'config');
-		rename($htaccess_name, __DIR__.SL.'.htaccess');
+		copy($htaccess_name, __DIR__.SL.'.htaccess');
+		
+		file_put_contents(__DIR__.SL.'config'.SL.'main.ini', $config);
+		file_put_contents(__DIR__.SL.'config'.SL.'database.ini', $database);
+		file_put_contents(__DIR__.SL.'.htaccess', $htaccess);
 		
 ?>
 	<h3>Скрипт сайта успешно установлен. Обновите страницу.</h3>
