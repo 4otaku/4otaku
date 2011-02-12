@@ -8,6 +8,7 @@ class Core
 	}
 	
 	function process() {
+		Database::get_field();
 		return array('agent' => $this->query->agent);
 	}
 }

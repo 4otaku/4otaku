@@ -21,7 +21,7 @@ final class Config
 	}
 	
 	public static function __callStatic($name, $arguments) {
-		
+
 		if (isset(self::$data[$name])) {
 			$return = self::$data[$name];
 			while ($next = array_shift($arguments)) {

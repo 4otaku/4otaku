@@ -1,4 +1,7 @@
 cache/*
 !cache/.gitignore
 
+config/*
+.htaccess
+
 yandex_*
