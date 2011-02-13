@@ -190,7 +190,7 @@ class Database_Mysql implements Database_Interface
 		$query = "UPDATE {$this->prefix}$table SET ";
 		
 		foreach ($fields as $field) {
-			$query .= "$field = ??,"
+			$query .= "$field = ??,";
 		}
 		
 		$query = rtrim($query,',');
