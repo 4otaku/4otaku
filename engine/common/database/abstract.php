@@ -1,14 +1,14 @@
 <?
 
-abstract class Database_Abstract
+Interface Database_Interface
 {
-	public abstract function connect($settings);
+	public abstract function __construct($config);
 	
-	protected abstract function query($query);
-
-	public abstract function sql($query);	
+	public abstract function sql($query);
 	
-	public abstract function get($table, $values, $condition = false);
+	public abstract function get_table($table, $values, $condition = false);
+	
+	public abstract function get_vector($table, $values, $condition = false);
 	
 	public abstract function get_row($table, $values, $condition);
 	
@@ -24,7 +24,7 @@ abstract class Database_Abstract
 	
 	public abstract function delete($table, $condition);
 	
-	public abstract function get_last_id($table);
+	public abstract function last_id();
 	
-	public abstract function clear_results();
+	public abstract function debug();
 }

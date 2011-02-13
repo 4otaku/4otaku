@@ -1,51 +1,28 @@
 <?
 
-class Database_Mysql extends Database_Abstract
+class Database_Mysql implements Database_Interface
 {
 	// Хранит соединение с БД	
 	private $connection;
 	
-	// Хранит ассоциативный массив баз
-	private $bases = array();
-	
-	// Хранит информацию о том, к какой базе сейчас подключены
-	private $curr_base;
-	
 	// Последний результат запроса к БД
 	private $result;
 	
-	private $clean_threshold = 100;
+	// Последний запрос
+	private $last_query;
 	
 	public function __construct($config) {
-		$this->connect($config);
-		$this->add_database('main', $config['Database']);
-		$this->init_database('main');
-		
-		if (!empty($config['Threshold'])) {
-			$this->clean_threshold = $config['Threshold'];
-		}
-	}
-	
-	public function connect($config) {
 		$this->connection =	mysql_connect(
 			$config['Server'], 
 			$config['User'], 
 			$config['Password']
-		);
+		) or Error::fatal(mysql_error());
+		
+		mysql_select_db($config['Database'], $this->connection)
+			or Error::fatal(mysql_error());			
+		mysql_query('SET NAMES \'UTF8\'');
 		
 		$this->prefix =	$config['Prefix'];
-	}
-	
-	public function add_database($key, $name) {
-		$this->bases[$key] = $name;
-	}	
-	
-	public function init_database($name) {
-		if ($this->curr_base != $name && array_key_exists($name, $this->bases)) {
-			mysql_select_db($this->bases[$name], $this->connection);
-			mysql_query('SET NAMES \'UTF8\'');
-			$this->curr_base = $name;
-		}
 	}
 	
 	protected function query($query, $params = array()) {
@@ -58,11 +35,15 @@ class Database_Mysql extends Database_Abstract
 			
 			$query = vsprintf(str_replace("??","'%s'",$query), $params);
 		}
+		
+		$this->last_query = $query;
 
 		return mysql_query($query, $this->connection);
 	}
 	
 	public function sql($query, $params = array()) {
+		$query = str_replace('{pr}', $this->prefix, $query);
+		
 		$result = $this->query($query, $params);
 		
 		if (!is_resource($result)) {
@@ -91,7 +72,7 @@ class Database_Mysql extends Database_Abstract
 		$this->result = $this->query($query, $params);
 	}
 
-	public function get($table, $condition = false, $values = '*', $params = false) {
+	public function get_table($table, $condition = false, $values = '*', $params = false) {
 		$this->get_common($table, $condition, $values, $params);
 		
 		if (!is_resource($this->result)) {
@@ -129,7 +110,7 @@ class Database_Mysql extends Database_Abstract
 	}	
 	
 	public function get_row($table, $values, $condition, $params = false) {
-		$this->get_common($table, $condition, $values, $params);
+		$this->get_common($table, $condition.' LIMIT 1', $values, $params);
 		
 		if (!is_resource($this->result)) {
 			return array();
@@ -140,7 +121,7 @@ class Database_Mysql extends Database_Abstract
 	}
 	
 	public function get_field($table, $value, $condition, $params = false) {
-		$this->get_common($table, $condition, $value, $params);
+		$this->get_common($table, $condition.' LIMIT 1', $value, $params);
 		
 		if (!is_resource($this->result)) {
 			return false;
@@ -151,37 +132,112 @@ class Database_Mysql extends Database_Abstract
 	}
 	
 	public function insert($table, $values, $keys = false) {
+		$values = (array) $values;
+		$keys = (array) $keys;
 		
-	}
-	
-	public function bulk_insert() {
+		$query = "INSERT INTO {$this->prefix}$table";
 		
-	}
-	
-	public function update() {
-		
-	}
-	
-	public function update_field() {
-		
-	}
-	
-	public function delete($table, $condition) {
-		
-	}
-	
-	public function get_last_id($table) {
-		
-	}
-	
-	public function clear_results() {
-		if (
-			is_resource($this->result) &&
-			!empty($this->clean_threshold) &&
-			(mysql_num_rows($this->result) > $this->clean_threshold)
-		) {
-			mysql_free_result($this->result);
+		if (count($values) === count($keys)) {
+			$query .= " (".implode(',',$keys).")";
 		}
+		
+		$query .= " VALUES(".rtimr(str_repeat("??,",count($values)),",").")";
+		
+		$this->query($query, $values);
+		
+		return mysql_affected_rows($this->connection);
 	}
-
+	
+	public function bulk_insert($table, $rows, $keys = false) {
+		$keys = (array) $keys;
+		
+		$query = "INSERT INTO {$this->prefix}$table";
+		
+		if (count(current($rows)) === count($keys)) {
+			$query .= " (".implode(',',$keys).")";
+		}
+		
+		$query .= " VALUES ";
+		
+		$params = array();
+		foreach ($rows as $row) {
+			$query .= "(".implode(',',$row)."),";
+			$params = array_merge($params, $row);
+		}
+		
+		$query = rtrim($query,',');
+		
+		$this->query($query, $params);
+		
+		return mysql_affected_rows($this->connection);		
+	}
+	
+	public function update($table, $condition, $fields, $values = false) {
+		
+		if (empty($values)) {
+			// Если четвертый параметр пустой, значит вместо третьего ассоциативный массив
+			$values = array_values($fields);
+			$fields = array_keys($fields);
+		} else {
+			$fields = (array) $fields;
+			$values = (array) $values;
+		}
+		
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}
+		
+		$query = "UPDATE {$this->prefix}$table SET ";
+		
+		foreach ($fields as $field) {
+			$query .= "$field = ??,"
+		}
+		
+		$query = rtrim($query,',');
+		
+		if (!empty($condition)) {
+			$query .= " WHERE $condition";
+		}
+		
+		$this->query($query, $values);
+		
+		return mysql_affected_rows($this->connection);	
+	}	
+	
+	public function delete($table, $condition = false) {
+		$query = "DELETE FROM {$this->prefix}$table";
+		
+		if (!empty($condition)) {
+			$query .= " WHERE $condition";
+		}
+		
+		$this->query($query);
+		
+		return mysql_affected_rows($this->connection);
+	}
+	
+	public function last_id() {
+		return mysql_insert_id($this->connection);
+	}
+	
+	public function debug($print = true) {
+		$number = mysql_errno();
+		
+		if ($number === 0) {
+			$return = "Запрос: {$this->last_query}; был выполнен успешно\n";
+		} else {
+			$return = "Запрос: {$this->last_query}; \n".
+				"Вызвал ошибку №".$number.": ".mysql_error()."\n";
+		}
+			
+		if ((bool) $print) {
+			echo nl2br($return);
+		}
+		
+		return $return;
+	}
+	
+	public function free_result() {
+		mysql_free_result($this->result);
+	}
 }

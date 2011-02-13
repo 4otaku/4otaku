@@ -1,6 +1,6 @@
 <?
 
-final class Globals
+final class Globals extends Objects
 {
 	// Хранилище для загруженных данных
 	public static $vars = array();
