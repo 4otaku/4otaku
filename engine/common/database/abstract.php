@@ -4,7 +4,9 @@ abstract class Database_Abstract
 {
 	public abstract function connect($settings);
 	
-	public abstract function query($query);
+	protected abstract function query($query);
+
+	public abstract function sql($query);	
 	
 	public abstract function get($table, $values, $condition = false);
 	

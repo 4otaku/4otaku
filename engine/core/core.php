@@ -8,7 +8,7 @@ class Core
 	}
 	
 	function process() {
-		Database::get_field();
+		Database::get_field('art', 'md5', 'id=??', 234);
 		return array('agent' => $this->query->agent);
 	}
 }
