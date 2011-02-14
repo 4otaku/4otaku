@@ -4,15 +4,22 @@ Interface Database_Interface
 {
 	public function __construct($config);
 	
+	// Неопределенный общий запрос. 
+	// По хорошему использоваться не должен, но возможность оставить надо.
+	
 	public function sql($query);
+	
+	// Запросы на чтение данных
 	
 	public function get_table($table, $values, $condition = false);
 	
 	public function get_vector($table, $values, $condition = false);
 	
-	public function get_row($table, $values, $condition);
+	public function get_row($table, $condition, $values);
 	
-	public function get_field($table, $value, $condition);
+	public function get_field($table, $condition, $value);
+	
+	// запросы на запись/модификацию
 	
 	public function insert($table, $values);
 	
@@ -22,7 +29,17 @@ Interface Database_Interface
 	
 	public function delete($table, $condition);
 	
+	// Утилиты
+	
 	public function last_id();
 	
 	public function debug();
+	
+	// Транзакции
+	
+	public function begin();
+	
+	public function commit();
+	
+	public function rollback();
 }

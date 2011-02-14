@@ -70,4 +70,16 @@ class Database_Firebird implements Database_Interface
 	public function free_result() {
 
 	}
+	
+	public function begin() {
+		
+	}
+	
+	public function commit() {
+
+	}
+	
+	public function rollback() {
+
+	}
 }

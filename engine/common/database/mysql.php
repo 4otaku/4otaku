@@ -112,7 +112,11 @@ class Database_Mysql implements Database_Interface
 		return $return;
 	}	
 	
-	public function get_row($table, $values, $condition, $params = false) {
+	public function get_row($table, $condition, $values = '*', $params = false) {
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}
+		
 		$this->get_common($table, $condition.' LIMIT 1', $values, $params);
 		
 		if (!is_resource($this->result)) {
@@ -123,7 +127,11 @@ class Database_Mysql implements Database_Interface
 		return $return;
 	}
 	
-	public function get_field($table, $value, $condition, $params = false) {
+	public function get_field($table, $condition, $value, $params = false) {
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}		
+		
 		$this->get_common($table, $condition.' LIMIT 1', $value, $params);
 		
 		if (!is_resource($this->result)) {

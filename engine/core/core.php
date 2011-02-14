@@ -8,9 +8,9 @@ class Core
 	}
 	
 	function process() {
-		$res = Globals::db()->get_field('art', 'md5', 'id=??', 234);		
+		$res = Globals::db()->get_row('art', 234);		
 		Globals::db()->debug();
 		
-		return array('agent' => $res);
+		return array('agent' => serialize($res));
 	}
 }
