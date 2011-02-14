@@ -9,38 +9,150 @@ class Database_Firebird implements Database_Interface
 	private $result;
 	
 	// Последний запрос
-	private $last_query;
+	private $last_query = array();
+	
+	// Находимся ли мы в состоянии транзакции
+	protected $transaction = true;
 	
 	public function __construct($config) {
+		if (
+			strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' &&
+			$config['Server'] == 'localhost'
+		) {
+			$database = $config['Database'];
+		} else {
+			$database = $config['Server'].':'.$config['Database'];
+		}
 		
+		$this->connection =	ibase_connect(
+			$database, 
+			$config['User'], 
+			$config['Password'],
+			'UTF-8'
+		) or Error::fatal(ibase_errmsg());
+		
+		$this->prefix =	$config['Prefix'];		
+	}
+	
+	public function __destruct() {
+		$this->commit();
 	}
 	
 	protected function query($query, $params = array()) {
+		$params = (array) $params;
 		
+		$this->last_query = array(
+			'query' => $query,
+			'params' => $params,
+		);
+
+		$result = ibase_query($this->connection, $query, $params);
+		
+		return $result === true ? false : $result;
 	}
 	
 	public function sql($query, $params = array()) {
+		$query = str_replace('{pr}', $this->prefix, $query);
 		
+		$this->result = $this->query($query, $params);
+		
+		if (!is_resource($this->result)) {
+			return array();
+		}
+		
+		$return = array();
+		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
+			$return[] = $row;
+		}
+		
+		return $return;
 	}	
 	
 	protected function get_common($table, $condition = false, $values = '*', $params = false) {
-
+		if (is_array($values)) {
+			$values = implode(',', $values);
+		}
+		
+		$query = "SELECT $values FROM {$this->prefix}$table";
+		
+		if (!empty($condition)) {
+			$query .= " WHERE $condition";
+		}
+		
+		$this->result = $this->query($query, $params);
 	}
 
 	public function get_table($table, $condition = false, $values = '*', $params = false) {
-
+		$this->get_common($table, $condition, $values, $params);
+		
+		if (!is_resource($this->result)) {
+			return array();
+		}
+		
+		$return = array();
+		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
+			$return[] = $row;
+		}
+		
+		return $return;
 	}
 	
-	public function get_vector($table, $key, $condition = false, $values = '*', $params = false) {
+	public function get_vector($table, $condition = false, $values = '*', $params = false) {
+		if (is_array($values)) {
+			$key = array_shift($values);
+		} else {
+			$key = 'id';
+		}
+		
+		$this->get_common($table, $condition, $values, $params);
+		
+		if (!is_resource($this->result)) {
+			return array();
+		}
 
-	}	
-	
-	public function get_row($table, $values, $condition, $params = false) {
-
+		$return = array();
+		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
+			$id = $row[$key];
+			
+			unset($row[$key]);
+			if (count($row) == 1) {
+				$row = reset($row);
+			}
+			
+			$return[$key] = $row;
+		}
+		
+		return $return;
 	}
 	
-	public function get_field($table, $value, $condition, $params = false) {
+	public function get_row($table, $condition, $values = '*', $params = false) {
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}
+		
+		$this->get_common($table, $condition.' LIMIT 1', $values, $params);
+		
+		if (!is_resource($this->result)) {
+			return array();
+		}
 
+		$return = ibase_fetch_assoc($this->result, IBASE_TEXT);
+		return $return;
+	}
+	
+	public function get_field($table, $condition, $value, $params = false) {
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}		
+		
+		$this->get_common($table, $condition.' LIMIT 1', $value, $params);
+		
+		if (!is_resource($this->result)) {
+			return false;
+		}
+		
+		$return = ibase_fetch_assoc($this->result, IBASE_TEXT);
+		return reset($return);
 	}
 	
 	public function insert($table, $values, $keys = false) {
@@ -59,27 +171,66 @@ class Database_Firebird implements Database_Interface
 
 	}
 	
-	public function last_id() {
-
+	public function last_id($generator) {
+		return ibase_gen_id($generator, 0);
 	}
 	
 	public function debug($print = true) {
-
+		$number = ibase_errcode();
+		$params = implode(',', $this->last_query['params']);
+		
+		if (empty($number)) {
+			$return = "Запрос: \"{$this->last_query['query']}\" с параметрами $params был выполнен успешно\n";
+		} else {
+			$return = "Запрос: \"{$this->last_query['query']}\" с параметрами $params \n".
+				"Вызвал ошибку №".$number.": ".ibase_errmsg()."\n";
+		}
+			
+		if ((bool) $print) {
+			echo nl2br($return);
+		}
+		
+		return $return;
 	}
 	
 	public function free_result() {
-
+		ibase_free_result($this->result);
 	}
 	
 	public function begin() {
+		if ((bool) $this->transaction) {
+			Error::warning('Попытка начать транзакцию, уже находясь в одной. 
+				Firebird начинает в состоянии транзакции, возможно дело в этом.');
+			return false;
+		}
 		
+		ibase_trans($this->connection);
+		$this->transaction = true;
+		
+		return true;		
 	}
 	
 	public function commit() {
-
+		if (empty($this->transaction)) {
+			Error::warning('Попытка закоммитить транзакцию, не запустив ее предварительно');
+			return false;
+		}
+		
+		ibase_commit($this->connection);
+		$this->transaction = false;
+		
+		return true;
 	}
 	
 	public function rollback() {
-
+		if (empty($this->transaction)) {
+			Error::warning('Попытка откатить транзакцию, не запустив ее предварительно');
+			return false;
+		}
+		
+		ibase_rollback($this->connection);
+		$this->transaction = false;
+		
+		return true;
 	}
 }

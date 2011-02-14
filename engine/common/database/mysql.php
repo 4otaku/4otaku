@@ -47,9 +47,9 @@ class Database_Mysql implements Database_Interface
 	public function sql($query, $params = array()) {
 		$query = str_replace('{pr}', $this->prefix, $query);
 		
-		$result = $this->query($query, $params);
+		$this->result = $this->query($query, $params);
 		
-		if (!is_resource($result)) {
+		if (!is_resource($this->result)) {
 			return array();
 		}
 		
@@ -90,7 +90,13 @@ class Database_Mysql implements Database_Interface
 		return $return;
 	}
 	
-	public function get_vector($table, $key, $condition = false, $values = '*', $params = false) {
+	public function get_vector($table, $condition = false, $values = '*', $params = false) {
+		if (is_array($values)) {
+			$key = array_shift($values);
+		} else {
+			$key = 'id';
+		}
+		
 		$this->get_common($table, $condition, $values, $params);
 		
 		if (!is_resource($this->result)) {

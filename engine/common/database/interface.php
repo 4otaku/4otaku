@@ -11,9 +11,9 @@ Interface Database_Interface
 	
 	// Запросы на чтение данных
 	
-	public function get_table($table, $values, $condition = false);
+	public function get_table($table, $condition, $values);
 	
-	public function get_vector($table, $values, $condition = false);
+	public function get_vector($table, $condition, $values);
 	
 	public function get_row($table, $condition, $values);
 	
