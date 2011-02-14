@@ -3,13 +3,16 @@
 class Database_Mysql implements Database_Interface
 {
 	// Хранит соединение с БД	
-	private $connection;
+	protected $connection;
 	
 	// Последний результат запроса к БД
-	private $result;
+	protected $result;
 	
 	// Последний запрос
-	private $last_query;
+	protected $last_query;
+	
+	// Находимся ли мы в состоянии транзакции
+	protected $transaction = false;
 	
 	public function __construct($config) {
 		$this->connection =	mysql_connect(
@@ -239,5 +242,41 @@ class Database_Mysql implements Database_Interface
 	
 	public function free_result() {
 		mysql_free_result($this->result);
+	}
+	
+	public function begin() {
+		if ((bool) $this->transaction) {
+			Error::warning('Попытка начать транзакцию, уже находясь в одной');
+			return false;
+		}
+		
+		mysql_query("START TRANSACTION", $this->connection);
+		$this->transaction = true;
+		
+		return true;
+	}
+	
+	public function commit() {
+		if (empty($this->transaction)) {
+			Error::warning('Попытка закоммитить транзакцию, не запустив ее предварительно');
+			return false;
+		}
+		
+		mysql_query("COMMIT", $this->connection);
+		$this->transaction = false;
+		
+		return true;
+	}
+	
+	public function rollback() {
+		if (empty($this->transaction)) {
+			Error::warning('Попытка откатить транзакцию, не запустив ее предварительно');
+			return false;
+		}
+		
+		mysql_query("ROLLBACK", $this->connection);
+		$this->transaction = false;
+		
+		return true;
 	}
 }
