@@ -33,7 +33,7 @@ class Database_Mysql implements Database_Interface
 			$params = (array) $params;
 			
 			foreach ($params as &$param) {
-				mysql_real_escape_string($param, $this->connection);
+				$param = mysql_real_escape_string($param, $this->connection);
 			}
 			
 			$query = vsprintf(str_replace("?","'%s'",$query), $params);
