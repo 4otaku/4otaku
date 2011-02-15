@@ -36,7 +36,7 @@ class Database_Mysql implements Database_Interface
 				mysql_real_escape_string($param, $this->connection);
 			}
 			
-			$query = vsprintf(str_replace("??","'%s'",$query), $params);
+			$query = vsprintf(str_replace("?","'%s'",$query), $params);
 		}
 		
 		$this->last_query = $query;
@@ -158,7 +158,7 @@ class Database_Mysql implements Database_Interface
 			$query .= " (".implode(',',$keys).")";
 		}
 		
-		$query .= " VALUES(".rtimr(str_repeat("??,",count($values)),",").")";
+		$query .= " VALUES(".rtimr(str_repeat("?,",count($values)),",").")";
 		
 		$this->query($query, $values);
 		

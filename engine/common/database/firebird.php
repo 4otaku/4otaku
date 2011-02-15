@@ -155,20 +155,87 @@ class Database_Firebird implements Database_Interface
 		return reset($return);
 	}
 	
-	public function insert($table, $values, $keys = false) {
-
+	protected function make_insert_statement($table, $values, $keys = false) {
+		$values = (array) $values;
+		$keys = (array) $keys;
+		
+		$query = "INSERT INTO {$this->prefix}$table";
+		
+		if (count($values) === count($keys)) {
+			$query .= " (".implode(',',$keys).")";
+		}
+		
+		$query .= " VALUES(".rtimr(str_repeat("?,",count($values)),",").")";
+		
+		return $query;
 	}
 	
+	public function insert($table, $values, $keys = false) {
+		$query = $this->make_insert_statement($table, $values, $keys);
+		
+		$this->query($query, $values);
+		
+		return ibase_affected_rows($this->connection);
+	}
+
 	public function bulk_insert($table, $rows, $keys = false) {
-	
+		$query = "set term ^ ;
+			EXECUTE BLOCK AS BEGIN";
+		
+		$params = array();
+		foreach ($rows as $row) {
+			$query .= "\n".$this->make_insert_statement($table, $row, $keys).";";
+			$params = array_merge($params, $row);
+		}
+		
+		$query .= "\nEND^";
+		
+		$this->query($query, $params);
+		
+		return ibase_affected_rows($this->connection);
 	}
 	
 	public function update($table, $condition, $fields, $values = false) {
-
+		if (empty($values)) {
+			// Если четвертый параметр пустой, значит вместо третьего ассоциативный массив
+			$values = array_values($fields);
+			$fields = array_keys($fields);
+		} else {
+			$fields = (array) $fields;
+			$values = (array) $values;
+		}
+		
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}
+		
+		$query = "UPDATE {$this->prefix}$table SET ";
+		
+		foreach ($fields as $field) {
+			$query .= "$field = ??,";
+		}
+		
+		$query = rtrim($query,',');
+		
+		if (!empty($condition)) {
+			$query .= " WHERE $condition";
+		}
+		
+		$this->query($query, $values);
+		
+		return ibase_affected_rows($this->connection);	
 	}	
 	
 	public function delete($table, $condition = false) {
-
+		$query = "DELETE FROM {$this->prefix}$table";
+		
+		if (!empty($condition)) {
+			$query .= " WHERE $condition";
+		}
+		
+		$this->query($query);
+		
+		return ibase_affected_rows($this->connection);
 	}
 	
 	public function last_id($generator) {
