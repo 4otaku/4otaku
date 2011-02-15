@@ -16,6 +16,7 @@ final class Globals extends Objects
 		'"' => '&quot;',
 		'<' => '&lt;',
 		'>' => '&gt;',
+		'?' => '&#63;',
 		'\\' => '&#092;',
 		"'" => '&apos;',
 	);
