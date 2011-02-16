@@ -168,7 +168,7 @@ class Database_Mysql implements Database_Interface
 	public function bulk_insert($table, $rows, $keys = false) {
 		$keys = (array) $keys;
 		
-		$query = "INSERT INTO {$this->prefix}$table";
+		$query = "INSERT IGNORE INTO {$this->prefix}$table";
 		
 		if (count(current($rows)) === count($keys)) {
 			$query .= " (".implode(',',$keys).")";
