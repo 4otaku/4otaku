@@ -23,7 +23,7 @@ class Database_Mysql implements Database_Interface
 		
 		mysql_select_db($config['Database'], $this->connection)
 			or Error::fatal(mysql_error());			
-		mysql_query('SET NAMES \'UTF8\'');
+		mysql_query("SET NAMES 'UTF8'");
 		
 		$this->prefix =	$config['Prefix'];
 	}
@@ -120,10 +120,10 @@ class Database_Mysql implements Database_Interface
 	
 	public function get_row($table, $condition, $values = '*', $params = false) {
 		if (is_numeric($condition)) {
-			$condition = 'id = '.$condition;
+			$condition = "id = $condition";
 		}
 		
-		$this->get_common($table, $condition.' LIMIT 1', $values, $params);
+		$this->get_common($table, $condition." LIMIT 1", $values, $params);
 		
 		if (!is_resource($this->result)) {
 			return array();
@@ -135,10 +135,10 @@ class Database_Mysql implements Database_Interface
 	
 	public function get_field($table, $condition, $value, $params = false) {
 		if (is_numeric($condition)) {
-			$condition = 'id = '.$condition;
+			$condition = "id = $condition";
 		}		
 		
-		$this->get_common($table, $condition.' LIMIT 1', $value, $params);
+		$this->get_common($table, $condition." LIMIT 1", $value, $params);
 		
 		if (!is_resource($this->result)) {
 			return false;
@@ -148,17 +148,24 @@ class Database_Mysql implements Database_Interface
 		return reset($return);
 	}
 	
-	public function insert($table, $values, $keys = false) {
+	public function insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
 		$values = (array) $values;
 		$keys = (array) $keys;
 		
-		$query = "INSERT INTO {$this->prefix}$table";
+		$query = "INSERT IGNORE INTO {$this->prefix}$table";
 		
 		if (count($values) === count($keys)) {
 			$query .= " (".implode(',',$keys).")";
 		}
 		
-		$query .= " VALUES(".rtimr(str_repeat("?,",count($values)),",").")";
+		$data = rtimr(str_repeat('?,',count($values)),',');
+		
+		if (empty($deny_condition)) {
+			$query .= " VALUES($data)";
+		} else {
+			$query .= " SELECT $data FROM helper WHERE NOT EXISTS (SELECT * FROM $table WHERE $deny_condition)";
+			$values = array_merge($values, $deny_params);
+		}
 		
 		$this->query($query, $values);
 		
