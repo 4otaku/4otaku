@@ -1,6 +1,6 @@
 <?
 
-class Database_Mysql implements Database_Interface
+class Database_Mysql extends Database_Complex implements Database_Interface
 {
 	// Хранит соединение с БД	
 	protected $connection;
@@ -14,6 +14,9 @@ class Database_Mysql implements Database_Interface
 	// Находимся ли мы в состоянии транзакции
 	protected $transaction = false;
 	
+	// Префикс перед табличками
+	protected $prefix = '';		
+	
 	public function __construct($config) {
 		$this->connection =	mysql_connect(
 			$config['Server'], 
@@ -25,7 +28,9 @@ class Database_Mysql implements Database_Interface
 			or Error::fatal(mysql_error());			
 		mysql_query("SET NAMES 'UTF8'");
 		
-		$this->prefix =	$config['Prefix'];
+		if (!empty($config['Prefix'])) {
+			$this->prefix =	$config['Prefix'];
+		}
 	}
 	
 	protected function query($query, $params = array()) {
@@ -148,7 +153,11 @@ class Database_Mysql implements Database_Interface
 		return reset($return);
 	}
 	
-	public function insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
+	public function insert($table, $values, $keys = false) {
+		return $this->conditional_insert($table, $values, $keys);
+	}
+	
+	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
 		$values = (array) $values;
 		$keys = (array) $keys;
 		
@@ -169,8 +178,8 @@ class Database_Mysql implements Database_Interface
 		
 		$this->query($query, $values);
 		
-		return mysql_affected_rows($this->connection);
-	}
+		return mysql_affected_rows($this->connection);		
+	}	
 	
 	public function bulk_insert($table, $rows, $keys = false) {
 		$keys = (array) $keys;

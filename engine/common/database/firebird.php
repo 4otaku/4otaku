@@ -1,6 +1,6 @@
 <?
 
-class Database_Firebird implements Database_Interface
+class Database_Firebird extends Database_Complex implements Database_Interface
 {
 	// Хранит соединение с БД	
 	private $connection;
@@ -13,6 +13,9 @@ class Database_Firebird implements Database_Interface
 	
 	// Находимся ли мы в состоянии транзакции
 	protected $transaction = true;
+	
+	// Префикс перед табличками
+	protected $prefix = '';	
 	
 	public function __construct($config) {
 		if (
@@ -31,7 +34,9 @@ class Database_Firebird implements Database_Interface
 			'UTF-8'
 		) or Error::fatal(ibase_errmsg());
 		
-		$this->prefix =	$config['Prefix'];		
+		if (!empty($config['Prefix'])) {
+			$this->prefix =	$config['Prefix'];
+		}	
 	}
 	
 	public function __destruct() {
@@ -176,6 +181,14 @@ class Database_Firebird implements Database_Interface
 		$this->query($query, $values);
 		
 		return ibase_affected_rows($this->connection);
+	}
+	
+	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
+		if (!empty($this->get_row($table, $deny_condition, '*', $deny_params))) {
+			return 0;
+		}
+		
+		return $this->insert($table, $values, $keys);
 	}
 
 	public function bulk_insert($table, $rows, $keys = false) {
