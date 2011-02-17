@@ -183,14 +183,6 @@ class Database_Firebird extends Database_Complex implements Database_Interface
 		return ibase_affected_rows($this->connection);
 	}
 	
-	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
-		if (!empty($this->get_row($table, $deny_condition, '*', $deny_params))) {
-			return 0;
-		}
-		
-		return $this->insert($table, $values, $keys);
-	}
-
 	public function bulk_insert($table, $rows, $keys = false) {
 		$query = "set term ^ ;
 			EXECUTE BLOCK AS BEGIN";

@@ -39,4 +39,12 @@ abstract class Database_Complex
 			}
 		}
 	}
+	
+	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
+		if (!empty($this->get_row($table, $deny_condition, '*', $deny_params))) {
+			return 0;
+		}
+		
+		return $this->insert($table, $values, $keys);
+	}	
 }
