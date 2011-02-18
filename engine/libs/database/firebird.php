@@ -1,21 +1,12 @@
 <?
 
-class Database_Firebird extends Database_Complex implements Database_Interface
+class Database_Firebird extends Database_Common implements Database_Interface
 {
-	// Хранит соединение с БД	
-	private $connection;
-	
-	// Последний результат запроса к БД
-	private $result;
-	
 	// Последний запрос
 	private $last_query = array();
 	
 	// Находимся ли мы в состоянии транзакции
 	protected $transaction = true;
-	
-	// Префикс перед табличками
-	protected $prefix = '';	
 	
 	public function __construct($config) {
 		if (
@@ -170,7 +161,7 @@ class Database_Firebird extends Database_Complex implements Database_Interface
 			$query .= " (".implode(',',$keys).")";
 		}
 		
-		$query .= " VALUES(".rtimr(str_repeat("?,",count($values)),",").")";
+		$query .= " VALUES(''".str_repeat(",?",count($values)).")";
 		
 		return $query;
 	}

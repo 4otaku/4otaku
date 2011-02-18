@@ -34,8 +34,8 @@ class Objects
 			Error::fatal("Класс $class не использует стандартный интерфейс Database_Interface");
 		}
 		
-		if (!($return instanceOf Database_Complex)) {
-			Error::fatal("Класс $class не наследует от общего класса Database_Complex");
+		if (!($return instanceOf Database_Common)) {
+			Error::fatal("Класс $class не наследует от общего класса Database_Common");
 		}		
 
 		return $return;

@@ -1,11 +1,26 @@
 <?
 
-abstract class Database_Complex
+abstract class Database_Common
 {
-	public function data_insert($item_type, $item_id, $types, $values) {
+	// Хранит соединение с БД	
+	protected $connection;
+	
+	// Последний результат запроса к БД
+	protected $result;
+	
+	// Последний запрос
+	protected $last_query;
+	
+	// Находимся ли мы в состоянии транзакции
+	protected $transaction = false;
+	
+	// Префикс перед табличками
+	protected $prefix = '';	
+	
+	public function data_insert($item_type, $item_id, $types, $values = array()) {
 		$item_id = (int) $item_id;
-		$item_type = preg_replace('/^[a-z\d_]/', '', $item_type);
-		
+		$item_type = preg_replace('/[^a-z\d_]/', '', $item_type);
+
 		$types = (array) $types;
 		$values = (array) $values;		
 		
@@ -26,7 +41,7 @@ abstract class Database_Complex
 		}
 		
 		while (list($type, $value) = each($data)) {
-			$type = preg_replace('/^[a-z\d_]/', '', $type);
+			$type = preg_replace('/[^a-z\d_]/', '', $type);
 			$condition = "item_id = $item_id and item_type = '$item_type' and type = '$type'";
 			
 			if (!$this->update('data', $condition, 'data', $value)) {
@@ -41,10 +56,10 @@ abstract class Database_Complex
 	}
 	
 	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
-		if (!empty($this->get_row($table, $deny_condition, '*', $deny_params))) {
+		if ($this->get_row($table, $deny_condition, '*', $deny_params)) {
 			return 0;
 		}
 		
 		return $this->insert($table, $values, $keys);
-	}	
+	}
 }

@@ -1,21 +1,8 @@
 <?
 
-class Database_Mysql extends Database_Complex implements Database_Interface
+class Database_Mysql extends Database_Common implements Database_Interface
 {
-	// Хранит соединение с БД	
-	protected $connection;
-	
-	// Последний результат запроса к БД
-	protected $result;
-	
-	// Последний запрос
-	protected $last_query;
-	
-	// Находимся ли мы в состоянии транзакции
-	protected $transaction = false;
-	
-	// Префикс перед табличками
-	protected $prefix = '';		
+	const null_replacement = '_4o_NULL_replace_';
 	
 	public function __construct($config) {
 		$this->connection =	mysql_connect(
@@ -38,10 +25,13 @@ class Database_Mysql extends Database_Complex implements Database_Interface
 			$params = (array) $params;
 			
 			foreach ($params as &$param) {
-				$param = mysql_real_escape_string($param, $this->connection);
-			}
-			
+				$param = is_null($param) ? 
+					self::null_replacement : 
+					mysql_real_escape_string($param, $this->connection);
+			}		
+
 			$query = vsprintf(str_replace("?","'%s'",$query), $params);
+			$query = str_replace("'".self::null_replacement."'", 'NULL', $query);
 		}
 		
 		$this->last_query = $query;
@@ -161,13 +151,16 @@ class Database_Mysql extends Database_Complex implements Database_Interface
 		$values = (array) $values;
 		$keys = (array) $keys;
 		
-		$query = "INSERT IGNORE INTO {$this->prefix}$table";
+		$query = "INSERT INTO {$this->prefix}$table";
+		
+		$data = str_repeat(',?',count($values));
 		
 		if (count($values) === count($keys)) {
 			$query .= " (".implode(',',$keys).")";
-		}
-		
-		$data = rtimr(str_repeat('?,',count($values)),',');
+			$data = ltrim($data,',');
+		} else {
+			$data = "NULL".$data;
+		}		
 		
 		if (empty($deny_condition)) {
 			$query .= " VALUES($data)";
@@ -184,17 +177,20 @@ class Database_Mysql extends Database_Complex implements Database_Interface
 	public function bulk_insert($table, $rows, $keys = false) {
 		$keys = (array) $keys;
 		
-		$query = "INSERT IGNORE INTO {$this->prefix}$table";
+		$query = "INSERT INTO {$this->prefix}$table";
 		
 		if (count(current($rows)) === count($keys)) {
 			$query .= " (".implode(',',$keys).")";
+			$prepend = '';
+		} else {
+			$prepend = "NULL,";
 		}
 		
 		$query .= " VALUES ";
 		
 		$params = array();
 		foreach ($rows as $row) {
-			$query .= "(".implode(',',$row)."),";
+			$query .= "(".$prepend.ltrim(str_repeat(',?',count($row)),',')."),";
 			$params = array_merge($params, $row);
 		}
 		
@@ -207,7 +203,7 @@ class Database_Mysql extends Database_Complex implements Database_Interface
 	
 	public function update($table, $condition, $fields, $values = false) {
 		
-		if (empty($values)) {
+		if ($values === false) {
 			// Если четвертый параметр пустой, значит вместо третьего ассоциативный массив
 			$values = array_values($fields);
 			$fields = array_keys($fields);
@@ -223,7 +219,7 @@ class Database_Mysql extends Database_Complex implements Database_Interface
 		$query = "UPDATE {$this->prefix}$table SET ";
 		
 		foreach ($fields as $field) {
-			$query .= "$field = ??,";
+			$query .= "$field = ?,";
 		}
 		
 		$query = rtrim($query,',');
