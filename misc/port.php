@@ -106,30 +106,45 @@
 	$posts = $db->get_table('post');
 
 	foreach ($posts as $post) {		
-		$single_data = prepare_single_data($post);
-		Objects::db()->data_insert('post',$post['id'],$single_data);		
-
+		Objects::db()->insert('post',
+			array(
+				$post['id'],
+				$post['title'],
+				$post['text'],
+				$post['pretty_text'],
+				$post['comment_count'],
+				$post['update_count'],
+				date ("Y-m-d H:i:s",round($post['sortdate'] / 1000)),
+				preg_replace('/_.+$/','',$post['area'])
+			), array(
+				'id',
+				'title',
+				'text',
+				'pretty_text',
+				'comments',
+				'updates',
+				'date',
+				'area')
+		);
+		Objects::db()->insert('meta_index',
+			array(
+				'post',
+				$post['id'],
+				trim(str_replace('|',' tag_',rtrim($post['tag'],'|'))).' '.
+				trim(str_replace('|',' author_',rtrim($post['author'],'|'))).' '.
+				trim(str_replace('|',' category_',rtrim($post['category'],'|'))).' '.
+				trim(str_replace('|',' language_',rtrim($post['language'],'|'))).' '.
+				'place_post area_'.preg_replace('/_.+$/','',$post['area'])
+			)
+		);
+		
 		$other_data = prepare_other_data($post);
-
+		
 		foreach ($other_data as $type => $data) {
 			foreach ($data as $key => $row) {
-				Objects::db()->insert('data',array($type,$post['id'],'post',$key,$row));
+				Objects::db()->insert('post_items',array($post['id'],$type,$key,$row));
 			}
 		}		
-		
-		$unique_data = prepare_unique_data($post);
-		
-		foreach ($unique_data as $type => $data) {
-			foreach ($data as $row) {
-				Objects::db()->conditional_insert(
-					'data',
-					array($type,$post['id'],'post',$post['area'],$row),
-					false,
-					"type=? and item_id=? and item_type=? and data=?",
-					array($type,$post['id'],'post',$row)
-				);
-			}
-		}
 	}
 	
 	
