@@ -1,6 +1,8 @@
 <?
 	if (empty($_POST)) die("error");
 	
+	set_time_limit(0);
+	
 	include '../engine/init.php';
 	
 	$dump = file_get_contents('dump.sql');	
@@ -11,7 +13,7 @@
 			Objects::db()->sql($query);
 		}
 	}
-	
+
 	function prepare_single_data($data) {
 		$allowed_types = array(
 			'title', 'text', 'pretty_text', 'comment_count', 'area',
@@ -35,7 +37,11 @@
 			if (!empty($value)) {
 				switch ($key) {
 					case 'link' :
-						$links = unserialize($value);
+						try {
+							$links = unserialize($value);
+						} catch (Exception $e) {
+							var_dump($data['id']);
+						}
 						if (is_array($links)) {
 							foreach ($links as $row) {
 								foreach ($row['alias'] as $key2 => $alias) {
@@ -54,7 +60,11 @@
 						break;
 					case 'info':
 					case 'file':
-						$data = unserialize($value);
+						try {
+							$data = unserialize($value);
+						} catch (Exception $e) {
+							var_dump($data['id']);
+						}	
 						if (is_array($data)) {
 							foreach ($data as $row) {
 								$return[$key][] = Crypt::pack_array($row);
@@ -103,6 +113,20 @@
 	
 	$db = new Database_Mysql($_POST);
 	
+	$arts = $db->get_table('art');
+	
+	foreach ($arts as $art) {
+		$image = @file_get_contents('http://4otaku.ru/images/booru/full/'.$art['md5'].'.'.$art['extension']);
+		$resized = @file_get_contents('http://4otaku.ru/images/booru/resized/'.$art['md5'].'.jpg');
+		$thumb = @file_get_contents('http://4otaku.ru/images/booru/thumbs/'.$art['thumb'].'.jpg');
+		$large_thumb = @file_get_contents('http://4otaku.ru/images/booru/thumbs/large_'.$art['thumb'].'.jpg');
+		
+		file_put_contents('../images/art/full/'.$art['md5'].'.'.$art['extension'],$image);
+		if ($resized) file_put_contents('../images/art/resized/'.$art['md5'].'.jpg',$resized);
+		file_put_contents('../images/art/thumbnail/'.$art['thumb'].'.jpg',$thumb);
+		file_put_contents('../images/art/large_thumbnail/'.$art['thumb'].'.jpg',$large_thumb);
+	}	
+
 	$posts = $db->get_table('post');
 
 	foreach ($posts as $post) {		
@@ -112,6 +136,11 @@
 				$post['title'],
 				$post['text'],
 				$post['pretty_text'],
+				trim(str_replace('|',' tag_',rtrim($post['tag'],'|'))).' '.
+				trim(str_replace('|',' author_',rtrim($post['author'],'|'))).' '.
+				trim(str_replace('|',' category_',rtrim($post['category'],'|'))).' '.
+				trim(str_replace('|',' language_',rtrim($post['language'],'|'))).' '.
+				'area_'.preg_replace('/_.+$/','',$post['area']),				
 				$post['comment_count'],
 				$post['update_count'],
 				date ("Y-m-d H:i:s",round($post['sortdate'] / 1000)),
@@ -121,21 +150,11 @@
 				'title',
 				'text',
 				'pretty_text',
+				'meta',
 				'comments',
 				'updates',
 				'date',
 				'area')
-		);
-		Objects::db()->insert('meta_index',
-			array(
-				'post',
-				$post['id'],
-				trim(str_replace('|',' tag_',rtrim($post['tag'],'|'))).' '.
-				trim(str_replace('|',' author_',rtrim($post['author'],'|'))).' '.
-				trim(str_replace('|',' category_',rtrim($post['category'],'|'))).' '.
-				trim(str_replace('|',' language_',rtrim($post['language'],'|'))).' '.
-				'place_post area_'.preg_replace('/_.+$/','',$post['area'])
-			)
 		);
 		
 		$other_data = prepare_other_data($post);
@@ -146,6 +165,42 @@
 			}
 		}		
 	}
+	
+	unset ($posts);
+	
+	$videos = $db->get_table('video');
+
+	foreach ($videos as $video) {		
+		Objects::db()->insert('video',
+			array(
+				$video['id'],
+				$video['title'],
+				$video['link'],
+				$video['object'],				
+				$video['text'],
+				$video['pretty_text'],
+				trim(str_replace('|',' tag_',rtrim($video['tag'],'|'))).' '.
+				trim(str_replace('|',' author_',rtrim($video['author'],'|'))).' '.
+				trim(str_replace('|',' category_',rtrim($video['category'],'|'))).' '.
+				'area_'.preg_replace('/_.+$/','',$video['area']),				
+				$video['comment_count'],
+				date ("Y-m-d H:i:s",round($video['sortdate'] / 1000)),
+				preg_replace('/_.+$/','',$video['area'])
+			), array(
+				'id',
+				'title',
+				'link',
+				'object',
+				'text',
+				'pretty_text',
+				'meta',
+				'comments',
+				'date',
+				'area')
+		);		
+	}
+	
+	unset ($videos);
 	
 	
 	

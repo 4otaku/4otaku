@@ -21,17 +21,6 @@ CREATE TABLE `meta` (
   UNIQUE KEY `identity` (`type`,`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `meta_index`;
-CREATE TABLE `meta_index` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `place` varchar(16) NOT NULL,
-  `item_id` int(10) unsigned NOT NULL,
-  `data` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `selector` (`place`,`item_id`),
-  FULLTEXT KEY `index` (`data`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
 DROP TABLE IF EXISTS `tag_variants`;
 CREATE TABLE `tag_variants` (
   `alias` varchar(255) NOT NULL,
@@ -46,13 +35,15 @@ CREATE TABLE `post` (
   `title` varchar(510) COLLATE utf8_unicode_ci NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `pretty_text` text COLLATE utf8_unicode_ci NOT NULL,
+  `meta` text COLLATE utf8_unicode_ci NOT NULL,
   `comments` int(10) unsigned NOT NULL,
   `updates` int(10) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `area` enum('workshop','main','flea','deleted') COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `selector` (`area`,`date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  KEY `selector` (`area`,`date`),
+  FULLTEXT KEY `index` (`meta`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `post_items`;
 CREATE TABLE `post_items` (
@@ -64,3 +55,98 @@ CREATE TABLE `post_items` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `video`;
+CREATE TABLE `video` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(510) COLLATE utf8_unicode_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `object` text COLLATE utf8_unicode_ci NOT NULL,
+  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_text` text COLLATE utf8_unicode_ci NOT NULL,
+  `meta` text COLLATE utf8_unicode_ci NOT NULL,
+  `comments` int(10) unsigned NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `area` enum('workshop','main','flea','deleted') COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `link` (`link`),
+  KEY `selector` (`area`,`date`),
+  FULLTEXT KEY `index` (`meta`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `art`;
+CREATE TABLE `art` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `md5` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `width` smallint(5) unsigned NOT NULL,
+  `height` smallint(5) unsigned NOT NULL,
+  `weight` mediumint(8) unsigned NOT NULL,
+  `resized` float unsigned NOT NULL,
+  `extension` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `thumbnail` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `source` varchar(510) COLLATE utf8_unicode_ci NOT NULL,
+  `parent_id` int(10) unsigned DEFAULT NULL,
+  `meta` text COLLATE utf8_unicode_ci NOT NULL,
+  `comments` int(10) unsigned NOT NULL,
+  `variations` int(10) unsigned NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `area` enum('workshop','main','flea','game_cg','sprites','deleted') COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`),
+  KEY `selector` (`area`,`date`),
+  FULLTEXT KEY `index` (`meta`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `art_similar` (
+  `id` int(10) unsigned NOT NULL,
+  `vector` varchar(2040) NOT NULL,
+  `checked` tinyint(1) unsigned NOT NULL,
+  `similar` varchar(4080) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `art_group` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  `pretty_text` text NOT NULL,
+  `count` int(10) unsigned,
+  `order` text NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `title` (`title`),
+  KEY `date` (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `art_cg_pack` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `md5` varchar(32) NOT NULL,
+  `filename` varchar(2040) NOT NULL,
+  `filesize` int(10) unsigned NOT NULL,
+  `cover` varchar(32) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  `pretty_text` text NOT NULL,
+  `count` int(10) unsigned,
+  `order` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `md5` (`md5`),
+  UNIQUE KEY `title` (`title`),
+  KEY `date` (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `art_translation`;
+CREATE TABLE `art_translation` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `item_id` int(10) unsigned NOT NULL,
+  `data` text NOT NULL,
+  `translator` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `selector` (`item_id`, `active`),
+  UNIQUE KEY `sort` (`item_id`, `date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
