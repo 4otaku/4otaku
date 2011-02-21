@@ -116,15 +116,62 @@
 	$arts = $db->get_table('art');
 	
 	foreach ($arts as $art) {
-		$image = @file_get_contents('http://4otaku.ru/images/booru/full/'.$art['md5'].'.'.$art['extension']);
-		$resized = @file_get_contents('http://4otaku.ru/images/booru/resized/'.$art['md5'].'.jpg');
-		$thumb = @file_get_contents('http://4otaku.ru/images/booru/thumbs/'.$art['thumb'].'.jpg');
-		$large_thumb = @file_get_contents('http://4otaku.ru/images/booru/thumbs/large_'.$art['thumb'].'.jpg');
+		$mainfile = '../images/art/full/'.$art['md5'].'.'.$art['extension'];
+		$resfile = '../images/art/resized/'.$art['md5'].'.jpg';
 		
-		file_put_contents('../images/art/full/'.$art['md5'].'.'.$art['extension'],$image);
-		if ($resized) file_put_contents('../images/art/resized/'.$art['md5'].'.jpg',$resized);
-		file_put_contents('../images/art/thumbnail/'.$art['thumb'].'.jpg',$thumb);
-		file_put_contents('../images/art/large_thumbnail/'.$art['thumb'].'.jpg',$large_thumb);
+		if (!file_exists($mainfile)) {
+			$image = @file_get_contents('http://4otaku.ru/images/booru/full/'.$art['md5'].'.'.$art['extension']);
+			$resized = @file_get_contents('http://4otaku.ru/images/booru/resized/'.$art['md5'].'.jpg');
+			$thumb = @file_get_contents('http://4otaku.ru/images/booru/thumbs/'.$art['thumb'].'.jpg');
+			$large_thumb = @file_get_contents('http://4otaku.ru/images/booru/thumbs/large_'.$art['thumb'].'.jpg');
+			
+			file_put_contents($mainfile,$image);
+			if ($resized) file_put_contents($resfile,$resized);
+			file_put_contents('../images/art/thumbnail/'.$art['thumb'].'.jpg',$thumb);
+			file_put_contents('../images/art/large_thumbnail/'.$art['thumb'].'.jpg',$large_thumb);
+		}
+		
+		$sizes = getimagesize($mainfile);
+		$resizes = $resized ? getimagesize($resfile) : 0;
+		
+		Objects::db()->insert('art',
+			array(
+				$art['id'],
+				$art['md5'],
+				$sizes[0],
+				$sizes[1],
+				filesize($mainfile),
+				$resizes[0] / $sizes[0],
+				$art['extension'],
+				$art['thumb'],
+				$art['source'],
+				NULL,
+				trim(str_replace('|',' tag_',rtrim($art['tag'],'|'))).' '.
+				trim(str_replace('|',' author_',rtrim($art['author'],'|'))).' '.
+				trim(str_replace('|',' category_',rtrim($art['category'],'|'))).' '.
+				($art['pool'] != '|' ? trim(str_replace('|',' pool_',rtrim($art['pool'],'|'))).' ' : '').
+				'area_'.preg_replace('/_.+$/','',$art['area']),				
+				$art['comment_count'],
+				substr_count($art['variation'],'|')-1,
+				date ("Y-m-d H:i:s",round($art['sortdate'] / 1000)),
+				preg_replace('/_.+$/','',$art['area'])
+			), array(
+				'id',
+				'md5',
+				'width',
+				'height',
+				'weight',
+				'resized',
+				'extension',
+				'thumbnail',
+				'source',
+				'parent_id',
+				'meta',
+				'comments',
+				'variations',
+				'date',
+				'area')
+		);
 	}	
 
 	$posts = $db->get_table('post');
