@@ -28,8 +28,10 @@ final class Plugins
 		$class_name = 'Plugin_'.pathinfo($file, PATHINFO_FILENAME);
 		
 		include_once($file);		
-				
-		self::$instances[] = new $class_name($class_vars);
+		
+		if (class_exists($class_name, false)) {
+			self::$instances[] = new $class_name($class_vars);
+		}
 		
 		return true;
 	}
