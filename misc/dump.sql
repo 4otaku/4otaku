@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `art_similar` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `art_group` (
+CREATE TABLE IF NOT EXISTS `art_pool` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `text` text NOT NULL,
