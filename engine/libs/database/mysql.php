@@ -8,9 +8,10 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		$this->connection =	mysql_connect(
 			$config['Server'], 
 			$config['User'], 
-			$config['Password']
+			$config['Password'],
+			true
 		) or Error::fatal(mysql_error());
-		
+
 		mysql_select_db($config['Database'], $this->connection)
 			or Error::fatal(mysql_error());			
 		mysql_query("SET NAMES 'UTF8'");
