@@ -8,9 +8,8 @@ class Core
 	}
 	
 	function process() {
-		$res = Globals::db()->get_row('art', 234);
-		Globals::db()->debug();
+		$res = Globals::db()->get_row('art', "area != 'deleted' order by RAND()");
 		
-		return array('agent' => serialize($res));
+		return array('pic' => $res);
 	}
 }

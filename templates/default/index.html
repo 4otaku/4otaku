@@ -1,3 +1,7 @@
 <a href="http://4otaku.ru">Hello world!</a>
-<br />
-{{agent}}
+<br /><br />
+{% if pic.resized %}
+	<img src="/images/art/resized/{{pic.md5}}.jpg" />
+{% else %}
+	<img src="/images/art/full/{{pic.md5}}.{{pic.extension}}" />
+{% endif %}
