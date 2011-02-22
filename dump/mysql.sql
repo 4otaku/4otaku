@@ -1,15 +1,15 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-DROP TABLE IF EXISTS `helper`;
-CREATE TABLE `helper` (
+DROP TABLE IF EXISTS `{pr}helper`;
+CREATE TABLE `{pr}helper` (
   `id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `helper` (`id`) VALUES (1);
 
-DROP TABLE IF EXISTS `meta`;
-CREATE TABLE `meta` (
+DROP TABLE IF EXISTS `{pr}meta`;
+CREATE TABLE `{pr}meta` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -21,16 +21,16 @@ CREATE TABLE `meta` (
   UNIQUE KEY `identity` (`type`,`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `tag_variants`;
-CREATE TABLE `tag_variants` (
+DROP TABLE IF EXISTS `{pr}tag_variants`;
+CREATE TABLE `{pr}tag_variants` (
   `alias` varchar(255) NOT NULL,
   `variant` varchar(255) NOT NULL,
   PRIMARY KEY (`alias`),
   UNIQUE KEY `variant` (`variant`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `post`;
-CREATE TABLE `post` (
+DROP TABLE IF EXISTS `{pr}post`;
+CREATE TABLE `{pr}post` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(510) COLLATE utf8_unicode_ci NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
@@ -45,8 +45,8 @@ CREATE TABLE `post` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `post_items`;
-CREATE TABLE `post_items` (
+DROP TABLE IF EXISTS `{pr}post_items`;
+CREATE TABLE `{pr}post_items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `item_id` int(10) unsigned NOT NULL,
   `type` enum('image','link','info','file') NOT NULL,
@@ -56,8 +56,8 @@ CREATE TABLE `post_items` (
   UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `video`;
-CREATE TABLE `video` (
+DROP TABLE IF EXISTS `{pr}video`;
+CREATE TABLE `{pr}video` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(510) COLLATE utf8_unicode_ci NOT NULL,
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -74,8 +74,8 @@ CREATE TABLE `video` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `art`;
-CREATE TABLE `art` (
+DROP TABLE IF EXISTS `{pr}art`;
+CREATE TABLE `{pr}art` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `md5` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `width` smallint(5) unsigned NOT NULL,
@@ -97,7 +97,8 @@ CREATE TABLE `art` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `art_similar` (
+DROP TABLE IF EXISTS `{pr}art_similar`;
+CREATE TABLE IF NOT EXISTS `{pr}art_similar` (
   `id` int(10) unsigned NOT NULL,
   `vector` varchar(2040) NOT NULL,
   `checked` tinyint(1) unsigned NOT NULL,
@@ -105,7 +106,8 @@ CREATE TABLE IF NOT EXISTS `art_similar` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `art_pool` (
+DROP TABLE IF EXISTS `{pr}art_pool`;
+CREATE TABL `{pr}art_pool` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `text` text NOT NULL,
@@ -120,7 +122,8 @@ CREATE TABLE IF NOT EXISTS `art_pool` (
   KEY `date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `art_cg_pack` (
+DROP TABLE IF EXISTS `{pr}art_cg_pack`;
+CREATE TABLE `{pr}art_cg_pack` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `md5` varchar(32) NOT NULL,
   `filename` varchar(2040) NOT NULL,
@@ -138,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `art_cg_pack` (
   KEY `date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `art_translation`;
+DROP TABLE IF EXISTS `{pr}art_translation`;
 CREATE TABLE `art_translation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `item_id` int(10) unsigned NOT NULL,

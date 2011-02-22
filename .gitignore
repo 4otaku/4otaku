@@ -18,4 +18,4 @@ images/art/thumbnail/*
 images/art/large_thumbnail/*
 !images/art/large_thumbnail/index.php
 
-images/misc/*
+misc/*
