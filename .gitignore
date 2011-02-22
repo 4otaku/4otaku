@@ -1,7 +1,21 @@
 cache/*
-!cache/.gitignore
+!cache/index.php
 
 config/*
 .htaccess
 
 yandex_*
+
+images/art/full/*
+!images/art/full/index.php
+
+images/art/resized/*
+!images/art/resized/index.php
+
+images/art/thumbnail/*
+!images/art/thumbnail/index.php
+
+images/art/large_thumbnail/*
+!images/art/large_thumbnail/index.php
+
+images/misc/*
