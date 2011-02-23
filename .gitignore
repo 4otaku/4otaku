@@ -18,4 +18,7 @@ images/art/thumbnail/*
 images/art/large_thumbnail/*
 !images/art/large_thumbnail/index.php
 
+files/art/cg_packs/*
+!files/art/cg_packs/index.php
+
 misc/*
