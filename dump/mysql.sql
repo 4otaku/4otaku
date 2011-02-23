@@ -142,7 +142,7 @@ CREATE TABLE `{pr}art_cg_pack` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `{pr}art_translation`;
-CREATE TABLE `art_translation` (
+CREATE TABLE `{pr}art_translation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `item_id` int(10) unsigned NOT NULL,
   `data` text NOT NULL,
