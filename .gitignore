@@ -21,4 +21,13 @@ images/art/large_thumbnail/*
 files/art/cg_packs/*
 !files/art/cg_packs/index.php
 
+files/post/audio/*
+!files/post/audio/index.php
+
+files/post/image/*
+!files/post/image/index.php
+
+files/post/other/*
+!files/post/other/index.php
+
 misc/*
