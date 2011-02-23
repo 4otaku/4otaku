@@ -157,6 +157,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		$data = str_repeat(',?',count($values));
 		
 		if (count($values) === count($keys)) {
+			foreach ($keys as &$key) $key = '`'.trim($key,'`').'`';
 			$query .= " (".implode(',',$keys).")";
 			$data = ltrim($data,',');
 		} else {
@@ -181,6 +182,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		$query = "INSERT INTO {$this->prefix}$table";
 		
 		if (count(current($rows)) === count($keys)) {
+			foreach ($keys as &$key) $key = '`'.trim($key,'`').'`';
 			$query .= " (".implode(',',$keys).")";
 			$prepend = '';
 		} else {
@@ -218,9 +220,9 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		}
 		
 		$query = "UPDATE {$this->prefix}$table SET ";
-		
+
 		foreach ($fields as $field) {
-			$query .= "$field = ?,";
+			$query .= "`$field `= ?,";
 		}
 		
 		$query = rtrim($query,',');
