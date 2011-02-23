@@ -90,7 +90,7 @@ CREATE TABLE `{pr}art` (
   `comments` int(10) unsigned NOT NULL,
   `variations` int(10) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `area` enum('workshop','main','flea','cg','sprites','deleted') COLLATE utf8_unicode_ci NOT NULL,
+  `area` enum('workshop','main','flea','cg','sprites','variation','deleted') COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `md5` (`md5`),
   KEY `selector` (`area`,`date`),
