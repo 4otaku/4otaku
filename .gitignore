@@ -27,7 +27,7 @@ files/post/audio/*
 files/post/image/*
 !files/post/image/index.php
 
-files/post/other/*
-!files/post/other/index.php
+files/post/plain/*
+!files/post/plain/index.php
 
 misc/*
