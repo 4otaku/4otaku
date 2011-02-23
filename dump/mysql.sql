@@ -127,7 +127,7 @@ CREATE TABLE `{pr}art_cg_pack` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `md5` varchar(32) NOT NULL,
   `filename` varchar(2040) NOT NULL,
-  `filesize` int(10) unsigned NOT NULL,
+  `weight` int(10) unsigned NOT NULL,
   `cover` varchar(32) NOT NULL,
   `title` varchar(255) NOT NULL,
   `text` text NOT NULL,
