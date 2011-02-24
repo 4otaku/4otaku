@@ -152,3 +152,22 @@ CREATE TABLE `{pr}art_translation` (
   KEY `selector` (`item_id`, `active`),
   UNIQUE KEY `sort` (`item_id`, `date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `{pr}comment`;
+CREATE TABLE `{pr}comment` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `root` int(10) unsigned NOT NULL,
+  `parent` int(10) unsigned NOT NULL,
+  `place` varchar(32) character set utf8 NOT NULL,
+  `item_id` int(10) unsigned NOT NULL,
+  `area` enum('workshop','main','flea','cg','sprites','variation','deleted') character set utf8 NOT NULL,
+  `username` varchar(256) character set utf8 NOT NULL default 'Анонимно',
+  `email` varchar(256) character set utf8 NOT NULL default 'default@avatar.mail',
+  `ip` int(10) unsigned NOT NULL,
+  `cookie` varchar(32) character set utf8 NOT NULL,
+  `text` text character set utf8 NOT NULL,
+  `pretty_text` text character set utf8 NOT NULL,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  KEY `selector` (`place`,`item_id`,`root`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
