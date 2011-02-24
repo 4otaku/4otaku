@@ -14,7 +14,6 @@ CREATE TABLE `{pr}meta` (
   `type` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `variants` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `color` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Tags only',
   `item_type` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Categories only',
   PRIMARY KEY (`id`),
