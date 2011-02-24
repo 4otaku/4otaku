@@ -17,7 +17,7 @@ CREATE TABLE `{pr}meta` (
   `color` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Tags only',
   `item_type` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Categories only',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `identity` (`type`,`alias`)
+  UNIQUE KEY `identity` (`type`,`alias`,`item_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `{pr}tag_variants`;
