@@ -35,8 +35,8 @@ CREATE TABLE `{pr}post` (
   `text` text COLLATE utf8_general_ci NOT NULL,
   `pretty_text` text COLLATE utf8_general_ci NOT NULL,
   `meta` text COLLATE utf8_general_ci NOT NULL,
-  `comments` int(10) unsigned NOT NULL,
-  `updates` int(10) unsigned NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
+  `updates` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `area` enum('workshop','main','flea','deleted') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -67,7 +67,7 @@ CREATE TABLE `{pr}video` (
   `text` text COLLATE utf8_general_ci NOT NULL,
   `pretty_text` text COLLATE utf8_general_ci NOT NULL,
   `meta` text COLLATE utf8_general_ci NOT NULL,
-  `comments` int(10) unsigned NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `area` enum('workshop','main','flea','deleted') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -89,8 +89,8 @@ CREATE TABLE `{pr}art` (
   `source` varchar(510) COLLATE utf8_general_ci NOT NULL,
   `parent_id` int(10) unsigned DEFAULT NULL,
   `meta` text COLLATE utf8_general_ci NOT NULL,
-  `comments` int(10) unsigned NOT NULL,
-  `variations` int(10) unsigned NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
+  `variations` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `area` enum('workshop','main','flea','cg','sprites','variation','deleted') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -118,6 +118,7 @@ CREATE TABLE `{pr}art_pool` (
   `order` text NOT NULL,
   `password` varchar(32) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
@@ -136,6 +137,7 @@ CREATE TABLE `{pr}art_cg_pack` (
   `pretty_text` text NOT NULL,
   `count` int(10) unsigned,
   `order` text NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `md5` (`md5`),
@@ -163,7 +165,7 @@ CREATE TABLE `{pr}comment` (
   `parent` int(10) unsigned NOT NULL,
   `place` varchar(32) character set utf8 NOT NULL,
   `item_id` int(10) unsigned NOT NULL,
-  `area` enum('workshop','main','flea','cg','sprites','variation','deleted') character set utf8 NOT NULL,
+  `area` enum('workshop','main','flea','cg','sprites','variation','open','completed','dropped','deleted') character set utf8 NOT NULL,
   `username` varchar(256) character set utf8 NOT NULL default 'Анонимно',
   `email` varchar(256) character set utf8 NOT NULL default 'default@avatar.mail',
   `ip` int(10) unsigned NOT NULL,
@@ -173,7 +175,7 @@ CREATE TABLE `{pr}comment` (
   `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   KEY `selector` (`place`,`item_id`,`root`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `{pr}cron`;
 CREATE TABLE `{pr}cron` (
@@ -185,14 +187,58 @@ CREATE TABLE `{pr}cron` (
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `logs`;
-CREATE TABLE `logs` (
+DROP TABLE IF EXISTS `{pr}logs`;
+CREATE TABLE `{pr}logs` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `room` varchar(64) character set utf8 NOT NULL,
-  `cache` mediumtext NOT NULL,
+  `room` varchar(64) NOT NULL,
+  `html` mediumtext NOT NULL,
+  `text` text NOT NULL,
   `year` smallint(5) unsigned NOT NULL,
   `month` tinyint(3) unsigned NOT NULL,
   `day` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `identity` (`room`,`year`,`month`,`day`)
+  UNIQUE KEY `identity` (`room`,`year`,`month`,`day`),
+  FULLTEXT KEY `text` (`text`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `{pr}news`;
+CREATE TABLE `{pr}news` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `url` varchar(255) character set utf8 collate utf8_general_ci NOT NULL,
+  `title` varchar(510) character set utf8 collate utf8_general_ci NOT NULL,
+  `text` text character set utf8 collate utf8_general_ci NOT NULL,
+  `pretty_text` text character set utf8 collate utf8_general_ci NOT NULL,
+  `image` varchar(255) character set utf8 collate utf8_general_ci NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `area` enum('workshop','main') character set utf8 collate utf8_general_ci NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `url` (`url`),
+  KEY `selector` (`area`,`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `{pr}order`;
+CREATE TABLE `{pr}order` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(510) character set utf8 collate utf8_unicode_ci NOT NULL,
+  `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+  `email` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+  `spam` tinyint(1) unsigned NOT NULL,
+  `text` text character set utf8 collate utf8_unicode_ci NOT NULL,
+  `pretty_text` text character set utf8 collate utf8_unicode_ci NOT NULL,
+  `meta` text NOT NULL,
+  `comments` smallint(5) unsigned NOT NULL,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `area` enum('open','completed','dropped','deleted') NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `selector` (`area`,`date`),
+  FULLTEXT KEY `index` (`meta`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `{pr}order_links`;
+CREATE TABLE `{pr}order_links` (
+  `order_id` int(10) unsigned NOT NULL,
+  `sort` smallint(5) unsigned NOT NULL,
+  `link` text NOT NULL,
+  PRIMARY KEY  (`order_id`,`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
