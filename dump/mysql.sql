@@ -221,8 +221,8 @@ DROP TABLE IF EXISTS `{pr}order`;
 CREATE TABLE `{pr}order` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(510) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `email` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+  `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Анонимус',
+  `email` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'default@avatar.mail',
   `spam` tinyint(1) unsigned NOT NULL,
   `text` text character set utf8 collate utf8_unicode_ci NOT NULL,
   `pretty_text` text character set utf8 collate utf8_unicode_ci NOT NULL,
