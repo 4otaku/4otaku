@@ -51,8 +51,11 @@ CREATE TABLE `{pr}post_items` (
   `type` enum('image','link','info','file') NOT NULL,
   `sort_number` int(10) unsigned NOT NULL,
   `data` text NOT NULL,
+  `last_check` timestamp NULL default CURRENT_TIMESTAMP,
+  `status` enum('ok','broken','unclear') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`)
+  UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`),
+  KEY `last_check` (`last_check`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `{pr}video`;
@@ -171,3 +174,25 @@ CREATE TABLE `{pr}comment` (
   PRIMARY KEY  (`id`),
   KEY `selector` (`place`,`item_id`,`root`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `{pr}cron`;
+CREATE TABLE `{pr}cron` (
+  `name` varchar(64) NOT NULL,
+  `last_call` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `period` time NOT NULL default '00:01:00',
+  `runtime` float unsigned NOT NULL,
+  `memory` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE `logs` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `room` varchar(64) character set utf8 NOT NULL,
+  `cache` mediumtext NOT NULL,
+  `year` smallint(5) unsigned NOT NULL,
+  `month` tinyint(3) unsigned NOT NULL,
+  `day` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `identity` (`room`,`year`,`month`,`day`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
