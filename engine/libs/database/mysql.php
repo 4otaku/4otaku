@@ -62,7 +62,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 			$values = implode(',', $values);
 		}
 		
-		$query = "SELECT $values FROM {$this->prefix}$table";
+		$query = "SELECT $values FROM `{$this->prefix}$table`";
 		
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";
@@ -152,7 +152,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		$values = (array) $values;
 		$keys = (array) $keys;
 		
-		$query = "INSERT INTO {$this->prefix}$table";
+		$query = "INSERT INTO `{$this->prefix}$table`";
 		
 		$data = str_repeat(',?',count($values));
 		
@@ -167,7 +167,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		if (empty($deny_condition)) {
 			$query .= " VALUES($data)";
 		} else {
-			$query .= " SELECT $data FROM helper WHERE NOT EXISTS (SELECT * FROM $table WHERE $deny_condition)";
+			$query .= " SELECT $data FROM helper WHERE NOT EXISTS (SELECT * FROM `$table` WHERE $deny_condition)";
 			$values = array_merge($values, $deny_params);
 		}
 		
@@ -179,7 +179,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	public function bulk_insert($table, $rows, $keys = false) {
 		$keys = (array) $keys;
 		
-		$query = "INSERT INTO {$this->prefix}$table";
+		$query = "INSERT INTO `{$this->prefix}$table`";
 		
 		if (count(current($rows)) === count($keys)) {
 			foreach ($keys as &$key) $key = '`'.trim($key,'`').'`';
@@ -219,7 +219,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 			$condition = 'id = '.$condition;
 		}
 		
-		$query = "UPDATE {$this->prefix}$table SET ";
+		$query = "UPDATE `{$this->prefix}$table` SET ";
 
 		foreach ($fields as $field) {
 			$query .= "`$field `= ?,";
@@ -237,7 +237,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	}	
 	
 	public function delete($table, $condition = false) {
-		$query = "DELETE FROM {$this->prefix}$table";
+		$query = "DELETE FROM `{$this->prefix}$table`";
 		
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";

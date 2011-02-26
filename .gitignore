@@ -18,6 +18,18 @@ images/art/thumbnail/*
 images/art/large_thumbnail/*
 !images/art/large_thumbnail/index.php
 
+images/post/full/*
+!images/post/full/index.php
+
+images/post/thumbnail/*
+!images/post/thumbnail/index.php
+
+images/news/full/*
+!images/news/full/index.php
+
+images/news/thumbnail/*
+!images/news/thumbnail/index.php
+
 files/art/cg_packs/*
 !files/art/cg_packs/index.php
 
