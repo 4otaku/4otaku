@@ -3,6 +3,7 @@ cache/*
 
 config/*
 .htaccess
+!templates/minify/.htaccess
 
 yandex_*
 
