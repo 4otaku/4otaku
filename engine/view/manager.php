@@ -2,6 +2,7 @@
 	
 class Manager
 {
+	protected static $template_type = 'web';
 	protected static $template = 'default';
 	protected static $template_engine = false;
 	protected $data = array();
@@ -14,17 +15,26 @@ class Manager
 		if (!empty($templater)) {
 			self::$template_engine = $templater;
 		}
+
+		if (!empty($data['template'])) {
+			self::$template = $data['template'];
+		}
 	}
 	
 	public function postprocess() {
-		
+
 	}
 	
 	public function output() {
 		if (!empty(self::$template_engine)) {
 			include_once ENGINE.SL.'templaters'.SL.self::$template_engine.'.php';
-			
-			call_user_func(self::$template_engine . '_load_template', self::$template, $this->data);
+				
+			call_user_func(
+				self::$template_engine . '_load_template', 
+				self::$template_type, 
+				self::$template, 
+				$this->data
+			);
 		} else {
 			global $data;
 			
@@ -32,5 +42,5 @@ class Manager
 			
 			include_once ROOT.SL.'templates'.SL.self::$template.SL.'index.php';
 		}
-	}	
+	}
 }

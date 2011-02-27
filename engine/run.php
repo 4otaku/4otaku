@@ -17,7 +17,7 @@
 	$query->call->make_clean();
 	
 	// Ядро обрабатывает запрос
-	$core = new Core($query);
+	$core = new Core($query->query);
 	$data = $core->call->process();
 	
 	// Полученный результат подхватывает менеджер представлений

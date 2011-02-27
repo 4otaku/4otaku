@@ -1,0 +1,37 @@
+<div class="shell">
+	<div class="post" id="post-{{post.id}}">
+		<div class="innerwrap">
+			<table width="100%">
+				<tr>
+					<td align="left">
+						<h2>
+							<a href="/post/{{post.id}}" title="{{post.title}}">
+								{{post.title}}
+							</a>
+						</h2>
+					</td>
+					<td align="right" valign="top">
+						<a href="/post/{{post.id}}">
+							Комментировать
+						</a>
+						{% if post.comments %}
+							({{post.comments}})
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+					<td class="imageholder">
+
+					</td>			
+					<td valign="top">
+						<div class="posttext">
+							{{post.text|raw}}
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

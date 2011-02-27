@@ -4,7 +4,7 @@
 	
 	Twig_Autoloader::register();
 
-	function twig_load_template($template, $params) {
+	function twig_load_template($template_type, $template, $params) {
 		$loader = new Twig_Loader_Filesystem(ROOT.SL.'templates');
 		
 		$twig = new Twig_Environment($loader, array(
@@ -12,7 +12,7 @@
 		  'auto_reload' => true
 		));
 	
-		$template = $twig->loadTemplate($template.SL.'index.html');
+		$template = $twig->loadTemplate($template_type.SL.$template.'.html');
 		
 		$template->display($params);
 	}

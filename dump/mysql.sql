@@ -229,7 +229,7 @@ CREATE TABLE `{pr}order` (
   `meta` text NOT NULL,
   `comments` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  `area` enum('open','completed','dropped','deleted') NOT NULL,
+  `area` enum('open','completed','dropped','deleted') NOT NULL default 'open',
   PRIMARY KEY  (`id`),
   KEY `selector` (`area`,`date`),
   FULLTEXT KEY `index` (`meta`)

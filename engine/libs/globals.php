@@ -28,15 +28,12 @@ final class Globals extends Objects
 	}
 	
 	public static function get_url($request) {
-		
+
 		$request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $request);
 		$url = explode('/', preg_replace('/\?[^\/]+$/', '', $request)); 
-
-		if (isset($url[0])) {
-			unset($url[0]);
-		}		
-		if (empty($url[1])) {
-			$url[1] = 'index';
+	
+		if (empty($url[0])) {
+			$url[0] = 'index';
 		}
 		
 		self::$url = $url;

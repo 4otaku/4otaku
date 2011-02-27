@@ -6,30 +6,33 @@ class Query
 	// Хранит объект контроллера
 	public $controller;
 	
+	// Хранит сам запрос
+	public $query = array();	
+	
 	function __construct() {
 		$this->call = Plugins::extend($this);
 	}
 	
 	function get_controller() {		
 		if (!empty(Globals::$user['mobile'])) {
-			$this->controller = new Mobile_Controller($this);
+			$this->controller = new Controller_Mobile($this);
 			return;
 		}
 		
 		if (!empty(Globals::$vars['ajax'])) {
-			$this->controller = new Ajax_Controller($this);
+			$this->controller = new Controller_Ajax($this);
 			return;
 		}
 		
-		$this->controller = new Default_Controller($this);
+		$this->controller = new Controller_Default($this);
 	}
 	
 	public function make_clean() {
 		$params = get_object_vars($this);
 		
-		foreach (array ($params) as $name => $param) {
+		foreach ($this->query as $name => $param) {
 			if (Validate::is_invalid($name, $param)) {
-				unset($this->$name);
+				unset($this->query[$name]);
 			}
 		}
 	}
