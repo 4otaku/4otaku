@@ -7,6 +7,10 @@ class Output_Post implements Output_Interface
 	}
 	
 	public function get_function($url) {
+		if (is_numeric($url[1])) {
+			return 'single';
+		}
+		
 		return 'listing';
 	}
 	
@@ -16,6 +20,14 @@ class Output_Post implements Output_Interface
 		$query['start'] = 1;
 		$query['end'] = 5;
 		
+		
+		return $query;
+	}	
+	
+	public function single() {
+		$query = array();
+		
+		$query['id'] = Globals::$url[1];		
 		
 		return $query;
 	}	
