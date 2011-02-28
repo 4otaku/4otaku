@@ -2,7 +2,7 @@
 	
 class Crypt
 {	
-	public function pack_array($array) {
+	public static function pack_array($array) {
 		if (function_exists('igbinary_serialize')) {
 			$array = igbinary_serialize($array);
 		} else {
@@ -12,7 +12,7 @@ class Crypt
 		return rtrim(base64_encode($array),'=');
 	}
 	
-	public function unpack_array($string) {
+	public static function unpack_array($string) {
 		$string = base64_decode($string);
 		
 		if (function_exists('igbinary_unserialize')) {

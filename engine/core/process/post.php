@@ -14,7 +14,35 @@ class Process_Post
 		
 		$condition = "area = 'main' order by date desc limit $start, $number";
 		
-		$return['posts'] = Globals::db()->get_table('post',$condition);
+		$return['posts'] = Globals::db()->get_vector('post',$condition);
+		
+		$keys = array_keys($return['posts']);
+		
+		$condition = "item_id in (".str_repeat('?,',count($keys)-1)."?)";
+		
+		$items = Globals::db()->get_table('post_items',$condition,'item_id,type,sort_number,data',$keys);
+		
+		foreach ($items as $item) {
+			if ($item['type'] != 'link') {
+				$return['posts'][$item['item_id']][$item['type']][$item['sort_number']]
+					 = Crypt::unpack_array($item['data']);
+			} else {
+				$data = Crypt::unpack_array($item['data']);
+				
+				$crc = crc32($data['name'].'&'.$data['size'].'&'.$data['sizetype']);
+				
+				$link = & $return['posts'][$item['item_id']]['link'][$crc];
+				
+				if (!empty($link)) {
+					$link['url'][$data['url']] = $data['alias'];
+				} else {
+					$link = $data;
+					$link['url'] = array($link['url'] => $link['alias']);
+				}
+			}
+		}
+
+		unset ($link);
 
 		return $return;
 	}

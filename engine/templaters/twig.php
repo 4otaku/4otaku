@@ -9,7 +9,8 @@
 		
 		$twig = new Twig_Environment($loader, array(
 		  'cache' => ROOT.SL.'cache',
-		  'auto_reload' => true
+		  'auto_reload' => true,
+		  'autoescape' => false
 		));
 	
 		$template = $twig->loadTemplate($template_type.SL.$template.'.html');

@@ -108,7 +108,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 				$row = reset($row);
 			}
 			
-			$return[$key] = $row;
+			$return[$id] = $row;
 		}
 		
 		return $return;
