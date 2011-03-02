@@ -3,68 +3,59 @@
 class Controller_Web extends Controller_Abstract
 {
 	public function build() {
-		$tests = get_class_methods($this);
+		Globals::$preferences = Cookie::get_preferences(Globals::$user['cookie']);
 
-		if (!empty(Globals::$vars['do'])) {
-			$do = explode('.',Globals::$vars['do']);
-			
-			if (count($do) != 2) {
-				Error::fatal("Неверный формат аргумента 'do'");
-			}
-			
-			$classname = 'input_'.$do[0];
-			
-			if (!class_exists($classname)) {
-				Error::fatal("Не удалось найти класс $classname");
-			}
-			
-			$worker = new $classname();
-			
-			$function = $do[1];
-			
-			if (!method_exists($worker, $function)) {
-				Error::fatal("Не удалось найти метод $function в $classname");
-			}			
-			
-			$this->query = (array) $worker->call->$function();
-			return;
+		if (array_key_exists('do', Globals::$vars)) {
+			return $this->call->build_input(Globals::$vars, Globals::$preferences);
 		}
+		
+		return $this->call->build_output(Globals::$url, Globals::$preferences);
+	}
+	
+	public function build_input($vars, $preferences) {
+		$do = explode('.', $vars['do']);
+		
+		if (count($do) != 2) {
+			Error::fatal("Неверный формат аргумента 'do'");
+		}
+		
+		$query = array(
+			'type' => 'input',
+			'class' => $do[0],
+			'function' => $do[1],
+		);
+		
+		return array_merge($vars, $query); 
+	}
+	
+	public function build_output($url, $preferences) {
+		$tests = get_class_methods('Test_Web_Output');
 		
 		foreach ($tests as $test) {
-			if (
-				strpos('is_',$test) === 0 &&
-				($arguments = $this->$test())
-			) {
-				$classname = str_replace('is_','output_',$test);
-				if (class_exists($classname)) {
-					break;
-				} else {
-					Error::warning("Не удалось найти класс $classname");
-				}
+			$test = Test_Web_Output::$test($url);
+			if (!empty($test)) {
+				$url = (array) $test;
+				break;
 			}
 		}
-
-		if (empty($classname)) {
-			$classname = 'output_'.Globals::$url[0];
+		
+		$class = array_shift($url);
+		
+		$query = array(
+			'type' => 'output',
+			'class' => $class,
+		);
+		
+		if (
+			array_key_exists('mixed', $url) &&
+			array_key_exists('mixed', $preferences)
+		) {
+			$url['mixed'] = array_replace_recursive(
+				$preferences['mixed'], 
+				$url['mixed']
+			);
 		}
 		
-		if (class_exists($classname)) {
-			$worker = new $classname();
-		} else {
-//			Тут должен быть вызов ошибки
-			$worker = new Output_Index();
-		}
-	
-		if ($worker instanceOf Output_Interface) {
-			$function = $worker->call->get_function(Globals::$url);		
-		
-			$query = (array) $worker->call->$function();
-			return array_merge(array(
-				'area' => str_replace('output_','',$classname),
-				'type' => $function,
-			), $query);
-		}		
-		
-		Error::fatal("Не удалось найти исполнителя для запроса");
+		return array_merge($url, $query); 
 	}
 }

@@ -1,13 +1,17 @@
 <?
 
-class Process_Post
+class Output_Post extends Output_Abstract
 {
-	public function __construct() {
-		$this->call = Plugins::extend($this);
+	public function get_data($query) {
+		if (isset($query[0]) && is_numeric($query[0])) {
+			return $this->single($query);
+		}
+		
+		return $this->listing($query);
 	}
 	
 	public function single($query) {
-		$post = Globals::db()->get_row('post',$query['id']);
+		$post = Globals::db()->get_row('post',$query[0]);
 		
 		$items = $this->call->get_items($post['id']);
 		
@@ -20,6 +24,9 @@ class Process_Post
 	
 	public function listing($query) {
 		$return = array();
+		
+		$query['start'] = 1;
+		$query['end'] = 5;
 		
 		$start = $query['start'] - 1;
 		$number = $query['end'] - $query['start'] + 1;
@@ -71,5 +78,5 @@ class Process_Post
 		}
 		
 		return $return;	
-	}
+	}	
 }

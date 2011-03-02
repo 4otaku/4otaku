@@ -19,8 +19,8 @@
 	Globals::$query = Objects::$controller->build();
 	
 	// Ядро обрабатывает запрос
-	$core = new Core(Globals::$query);
-	Globals::$data = $core->call->process();
+	$core = new Core();
+	Globals::$data = $core->call->process(Globals::$query);
 	
 	// Полученный результат подхватывает менеджер представлений
 	$view = new Manager(Globals::$data);

@@ -11,6 +11,9 @@ final class Globals extends Objects
 	// Для информации о пользователе
 	public static $user = array();
 	
+	// Настройки пользователя
+	public static $preferences;
+	
 	// Для самого запроса
 	public static $query = array();	
 	
