@@ -10,18 +10,20 @@
 		Plugins::load($plugin_file);
 	}	
 	
-	// Контроллер формирует запрос общего вида в ядро.
-	$query = new Query();
-	$query->call->get_controller();
-	$query->controller->call->build();
-	$query->call->make_clean();
+	// Определяем тип запроса, и выбираем контроллер.
+	
+	Objects::$controller = new Controller();
+	
+	// Унифицируем запрос с помощью контроллера
+	
+	Globals::$query = Objects::$controller->build();
 	
 	// Ядро обрабатывает запрос
-	$core = new Core($query->query);
-	$data = $core->call->process();
+	$core = new Core(Globals::$query);
+	Globals::$data = $core->call->process();
 	
 	// Полученный результат подхватывает менеджер представлений
-	$view = new Manager($data);
+	$view = new Manager(Globals::$data);
 	$view->call->postprocess();
 	
 	// И выводит пользователю, используя подходящий шаблонизатор

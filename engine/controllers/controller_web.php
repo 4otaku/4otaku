@@ -1,6 +1,6 @@
 <?
 
-class Controller_Default extends Controller_Abstract
+class Controller_Web extends Controller_Abstract
 {
 	public function build() {
 		$tests = get_class_methods($this);
@@ -43,7 +43,7 @@ class Controller_Default extends Controller_Abstract
 				}
 			}
 		}
-		
+
 		if (empty($classname)) {
 			$classname = 'output_'.Globals::$url[0];
 		}
@@ -54,16 +54,15 @@ class Controller_Default extends Controller_Abstract
 //			Тут должен быть вызов ошибки
 			$worker = new Output_Index();
 		}
-		
+	
 		if ($worker instanceOf Output_Interface) {
 			$function = $worker->call->get_function(Globals::$url);		
 		
-			$this->query = (array) $worker->call->$function();
-			$this->query = array_merge(array(
+			$query = (array) $worker->call->$function();
+			return array_merge(array(
 				'area' => str_replace('output_','',$classname),
 				'type' => $function,
-			), $this->query);
-			return;
+			), $query);
 		}		
 		
 		Error::fatal("Не удалось найти исполнителя для запроса");

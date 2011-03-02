@@ -2,14 +2,20 @@
 
 final class Globals extends Objects
 {
-	// Хранилище для загруженных данных
+	// Для загруженных данных
 	public static $vars = array();
 	
-	// Хранилище для адреса запроса
+	// Для адреса запроса
 	public static $url = array();	
 	
-	// Хранилище для информации о пользователе
-	public static $user = array();		
+	// Для информации о пользователе
+	public static $user = array();
+	
+	// Для самого запроса
+	public static $query = array();	
+	
+	// Для полученных из ядра данных
+	public static $data = array();		
 	
 	static private $safe_replacements = array(
 		'&' => '&amp;',

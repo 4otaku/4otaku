@@ -1,11 +1,8 @@
 <?
 
 abstract class Controller_Abstract
-{
-	protected $query;
-	
-	public function __construct(&$query) {
-		$this->query = & $query->query;
+{	
+	public function __construct() {
 		$this->call = Plugins::extend($this);
 	}
 	

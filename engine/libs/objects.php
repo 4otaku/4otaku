@@ -5,6 +5,9 @@ class Objects
 	// Хранилище для объектов баз данных
 	protected static $bases = array();
 	
+	// Для контроллера запроса
+	public static $controller = false;	
+	
 	// Обращается к объекту базы данных
 	public static function db($name = 'main') {
 		if (empty(self::$bases[$name])) {
