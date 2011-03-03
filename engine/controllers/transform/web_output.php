@@ -21,13 +21,25 @@ class Transform_Web_Output
 	
 	public function get_mixed($url) {
 		
-		if (isset($url[1]) && $url[1] == 'mixed') {
+		if (isset($url[1]) && $url[1] == 'mixed' && isset($url[2])) {
 			$mixed = Mixed::parse($url[2]);
 			
 			array_splice($url, 1, 2);
 			
 			return array('mixed' => $mixed, 'function' => 'listing');
 		}
+	}
+	
+	public function get_page($url) {		
+		
+		if (isset($url[1]) && $url[1] == 'page' && isset($url[2]) && is_numeric($url[2])) {
+			
+			$page = array_splice($url, 1, 2);
+			
+			return array_merge($url, array('page' => end($page), 'function' => 'listing'));
+		}
+		
+		return $url;
 	}
 	
 	public function get_id($url) {		

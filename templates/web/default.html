@@ -60,8 +60,11 @@
 				<div class="post">
 					{% for id, post in posts %}
 						{% include 'web/single/post.html' %}
-					{% endfor %}
+					{% endfor %}			
 				</div>
+				{% if navi %}
+					{% include 'web/navi.html' %}
+				{% endif %}
 			</td>
 			<td valign="top" id="sidebar">
 				
@@ -86,4 +89,4 @@
 		</tr>
 	</table>
 </body>
-</html>				
+</html>

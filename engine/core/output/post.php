@@ -15,28 +15,41 @@ class Output_Post extends Output_Abstract
 	}	
 	
 	public function listing($query) {
-		$return = array();
+		$return = array();	
 		
-		$query['start'] = 1;
-		$query['end'] = 5;
+		// TODO: perpage и area=main костыли, избавиться
+		$perpage = 5;
 		
-		$start = $query['start'] - 1;
-		$number = $query['end'] - $query['start'] + 1;
+		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
 		
-		$condition = "area = 'main' order by date desc limit $start, $number";
+		$start = ($page - 1) * $perpage;
+		
+		$listing_condition = $this->call->build_listing_condition($query);
+		
+		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 		
 		$return['posts'] = Globals::db()->get_vector('post',$condition);
-		
+
 		$keys = array_keys($return['posts']);
 		
 		$items = $this->call->get_items($keys);
 		
 		foreach ($return['posts'] as $id => & $post) {
 			$post = array_merge($post, (array) $items[$id]);
-		}
+		}		
+		
+		$count = Globals::db()->get_field('post',$listing_condition,'count(*)');
+		
+		$return['curr_page'] = $page;
+		$return['pagecount'] = ceil($count / $perpage);
 
 		return $return;
 	}
+	
+	public function build_listing_condition($query) {	
+		
+		return "area = 'main'";	
+	}		
 	
 	public function get_items($ids) {
 		$ids = (array) $ids;
