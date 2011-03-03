@@ -21,14 +21,17 @@ class Core
 	
 	public function process_output($query) {
 		$classname = 'output_'.$query['class'];
+		$function = $query['function'];
 		
 		if (!class_exists($classname)) {
-			$classname = 'process_error';
+			// TODO: здесь должен быть нормальный вывод ошибки
+			$classname = 'output_index';
+			$function = 'index';
 		}
 	
 		$worker = new $classname();		
 		
-		$return = (array) $worker->call->get_data($query);
+		$return = (array) $worker->call->$function($query);
 		
 		$return['domain'] = 'http://beta.4otaku.ru';
 		

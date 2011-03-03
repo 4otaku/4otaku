@@ -1,17 +1,9 @@
 <?
 
 class Output_Post extends Output_Abstract
-{
-	public function get_data($query) {
-		if (isset($query[0]) && is_numeric($query[0])) {
-			return $this->single($query);
-		}
-		
-		return $this->listing($query);
-	}
-	
+{	
 	public function single($query) {
-		$post = Globals::db()->get_row('post',$query[0]);
+		$post = Globals::db()->get_row('post',$query['id']);
 		
 		$items = $this->call->get_items($post['id']);
 		
