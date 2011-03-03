@@ -1,0 +1,45 @@
+<div id="navi_bottom">
+	<code>
+		<ul>
+			<li class="page_info">
+				Страница {{curr_page}} из {{pagecount}}
+			</li>
+			{% if navi_back %}
+				<li>
+					<a href="{{navi_back}}">
+						&lt;
+					</a>
+				</li>
+			{% endif %}
+			{% for number, element in navi %}
+				{% if element.type == 'active' %}
+					<li class="active_page">
+						<a href="{{element.url}}">
+							{{number}}
+						</a>
+					</li>
+				{% elseif element.type == 'enabled' %}
+					<li>
+						<a href="{{element.url}}">
+							{{number}}
+						</a>
+					</li>				
+				{% else %}
+					<li class="space">
+						...
+					</li>
+				{% endif %}
+			{% endfor %}
+			{% if navi_forward %}
+				<li>
+					<a href="{{navi_forward}}">
+						&gt;
+					</a>
+				</li>
+			{% endif %}
+		</ul>
+		<div>
+			&nbsp;
+		</div>
+	</code>
+</div>
