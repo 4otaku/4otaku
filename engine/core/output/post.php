@@ -7,7 +7,7 @@ class Output_Post extends Output_Abstract
 		
 		$items = $this->call->get_items($post['id']);
 		
-		$return['posts'] = array(
+		$return['items'] = array(
 			$post['id'] => array_merge($post, current($items))
 		);
 
@@ -28,15 +28,24 @@ class Output_Post extends Output_Abstract
 		
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 		
-		$return['posts'] = Globals::db()->get_vector('post',$condition);
+		$return['items'] = Globals::db()->get_vector('post',$condition);
 
-		$keys = array_keys($return['posts']);
+		$keys = array_keys($return['items']);
+		$index = array();
 		
 		$items = $this->call->get_items($keys);
 		
-		foreach ($return['posts'] as $id => & $post) {
+		foreach ($return['items'] as $id => & $post) {
 			$post = array_merge($post, (array) $items[$id]);
-		}		
+			
+			$index[$id] = $post['meta'];
+			
+			$post['date'] = Globals::db()->date_to_unix($post['date']);
+		}
+		
+		$meta = Meta::prepare_meta($index);
+		
+		$return['items'] = array_replace_recursive($return['items'], $meta);
 		
 		$count = Globals::db()->get_field('post',$listing_condition,'count(*)');
 		
@@ -49,12 +58,12 @@ class Output_Post extends Output_Abstract
 	public function build_listing_condition($query) {	
 		
 		return "area = 'main'";	
-	}		
+	}
 	
 	public function get_items($ids) {
 		$ids = (array) $ids;
 		
-		$condition = "item_id in (".str_repeat('?,',count($ids)-1)."?)";
+		$condition = Globals::db()->array_in('item_id',$ids);
 		
 		$items = Globals::db()->get_table('post_items',$condition,'item_id,type,sort_number,data',$ids);
 		

@@ -15,7 +15,7 @@
 							Комментировать
 						</a>
 						{% if post.comments %}
-							({{post.comments}})
+							 ({{post.comments}})
 						{% endif %}
 					</td>
 				</tr>
@@ -99,6 +99,58 @@
 					</td>
 				</tr>
 			</table>
+		</div>
+		<div class="wrapper">
+			<p class="meta">
+				{{post.date}} | 
+				{{post.meta_header.author}} 
+				{% for key, author in post.meta.author %}
+					{% if not loop.first %}, {% endif %}																	
+					<a href="/post/author/{{author.alias}}/">
+						{{author.name}}
+					</a>
+				{% endfor %} | 
+				{{post.meta_header.category}} 
+				{% for key, category in post.meta.category %}
+					{% if not loop.first %}, {% endif %}																	
+					<a href="/post/author/{{category.alias}}/">
+						{{category.name}}
+					</a>
+				{% endfor %} | 
+				{{post.meta_header.language}} 
+				{% for key, language in post.meta.language %}
+					{% if not loop.first %}, {% endif %}
+					<a href="/post/author/{{language.alias}}/">
+						{{language.name}}
+					</a>
+				{% endfor %} | 
+				{{post.meta_header.tag}} 
+				{% if post.have_tag_variants %}
+					<span class="synonims">
+						<a href="#" class="disabled" title="Показать синонимы" rel="{{id}}">
+							&gt;&gt;
+						</a>
+					</span> 
+				{% endif %}
+				{% for key, tag in post.meta.tag %}
+					<a href="post/tag/{{tag.alias}}/">
+						{{tag.name}}
+					</a>
+					{% if not loop.last %}, {% endif %}
+					<span class="hidden tag_synonims tag_synonims_{{id}}">
+						{% if tag.variants %}
+							{% if loop.last %}, {% endif %}
+							{% for synonim in tag.variants %}
+								<a href="/post/tag/{{synonim|url_encode}}">
+									{{synonim}}
+								</a>
+								{% if not loop.last %}, {% endif %}
+							{% endfor %}
+						{% endif %}	
+						&nbsp;
+					</span>	
+				{% endfor %}
+			</p>
 		</div>
 	</div>
 </div>

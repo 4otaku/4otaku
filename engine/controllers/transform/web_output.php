@@ -22,7 +22,7 @@ class Transform_Web_Output
 	public function get_mixed($url) {
 		
 		if (isset($url[1]) && $url[1] == 'mixed' && isset($url[2])) {
-			$mixed = Mixed::parse($url[2]);
+			$mixed = Meta::parse_mixed_url($url[2]);
 			
 			array_splice($url, 1, 2);
 			

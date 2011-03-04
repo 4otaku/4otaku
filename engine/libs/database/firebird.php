@@ -93,7 +93,7 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return $return;
 	}
 	
-	public function get_vector($table, $condition = false, $values = '*', $params = false) {
+	public function get_vector($table, $condition = false, $values = '*', $params = false, $unset = true) {
 		if (is_array($values)) {
 			$key = array_shift($values);
 		} else {
@@ -110,7 +110,10 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
 			$id = $row[$key];
 			
-			unset($row[$key]);
+			if ($unset) {
+				unset($row[$key]);
+			}
+			
 			if (count($row) == 1) {
 				$row = reset($row);
 			}

@@ -24,4 +24,16 @@ abstract class Database_Common
 		
 		return $this->insert($table, $values, $keys);
 	}
+	
+	public function array_in($field, $array) {
+		return "$field in (".str_repeat('?,',count($array)-1)."?)";
+	}
+	
+	public function date_to_unix($date) {
+		return strtotime($date);
+	}
+	
+	public function unix_to_date($time) {
+		return date("Y-m-d H:i:s", $time);
+	}	
 }

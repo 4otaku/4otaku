@@ -86,9 +86,9 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return $return;
 	}
 	
-	public function get_vector($table, $condition = false, $values = '*', $params = false) {
+	public function get_vector($table, $condition = false, $values = '*', $params = false, $unset = true) {
 		if (is_array($values)) {
-			$key = array_shift($values);
+			$key = reset($values);
 		} else {
 			$key = 'id';
 		}
@@ -103,7 +103,10 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		while ($row = mysql_fetch_assoc($this->result)) {
 			$id = $row[$key];
 			
-			unset($row[$key]);
+			if ($unset) {
+				unset($row[$key]);
+			}
+			
 			if (count($row) == 1) {
 				$row = reset($row);
 			}
