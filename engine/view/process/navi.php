@@ -8,6 +8,10 @@ class Process_Navi extends Process_Abstract
 		
 		$base = '/post/';
 		
+		if (!empty(Globals::$query['meta']) && !empty(Globals::$query['alias'])) {
+			$base .= Globals::$query['meta'].'/'.Globals::$query['alias'].'/';
+		}
+		
 		$radius = max(1, (int) Config::template('navi', 'Radius'));
 		$low_end = max($data['curr_page'] - $radius, 2);
 		$high_end = min($data['curr_page'] + $radius, $data['pagecount'] - 1);

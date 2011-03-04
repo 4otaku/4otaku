@@ -52,7 +52,7 @@ class Output_Post extends Output_Abstract
 		$return['items'] = array_replace_recursive($return['items'], $meta);
 		
 		$count = Globals::db()->get_field('post',$listing_condition,'count(*)');
-		
+
 		$return['curr_page'] = $page;
 		$return['pagecount'] = ceil($count / $perpage);
 
@@ -60,8 +60,13 @@ class Output_Post extends Output_Abstract
 	}
 	
 	public function build_listing_condition($query) {	
+		$condition = "area = 'main'";
 		
-		return "area = 'main'";	
+		if (!empty($query['meta']) && !empty($query['alias'])) {
+			$condition .= " and match (meta) against ('+{$query['meta']}_{$query['alias']}' in boolean mode)";
+		}
+		
+		return $condition;
 	}
 	
 	public function get_items($ids) {
