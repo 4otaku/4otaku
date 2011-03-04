@@ -7,8 +7,12 @@ class Output_Post extends Output_Abstract
 		
 		$items = $this->call->get_items($post['id']);
 		
+		$post['date'] = Globals::db()->date_to_unix($post['date']);
+		
+		$meta = Meta::prepare_meta(array($post['id'] => $post['meta']));
+		
 		$return['items'] = array(
-			$post['id'] => array_merge($post, current($items))
+			$post['id'] => array_merge($post, current($meta), current($items))
 		);
 
 		return $return;
