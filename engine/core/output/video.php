@@ -2,10 +2,23 @@
 
 class Output_Video extends Output_Abstract
 {	
+	protected $sizes = array();
+	
+	public function __construct($class_name) {
+		parent::__construct($class_name);
+		
+		$this->sizes = array(
+			Config::settings('video', 'Width'), 
+			Config::settings('video', 'Height')
+		);
+	}
+	
 	public function single($query) {
 		$video = Globals::db()->get_row('video',$query['id']);
 		
 		$video['date'] = Globals::db()->date_to_unix($video['date']);
+		
+		$video['object'] = Crypt::unpack($video['object']);
 		
 		$meta = Meta::prepare_meta(array($video['id'] => $video['meta']));
 		
@@ -40,6 +53,13 @@ class Output_Video extends Output_Abstract
 			$index[$id] = $video['meta'];
 			
 			$video['date'] = Globals::db()->date_to_unix($video['date']);
+			$video['object'] = Crypt::unpack($video['object']);
+			
+			$video['object'] = str_replace(
+				array('%video_width%','%video_height%'),
+				$this->sizes,
+				$video['object']
+			);
 		}
 		
 		$meta = Meta::prepare_meta($index);

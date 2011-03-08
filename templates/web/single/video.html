@@ -32,14 +32,14 @@
 				{{item.meta_header.author}} 
 				{% for key, author in item.meta.author %}
 					{% if not loop.first %}, {% endif %}																	
-					<a href="/post/author/{{author.alias}}/">
+					<a href="/video/author/{{author.alias}}/">
 						{{author.name}}
 					</a>
 				{% endfor %} | 
 				{{item.meta_header.category}} 
 				{% for key, category in item.meta.category %}
 					{% if not loop.first %}, {% endif %}																	
-					<a href="/post/author/{{category.alias}}/">
+					<a href="/video/author/{{category.alias}}/">
 						{{category.name}}
 					</a>
 				{% endfor %} | 
@@ -52,7 +52,7 @@
 					</span> 
 				{% endif %}
 				{% for key, tag in item.meta.tag %}
-					<a href="post/tag/{{tag.alias}}/">
+					<a href="/video/tag/{{tag.alias}}/">
 						{{tag.name}}
 					</a>
 					{% if not loop.last %}, {% endif %}
@@ -60,7 +60,7 @@
 						{% if tag.variants %}
 							{% if loop.last %}, {% endif %}
 							{% for synonim in tag.variants %}
-								<a href="/post/tag/{{synonim|url_encode}}">
+								<a href="/video/tag/{{synonim|url_encode}}">
 									{{synonim}}
 								</a>
 								{% if not loop.last %}, {% endif %}
@@ -69,18 +69,18 @@
 						&nbsp;
 					</span>	
 				{% endfor %}
-			</p>
 			{% if item.text %}
 				<span class="right">
-					<a href="#" class="show-description disabled" rel="<?=$item['id'];?>">
+					<a href="#" class="show-description disabled" rel="{{id}}">
 						Показать описание
 					</a> 
 					<span class="arrow arrow-<?=$item['id'];?>" rel="off">↓</span>
 				</span> 
 			{% endif %}
+			</p>
 		</div>
 		{% if item.text %}
-			<div class="shell post description description-<?=$item['id'];?> hidden">
+			<div class="shell post description description-{{id}} hidden">
 				<h2>
 					<span class="postlink">
 						<a href="#" class="disabled">

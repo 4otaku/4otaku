@@ -6,7 +6,7 @@ class Process_Navi extends Process_Abstract
 		
 		$data['navi'] = array();
 		
-		$base = '/post/';
+		$base = '/'.Globals::$query['class'].'/';
 		
 		if (!empty(Globals::$query['meta']) && !empty(Globals::$query['alias'])) {
 			$base .= Globals::$query['meta'].'/'.Globals::$query['alias'].'/';
