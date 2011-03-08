@@ -2,17 +2,17 @@
 	
 class Crypt
 {	
-	public static function pack_array($array) {
+	public static function pack($data) {
 		if (function_exists('igbinary_serialize')) {
-			$array = igbinary_serialize($array);
+			$data = igbinary_serialize($data);
 		} else {
-			$array = serialize($array);
+			$data = serialize($data);
 		}
 		
-		return rtrim(base64_encode($array),'=');
+		return rtrim(base64_encode($data),'=');
 	}
 	
-	public static function unpack_array($string) {
+	public static function unpack($string) {
 		$string = base64_decode($string);
 		
 		if (function_exists('igbinary_unserialize')) {

@@ -1,0 +1,98 @@
+<div class="shell post">
+	<div id="post-{{id}}">
+		<div class="innerwrap">
+			<table width="100%">
+				<tr>
+					<td align="left">
+						<h2>
+							<a href="/post/{{id}}" title="{{item.title}}">
+								{{item.title}}
+							</a>
+						</h2>
+					</td>
+					<td align="right" valign="top">
+						<a href="/post/{{item.id}}">
+							Комментировать
+						</a>
+						{% if item.comments %}
+							 ({{item.comments}})
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<div class="center clear">
+				<center>
+					{{item.object}}
+				</center>
+			</div>
+		</div>
+		<div class="wrapper">
+			<p class="meta">
+				{{item.date}} | 
+				{{item.meta_header.author}} 
+				{% for key, author in item.meta.author %}
+					{% if not loop.first %}, {% endif %}																	
+					<a href="/post/author/{{author.alias}}/">
+						{{author.name}}
+					</a>
+				{% endfor %} | 
+				{{item.meta_header.category}} 
+				{% for key, category in item.meta.category %}
+					{% if not loop.first %}, {% endif %}																	
+					<a href="/post/author/{{category.alias}}/">
+						{{category.name}}
+					</a>
+				{% endfor %} | 
+				{{item.meta_header.tag}} 
+				{% if item.have_tag_variants %}
+					<span class="synonims">
+						<a href="#" class="disabled" title="Показать синонимы" rel="{{id}}">
+							&gt;&gt;
+						</a>
+					</span> 
+				{% endif %}
+				{% for key, tag in item.meta.tag %}
+					<a href="post/tag/{{tag.alias}}/">
+						{{tag.name}}
+					</a>
+					{% if not loop.last %}, {% endif %}
+					<span class="hidden tag_synonims tag_synonims_{{id}}">
+						{% if tag.variants %}
+							{% if loop.last %}, {% endif %}
+							{% for synonim in tag.variants %}
+								<a href="/post/tag/{{synonim|url_encode}}">
+									{{synonim}}
+								</a>
+								{% if not loop.last %}, {% endif %}
+							{% endfor %}
+						{% endif %}	
+						&nbsp;
+					</span>	
+				{% endfor %}
+			</p>
+			{% if item.text %}
+				<span class="right">
+					<a href="#" class="show-description disabled" rel="<?=$item['id'];?>">
+						Показать описание
+					</a> 
+					<span class="arrow arrow-<?=$item['id'];?>" rel="off">↓</span>
+				</span> 
+			{% endif %}
+		</div>
+		{% if item.text %}
+			<div class="shell post description description-<?=$item['id'];?> hidden">
+				<h2>
+					<span class="postlink">
+						<a href="#" class="disabled">
+							Описание
+						</a>
+					</span>
+				</h2>
+				<br />
+				<div class="posttext">
+					{{item.text}}
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</div>

@@ -59,16 +59,6 @@ class Output_Post extends Output_Abstract
 		return $return;
 	}
 	
-	public function build_listing_condition($query) {	
-		$condition = "area = 'main'";
-		
-		if (!empty($query['meta']) && !empty($query['alias'])) {
-			$condition .= " and match (meta) against ('+{$query['meta']}_{$query['alias']}' in boolean mode)";
-		}
-		
-		return $condition;
-	}
-	
 	public function get_items($ids) {
 		$ids = (array) $ids;
 		
@@ -82,9 +72,9 @@ class Output_Post extends Output_Abstract
 			foreach ($items as $item) {
 				if ($item['type'] != 'link') {
 					$return[$item['item_id']][$item['type']][$item['sort_number']]
-						 = Crypt::unpack_array($item['data']);
+						 = Crypt::unpack($item['data']);
 				} else {
-					$data = Crypt::unpack_array($item['data']);
+					$data = Crypt::unpack($item['data']);
 					
 					$crc = crc32($data['name'].'&'.$data['size'].'&'.$data['sizetype']);
 					

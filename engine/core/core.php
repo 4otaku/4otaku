@@ -29,11 +29,11 @@ class Core
 			$function = 'index';
 		}
 	
-		$worker = new $classname();		
+		$worker = new $classname($query['class']);		
 		
 		$return = (array) $worker->call->$function($query);
 		
-		$return['domain'] = 'http://beta.4otaku.ru';
+		$return = $worker->call->common_postprocess($return);
 		
 		return $return;		
 	}

@@ -5,26 +5,26 @@
 				<tr>
 					<td align="left">
 						<h2>
-							<a href="/post/{{id}}" title="{{post.title}}">
-								{{post.title}}
+							<a href="/post/{{id}}" title="{{item.title}}">
+								{{item.title}}
 							</a>
 						</h2>
 					</td>
 					<td align="right" valign="top">
-						<a href="/post/{{post.id}}">
+						<a href="/post/{{item.id}}">
 							Комментировать
 						</a>
-						{% if post.comments %}
-							 ({{post.comments}})
+						{% if item.comments %}
+							 ({{item.comments}})
 						{% endif %}
 					</td>
 				</tr>
 			</table>
 			<table cellspacing="0" cellpadding="0" width="100%">
 				<tr>
-					{% if post.image %}
+					{% if item.image %}
 						<td class="imageholder">
-							{% for key, image in post.image %}
+							{% for key, image in item.image %}
 								<div class="image-{{key}}">
 									<a href="{{domain}}/images/post/full/{{image.file}}" target="_blank">
 										<img src="{{domain}}/images/post/thumbnail/{{image.file}}" /> 
@@ -35,11 +35,11 @@
 					{% endif %}
 					<td valign="top">
 						<div class="posttext">
-							{{post.text}}
+							{{item.text}}
 						</div>
-						{% if post.link %}
+						{% if item.link %}
 							<p>
-								{% for key, link in post.link %}
+								{% for key, link in item.link %}
 									{% if not loop.first %}<br />{% endif %}
 									{{link.name}}: 
 									{% for url, alias in link.url %}
@@ -52,9 +52,9 @@
 								{% endfor %}
 							</p>
 						{% endif %}	
-						{% if post.file %}
+						{% if item.file %}
 							<p class="post-files">
-								{% for key, file in post.file %}
+								{% for key, file in item.file %}
 									{% if not loop.first %}<br />{% endif %}
 									{% if file.type == 'plain' %}
 										<img src="/i/file.png" class="post-image"> 
@@ -85,9 +85,9 @@
 								{% endfor %}
 							</p>
 						{% endif %}
-						{% if post.info %}
+						{% if item.info %}
 							<p>
-								{% for key, info in post.info %}
+								{% for key, info in item.info %}
 									{% if not loop.first %}<br />{% endif %}
 									{{info.name}}: 
 									<a href="{{info.url}}" target="_blank">
@@ -102,37 +102,37 @@
 		</div>
 		<div class="wrapper">
 			<p class="meta">
-				{{post.date}} | 
-				{{post.meta_header.author}} 
-				{% for key, author in post.meta.author %}
+				{{item.date}} | 
+				{{item.meta_header.author}} 
+				{% for key, author in item.meta.author %}
 					{% if not loop.first %}, {% endif %}																	
 					<a href="/post/author/{{author.alias}}/">
 						{{author.name}}
 					</a>
 				{% endfor %} | 
-				{{post.meta_header.category}} 
-				{% for key, category in post.meta.category %}
+				{{item.meta_header.category}} 
+				{% for key, category in item.meta.category %}
 					{% if not loop.first %}, {% endif %}																	
 					<a href="/post/author/{{category.alias}}/">
 						{{category.name}}
 					</a>
 				{% endfor %} | 
-				{{post.meta_header.language}} 
-				{% for key, language in post.meta.language %}
+				{{item.meta_header.language}} 
+				{% for key, language in item.meta.language %}
 					{% if not loop.first %}, {% endif %}
 					<a href="/post/author/{{language.alias}}/">
 						{{language.name}}
 					</a>
 				{% endfor %} | 
-				{{post.meta_header.tag}} 
-				{% if post.have_tag_variants %}
+				{{item.meta_header.tag}} 
+				{% if item.have_tag_variants %}
 					<span class="synonims">
 						<a href="#" class="disabled" title="Показать синонимы" rel="{{id}}">
 							&gt;&gt;
 						</a>
 					</span> 
 				{% endif %}
-				{% for key, tag in post.meta.tag %}
+				{% for key, tag in item.meta.tag %}
 					<a href="post/tag/{{tag.alias}}/">
 						{{tag.name}}
 					</a>
