@@ -2,11 +2,9 @@
 
 class Transform_Web_Output
 {
-	public function check_index(& $url) {		
-		if ($url == array('index')) {
-			unset($url);
-			
-			return array('function' => 'index');
+	public function check_index(& $url) {
+		if (empty($url)) {
+			return array('function' => 'index', 'class' => 'index');
 		}
 	}	
 	

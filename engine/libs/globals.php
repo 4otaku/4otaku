@@ -40,12 +40,8 @@ final class Globals extends Objects
 
 		$request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $request);
 		$url = explode('/', preg_replace('/\?[^\/]+$/', '', $request)); 
-	
-		if (empty($url[0])) {
-			$url[0] = 'index';
-		}
 		
-		self::$url = $url;
+		self::$url = array_filter($url);
 	}
 	
 	public static function get_user($user_data) {

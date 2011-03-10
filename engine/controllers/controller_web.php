@@ -33,24 +33,24 @@ class Controller_Web extends Controller_Abstract
 		
 		$query = array();
 		
-		$class = $url[0];
+		$class = isset($url[0]) ? $url[0] : 'index';
 		
 		foreach ($transformations as $transformation) {
 			$query = array_merge($query, (array) Transform_Web_Output::$transformation($url));
 		}		
-		
-		$query = array_merge($url, array(
+
+		$query = array_replace_recursive($url, array(
 			'type' => 'output',
 			'class' => $class,
 			'function' => 'listing',
 		), $query);
-		
+
 		if (
 			array_key_exists('mixed', $query) &&
 			is_array($preferences) &&
 			array_key_exists('mixed', $preferences)
 		) {
-			$url['mixed'] = array_replace_recursive(
+			$query['mixed'] = array_replace_recursive(
 				$preferences['mixed'], 
 				$query['mixed']
 			);

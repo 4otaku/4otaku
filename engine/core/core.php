@@ -22,11 +22,10 @@ class Core
 	public function process_output($query) {
 		$classname = 'output_'.$query['class'];
 		$function = $query['function'];
-		
+
 		if (!class_exists($classname)) {
-			// TODO: здесь должен быть нормальный вывод ошибки
-			$classname = 'output_index';
-			$function = 'index';
+			$classname = 'output_error';
+			$function = 'class_not_found';
 		}
 	
 		$worker = new $classname($query['class']);		
