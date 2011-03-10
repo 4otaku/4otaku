@@ -9,14 +9,14 @@
 {{item.meta_header.category}} 
 {% for key, category in item.meta.category %}
 	{% if not loop.first %}, {% endif %}																	
-	<a href="{{item.base}}author/{{category.alias}}/">
+	<a href="{{item.base}}category/{{category.alias}}/">
 		{{category.name}}
 	</a>
 {% endfor %} | 
 {{item.meta_header.language}} 
 {% for key, language in item.meta.language %}
 	{% if not loop.first %}, {% endif %}
-	<a href="{{item.base}}author/{{language.alias}}/">
+	<a href="{{item.base}}language/{{language.alias}}/">
 		{{language.name}}
 	</a>
 {% endfor %} | 
