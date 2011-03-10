@@ -21,8 +21,7 @@ class Output_Post extends Output_Abstract
 	public function listing($query) {
 		$return = array();	
 		
-		// TODO: perpage и area=main костыли, избавиться
-		$perpage = 5;
+		$perpage = Config::settings('post', 'Amount');
 		
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
 		
@@ -70,12 +69,15 @@ class Output_Post extends Output_Abstract
 		
 		if (!empty($items)) {
 			foreach ($items as $item) {
+				$data = Crypt::unpack($item['data']);
+
+				if (empty($data['url']) && empty($data['file'])) {
+					continue;
+				}
+				
 				if ($item['type'] != 'link') {
-					$return[$item['item_id']][$item['type']][$item['sort_number']]
-						 = Crypt::unpack($item['data']);
-				} else {
-					$data = Crypt::unpack($item['data']);
-					
+					$return[$item['item_id']][$item['type']][$item['sort_number']] = $data;
+				} else {					
 					$crc = crc32($data['name'].'&'.$data['size'].'&'.$data['sizetype']);
 					
 					$link = & $return[$item['item_id']]['link'][$crc];

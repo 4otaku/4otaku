@@ -32,8 +32,7 @@ class Output_Video extends Output_Abstract
 	public function listing($query) {
 		$return = array();	
 		
-		// TODO: perpage и area=main костыли, избавиться
-		$perpage = 5;
+		$perpage = Config::settings('video', 'Amount');
 		
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
 		

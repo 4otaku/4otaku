@@ -17,6 +17,22 @@ class Transform_Web_Output
 			
 			return array('download' => true);
 		}
+	}	
+	
+	public function get_area(& $url) {
+		if (isset($url[1])) {
+			if (
+				$url[1] == 'workshop' ||
+				$url[1] == 'flea' ||
+				$url[1] == 'sprites'
+			) {
+				$area = array_splice($url, 1, 1);
+				
+				return array('area' => current($area));
+			}
+		}
+			
+		return array('area' => 'main');
 	}
 	
 	public function get_mixed(& $url) {

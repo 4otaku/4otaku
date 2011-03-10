@@ -8,6 +8,8 @@ class Process_Navi extends Process_Abstract
 		
 		$base = '/'.Globals::$query['class'].'/';
 		
+		$base .= Globals::$query['area'] == 'main' ? '' : Globals::$query['area'].'/';
+		
 		if (!empty(Globals::$query['meta']) && !empty(Globals::$query['alias'])) {
 			$base .= Globals::$query['meta'].'/'.Globals::$query['alias'].'/';
 		}

@@ -22,7 +22,7 @@ class Manager
 	}
 	
 	public function make_clean($buffer) {
-		return preg_replace(array('/[\t\r\n]/', '/\s+/'), array('', ' '), $buffer);
+		return preg_replace(array('/[\t\r\n]+/', '/\s+/'), array('', ' '), $buffer);
 	}	
 	
 	public function postprocess() {

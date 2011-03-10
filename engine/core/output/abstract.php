@@ -22,9 +22,9 @@ abstract class Output_Abstract
 		return $data;
 	}
 	
-	public function build_listing_condition($query) {	
-		$condition = "area = 'main'";
-		
+	public function build_listing_condition($query) {		
+		$condition = "area = '{$query['area']}'";
+
 		if (!empty($query['meta']) && !empty($query['alias'])) {
 			$condition .= " and match (meta) against ('+{$query['meta']}_{$query['alias']}' in boolean mode)";
 		}

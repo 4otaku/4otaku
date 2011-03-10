@@ -14,8 +14,10 @@ class Process_Meta extends Process_Abstract
 			$this->plural = Config::template('plural');
 		}
 		
-		$item['meta_header'] = array();
+		$item['base'] = '/'.$item['item_type'].'/'.$item['area'].'/';
 		
+		$item['meta_header'] = array();
+
 		foreach ($item['meta'] as $type => $items) {
 			if (count($items) < 2 && array_key_exists($type, $this->singluar)) {
 				$item['meta_header'][$type] = $this->singluar[$type];

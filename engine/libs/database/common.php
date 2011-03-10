@@ -26,7 +26,12 @@ abstract class Database_Common
 	}
 	
 	public function array_in($field, $array) {
-		return "$field in (".str_repeat('?,',count($array)-1)."?)";
+		if (!empty($array) && is_array($array)) {
+			return "$field in (".str_repeat('?,',count($array)-1)."?)";
+		} else {
+//			Error::warning("Пустой массив при обращении к БД");
+			return " and 0";
+		}
 	}
 	
 	public function date_to_unix($date) {

@@ -28,47 +28,7 @@
 		</div>
 		<div class="wrapper">
 			<p class="meta">
-				{{item.date}} | 
-				{{item.meta_header.author}} 
-				{% for key, author in item.meta.author %}
-					{% if not loop.first %}, {% endif %}																	
-					<a href="/video/author/{{author.alias}}/">
-						{{author.name}}
-					</a>
-				{% endfor %} | 
-				{{item.meta_header.category}} 
-				{% for key, category in item.meta.category %}
-					{% if not loop.first %}, {% endif %}																	
-					<a href="/video/author/{{category.alias}}/">
-						{{category.name}}
-					</a>
-				{% endfor %} | 
-				{{item.meta_header.tag}} 
-				{% if item.have_tag_variants %}
-					<span class="synonims">
-						<a href="#" class="disabled" title="Показать синонимы" rel="{{id}}">
-							&gt;&gt;
-						</a>
-					</span> 
-				{% endif %}
-				{% for key, tag in item.meta.tag %}
-					<a href="/video/tag/{{tag.alias}}/">
-						{{tag.name}}
-					</a>
-					{% if not loop.last %}, {% endif %}
-					<span class="hidden tag_synonims tag_synonims_{{id}}">
-						{% if tag.variants %}
-							{% if loop.last %}, {% endif %}
-							{% for synonim in tag.variants %}
-								<a href="/video/tag/{{synonim|url_encode}}">
-									{{synonim}}
-								</a>
-								{% if not loop.last %}, {% endif %}
-							{% endfor %}
-						{% endif %}	
-						&nbsp;
-					</span>	
-				{% endfor %}
+			{% include 'web/common/meta.html' %}	
 			{% if item.text %}
 				<span class="right">
 					<a href="#" class="show-description disabled" rel="{{id}}">
