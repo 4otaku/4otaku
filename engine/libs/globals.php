@@ -9,10 +9,10 @@ final class Globals extends Objects
 	public static $url = array();	
 	
 	// Для информации о пользователе
-	public static $user = array();
+	public static $user_data = array();
 	
 	// Настройки пользователя
-	public static $preferences;
+	public static $preferences = false;
 	
 	// Для самого запроса
 	public static $query = array();	
@@ -45,10 +45,10 @@ final class Globals extends Objects
 	}
 	
 	public static function get_user($user_data) {
-		self::$user = $user_data;
+		self::$user_data = $user_data;
 	}
 	
-	static function clean_globals(&$data, $iteration = 0) {
+	public static function clean_globals(&$data, $iteration = 0) {
 		if ($iteration > 10 || !is_array($data)) {
 			return;
 		}
@@ -67,7 +67,7 @@ final class Globals extends Objects
 		}
 	}
 
-	static function safety_globals(&$data, $input, $iteration = 0) {
+	public static function safety_globals(&$data, $input, $iteration = 0) {
 		if ($iteration > 10 || !is_array($data)) {
 			return $input;
 		}
@@ -89,5 +89,24 @@ final class Globals extends Objects
 		}
 
 		return $input;
+	}
+	
+	public static function user() {
+		if (self::$preferences === false) {
+			self::$preferences = Cookie::get_preferences(self::$user_data['cookie']);
+		}
+		
+		$preferences = self::$preferences;		
+		$arguments = func_get_args();
+		
+		while (!empty($arguments)) {
+			$argument = array_shift($arguments);
+			
+			if (!isset($preferences[$argument])) {
+				return null;
+			}
+			
+			$preferences = $preferences[$argument];
+		}
 	}	
 }

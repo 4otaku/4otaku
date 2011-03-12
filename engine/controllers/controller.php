@@ -6,7 +6,7 @@ class Controller
 	private $worker;
 	
 	function __construct() {			
-		if (!empty(Globals::$user['mobile'])) {
+		if (!empty(Globals::$user_data['mobile'])) {
 			$this->worker = new Controller_Mobile();
 			return;
 		}

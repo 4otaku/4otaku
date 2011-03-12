@@ -3,8 +3,6 @@
 class Controller_Web extends Controller_Abstract
 {
 	public function build() {
-		Globals::$preferences = Cookie::get_preferences(Globals::$user['cookie']);
-
 		if (array_key_exists('do', Globals::$vars)) {
 			return $this->call->build_input(Globals::$vars, Globals::$preferences);
 		}
