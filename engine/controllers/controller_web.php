@@ -27,14 +27,14 @@ class Controller_Web extends Controller_Abstract
 	}
 	
 	public function build_output($url, $preferences) {
-		$transformations = get_class_methods('Transform_Web_Output');
+		$transformations = get_class_methods('Parse_Web_Url');
 		
 		$query = array();
 		
 		$class = isset($url[0]) ? $url[0] : 'index';
 		
 		foreach ($transformations as $transformation) {
-			$query = array_merge($query, (array) Transform_Web_Output::$transformation($url));
+			$query = array_merge($query, (array) Parse_Web_Url::$transformation($url));
 		}		
 
 		$query = array_replace_recursive($url, array(

@@ -1,6 +1,6 @@
 <?
 
-class Transform_Web_Output
+class Parse_Web_Url
 {
 	public function check_index(& $url) {
 		if (empty($url)) {
