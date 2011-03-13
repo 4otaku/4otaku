@@ -47,6 +47,12 @@ class Manager
 			}
 			unset ($item);
 		}
+		
+		if (self::$template == 'index') {
+			$worker = new Process_Index();
+			
+			$this->data = $worker->process($this->data);
+		}
 	}
 
 	public function output() {

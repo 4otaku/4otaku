@@ -5,11 +5,14 @@ class Objects
 	// Хранилище для объектов баз данных
 	protected static $bases = array();
 	
+	// Хранилище для объектов выполняющих преобразования
+	protected static $transformers = array();	
+	
 	// Для контроллера запроса
 	public static $controller = false;	
 	
 	// Обращается к объекту базы данных
-	public static function db($name = 'main') {
+	public static function db ($name = 'main') {
 		if (empty(self::$bases[$name])) {
 			self::$bases[$name] = self::init_db($name);
 		}
@@ -17,8 +20,21 @@ class Objects
 		return self::$bases[$name];
 	}
 	
+	// Обращается к объекту базы данных
+	public static function transform ($name) {
+		if (empty($name)) {
+			return false;
+		}
+		
+		if (empty(self::$transformers[$name])) {
+			self::$transformers[$name] = self::init_transformer($name);
+		}
+		
+		return self::$transformers[$name];
+	}	
+	
 	// Создает еще не созданный объект БД
-	protected static function init_db($name) {
+	protected static function init_db ($name) {
 		$config = Config::database($name);
 		
 		if (empty($config) || empty($config['Type'])) {
@@ -42,5 +58,18 @@ class Objects
 		}		
 
 		return $return;
+	}	
+	
+	// Создает еще не созданный объект преобразователя
+	protected static function init_transformer ($name) {
+		$name{0} = strtoupper($name{0});
+		
+		$class = 'Transform_'.$name;
+		
+		if (!class_exists($class)) {
+			Error::fatal("Класс для преобразований {$name} отсутствует");
+		}	
+
+		return new $class();
 	}	
 }

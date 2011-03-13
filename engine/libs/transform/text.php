@@ -2,21 +2,22 @@
 
 class Transform_Text
 {
-	const URL_REGEX = '/(https?|ftp|irc):\/\/[:_\p{L}\d\-\.]+\.[:\p{L}\d]+(\/.+?(?=\.\s|"\s|\)\s|,\s|\s|$|&nbsp;|\[\/?[a-z]{1,8}|　))?/s';
+	const url_regex = '/(https?|ftp|irc):\/\/[:_\p{L}\d\-\.]+\.[:\p{L}\d]+(\/.+?(?=\.\s|"\s|\)\s|,\s|\s|$|&nbsp;|\[\/?[a-z]{1,8}|　))?/s';
+	const bbcode_regex = '/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is';
 	
-	function strtolower_ru($text) {
+	function strtolower_ru ($text) {
 		$alfavitlover = array('ё','й','ц','у','к','е','н','г', 'ш','щ','з','х','ъ','ф','ы','в', 'а','п','р','о','л','д','ж','э', 'я','ч','с','м','и','т','ь','б','ю');
 		$alfavitupper = array('Ё','Й','Ц','У','К','Е','Н','Г', 'Ш','Щ','З','Х','Ъ','Ф','Ы','В', 'А','П','Р','О','Л','Д','Ж','Э', 'Я','Ч','С','М','И','Т','Ь','Б','Ю');
 		return str_replace($alfavitupper,$alfavitlover,strtolower($text));
 	}
 
-	function strtoupper_ru($text) {
+	function strtoupper_ru ($text) {
 		$alfavitlover = array('ё','й','ц','у','к','е','н','г', 'ш','щ','з','х','ъ','ф','ы','в', 'а','п','р','о','л','д','ж','э', 'я','ч','с','м','и','т','ь','б','ю');
 		$alfavitupper = array('Ё','Й','Ц','У','К','Е','Н','Г', 'Ш','Щ','З','Х','Ъ','Ф','Ы','В', 'А','П','Р','О','Л','Д','Ж','Э', 'Я','Ч','С','М','И','Т','Ь','Б','Ю');
 		return str_replace($alfavitlover,$alfavitupper,strtoupper($text));
 	}
 
-	function punto_switcher($text) {
+	function punto_switcher ($text) {
 		$lat = array('`','q','w','e','r','t','y','u','i', 'o','p','[',']','a','s','d','f', 'g','h','j','k','l',';','\'', 'z','x','c','v','b','n','m',',','.',
 			'~','Q','W','E','R','T','Y','U','I', 'O','P','{','}','A','S','D','F', 'G','H','J','K','L',':','"', 'Z','X','C','V','B','N','M','<','>');
 		$ru = array('ё','й','ц','у','к','е','н','г', 'ш','щ','з','х','ъ','ф','ы','в', 'а','п','р','о','л','д','ж','э', 'я','ч','с','м','и','т','ь','б','ю',
@@ -27,6 +28,35 @@ class Transform_Text
 						else $char = str_replace($ru,$lat,$char);
 		return implode('',$chars);
 	}
+	
+	function headline ($text, $minimum_return = 40) {
+        $text = $this->cutout_hidden($text);
+        
+        $text = strip_tags($text, '<br>');
+        
+        $text = preg_split('/\s*(<br[^>]*>\s*)+/', $text, null, PREG_SPLIT_NO_EMPTY);
+        
+        $return = '';
+        
+        while (!empty($text) && mb_strlen($return, 'UTF-8') < $minimum_return) {
+			
+			if (!empty($return)) {
+				$return .= "\n";
+			}
+			
+			$return .= array_shift($text);			
+		}
+		
+		if (!empty($text)) {
+			$return .= ' ...';
+		}
+        
+        return $return;		
+	}
+	
+	function cutout_hidden ($text) {
+		return preg_replace('/<([a-zA-Z]+)[^>]+class="[^"]*(?<=\s|")hidden(?=\s|")[^"]*"[^>]*>.*?<\/\1>/is', '', $text);
+	}
 
 	function format($text) {
 		$text = str_replace("\r","",$text);
@@ -36,7 +66,7 @@ class Transform_Text
 		return $text;
 	}
 
-	function wakaba($text) {
+	function wakaba ($text) {
 		$text = str_replace("\r","",$text);
 		$i = 0; $links = array();
 		if (preg_match_all(self::URL_REGEX, $text, $matches)) {
@@ -59,7 +89,7 @@ class Transform_Text
 		return $text;
 	}
 
-	function wakaba_mark(&$string,&$state) {
+	function wakaba_mark (& $string, & $state) {
 		$string = $this->wakaba_strike($string);
 
 		if (preg_match('/^(?:\-|\+|\*)\s+(.*)$/',$string,$match)) {
@@ -88,7 +118,7 @@ class Transform_Text
 		$string = preg_replace('/\s{2,}/e','str_replace(array(" ","\t"),"&nbsp;","$0")',$string);
 	}
 
-	function wakaba_strike($string) {
+	function wakaba_strike ($string) {
 		$parts = preg_split('/((?:\^H)+|\{⟯link\d+\})/',$string,null,PREG_SPLIT_DELIM_CAPTURE);
 		foreach ($parts as $key => $part) {
 			if ($key && $part{0}.$part{1} == '^H' && $parts[$key-1]{1} != '⟯') {
@@ -104,7 +134,7 @@ class Transform_Text
 		return implode('',$parts);
 	}
 
-	function wcase($count, $case1, $case2, $case3) {
+	function wcase ($count, $case1, $case2, $case3) {
 		if ($count > 9) {
 			if ($count % 10 == 0 || $count % 10 > 4 || $count[strlen($count)-2] == 1) return $case3;
 			if ($count % 10 == 1) return $case1;
@@ -115,21 +145,7 @@ class Transform_Text
 		return $case2;
 	}
 
-	function rumonth($in) {
-		$rumonth = array('','Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
-		if (is_numeric($in))
-			return $rumonth[ltrim($in,'0')];
-		else
-			return array_search($in,$rumonth);
-	}
-
-	function rudate($minutes = false) {
-		$date = $this->rumonth(date('m')).date(' j, Y');
-		if ($minutes) $date .= date('; G:i');
-		return $date;
-	}
-
-	function cut_long_words($string, $length = false, $break = '<wbr />') {
+	function cut_long_words ($string, $length = false, $break = '<wbr />') {
 		global $def;
 		if (empty($length)) $length = $def['text']['word_length'];
 
@@ -154,7 +170,7 @@ class Transform_Text
 		return implode($break,$parts);
 	}
 	
-	function cut_long_text($text, $length, $prepend = ' ...', $cut_words = false) {
+	function cut_long_text ($text, $length, $prepend = ' ...', $cut_words = false) {
 		if (strlen($text) < $length) {
 			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);	
 		}
@@ -191,8 +207,8 @@ class Transform_Text
 		return $return;
 	}
 
-	function bb2html($string) {
-        while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is', $string, $matches)) {
+	function bb2html ($string) {
+        while (preg_match_all(self::bbcode_regex, $string, $matches)) {
 			foreach ($matches[0] as $key => $match) {
 				list($tag, $param, $innertext) = array($matches[1][$key], $matches[2][$key], $matches[3][$key]);
 				switch ($tag) {
