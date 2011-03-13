@@ -14,7 +14,7 @@ class Output_Video extends Output_Abstract
 	}
 	
 	public function single($query) {
-		$video = Globals::db()->get_row('video',$query['id']);
+		$video = Globals::db()->get_row('video', $query['id']);
 		
 		$video['date'] = Globals::db()->date_to_unix($video['date']);
 		
@@ -42,7 +42,7 @@ class Output_Video extends Output_Abstract
 		
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 		
-		$return['items'] = Globals::db()->get_vector('video',$condition);
+		$return['items'] = Globals::db()->get_full_vector('video', $condition);
 
 		$index = array();
 		
@@ -65,7 +65,7 @@ class Output_Video extends Output_Abstract
 		
 		$return['items'] = array_replace_recursive($return['items'], $meta);
 		
-		$count = Globals::db()->get_field('video',$listing_condition,'count(*)');
+		$count = Globals::db()->get_count('video', $listing_condition);
 
 		$return['curr_page'] = $page;
 		$return['pagecount'] = ceil($count / $perpage);

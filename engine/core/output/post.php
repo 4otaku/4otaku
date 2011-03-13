@@ -3,7 +3,7 @@
 class Output_Post extends Output_Abstract
 {	
 	public function single($query) {
-		$post = Globals::db()->get_row('post',$query['id']);
+		$post = Globals::db()->get_row('post', $query['id']);
 		
 		$items = $this->call->get_items($post['id']);
 		
@@ -31,7 +31,7 @@ class Output_Post extends Output_Abstract
 		
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 		
-		$return['items'] = Globals::db()->get_vector('post',$condition);
+		$return['items'] = Globals::db()->get_full_vector('post', $condition);
 
 		$keys = array_keys($return['items']);
 		$index = array();
@@ -50,7 +50,7 @@ class Output_Post extends Output_Abstract
 		
 		$return['items'] = array_replace_recursive($return['items'], $meta);
 		
-		$count = Globals::db()->get_field('post',$listing_condition,'count(*)');
+		$count = Globals::db()->get_count('post', $listing_condition);
 
 		$return['curr_page'] = $page;
 		$return['pagecount'] = ceil($count / $perpage);
@@ -63,7 +63,7 @@ class Output_Post extends Output_Abstract
 		
 		$condition = Globals::db()->array_in('item_id',$ids);
 		
-		$items = Globals::db()->get_table('post_items',$condition,'item_id,type,sort_number,data',$ids);
+		$items = Globals::db()->get_table('post_items', 'item_id,type,sort_number,data', $condition, $ids);
 		
 		$return = array();
 		

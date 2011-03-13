@@ -64,7 +64,7 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return $return;
 	}	
 	
-	protected function get_common($table, $condition = false, $values = '*', $params = false) {
+	protected function get_common($table, $values = '*', $condition = false, $params = false) {
 		if (is_array($values)) {
 			$values = implode(',', $values);
 		}
@@ -78,8 +78,8 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		$this->result = $this->query($query, $params);
 	}
 
-	public function get_table($table, $condition = false, $values = '*', $params = false) {
-		$this->get_common($table, $condition, $values, $params);
+	public function get_table($table, $values = '*', $condition = false, $params = false) {
+		$this->get_common($table, $values, $condition, $params);
 		
 		if (!is_resource($this->result)) {
 			return array();
@@ -93,14 +93,14 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return $return;
 	}
 	
-	public function get_vector($table, $condition = false, $values = '*', $params = false, $unset = true) {
+	public function get_vector($table, $values = '*', $condition = false, $params = false, $unset = true) {
 		if (is_array($values)) {
 			$key = array_shift($values);
 		} else {
 			$key = 'id';
 		}
 		
-		$this->get_common($table, $condition, $values, $params);
+		$this->get_common($table, $values, $condition, $params);
 		
 		if (!is_resource($this->result)) {
 			return array();
@@ -124,12 +124,13 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return $return;
 	}
 	
-	public function get_row($table, $condition, $values = '*', $params = false) {
-		if (is_numeric($condition)) {
-			$condition = 'id = '.$condition;
+	public function get_row($table, $values = '*', $condition = false, $params = false) {
+		if (is_numeric($values) && empty($condition)) {
+			$condition = "id = $values";
+			$values = '*';
 		}
 		
-		$this->get_common($table, $condition.' LIMIT 1', $values, $params);
+		$this->get_common($table, $values, $condition.' LIMIT 1', $params);
 		
 		if (!is_resource($this->result)) {
 			return array();
@@ -139,12 +140,12 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return $return;
 	}
 	
-	public function get_field($table, $condition, $value, $params = false) {
+	public function get_field($table, $value, $condition, $params = false) {
 		if (is_numeric($condition)) {
 			$condition = 'id = '.$condition;
 		}		
 		
-		$this->get_common($table, $condition.' LIMIT 1', $value, $params);
+		$this->get_common($table, $value, $condition.' LIMIT 1', $params);
 		
 		if (!is_resource($this->result)) {
 			return false;

@@ -24,30 +24,41 @@ class Output_Index extends Output_Abstract
 		
 		$return['template'] = 'index';		
 		
-		$unseen = Globals::user('unseen');
+		if ($unseen = Globals::user('unseen')) {
+		
+			foreach ($unseen as & $unseen_item) {
+				$unseen_item = Objects::db()->unix_to_date($unseen_item);
+			}
+		}
+		
+		$latest_fields = array('id', 'title', 'comments', 'text');
 		
 		$return['post'] = array(
-			'total' => Objects::db()->get_field('post', 'area = "main"', 'count(*)'),
-			'unseen' => $unseen['post'] ? Objects::db()->get_field('post', 'area = "main" and date > ?', 'count(*)', $unseen['post']) : 0,
-			'latest' => Objects::db()->get_table('post', 'area = "main" order by date desc limit 3', 'id, title, comments, text'),
+			'total' => Objects::db()->get_count('post', 'area = "main"'),
+			'unseen' => $unseen['post'] ? Objects::db()->get_count('post', 'area = "main" and date > ?', $unseen['post']) : 0,
+			'latest' => Objects::db()->get_table('post', $latest_fields, 'area = "main" order by date desc limit 3'),
 		);
 		
 		$return['video'] = array(
-			'total' => Objects::db()->get_field('video', 'area = "main"', 'count(*)'),
-			'unseen' => $unseen['video'] ? Objects::db()->get_field('video', 'area = "main" and date > ?', 'count(*)', $unseen['video']) : 0,
-			'latest' => Objects::db()->get_table('video', 'area = "main" order by date desc limit 3', 'id, title, comments, text'),
+			'total' => Objects::db()->get_count('video', 'area = "main"'),
+			'unseen' => $unseen['video'] ? Objects::db()->get_count('video', 'area = "main" and date > ?', $unseen['video']) : 0,
+			'latest' => Objects::db()->get_table('video', $latest_fields, 'area = "main" order by date desc limit 3'),
 		);
 		
-		$return['art'] = array(
-			'total' => Objects::db()->get_field('art', 'area = "main" or area = "sprites"', 'count(*)'),
-			'unseen' => $unseen['art'] ? Objects::db()->get_field('art', 'area = "main" or area = "sprites" and date > ?', 'count(*)', $unseen['art']) : 0,
-			'latest' => Objects::db()->get_row('art', 'area = "main" or area = "sprites" order by date desc', 'id, thumb'),
-		);
+		$latest_fields[] = 'username';
 			
 		$return['order'] = array(
-			'total' => Objects::db()->get_field('order', 'area != "deleted"', 'count(*)'),
-			'unseen' => Objects::db()->get_field('order', 'area = "workshop"', 'count(*)'),		
-			'latest' => Objects::db()->get_table('order', 'area = "workshop"', 'id, username, title, comments, text'),
+			'total' => Objects::db()->get_count('order', 'area != "deleted"'),
+			'unseen' => Objects::db()->get_count('order', 'area = "workshop"'),		
+			'latest' => Objects::db()->get_table('order', $latest_fields, 'area = "workshop"'),
+		);
+		
+		$latest_fields = array('id', 'thumb');
+		
+		$return['art'] = array(
+			'total' => Objects::db()->get_count('art', 'area = "main" or area = "sprites"'),
+			'unseen' => $unseen['art'] ? Objects::db()->get_count('art', 'area = "main" or area = "sprites" and date > ?', $unseen['art']) : 0,
+			'latest' => Objects::db()->get_row('art', $latest_fields, 'area = "main" or area = "sprites" order by date desc'),
 		);
 		
 		if (is_array($return['order']['latest'])) {
@@ -66,7 +77,7 @@ class Output_Index extends Output_Abstract
 		$return['board']['all'] = Objects::db()->sql('select count(*) from board where `type` = "2"',2);
 */
 		
-		$wiki = Objects::db('wiki')->get_row('recentchanges', 'rc_type < 2 order by rc_id desc limit 1', 'rc_title, rc_namespace');
+		$wiki = Objects::db('wiki')->get_row('recentchanges', 'rc_title, rc_namespace', 'rc_type < 2 order by rc_id desc limit 1');
 		
 		if (!empty($wiki)) {
 			if (array_key_exists($wiki['rc_namespace'], $this->wiki_namespaces)) {
@@ -76,13 +87,9 @@ class Output_Index extends Output_Abstract
 			}
 		}
 	
-		$return['news'] = Objects::db()->get_field('news', 'area="main" order by sortdate desc', 'url, title, text, image, comments, date');
+		$return['news'] = Objects::db()->get_field('news', 'url, title, text, image, comments, date', 'area="main" order by sortdate desc');
 		
-		if (!empty($return['news'])) {
-			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
-		}
-		
-		$return['links'] = Objects::db()->get_field('post_items', 'type = "link" and status = "broken"', 'count(*)');
+		$return['links'] = Objects::db()->get_count('post_items', 'type = "link" and status = "broken"');
 		
 		return $return;
 	}	

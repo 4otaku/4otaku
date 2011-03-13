@@ -40,5 +40,21 @@ abstract class Database_Common
 	
 	public function unix_to_date($time) {
 		return date("Y-m-d H:i:s", $time);
+	}
+	
+	public function get_full_table($table, $condition = false, $params = false) {
+		return $this->get_table($table, '*', $condition, $params);
+	}
+	
+	public function get_full_vector($table, $condition = false, $params = false) {
+		return $this->get_vector($table, '*', $condition, $params);
+	}	
+	
+	public function get_full_row($table, $condition = false, $params = false) {
+		return $this->get_row($table, '*', $condition, $params);
+	}	
+	
+	public function get_count($table, $condition = false, $params = false) {
+		return $this->get_field($table, 'count(*)', $condition, $params);
 	}	
 }
