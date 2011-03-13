@@ -1,34 +1,34 @@
 <?
-	
+
 class Process_Navi extends Process_Abstract
-{	
+{
 	public function web($data) {
-		
+
 		$data['navi'] = array();
-		
+
 		$base = '/'.Globals::$query['class'].'/';
-		
+
 		$base .= Globals::$query['area'] == 'main' ? '' : Globals::$query['area'].'/';
-		
+
 		if (!empty(Globals::$query['meta']) && !empty(Globals::$query['alias'])) {
 			$base .= Globals::$query['meta'].'/'.Globals::$query['alias'].'/';
 		}
-		
+
 		$radius = max(1, (int) Config::template('navi', 'Radius'));
 		$low_end = max($data['curr_page'] - $radius, 2);
 		$high_end = min($data['curr_page'] + $radius, $data['pagecount'] - 1);
-		
+
 		for ($i = 1; $i <= $data['pagecount']; $i++) {
-			
+
 			$inside = ($i <= $high_end && $i >= $low_end);
-			
+
 			if ($i == 1 || $inside || $i == $data['pagecount']) {
 				if ($i == $data['curr_page']) {
 					$data['navi'][$i] = array('type' => 'active');
 				} else {
 					$data['navi'][$i] = array('type' => 'enabled');
 				}
-				
+
 				if ($i == 1) {
 					$data['navi'][$i]['url'] = $base;
 				} else {
@@ -43,17 +43,17 @@ class Process_Navi extends Process_Abstract
 				}
 			}
 		}
-		
+
 		if ($data['curr_page'] == 2) {
 			$data['navi_back'] = $base;
 		} elseif ($data['curr_page'] > 2) {
 			$data['navi_back'] = $base.'page/'.($data['curr_page'] - 1).'/';
 		}
-		
+
 		if ($data['curr_page'] < $data['pagecount']) {
 			$data['navi_forward'] = $base.'page/'.($data['curr_page'] + 1).'/';
 		}
-		
+
 		return $data;
 	}
 }
