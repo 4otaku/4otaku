@@ -77,7 +77,7 @@ class Output_Index extends Output_Abstract
 		$return['board']['all'] = Objects::db()->sql('select count(*) from board where `type` = "2"',2);
 */
 
-		$wiki = Objects::db('wiki')->get_row('recentchanges', 'rc_title, rc_namespace', 'rc_type < 2 order by rc_id desc limit 1');
+		$wiki = Objects::db('wiki')->get_row('recentchanges', 'rc_title, rc_namespace', 'rc_type < 2 order by rc_id desc');
 
 		if (!empty($wiki)) {
 			if (array_key_exists($wiki['rc_namespace'], $this->wiki_namespaces)) {
