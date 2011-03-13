@@ -69,15 +69,15 @@
 {% block content %}
 	<td class="index_centerholder" valign="top">
 		<div class="mini-shell margin10">
-			Наша комната в джаббере: main@room.4otaku.ru;
+			Наша комната в джаббере: main@room.4otaku.ru; 
 			<a href="http://jabberworld.info/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%8B_Jabber">
 				Помощь по настройке
-			</a>.
+			</a>. 
 			<a href="{{domain}}/logs/">
 				Логи
-			</a>.
+			</a>. 
 			<span class="right">
-				{{broken_links}} битых ссылок.
+				{{broken_links|default(0)}} битых ссылок. 
 				<a href="{{domain}}/gouf/">
 					Помочь
 				</a>.
@@ -86,8 +86,8 @@
 		<div class="mini-shell margin10">
 			<a href="{{domain}}/board/">
 				Борда сайта
-			</a>.
-			Всего тредов: {{board.all}}
+			</a>. 
+			Всего тредов: {{board.all|default(0)}}
 			{% if board.new %}
 				, <a href="{{domain}}/board/new/{{board.link}}">
 					{{board.new}} из них новых
@@ -103,7 +103,7 @@
 				{% if wiki %}
 					<a href="http://wiki.4otaku.ru">
 						Вики сайта
-					</a>.
+					</a>. 
 					Последняя правка:
 					<a href="http://wiki.4otaku.ru/{{wiki|url_encode}}">
 						{{wiki}}
@@ -112,7 +112,7 @@
 			</span>
 		</div>
 		{% if news.title %}
-			<div class="compressed_news mini-shell clear {% if news.read %}hidden{% endif %} margin30">
+			<div class="compressed_news mini-shell clear {% if not news.read %}hidden{% endif %} margin30">
 				<a href="{{domain}}/news/{{news.url}}/">
 					{{news.title}}
 				</a>
@@ -132,7 +132,7 @@
 						Записи
 					</a>
 				</p>
-				Всего {{post.total}} записей.
+				Всего {{post.total|default(0)}} записей. 
 				{% if post.new %}{{post.new}} из них новых{% endif %}
 				{% if post.latest %}
 					Последние записи: <br /><br />
@@ -152,7 +152,7 @@
 							Видео
 						</a>
 					</p>
-					Всего {{video.total}} видео.
+					Всего {{video.total|default(0)}} видео. 
 					{% if video.new %}{{video.new}} из них новых{% endif %}
 					{% if video.latest %}
 						Последние записи: <br /><br />
@@ -175,7 +175,7 @@
 							Видео
 						</a>
 					</p>
-					Всего {{video.total}} видео.
+					Всего {{video.total|default(0)}} видео. 
 					{% if video.new %}{{video.new}} из них новых{% endif %}
 					{% if video.latest %}
 						Последние записи: <br /><br />
@@ -198,7 +198,7 @@
 							Арт
 						</a>
 					</p>
-					Всего {{art.total}} артов.
+					Всего {{art.total|default(0)}} артов. 
 					{% if art.new %}{{art.new}} из них новых{% endif %}
 					{% if art.latest.thumb %}
 						Последнее изображение: <br /><br />
@@ -218,13 +218,13 @@
 						Заказы
 					</a>
 				</p>
-				Всего {{order.total}} заказов.
+				Всего {{order.total|default(0)}} заказов. 
 				{% if order.new %}{{order.new}} из них открыты{% endif %}
 				{% if order.latest %}
 					Последние заказы: <br /><br />
-					{% for key, one in video.latest %}
+					{% for key, one in order.latest %}
 						{% if not loop.first %}<br /><br />{% endif %}
-						{{one.username}} заказал
+						{{one.username}} заказал 
 						<a href="{{domain}}/video/{{one.id}}" class="with_help" title="{{one.headline}}">
 							{{one.title}}
 						</a>
@@ -239,13 +239,13 @@
 							Арт
 						</a>
 					</p>
-					Всего {{art.total}} артов.
+					Всего {{art.total|default(0)}} артов. 
 					{% if art.new %}{{art.new}} из них новых{% endif %}
-					{% if art.latest.thumb %}
+					{% if art.latest.thumbnail %}
 						Последнее изображение: <br /><br />
 						<div style="text-align:center; width: 100%;">
 							<a href="{{domain}}/art/{{art.latest.id}}">
-								<img src="{{domain}}/images/art/thumbnail/{{art.latest.thumb}}.jpg">
+								<img src="{{domain}}/images/art/thumbnail/{{art.latest.thumbnail}}.jpg">
 							</a>
 						</div>
 					{% endif %}
@@ -261,8 +261,8 @@
 						</a>
 					</p>
 					<div class="entry">
-						<a href="/images/news/full/{{news.image}}" target="_blank">
-							<img src="/images/news/thumbnail/{{news.image}}" align="left" class="news_image" />
+						<a href="{{domain}}/images/news/full/{{news.image}}" target="_blank">
+							<img src="{{domain}}/images/news/thumbnail/{{news.image}}" align="left" class="news_image" />
 						</a>
 						{{news.text}}
 					</div>

@@ -49,11 +49,11 @@ class Output_Index extends Output_Abstract
 
 		$return['order'] = array(
 			'total' => Objects::db()->get_count('order', 'area != "deleted"'),
-			'unseen' => Objects::db()->get_count('order', 'area = "workshop"'),
-			'latest' => Objects::db()->get_table('order', $latest_fields, 'area = "workshop"'),
+			'unseen' => Objects::db()->get_count('order', 'area = "open"'),
+			'latest' => Objects::db()->get_table('order', $latest_fields, 'area = "open"'),
 		);
 
-		$latest_fields = array('id', 'thumb');
+		$latest_fields = array('id', 'thumbnail');
 
 		$return['art'] = array(
 			'total' => Objects::db()->get_count('art', 'area = "main" or area = "sprites"'),
@@ -63,7 +63,7 @@ class Output_Index extends Output_Abstract
 
 		if (is_array($return['order']['latest'])) {
 			shuffle($return['order']['latest']);
-			array_slice($return['order']['latest'], 2);
+			array_splice($return['order']['latest'], 2);
 		}
 /*
 		if (!empty($unseen['board'])) {
@@ -87,7 +87,7 @@ class Output_Index extends Output_Abstract
 			}
 		}
 
-		$return['news'] = Objects::db()->get_field('news', 'url, title, text, image, comments, date', 'area="main" order by sortdate desc');
+		$return['news'] = Objects::db()->get_row('news', array('url', 'title', 'text', 'image', 'comments', 'date'), '`area` = "main" order by `date` desc');
 
 		$return['links'] = Objects::db()->get_count('post_items', 'type = "link" and status = "broken"');
 

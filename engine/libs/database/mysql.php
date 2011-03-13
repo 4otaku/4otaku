@@ -59,7 +59,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	
 	protected function get_common($table, $values = '*', $condition = false, $params = false) {
 		if (is_array($values)) {
-			$values = implode(',', $values);
+			$values = "`".implode("`,`", $values)."`";
 		}
 		
 		$query = "SELECT $values FROM `{$this->prefix}$table`";
