@@ -181,7 +181,8 @@ CREATE TABLE `{pr}cron` (
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `{pr}cron` (`name`) VALUES (`check_links`);
+INSERT INTO `{pr}cron` (`name`, `last_call`, `period`, `runtime`, `memory`, `status`) 
+VALUES ('check_links', '', '00:01:00', '', '', 'idle');
 
 DROP TABLE IF EXISTS `{pr}logs`;
 CREATE TABLE `{pr}logs` (
