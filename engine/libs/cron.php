@@ -3,9 +3,13 @@
 class Cron
 {	
 	public function get_task_list () {
-		$tasks = Objects::db()->get_full_vector('cron', '`period` + `last_call` < NOW()');
-		
-		return array_keys($tasks);
+		$tasks = Objects::db()->get_table('cron', 'name', '`period` + `last_call` < NOW()');
+
+		foreach ($tasks as & $task) {
+			$task = current($task);
+		}
+
+		return $tasks;
 	}	
 	
 	public function do_task ($task) {
@@ -27,6 +31,10 @@ class Cron
 				$values = array('idle', $time, $memory, $task);
 				
 				Objects::db()->update('cron', '`name` = ?', $fields, $values);
+				
+				$memory = round($memory / 1024, 2);
+				
+				return "\n $task выполнено за $time секунд, $memory килобайт оперативы.\n";
 			}	
 			
 			return "\n В классе Cron не нашлось функции под таск $task.\n";
@@ -42,7 +50,7 @@ class Cron
 		
 		$test = array();
 		
-		for ($i = 1; $i < 100000; $i++) {
+		for ($i = 1; $i < 20000; $i++) {
 			$j = $i; $result = 1;	
 			
 			while (--$j) $result = $result * $j;
