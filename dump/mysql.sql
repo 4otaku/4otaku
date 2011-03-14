@@ -1,13 +1,5 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-DROP TABLE IF EXISTS `{pr}helper`;
-CREATE TABLE `{pr}helper` (
-  `id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `helper` (`id`) VALUES (1);
-
 DROP TABLE IF EXISTS `{pr}meta`;
 CREATE TABLE `{pr}meta` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -185,8 +177,11 @@ CREATE TABLE `{pr}cron` (
   `period` time NOT NULL default '00:01:00',
   `runtime` float unsigned NOT NULL,
   `memory` int(10) unsigned NOT NULL,
+  `status` enum('idle','process') NOT NULL,
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `{pr}cron` (`name`) VALUES (`check_links`);
 
 DROP TABLE IF EXISTS `{pr}logs`;
 CREATE TABLE `{pr}logs` (

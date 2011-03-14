@@ -2,7 +2,24 @@
 	
 	include 'init.php';
 	
-	// Загрузим найденные плагины
+	// Загружаем глобальные переменные
+	
+	$user_info = array(
+		'cookie' => $_COOKIE[Config::main('cookie', 'Name')],
+		'agent' => $_SERVER['HTTP_USER_AGENT'],
+		'accept' => $_SERVER['HTTP_ACCEPT'],
+		'mobile' => !empty($_SERVER['HTTP_PROFILE']) ? $_SERVER['HTTP_PROFILE'] 
+			: !empty($_SERVER['HTTP_X_WAP_PROFILE']) ? $_SERVER['HTTP_X_WAP_PROFILE'] 
+			: null,
+		'ip' => $_SERVER['REMOTE_ADDR'],
+	);
+	
+	Globals::get_vars($_GET);
+	Globals::get_vars($_POST);	
+	Globals::get_url($_SERVER['REQUEST_URI']);
+	Globals::get_user($user_info);	
+	
+	// Загружаем найденные плагины
 	
 	$plugin_files = glob(ROOT.SL.'plugins'.SL.'*.php');
 	

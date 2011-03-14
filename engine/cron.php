@@ -15,6 +15,6 @@
 
 	if (is_array($tasks)) {
 		foreach ($tasks as $task) {
-			$cron->do_task($task);
+			echo $cron->do_task($task);
 		}
 	}
