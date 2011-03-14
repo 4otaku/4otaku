@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `{pr}tag_variants`;
 CREATE TABLE `{pr}tag_variants` (
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `variant` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `language` enum('','eng','jap','rus')  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   UNIQUE KEY `variant` (`variant`),
   KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
