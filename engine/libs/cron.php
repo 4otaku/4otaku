@@ -48,18 +48,7 @@ class Cron
 
 	public function check_links () {
 		
-		$test = array();
-		
-		for ($i = 1; $i < 20000; $i++) {
-			$j = $i; $result = 1;	
-			
-			while (--$j) $result = $result * $j;
-			
-			$test[] = $result;
-		}
-
-		return memory_get_usage();
-/*		$count = obj::db()->sql('select count(id) from gouf_links',2);
+		$count = obj::db()->sql('select count(id) from gouf_links',2);
 		$limit = ceil($count/1440);
 		$links = obj::db()->sql('select id, link, status from gouf_links order by checkdate limit '.$limit);
 		$base = obj::db()->sql('select * from gouf_base order by id');
@@ -70,7 +59,9 @@ class Cron
 			} else {
 				obj::db()->update('gouf_links',array('checkdate'),array(time()),$link['id']);
 			}
-		}	*/
+		}
+		
+		return memory_get_usage();
 	}
 
 	public function gouf_refresh_links () {

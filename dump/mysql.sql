@@ -176,7 +176,7 @@ CREATE TABLE `{pr}cron` (
   `last_call` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
   `period` time NOT NULL default '00:01:00',
   `runtime` float unsigned NOT NULL,
-  `memory` int(10) unsigned NOT NULL,
+  `memory` bigint(20) unsigned NOT NULL,
   `status` enum('idle','process') NOT NULL,
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
