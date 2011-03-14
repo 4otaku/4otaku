@@ -24,7 +24,7 @@ class Cron
 				$memory = max(0, $task_memory - $memory);
 				
 				$fields = array('status', 'runtime', 'memory');
-				$values = array('idle', $time, $memory, $task)
+				$values = array('idle', $time, $memory, $task);
 				
 				Objects::db()->update('cron', '`name` = ?', $fields, $values);
 			}	
