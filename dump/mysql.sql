@@ -1,7 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-DROP TABLE IF EXISTS `{pr}meta`;
-CREATE TABLE `{pr}meta` (
+DROP TABLE IF EXISTS `<pr>meta`;
+CREATE TABLE `<pr>meta` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -12,8 +12,8 @@ CREATE TABLE `{pr}meta` (
   UNIQUE KEY `identity` (`type`,`alias`,`area`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}tag_variants`;
-CREATE TABLE `{pr}tag_variants` (
+DROP TABLE IF EXISTS `<pr>tag_variants`;
+CREATE TABLE `<pr>tag_variants` (
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `variant` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `language` enum('','eng','jap','rus')  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -21,8 +21,8 @@ CREATE TABLE `{pr}tag_variants` (
   KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{pr}post`;
-CREATE TABLE `{pr}post` (
+DROP TABLE IF EXISTS `<pr>post`;
+CREATE TABLE `<pr>post` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(510) COLLATE utf8_general_ci NOT NULL,
   `text` text COLLATE utf8_general_ci NOT NULL,
@@ -37,22 +37,22 @@ CREATE TABLE `{pr}post` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}post_items`;
-CREATE TABLE `{pr}post_items` (
+DROP TABLE IF EXISTS `<pr>post_items`;
+CREATE TABLE `<pr>post_items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `item_id` int(10) unsigned NOT NULL,
   `type` enum('image','link','info','file') NOT NULL,
   `sort_number` int(10) unsigned NOT NULL,
   `data` text NOT NULL,
-  `last_check` timestamp NULL default CURRENT_TIMESTAMP,
+  `last_check` timestamp NULL default NULL,
   `status` enum('ok','broken','unclear') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`),
   KEY `last_check` (`last_check`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}video`;
-CREATE TABLE `{pr}video` (
+DROP TABLE IF EXISTS `<pr>video`;
+CREATE TABLE `<pr>video` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(510) COLLATE utf8_general_ci NOT NULL,
   `link` varchar(255) COLLATE utf8_general_ci NOT NULL,
@@ -69,8 +69,8 @@ CREATE TABLE `{pr}video` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}art`;
-CREATE TABLE `{pr}art` (
+DROP TABLE IF EXISTS `<pr>art`;
+CREATE TABLE `<pr>art` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `md5` varchar(32) COLLATE utf8_general_ci NOT NULL,
   `width` smallint(5) unsigned NOT NULL,
@@ -92,8 +92,8 @@ CREATE TABLE `{pr}art` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}art_similar`;
-CREATE TABLE IF NOT EXISTS `{pr}art_similar` (
+DROP TABLE IF EXISTS `<pr>art_similar`;
+CREATE TABLE IF NOT EXISTS `<pr>art_similar` (
   `id` int(10) unsigned NOT NULL,
   `vector` varchar(2040) NOT NULL,
   `checked` tinyint(1) unsigned NOT NULL,
@@ -101,8 +101,8 @@ CREATE TABLE IF NOT EXISTS `{pr}art_similar` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{pr}art_pool`;
-CREATE TABLE `{pr}art_pool` (
+DROP TABLE IF EXISTS `<pr>art_pool`;
+CREATE TABLE `<pr>art_pool` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `text` text NOT NULL,
@@ -118,8 +118,8 @@ CREATE TABLE `{pr}art_pool` (
   KEY `date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}art_cg_pack`;
-CREATE TABLE `{pr}art_cg_pack` (
+DROP TABLE IF EXISTS `<pr>art_cg_pack`;
+CREATE TABLE `<pr>art_cg_pack` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `md5` varchar(32) NOT NULL,
   `filename` varchar(2040) NOT NULL,
@@ -138,8 +138,8 @@ CREATE TABLE `{pr}art_cg_pack` (
   KEY `date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}art_translation`;
-CREATE TABLE `{pr}art_translation` (
+DROP TABLE IF EXISTS `<pr>art_translation`;
+CREATE TABLE `<pr>art_translation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `item_id` int(10) unsigned NOT NULL,
   `data` text NOT NULL,
@@ -151,8 +151,8 @@ CREATE TABLE `{pr}art_translation` (
   UNIQUE KEY `sort` (`item_id`, `date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}comment`;
-CREATE TABLE `{pr}comment` (
+DROP TABLE IF EXISTS `<pr>comment`;
+CREATE TABLE `<pr>comment` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `root` int(10) unsigned NOT NULL,
   `parent` int(10) unsigned NOT NULL,
@@ -170,8 +170,8 @@ CREATE TABLE `{pr}comment` (
   KEY `selector` (`place`,`item_id`,`root`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}cron`;
-CREATE TABLE `{pr}cron` (
+DROP TABLE IF EXISTS `<pr>cron`;
+CREATE TABLE `<pr>cron` (
   `name` varchar(64) NOT NULL,
   `last_call` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
   `period` time NOT NULL default '00:01:00',
@@ -181,11 +181,11 @@ CREATE TABLE `{pr}cron` (
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `{pr}cron` (`name`, `last_call`, `period`, `runtime`, `memory`, `status`) 
+INSERT INTO `<pr>cron` (`name`, `last_call`, `period`, `runtime`, `memory`, `status`) 
 VALUES ('check_links', '', '00:01:00', '', '', 'idle');
 
-DROP TABLE IF EXISTS `{pr}logs`;
-CREATE TABLE `{pr}logs` (
+DROP TABLE IF EXISTS `<pr>logs`;
+CREATE TABLE `<pr>logs` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `room` varchar(64) NOT NULL,
   `html` mediumtext NOT NULL,
@@ -198,8 +198,8 @@ CREATE TABLE `{pr}logs` (
   FULLTEXT KEY `text` (`text`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}news`;
-CREATE TABLE `{pr}news` (
+DROP TABLE IF EXISTS `<pr>news`;
+CREATE TABLE `<pr>news` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `url` varchar(255) character set utf8 collate utf8_general_ci NOT NULL,
   `title` varchar(510) character set utf8 collate utf8_general_ci NOT NULL,
@@ -214,8 +214,8 @@ CREATE TABLE `{pr}news` (
   KEY `selector` (`area`,`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}order`;
-CREATE TABLE `{pr}order` (
+DROP TABLE IF EXISTS `<pr>order`;
+CREATE TABLE `<pr>order` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(510) character set utf8 collate utf8_unicode_ci NOT NULL,
   `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Анонимус',
@@ -232,8 +232,8 @@ CREATE TABLE `{pr}order` (
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `{pr}order_links`;
-CREATE TABLE `{pr}order_links` (
+DROP TABLE IF EXISTS `<pr>order_links`;
+CREATE TABLE `<pr>order_links` (
   `order_id` int(10) unsigned NOT NULL,
   `sort` smallint(5) unsigned NOT NULL,
   `link` text NOT NULL,

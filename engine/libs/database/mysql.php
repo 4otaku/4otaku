@@ -41,7 +41,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	}
 	
 	public function sql($query, $params = array()) {
-		$query = str_replace('{pr}', $this->prefix, $query);
+		$query = str_replace('<pr>', $this->prefix, $query);
 		
 		$this->result = $this->query($query, $params);
 		

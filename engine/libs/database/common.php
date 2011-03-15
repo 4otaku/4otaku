@@ -38,7 +38,11 @@ abstract class Database_Common
 		return strtotime($date);
 	}
 	
-	public function unix_to_date($time) {
+	public function unix_to_date($time = false) {
+		if (empty($time)) {
+			$time = time();
+		}
+		
 		return date("Y-m-d H:i:s", $time);
 	}
 	
