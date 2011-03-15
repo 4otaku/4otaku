@@ -65,7 +65,7 @@ class Cron
 				$update = array(
 					'status' => $result,
 					'last_check' => Objects::db()->unix_to_date()
-				)
+				);
 				
 				Objects::db()->update('post_items', $link['id'], $update);
 			}
