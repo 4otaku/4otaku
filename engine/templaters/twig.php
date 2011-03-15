@@ -8,7 +8,7 @@
 		$loader = new Twig_Loader_Filesystem(ROOT.SL.'templates');
 		
 		$twig = new Twig_Environment($loader, array(
-		  'cache' => ROOT.SL.'cache',
+		  'cache' => ROOT.SL.'cache'.SL.'twig',
 		  'auto_reload' => true,
 		  'autoescape' => false
 		));

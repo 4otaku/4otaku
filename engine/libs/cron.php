@@ -59,7 +59,7 @@ class Cron
 				
 				$link = Crypt::unpack($link);
 				if (!empty($link['url'])) {
-					$result = Browser::check_download_link($link['url']);
+					$result = Browser::check_download_link($link['url'], true);
 				}
 				
 				$update = array(
