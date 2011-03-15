@@ -19,14 +19,14 @@ class Browser
 		$link = str_replace('&apos;', "'", html_entity_decode($link, ENT_QUOTES, 'UTF-8'));
 		
 		$domain = parse_url($link, PHP_URL_HOST);
-		
-		preg_match('/^.+([^\.]+\.[^\.])+$/', $domain, $domain);
+
+		preg_match('/^.*?([^\.]+\.[^\.]+)$/', $domain, $domain);
 		$domain = $domain[1];
-		
+
 		if (isset(self::$link_domain_alias[$domain])) {
 			$domain = self::$link_domain_alias[$domain];
 		}
-		
+
 		if (empty($domain)) {
 			return 'unclear';
 		}		
@@ -56,7 +56,7 @@ class Browser
 				}
 			}
 		}
-		
+var_dump($save_unknown, file_exists(ROOT.SL.'cache'.SL.'unknown_links'.SL.$domain));
 		if ($save_unknown && !file_exists(ROOT.SL.'cache'.SL.'unknown_links'.SL.$domain)) {
 			file_put_contents(ROOT.SL.'cache'.SL.'unknown_links'.SL.$domain, $html);
 		}
