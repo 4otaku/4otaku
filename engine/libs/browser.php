@@ -8,6 +8,16 @@ class Browser
 		
 	protected static $link_works = array(
 		'yandex.ru' => '<b>Скачать<\/b>',
+		'megaupload.com' => array(
+			'<[Tt][Dd]\s+align="center">[Pp]lease\s+wait<\/[Tt][Dd]>',
+			'<center>The file you are trying to access is temporarily unavailable.<\/center>'
+			'<center>Файл, который Вы пытаетесь открыть, временно недоступен,',
+		),
+		'mediafire.com' => array(
+			'Preparing download\.{3}', 
+			'Data is loading from the server\.{2}',
+		),
+		'4shared.com' => '<font>Скачать<\/font>',
 	);
 	
 	protected static $link_broken = array(
