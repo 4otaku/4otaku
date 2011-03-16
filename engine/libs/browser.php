@@ -10,7 +10,7 @@ class Browser
 		'yandex.ru' => '<b>Скачать<\/b>',
 		'megaupload.com' => array(
 			'<[Tt][Dd]\s+align="center">[Pp]lease\s+wait<\/[Tt][Dd]>',
-			'<center>The file you are trying to access is temporarily unavailable.<\/center>'
+			'<center>The file you are trying to access is temporarily unavailable.<\/center>',
 			'<center>Файл, который Вы пытаетесь открыть, временно недоступен,',
 		),
 		'mediafire.com' => array(
@@ -66,7 +66,7 @@ class Browser
 				}
 			}
 		}
-var_dump($save_unknown, file_exists(ROOT.SL.'cache'.SL.'unknown_links'.SL.$domain));
+
 		if ($save_unknown && !file_exists(ROOT.SL.'cache'.SL.'unknown_links'.SL.$domain)) {
 			file_put_contents(ROOT.SL.'cache'.SL.'unknown_links'.SL.$domain, $html);
 		}
