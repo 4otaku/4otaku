@@ -10,18 +10,23 @@ class Browser
 		'yandex.ru' => '<b>Скачать<\/b>',
 		'megaupload.com' => array(
 			'<[Tt][Dd]\s+align="center">[Pp]lease\s+wait<\/[Tt][Dd]>',
-			'<center>The file you are trying to access is temporarily unavailable.<\/center>',
-			'<center>Файл, который Вы пытаетесь открыть, временно недоступен,',
+			'<center>The\s+file\s+you\s+are\s+trying\s+to\s+access\s+is\s+temporarily\s+unavailable\.',
+			'<center>Файл,\s+который\s+Вы\s+пытаетесь\s+открыть,\s+временно\s+недоступен',
 		),
 		'mediafire.com' => array(
 			'Preparing download\.{3}', 
 			'Data is loading from the server\.{2}',
 		),
 		'4shared.com' => '<font>Скачать<\/font>',
+		'megashares.com' => array(
+			'<td\s+[^>]*>Choose\s+download\s+service:<\/td>',
+			'<dd\s+class="red">All\s+download\s+slots\s+for\s+this\s+link\s+are\s+currently\s+filled.',
+		),
 	);
 	
 	protected static $link_broken = array(
-		
+		'yandex.ru' => 'Закончился\s+срок\s+хранения\s+файла\.\s*Файл\s+удален',
+		'rghost.ru' => '<div\s+[^>]*>[\s\r\n]*Файл\s+удален\.[\s\r\n]*<\/div>',
 	);	
 	
 	public static function check_download_link ($link, $save_unknown = false) {
