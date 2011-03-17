@@ -1,4 +1,5 @@
 AddDefaultCharset UTF-8
+php_value memory_limit 512M
 php_flag short_open_tag on
 
 <IfModule mod_rewrite.c>
