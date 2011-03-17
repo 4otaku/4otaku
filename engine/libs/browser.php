@@ -27,6 +27,7 @@ class Browser
 	protected static $link_broken = array(
 		'yandex.ru' => 'Закончился\s+срок\s+хранения\s+файла\.\s*Файл\s+удален',
 		'rghost.ru' => '<div\s+[^>]*>[\s\r\n]*Файл\s+удален\.[\s\r\n]*<\/div>',
+		'megaupload.com' => 'Unfortunately,\s+the\s+link\s+you\s+have\s+clicked\s+is\s+not\s+available\.'
 	);	
 	
 	public static function check_download_link ($link, $save_unknown = false) {
