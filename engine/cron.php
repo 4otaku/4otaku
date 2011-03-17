@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?
 	set_time_limit(3600);
-	ini_set('memory_limit', '1024M');
+	ini_set('memory_limit', '512M');
 	
 	include 'init.php';
 	
