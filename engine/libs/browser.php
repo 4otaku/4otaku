@@ -2,6 +2,10 @@
 	
 class Browser
 {
+	// Для хранения объекта Curl
+	
+	protected static $curl;
+	
 	protected static $link_domain_alias = array(
 		'narod.ru' => 'yandex.ru',
 	);		
@@ -47,7 +51,7 @@ class Browser
 			return 'unclear';
 		}		
 		
-		$html = self::download($link);
+		$html = self::download_html($link);
 		
 		if (empty($html)) {
 			return 'unclear';
@@ -79,24 +83,43 @@ class Browser
 		
 		return 'unclear';
 	}
-
-	public static function download ($link, $simple = false) {
+	
+	public static function download_html($link, $simple = false) {
 		$simple = (bool) $simple;
-
-		if (!$simple) {
-			$curl = curl_init();
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-			curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
-			curl_setopt($curl, CURLOPT_TIMEOUT, 20);
-			curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-			curl_setopt($curl, CURLOPT_URL, $link);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			$html = curl_exec($curl);
-			curl_close($curl);
-		} else {
-			$html = @file_get_contents($link);
+		
+		if ($simple) {
+			return @file_get_contents($link);
 		}
+		
+		if (empty(self::$curl)) {
+			self::init_curl();
+		}
+		
+		curl_setopt(self::$curl, CURLOPT_URL, $link);
+		curl_setopt(self::$curl, CURLOPT_NOBODY, true);
+        $headers =  curl_exec(self::$curl);
+        
+        var_dump($headers);
+	}
+
+	public static function download ($link) {
+		if (empty(self::$curl)) {
+			self::init_curl();
+		}
+
+		curl_setopt(self::$curl, CURLOPT_URL, $link);
+		curl_setopt(self::$curl, CURLOPT_NOBODY, false);
+		$html = curl_exec(self::$curl);
 		
 		return $html;
 	}
+	
+	protected static function init_curl () {
+		self::$curl = curl_init();
+		curl_setopt(self::$curl, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt(self::$curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
+		curl_setopt(self::$curl, CURLOPT_TIMEOUT, 20);
+		curl_setopt(self::$curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+		curl_setopt(self::$curl, CURLOPT_RETURNTRANSFER, true);
+	}	
 }
