@@ -95,12 +95,20 @@ class Browser
 			self::init_curl();
 		}
 		
+		$html = '';
+		
 		curl_setopt(self::$curl, CURLOPT_URL, $link);
 		curl_setopt(self::$curl, CURLOPT_NOBODY, true);
-        $headers =  curl_exec(self::$curl);
-        $headers = curl_getinfo(self::$curl);
+        curl_exec(self::$curl);
+        $type = curl_getinfo(self::$curl, CURLINFO_CONTENT_TYPE);
         
-        var_dump($headers);
+        if (empty($type) || preg_match('/^\s*text\/html/', $type)) {
+			curl_setopt(self::$curl, CURLOPT_RANGE, '1-4194304');
+			$html = self::download($link);
+			curl_setopt(self::$curl, CURLOPT_RANGE, NULL);
+		}
+        
+        return $html;
 	}
 
 	public static function download ($link) {
