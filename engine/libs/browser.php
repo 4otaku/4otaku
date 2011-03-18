@@ -8,7 +8,11 @@ class Browser
 	
 	protected static $link_domain_alias = array(
 		'narod.ru' => 'yandex.ru',
-	);		
+	);	
+	
+	protected static $not_an_uploader = array(
+		'filefront.com', 'pireze.org', 'youtube.com',
+	);			
 		
 	protected static $link_works = array(
 		'yandex.ru' => '<b>Скачать<\/b>',
@@ -30,6 +34,11 @@ class Browser
 		'ifolder.ru' => '<label\s+for="dw1">[\s\r\n]*Скачать\s+бесплатно\s+просмотрев\s+рекламу[\s\r\n]*<\/label>',
 		'letitbit.net' => '<form\s+id="ifree_form"\s+action="\/download',
 		'rghost.ru' => '<a[^>]+class="download_link"[^>]*>Скачать<\/a>',
+		'desu.ru' => 'Всего:\s+\d+\s+файлов,\s+общий\s+размер:\s+[\d,]+\s+Мб',
+		'dump.ru' => '<form\s+[^>]*id="file_download"[^>]*name="file_download"[^>]*>',
+		'google.com' => 'Cкачать\s+<a\s+href="http:\/\/sites\.google\.com',
+		'ifile.it' => '<input\s+type="button"\s+id="req_btn2"\s+value="\s*request\s+download\s+ticket\s*"',
+		'zshare.net' => '<h2>Download:\s+',
 	);
 	
 	protected static $link_broken = array(
@@ -38,6 +47,7 @@ class Browser
 		'megaupload.com' => 'Unfortunately,\s+the\s+link\s+you\s+have\s+clicked\s+is\s+not\s+available\.',
 		'dump.ru' => '<li>[\s\r\n]*Запрошенный\s+файл\s+удален[\s\r\n]*<\/li>',
 		'hotfile.com' => '<td>Diese\s+Datei\s+ist\s+entweder\s+aufgrund\s+des\s+Copyright-Rechtes',
+		'4otaku.ru' => '<h2>Страница\s+не\s+найдена\.\s+=(<\/h2>',
 	);	
 	
 	public static function check_download_link ($link, $save_unknown = false) {
@@ -55,7 +65,11 @@ class Browser
 
 		if (empty($domain)) {
 			return 'unclear';
-		}		
+		}	
+		
+		if (in_array($domain, self::$not_an_uploader)) {
+			return 'broken';
+		}			
 		
 		$html = self::download_html($link);
 		
