@@ -98,6 +98,7 @@ class Browser
 		curl_setopt(self::$curl, CURLOPT_URL, $link);
 		curl_setopt(self::$curl, CURLOPT_NOBODY, true);
         $headers =  curl_exec(self::$curl);
+        $headers = curl_getinfo(self::$curl);
         
         var_dump($headers);
 	}
