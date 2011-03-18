@@ -26,12 +26,18 @@ class Browser
 			'<td\s+[^>]*>Choose\s+download\s+service:<\/td>',
 			'<dd\s+class="red">All\s+download\s+slots\s+for\s+this\s+link\s+are\s+currently\s+filled.',
 		),
+		'depositfiles.com' => 'depositfiles\.com\/images\/speed_small\.gif"[^>]*>',
+		'ifolder.ru' => '<label\s+for="dw1">[\s\r\n]*Скачать\s+бесплатно\s+просмотрев\s+рекламу[\s\r\n]*<\/label>',
+		'letitbit.net' => '<form\s+id="ifree_form"\s+action="\/download',
+		'rghost.ru' => '<a[^>]+class="download_link"[^>]*>Скачать<\/a>',
 	);
 	
 	protected static $link_broken = array(
 		'yandex.ru' => 'Закончился\s+срок\s+хранения\s+файла\.\s*Файл\s+удален',
 		'rghost.ru' => '<div\s+[^>]*>[\s\r\n]*Файл\s+удален\.[\s\r\n]*<\/div>',
-		'megaupload.com' => 'Unfortunately,\s+the\s+link\s+you\s+have\s+clicked\s+is\s+not\s+available\.'
+		'megaupload.com' => 'Unfortunately,\s+the\s+link\s+you\s+have\s+clicked\s+is\s+not\s+available\.',
+		'dump.ru' => '<li>[\s\r\n]*Запрошенный\s+файл\s+удален[\s\r\n]*<\/li>',
+		'hotfile.com' => '<td>Diese\s+Datei\s+ist\s+entweder\s+aufgrund\s+des\s+Copyright-Rechtes',
 	);	
 	
 	public static function check_download_link ($link, $save_unknown = false) {
