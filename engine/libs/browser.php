@@ -8,6 +8,9 @@ class Browser
 	
 	protected static $link_domain_alias = array(
 		'narod.ru' => 'narod.yandex.ru',
+		'narod2.yandex.ru' => 'narod.yandex.ru',
+		'narod3.yandex.ru' => 'narod.yandex.ru',
+		'narod4.yandex.ru' => 'narod.yandex.ru',
 	);	
 	
 	protected static $not_an_uploader = array(
