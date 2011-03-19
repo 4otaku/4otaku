@@ -7,7 +7,7 @@ class Browser
 	protected static $curl;
 	
 	protected static $link_domain_alias = array(
-		'narod.ru' => 'yandex.ru',
+		'narod.ru' => 'narod.yandex.ru',
 	);	
 	
 	protected static $not_an_uploader = array(
@@ -15,7 +15,7 @@ class Browser
 	);			
 		
 	protected static $link_works = array(
-		'yandex.ru' => '<b>Скачать<\/b>',
+		'narod.yandex.ru' => '<b>Скачать<\/b>',
 		'megaupload.com' => array(
 			'<[Tt][Dd]\s+align="center">[Pp]lease\s+wait<\/[Tt][Dd]>',
 			'<center>The\s+file\s+you\s+are\s+trying\s+to\s+access\s+is\s+temporarily\s+unavailable\.',
@@ -36,18 +36,21 @@ class Browser
 		'rghost.ru' => '<a[^>]+class="download_link"[^>]*>Скачать<\/a>',
 		'desu.ru' => 'Всего:\s+\d+\s+файлов,\s+общий\s+размер:\s+[\d,]+\s+Мб',
 		'dump.ru' => '<form\s+[^>]*id="file_download"[^>]*name="file_download"[^>]*>',
-		'google.com' => 'Cкачать\s+<a\s+href="http:\/\/sites\.google\.com',
+		'sites.google.com' => 'Cкачать\s+<a\s+href="http:\/\/sites\.google\.com',
 		'ifile.it' => '<input\s+type="button"\s+id="req_btn2"\s+value="\s*request\s+download\s+ticket\s*"',
 		'zshare.net' => '<h2>Download:\s+',
+		'animeotaku.ru' => '<div\s+id="listing">\s*<div><a\s+href="',
+		'upload.com.ua' => '\stitle="Нажмите\s+чтобы\s+скачать\s+файл\s[^"]+">[^<]+<\/a><\/div>',
+		'fileserve.com' => '<a\s+id="regularBtn"\s+href="#"\s+class="slower_download_btn">Slower\s+Download<\/a>',		
 	);
 	
 	protected static $link_broken = array(
-		'yandex.ru' => 'Закончился\s+срок\s+хранения\s+файла\.\s*Файл\s+удален',
+		'narod.yandex.ru' => 'Закончился\s+срок\s+хранения\s+файла\.\s*Файл\s+удален',
 		'rghost.ru' => '<div\s+[^>]*>[\s\r\n]*Файл\s+удален\.[\s\r\n]*<\/div>',
 		'megaupload.com' => 'Unfortunately,\s+the\s+link\s+you\s+have\s+clicked\s+is\s+not\s+available\.',
 		'dump.ru' => '<li>[\s\r\n]*Запрошенный\s+файл\s+удален[\s\r\n]*<\/li>',
 		'hotfile.com' => '<td>Diese\s+Datei\s+ist\s+entweder\s+aufgrund\s+des\s+Copyright-Rechtes',
-		'4otaku.ru' => '<h2>Страница\s+не\s+найдена\.\s+=(<\/h2>',
+		'raincat.4otaku.ru' => '<h2>Страница\s+не\s+найдена\.\s+=(<\/h2>',
 	);	
 	
 	public static function check_download_link ($link, $save_unknown = false) {
@@ -56,7 +59,7 @@ class Browser
 		
 		$domain = parse_url($link, PHP_URL_HOST);
 
-		preg_match('/^.*?([^\.]+\.[^\.]+)$/', $domain, $domain);
+		preg_match('/^(?:www\.)?([^:]+)/', $domain, $domain);
 		$domain = $domain[1];
 
 		if (isset(self::$link_domain_alias[$domain])) {
