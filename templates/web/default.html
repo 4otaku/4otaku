@@ -5,7 +5,7 @@
 		<div class="post">
 			{% for id, item in items %}
 				{% include ['web/single/',item.item_type,'.html']|join %}
-			{% endfor %}			
+			{% endfor %}
 		</div>
 		{% if navi %}
 			{% include 'web/common/navi.html' %}

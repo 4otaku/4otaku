@@ -48,7 +48,8 @@ CREATE TABLE `<pr>post_items` (
   `status` enum('ok','broken','unclear') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`),
-  KEY `last_check` (`last_check`)
+  KEY `last_check` (`last_check`),
+  KEY `status` (`status`,`type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `<pr>video`;

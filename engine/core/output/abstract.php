@@ -15,7 +15,9 @@ abstract class Output_Abstract
 
 		if (!empty($data['items']) && is_array($data['items'])) {
 			foreach ($data['items'] as & $item) {
-				$item['item_type'] = $this->class_name;
+				if (empty($item['item_type'])) {
+					$item['item_type'] = $this->class_name;
+				}
 			}
 		}
 

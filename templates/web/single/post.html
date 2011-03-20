@@ -39,7 +39,7 @@
 						</div>
 						{% if item.link %}
 							<p>
-								{% for key, link in item.link %}
+								{% for link in item.link %}
 									{% if not loop.first %}<br />{% endif %}
 									{{link.name}}: 
 									{% for url, alias in link.url %}
@@ -48,13 +48,13 @@
 											{{alias}}
 										</a>
 									{% endfor %}
-									 (~{{link.size}} {{link.sizetype}})									
+									 (~{{link.size}} {{link.sizetype}})
 								{% endfor %}
 							</p>
 						{% endif %}	
 						{% if item.file %}
 							<p class="post-files">
-								{% for key, file in item.file %}
+								{% for file in item.file %}
 									{% if not loop.first %}<br />{% endif %}
 									{% if file.type == 'plain' %}
 										<img src="/i/file.png" class="post-image"> 
@@ -87,7 +87,7 @@
 						{% endif %}
 						{% if item.info %}
 							<p>
-								{% for key, info in item.info %}
+								{% for info in item.info %}
 									{% if not loop.first %}<br />{% endif %}
 									{{info.name}}: 
 									<a href="{{info.url}}" target="_blank">

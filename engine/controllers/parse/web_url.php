@@ -60,10 +60,8 @@ class Parse_Web_Url
 
 			$page = array_splice($url, 1, 2);
 
-			return array_merge($url, array('page' => end($page), 'function' => 'listing'));
+			return array('page' => end($page), 'function' => 'listing');
 		}
-
-		return $url;
 	}
 
 	public function get_id(& $url) {
@@ -72,10 +70,18 @@ class Parse_Web_Url
 
 			$id = array_splice($url, 1, 1);
 
-			return array_merge($url, array('id' => current($id), 'function' => 'single'));
+			return array('id' => current($id), 'function' => 'single');
 		}
+	}
 
-		return $url;
+	public function get_links(& $url) {
+
+		if (isset($url[1]) && $url[0] == 'post' && $url[1] == 'links') {
+
+			array_splice($url, 1, 1);
+
+			return array('function' => 'links');
+		}
 	}
 
 

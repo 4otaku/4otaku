@@ -2,7 +2,7 @@
 
 class Output_Post extends Output_Abstract
 {
-	public function single($query) {
+	public function single ($query) {
 		$post = Globals::db()->get_row('post', $query['id']);
 
 		$items = $this->call->get_items($post['id']);
@@ -18,7 +18,7 @@ class Output_Post extends Output_Abstract
 		return $return;
 	}
 
-	public function listing($query) {
+	public function listing ($query) {
 		$return = array();
 
 		$perpage = Config::settings('post', 'Amount');
@@ -57,8 +57,44 @@ class Output_Post extends Output_Abstract
 
 		return $return;
 	}
+	
+	public function links () {
+		$return = array();
+		
+		$fields = array('item_id', 'data', 'status');
+		
+		$links = Globals::db()->get_table('post_items', $fields, "status != 'ok'");
+		
+		$ids = array();		
+		foreach ($links as $link) {
+			$ids[] = $link['item_id'];
+		}
+		
+		$ids = array_unique($ids);		
+		$condition = Globals::db()->array_in('id',$ids);		
+		$titles = Globals::db()->get_vector('post', 'id,title', $condition, $ids);
+		
+		foreach ($links as $link) {
+			$full_id = $link['status'].'-'.$link['item_id'];
+			
+			if (empty($return['items'][$full_id])) {
+				$return['items'][$full_id] = array(
+					'item_type' => 'links_'.$link['status'],
+					'id' => $link['item_id'],
+					'title' => $titles[$link['item_id']],
+					'links' => array(),
+				);
+			}
+			
+			$return['items'][$full_id]['links'][] = Crypt::unpack($link['data']);
+		}
+		
+		uksort($return['items'], 'strnatcasecmp');
+		
+		return $return;
+	}
 
-	public function get_items($ids) {
+	public function get_items ($ids) {
 		$ids = (array) $ids;
 
 		$condition = Globals::db()->array_in('item_id',$ids);
