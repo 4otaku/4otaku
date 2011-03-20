@@ -2,6 +2,12 @@
 	
 class Browser
 {
+	/* Настройки */
+	
+	public static $maximum_html_length = 4194304;
+	
+	public static $maximum_redirects = 5;
+	
 	// Для хранения объекта Curl
 	
 	protected static $curl;
@@ -37,7 +43,7 @@ class Browser
 		'ifolder.ru' => '<label\s+for="dw1">[\s\r\n]*Скачать\s+бесплатно\s+просмотрев\s+рекламу[\s\r\n]*<\/label>',
 		'letitbit.net' => '<form\s+id="ifree_form"\s+action="\/download',
 		'rghost.ru' => '<a[^>]+class="download_link"[^>]*>Скачать<\/a>',
-		'desu.ru' => 'Всего:\s+\d+\s+файлов,\s+общий\s+размер:\s+[\d,]+\s+Мб',
+		'files.desu.ru' => 'Всего:\s+\d+\s+файлов,\s+общий\s+размер:\s+[\d,]+\s+Мб',
 		'dump.ru' => '<form\s+[^>]*id="file_download"[^>]*name="file_download"[^>]*>',
 		'sites.google.com' => 'Cкачать\s+<a\s+href="http:\/\/sites\.google\.com',
 		'ifile.it' => '<input\s+type="button"\s+id="req_btn2"\s+value="\s*request\s+download\s+ticket\s*"',
@@ -122,14 +128,42 @@ class Browser
 		}
 		
 		$html = '';
+		$iteration = 0;
 		
-		curl_setopt(self::$curl, CURLOPT_URL, $link);
-		curl_setopt(self::$curl, CURLOPT_NOBODY, true);
-        curl_exec(self::$curl);
-        $type = curl_getinfo(self::$curl, CURLINFO_CONTENT_TYPE);
+		while ($iteration < self::$maximum_redirects && !empty($link)) {
+			curl_setopt(self::$curl, CURLOPT_URL, $link);
+			curl_setopt(self::$curl, CURLOPT_NOBODY, true);
+			
+			curl_exec(self::$curl);
+			$type = curl_getinfo(self::$curl, CURLINFO_CONTENT_TYPE);
+			
+			$headers = curl_getinfo(self::$curl);
+			
+			$new_link = false;
+			
+			foreach ($headers as $header) {
+				if (preg_match('/^\s*(?:Location|URI):\s+(.*)/', $header, $redirect)) {
+					if (!strpos($redirect[1], '://')) {
+						$link_parts = parse_url($link);						
+						$new_link = $link_parts['scheme'].'://'.$link_parts['host'].'/'.ltrim($redirect[1], '/');
+						
+					} else {
+						$new_link = $redirect[1];
+					}
+					
+					if ($link == $new_link) {
+						$new_link = false;						
+					} else {
+						break;
+					}
+				}
+			}
+			
+			$link = $new_link;
+		}
         
         if (empty($type) || preg_match('/^\s*text\/html/', $type)) {
-			curl_setopt(self::$curl, CURLOPT_RANGE, '1-4194304');
+			curl_setopt(self::$curl, CURLOPT_RANGE, '1-'.self::$maximum_html_length);
 			$html = self::download($link);
 			curl_setopt(self::$curl, CURLOPT_RANGE, NULL);
 		}
