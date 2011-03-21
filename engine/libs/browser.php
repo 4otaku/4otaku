@@ -130,7 +130,7 @@ class Browser
 		$html = '';
 		$iteration = 0;
 		
-		while ($iteration < self::$maximum_redirects && !empty($link)) {
+		while ($iteration < self::$maximum_redirects) {
 			curl_setopt(self::$curl, CURLOPT_URL, $link);
 			curl_setopt(self::$curl, CURLOPT_NOBODY, true);
 			
@@ -152,11 +152,15 @@ class Browser
 					}
 					
 					if ($link == $new_link) {
-						$new_link = false;						
+						$new_link = false;			
 					} else {
 						break;
 					}
 				}
+			}
+			
+			if (empty($new_link)) {
+				break;
 			}
 			
 			$link = $new_link;
