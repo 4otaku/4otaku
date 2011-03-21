@@ -63,17 +63,26 @@ class Controller_Web extends Controller_Abstract
 		}
 		
 		$modules = Config::modules();
-		
+
 		$string = implode('/', $url);
 		
-		foreach ($modules as $name => $aliases) {
-			foreach ($aliases as $alias) {
-				if (strpos($string, trim($alias, '/')) === 0) {
-					return $name;
+		foreach ($modules as $name => $module) {
+			if (isset($module['alias'])) {
+				foreach ((array) $module['alias'] as $alias) {
+					if (
+						strpos($string, trim($alias, '/')) === 0 &&
+						$module['status'] != 'disabled'
+					) {
+						return $name;
+					}
 				}
 			}
 		}
 		
-		return $url[0];
+		if (isset($modules[$url[0]]) && $modules[$url[0]]['status'] != 'disabled') {
+			return $url[0];
+		}
+		
+		return 'error';
 	}
 }
