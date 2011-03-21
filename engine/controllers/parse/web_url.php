@@ -73,16 +73,4 @@ class Parse_Web_Url
 			return array('id' => current($id), 'function' => 'single');
 		}
 	}
-
-	public function get_links(& $url) {
-
-		if (isset($url[1]) && $url[0] == 'post' && $url[1] == 'links') {
-
-			array_splice($url, 1, 1);
-
-			return array('function' => 'links');
-		}
-	}
-
-
 }

@@ -2,7 +2,7 @@
 
 class Controller_Web extends Controller_Abstract
 {
-	public function build() {
+	public function build () {
 		if (array_key_exists('do', Globals::$vars)) {
 			return $this->call->build_input(Globals::$vars, Globals::$preferences);
 		}
@@ -10,7 +10,7 @@ class Controller_Web extends Controller_Abstract
 		return $this->call->build_output(Globals::$url, Globals::$preferences);
 	}
 
-	public function build_input($vars, $preferences) {
+	public function build_input ($vars, $preferences) {
 		$do = explode('.', $vars['do']);
 
 		if (count($do) != 2) {
@@ -26,12 +26,12 @@ class Controller_Web extends Controller_Abstract
 		return array_merge($vars, $query);
 	}
 
-	public function build_output($url, $preferences) {
+	public function build_output ($url, $preferences) {
 		$transformations = get_class_methods('Parse_Web_Url');
 
-		$query = array();
+		$query = array();		
 
-		$class = isset($url[0]) ? $url[0] : 'index';
+		$class = $this->call->get_output_class($url);
 
 		foreach ($transformations as $transformation) {
 			$query = array_merge($query, (array) Parse_Web_Url::$transformation($url));
@@ -55,5 +55,25 @@ class Controller_Web extends Controller_Abstract
 		}
 
 		return $query;
+	}
+	
+	public function get_output_class ($url) {
+		if (empty($url)) {
+			$url = array('index');
+		}
+		
+		$modules = Config::modules();
+		
+		$string = implode('/', $url);
+		
+		foreach ($modules as $name => $aliases) {
+			foreach ($aliases as $alias) {
+				if (strpos($string, trim($alias, '/')) === 0) {
+					return $name;
+				}
+			}
+		}
+		
+		return $url[0];
 	}
 }
