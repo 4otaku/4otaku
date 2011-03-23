@@ -1,14 +1,8 @@
 <?
 
-class Parse_Web_Url
+class Module_Web_Library
 {
-	public function check_index(& $url) {
-		if (empty($url)) {
-			return array('function' => 'index', 'class' => 'index');
-		}
-	}
-
-	public function get_download(& $url) {
+	public static function get_download(& $url) {
 
 		if (isset($url[0]) && $url[0] == 'download') {
 			array_shift($url);
@@ -17,7 +11,7 @@ class Parse_Web_Url
 		}
 	}
 
-	public function get_area(& $url) {
+	public static function get_area(& $url) {
 		if (isset($url[1])) {
 			if (
 				$url[1] == 'workshop' ||
@@ -33,7 +27,7 @@ class Parse_Web_Url
 		return array('area' => 'main');
 	}
 
-	public function get_mixed(& $url) {
+	public static function get_mixed(& $url) {
 
 		if (isset($url[1]) && $url[1] == 'mixed' && isset($url[2])) {
 			$mixed = Meta::parse_mixed_url($url[2]);
@@ -44,7 +38,7 @@ class Parse_Web_Url
 		}
 	}
 
-	public function get_meta(& $url) {
+	public static function get_meta(& $url) {
 		$meta_types = array('tag', 'category', 'language', 'author');
 
 		if (isset($url[1]) && in_array($url[1], $meta_types) && isset($url[2])) {
@@ -55,7 +49,7 @@ class Parse_Web_Url
 		}
 	}
 
-	public function get_page(& $url) {
+	public static function get_page(& $url) {
 		if (isset($url[1]) && $url[1] == 'page' && isset($url[2]) && is_numeric($url[2])) {
 
 			$page = array_splice($url, 1, 2);
@@ -64,7 +58,7 @@ class Parse_Web_Url
 		}
 	}
 
-	public function get_id(& $url) {
+	public static function get_id(& $url) {
 
 		if (isset($url[1]) && is_numeric($url[1])) {
 

@@ -27,20 +27,17 @@ class Controller_Web extends Controller_Abstract
 	}
 
 	public function build_output ($url, $preferences) {
-		$transformations = get_class_methods('Parse_Web_Url');
+		$module = $this->call->get_module($url);
+var_dump($url);
+		$worker = $module . '_web';
+		$worker = new $worker();
 
-		$query = array();		
+		$query = $worker->call->make_query($url);
 
-		$class = $this->call->get_output_class($url);
-
-		foreach ($transformations as $transformation) {
-			$query = array_merge($query, (array) Parse_Web_Url::$transformation($url));
-		}
-
-		$query = array_replace_recursive($url, array(
+		$query = array_replace_recursive(array(
 			'type' => 'output',
-			'class' => $class,
-			'function' => 'listing',
+			'module' => $module,
+			'function' => 'listing'
 		), $query);
 
 		if (
@@ -57,32 +54,31 @@ class Controller_Web extends Controller_Abstract
 		return $query;
 	}
 	
-	public function get_output_class ($url) {
+	public function get_module (& $url) {
 		if (empty($url)) {
 			$url = array('index');
 		}
 		
-		$modules = Config::modules();
+		$modules = Config::alias();
 
 		$string = implode('/', $url);
 		
 		foreach ($modules as $name => $module) {
-			if (isset($module['alias'])) {
-				foreach ((array) $module['alias'] as $alias) {
-					if (
-						strpos($string, trim($alias, '/')) === 0 &&
-						$module['status'] != 'disabled'
-					) {
-						return $name;
-					}
+			foreach ($module as $alias) {
+				$alias = trim($alias, '/');
+				
+				if (strpos($string, $alias) === 0) {
+					$url = explode('/', substr($string, strlen($alias)));
+					
+					array_unshift($url, $name);
+					
+					$url = array_values(array_filter($url));
+					var_dump($url);
+					return $name;
 				}
 			}
 		}
 		
-		if (isset($modules[$url[0]]) && $modules[$url[0]]['status'] != 'disabled') {
-			return $url[0];
-		}
-		
-		return 'error';
+		return $url[0];
 	}
 }

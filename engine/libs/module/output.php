@@ -1,6 +1,6 @@
 <?
 
-abstract class Output_Abstract
+abstract class Module_Output
 {
 	protected $class_name = '';
 

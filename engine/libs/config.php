@@ -36,6 +36,6 @@ final class Config
 			return $return;
 		}
 
-		trigger_error("Missing config file $name.ini", E_USER_ERROR);
+		Error::fatal("Missing config file $name.ini");
 	} 
 }

@@ -1,6 +1,6 @@
 <?
 
-class Output_Video extends Output_Abstract
+class Video_Output extends Module_Output
 {
 	protected $sizes = array();
 

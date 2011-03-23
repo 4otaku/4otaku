@@ -20,11 +20,11 @@ class Core
 	}
 
 	public function process_output($query) {
-		$classname = 'output_'.$query['class'];
+		$classname = $query['class'].'_output';
 		$function = $query['function'];
 
 		if (!class_exists($classname)) {
-			$classname = 'output_error';
+			$classname = 'error_output';
 			$function = 'class_not_found';
 		}
 
@@ -33,6 +33,17 @@ class Core
 		$return = (array) $worker->call->$function($query);
 
 		$return = $worker->call->common_postprocess($return);
+		
+		if (
+			isset($query['header']) && 
+			class_exists($header_class = 'output_header_'.$query['header'])
+		) {
+			$header_worker = new $header_class();
+			
+			$return['header'] = array_replace(
+				array('template' => $query['header'])				
+			);
+		}
 
 		return $return;
 	}

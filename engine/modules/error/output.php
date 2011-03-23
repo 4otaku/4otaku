@@ -1,6 +1,6 @@
 <?
 
-class Output_Error extends Output_Abstract
+class Error_Output extends Module_Output
 {
 	public function class_not_found() {
 		$return = array();

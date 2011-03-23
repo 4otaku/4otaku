@@ -1,6 +1,6 @@
 <?
 
-class Output_Post extends Output_Abstract
+class Post_Output extends Module_Output
 {
 	public function single ($query) {
 		$post = Globals::db()->get_row('post', $query['id']);

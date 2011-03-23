@@ -1,6 +1,6 @@
 <?
 
-class Output_Index extends Output_Abstract
+class Index_Output extends Module_Output
 {
 	protected $wiki_namespaces = array(
 		1 => 'Обсуждение',
