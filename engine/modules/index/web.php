@@ -2,11 +2,7 @@
 
 class Index_Web extends Module_Web implements Plugins
 {
-	public function make_query ($url) {
-		$query = array();
-		
-		return $query;
-	}
+	public $url_parts = array();
 	
 	public function postprocess ($data) {
 		

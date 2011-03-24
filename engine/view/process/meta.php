@@ -14,7 +14,8 @@ class Process_Meta extends Process_Abstract
 			$this->plural = Config::template('plural');
 		}
 
-		$item['base'] = '/'.$item['item_type'].'/'.$item['area'].'/';
+		$item['base'] = '/'.$item['item_type'].'/';
+		$item['base'] .= $item['area'] == 'main'? '' : $item['area'].'/';
 
 		$item['meta_header'] = array();
 

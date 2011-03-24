@@ -34,7 +34,7 @@ class Meta
 			
 			$names = array_unique($names);
 			
-			$data = $worker->call->get_data_by_alias($names);
+			$data = $worker->get_data_by_alias($names);
 			
 			foreach ($index as $id => $item) {
 				foreach ($data as $one) {

@@ -6,7 +6,7 @@ class Process_Navi extends Process_Abstract
 
 		$data['navi'] = array();
 
-		$base = '/'.Globals::$query['class'].'/';
+		$base = '/'.Globals::$query['module'].'/';
 
 		$base .= Globals::$query['area'] == 'main' ? '' : Globals::$query['area'].'/';
 

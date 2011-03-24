@@ -27,7 +27,9 @@ class Controller_Web extends Controller_Abstract implements Plugins
 	}
 
 	protected function build_output ($url, $preferences) {
-		$module = $this->get_module($url);
+		$url = $this->check_alias($url);
+
+		$module = array_shift($url);
 
 		$worker = $module . '_web';
 		if (!class_exists($worker)) {
@@ -59,7 +61,7 @@ class Controller_Web extends Controller_Abstract implements Plugins
 		return $query;
 	}
 	
-	public function get_module (& $url) {
+	public function check_alias ($url) {
 		if (empty($url)) {
 			$url = array('index');
 		}
@@ -79,11 +81,11 @@ class Controller_Web extends Controller_Abstract implements Plugins
 					
 					$url = array_values(array_filter($url));
 	
-					return $name;
+					return $url;
 				}
 			}
 		}
 		
-		return $url[0];
+		return $url;
 	}
 }

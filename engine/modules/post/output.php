@@ -27,7 +27,7 @@ class Post_Output extends Module_Output implements Plugins
 
 		$start = ($page - 1) * $perpage;
 
-		$listing_condition = $this->call->build_listing_condition($query);
+		$listing_condition = $this->build_listing_condition($query);
 
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 

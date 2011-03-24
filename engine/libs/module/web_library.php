@@ -34,7 +34,7 @@ class Module_Web_Library implements Plugins
 
 			array_splice($url, 1, 2);
 
-			return array('mixed' => $mixed, 'function' => 'listing');
+			return array('mixed' => $mixed, 'function' => 'main');
 		}
 	}
 
@@ -45,7 +45,7 @@ class Module_Web_Library implements Plugins
 
 			$meta = array_splice($url, 1, 2);
 
-			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'listing');
+			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'main');
 		}
 	}
 
@@ -54,7 +54,7 @@ class Module_Web_Library implements Plugins
 
 			$page = array_splice($url, 1, 2);
 
-			return array('page' => end($page), 'function' => 'listing');
+			return array('page' => end($page), 'function' => 'main');
 		}
 	}
 
