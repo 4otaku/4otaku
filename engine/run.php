@@ -23,18 +23,20 @@
 	
 	$extended_files = glob(ROOT.SL.'cache'.SL.'extended'.SL.'*.md5');
 	
-	foreach ((array) $extended_files as $extended_file) {
-		$class_name = basename($extended_file, '.md5');
-		$class_file = search_lib($class_name);
-		
-		$md5 = file_get_contents($extended_file);
-		
-		if (empty($class_file) && md5_file($class_file) !== $md5) {
-			Plugin_Loader::drop_cache();
-			Plugin_Loader::make_cache();
-			break;
-		}
-	}	
+	if (is_array($extended_files)) {
+		foreach ($extended_files as $extended_file) {
+			$class_name = basename($extended_file, '.md5');
+			$class_file = search_lib($class_name);
+			
+			$md5 = file_get_contents($extended_file);
+			
+			if (empty($class_file) && md5_file($class_file) !== $md5) {
+				Plugin_Loader::drop_cache();
+				Plugin_Loader::make_cache();
+				break;
+			}
+		}	
+	}
 	
 	// Определяем тип запроса, и выбираем контроллер.
 	
