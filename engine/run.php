@@ -23,7 +23,7 @@
 	
 	$extended_files = glob(ROOT.SL.'cache'.SL.'extended'.SL.'*.md5');
 	
-	foreach ($extended_files as $extended_file) {
+	foreach ((array) $extended_files as $extended_file) {
 		$class_name = basename($extended_file, '.md5');
 		$class_file = search_lib($class_name);
 		
