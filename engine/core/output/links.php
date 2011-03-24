@@ -1,6 +1,6 @@
 <?
 
-class Output_Links extends Output_Abstract
+class Output_Links extends Output_Abstract implements Plugins
 {
 	public function listing () {
 		$return = array();

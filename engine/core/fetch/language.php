@@ -1,6 +1,6 @@
 <?
 
-class Fetch_Language extends Fetch_Abstract
+class Fetch_Language implements Plugins
 {
 	public function get_data_by_alias($aliases) {
 		$condition = "type='language' and ".Globals::db()->array_in('alias', $aliases);

@@ -1,6 +1,6 @@
 <?
 
-class Index_Output extends Module_Output
+class Index_Output extends Module_Output implements Plugins
 {
 	protected $wiki_namespaces = array(
 		1 => 'Обсуждение',
@@ -20,7 +20,7 @@ class Index_Output extends Module_Output
 		15 => 'Обсуждение_категории',
 	);
 
-	public function index() {
+	public function main () {
 
 		$return['template'] = 'index';
 

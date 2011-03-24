@@ -1,11 +1,11 @@
 <?
 
-class Post_Output extends Module_Output
+class Post_Output extends Module_Output implements Plugins
 {
 	public function single ($query) {
 		$post = Globals::db()->get_row('post', $query['id']);
 
-		$items = $this->call->get_items($post['id']);
+		$items = $this->get_items($post['id']);
 
 		$post['date'] = Globals::db()->date_to_unix($post['date']);
 
@@ -18,7 +18,7 @@ class Post_Output extends Module_Output
 		return $return;
 	}
 
-	public function listing ($query) {
+	public function main ($query) {
 		$return = array();
 
 		$perpage = Config::settings('post', 'Amount');
@@ -36,7 +36,7 @@ class Post_Output extends Module_Output
 		$keys = array_keys($return['items']);
 		$index = array();
 
-		$items = $this->call->get_items($keys);
+		$items = $this->get_items($keys);
 
 		foreach ($return['items'] as $id => & $post) {
 			$post = array_merge($post, (array) $items[$id]);

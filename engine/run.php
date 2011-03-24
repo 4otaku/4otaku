@@ -23,8 +23,17 @@
 	
 	$extended_files = glob(ROOT.SL.'cache'.SL.'extended'.SL.'*.md5');
 	
-	foreach ($plugin_files as $plugin_file) {		
-		Plugins::load($plugin_file);
+	foreach ($extended_files as $extended_file) {
+		$class_name = basename($extended_file, '.md5');
+		$class_file = search_lib($class_name);
+		
+		$md5 = file_get_contents($extended_file);
+		
+		if (empty($class_file) && md5_file($class_file) !== $md5) {
+			Plugin_Loader::drop_cache();
+			Plugin_Loader::make_cache();
+			break;
+		}
 	}	
 	
 	// Определяем тип запроса, и выбираем контроллер.
@@ -37,13 +46,13 @@
 	
 	// Ядро обрабатывает запрос
 	$core = new Core();
-	Globals::$data = $core->call->process(Globals::$query);
+	Globals::$data = $core->process(Globals::$query);
 	
 	// Полученный результат подхватывает менеджер представлений
 	$view = new Manager(Globals::$data);
-	$view->call->postprocess();
+	$view->postprocess();
 	
 	// И выводит пользователю, используя подходящий шаблонизатор
-	$view->call->output();
+	$view->output();
 	
 	

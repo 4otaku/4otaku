@@ -1,10 +1,10 @@
 <?
 
-class Video_Output extends Module_Output
+class Video_Output extends Module_Output implements Plugins
 {
 	protected $sizes = array();
 
-	public function __construct($class_name) {
+	public function __construct ($class_name) {
 		parent::__construct($class_name);
 
 		$this->sizes = array(
@@ -13,7 +13,7 @@ class Video_Output extends Module_Output
 		);
 	}
 
-	public function single($query) {
+	public function single ($query) {
 		$video = Globals::db()->get_row('video', $query['id']);
 
 		$video['date'] = Globals::db()->date_to_unix($video['date']);
@@ -29,7 +29,7 @@ class Video_Output extends Module_Output
 		return $return;
 	}
 
-	public function listing($query) {
+	public function main ($query) {
 		$return = array();
 
 		$perpage = Config::settings('video', 'Amount');
@@ -38,7 +38,7 @@ class Video_Output extends Module_Output
 
 		$start = ($page - 1) * $perpage;
 
-		$listing_condition = $this->call->build_listing_condition($query);
+		$listing_condition = $this->build_listing_condition($query);
 
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 

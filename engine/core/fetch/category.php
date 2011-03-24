@@ -1,6 +1,6 @@
 <?
 
-class Fetch_Category extends Fetch_Abstract
+class Fetch_Category implements Plugins
 {
 	public function get_data_by_alias($aliases) {
 		$condition = "type='category' and ".Globals::db()->array_in('alias', $aliases);

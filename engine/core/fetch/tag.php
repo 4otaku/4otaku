@@ -1,6 +1,6 @@
 <?
 
-class Fetch_Tag extends Fetch_Abstract
+class Fetch_Tag implements Plugins
 {
 	public function get_data_by_alias($aliases) {
 		$condition = Globals::db()->array_in('alias', $aliases);

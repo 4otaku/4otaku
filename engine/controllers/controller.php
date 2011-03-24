@@ -1,6 +1,6 @@
 <?
 
-class Controller
+class Controller implements Plugins
 {
 	// Хранит рабочий контроллер
 	private $worker;
@@ -25,7 +25,7 @@ class Controller
 			Error::fatal("Контроллер $name не является ребенком Controller_Abstract");
 		}
 
-		return $this->worker->call->build();
+		return $this->worker->build();
 	}
 
     public function __toString() {

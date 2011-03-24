@@ -1,12 +1,10 @@
 <?
 
-abstract class Module_Output
+abstract class Module_Output implements Plugins
 {
 	protected $class_name = '';
 
 	public function __construct($class_name) {
-		$this->call = Plugins::extend($this);
-
 		$this->class_name = $class_name;
 	}
 

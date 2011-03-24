@@ -7,6 +7,10 @@
 	$library_directories = glob(ENGINE.SL.'*', GLOB_ONLYDIR);
 	
 	function autoload_extended ($name) {
+		if ($name == 'index') {
+			return false;
+		}
+		
 		$extended = ROOT.SL.'cache'.SL.'extended'.SL.$name.'.php';
 		
 		if (is_readable($extended)) {
@@ -18,9 +22,7 @@
 	}
 	
 	function autoload_normal ($name) {
-		$library = search_lib($name);
-		
-		if (!empty($library)) {
+		if ($library = search_lib($name)) {
 			include_once($library);
 			return true;			
 		}

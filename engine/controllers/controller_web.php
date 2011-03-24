@@ -1,16 +1,16 @@
 <?
 
-class Controller_Web extends Controller_Abstract
+class Controller_Web extends Controller_Abstract implements Plugins
 {
 	public function build () {
 		if (array_key_exists('do', Globals::$vars)) {
-			return $this->call->build_input(Globals::$vars, Globals::$preferences);
+			return $thisbuild_input(Globals::$vars, Globals::$preferences);
 		}
 
-		return $this->call->build_output(Globals::$url, Globals::$preferences);
+		return $this->build_output(Globals::$url, Globals::$preferences);
 	}
 
-	public function build_input ($vars, $preferences) {
+	protected function build_input ($vars, $preferences) {
 		$do = explode('.', $vars['do']);
 
 		if (count($do) != 2) {
@@ -26,18 +26,23 @@ class Controller_Web extends Controller_Abstract
 		return array_merge($vars, $query);
 	}
 
-	public function build_output ($url, $preferences) {
-		$module = $this->call->get_module(& $url);
-var_dump($url);
+	protected function build_output ($url, $preferences) {
+		$module = $this->get_module($url);
+
 		$worker = $module . '_web';
+		if (!class_exists($worker)) {
+			$module = 'error';
+			$worker = 'error_web';
+		}
+		
 		$worker = new $worker();
 
-		$query = $worker->call->make_query($url);
+		$query = $worker->make_query($url);
 
 		$query = array_replace_recursive(array(
 			'type' => 'output',
 			'module' => $module,
-			'function' => 'listing'
+			'function' => 'main'
 		), $query);
 
 		if (
@@ -73,7 +78,7 @@ var_dump($url);
 					array_unshift($url, $name);
 					
 					$url = array_values(array_filter($url));
-							var_dump($url);		
+	
 					return $name;
 				}
 			}

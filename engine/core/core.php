@@ -1,26 +1,22 @@
 <?
 
-class Core
+class Core implements Plugins
 {
-	public function __construct() {
-		$this->call = Plugins::extend($this);
-	}
-
 	public function process($query) {
 		switch ($query['type']) {
 			case 'output':
-				return $this->call->process_output($query);
+				return $this->process_output($query);
 			case 'input':
-				return $this->call->process_input($query);
+				return $this->process_input($query);
 			case 'ajax':
-				return $this->call->process_ajax($query);
+				return $this->process_ajax($query);
 			default:
 				Error::fatal("Некорректный тип запроса {$query['type']}");
 		}
 	}
 
 	public function process_output($query) {
-		$classname = $query['class'].'_output';
+		$classname = $query['module'].'_output';
 		$function = $query['function'];
 
 		if (!class_exists($classname)) {
@@ -28,11 +24,11 @@ class Core
 			$function = 'class_not_found';
 		}
 
-		$worker = new $classname($query['class']);
+		$worker = new $classname($query['module']);
 
-		$return = (array) $worker->call->$function($query);
+		$return = (array) $worker->$function($query);
 
-		$return = $worker->call->common_postprocess($return);
+		$return = $worker->common_postprocess($return);
 		
 		if (
 			isset($query['header']) && 

@@ -1,58 +1,9 @@
 <?
 
-final class Plugins
+// Заглушка, для флага, можно ли расширять класс плагинами
+// Можно конечно было сделать его через комментарий после имени класса, 
+// но после первой же резалки комментариев все полетело бы
+
+interface Plugins
 {
-	// Хранилище для загруженных плагинов
-	public static $instances = array();
-	
-	// Для рабочего объекта
-	private static $worker;
-	
-	// Для ссылки назад, на функции класса
-	private static $parent;	
-	
-	function __construct($class) {
-		$this->parent = $class;
-	}	
-	
-	public static function load($file) {
-		if (
-			!is_readable($file) || 
-			pathinfo($file, PATHINFO_EXTENSION) !== 'php' ||
-			!self::test($file)
-		) {
-			return;
-		}
-		
-		$class_vars = null;
-		$class_name = 'Plugin_'.pathinfo($file, PATHINFO_FILENAME);
-		
-		include_once($file);		
-		
-		if (class_exists($class_name, false)) {
-			self::$instances[] = new $class_name($class_vars);
-		}
-		
-		return true;
-	}
-	
-	private static function test($file) {
-		// TODO: придумать формат для плагинов и написать проверку
-		return true;
-	}
-	
-	public function __call($name, $arguments) {
-		// TODO: Тут проверка на наличие подходящих плагинов и вызов их
-		
-		return call_user_func_array(array($this->parent, $name), $arguments);
-	} 
-	
-	public static function extend(& $class) {
-		// TODO: Тут проверка есть ли плагины для класса
-		if (1 == 1) {
-			return new Plugins($class);
-		}
-		
-		return $class;
-	}
 }

@@ -3,7 +3,7 @@
 class Process_Date extends Process_Abstract
 {	
 	public function web($date) {		
-		return $this->call->rudate($date);
+		return $this->rudate($date);
 	}
 	
 	public function rumonth($in) {
@@ -21,7 +21,7 @@ class Process_Date extends Process_Abstract
 			$time = time();
 		}
 		
-		$date = $this->call->rumonth(date('m'), $time).date(' j, Y', $time);
+		$date = $this->rumonth(date('m'), $time).date(' j, Y', $time);
 		
 		if ($minutes) {
 			$date .= date('; G:i', $time);

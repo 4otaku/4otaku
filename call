@@ -1,0 +1,1793 @@
+engine/autoloader.php:	// Потом ищет во всех под-директориях внтури engine/
+engine/controllers/controller_abstract.php:		$this->call = Plugins::extend($this);
+engine/controllers/controller.php:			$this->worker = new Controller_Mobile();
+engine/controllers/controller.php:			$this->worker = new Controller_Ajax();
+engine/controllers/controller.php:		$this->worker = new Controller_Web();
+engine/controllers/controller.php:		if (!($this->worker instanceOf Controller_Abstract)) {
+engine/controllers/controller.php:			$name = get_class($this->worker);
+engine/controllers/controller.php:		return $this->worker->call->build();
+engine/controllers/controller.php:		return preg_replace('/^[a-z]+?_/i', '', get_class($this->worker));
+engine/controllers/controller_web.php:			return $this->call->build_input(Globals::$vars, Globals::$preferences);
+engine/controllers/controller_web.php:		return $this->call->build_output(Globals::$url, Globals::$preferences);
+engine/controllers/controller_web.php:		$module = $this->call->get_module(& $url);
+engine/controllers/controller_web.php:		$query = $worker->call->make_query($url);
+engine/core/fetch/abstract.php:		$this->call = Plugins::extend($this);
+engine/core/fetch/language.php:		$condition = "type='language' and ".Globals::db()->array_in('alias', $aliases);
+engine/core/fetch/language.php:		return Objects::db()->get_vector('meta', $select, $condition, $aliases, false);
+engine/core/fetch/category.php:		$condition = "type='category' and ".Globals::db()->array_in('alias', $aliases);
+engine/core/fetch/category.php:		return Objects::db()->get_vector('meta', $select, $condition, $aliases, false);
+engine/core/fetch/author.php:		$condition = "type='author' and ".Globals::db()->array_in('alias', $aliases);
+engine/core/fetch/author.php:		return Objects::db()->get_vector('meta', $select, $condition, $aliases, false);
+engine/core/fetch/tag.php:		$condition = Globals::db()->array_in('alias', $aliases);
+engine/core/fetch/tag.php:		$tags = Objects::db()->get_vector('meta', $select, $full_condition, $aliases, false);
+engine/core/fetch/tag.php:		$variants = Objects::db()->get_full_table('tag_variants', $condition, $aliases);
+engine/core/output/links.php:		$links = Globals::db()->get_table('post_items', $fields, "status != 'ok'");
+engine/core/output/links.php:		$condition = Globals::db()->array_in('id',$ids);		
+engine/core/output/links.php:		$titles = Globals::db()->get_vector('post', 'id,title', $condition, $ids);
+engine/core/output/links.php:			$full_id = $link['status'].'-'.$link['item_id'];
+engine/core/core.php:		$this->call = Plugins::extend($this);
+engine/core/core.php:				return $this->call->process_output($query);
+engine/core/core.php:				return $this->call->process_input($query);
+engine/core/core.php:				return $this->call->process_ajax($query);
+engine/core/core.php:		$return = (array) $worker->call->$function($query);
+engine/core/core.php:		$return = $worker->call->common_postprocess($return);
+engine/core/core.php:			$this->query = (array) $worker->call->$function();
+engine/core/core.php:				($arguments = $this->$test())
+engine/core/core.php:			$function = $worker->call->get_function(Globals::$url);
+engine/core/core.php:			$query = (array) $worker->call->$function();
+engine/cron.php:		$tasks = $cron->get_task_list();	
+engine/cron.php:			echo $cron->do_task($task);
+engine/init.php:	mb_internal_encoding('UTF-8');
+engine/init.php:	// Подгружаем конфиг, если не нашли - бросаем ошибку,
+engine/libs/meta.php:			$data = $worker->call->get_data_by_alias($names);
+engine/libs/transform/video.php:		$this->id = ''; $this->aspect = 0; $this->api = false;
+engine/libs/transform/video.php:			case 'youtube.com': $object = $this->youtube($this->parse_query($parts['query'])); break;
+engine/libs/transform/video.php:			case 'vimeo.com': $object = $this->vimeo($parts['path']); break;
+engine/libs/transform/video.php:			case 'nicovideo.jp': $object = $nico ? $this->nicovideo($parts['path']) : false; break;
+engine/libs/transform/video.php:			case 'amvnews.ru': $object = $this->amvnews($this->parse_query($parts['query'])); break;
+engine/libs/transform/video.php:			case 'dailymotion.com': $object = $this->dailymotion($parts['path']); break;
+engine/libs/transform/video.php:			case 'gametrailers.com': $object = $this->gametrailers($parts['path']); break;
+engine/libs/transform/video.php:			case 'rutube.ru': $object = $this->rutube($this->parse_query($parts['query'])); break;
+engine/libs/transform/video.php:			$this->id = $get['v'];
+engine/libs/transform/video.php:			$this->aspect = 3/4;
+engine/libs/transform/video.php:					<embed src="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash" 
+engine/libs/transform/video.php:			$this->id = $id;
+engine/libs/transform/video.php:			$this->aspect = 9/16;
+engine/libs/transform/video.php:			$this->id = $id;
+engine/libs/transform/video.php:			$this->aspect = 1;			
+engine/libs/transform/video.php:			$this->id = $get['id'];
+engine/libs/transform/video.php:			$this->aspect = 3/4;	
+engine/libs/transform/video.php:		if ($id = substr($path,1,strpos($path,'_') - 1)) {
+engine/libs/transform/video.php:			$this->id = $id;
+engine/libs/transform/video.php:			$this->aspect = 3/4;
+engine/libs/transform/video.php:					<embed src="http://www.dailymotion.com/swf/'.$id.'" type="application/x-shockwave-flash" width="%video_width%" 
+engine/libs/transform/video.php:			$this->id = $id;
+engine/libs/transform/video.php:			$this->aspect = 3/4;			
+engine/libs/transform/video.php:						<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+engine/libs/transform/video.php:						type="application/x-shockwave-flash" width="%video_width%" height="%video_height%"></embed> 
+engine/libs/transform/video.php:			$this->id = $get['v'];
+engine/libs/transform/video.php:			$this->aspect = 3/4;			
+engine/libs/transform/video.php:						type="application/x-shockwave-flash" wmode="window" 
+engine/libs/transform/meta.php:				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
+engine/libs/transform/meta.php:				if (!$color || !$sets['user']['rights']) obj::db()->insert('misc',array('tag_type',$tags[$key],substr($type[0],4,-4),$color,'',''));
+engine/libs/transform/meta.php:				elseif ($color) $this->colors[$tags[$key]] = $color;
+engine/libs/transform/meta.php:			obj::db()->sql('update tag set '.$erasearea.' = '.$erasearea.' - 1 where alias="'.$one.'"',0);
+engine/libs/transform/meta.php:			if ($check = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
+engine/libs/transform/meta.php:				if ($update) obj::db()->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
+engine/libs/transform/meta.php:				if ($this->colors[$tag]) obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
+engine/libs/transform/meta.php:				$alias = $this->make_alias($tag); 
+engine/libs/transform/meta.php:				obj::db()->insert('tag',array($alias,$tag,'|',$this->colors[$tag],0,0,0,0,0,0,0));
+engine/libs/transform/meta.php:				if ($update) obj::db()->update('tag',$update,1,$alias,'alias');
+engine/libs/transform/meta.php:			$category = obj::db()->sql('select alias from category where name = "'.$category.'" or alias="'.$category.'"',2);
+engine/libs/transform/meta.php:			$language = obj::db()->sql('select alias from language where name = "'.$language.'" or alias="'.$language.'"',2);
+engine/libs/transform/meta.php:			if ($check = obj::db()->sql('select alias from author where name = "'.$author.'" or alias="'.$author.'"',2)) 
+engine/libs/transform/meta.php:				$alias = $this->make_alias($author); 
+engine/libs/transform/meta.php:				obj::db()->insert('author',array($alias,$author));
+engine/libs/transform/meta.php:		return str_replace(' ','_',preg_replace('/[^a-z_\d]/','_',strtolower($this->jap2lat($this->ru2lat(undo_safety($word))))));
+engine/libs/transform/meta.php:	/* Не трогаем - тут какая-то аццкая хрень с пробелами, работает только так */
+engine/libs/transform/link.php:		$alias = obj::db()->sql('select data1, data2 from misc where type="site_alias"','data1');
+engine/libs/transform/text.php:	const url_regex = '/(https?|ftp|irc):\/\/[:_\p{L}\d\-\.]+\.[:\p{L}\d]+(\/.+?(?=\.\s|"\s|\)\s|,\s|\s|$|&nbsp;|\[\/?[a-z]{1,8}|　))?/s';
+engine/libs/transform/text.php:	const bbcode_regex = '/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is';
+engine/libs/transform/text.php:		$chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+engine/libs/transform/text.php:        $text = $this->cutout_hidden($text);
+engine/libs/transform/text.php:        while (!empty($text) && mb_strlen($return, 'UTF-8') < $minimum_return) {
+engine/libs/transform/text.php:		return preg_replace('/<([a-zA-Z]+)[^>]+class="[^"]*(?<=\s|")hidden(?=\s|")[^"]*"[^>]*>.*?<\/\1>/is', '', $text);
+engine/libs/transform/text.php:		$text = $this->bb2html($text);
+engine/libs/transform/text.php:		foreach ($text as &$string) $this->wakaba_mark($string,$state);
+engine/libs/transform/text.php:		$string = $this->wakaba_strike($string);
+engine/libs/transform/text.php:		if (preg_match('/^(?:\-|\+|\*)\s+(.*)$/',$string,$match)) {
+engine/libs/transform/text.php:			if ($key && $part{0}.$part{1} == '^H' && $parts[$key-1]{1} != '⟯') {
+engine/libs/transform/text.php:				$parts[$key-1] = undo_safety($parts[$key-1]);
+engine/libs/transform/text.php:				$parts[$key-1] =
+engine/libs/transform/text.php:					redo_safety(mb_substr($parts[$key-1], 0, -1/2 * strlen($part))) . '<s>' .
+engine/libs/transform/text.php:					redo_safety(mb_substr($parts[$key-1], -1/2 * strlen($part))) . '</s>';
+engine/libs/transform/text.php:			if ($count % 10 == 0 || $count % 10 > 4 || $count[strlen($count)-2] == 1) return $case3;
+engine/libs/transform/text.php:				preg_match_all('/(&[a-z]{1,8};|.){'.($length+1).'}/iu', $part, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)
+engine/libs/transform/text.php:					$parts[$key] .= substr($part, $last_position, $match[1][1] - $last_position);
+engine/libs/transform/text.php:				$parts[$key] .= substr($part, $last_position, strlen($part) - $last_position);
+engine/libs/transform/text.php:			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);	
+engine/libs/transform/text.php:			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
+engine/libs/transform/text.php:			$tags[$tag_name]--;			
+engine/libs/transform/text.php:		$return = empty($cut_words) ? $match[0] : $this->cut_long_words($match[0],$cut_words);
+engine/libs/transform/text.php:						if ($param{0} != '+' && $param{0} != '-') $param = '+'.$param;
+engine/libs/transform/text.php:						$replacement = "<div class=\"mini-shell\"><div class=\"handler\" width=\"100%\">".
+engine/libs/transform/string.php:		$count_all = mb_strlen($string, 'UTF-8');
+engine/libs/transform/string.php:		$count['rus'] = preg_match_all('/[а-яё]/ui', $string, $dev_null);
+engine/libs/transform/string.php:		$count['eng'] = preg_match_all('/[a-z]/i', $string, $dev_null);
+engine/libs/module/output.php:		$this->call = Plugins::extend($this);
+engine/libs/module/output.php:		$this->class_name = $class_name;
+engine/libs/module/output.php:					$item['item_type'] = $this->class_name;
+engine/libs/module/web.php:		$this->call = Plugins::extend($this);
+engine/libs/cron.php:		$tasks = Objects::db()->get_table('cron', 'name', '`period` + `last_call` < NOW()');
+engine/libs/cron.php:		if (Objects::db()->get_count('cron', '`name` = ? and `status` = "idle"', $task)) {
+engine/libs/cron.php:				Objects::db()->update('cron', '`name` = ?', 'status', array('process', $task));
+engine/libs/cron.php:				$task_memory = $this->$task();
+engine/libs/cron.php:				$time = time() - $time;				
+engine/libs/cron.php:				$memory = max(0, $task_memory - $memory);
+engine/libs/cron.php:				Objects::db()->update('cron', '`name` = ?', $fields, $values);
+engine/libs/cron.php:		$count = Objects::db()->get_count('post_items', '`type` = "link"');
+engine/libs/cron.php:		$links = Objects::db()->get_vector('post_items', 'id, data', '`type` = "link" order by last_check limit '.$limit);
+engine/libs/cron.php:					'last_check' => Objects::db()->unix_to_date()
+engine/libs/cron.php:				Objects::db()->update('post_items', $id, $update);
+engine/libs/database/mysql.php:		$this->connection =	mysql_connect(
+engine/libs/database/mysql.php:		mysql_select_db($config['Database'], $this->connection)
+engine/libs/database/mysql.php:			$this->prefix =	$config['Prefix'];
+engine/libs/database/mysql.php:					mysql_real_escape_string($param, $this->connection);
+engine/libs/database/mysql.php:		$this->last_query = $query;
+engine/libs/database/mysql.php:		return mysql_query($query, $this->connection);
+engine/libs/database/mysql.php:		$query = str_replace('<pr>', $this->prefix, $query);
+engine/libs/database/mysql.php:		$this->result = $this->query($query, $params);
+engine/libs/database/mysql.php:		if (!is_resource($this->result)) {
+engine/libs/database/mysql.php:		while ($row = mysql_fetch_assoc($this->result)) {
+engine/libs/database/mysql.php:		$query = "SELECT $values FROM `{$this->prefix}$table`";
+engine/libs/database/mysql.php:		$this->result = $this->query($query, $params);
+engine/libs/database/mysql.php:		$this->get_common($table, $values, $condition, $params);
+engine/libs/database/mysql.php:		if (!is_resource($this->result)) {
+engine/libs/database/mysql.php:		while ($row = mysql_fetch_assoc($this->result)) {
+engine/libs/database/mysql.php:		$this->get_common($table, $values, $condition, $params);
+engine/libs/database/mysql.php:		if (!is_resource($this->result)) {
+engine/libs/database/mysql.php:		while ($row = mysql_fetch_assoc($this->result)) {
+engine/libs/database/mysql.php:		$this->get_common($table, $values, $condition." LIMIT 1", $params);
+engine/libs/database/mysql.php:		if (!is_resource($this->result)) {
+engine/libs/database/mysql.php:		$return = mysql_fetch_assoc($this->result);
+engine/libs/database/mysql.php:		$this->get_common($table, $value, $condition." LIMIT 1", $params);
+engine/libs/database/mysql.php:		if (!is_resource($this->result)) {
+engine/libs/database/mysql.php:		$return = mysql_fetch_assoc($this->result);
+engine/libs/database/mysql.php:		return $this->conditional_insert($table, $values, $keys);
+engine/libs/database/mysql.php:		$query = "INSERT INTO `{$this->prefix}$table`";
+engine/libs/database/mysql.php:		$this->query($query, $values);
+engine/libs/database/mysql.php:		return mysql_affected_rows($this->connection);		
+engine/libs/database/mysql.php:		$query = "INSERT INTO `{$this->prefix}$table`";
+engine/libs/database/mysql.php:		$this->query($query, $params);
+engine/libs/database/mysql.php:		return mysql_affected_rows($this->connection);		
+engine/libs/database/mysql.php:		$query = "UPDATE `{$this->prefix}$table` SET ";
+engine/libs/database/mysql.php:		$this->query($query, $values);
+engine/libs/database/mysql.php:		return mysql_affected_rows($this->connection);	
+engine/libs/database/mysql.php:		$query = "DELETE FROM `{$this->prefix}$table`";
+engine/libs/database/mysql.php:		$this->query($query);
+engine/libs/database/mysql.php:		return mysql_affected_rows($this->connection);
+engine/libs/database/mysql.php:		return mysql_insert_id($this->connection);
+engine/libs/database/mysql.php:			$return = "Запрос: {$this->last_query}; был выполнен успешно\n";
+engine/libs/database/mysql.php:			$return = "Запрос: {$this->last_query}; \n".
+engine/libs/database/mysql.php:		mysql_free_result($this->result);
+engine/libs/database/mysql.php:		if ((bool) $this->transaction) {
+engine/libs/database/mysql.php:		mysql_query("START TRANSACTION", $this->connection);
+engine/libs/database/mysql.php:		$this->transaction = true;
+engine/libs/database/mysql.php:		if (empty($this->transaction)) {
+engine/libs/database/mysql.php:		mysql_query("COMMIT", $this->connection);
+engine/libs/database/mysql.php:		$this->transaction = false;
+engine/libs/database/mysql.php:		if (empty($this->transaction)) {
+engine/libs/database/mysql.php:		mysql_query("ROLLBACK", $this->connection);
+engine/libs/database/mysql.php:		$this->transaction = false;
+engine/libs/database/common.php:		if ($this->get_row($table, $deny_condition, '*', $deny_params)) {
+engine/libs/database/common.php:		return $this->insert($table, $values, $keys);
+engine/libs/database/common.php:			return "$field in (".str_repeat('?,',count($array)-1)."?)";
+engine/libs/database/common.php:		return date("Y-m-d H:i:s", $time);
+engine/libs/database/common.php:		return $this->get_table($table, '*', $condition, $params);
+engine/libs/database/common.php:		return $this->get_vector($table, '*', $condition, $params);
+engine/libs/database/common.php:		return $this->get_row($table, '*', $condition, $params);
+engine/libs/database/common.php:		return $this->get_field($table, 'count(*)', $condition, $params);
+engine/libs/database/firebird.php:		$this->connection =	ibase_connect(
+engine/libs/database/firebird.php:			'UTF-8'
+engine/libs/database/firebird.php:			$this->prefix =	$config['Prefix'];
+engine/libs/database/firebird.php:		$this->commit();
+engine/libs/database/firebird.php:		$this->last_query = array(
+engine/libs/database/firebird.php:		$result = ibase_query($this->connection, $query, $params);
+engine/libs/database/firebird.php:		$query = str_replace('<pr>', $this->prefix, $query);
+engine/libs/database/firebird.php:		$this->result = $this->query($query, $params);
+engine/libs/database/firebird.php:		if (!is_resource($this->result)) {
+engine/libs/database/firebird.php:		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
+engine/libs/database/firebird.php:		$query = "SELECT $values FROM {$this->prefix}$table";
+engine/libs/database/firebird.php:		$this->result = $this->query($query, $params);
+engine/libs/database/firebird.php:		$this->get_common($table, $values, $condition, $params);
+engine/libs/database/firebird.php:		if (!is_resource($this->result)) {
+engine/libs/database/firebird.php:		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
+engine/libs/database/firebird.php:		$this->get_common($table, $values, $condition, $params);
+engine/libs/database/firebird.php:		if (!is_resource($this->result)) {
+engine/libs/database/firebird.php:		while ($row = ibase_fetch_assoc($this->result, IBASE_TEXT)) {
+engine/libs/database/firebird.php:		$this->get_common($table, $values, $condition.' LIMIT 1', $params);
+engine/libs/database/firebird.php:		if (!is_resource($this->result)) {
+engine/libs/database/firebird.php:		$return = ibase_fetch_assoc($this->result, IBASE_TEXT);
+engine/libs/database/firebird.php:		$this->get_common($table, $value, $condition.' LIMIT 1', $params);
+engine/libs/database/firebird.php:		if (!is_resource($this->result)) {
+engine/libs/database/firebird.php:		$return = ibase_fetch_assoc($this->result, IBASE_TEXT);
+engine/libs/database/firebird.php:		$query = "INSERT INTO {$this->prefix}$table";
+engine/libs/database/firebird.php:		$query = $this->make_insert_statement($table, $values, $keys);
+engine/libs/database/firebird.php:		$this->query($query, $values);
+engine/libs/database/firebird.php:		return ibase_affected_rows($this->connection);
+engine/libs/database/firebird.php:			$query .= "\n".$this->make_insert_statement($table, $row, $keys).";";
+engine/libs/database/firebird.php:		$this->query($query, $params);
+engine/libs/database/firebird.php:		return ibase_affected_rows($this->connection);
+engine/libs/database/firebird.php:		$query = "UPDATE {$this->prefix}$table SET ";
+engine/libs/database/firebird.php:		$this->query($query, $values);
+engine/libs/database/firebird.php:		return ibase_affected_rows($this->connection);	
+engine/libs/database/firebird.php:		$query = "DELETE FROM {$this->prefix}$table";
+engine/libs/database/firebird.php:		$this->query($query);
+engine/libs/database/firebird.php:		return ibase_affected_rows($this->connection);
+engine/libs/database/firebird.php:		$params = implode(',', $this->last_query['params']);
+engine/libs/database/firebird.php:			$return = "Запрос: \"{$this->last_query['query']}\" с параметрами $params был выполнен успешно\n";
+engine/libs/database/firebird.php:			$return = "Запрос: \"{$this->last_query['query']}\" с параметрами $params \n".
+engine/libs/database/firebird.php:		ibase_free_result($this->result);
+engine/libs/database/firebird.php:		if ((bool) $this->transaction) {
+engine/libs/database/firebird.php:		ibase_trans($this->connection);
+engine/libs/database/firebird.php:		$this->transaction = true;
+engine/libs/database/firebird.php:		if (empty($this->transaction)) {
+engine/libs/database/firebird.php:		ibase_commit($this->connection);
+engine/libs/database/firebird.php:		$this->transaction = false;
+engine/libs/database/firebird.php:		if (empty($this->transaction)) {
+engine/libs/database/firebird.php:		ibase_rollback($this->connection);
+engine/libs/database/firebird.php:		$this->transaction = false;
+engine/libs/browser.php:		'hotfile.com' => '<td>Diese\s+Datei\s+ist\s+entweder\s+aufgrund\s+des\s+Copyright-Rechtes',
+engine/libs/browser.php:		$link = str_replace('&apos;', "'", html_entity_decode($link, ENT_QUOTES, 'UTF-8'));
+engine/libs/browser.php:			curl_setopt(self::$curl, CURLOPT_RANGE, '1-'.self::$maximum_html_length);
+engine/modules/index/settings.ini:; Доступ на добавление новой информации. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/index/settings.ini:; Доступ на просмотр раздела. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/index/output.php:				$unseen_item = Objects::db()->unix_to_date($unseen_item);
+engine/modules/index/output.php:			'total' => Objects::db()->get_count('post', 'area = "main"'),
+engine/modules/index/output.php:			'unseen' => $unseen['post'] ? Objects::db()->get_count('post', 'area = "main" and date > ?', $unseen['post']) : 0,
+engine/modules/index/output.php:			'latest' => Objects::db()->get_table('post', $latest_fields, 'area = "main" order by date desc limit 3'),
+engine/modules/index/output.php:			'total' => Objects::db()->get_count('video', 'area = "main"'),
+engine/modules/index/output.php:			'unseen' => $unseen['video'] ? Objects::db()->get_count('video', 'area = "main" and date > ?', $unseen['video']) : 0,
+engine/modules/index/output.php:			'latest' => Objects::db()->get_table('video', $latest_fields, 'area = "main" order by date desc limit 3'),
+engine/modules/index/output.php:			'total' => Objects::db()->get_count('order', 'area != "deleted"'),
+engine/modules/index/output.php:			'unseen' => Objects::db()->get_count('order', 'area = "open"'),
+engine/modules/index/output.php:			'latest' => Objects::db()->get_table('order', $latest_fields, 'area = "open"'),
+engine/modules/index/output.php:			'total' => Objects::db()->get_count('art', 'area = "main" or area = "sprites"'),
+engine/modules/index/output.php:			'unseen' => $unseen['art'] ? Objects::db()->get_count('art', 'area = "main" or area = "sprites" and date > ?', $unseen['art']) : 0,
+engine/modules/index/output.php:			'latest' => Objects::db()->get_row('art', $latest_fields, 'area = "main" or area = "sprites" order by date desc'),
+engine/modules/index/output.php:				'new' => Objects::db()->get_field('board', count(*) from board where `type` = "2" and sortdate > '.$sets['visit']['board']*1000,2),
+engine/modules/index/output.php:				'updated' => Objects::db()->get_field('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
+engine/modules/index/output.php:		$return['board']['all'] = Objects::db()->sql('select count(*) from board where `type` = "2"',2);
+engine/modules/index/output.php:		$wiki = Objects::db('wiki')->get_row('recentchanges', 'rc_title, rc_namespace', 'rc_type < 2 order by rc_id desc');
+engine/modules/index/output.php:			if (array_key_exists($wiki['rc_namespace'], $this->wiki_namespaces)) {
+engine/modules/index/output.php:				$return['wiki'] = $this->wiki_namespaces[$wiki['rc_namespace']].':'.$wiki['rc_title'];
+engine/modules/index/output.php:		$return['news'] = Objects::db()->get_row('news', array('url', 'title', 'text', 'image', 'comments', 'date'), '`area` = "main" order by `date` desc');
+engine/modules/index/output.php:		$return['links'] = Objects::db()->get_count('post_items', 'type = "link" and status = "broken"');
+engine/modules/error/settings.ini:; Доступ на добавление новой информации. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/error/settings.ini:; Доступ на просмотр раздела. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/error/output.php:		$return['pic'] = Globals::db()->get_full_row('art', "area != 'deleted' order by RAND()");
+engine/modules/video/settings.ini:; Доступ на добавление новой информации. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/video/settings.ini:; Доступ на просмотр раздела. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/video/output.php:		$this->sizes = array(
+engine/modules/video/output.php:		$video = Globals::db()->get_row('video', $query['id']);
+engine/modules/video/output.php:		$video['date'] = Globals::db()->date_to_unix($video['date']);
+engine/modules/video/output.php:		$start = ($page - 1) * $perpage;
+engine/modules/video/output.php:		$listing_condition = $this->call->build_listing_condition($query);
+engine/modules/video/output.php:		$return['items'] = Globals::db()->get_full_vector('video', $condition);
+engine/modules/video/output.php:			$video['date'] = Globals::db()->date_to_unix($video['date']);
+engine/modules/video/output.php:				$this->sizes,
+engine/modules/video/output.php:		$count = Globals::db()->get_count('video', $listing_condition);
+engine/modules/post/settings.ini:; Доступ на добавление новой информации. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/post/settings.ini:; Доступ на просмотр раздела. closed - ни у кого, restricted - у модераторов, open - у всех
+engine/modules/post/output.php:		$post = Globals::db()->get_row('post', $query['id']);
+engine/modules/post/output.php:		$items = $this->call->get_items($post['id']);
+engine/modules/post/output.php:		$post['date'] = Globals::db()->date_to_unix($post['date']);
+engine/modules/post/output.php:		$start = ($page - 1) * $perpage;
+engine/modules/post/output.php:		$listing_condition = $this->call->build_listing_condition($query);
+engine/modules/post/output.php:		$return['items'] = Globals::db()->get_full_vector('post', $condition);
+engine/modules/post/output.php:		$items = $this->call->get_items($keys);
+engine/modules/post/output.php:			$post['date'] = Globals::db()->date_to_unix($post['date']);
+engine/modules/post/output.php:		$count = Globals::db()->get_count('post', $listing_condition);
+engine/modules/post/output.php:		$condition = Globals::db()->array_in('item_id',$ids);
+engine/modules/post/output.php:		$items = Globals::db()->get_table('post_items', 'item_id,type,sort_number,data', $condition, $ids);
+engine/run.php:	Globals::$query = Objects::$controller->build();
+engine/run.php:	Globals::$data = $core->call->process(Globals::$query);
+engine/run.php:	$view->call->postprocess();
+engine/run.php:	$view->call->output();
+engine/templaters/Twig/Filter.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Filter.php:        $this->options = array_merge(array(
+engine/templaters/Twig/Filter.php:        return $this->options['needs_environment'];
+engine/templaters/Twig/Filter.php:        return $this->options['needs_context'];
+engine/templaters/Twig/Filter.php:        if (isset($this->options['is_safe'])) {
+engine/templaters/Twig/Filter.php:            return $this->options['is_safe'];
+engine/templaters/Twig/Filter.php:        if (isset($this->options['is_safe_callback'])) {
+engine/templaters/Twig/Filter.php:            return call_user_func($this->options['is_safe_callback'], $filterArgs);
+engine/templaters/Twig/Filter.php:        return $this->options['pre_escape'];
+engine/templaters/Twig/Error.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Error.php:    public function __construct($message, $lineno = -1, $filename = null)
+engine/templaters/Twig/Error.php:        $this->lineno = $lineno;
+engine/templaters/Twig/Error.php:        $this->filename = $filename;
+engine/templaters/Twig/Error.php:        $this->rawMessage = $message;
+engine/templaters/Twig/Error.php:        $this->updateRepr();
+engine/templaters/Twig/Error.php:        parent::__construct($this->message);
+engine/templaters/Twig/Error.php:        return $this->filename;
+engine/templaters/Twig/Error.php:        $this->filename = $filename;
+engine/templaters/Twig/Error.php:        $this->updateRepr();
+engine/templaters/Twig/Error.php:        $this->message = $this->rawMessage;
+engine/templaters/Twig/Error.php:        if (null !== $this->filename) {
+engine/templaters/Twig/Error.php:            $this->message .= sprintf(' in %s', $this->filename);
+engine/templaters/Twig/Error.php:        if ($this->lineno >= 0) {
+engine/templaters/Twig/Error.php:            $this->message .= sprintf(' at line %d', $this->lineno);
+engine/templaters/Twig/TemplateInterface.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Lexer.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Lexer.php:    const REGEX_NAME   = '/[A-Za-z_][A-Za-z0-9_]*/A';
+engine/templaters/Twig/Lexer.php:    const REGEX_NUMBER = '/[0-9]+(?:\.[0-9]+)?/A';
+engine/templaters/Twig/Lexer.php:        $this->env = $env;
+engine/templaters/Twig/Lexer.php:        $this->options = array_merge(array(
+engine/templaters/Twig/Lexer.php:        $this->code = str_replace(array("\r\n", "\r"), "\n", $code);
+engine/templaters/Twig/Lexer.php:        $this->filename = $filename;
+engine/templaters/Twig/Lexer.php:        $this->cursor = 0;
+engine/templaters/Twig/Lexer.php:        $this->lineno = 1;
+engine/templaters/Twig/Lexer.php:        $this->end = strlen($this->code);
+engine/templaters/Twig/Lexer.php:        $this->tokens = array();
+engine/templaters/Twig/Lexer.php:        $this->state = self::STATE_DATA;
+engine/templaters/Twig/Lexer.php:        $this->brackets = array();
+engine/templaters/Twig/Lexer.php:        while ($this->cursor < $this->end) {
+engine/templaters/Twig/Lexer.php:            switch ($this->state) {
+engine/templaters/Twig/Lexer.php:                    $this->lexData();
+engine/templaters/Twig/Lexer.php:                    $this->lexBlock();
+engine/templaters/Twig/Lexer.php:                    $this->lexVar();
+engine/templaters/Twig/Lexer.php:        $this->pushToken(Twig_Token::EOF_TYPE);
+engine/templaters/Twig/Lexer.php:        if (!empty($this->brackets)) {
+engine/templaters/Twig/Lexer.php:            list($expect, $lineno) = array_pop($this->brackets);
+engine/templaters/Twig/Lexer.php:            throw new Twig_Error_Syntax(sprintf('Unclosed "%s"', $expect), $lineno, $this->filename);
+engine/templaters/Twig/Lexer.php:        return new Twig_TokenStream($this->tokens, $this->filename);
+engine/templaters/Twig/Lexer.php:        $pos = $this->end;
+engine/templaters/Twig/Lexer.php:        if (false !== ($tmpPos = strpos($this->code, $this->options['tag_comment'][0], $this->cursor))  && $tmpPos < $pos) {
+engine/templaters/Twig/Lexer.php:            $token = $this->options['tag_comment'][0];
+engine/templaters/Twig/Lexer.php:        if (false !== ($tmpPos = strpos($this->code, $this->options['tag_variable'][0], $this->cursor)) && $tmpPos < $pos) {
+engine/templaters/Twig/Lexer.php:            $token = $this->options['tag_variable'][0];
+engine/templaters/Twig/Lexer.php:        if (false !== ($tmpPos = strpos($this->code, $this->options['tag_block'][0], $this->cursor))    && $tmpPos < $pos) {
+engine/templaters/Twig/Lexer.php:            $token = $this->options['tag_block'][0];
+engine/templaters/Twig/Lexer.php:        if ($pos === $this->end) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::TEXT_TYPE, substr($this->code, $this->cursor));
+engine/templaters/Twig/Lexer.php:            $this->cursor = $this->end;
+engine/templaters/Twig/Lexer.php:        $text = substr($this->code, $this->cursor, $pos - $this->cursor);
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::TEXT_TYPE, $text);
+engine/templaters/Twig/Lexer.php:        $this->moveCursor($text.$token);
+engine/templaters/Twig/Lexer.php:            case $this->options['tag_comment'][0]:
+engine/templaters/Twig/Lexer.php:                if (false === $pos = strpos($this->code, $this->options['tag_comment'][1], $this->cursor)) {
+engine/templaters/Twig/Lexer.php:                    throw new Twig_Error_Syntax('unclosed comment', $this->lineno, $this->filename);
+engine/templaters/Twig/Lexer.php:                $this->moveCursor(substr($this->code, $this->cursor, $pos - $this->cursor) . $this->options['tag_comment'][1]);
+engine/templaters/Twig/Lexer.php:                if ("\n" === substr($this->code, $this->cursor, 1)) {
+engine/templaters/Twig/Lexer.php:                    ++$this->cursor;
+engine/templaters/Twig/Lexer.php:                    ++$this->lineno;
+engine/templaters/Twig/Lexer.php:            case $this->options['tag_block'][0]:
+engine/templaters/Twig/Lexer.php:                if (preg_match('/\s*raw\s*'.preg_quote($this->options['tag_block'][1], '/').'(.*?)'.preg_quote($this->options['tag_block'][0], '/').'\s*endraw\s*'.preg_quote($this->options['tag_block'][1], '/').'/As', $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:                    $this->pushToken(Twig_Token::TEXT_TYPE, $match[1]);
+engine/templaters/Twig/Lexer.php:                    $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:                    $this->state = self::STATE_DATA;
+engine/templaters/Twig/Lexer.php:                    $this->pushToken(Twig_Token::BLOCK_START_TYPE);
+engine/templaters/Twig/Lexer.php:                    $this->state = self::STATE_BLOCK;
+engine/templaters/Twig/Lexer.php:            case $this->options['tag_variable'][0]:
+engine/templaters/Twig/Lexer.php:                $this->pushToken(Twig_Token::VAR_START_TYPE);
+engine/templaters/Twig/Lexer.php:                $this->state = self::STATE_VAR;
+engine/templaters/Twig/Lexer.php:        if (empty($this->brackets) && preg_match('/\s*'.preg_quote($this->options['tag_block'][1], '/').'/A', $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:            $this->state = self::STATE_DATA;
+engine/templaters/Twig/Lexer.php:            if ("\n" === substr($this->code, $this->cursor, 1)) {
+engine/templaters/Twig/Lexer.php:                ++$this->cursor;
+engine/templaters/Twig/Lexer.php:                ++$this->lineno;
+engine/templaters/Twig/Lexer.php:            $this->lexExpression();
+engine/templaters/Twig/Lexer.php:        if (empty($this->brackets) && preg_match('/\s*'.preg_quote($this->options['tag_variable'][1], '/').'/A', $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::VAR_END_TYPE);
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:            $this->state = self::STATE_DATA;
+engine/templaters/Twig/Lexer.php:            $this->lexExpression();
+engine/templaters/Twig/Lexer.php:        if (preg_match('/\s+/A', $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:            if ($this->cursor >= $this->end) {
+engine/templaters/Twig/Lexer.php:                throw new Twig_Error_Syntax('Unexpected end of file: Unclosed ' . ($this->state === self::STATE_BLOCK ? 'block' : 'variable'));
+engine/templaters/Twig/Lexer.php:        if (preg_match($this->getOperatorRegex(), $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::OPERATOR_TYPE, $match[0]);
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:        elseif (preg_match(self::REGEX_NAME, $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::NAME_TYPE, $match[0]);
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:        elseif (preg_match(self::REGEX_NUMBER, $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::NUMBER_TYPE, ctype_digit($match[0]) ? (int) $match[0] : (float) $match[0]);
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:        elseif (false !== strpos(self::PUNCTUATION, $this->code[$this->cursor])) {
+engine/templaters/Twig/Lexer.php:            if (false !== strpos('([{', $this->code[$this->cursor])) {
+engine/templaters/Twig/Lexer.php:                $this->brackets[] = array($this->code[$this->cursor], $this->lineno);
+engine/templaters/Twig/Lexer.php:            elseif (false !== strpos(')]}', $this->code[$this->cursor])) {
+engine/templaters/Twig/Lexer.php:                if (empty($this->brackets)) {
+engine/templaters/Twig/Lexer.php:                    throw new Twig_Error_Syntax(sprintf('Unexpected "%s"', $this->code[$this->cursor]), $this->lineno, $this->filename);
+engine/templaters/Twig/Lexer.php:                list($expect, $lineno) = array_pop($this->brackets);
+engine/templaters/Twig/Lexer.php:                if ($this->code[$this->cursor] != strtr($expect, '([{', ')]}')) {
+engine/templaters/Twig/Lexer.php:                    throw new Twig_Error_Syntax(sprintf('Unclosed "%s"', $expect), $lineno, $this->filename);
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::PUNCTUATION_TYPE, $this->code[$this->cursor]);
+engine/templaters/Twig/Lexer.php:            ++$this->cursor;
+engine/templaters/Twig/Lexer.php:        elseif (preg_match(self::REGEX_STRING, $this->code, $match, null, $this->cursor)) {
+engine/templaters/Twig/Lexer.php:            $this->pushToken(Twig_Token::STRING_TYPE, stripcslashes(substr($match[0], 1, -1)));
+engine/templaters/Twig/Lexer.php:            $this->moveCursor($match[0]);
+engine/templaters/Twig/Lexer.php:            throw new Twig_Error_Syntax(sprintf("Unexpected character '%s'", $this->code[$this->cursor]), $this->lineno, $this->filename);
+engine/templaters/Twig/Lexer.php:        $this->tokens[] = new Twig_Token($type, $value, $this->lineno);
+engine/templaters/Twig/Lexer.php:        $this->cursor += strlen($text);
+engine/templaters/Twig/Lexer.php:        $this->lineno += substr_count($text, "\n");
+engine/templaters/Twig/Lexer.php:        if (null !== $this->operatorRegex) {
+engine/templaters/Twig/Lexer.php:            return $this->operatorRegex;
+engine/templaters/Twig/Lexer.php:            array_keys($this->env->getUnaryOperators()),
+engine/templaters/Twig/Lexer.php:            array_keys($this->env->getBinaryOperators())
+engine/templaters/Twig/Lexer.php:            if (ctype_alpha($operator[$length - 1])) {
+engine/templaters/Twig/Lexer.php:        return $this->operatorRegex = '/'.implode('|', $regex).'/A';
+engine/templaters/Twig/Function/Method.php:        $this->extension = $extension;
+engine/templaters/Twig/Function/Method.php:        $this->method = $method;
+engine/templaters/Twig/Function/Method.php:        return sprintf('$this->env->getExtension(\'%s\')->%s', $this->extension->getName(), $this->method);
+engine/templaters/Twig/Function/Function.php:        $this->function = $function;
+engine/templaters/Twig/Function/Function.php:        return $this->function;
+engine/templaters/Twig/TokenParserBroker.php:            $this->parsers[$parser->getTag()] = $parser;
+engine/templaters/Twig/TokenParserBroker.php:            $this->brokers[] = $broker;
+engine/templaters/Twig/TokenParserBroker.php:        $this->parsers[$parser->getTag()] = $parser;
+engine/templaters/Twig/TokenParserBroker.php:        $this->brokers[] = $broker;
+engine/templaters/Twig/TokenParserBroker.php:        if (isset($this->parsers[$tag])) {
+engine/templaters/Twig/TokenParserBroker.php:            return $this->parsers[$tag];
+engine/templaters/Twig/TokenParserBroker.php:        $broker = end($this->brokers);
+engine/templaters/Twig/TokenParserBroker.php:            $parser = $broker->getTokenParser($tag);
+engine/templaters/Twig/TokenParserBroker.php:            $broker = prev($this->brokers);
+engine/templaters/Twig/TokenParserBroker.php:        return $this->parser;
+engine/templaters/Twig/TokenParserBroker.php:        $this->parser = $parser;
+engine/templaters/Twig/TokenParserBroker.php:        foreach($this->parsers as $tokenParser) {
+engine/templaters/Twig/TokenParserBroker.php:            $tokenParser->setParser($parser);
+engine/templaters/Twig/TokenParserBroker.php:        foreach($this->brokers as $broker) {
+engine/templaters/Twig/TokenParserBroker.php:            $broker->setParser($parser);
+engine/templaters/Twig/Parser.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Parser.php:        $this->env = $env;
+engine/templaters/Twig/Parser.php:        return sprintf('__internal_%s_%d', substr($this->env->getTemplateClass($this->stream->getFilename()), strlen($this->env->getTemplateClassPrefix())), ++$this->tmpVarCount);
+engine/templaters/Twig/Parser.php:        $this->tmpVarCount = 0;
+engine/templaters/Twig/Parser.php:        $this->handlers = $this->env->getTokenParsers();
+engine/templaters/Twig/Parser.php:        $this->handlers->setParser($this);
+engine/templaters/Twig/Parser.php:        $this->visitors = $this->env->getNodeVisitors();
+engine/templaters/Twig/Parser.php:        if (null === $this->expressionParser) {
+engine/templaters/Twig/Parser.php:            $this->expressionParser = new Twig_ExpressionParser($this, $this->env->getUnaryOperators(), $this->env->getBinaryOperators());
+engine/templaters/Twig/Parser.php:        $this->stream = $stream;
+engine/templaters/Twig/Parser.php:        $this->parent = null;
+engine/templaters/Twig/Parser.php:        $this->blocks = array();
+engine/templaters/Twig/Parser.php:        $this->macros = array();
+engine/templaters/Twig/Parser.php:        $this->blockStack = array();
+engine/templaters/Twig/Parser.php:        $this->importedFunctions = array(array());
+engine/templaters/Twig/Parser.php:            $body = $this->subparse(null);
+engine/templaters/Twig/Parser.php:            if (null !== $this->parent) {
+engine/templaters/Twig/Parser.php:                $this->checkBodyNodes($body);
+engine/templaters/Twig/Parser.php:            if (null === $e->getFilename()) {
+engine/templaters/Twig/Parser.php:                $e->setFilename($this->stream->getFilename());
+engine/templaters/Twig/Parser.php:        $node = new Twig_Node_Module($body, $this->parent, new Twig_Node($this->blocks), new Twig_Node($this->macros), $this->stream->getFilename());
+engine/templaters/Twig/Parser.php:        $traverser = new Twig_NodeTraverser($this->env, $this->visitors);
+engine/templaters/Twig/Parser.php:        return $traverser->traverse($node);
+engine/templaters/Twig/Parser.php:        $lineno = $this->getCurrentToken()->getLine();
+engine/templaters/Twig/Parser.php:        while (!$this->stream->isEOF()) {
+engine/templaters/Twig/Parser.php:            switch ($this->getCurrentToken()->getType()) {
+engine/templaters/Twig/Parser.php:                    $token = $this->stream->next();
+engine/templaters/Twig/Parser.php:                    $rv[] = new Twig_Node_Text($token->getValue(), $token->getLine());
+engine/templaters/Twig/Parser.php:                    $token = $this->stream->next();
+engine/templaters/Twig/Parser.php:                    $expr = $this->expressionParser->parseExpression();
+engine/templaters/Twig/Parser.php:                    $this->stream->expect(Twig_Token::VAR_END_TYPE);
+engine/templaters/Twig/Parser.php:                    $rv[] = new Twig_Node_Print($expr, $token->getLine());
+engine/templaters/Twig/Parser.php:                    $this->stream->next();
+engine/templaters/Twig/Parser.php:                    $token = $this->getCurrentToken();
+engine/templaters/Twig/Parser.php:                    if ($token->getType() !== Twig_Token::NAME_TYPE) {
+engine/templaters/Twig/Parser.php:                        throw new Twig_Error_Syntax('A block must start with a tag name', $token->getLine());
+engine/templaters/Twig/Parser.php:                            $this->stream->next();
+engine/templaters/Twig/Parser.php:                    $subparser = $this->handlers->getTokenParser($token->getValue());
+engine/templaters/Twig/Parser.php:                        throw new Twig_Error_Syntax(sprintf('Unknown tag name "%s"', $token->getValue()), $token->getLine());
+engine/templaters/Twig/Parser.php:                    $this->stream->next();
+engine/templaters/Twig/Parser.php:                    $node = $subparser->parse($token);
+engine/templaters/Twig/Parser.php:        $this->handlers[$name] = $class;
+engine/templaters/Twig/Parser.php:        $this->visitors[] = $visitor;
+engine/templaters/Twig/Parser.php:        return $this->blockStack;
+engine/templaters/Twig/Parser.php:        return $this->blockStack[count($this->blockStack) - 1];
+engine/templaters/Twig/Parser.php:        array_pop($this->blockStack);
+engine/templaters/Twig/Parser.php:        $this->blockStack[] = $name;
+engine/templaters/Twig/Parser.php:        return isset($this->blocks[$name]);
+engine/templaters/Twig/Parser.php:        $this->blocks[$name] = $value;
+engine/templaters/Twig/Parser.php:        return isset($this->macros[$name]);
+engine/templaters/Twig/Parser.php:        if (null === $this->reservedMacroNames) {
+engine/templaters/Twig/Parser.php:            $this->reservedMacroNames = array();
+engine/templaters/Twig/Parser.php:            $r = new ReflectionClass($this->env->getBaseTemplateClass());
+engine/templaters/Twig/Parser.php:            foreach ($r->getMethods() as $method) {
+engine/templaters/Twig/Parser.php:                $this->reservedMacroNames[] = $method->getName();
+engine/templaters/Twig/Parser.php:        if (in_array($name, $this->reservedMacroNames)) {
+engine/templaters/Twig/Parser.php:            throw new Twig_Error_Syntax(sprintf('"%s" cannot be used as a macro name as it is a reserved keyword', $name), $node->getLine());
+engine/templaters/Twig/Parser.php:        $this->macros[$name] = $node;
+engine/templaters/Twig/Parser.php:        $this->importedFunctions[0][$alias] = array('name' => $name, 'node' => $node);
+engine/templaters/Twig/Parser.php:        foreach ($this->importedFunctions as $functions) {
+engine/templaters/Twig/Parser.php:        array_unshift($this->importedFunctions, array());
+engine/templaters/Twig/Parser.php:        array_shift($this->importedFunctions);
+engine/templaters/Twig/Parser.php:        return $this->expressionParser;
+engine/templaters/Twig/Parser.php:        return $this->parent;
+engine/templaters/Twig/Parser.php:        $this->parent = $parent;
+engine/templaters/Twig/Parser.php:        return $this->stream;
+engine/templaters/Twig/Parser.php:        return $this->stream->getCurrent();
+engine/templaters/Twig/Parser.php:        // check that the body does not contain non-empty output nodes
+engine/templaters/Twig/Parser.php:                ($node instanceof Twig_Node_Text && !ctype_space($node->getAttribute('data')))
+engine/templaters/Twig/Parser.php:                throw new Twig_Error_Syntax(sprintf('A template that extends another one cannot have a body (%s).', $node), $node->getLine());
+engine/templaters/Twig/Environment.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Environment.php:    const VERSION = '1.0.0-RC1';
+engine/templaters/Twig/Environment.php:     *  * charset: The charset used by the templates (default to utf-8).
+engine/templaters/Twig/Environment.php:     *  * autoescape: Whether to enable auto-escaping (default to true);
+engine/templaters/Twig/Environment.php:     *                   (default to -1 which means that all optimizations are enabled;
+engine/templaters/Twig/Environment.php:            $this->setLoader($loader);
+engine/templaters/Twig/Environment.php:            'charset'             => 'UTF-8',
+engine/templaters/Twig/Environment.php:            'optimizations'       => -1,
+engine/templaters/Twig/Environment.php:        $this->debug              = (bool) $options['debug'];
+engine/templaters/Twig/Environment.php:        $this->charset            = $options['charset'];
+engine/templaters/Twig/Environment.php:        $this->baseTemplateClass  = $options['base_template_class'];
+engine/templaters/Twig/Environment.php:        $this->autoReload         = null === $options['auto_reload'] ? $this->debug : (bool) $options['auto_reload'];
+engine/templaters/Twig/Environment.php:        $this->extensions         = array(
+engine/templaters/Twig/Environment.php:        $this->strictVariables    = (bool) $options['strict_variables'];
+engine/templaters/Twig/Environment.php:        $this->runtimeInitialized = false;
+engine/templaters/Twig/Environment.php:        $this->setCache($options['cache']);
+engine/templaters/Twig/Environment.php:        $this->functionCallbacks = array();
+engine/templaters/Twig/Environment.php:        $this->filterCallbacks = array();
+engine/templaters/Twig/Environment.php:        return $this->baseTemplateClass;
+engine/templaters/Twig/Environment.php:        $this->baseTemplateClass = $class;
+engine/templaters/Twig/Environment.php:        $this->debug = true;
+engine/templaters/Twig/Environment.php:        $this->debug = false;
+engine/templaters/Twig/Environment.php:        return $this->debug;
+engine/templaters/Twig/Environment.php:        $this->autoReload = true;
+engine/templaters/Twig/Environment.php:        $this->autoReload = false;
+engine/templaters/Twig/Environment.php:        return $this->autoReload;
+engine/templaters/Twig/Environment.php:        $this->strictVariables = true;
+engine/templaters/Twig/Environment.php:        $this->strictVariables = false;
+engine/templaters/Twig/Environment.php:        return $this->strictVariables;
+engine/templaters/Twig/Environment.php:        return $this->cache;
+engine/templaters/Twig/Environment.php:        $this->cache = $cache ? $cache : false;
+engine/templaters/Twig/Environment.php:        if (false === $this->cache) {
+engine/templaters/Twig/Environment.php:        $class = substr($this->getTemplateClass($name), strlen($this->templateClassPrefix));
+engine/templaters/Twig/Environment.php:        return $this->getCache().'/'.substr($class, 0, 2).'/'.substr($class, 2, 2).'/'.substr($class, 4).'.php';
+engine/templaters/Twig/Environment.php:        return $this->templateClassPrefix.md5($this->loader->getCacheKey($name));
+engine/templaters/Twig/Environment.php:        return $this->templateClassPrefix;
+engine/templaters/Twig/Environment.php:        $cls = $this->getTemplateClass($name);
+engine/templaters/Twig/Environment.php:        if (isset($this->loadedTemplates[$cls])) {
+engine/templaters/Twig/Environment.php:            return $this->loadedTemplates[$cls];
+engine/templaters/Twig/Environment.php:            if (false === $cache = $this->getCacheFilename($name)) {
+engine/templaters/Twig/Environment.php:                eval('?>'.$this->compileSource($this->loader->getSource($name), $name));
+engine/templaters/Twig/Environment.php:                if (!file_exists($cache) || ($this->isAutoReload() && !$this->loader->isFresh($name, filemtime($cache)))) {
+engine/templaters/Twig/Environment.php:                    $this->writeCacheFile($cache, $this->compileSource($this->loader->getSource($name), $name));
+engine/templaters/Twig/Environment.php:        if (!$this->runtimeInitialized) {
+engine/templaters/Twig/Environment.php:            $this->initRuntime();
+engine/templaters/Twig/Environment.php:        return $this->loadedTemplates[$cls] = new $cls($this);
+engine/templaters/Twig/Environment.php:        $this->loadedTemplates = array();
+engine/templaters/Twig/Environment.php:        if (false === $this->cache) {
+engine/templaters/Twig/Environment.php:        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->cache), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+engine/templaters/Twig/Environment.php:            if ($file->isFile()) {
+engine/templaters/Twig/Environment.php:                @unlink($file->getPathname());
+engine/templaters/Twig/Environment.php:        if (null === $this->lexer) {
+engine/templaters/Twig/Environment.php:            $this->lexer = new Twig_Lexer($this);
+engine/templaters/Twig/Environment.php:        return $this->lexer;
+engine/templaters/Twig/Environment.php:        $this->lexer = $lexer;
+engine/templaters/Twig/Environment.php:        return $this->getLexer()->tokenize($source, $name);
+engine/templaters/Twig/Environment.php:        if (null === $this->parser) {
+engine/templaters/Twig/Environment.php:            $this->parser = new Twig_Parser($this);
+engine/templaters/Twig/Environment.php:        return $this->parser;
+engine/templaters/Twig/Environment.php:        $this->parser = $parser;
+engine/templaters/Twig/Environment.php:        return $this->getParser()->parse($tokens);
+engine/templaters/Twig/Environment.php:        if (null === $this->compiler) {
+engine/templaters/Twig/Environment.php:            $this->compiler = new Twig_Compiler($this);
+engine/templaters/Twig/Environment.php:        return $this->compiler;
+engine/templaters/Twig/Environment.php:        $this->compiler = $compiler;
+engine/templaters/Twig/Environment.php:        return $this->getCompiler()->compile($node)->getSource();
+engine/templaters/Twig/Environment.php:        return $this->compile($this->parse($this->tokenize($source, $name)));
+engine/templaters/Twig/Environment.php:        $this->loader = $loader;
+engine/templaters/Twig/Environment.php:        return $this->loader;
+engine/templaters/Twig/Environment.php:        $this->charset = $charset;
+engine/templaters/Twig/Environment.php:        return $this->charset;
+engine/templaters/Twig/Environment.php:        $this->runtimeInitialized = true;
+engine/templaters/Twig/Environment.php:        foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:            $extension->initRuntime($this);
+engine/templaters/Twig/Environment.php:        return isset($this->extensions[$name]);
+engine/templaters/Twig/Environment.php:        if (!isset($this->extensions[$name])) {
+engine/templaters/Twig/Environment.php:        return $this->extensions[$name];
+engine/templaters/Twig/Environment.php:        $this->extensions[$extension->getName()] = $extension;
+engine/templaters/Twig/Environment.php:        unset($this->extensions[$name]);
+engine/templaters/Twig/Environment.php:            $this->addExtension($extension);
+engine/templaters/Twig/Environment.php:        return $this->extensions;
+engine/templaters/Twig/Environment.php:        if (null === $this->parsers) {
+engine/templaters/Twig/Environment.php:            $this->getTokenParsers();
+engine/templaters/Twig/Environment.php:        $this->parsers->addTokenParser($parser);
+engine/templaters/Twig/Environment.php:        if (null === $this->parsers) {
+engine/templaters/Twig/Environment.php:            $this->parsers = new Twig_TokenParserBroker;
+engine/templaters/Twig/Environment.php:            foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:                $parsers = $extension->getTokenParsers();
+engine/templaters/Twig/Environment.php:                        $this->parsers->addTokenParser($parser);
+engine/templaters/Twig/Environment.php:                        $this->parsers->addTokenParserBroker($parser);
+engine/templaters/Twig/Environment.php:        return $this->parsers;
+engine/templaters/Twig/Environment.php:        if (null === $this->visitors) {
+engine/templaters/Twig/Environment.php:            $this->getNodeVisitors();
+engine/templaters/Twig/Environment.php:        $this->visitors[] = $visitor;
+engine/templaters/Twig/Environment.php:        if (null === $this->visitors) {
+engine/templaters/Twig/Environment.php:            $this->visitors = array();
+engine/templaters/Twig/Environment.php:            foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:                $this->visitors = array_merge($this->visitors, $extension->getNodeVisitors());
+engine/templaters/Twig/Environment.php:        return $this->visitors;
+engine/templaters/Twig/Environment.php:        if (null === $this->filters) {
+engine/templaters/Twig/Environment.php:            $this->loadFilters();
+engine/templaters/Twig/Environment.php:        $this->filters[$name] = $filter;
+engine/templaters/Twig/Environment.php:        if (null === $this->filters) {
+engine/templaters/Twig/Environment.php:            $this->loadFilters();
+engine/templaters/Twig/Environment.php:        if (isset($this->filters[$name])) {
+engine/templaters/Twig/Environment.php:            return $this->filters[$name];
+engine/templaters/Twig/Environment.php:        foreach ($this->filterCallbacks as $callback) {
+engine/templaters/Twig/Environment.php:        $this->filterCallbacks[] = $callable;
+engine/templaters/Twig/Environment.php:        $this->filters = array();
+engine/templaters/Twig/Environment.php:        foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:            $this->filters = array_merge($this->filters, $extension->getFilters());
+engine/templaters/Twig/Environment.php:        if (null === $this->tests) {
+engine/templaters/Twig/Environment.php:            $this->getTests();
+engine/templaters/Twig/Environment.php:        $this->tests[$name] = $test;
+engine/templaters/Twig/Environment.php:        if (null === $this->tests) {
+engine/templaters/Twig/Environment.php:            $this->tests = array();
+engine/templaters/Twig/Environment.php:            foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:                $this->tests = array_merge($this->tests, $extension->getTests());
+engine/templaters/Twig/Environment.php:        return $this->tests;
+engine/templaters/Twig/Environment.php:        if (null === $this->functions) {
+engine/templaters/Twig/Environment.php:            $this->loadFunctions();
+engine/templaters/Twig/Environment.php:        $this->functions[$name] = $function;
+engine/templaters/Twig/Environment.php:        if (null === $this->functions) {
+engine/templaters/Twig/Environment.php:            $this->loadFunctions();
+engine/templaters/Twig/Environment.php:        if (isset($this->functions[$name])) {
+engine/templaters/Twig/Environment.php:            return $this->functions[$name];
+engine/templaters/Twig/Environment.php:        foreach ($this->functionCallbacks as $callback) {
+engine/templaters/Twig/Environment.php:        $this->functionCallbacks[] = $callable;
+engine/templaters/Twig/Environment.php:        $this->functions = array();
+engine/templaters/Twig/Environment.php:        foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:            $this->functions = array_merge($this->functions, $extension->getFunctions());
+engine/templaters/Twig/Environment.php:        if (null === $this->globals) {
+engine/templaters/Twig/Environment.php:            $this->getGlobals();
+engine/templaters/Twig/Environment.php:        $this->globals[$name] = $value;
+engine/templaters/Twig/Environment.php:        if (null === $this->globals) {
+engine/templaters/Twig/Environment.php:            $this->globals = array();
+engine/templaters/Twig/Environment.php:            foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:                $this->globals = array_merge($this->globals, $extension->getGlobals());
+engine/templaters/Twig/Environment.php:        return $this->globals;
+engine/templaters/Twig/Environment.php:        if (null === $this->unaryOperators) {
+engine/templaters/Twig/Environment.php:            $this->initOperators();
+engine/templaters/Twig/Environment.php:        return $this->unaryOperators;
+engine/templaters/Twig/Environment.php:        if (null === $this->binaryOperators) {
+engine/templaters/Twig/Environment.php:            $this->initOperators();
+engine/templaters/Twig/Environment.php:        return $this->binaryOperators;
+engine/templaters/Twig/Environment.php:        $this->unaryOperators = array();
+engine/templaters/Twig/Environment.php:        $this->binaryOperators = array();
+engine/templaters/Twig/Environment.php:        foreach ($this->getExtensions() as $extension) {
+engine/templaters/Twig/Environment.php:            $operators = $extension->getOperators();
+engine/templaters/Twig/Environment.php:            $this->unaryOperators = array_merge($this->unaryOperators, $operators[0]);
+engine/templaters/Twig/Environment.php:            $this->binaryOperators = array_merge($this->binaryOperators, $operators[1]);
+engine/templaters/Twig/TokenParser/Filter.php:        $name = $this->parser->getVarName();
+engine/templaters/Twig/TokenParser/Filter.php:        $ref = new Twig_Node_Expression_BlockReference(new Twig_Node_Expression_Constant($name, $token->getLine()), $token->getLine(), $this->getTag());
+engine/templaters/Twig/TokenParser/Filter.php:        $filter = $this->parser->getExpressionParser()->parseFilterExpressionRaw($ref, $this->getTag());
+engine/templaters/Twig/TokenParser/Filter.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Filter.php:        $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+engine/templaters/Twig/TokenParser/Filter.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Filter.php:        $block = new Twig_Node_Block($name, $body, $token->getLine());
+engine/templaters/Twig/TokenParser/Filter.php:        $this->parser->setBlock($name, $block);
+engine/templaters/Twig/TokenParser/Filter.php:        return new Twig_Node_Print($filter, $token->getLine(), $this->getTag());
+engine/templaters/Twig/TokenParser/Filter.php:        return $token->test('endfilter');
+engine/templaters/Twig/TokenParser/Include.php:        $expr = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/Include.php:        if ($this->parser->getStream()->test(Twig_Token::NAME_TYPE, 'with')) {
+engine/templaters/Twig/TokenParser/Include.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/TokenParser/Include.php:            $variables = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/Include.php:        if ($this->parser->getStream()->test(Twig_Token::NAME_TYPE, 'only')) {
+engine/templaters/Twig/TokenParser/Include.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/TokenParser/Include.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Include.php:        return new Twig_Node_Include($expr, $variables, $only, $token->getLine(), $this->getTag());
+engine/templaters/Twig/TokenParser/Import.php:        $macro = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/Import.php:        $this->parser->getStream()->expect('as');
+engine/templaters/Twig/TokenParser/Import.php:        $var = new Twig_Node_Expression_AssignName($this->parser->getStream()->expect(Twig_Token::NAME_TYPE)->getValue(), $token->getLine());
+engine/templaters/Twig/TokenParser/Import.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Import.php:        return new Twig_Node_Import($macro, $var, $token->getLine(), $this->getTag());
+engine/templaters/Twig/TokenParser/For.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/For.php:        $targets = $this->parser->getExpressionParser()->parseAssignmentExpression();
+engine/templaters/Twig/TokenParser/For.php:        $this->parser->getStream()->expect(Twig_Token::OPERATOR_TYPE, 'in');
+engine/templaters/Twig/TokenParser/For.php:        $seq = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/For.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/For.php:        $body = $this->parser->subparse(array($this, 'decideForFork'));
+engine/templaters/Twig/TokenParser/For.php:        if ($this->parser->getStream()->next()->getValue() == 'else') {
+engine/templaters/Twig/TokenParser/For.php:            $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/For.php:            $else = $this->parser->subparse(array($this, 'decideForEnd'), true);
+engine/templaters/Twig/TokenParser/For.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/For.php:            $keyTarget = $targets->getNode(0);
+engine/templaters/Twig/TokenParser/For.php:            $valueTarget = $targets->getNode(1);
+engine/templaters/Twig/TokenParser/For.php:            $valueTarget = $targets->getNode(0);
+engine/templaters/Twig/TokenParser/For.php:        return new Twig_Node_For($keyTarget, $valueTarget, $seq, $body, $else, $lineno, $this->getTag());
+engine/templaters/Twig/TokenParser/For.php:        return $token->test(array('else', 'endfor'));
+engine/templaters/Twig/TokenParser/For.php:        return $token->test('endfor');
+engine/templaters/Twig/TokenParser/If.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/If.php:        $expr = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/If.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/If.php:        $body = $this->parser->subparse(array($this, 'decideIfFork'));
+engine/templaters/Twig/TokenParser/If.php:            switch ($this->parser->getStream()->next()->getValue()) {
+engine/templaters/Twig/TokenParser/If.php:                    $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/If.php:                    $else = $this->parser->subparse(array($this, 'decideIfEnd'));
+engine/templaters/Twig/TokenParser/If.php:                    $expr = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/If.php:                    $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/If.php:                    $body = $this->parser->subparse(array($this, 'decideIfFork'));
+engine/templaters/Twig/TokenParser/If.php:                    throw new Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "else", "elseif", or "endif" to close the "if" block started at line %d)', $lineno), -1);
+engine/templaters/Twig/TokenParser/If.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/If.php:        return new Twig_Node_If(new Twig_Node($tests), $else, $lineno, $this->getTag());
+engine/templaters/Twig/TokenParser/If.php:        return $token->test(array('elseif', 'else', 'endif'));
+engine/templaters/Twig/TokenParser/If.php:        return $token->test(array('endif'));
+engine/templaters/Twig/TokenParser/Block.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/Block.php:        $stream = $this->parser->getStream();
+engine/templaters/Twig/TokenParser/Block.php:        $name = $stream->expect(Twig_Token::NAME_TYPE)->getValue();
+engine/templaters/Twig/TokenParser/Block.php:        if ($this->parser->hasBlock($name)) {
+engine/templaters/Twig/TokenParser/Block.php:        $this->parser->pushLocalScope();
+engine/templaters/Twig/TokenParser/Block.php:        $this->parser->pushBlockStack($name);
+engine/templaters/Twig/TokenParser/Block.php:        if ($stream->test(Twig_Token::BLOCK_END_TYPE)) {
+engine/templaters/Twig/TokenParser/Block.php:            $stream->next();
+engine/templaters/Twig/TokenParser/Block.php:            $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+engine/templaters/Twig/TokenParser/Block.php:            if ($stream->test(Twig_Token::NAME_TYPE)) {
+engine/templaters/Twig/TokenParser/Block.php:                $value = $stream->next()->getValue();
+engine/templaters/Twig/TokenParser/Block.php:                new Twig_Node_Print($this->parser->getExpressionParser()->parseExpression(), $lineno),
+engine/templaters/Twig/TokenParser/Block.php:        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Block.php:        $this->parser->setBlock($name, $block);
+engine/templaters/Twig/TokenParser/Block.php:        $this->parser->popBlockStack();
+engine/templaters/Twig/TokenParser/Block.php:        $this->parser->popLocalScope();
+engine/templaters/Twig/TokenParser/Block.php:        return new Twig_Node_BlockReference($name, $lineno, $this->getTag());
+engine/templaters/Twig/TokenParser/Block.php:        return $token->test('endblock');
+engine/templaters/Twig/TokenParser/Extends.php:        if (null !== $this->parser->getParent()) {
+engine/templaters/Twig/TokenParser/Extends.php:            throw new Twig_Error_Syntax('Multiple extends tags are forbidden', $token->getLine());
+engine/templaters/Twig/TokenParser/Extends.php:        $this->parser->setParent($this->parser->getExpressionParser()->parseExpression());
+engine/templaters/Twig/TokenParser/Extends.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/AutoEscape.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/AutoEscape.php:        $value = $this->parser->getStream()->expect(Twig_Token::NAME_TYPE)->getValue();
+engine/templaters/Twig/TokenParser/AutoEscape.php:        if ($this->parser->getStream()->test(Twig_Token::NAME_TYPE)) {
+engine/templaters/Twig/TokenParser/AutoEscape.php:            $value = $this->parser->getStream()->next()->getValue();
+engine/templaters/Twig/TokenParser/AutoEscape.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/AutoEscape.php:        $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+engine/templaters/Twig/TokenParser/AutoEscape.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/AutoEscape.php:        return new Twig_Node_AutoEscape($value, $body, $lineno, $this->getTag());
+engine/templaters/Twig/TokenParser/AutoEscape.php:        return $token->test('endautoescape');
+engine/templaters/Twig/TokenParser/From.php:        $macro = $this->parser->getExpressionParser()->parseExpression();
+engine/templaters/Twig/TokenParser/From.php:        $stream = $this->parser->getStream();
+engine/templaters/Twig/TokenParser/From.php:        $stream->expect('import');
+engine/templaters/Twig/TokenParser/From.php:            $name = $stream->expect(Twig_Token::NAME_TYPE)->getValue();
+engine/templaters/Twig/TokenParser/From.php:            if ($stream->test('as')) {
+engine/templaters/Twig/TokenParser/From.php:                $stream->next();
+engine/templaters/Twig/TokenParser/From.php:                $alias = $stream->expect(Twig_Token::NAME_TYPE)->getValue();
+engine/templaters/Twig/TokenParser/From.php:            if (!$stream->test(Twig_Token::PUNCTUATION_TYPE, ',')) {
+engine/templaters/Twig/TokenParser/From.php:            $stream->next();
+engine/templaters/Twig/TokenParser/From.php:        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/From.php:        $node = new Twig_Node_Import($macro, new Twig_Node_Expression_AssignName($this->parser->getVarName(), $token->getLine()), $token->getLine(), $this->getTag());
+engine/templaters/Twig/TokenParser/From.php:            $this->parser->addImportedFunction($alias, $name, $node->getNode('var'));
+engine/templaters/Twig/TokenParser/Sandbox.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Sandbox.php:        $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+engine/templaters/Twig/TokenParser/Sandbox.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Sandbox.php:        return new Twig_Node_Sandbox($body, $token->getLine(), $this->getTag());
+engine/templaters/Twig/TokenParser/Sandbox.php:        return $token->test('endsandbox');
+engine/templaters/Twig/TokenParser/Macro.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/Macro.php:        $name = $this->parser->getStream()->expect(Twig_Token::NAME_TYPE)->getValue();
+engine/templaters/Twig/TokenParser/Macro.php:        $arguments = $this->parser->getExpressionParser()->parseArguments();
+engine/templaters/Twig/TokenParser/Macro.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Macro.php:        $this->parser->pushLocalScope();
+engine/templaters/Twig/TokenParser/Macro.php:        $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+engine/templaters/Twig/TokenParser/Macro.php:        $this->parser->popLocalScope();
+engine/templaters/Twig/TokenParser/Macro.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Macro.php:        $this->parser->setMacro($name, new Twig_Node_Macro($name, $body, $arguments, $lineno, $this->getTag()));
+engine/templaters/Twig/TokenParser/Macro.php:        return $token->test('endmacro');
+engine/templaters/Twig/TokenParser/Set.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/Set.php:        $stream = $this->parser->getStream();
+engine/templaters/Twig/TokenParser/Set.php:        $names = $this->parser->getExpressionParser()->parseAssignmentExpression();
+engine/templaters/Twig/TokenParser/Set.php:        if ($stream->test(Twig_Token::OPERATOR_TYPE, '=')) {
+engine/templaters/Twig/TokenParser/Set.php:            $stream->next();
+engine/templaters/Twig/TokenParser/Set.php:            $values = $this->parser->getExpressionParser()->parseMultitargetExpression();
+engine/templaters/Twig/TokenParser/Set.php:            $stream->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Set.php:                throw new Twig_Error_Syntax("When using set with a block, you cannot have a multi-target.", $lineno);
+engine/templaters/Twig/TokenParser/Set.php:            $stream->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Set.php:            $values = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+engine/templaters/Twig/TokenParser/Set.php:            $stream->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Set.php:        return new Twig_Node_Set($capture, $names, $values, $lineno, $this->getTag());
+engine/templaters/Twig/TokenParser/Set.php:        return $token->test('endset');
+engine/templaters/Twig/TokenParser/Spaceless.php:        $lineno = $token->getLine();
+engine/templaters/Twig/TokenParser/Spaceless.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Spaceless.php:        $body = $this->parser->subparse(array($this, 'decideSpacelessEnd'), true);
+engine/templaters/Twig/TokenParser/Spaceless.php:        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+engine/templaters/Twig/TokenParser/Spaceless.php:        return new Twig_Node_Spaceless($body, $lineno, $this->getTag());
+engine/templaters/Twig/TokenParser/Spaceless.php:        return $token->test('endspaceless');
+engine/templaters/Twig/TestInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Function.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Function.php:        $this->options = array_merge(array(
+engine/templaters/Twig/Function.php:        return $this->options['needs_environment'];
+engine/templaters/Twig/Function.php:        return $this->options['needs_context'];
+engine/templaters/Twig/Function.php:        if (isset($this->options['is_safe'])) {
+engine/templaters/Twig/Function.php:            return $this->options['is_safe'];
+engine/templaters/Twig/Function.php:        if (isset($this->options['is_safe_callback'])) {
+engine/templaters/Twig/Function.php:            return call_user_func($this->options['is_safe_callback'], $functionArgs);
+engine/templaters/Twig/Autoloader.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/ExpressionParser.php: * @see http://en.wikipedia.org/wiki/Operator-precedence_parser
+engine/templaters/Twig/ExpressionParser.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/ExpressionParser.php:        $this->parser = $parser;
+engine/templaters/Twig/ExpressionParser.php:        $this->unaryOperators = $unaryOperators;
+engine/templaters/Twig/ExpressionParser.php:        $this->binaryOperators = $binaryOperators;
+engine/templaters/Twig/ExpressionParser.php:        $expr = $this->getPrimary();
+engine/templaters/Twig/ExpressionParser.php:        $token = $this->parser->getCurrentToken();
+engine/templaters/Twig/ExpressionParser.php:        while ($this->isBinary($token) && $this->binaryOperators[$token->getValue()]['precedence'] >= $precedence) {
+engine/templaters/Twig/ExpressionParser.php:            $op = $this->binaryOperators[$token->getValue()];
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:                $expr = call_user_func($op['callable'], $this->parser, $expr);
+engine/templaters/Twig/ExpressionParser.php:                $expr1 = $this->parseExpression(self::OPERATOR_LEFT === $op['associativity'] ? $op['precedence'] + 1 : $op['precedence']);
+engine/templaters/Twig/ExpressionParser.php:                $expr = new $class($expr, $expr1, $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:            $token = $this->parser->getCurrentToken();
+engine/templaters/Twig/ExpressionParser.php:            return $this->parseConditionalExpression($expr);
+engine/templaters/Twig/ExpressionParser.php:        $token = $this->parser->getCurrentToken();
+engine/templaters/Twig/ExpressionParser.php:        if ($this->isUnary($token)) {
+engine/templaters/Twig/ExpressionParser.php:            $operator = $this->unaryOperators[$token->getValue()];
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:            $expr = $this->parseExpression($operator['precedence']);
+engine/templaters/Twig/ExpressionParser.php:            return $this->parsePostfixExpression(new $class($expr, $token->getLine()));
+engine/templaters/Twig/ExpressionParser.php:        } elseif ($token->test(Twig_Token::PUNCTUATION_TYPE, '(')) {
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:            $expr = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->expect(Twig_Token::PUNCTUATION_TYPE, ')', 'An opened parenthesis is not properly closed');
+engine/templaters/Twig/ExpressionParser.php:            return $this->parsePostfixExpression($expr);
+engine/templaters/Twig/ExpressionParser.php:        return $this->parsePrimaryExpression();
+engine/templaters/Twig/ExpressionParser.php:        while ($this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, '?')) {
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:            $expr2 = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->expect(Twig_Token::PUNCTUATION_TYPE, ':', 'The ternary operator must have a default value');
+engine/templaters/Twig/ExpressionParser.php:            $expr3 = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:            $expr = new Twig_Node_Expression_Conditional($expr, $expr2, $expr3, $this->parser->getCurrentToken()->getLine());
+engine/templaters/Twig/ExpressionParser.php:        return $token->test(Twig_Token::OPERATOR_TYPE) && isset($this->unaryOperators[$token->getValue()]);
+engine/templaters/Twig/ExpressionParser.php:        return $token->test(Twig_Token::OPERATOR_TYPE) && isset($this->binaryOperators[$token->getValue()]);
+engine/templaters/Twig/ExpressionParser.php:        $token = $this->parser->getCurrentToken();
+engine/templaters/Twig/ExpressionParser.php:        switch ($token->getType()) {
+engine/templaters/Twig/ExpressionParser.php:                $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:                switch ($token->getValue()) {
+engine/templaters/Twig/ExpressionParser.php:                        $node = new Twig_Node_Expression_Constant(true, $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:                        $node = new Twig_Node_Expression_Constant(false, $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:                        $node = new Twig_Node_Expression_Constant(null, $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:                        $node = new Twig_Node_Expression_Name($token->getValue(), $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:                $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:                $node = new Twig_Node_Expression_Constant($token->getValue(), $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:                if ($token->test(Twig_Token::PUNCTUATION_TYPE, '[')) {
+engine/templaters/Twig/ExpressionParser.php:                    $node = $this->parseArrayExpression();
+engine/templaters/Twig/ExpressionParser.php:                } elseif ($token->test(Twig_Token::PUNCTUATION_TYPE, '{')) {
+engine/templaters/Twig/ExpressionParser.php:                    $node = $this->parseHashExpression();
+engine/templaters/Twig/ExpressionParser.php:                    throw new Twig_Error_Syntax(sprintf('Unexpected token "%s" of value "%s"', Twig_Token::typeToEnglish($token->getType(), $token->getLine()), $token->getValue()), $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:        return $this->parsePostfixExpression($node);
+engine/templaters/Twig/ExpressionParser.php:        $stream = $this->parser->getStream();
+engine/templaters/Twig/ExpressionParser.php:        $stream->expect(Twig_Token::PUNCTUATION_TYPE, '[', 'An array element was expected');
+engine/templaters/Twig/ExpressionParser.php:        while (!$stream->test(Twig_Token::PUNCTUATION_TYPE, ']')) {
+engine/templaters/Twig/ExpressionParser.php:                $stream->expect(Twig_Token::PUNCTUATION_TYPE, ',', 'An array element must be followed by a comma');
+engine/templaters/Twig/ExpressionParser.php:                if ($stream->test(Twig_Token::PUNCTUATION_TYPE, ']')) {
+engine/templaters/Twig/ExpressionParser.php:            $elements[] = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:        $stream->expect(Twig_Token::PUNCTUATION_TYPE, ']', 'An opened array is not properly closed');
+engine/templaters/Twig/ExpressionParser.php:        return new Twig_Node_Expression_Array($elements, $stream->getCurrent()->getLine());
+engine/templaters/Twig/ExpressionParser.php:        $stream = $this->parser->getStream();
+engine/templaters/Twig/ExpressionParser.php:        $stream->expect(Twig_Token::PUNCTUATION_TYPE, '{', 'A hash element was expected');
+engine/templaters/Twig/ExpressionParser.php:        while (!$stream->test(Twig_Token::PUNCTUATION_TYPE, '}')) {
+engine/templaters/Twig/ExpressionParser.php:                $stream->expect(Twig_Token::PUNCTUATION_TYPE, ',', 'A hash value must be followed by a comma');
+engine/templaters/Twig/ExpressionParser.php:                if ($stream->test(Twig_Token::PUNCTUATION_TYPE, '}')) {
+engine/templaters/Twig/ExpressionParser.php:            if (!$stream->test(Twig_Token::STRING_TYPE) && !$stream->test(Twig_Token::NUMBER_TYPE)) {
+engine/templaters/Twig/ExpressionParser.php:                $current = $stream->getCurrent();
+engine/templaters/Twig/ExpressionParser.php:                throw new Twig_Error_Syntax(sprintf('A hash key must be a quoted string or a number (unexpected token "%s" of value "%s"', Twig_Token::typeToEnglish($current->getType(), $current->getLine()), $current->getValue()), $current->getLine());
+engine/templaters/Twig/ExpressionParser.php:            $key = $stream->next()->getValue();
+engine/templaters/Twig/ExpressionParser.php:            $stream->expect(Twig_Token::PUNCTUATION_TYPE, ':', 'A hash key must be followed by a colon (:)');
+engine/templaters/Twig/ExpressionParser.php:            $elements[$key] = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:        $stream->expect(Twig_Token::PUNCTUATION_TYPE, '}', 'An opened hash is not properly closed');
+engine/templaters/Twig/ExpressionParser.php:        return new Twig_Node_Expression_Array($elements, $stream->getCurrent()->getLine());
+engine/templaters/Twig/ExpressionParser.php:            $token = $this->parser->getCurrentToken();
+engine/templaters/Twig/ExpressionParser.php:            if ($token->getType() == Twig_Token::PUNCTUATION_TYPE) {
+engine/templaters/Twig/ExpressionParser.php:                if ('.' == $token->getValue() || '[' == $token->getValue()) {
+engine/templaters/Twig/ExpressionParser.php:                    $node = $this->parseSubscriptExpression($node);
+engine/templaters/Twig/ExpressionParser.php:                } elseif ('|' == $token->getValue()) {
+engine/templaters/Twig/ExpressionParser.php:                    $node = $this->parseFilterExpression($node);
+engine/templaters/Twig/ExpressionParser.php:                } elseif ($firstPass && $node instanceof Twig_Node_Expression_Name && '(' == $token->getValue()) {
+engine/templaters/Twig/ExpressionParser.php:                    $node = $this->getFunctionNode($node);
+engine/templaters/Twig/ExpressionParser.php:        $args = $this->parseArguments();
+engine/templaters/Twig/ExpressionParser.php:        if ('parent' === $node->getAttribute('name')) {
+engine/templaters/Twig/ExpressionParser.php:            if (!count($this->parser->getBlockStack())) {
+engine/templaters/Twig/ExpressionParser.php:                throw new Twig_Error_Syntax('Calling "parent" outside a block is forbidden', $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:            if (!$this->parser->getParent()) {
+engine/templaters/Twig/ExpressionParser.php:                throw new Twig_Error_Syntax('Calling "parent" on a template that does not extend another one is forbidden', $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:            return new Twig_Node_Expression_Parent($this->parser->peekBlockStack(), $node->getLine());
+engine/templaters/Twig/ExpressionParser.php:        if ('block' === $node->getAttribute('name')) {
+engine/templaters/Twig/ExpressionParser.php:            return new Twig_Node_Expression_BlockReference($args->getNode(0), $node->getLine());
+engine/templaters/Twig/ExpressionParser.php:        if (null !== $alias = $this->parser->getImportedFunction($node->getAttribute('name'))) {
+engine/templaters/Twig/ExpressionParser.php:            return new Twig_Node_Expression_GetAttr($alias['node'], new Twig_Node_Expression_Constant($alias['name'], $node->getLine()), $args, $node->getLine(), Twig_Node_Expression_GetAttr::TYPE_METHOD);
+engine/templaters/Twig/ExpressionParser.php:        return new Twig_Node_Expression_Function($node, $args, $node->getLine());
+engine/templaters/Twig/ExpressionParser.php:        $token = $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:        $lineno = $token->getLine();
+engine/templaters/Twig/ExpressionParser.php:        if ($token->getValue() == '.') {
+engine/templaters/Twig/ExpressionParser.php:            $token = $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:                $token->getType() == Twig_Token::NAME_TYPE
+engine/templaters/Twig/ExpressionParser.php:                $token->getType() == Twig_Token::NUMBER_TYPE
+engine/templaters/Twig/ExpressionParser.php:                ($token->getType() == Twig_Token::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
+engine/templaters/Twig/ExpressionParser.php:                $arg = new Twig_Node_Expression_Constant($token->getValue(), $lineno);
+engine/templaters/Twig/ExpressionParser.php:                if ($this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, '(')) {
+engine/templaters/Twig/ExpressionParser.php:                    $arguments = $this->parseArguments();
+engine/templaters/Twig/ExpressionParser.php:            $arg = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->expect(Twig_Token::PUNCTUATION_TYPE, ']');
+engine/templaters/Twig/ExpressionParser.php:        $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:        return $this->parseFilterExpressionRaw($node);
+engine/templaters/Twig/ExpressionParser.php:            $token = $this->parser->getStream()->expect(Twig_Token::NAME_TYPE);
+engine/templaters/Twig/ExpressionParser.php:            $name = new Twig_Node_Expression_Constant($token->getValue(), $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:            if (!$this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, '(')) {
+engine/templaters/Twig/ExpressionParser.php:                $arguments = $this->parseArguments();
+engine/templaters/Twig/ExpressionParser.php:            $node = new Twig_Node_Expression_Filter($node, $name, $arguments, $token->getLine(), $tag);
+engine/templaters/Twig/ExpressionParser.php:            if (!$this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, '|')) {
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:        $stream = $this->parser->getStream();
+engine/templaters/Twig/ExpressionParser.php:        $stream->expect(Twig_Token::PUNCTUATION_TYPE, '(', 'A list of arguments must be opened by a parenthesis');
+engine/templaters/Twig/ExpressionParser.php:        while (!$stream->test(Twig_Token::PUNCTUATION_TYPE, ')')) {
+engine/templaters/Twig/ExpressionParser.php:                $stream->expect(Twig_Token::PUNCTUATION_TYPE, ',', 'Arguments must be separated by a comma');
+engine/templaters/Twig/ExpressionParser.php:            $args[] = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:        $stream->expect(Twig_Token::PUNCTUATION_TYPE, ')', 'A list of arguments must be closed by a parenthesis');
+engine/templaters/Twig/ExpressionParser.php:            $token = $this->parser->getStream()->expect(Twig_Token::NAME_TYPE, null, 'Only variables can be assigned to');
+engine/templaters/Twig/ExpressionParser.php:            if (in_array($token->getValue(), array('true', 'false', 'none'))) {
+engine/templaters/Twig/ExpressionParser.php:                throw new Twig_Error_Syntax(sprintf('You cannot assign a value to "%s"', $token->getValue()), $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:            $targets[] = new Twig_Node_Expression_AssignName($token->getValue(), $token->getLine());
+engine/templaters/Twig/ExpressionParser.php:            if (!$this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, ',')) {
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/ExpressionParser.php:            $targets[] = $this->parseExpression();
+engine/templaters/Twig/ExpressionParser.php:            if (!$this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, ',')) {
+engine/templaters/Twig/ExpressionParser.php:            $this->parser->getStream()->next();
+engine/templaters/Twig/Error/Loader.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Error/Runtime.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Error/Syntax.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Markup.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Markup.php:        $this->content = (string) $content;
+engine/templaters/Twig/Markup.php:        return $this->content;
+engine/templaters/Twig/TokenStream.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/TokenStream.php:        $this->tokens     = $tokens;
+engine/templaters/Twig/TokenStream.php:        $this->current    = 0;
+engine/templaters/Twig/TokenStream.php:        $this->filename   = $filename;
+engine/templaters/Twig/TokenStream.php:        return implode("\n", $this->tokens);
+engine/templaters/Twig/TokenStream.php:        if (!isset($this->tokens[++$this->current])) {
+engine/templaters/Twig/TokenStream.php:        return $this->tokens[$this->current - 1];
+engine/templaters/Twig/TokenStream.php:        $token = $this->tokens[$this->current];
+engine/templaters/Twig/TokenStream.php:        if (!$token->test($type, $value)) {
+engine/templaters/Twig/TokenStream.php:            $line = $token->getLine();
+engine/templaters/Twig/TokenStream.php:                Twig_Token::typeToEnglish($token->getType(), $line), $token->getValue(),
+engine/templaters/Twig/TokenStream.php:        $this->next();
+engine/templaters/Twig/TokenStream.php:        if (!isset($this->tokens[$this->current + $number])) {
+engine/templaters/Twig/TokenStream.php:        return $this->tokens[$this->current + $number];
+engine/templaters/Twig/TokenStream.php:        return $this->tokens[$this->current]->test($primary, $secondary);
+engine/templaters/Twig/TokenStream.php:        return $this->tokens[$this->current]->getType() === Twig_Token::EOF_TYPE;
+engine/templaters/Twig/TokenStream.php:        return $this->tokens[$this->current];
+engine/templaters/Twig/TokenStream.php:        return $this->filename;
+engine/templaters/Twig/TokenParser.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/TokenParser.php:        $this->parser = $parser;
+engine/templaters/Twig/Test/Method.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Test/Method.php:        $this->extension = $extension;
+engine/templaters/Twig/Test/Method.php:        $this->method = $method;
+engine/templaters/Twig/Test/Method.php:        return sprintf('$this->env->getExtension(\'%s\')->%s', $this->extension->getName(), $this->method);
+engine/templaters/Twig/Test/Function.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Test/Function.php:        $this->function = $function;
+engine/templaters/Twig/Test/Function.php:        return $this->function;
+engine/templaters/Twig/Compiler.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Compiler.php:        $this->env = $env;
+engine/templaters/Twig/Compiler.php:        return $this->env;
+engine/templaters/Twig/Compiler.php:        return $this->source;
+engine/templaters/Twig/Compiler.php:        $this->lastLine = null;
+engine/templaters/Twig/Compiler.php:        $this->source = '';
+engine/templaters/Twig/Compiler.php:        $this->indentation = $indentation;
+engine/templaters/Twig/Compiler.php:        $node->compile($this);
+engine/templaters/Twig/Compiler.php:            $this->addIndentation();
+engine/templaters/Twig/Compiler.php:        $node->compile($this);
+engine/templaters/Twig/Compiler.php:        $this->source .= $string;
+engine/templaters/Twig/Compiler.php:            $this->addIndentation();
+engine/templaters/Twig/Compiler.php:            $this->source .= $string;
+engine/templaters/Twig/Compiler.php:        $this->source .= str_repeat(' ', $this->indentation * 4);
+engine/templaters/Twig/Compiler.php:        $this->source .= sprintf('"%s"', addcslashes($value, "\t\"\$\\"));
+engine/templaters/Twig/Compiler.php:            $this->raw($value);
+engine/templaters/Twig/Compiler.php:            $this->raw('null');
+engine/templaters/Twig/Compiler.php:            $this->raw($value ? 'true' : 'false');
+engine/templaters/Twig/Compiler.php:            $this->raw('array(');
+engine/templaters/Twig/Compiler.php:                    $this->raw(', ');
+engine/templaters/Twig/Compiler.php:                $this->repr($key);
+engine/templaters/Twig/Compiler.php:                $this->raw(' => ');
+engine/templaters/Twig/Compiler.php:                $this->repr($value);
+engine/templaters/Twig/Compiler.php:            $this->raw(')');
+engine/templaters/Twig/Compiler.php:            $this->string($value);
+engine/templaters/Twig/Compiler.php:        if ($node->getLine() != $this->lastLine) {
+engine/templaters/Twig/Compiler.php:            $this->lastLine = $node->getLine();
+engine/templaters/Twig/Compiler.php:            $this->write("// line {$node->getLine()}\n");
+engine/templaters/Twig/Compiler.php:        $this->indentation += $step;
+engine/templaters/Twig/Compiler.php:        $this->indentation -= $step;
+engine/templaters/Twig/Compiler.php:        if ($this->indentation < 0) {
+engine/templaters/Twig/Template.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Template.php:        $this->env = $env;
+engine/templaters/Twig/Template.php:        $this->blocks = array();
+engine/templaters/Twig/Template.php:        return $this->env;
+engine/templaters/Twig/Template.php:        if (false !== $parent = $this->getParent($context)) {
+engine/templaters/Twig/Template.php:            $parent->displayBlock($name, $context, $blocks);
+engine/templaters/Twig/Template.php:            throw new Twig_Error_Runtime('This template has no parent', -1, $this->getTemplateName());
+engine/templaters/Twig/Template.php:        } elseif (isset($this->blocks[$name])) {
+engine/templaters/Twig/Template.php:            call_user_func($this->blocks[$name], $context, $blocks);
+engine/templaters/Twig/Template.php:        } elseif (false !== $parent = $this->getParent($context)) {
+engine/templaters/Twig/Template.php:            $parent->displayBlock($name, $context, array_merge($this->blocks, $blocks));
+engine/templaters/Twig/Template.php:        $this->displayParentBlock($name, $context, $blocks);
+engine/templaters/Twig/Template.php:        $this->displayBlock($name, $context, $blocks);
+engine/templaters/Twig/Template.php:        return isset($this->blocks[$name]);
+engine/templaters/Twig/Template.php:        return array_keys($this->blocks);
+engine/templaters/Twig/Template.php:            $this->display($context);
+engine/templaters/Twig/Template.php:    protected function getContext($context, $item, $line = -1)
+engine/templaters/Twig/Template.php:            throw new Twig_Error_Runtime(sprintf('Variable "%s" does not exist', $item), $line, $this->getTemplateName());
+engine/templaters/Twig/Template.php:    protected function getAttribute($object, $item, array $arguments = array(), $type = Twig_Node_Expression_GetAttr::TYPE_ANY, $noStrictCheck = false, $line = -1)
+engine/templaters/Twig/Template.php:                if (!$this->env->isStrictVariables() || $noStrictCheck) {
+engine/templaters/Twig/Template.php:                    throw new Twig_Error_Runtime(sprintf('Key "%s" in object (with ArrayAccess) of type "%s" does not exist', $item, get_class($object)), $line, $this->getTemplateName());
+engine/templaters/Twig/Template.php:                    throw new Twig_Error_Runtime(sprintf('Key "%s" for array with keys "%s" does not exist', $item, implode(', ', array_keys($object))), $line, $this->getTemplateName());
+engine/templaters/Twig/Template.php:            if (!$this->env->isStrictVariables() || $noStrictCheck) {
+engine/templaters/Twig/Template.php:            throw new Twig_Error_Runtime(sprintf('Item "%s" for "%s" does not exist', $item, $object), $line, $this->getTemplateName());
+engine/templaters/Twig/Template.php:            foreach ($r->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+engine/templaters/Twig/Template.php:                self::$cache[$class]['methods'][strtolower($method->getName())] = true;
+engine/templaters/Twig/Template.php:            foreach ($r->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+engine/templaters/Twig/Template.php:                self::$cache[$class]['properties'][strtolower($property->getName())] = true;
+engine/templaters/Twig/Template.php:            if (isset(self::$cache[$class]['properties'][strtolower($item)]) || isset($object->$item)) {
+engine/templaters/Twig/Template.php:                if ($this->env->hasExtension('sandbox')) {
+engine/templaters/Twig/Template.php:                    $this->env->getExtension('sandbox')->checkPropertyAllowed($object, $item);
+engine/templaters/Twig/Template.php:                return $object->$item;
+engine/templaters/Twig/Template.php:            if (!$this->env->isStrictVariables() || $noStrictCheck) {
+engine/templaters/Twig/Template.php:            throw new Twig_Error_Runtime(sprintf('Method "%s" for object "%s" does not exist', $item, get_class($object)), $line, $this->getTemplateName());
+engine/templaters/Twig/Template.php:        if ($this->env->hasExtension('sandbox')) {
+engine/templaters/Twig/Template.php:            $this->env->getExtension('sandbox')->checkMethodAllowed($object, $method);
+engine/templaters/Twig/Node/Expression.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Include.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Include.php:        $compiler->addDebugInfo($this);
+engine/templaters/Twig/Node/Include.php:        if ($this->getNode('expr') instanceof Twig_Node_Expression_Constant) {
+engine/templaters/Twig/Node/Include.php:                ->write("\$this->env->loadTemplate(")
+engine/templaters/Twig/Node/Include.php:                ->subcompile($this->getNode('expr'))
+engine/templaters/Twig/Node/Include.php:                ->raw(")->display(")
+engine/templaters/Twig/Node/Include.php:                ->write("\$template = ")
+engine/templaters/Twig/Node/Include.php:                ->subcompile($this->getNode('expr'))
+engine/templaters/Twig/Node/Include.php:                ->raw(";\n")
+engine/templaters/Twig/Node/Include.php:                ->write("if (!\$template")
+engine/templaters/Twig/Node/Include.php:                ->raw(" instanceof Twig_Template) {\n")
+engine/templaters/Twig/Node/Include.php:                ->indent()
+engine/templaters/Twig/Node/Include.php:                ->write("\$template = \$this->env->loadTemplate(\$template);\n")
+engine/templaters/Twig/Node/Include.php:                ->outdent()
+engine/templaters/Twig/Node/Include.php:                ->write("}\n")
+engine/templaters/Twig/Node/Include.php:                ->write('$template->display(')
+engine/templaters/Twig/Node/Include.php:        if (false === $this->getAttribute('only')) {
+engine/templaters/Twig/Node/Include.php:            if (null === $this->getNode('variables')) {
+engine/templaters/Twig/Node/Include.php:                $compiler->raw('$context');
+engine/templaters/Twig/Node/Include.php:                    ->raw('array_merge($context, ')
+engine/templaters/Twig/Node/Include.php:                    ->subcompile($this->getNode('variables'))
+engine/templaters/Twig/Node/Include.php:                    ->raw(')')
+engine/templaters/Twig/Node/Include.php:            if (null === $this->getNode('variables')) {
+engine/templaters/Twig/Node/Include.php:                $compiler->raw('array()');
+engine/templaters/Twig/Node/Include.php:                $compiler->subcompile($this->getNode('variables'));
+engine/templaters/Twig/Node/Include.php:        $compiler->raw(");\n");
+engine/templaters/Twig/Node/Import.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Import.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Import.php:            ->write('')
+engine/templaters/Twig/Node/Import.php:            ->subcompile($this->getNode('var'))
+engine/templaters/Twig/Node/Import.php:            ->raw(' = ')
+engine/templaters/Twig/Node/Import.php:        if ($this->getNode('expr') instanceof Twig_Node_Expression_Name && '_self' === $this->getNode('expr')->getAttribute('name')) {
+engine/templaters/Twig/Node/Import.php:            $compiler->raw("\$this");
+engine/templaters/Twig/Node/Import.php:                ->raw('$this->env->loadTemplate(')
+engine/templaters/Twig/Node/Import.php:                ->subcompile($this->getNode('expr'))
+engine/templaters/Twig/Node/Import.php:                ->raw(", true)")
+engine/templaters/Twig/Node/Import.php:        $compiler->raw(";\n");
+engine/templaters/Twig/Node/Print.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Print.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Print.php:            ->write('echo ')
+engine/templaters/Twig/Node/Print.php:            ->subcompile($this->getNode('expr'))
+engine/templaters/Twig/Node/Print.php:            ->raw(";\n")
+engine/templaters/Twig/Node/For.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/For.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/For.php:            ->write("\$context['_parent'] = (array) \$context;\n")
+engine/templaters/Twig/Node/For.php:            ->write("\$context['_seq'] = twig_ensure_traversable(")
+engine/templaters/Twig/Node/For.php:            ->subcompile($this->getNode('seq'))
+engine/templaters/Twig/Node/For.php:            ->raw(");\n")
+engine/templaters/Twig/Node/For.php:        if (null !== $this->getNode('else')) {
+engine/templaters/Twig/Node/For.php:            $compiler->write("\$context['_iterated'] = false;\n");
+engine/templaters/Twig/Node/For.php:        if ($this->getAttribute('with_loop')) {
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop'] = array(\n")
+engine/templaters/Twig/Node/For.php:                ->write("  'parent' => \$context['_parent'],\n")
+engine/templaters/Twig/Node/For.php:                ->write("  'index0' => 0,\n")
+engine/templaters/Twig/Node/For.php:                ->write("  'index'  => 1,\n")
+engine/templaters/Twig/Node/For.php:                ->write("  'first'  => true,\n")
+engine/templaters/Twig/Node/For.php:                ->write(");\n")
+engine/templaters/Twig/Node/For.php:                ->write("if (is_array(\$context['_seq']) || (is_object(\$context['_seq']) && \$context['_seq'] instanceof Countable)) {\n")
+engine/templaters/Twig/Node/For.php:                ->indent()
+engine/templaters/Twig/Node/For.php:                ->write("\$length = count(\$context['_seq']);\n")
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop']['revindex0'] = \$length - 1;\n")
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop']['revindex'] = \$length;\n")
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop']['length'] = \$length;\n")
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop']['last'] = 1 === \$length;\n")
+engine/templaters/Twig/Node/For.php:                ->outdent()
+engine/templaters/Twig/Node/For.php:                ->write("}\n")
+engine/templaters/Twig/Node/For.php:            ->write("foreach (\$context['_seq'] as ")
+engine/templaters/Twig/Node/For.php:            ->subcompile($this->getNode('key_target'))
+engine/templaters/Twig/Node/For.php:            ->raw(" => ")
+engine/templaters/Twig/Node/For.php:            ->subcompile($this->getNode('value_target'))
+engine/templaters/Twig/Node/For.php:            ->raw(") {\n")
+engine/templaters/Twig/Node/For.php:            ->indent()
+engine/templaters/Twig/Node/For.php:        $compiler->subcompile($this->getNode('body'));
+engine/templaters/Twig/Node/For.php:        if (null !== $this->getNode('else')) {
+engine/templaters/Twig/Node/For.php:            $compiler->write("\$context['_iterated'] = true;\n");
+engine/templaters/Twig/Node/For.php:        if ($this->getAttribute('with_loop')) {
+engine/templaters/Twig/Node/For.php:                ->write("++\$context['loop']['index0'];\n")
+engine/templaters/Twig/Node/For.php:                ->write("++\$context['loop']['index'];\n")
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop']['first'] = false;\n")
+engine/templaters/Twig/Node/For.php:                ->write("if (isset(\$context['loop']['length'])) {\n")
+engine/templaters/Twig/Node/For.php:                ->indent()
+engine/templaters/Twig/Node/For.php:                ->write("--\$context['loop']['revindex0'];\n")
+engine/templaters/Twig/Node/For.php:                ->write("--\$context['loop']['revindex'];\n")
+engine/templaters/Twig/Node/For.php:                ->write("\$context['loop']['last'] = 0 === \$context['loop']['revindex0'];\n")
+engine/templaters/Twig/Node/For.php:                ->outdent()
+engine/templaters/Twig/Node/For.php:                ->write("}\n")
+engine/templaters/Twig/Node/For.php:            ->outdent()
+engine/templaters/Twig/Node/For.php:            ->write("}\n")
+engine/templaters/Twig/Node/For.php:        if (null !== $this->getNode('else')) {
+engine/templaters/Twig/Node/For.php:                ->write("if (!\$context['_iterated']) {\n")
+engine/templaters/Twig/Node/For.php:                ->indent()
+engine/templaters/Twig/Node/For.php:                ->subcompile($this->getNode('else'))
+engine/templaters/Twig/Node/For.php:                ->outdent()
+engine/templaters/Twig/Node/For.php:                ->write("}\n")
+engine/templaters/Twig/Node/For.php:        $compiler->write("\$_parent = \$context['_parent'];\n");
+engine/templaters/Twig/Node/For.php:        $compiler->write('unset($context[\'_seq\'], $context[\'_iterated\'], $context[\''.$this->getNode('key_target')->getAttribute('name').'\'], $context[\''.$this->getNode('value_target')->getAttribute('name').'\'], $context[\'_parent\'], $context[\'loop\']);'."\n");
+engine/templaters/Twig/Node/For.php:        $compiler->write("\$context = array_merge(\$_parent, array_intersect_key(\$context, \$_parent));\n");
+engine/templaters/Twig/Node/SandboxedPrint.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->write('if (is_object(')
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->raw('$_tmp = ')
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->subcompile($this->removeNodeFilter($this->getNode('expr')))
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->raw(')) {'."\n")
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->indent()
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->write('$this->env->getExtension(\'sandbox\')->checkMethodAllowed(')
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->raw('$_tmp, \'__toString\');'."\n")
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->outdent()
+engine/templaters/Twig/Node/SandboxedPrint.php:            ->write('}'."\n")
+engine/templaters/Twig/Node/SandboxedPrint.php:            return $this->removeNodeFilter($node->getNode('node'));
+engine/templaters/Twig/Node/If.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/If.php:        $compiler->addDebugInfo($this);
+engine/templaters/Twig/Node/If.php:        for ($i = 0; $i < count($this->getNode('tests')); $i += 2) {
+engine/templaters/Twig/Node/If.php:                    ->outdent()
+engine/templaters/Twig/Node/If.php:                    ->write("} elseif (")
+engine/templaters/Twig/Node/If.php:                    ->write('if (')
+engine/templaters/Twig/Node/If.php:                ->subcompile($this->getNode('tests')->getNode($i))
+engine/templaters/Twig/Node/If.php:                ->raw(") {\n")
+engine/templaters/Twig/Node/If.php:                ->indent()
+engine/templaters/Twig/Node/If.php:                ->subcompile($this->getNode('tests')->getNode($i + 1))
+engine/templaters/Twig/Node/If.php:        if ($this->hasNode('else') && null !== $this->getNode('else')) {
+engine/templaters/Twig/Node/If.php:                ->outdent()
+engine/templaters/Twig/Node/If.php:                ->write("} else {\n")
+engine/templaters/Twig/Node/If.php:                ->indent()
+engine/templaters/Twig/Node/If.php:                ->subcompile($this->getNode('else'))
+engine/templaters/Twig/Node/If.php:            ->outdent()
+engine/templaters/Twig/Node/If.php:            ->write("}\n");
+engine/templaters/Twig/Node/Block.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Block.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Block.php:            ->write(sprintf("public function block_%s(\$context, array \$blocks = array())\n", $this->getAttribute('name')), "{\n")
+engine/templaters/Twig/Node/Block.php:            ->indent()
+engine/templaters/Twig/Node/Block.php:            ->subcompile($this->getNode('body'))
+engine/templaters/Twig/Node/Block.php:            ->outdent()
+engine/templaters/Twig/Node/Block.php:            ->write("}\n\n")
+engine/templaters/Twig/Node/AutoEscape.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/AutoEscape.php:        $compiler->subcompile($this->getNode('body'));
+engine/templaters/Twig/Node/SandboxedModule.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/SandboxedModule.php:        parent::__construct($node->getNode('body'), $node->getNode('parent'), $node->getNode('blocks'), $node->getNode('macros'), $node->getAttribute('filename'), $node->getLine(), $node->getNodeTag());
+engine/templaters/Twig/Node/SandboxedModule.php:        $this->usedFilters = $usedFilters;
+engine/templaters/Twig/Node/SandboxedModule.php:        $this->usedTags = $usedTags;
+engine/templaters/Twig/Node/SandboxedModule.php:        $this->usedFunctions = $usedFunctions;
+engine/templaters/Twig/Node/SandboxedModule.php:        if (null === $this->getNode('parent')) {
+engine/templaters/Twig/Node/SandboxedModule.php:            $compiler->write("\$this->checkSecurity();\n");
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write("protected function checkSecurity() {\n")
+engine/templaters/Twig/Node/SandboxedModule.php:            ->indent()
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write("\$this->env->getExtension('sandbox')->checkSecurity(\n")
+engine/templaters/Twig/Node/SandboxedModule.php:            ->indent()
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write(!$this->usedTags ? "array(),\n" : "array('".implode('\', \'', $this->usedTags)."'),\n")
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write(!$this->usedFilters ? "array(),\n" : "array('".implode('\', \'', $this->usedFilters)."'),\n")
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write(!$this->usedFunctions ? "array()\n" : "array('".implode('\', \'', $this->usedFunctions)."')\n")
+engine/templaters/Twig/Node/SandboxedModule.php:            ->outdent()
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write(");\n")
+engine/templaters/Twig/Node/SandboxedModule.php:        if (null !== $this->getNode('parent')) {
+engine/templaters/Twig/Node/SandboxedModule.php:                ->raw("\n")
+engine/templaters/Twig/Node/SandboxedModule.php:                ->write("\$this->parent->checkSecurity();\n")
+engine/templaters/Twig/Node/SandboxedModule.php:            ->outdent()
+engine/templaters/Twig/Node/SandboxedModule.php:            ->write("}\n\n")
+engine/templaters/Twig/Node/Sandbox.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Sandbox.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Sandbox.php:            ->write("\$sandbox = \$this->env->getExtension('sandbox');\n")
+engine/templaters/Twig/Node/Sandbox.php:            ->write("if (!\$alreadySandboxed = \$sandbox->isSandboxed()) {\n")
+engine/templaters/Twig/Node/Sandbox.php:            ->indent()
+engine/templaters/Twig/Node/Sandbox.php:            ->write("\$sandbox->enableSandbox();\n")
+engine/templaters/Twig/Node/Sandbox.php:            ->outdent()
+engine/templaters/Twig/Node/Sandbox.php:            ->write("}\n")
+engine/templaters/Twig/Node/Sandbox.php:            ->subcompile($this->getNode('body'))
+engine/templaters/Twig/Node/Sandbox.php:            ->write("if (!\$alreadySandboxed) {\n")
+engine/templaters/Twig/Node/Sandbox.php:            ->indent()
+engine/templaters/Twig/Node/Sandbox.php:            ->write("\$sandbox->disableSandbox();\n")
+engine/templaters/Twig/Node/Sandbox.php:            ->outdent()
+engine/templaters/Twig/Node/Sandbox.php:            ->write("}\n")
+engine/templaters/Twig/Node/Macro.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Macro.php:        foreach ($this->getNode('arguments') as $argument) {
+engine/templaters/Twig/Node/Macro.php:            $arguments[] = '$'.$argument->getAttribute('name').' = null';
+engine/templaters/Twig/Node/Macro.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Macro.php:            ->write(sprintf("public function get%s(%s)\n", $this->getAttribute('name'), implode(', ', $arguments)), "{\n")
+engine/templaters/Twig/Node/Macro.php:            ->indent()
+engine/templaters/Twig/Node/Macro.php:            ->write("\$context = array_merge(\$this->env->getGlobals(), array(\n")
+engine/templaters/Twig/Node/Macro.php:            ->indent()
+engine/templaters/Twig/Node/Macro.php:        foreach ($this->getNode('arguments') as $argument) {
+engine/templaters/Twig/Node/Macro.php:                ->write('')
+engine/templaters/Twig/Node/Macro.php:                ->string($argument->getAttribute('name'))
+engine/templaters/Twig/Node/Macro.php:                ->raw(' => $'.$argument->getAttribute('name'))
+engine/templaters/Twig/Node/Macro.php:                ->raw(",\n")
+engine/templaters/Twig/Node/Macro.php:            ->outdent()
+engine/templaters/Twig/Node/Macro.php:            ->write("));\n\n")
+engine/templaters/Twig/Node/Macro.php:            ->write("ob_start();\n")
+engine/templaters/Twig/Node/Macro.php:            ->subcompile($this->getNode('body'))
+engine/templaters/Twig/Node/Macro.php:            ->raw("\n")
+engine/templaters/Twig/Node/Macro.php:            ->write("return ob_get_clean();\n")
+engine/templaters/Twig/Node/Macro.php:            ->outdent()
+engine/templaters/Twig/Node/Macro.php:            ->write("}\n\n")
+engine/templaters/Twig/Node/Text.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Text.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Text.php:            ->write('echo ')
+engine/templaters/Twig/Node/Text.php:            ->string($this->getAttribute('data'))
+engine/templaters/Twig/Node/Text.php:            ->raw(";\n")
+engine/templaters/Twig/Node/BlockReference.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/BlockReference.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/BlockReference.php:            ->write(sprintf("\$this->displayBlock('%s', \$context, \$blocks);\n", $this->getAttribute('name')))
+engine/templaters/Twig/Node/Set.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Set.php:        $compiler->addDebugInfo($this);
+engine/templaters/Twig/Node/Set.php:        if (count($this->getNode('names')) > 1) {
+engine/templaters/Twig/Node/Set.php:            $compiler->write('list(');
+engine/templaters/Twig/Node/Set.php:            foreach ($this->getNode('names') as $idx => $node) {
+engine/templaters/Twig/Node/Set.php:                    $compiler->raw(', ');
+engine/templaters/Twig/Node/Set.php:                $compiler->subcompile($node);
+engine/templaters/Twig/Node/Set.php:            $compiler->raw(')');
+engine/templaters/Twig/Node/Set.php:            if ($this->getAttribute('capture')) {
+engine/templaters/Twig/Node/Set.php:                    ->write("ob_start();\n")
+engine/templaters/Twig/Node/Set.php:                    ->subcompile($this->getNode('values'))
+engine/templaters/Twig/Node/Set.php:            $compiler->subcompile($this->getNode('names'), false);
+engine/templaters/Twig/Node/Set.php:            if ($this->getAttribute('capture')) {
+engine/templaters/Twig/Node/Set.php:                $compiler->raw(" = ob_get_clean()");
+engine/templaters/Twig/Node/Set.php:        if (!$this->getAttribute('capture')) {
+engine/templaters/Twig/Node/Set.php:            $compiler->raw(' = ');
+engine/templaters/Twig/Node/Set.php:            if (count($this->getNode('names')) > 1) {
+engine/templaters/Twig/Node/Set.php:                $compiler->write('array(');
+engine/templaters/Twig/Node/Set.php:                foreach ($this->getNode('values') as $idx => $value) {
+engine/templaters/Twig/Node/Set.php:                        $compiler->raw(', ');
+engine/templaters/Twig/Node/Set.php:                    $compiler->subcompile($value);
+engine/templaters/Twig/Node/Set.php:                $compiler->raw(')');
+engine/templaters/Twig/Node/Set.php:                $compiler->subcompile($this->getNode('values'));
+engine/templaters/Twig/Node/Set.php:        $compiler->raw(";\n");
+engine/templaters/Twig/Node/Spaceless.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Spaceless.php:            ->addDebugInfo($this)
+engine/templaters/Twig/Node/Spaceless.php:            ->write("ob_start();\n")
+engine/templaters/Twig/Node/Spaceless.php:            ->subcompile($this->getNode('body'))
+engine/templaters/Twig/Node/Spaceless.php:            ->write("echo trim(preg_replace('/>\s+</', '><', ob_get_clean()));\n")
+engine/templaters/Twig/Node/Expression/Filter.php:        $name = $this->getNode('filter')->getAttribute('value');
+engine/templaters/Twig/Node/Expression/Filter.php:        if (false === $filter = $compiler->getEnvironment()->getFilter($name)) {
+engine/templaters/Twig/Node/Expression/Filter.php:            throw new Twig_Error_Syntax(sprintf('The filter "%s" does not exist', $name), $this->getLine());
+engine/templaters/Twig/Node/Expression/Filter.php:        if ('default' === $name && ($this->getNode('node') instanceof Twig_Node_Expression_Name || $this->getNode('node') instanceof Twig_Node_Expression_GetAttr)) {
+engine/templaters/Twig/Node/Expression/Filter.php:            $compiler->raw('(');
+engine/templaters/Twig/Node/Expression/Filter.php:            if ($this->getNode('node') instanceof Twig_Node_Expression_Name) {
+engine/templaters/Twig/Node/Expression/Filter.php:                $testMap = $compiler->getEnvironment()->getTests();
+engine/templaters/Twig/Node/Expression/Filter.php:                    ->raw($testMap['defined']->compile().'(')
+engine/templaters/Twig/Node/Expression/Filter.php:                    ->repr($this->getNode('node')->getAttribute('name'))
+engine/templaters/Twig/Node/Expression/Filter.php:                    ->raw(', $context)')
+engine/templaters/Twig/Node/Expression/Filter.php:            } elseif ($this->getNode('node') instanceof Twig_Node_Expression_GetAttr) {
+engine/templaters/Twig/Node/Expression/Filter.php:                $this->getNode('node')->setAttribute('is_defined_test', true);
+engine/templaters/Twig/Node/Expression/Filter.php:                $compiler->subcompile($this->getNode('node'));
+engine/templaters/Twig/Node/Expression/Filter.php:            $compiler->raw(' ? ');
+engine/templaters/Twig/Node/Expression/Filter.php:            $this->compileFilter($compiler, $filter);
+engine/templaters/Twig/Node/Expression/Filter.php:            $compiler->raw(' : ');
+engine/templaters/Twig/Node/Expression/Filter.php:            $compiler->subcompile($this->getNode('arguments')->getNode(0));
+engine/templaters/Twig/Node/Expression/Filter.php:            $compiler->raw(')');
+engine/templaters/Twig/Node/Expression/Filter.php:            $this->compileFilter($compiler, $filter);
+engine/templaters/Twig/Node/Expression/Filter.php:            ->raw($filter->compile().'(')
+engine/templaters/Twig/Node/Expression/Filter.php:            ->raw($filter->needsEnvironment() ? '$this->env, ' : '')
+engine/templaters/Twig/Node/Expression/Filter.php:            ->raw($filter->needsContext() ? '$context, ' : '')
+engine/templaters/Twig/Node/Expression/Filter.php:        $this->getNode('node')->compile($compiler);
+engine/templaters/Twig/Node/Expression/Filter.php:        foreach ($this->getNode('arguments') as $node) {
+engine/templaters/Twig/Node/Expression/Filter.php:                ->raw(', ')
+engine/templaters/Twig/Node/Expression/Filter.php:                ->subcompile($node)
+engine/templaters/Twig/Node/Expression/Filter.php:        $compiler->raw(')');
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw('$this->getAttribute(')
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->subcompile($this->getNode('node'))
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw(', ')
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->subcompile($this->getNode('attribute'))
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw(', array(')
+engine/templaters/Twig/Node/Expression/GetAttr.php:        foreach ($this->getNode('arguments') as $node) {
+engine/templaters/Twig/Node/Expression/GetAttr.php:                ->subcompile($node)
+engine/templaters/Twig/Node/Expression/GetAttr.php:                ->raw(', ')
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw('), ')
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->repr($this->getAttribute('type'))
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw($this->hasAttribute('is_defined_test') ? ', true' : ', false')
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw(sprintf(', %d', $this->lineno))
+engine/templaters/Twig/Node/Expression/GetAttr.php:            ->raw(')');
+engine/templaters/Twig/Node/Expression/AssignName.php:        $compiler->raw(sprintf('$context[\'%s\']', $this->getAttribute('name')));
+engine/templaters/Twig/Node/Expression/Unary/Neg.php:        $compiler->raw('-');
+engine/templaters/Twig/Node/Expression/Unary/Not.php:        $compiler->raw('!');
+engine/templaters/Twig/Node/Expression/Unary/Pos.php:        $compiler->raw('+');
+engine/templaters/Twig/Node/Expression/Name.php:        if ('_self' === $this->getAttribute('name')) {
+engine/templaters/Twig/Node/Expression/Name.php:            $compiler->raw('$this');
+engine/templaters/Twig/Node/Expression/Name.php:        } elseif ('_context' === $this->getAttribute('name')) {
+engine/templaters/Twig/Node/Expression/Name.php:            $compiler->raw('$context');
+engine/templaters/Twig/Node/Expression/Name.php:        } elseif ('_charset' === $this->getAttribute('name')) {
+engine/templaters/Twig/Node/Expression/Name.php:            $compiler->raw('$this->env->getCharset()');
+engine/templaters/Twig/Node/Expression/Name.php:        } elseif ($compiler->getEnvironment()->isStrictVariables()) {
+engine/templaters/Twig/Node/Expression/Name.php:            $compiler->raw(sprintf('$this->getContext($context, \'%s\', \'%s\')', $this->getAttribute('name'), $this->lineno));
+engine/templaters/Twig/Node/Expression/Name.php:            $compiler->raw(sprintf('(isset($context[\'%s\']) ? $context[\'%s\'] : null)', $this->getAttribute('name'), $this->getAttribute('name')));
+engine/templaters/Twig/Node/Expression/Binary/FloorDiv.php:        $compiler->raw('floor(');
+engine/templaters/Twig/Node/Expression/Binary/FloorDiv.php:        $compiler->raw(')');
+engine/templaters/Twig/Node/Expression/Binary/FloorDiv.php:        return $compiler->raw('/');
+engine/templaters/Twig/Node/Expression/Binary/Sub.php:        return $compiler->raw('-');
+engine/templaters/Twig/Node/Expression/Binary/Mod.php:        return $compiler->raw('%');
+engine/templaters/Twig/Node/Expression/Binary/Power.php:            ->raw('pow(')
+engine/templaters/Twig/Node/Expression/Binary/Power.php:            ->subcompile($this->getNode('left'))
+engine/templaters/Twig/Node/Expression/Binary/Power.php:            ->raw(', ')
+engine/templaters/Twig/Node/Expression/Binary/Power.php:            ->subcompile($this->getNode('right'))
+engine/templaters/Twig/Node/Expression/Binary/Power.php:            ->raw(')')
+engine/templaters/Twig/Node/Expression/Binary/Power.php:        return $compiler->raw('**');
+engine/templaters/Twig/Node/Expression/Binary/And.php:        return $compiler->raw('&&');
+engine/templaters/Twig/Node/Expression/Binary/LessEqual.php:        return $compiler->raw('<=');
+engine/templaters/Twig/Node/Expression/Binary/NotEqual.php:        return $compiler->raw('!=');
+engine/templaters/Twig/Node/Expression/Binary/Concat.php:        return $compiler->raw('.');
+engine/templaters/Twig/Node/Expression/Binary/Range.php:            ->raw('range(')
+engine/templaters/Twig/Node/Expression/Binary/Range.php:            ->subcompile($this->getNode('left'))
+engine/templaters/Twig/Node/Expression/Binary/Range.php:            ->raw(', ')
+engine/templaters/Twig/Node/Expression/Binary/Range.php:            ->subcompile($this->getNode('right'))
+engine/templaters/Twig/Node/Expression/Binary/Range.php:            ->raw(')')
+engine/templaters/Twig/Node/Expression/Binary/Range.php:        return $compiler->raw('..');
+engine/templaters/Twig/Node/Expression/Binary/Less.php:        return $compiler->raw('<');
+engine/templaters/Twig/Node/Expression/Binary/GreaterEqual.php:        return $compiler->raw('>=');
+engine/templaters/Twig/Node/Expression/Binary/Equal.php:        return $compiler->raw('==');
+engine/templaters/Twig/Node/Expression/Binary/Div.php:        return $compiler->raw('/');
+engine/templaters/Twig/Node/Expression/Binary/Or.php:        return $compiler->raw('||');
+engine/templaters/Twig/Node/Expression/Binary/NotIn.php:            ->raw('!twig_in_filter(')
+engine/templaters/Twig/Node/Expression/Binary/NotIn.php:            ->subcompile($this->getNode('left'))
+engine/templaters/Twig/Node/Expression/Binary/NotIn.php:            ->raw(', ')
+engine/templaters/Twig/Node/Expression/Binary/NotIn.php:            ->subcompile($this->getNode('right'))
+engine/templaters/Twig/Node/Expression/Binary/NotIn.php:            ->raw(')')
+engine/templaters/Twig/Node/Expression/Binary/NotIn.php:        return $compiler->raw('not in');
+engine/templaters/Twig/Node/Expression/Binary/Add.php:        return $compiler->raw('+');
+engine/templaters/Twig/Node/Expression/Binary/Mul.php:        return $compiler->raw('*');
+engine/templaters/Twig/Node/Expression/Binary/In.php:            ->raw('twig_in_filter(')
+engine/templaters/Twig/Node/Expression/Binary/In.php:            ->subcompile($this->getNode('left'))
+engine/templaters/Twig/Node/Expression/Binary/In.php:            ->raw(', ')
+engine/templaters/Twig/Node/Expression/Binary/In.php:            ->subcompile($this->getNode('right'))
+engine/templaters/Twig/Node/Expression/Binary/In.php:            ->raw(')')
+engine/templaters/Twig/Node/Expression/Binary/In.php:        return $compiler->raw('in');
+engine/templaters/Twig/Node/Expression/Binary/Greater.php:        return $compiler->raw('>');
+engine/templaters/Twig/Node/Expression/Function.php:        $function = $compiler->getEnvironment()->getFunction($this->getNode('name')->getAttribute('name'));
+engine/templaters/Twig/Node/Expression/Function.php:            throw new Twig_Error_Syntax(sprintf('The function "%s" does not exist', $this->getNode('name')->getAttribute('name')), $this->getLine());
+engine/templaters/Twig/Node/Expression/Function.php:            ->raw($function->compile().'(')
+engine/templaters/Twig/Node/Expression/Function.php:            ->raw($function->needsEnvironment() ? '$this->env, ' : '')
+engine/templaters/Twig/Node/Expression/Function.php:            ->raw($function->needsContext() ? '$context, ' : '')
+engine/templaters/Twig/Node/Expression/Function.php:        foreach ($this->getNode('arguments') as $node) {
+engine/templaters/Twig/Node/Expression/Function.php:                $compiler->raw(', ');
+engine/templaters/Twig/Node/Expression/Function.php:            $compiler->subcompile($node);
+engine/templaters/Twig/Node/Expression/Function.php:        $compiler->raw(')');
+engine/templaters/Twig/Node/Expression/Array.php:        $compiler->raw('array(');
+engine/templaters/Twig/Node/Expression/Array.php:        foreach ($this->nodes as $name => $node) {
+engine/templaters/Twig/Node/Expression/Array.php:                $compiler->raw(', ');
+engine/templaters/Twig/Node/Expression/Array.php:                ->repr($name)
+engine/templaters/Twig/Node/Expression/Array.php:                ->raw(' => ')
+engine/templaters/Twig/Node/Expression/Array.php:                ->subcompile($node)
+engine/templaters/Twig/Node/Expression/Array.php:        $compiler->raw(')');
+engine/templaters/Twig/Node/Expression/Constant.php:        $compiler->repr($this->getAttribute('value'));
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->raw('(')
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->subcompile($this->getNode('expr1'))
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->raw(') ? (')
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->subcompile($this->getNode('expr2'))
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->raw(') : (')
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->subcompile($this->getNode('expr3'))
+engine/templaters/Twig/Node/Expression/Conditional.php:            ->raw(')')
+engine/templaters/Twig/Node/Expression/Parent.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Expression/Parent.php:            ->raw("\$this->renderParentBlock(")
+engine/templaters/Twig/Node/Expression/Parent.php:            ->string($this->getAttribute('name'))
+engine/templaters/Twig/Node/Expression/Parent.php:            ->raw(", \$context, \$blocks)")
+engine/templaters/Twig/Node/Expression/Test.php:        $testMap = $compiler->getEnvironment()->getTests();
+engine/templaters/Twig/Node/Expression/Test.php:        if (!isset($testMap[$this->getAttribute('name')])) {
+engine/templaters/Twig/Node/Expression/Test.php:            throw new Twig_Error_Syntax(sprintf('The test "%s" does not exist', $this->getAttribute('name')), $this->getLine());
+engine/templaters/Twig/Node/Expression/Test.php:        if ('defined' === $this->getAttribute('name')) {
+engine/templaters/Twig/Node/Expression/Test.php:            if ($this->getNode('node') instanceof Twig_Node_Expression_Name) {
+engine/templaters/Twig/Node/Expression/Test.php:                    ->raw($testMap['defined']->compile().'(')
+engine/templaters/Twig/Node/Expression/Test.php:                    ->repr($this->getNode('node')->getAttribute('name'))
+engine/templaters/Twig/Node/Expression/Test.php:                    ->raw(', $context)')
+engine/templaters/Twig/Node/Expression/Test.php:            } elseif ($this->getNode('node') instanceof Twig_Node_Expression_GetAttr) {
+engine/templaters/Twig/Node/Expression/Test.php:                $this->getNode('node')->setAttribute('is_defined_test', true);
+engine/templaters/Twig/Node/Expression/Test.php:                $compiler->subcompile($this->getNode('node'));
+engine/templaters/Twig/Node/Expression/Test.php:                throw new Twig_Error_Syntax('The "defined" test only works with simple variables', $this->getLine());
+engine/templaters/Twig/Node/Expression/Test.php:            ->raw($testMap[$this->getAttribute('name')]->compile().'(')
+engine/templaters/Twig/Node/Expression/Test.php:            ->subcompile($this->getNode('node'))
+engine/templaters/Twig/Node/Expression/Test.php:        if (null !== $this->getNode('arguments')) {
+engine/templaters/Twig/Node/Expression/Test.php:            $compiler->raw(', ');
+engine/templaters/Twig/Node/Expression/Test.php:            $max = count($this->getNode('arguments')) - 1;
+engine/templaters/Twig/Node/Expression/Test.php:            foreach ($this->getNode('arguments') as $i => $node) {
+engine/templaters/Twig/Node/Expression/Test.php:                $compiler->subcompile($node);
+engine/templaters/Twig/Node/Expression/Test.php:                    $compiler->raw(', ');
+engine/templaters/Twig/Node/Expression/Test.php:        $compiler->raw(')');
+engine/templaters/Twig/Node/Expression/ExtensionReference.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Expression/ExtensionReference.php:        $compiler->raw(sprintf("\$this->env->getExtension('%s')", $this->getAttribute('name')));
+engine/templaters/Twig/Node/Expression/BlockReference.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Expression/BlockReference.php:            ->raw("\$this->renderBlock(")
+engine/templaters/Twig/Node/Expression/BlockReference.php:            ->subcompile($this->getNode('name'))
+engine/templaters/Twig/Node/Expression/BlockReference.php:            ->raw(", \$context, \$blocks)")
+engine/templaters/Twig/Node/Expression/Binary.php:            ->raw('(')
+engine/templaters/Twig/Node/Expression/Binary.php:            ->subcompile($this->getNode('left'))
+engine/templaters/Twig/Node/Expression/Binary.php:            ->raw(' ')
+engine/templaters/Twig/Node/Expression/Binary.php:        $this->operator($compiler);
+engine/templaters/Twig/Node/Expression/Binary.php:            ->raw(' ')
+engine/templaters/Twig/Node/Expression/Binary.php:            ->subcompile($this->getNode('right'))
+engine/templaters/Twig/Node/Expression/Binary.php:            ->raw(')')
+engine/templaters/Twig/Node/Expression/Unary.php:        $compiler->raw('(');
+engine/templaters/Twig/Node/Expression/Unary.php:        $this->operator($compiler);
+engine/templaters/Twig/Node/Expression/Unary.php:            ->subcompile($this->getNode('node'))
+engine/templaters/Twig/Node/Expression/Unary.php:            ->raw(')')
+engine/templaters/Twig/Node/Module.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node/Module.php:        $this->compileTemplate($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileClassHeader($compiler);
+engine/templaters/Twig/Node/Module.php:        if (count($this->getNode('blocks'))) {
+engine/templaters/Twig/Node/Module.php:            $this->compileConstructor($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileGetParent($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileDisplayHeader($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileDisplayBody($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileDisplayFooter($compiler);
+engine/templaters/Twig/Node/Module.php:        $compiler->subcompile($this->getNode('blocks'));
+engine/templaters/Twig/Node/Module.php:        $this->compileMacros($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileGetTemplateName($compiler);
+engine/templaters/Twig/Node/Module.php:        $this->compileClassFooter($compiler);
+engine/templaters/Twig/Node/Module.php:        if (null === $this->getNode('parent')) {
+engine/templaters/Twig/Node/Module.php:            ->write("public function getParent(array \$context)\n", "{\n")
+engine/templaters/Twig/Node/Module.php:            ->indent()
+engine/templaters/Twig/Node/Module.php:            ->write("if (null === \$this->parent) {\n")
+engine/templaters/Twig/Node/Module.php:            ->indent();
+engine/templaters/Twig/Node/Module.php:        if ($this->getNode('parent') instanceof Twig_Node_Expression_Constant) {
+engine/templaters/Twig/Node/Module.php:                ->write("\$this->parent = \$this->env->loadTemplate(")
+engine/templaters/Twig/Node/Module.php:                ->subcompile($this->getNode('parent'))
+engine/templaters/Twig/Node/Module.php:                ->raw(");\n")
+engine/templaters/Twig/Node/Module.php:                ->write("\$this->parent = ")
+engine/templaters/Twig/Node/Module.php:                ->subcompile($this->getNode('parent'))
+engine/templaters/Twig/Node/Module.php:                ->raw(";\n")
+engine/templaters/Twig/Node/Module.php:                ->write("if (!\$this->parent")
+engine/templaters/Twig/Node/Module.php:                ->raw(" instanceof Twig_Template) {\n")
+engine/templaters/Twig/Node/Module.php:                ->indent()
+engine/templaters/Twig/Node/Module.php:                ->write("\$this->parent = \$this->env->loadTemplate(\$this->parent);\n")
+engine/templaters/Twig/Node/Module.php:                ->outdent()
+engine/templaters/Twig/Node/Module.php:                ->write("}\n")
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write("}\n\n")
+engine/templaters/Twig/Node/Module.php:            ->write("return \$this->parent;\n")
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write("}\n\n")
+engine/templaters/Twig/Node/Module.php:        $compiler->write("\$context = array_merge(\$this->env->getGlobals(), \$context);\n\n");
+engine/templaters/Twig/Node/Module.php:        if (null !== $this->getNode('parent')) {
+engine/templaters/Twig/Node/Module.php:            foreach ($this->getNode('body') as $node) {
+engine/templaters/Twig/Node/Module.php:                    $compiler->subcompile($node);
+engine/templaters/Twig/Node/Module.php:                ->write("\$this->getParent(\$context)->display(\$context, array_merge(\$this->blocks, \$blocks));\n")
+engine/templaters/Twig/Node/Module.php:            $compiler->subcompile($this->getNode('body'));
+engine/templaters/Twig/Node/Module.php:            ->write("<?php\n\n")
+engine/templaters/Twig/Node/Module.php:            ->write("/* ".str_replace('*/', '* /', $this->getAttribute('filename'))." */\n")
+engine/templaters/Twig/Node/Module.php:            ->write('class '.$compiler->getEnvironment()->getTemplateClass($this->getAttribute('filename')))
+engine/templaters/Twig/Node/Module.php:            ->raw(sprintf(" extends %s\n", $compiler->getEnvironment()->getBaseTemplateClass()))
+engine/templaters/Twig/Node/Module.php:            ->write("{\n")
+engine/templaters/Twig/Node/Module.php:            ->indent()
+engine/templaters/Twig/Node/Module.php:        if (null !== $this->getNode('parent')) {
+engine/templaters/Twig/Node/Module.php:            $compiler->write("protected \$parent;\n\n");
+engine/templaters/Twig/Node/Module.php:            ->write("public function __construct(Twig_Environment \$env)\n", "{\n")
+engine/templaters/Twig/Node/Module.php:            ->indent()
+engine/templaters/Twig/Node/Module.php:            ->write("parent::__construct(\$env);\n\n")
+engine/templaters/Twig/Node/Module.php:            ->write("\$this->blocks = array(\n")
+engine/templaters/Twig/Node/Module.php:            ->indent()
+engine/templaters/Twig/Node/Module.php:        foreach ($this->getNode('blocks') as $name => $node) {
+engine/templaters/Twig/Node/Module.php:                ->write(sprintf("'%s' => array(\$this, 'block_%s'),\n", $name, $name))
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write(");\n")
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write("}\n\n");
+engine/templaters/Twig/Node/Module.php:            ->write("public function display(array \$context, array \$blocks = array())\n", "{\n")
+engine/templaters/Twig/Node/Module.php:            ->indent()
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write("}\n\n")
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write("}\n")
+engine/templaters/Twig/Node/Module.php:        $compiler->subcompile($this->getNode('macros'));
+engine/templaters/Twig/Node/Module.php:            ->write("public function getTemplateName()\n", "{\n")
+engine/templaters/Twig/Node/Module.php:            ->indent()
+engine/templaters/Twig/Node/Module.php:            ->write('return ')
+engine/templaters/Twig/Node/Module.php:            ->repr($this->getAttribute('filename'))
+engine/templaters/Twig/Node/Module.php:            ->raw(";\n")
+engine/templaters/Twig/Node/Module.php:            ->outdent()
+engine/templaters/Twig/Node/Module.php:            ->write("}\n")
+engine/templaters/Twig/Sandbox/SecurityError.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Sandbox/SecurityPolicy.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedTags = $allowedTags;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedFilters = $allowedFilters;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedMethods = $allowedMethods;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedProperties = $allowedProperties;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedFunctions = $allowedFunctions;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedTags = $tags;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedFilters = $filters;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedMethods = $methods;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedProperties = $properties;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        $this->allowedFunctions = $functions;
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:            if (!in_array($tag, $this->allowedTags)) {
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:            if (!in_array($filter, $this->allowedFilters)) {
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:            if (!in_array($function, $this->allowedFunctions)) {
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        foreach ($this->allowedMethods as $class => $methods) {
+engine/templaters/Twig/Sandbox/SecurityPolicy.php:        foreach ($this->allowedProperties as $class => $properties) {
+engine/templaters/Twig/Sandbox/SecurityPolicyInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/ParserInterface.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeTraverser.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeTraverser.php:        $this->env = $env;
+engine/templaters/Twig/NodeTraverser.php:        $this->visitors = array();
+engine/templaters/Twig/NodeTraverser.php:            $this->addVisitor($visitor);
+engine/templaters/Twig/NodeTraverser.php:        if (!isset($this->visitors[$visitor->getPriority()])) {
+engine/templaters/Twig/NodeTraverser.php:            $this->visitors[$visitor->getPriority()] = array();
+engine/templaters/Twig/NodeTraverser.php:        $this->visitors[$visitor->getPriority()][] = $visitor;
+engine/templaters/Twig/NodeTraverser.php:        ksort($this->visitors);
+engine/templaters/Twig/NodeTraverser.php:        foreach ($this->visitors as $visitors) {
+engine/templaters/Twig/NodeTraverser.php:                $node = $this->traverseForVisitor($visitor, $node);
+engine/templaters/Twig/NodeTraverser.php:        $node = $visitor->enterNode($node, $this->env);
+engine/templaters/Twig/NodeTraverser.php:            if (false !== $n = $this->traverseForVisitor($visitor, $n)) {
+engine/templaters/Twig/NodeTraverser.php:                $node->setNode($k, $n);
+engine/templaters/Twig/NodeTraverser.php:                $node->removeNode($k);
+engine/templaters/Twig/NodeTraverser.php:        return $visitor->leaveNode($node, $this->env);
+engine/templaters/Twig/CompilerInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/ExtensionInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/LoaderInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Extension/Sandbox.php:        $this->policy            = $policy;
+engine/templaters/Twig/Extension/Sandbox.php:        $this->sandboxedGlobally = $sandboxed;
+engine/templaters/Twig/Extension/Sandbox.php:        $this->sandboxed = true;
+engine/templaters/Twig/Extension/Sandbox.php:        $this->sandboxed = false;
+engine/templaters/Twig/Extension/Sandbox.php:        return $this->sandboxedGlobally || $this->sandboxed;
+engine/templaters/Twig/Extension/Sandbox.php:        return $this->sandboxedGlobally;
+engine/templaters/Twig/Extension/Sandbox.php:        $this->policy = $policy;
+engine/templaters/Twig/Extension/Sandbox.php:        return $this->policy;
+engine/templaters/Twig/Extension/Sandbox.php:        if ($this->isSandboxed()) {
+engine/templaters/Twig/Extension/Sandbox.php:            $this->policy->checkSecurity($tags, $filters, $functions);
+engine/templaters/Twig/Extension/Sandbox.php:        if ($this->isSandboxed()) {
+engine/templaters/Twig/Extension/Sandbox.php:            $this->policy->checkMethodAllowed($obj, $method);
+engine/templaters/Twig/Extension/Sandbox.php:        if ($this->isSandboxed()) {
+engine/templaters/Twig/Extension/Sandbox.php:            $this->policy->checkPropertyAllowed($obj, $method);
+engine/templaters/Twig/Extension/Escaper.php:        $this->autoescape = $autoescape;
+engine/templaters/Twig/Extension/Escaper.php:        return $this->autoescape;
+engine/templaters/Twig/Extension/Optimizer.php:    public function __construct($optimizers = -1)
+engine/templaters/Twig/Extension/Optimizer.php:        $this->optimizers = $optimizers;
+engine/templaters/Twig/Extension/Optimizer.php:        return array(new Twig_NodeVisitor_Optimizer($this->optimizers));
+engine/templaters/Twig/Extension/Core.php:                '-'   => array('precedence' => 50, 'class' => 'Twig_Node_Expression_Unary_Neg'),
+engine/templaters/Twig/Extension/Core.php:                '-'      => array('precedence' => 30, 'class' => 'Twig_Node_Expression_Binary_Sub', 'associativity' => Twig_ExpressionParser::OPERATOR_LEFT),
+engine/templaters/Twig/Extension/Core.php:        return new Twig_Node_Expression_Unary_Not($this->parseTestExpression($parser, $node), $parser->getCurrentToken()->getLine());
+engine/templaters/Twig/Extension/Core.php:        $stream = $parser->getStream();
+engine/templaters/Twig/Extension/Core.php:        $name = $stream->expect(Twig_Token::NAME_TYPE);
+engine/templaters/Twig/Extension/Core.php:        if ($stream->test(Twig_Token::PUNCTUATION_TYPE, '(')) {
+engine/templaters/Twig/Extension/Core.php:            $arguments = $parser->getExpressionParser()->parseArguments($node);
+engine/templaters/Twig/Extension/Core.php:        return new Twig_Node_Expression_Test($node, $name->getValue(), $arguments, $parser->getCurrentToken()->getLine());
+engine/templaters/Twig/Extension/Core.php:    return $date->format($format);
+engine/templaters/Twig/Extension/Core.php: * it would be right to leave the string as-is, but c-escape the apostrophe and
+engine/templaters/Twig/Extension/Core.php:            // escape all non-alphanumeric characters
+engine/templaters/Twig/Extension/Core.php:            $charset = $env->getCharset();
+engine/templaters/Twig/Extension/Core.php:            if ('UTF-8' != $charset) {
+engine/templaters/Twig/Extension/Core.php:                $string = _twig_convert_encoding($string, 'UTF-8', $charset);
+engine/templaters/Twig/Extension/Core.php:                throw new Twig_Error_Runtime('The string to escape is not a valid UTF-8 string.');
+engine/templaters/Twig/Extension/Core.php:            if ('UTF-8' != $charset) {
+engine/templaters/Twig/Extension/Core.php:                $string = _twig_convert_encoding($string, $charset, 'UTF-8');
+engine/templaters/Twig/Extension/Core.php:            return htmlspecialchars($string, ENT_QUOTES, $env->getCharset());
+engine/templaters/Twig/Extension/Core.php:            return array($arg->getAttribute('value'));
+engine/templaters/Twig/Extension/Core.php:        throw new Twig_Error_Runtime('No suitable convert encoding function (use UTF-8 as your encoding or install the iconv or mbstring extension).');
+engine/templaters/Twig/Extension/Core.php:        return '\\x'.substr('00'.bin2hex($char), -2);
+engine/templaters/Twig/Extension/Core.php:    $char = _twig_convert_encoding($char, 'UTF-16BE', 'UTF-8');
+engine/templaters/Twig/Extension/Core.php:    return '\\u'.substr('0000'.bin2hex($char), -4);
+engine/templaters/Twig/Extension/Core.php:        return is_string($thing) ? mb_strlen($thing, $env->getCharset()) : count($thing);
+engine/templaters/Twig/Extension/Core.php:        if (null !== ($charset = $env->getCharset())) {
+engine/templaters/Twig/Extension/Core.php:        if (null !== ($charset = $env->getCharset())) {
+engine/templaters/Twig/Extension/Core.php:        if (null !== ($charset = $env->getCharset())) {
+engine/templaters/Twig/Extension/Core.php:        if (null !== ($charset = $env->getCharset())) {
+engine/templaters/Twig/NodeInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Loader/Filesystem.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Loader/Filesystem.php:        $this->setPaths($paths);
+engine/templaters/Twig/Loader/Filesystem.php:        return $this->paths;
+engine/templaters/Twig/Loader/Filesystem.php:        $this->cache = array();
+engine/templaters/Twig/Loader/Filesystem.php:        $this->paths = array();
+engine/templaters/Twig/Loader/Filesystem.php:            $this->paths[] = $path;
+engine/templaters/Twig/Loader/Filesystem.php:        return file_get_contents($this->findTemplate($name));
+engine/templaters/Twig/Loader/Filesystem.php:        return $this->findTemplate($name);
+engine/templaters/Twig/Loader/Filesystem.php:        return filemtime($this->findTemplate($name)) < $time;
+engine/templaters/Twig/Loader/Filesystem.php:        if (isset($this->cache[$name])) {
+engine/templaters/Twig/Loader/Filesystem.php:            return $this->cache[$name];
+engine/templaters/Twig/Loader/Filesystem.php:                --$level;
+engine/templaters/Twig/Loader/Filesystem.php:        foreach ($this->paths as $path) {
+engine/templaters/Twig/Loader/Filesystem.php:                return $this->cache[$name] = $path.'/'.$name;
+engine/templaters/Twig/Loader/Filesystem.php:        throw new Twig_Error_Loader(sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths)));
+engine/templaters/Twig/Loader/Array.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Loader/Array.php:        $this->templates = array();
+engine/templaters/Twig/Loader/Array.php:            $this->templates[$name] = $template;
+engine/templaters/Twig/Loader/Array.php:        if (!isset($this->templates[$name])) {
+engine/templaters/Twig/Loader/Array.php:        return $this->templates[$name];
+engine/templaters/Twig/Loader/Array.php:        if (!isset($this->templates[$name])) {
+engine/templaters/Twig/Loader/Array.php:        return $this->templates[$name];
+engine/templaters/Twig/Loader/String.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeVisitor/Sandbox.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            $this->inAModule = true;
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            $this->tags = array();
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            $this->filters = array();
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            $this->functions = array();
+engine/templaters/Twig/NodeVisitor/Sandbox.php:        } elseif ($this->inAModule) {
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            if ($node->getNodeTag()) {
+engine/templaters/Twig/NodeVisitor/Sandbox.php:                $this->tags[] = $node->getNodeTag();
+engine/templaters/Twig/NodeVisitor/Sandbox.php:                $this->filters[] = $node->getNode('filter')->getAttribute('value');
+engine/templaters/Twig/NodeVisitor/Sandbox.php:                $this->functions[] = $node->getNode('name')->getAttribute('name');
+engine/templaters/Twig/NodeVisitor/Sandbox.php:                return new Twig_Node_SandboxedPrint($node->getNode('expr'), $node->getLine(), $node->getNodeTag());
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            $this->inAModule = false;
+engine/templaters/Twig/NodeVisitor/Sandbox.php:            return new Twig_Node_SandboxedModule($node, array_unique($this->filters), array_unique($this->tags), array_unique($this->functions));
+engine/templaters/Twig/NodeVisitor/Escaper.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeVisitor/Escaper.php:        $this->safeAnalysis = new Twig_NodeVisitor_SafeAnalysis();
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $this->statusStack[] = $node->getAttribute('value');
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $this->statusStack[] = isset($this->blocks[$node->getAttribute('name')]) ? $this->blocks[$node->getAttribute('name')] : $this->needEscaping($env);
+engine/templaters/Twig/NodeVisitor/Escaper.php:            return $this->preEscapeFilterNode($node, $env);
+engine/templaters/Twig/NodeVisitor/Escaper.php:            return $this->escapePrintNode($node, $env, $this->needEscaping($env));
+engine/templaters/Twig/NodeVisitor/Escaper.php:            array_pop($this->statusStack);
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $this->blocks[$node->getAttribute('name')] = $this->needEscaping($env);
+engine/templaters/Twig/NodeVisitor/Escaper.php:        $expression = $node->getNode('expr');
+engine/templaters/Twig/NodeVisitor/Escaper.php:        if ($this->isSafeFor($type, $expression, $env)) {
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $this->getEscaperFilter($type, $expression),
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $node->getLine()
+engine/templaters/Twig/NodeVisitor/Escaper.php:        $name = $filter->getNode('filter')->getAttribute('value');
+engine/templaters/Twig/NodeVisitor/Escaper.php:        if (false !== $f = $env->getFilter($name)) {
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $type = $f->getPreEscape();
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $node = $filter->getNode('node');
+engine/templaters/Twig/NodeVisitor/Escaper.php:            if ($this->isSafeFor($type, $node, $env)) {
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $filter->setNode('node', $this->getEscaperFilter($type, $node));
+engine/templaters/Twig/NodeVisitor/Escaper.php:        $safe = $this->safeAnalysis->getSafe($expression);
+engine/templaters/Twig/NodeVisitor/Escaper.php:            if (null === $this->traverser) {
+engine/templaters/Twig/NodeVisitor/Escaper.php:                $this->traverser = new Twig_NodeTraverser($env, array($this->safeAnalysis));
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $this->traverser->traverse($expression);
+engine/templaters/Twig/NodeVisitor/Escaper.php:            $safe = $this->safeAnalysis->getSafe($expression);
+engine/templaters/Twig/NodeVisitor/Escaper.php:        if (count($this->statusStack)) {
+engine/templaters/Twig/NodeVisitor/Escaper.php:            return $this->statusStack[count($this->statusStack) - 1];
+engine/templaters/Twig/NodeVisitor/Escaper.php:        if ($env->hasExtension('escaper') && $env->getExtension('escaper')->isGlobal()) {
+engine/templaters/Twig/NodeVisitor/Escaper.php:        $line = $node->getLine();
+engine/templaters/Twig/NodeVisitor/Optimizer.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeVisitor/Optimizer.php:    const OPTIMIZE_ALL         = -1;
+engine/templaters/Twig/NodeVisitor/Optimizer.php:    public function __construct($optimizers = -1)
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        $this->optimizers = $optimizers;
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers)) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $this->enterOptimizeFor($node, $env);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers)) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $this->leaveOptimizeFor($node, $env);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        if (self::OPTIMIZE_RAW_FILTER === (self::OPTIMIZE_RAW_FILTER & $this->optimizers)) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $node = $this->optimizeRawFilter($node, $env);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        if ($node instanceof Twig_Node_Expression_Filter && 'raw' == $node->getNode('filter')->getAttribute('value')) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            return $node->getNode('node');
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $node->setAttribute('with_loop', false);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            array_unshift($this->loops, $node);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        } elseif (!$this->loops) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        elseif ($node instanceof Twig_Node_Expression_Name && 'loop' === $node->getAttribute('name')) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $this->addLoopToCurrent();
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $this->addLoopToCurrent();
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        elseif ($node instanceof Twig_Node_Include && !$node->getAttribute('only')) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $this->addLoopToAll();
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            && (!$node->getNode('attribute') instanceof Twig_Node_Expression_Constant
+engine/templaters/Twig/NodeVisitor/Optimizer.php:                || 'parent' === $node->getNode('attribute')->getAttribute('value')
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            && (true === $this->loops[0]->getAttribute('with_loop')
+engine/templaters/Twig/NodeVisitor/Optimizer.php:                || ($node->getNode('node') instanceof Twig_Node_Expression_Name
+engine/templaters/Twig/NodeVisitor/Optimizer.php:                    && 'loop' === $node->getNode('node')->getAttribute('name')
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $this->addLoopToAll();
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            array_shift($this->loops);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        $this->loops[0]->setAttribute('with_loop', true);
+engine/templaters/Twig/NodeVisitor/Optimizer.php:        foreach ($this->loops as $loop) {
+engine/templaters/Twig/NodeVisitor/Optimizer.php:            $loop->setAttribute('with_loop', true);
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:        if (isset($this->data[$hash])) {
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            foreach($this->data[$hash] as $bucket) {
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:        if (isset($this->data[$hash])) {
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            foreach($this->data[$hash] as &$bucket) {
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:        $this->data[$hash][] = array(
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $this->setSafe($node, array('all'));
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $safe = $this->intersectSafe($this->getSafe($node->getNode('expr2')), $this->getSafe($node->getNode('expr3')));
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $this->setSafe($node, $safe);
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $name = $node->getNode('filter')->getAttribute('value');
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $args = $node->getNode('arguments');
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            if (false !== $filter = $env->getFilter($name)) {
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:                $this->setSafe($node, $filter->getSafe($args));
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:                $this->setSafe($node, array());
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $name = $node->getNode('name')->getAttribute('name');
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $args = $node->getNode('arguments');
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $function = $env->getFunction($name);
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:                $this->setSafe($node, $function->getSafe($args));
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:                $this->setSafe($node, array());
+engine/templaters/Twig/NodeVisitor/SafeAnalysis.php:            $this->setSafe($node, array());
+engine/templaters/Twig/NodeOutputInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Token.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Token.php:    const EOF_TYPE         = -1;
+engine/templaters/Twig/Token.php:        $this->type   = $type;
+engine/templaters/Twig/Token.php:        $this->value  = $value;
+engine/templaters/Twig/Token.php:        $this->lineno = $lineno;
+engine/templaters/Twig/Token.php:        return sprintf('%s(%s)', self::typeToString($this->type, true, $this->lineno), $this->value);
+engine/templaters/Twig/Token.php:        return ($this->type === $type) && (
+engine/templaters/Twig/Token.php:            (is_array($values) && in_array($this->value, $values)) ||
+engine/templaters/Twig/Token.php:            $this->value == $values
+engine/templaters/Twig/Token.php:        return $this->lineno;
+engine/templaters/Twig/Token.php:        return $this->type;
+engine/templaters/Twig/Token.php:        return $this->value;
+engine/templaters/Twig/Token.php:    static public function typeToString($type, $short = false, $line = -1)
+engine/templaters/Twig/Token.php:    static public function typeToEnglish($type, $line = -1)
+engine/templaters/Twig/NodeVisitorInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/NodeVisitorInterface.php:     * Priority should be between -10 and 10 (0 is the default).
+engine/templaters/Twig/Filter/Method.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Filter/Method.php:        $this->extension = $extension;
+engine/templaters/Twig/Filter/Method.php:        $this->method = $method;
+engine/templaters/Twig/Filter/Method.php:        return sprintf('$this->env->getExtension(\'%s\')->%s', $this->extension->getName(), $this->method);
+engine/templaters/Twig/Filter/Function.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Filter/Function.php:        $this->function = $function;
+engine/templaters/Twig/Filter/Function.php:        return $this->function;
+engine/templaters/Twig/FilterInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/TokenParserInterface.php: * @author  Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/Twig/Node.php:     * The nodes are automatically made available as properties ($this->node).
+engine/templaters/Twig/Node.php:        $this->nodes = $nodes;
+engine/templaters/Twig/Node.php:        $this->attributes = $attributes;
+engine/templaters/Twig/Node.php:        $this->lineno = $lineno;
+engine/templaters/Twig/Node.php:        $this->tag = $tag;
+engine/templaters/Twig/Node.php:        foreach ($this->attributes as $name => $value) {
+engine/templaters/Twig/Node.php:        if (count($this->nodes)) {
+engine/templaters/Twig/Node.php:            foreach ($this->nodes as $name => $node) {
+engine/templaters/Twig/Node.php:        $dom = new DOMDocument('1.0', 'UTF-8');
+engine/templaters/Twig/Node.php:        $dom->formatOutput = true;
+engine/templaters/Twig/Node.php:        $dom->appendChild($xml = $dom->createElement('twig'));
+engine/templaters/Twig/Node.php:        $xml->appendChild($node = $dom->createElement('node'));
+engine/templaters/Twig/Node.php:        $node->setAttribute('class', get_class($this));
+engine/templaters/Twig/Node.php:        foreach ($this->attributes as $name => $value) {
+engine/templaters/Twig/Node.php:            $node->appendChild($attribute = $dom->createElement('attribute'));
+engine/templaters/Twig/Node.php:            $attribute->setAttribute('name', $name);
+engine/templaters/Twig/Node.php:            $attribute->appendChild($dom->createTextNode($value));
+engine/templaters/Twig/Node.php:        foreach ($this->nodes as $name => $n) {
+engine/templaters/Twig/Node.php:            $child = $n->toXml(true)->getElementsByTagName('node')->item(0);
+engine/templaters/Twig/Node.php:            $child = $dom->importNode($child, true);
+engine/templaters/Twig/Node.php:            $child->setAttribute('name', $name);
+engine/templaters/Twig/Node.php:            $node->appendChild($child);
+engine/templaters/Twig/Node.php:        return $asDom ? $dom : $dom->saveXml();
+engine/templaters/Twig/Node.php:        foreach ($this->nodes as $node) {
+engine/templaters/Twig/Node.php:            $node->compile($compiler);
+engine/templaters/Twig/Node.php:        return $this->lineno;
+engine/templaters/Twig/Node.php:        return $this->tag;
+engine/templaters/Twig/Node.php:        return array_key_exists($name, $this->attributes);
+engine/templaters/Twig/Node.php:        if (!array_key_exists($name, $this->attributes)) {
+engine/templaters/Twig/Node.php:        return $this->attributes[$name];
+engine/templaters/Twig/Node.php:        $this->attributes[$name] = $value;
+engine/templaters/Twig/Node.php:        unset($this->attributes[$name]);
+engine/templaters/Twig/Node.php:        return array_key_exists($name, $this->nodes);
+engine/templaters/Twig/Node.php:        if (!array_key_exists($name, $this->nodes)) {
+engine/templaters/Twig/Node.php:        return $this->nodes[$name];
+engine/templaters/Twig/Node.php:        $this->nodes[$name] = $node;
+engine/templaters/Twig/Node.php:        unset($this->nodes[$name]);
+engine/templaters/Twig/Node.php:        return count($this->nodes);
+engine/templaters/Twig/Node.php:        return new ArrayIterator($this->nodes);
+engine/templaters/Twig/LexerInterface.php: * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+engine/templaters/twig.php:		$template = $twig->loadTemplate($template_type.SL.$template.'.html');
+engine/templaters/twig.php:		$template->display($params);
+engine/view/manager.php:		$this->call = Plugins::extend($this);
+engine/view/manager.php:		$this->data = $data;
+engine/view/manager.php:		if (!empty($this->data['pagecount']) && !empty($this->data['curr_page'])) {
+engine/view/manager.php:			$this->data = $worker->process($this->data);
+engine/view/manager.php:		if (!empty($this->data['items'])) {
+engine/view/manager.php:			foreach ($this->data['items'] as & $item) {
+engine/view/manager.php:					$item = $meta_worker->process($item);
+engine/view/manager.php:					$item['date'] = $date_worker->process($item['date']);
+engine/view/manager.php:			$this->data = $worker->process($this->data);
+engine/view/manager.php:				$this->data
+engine/view/manager.php:			$data = $this->data;
+engine/view/process/meta.php:		if (empty($this->singluar)) {
+engine/view/process/meta.php:			$this->singluar = Config::template('singular');
+engine/view/process/meta.php:		if (empty($this->plural)) {
+engine/view/process/meta.php:			$this->plural = Config::template('plural');
+engine/view/process/meta.php:			if (count($items) < 2 && array_key_exists($type, $this->singluar)) {
+engine/view/process/meta.php:				$item['meta_header'][$type] = $this->singluar[$type];
+engine/view/process/meta.php:			} elseif (array_key_exists($type, $this->plural)) {
+engine/view/process/meta.php:				$item['meta_header'][$type] = $this->plural[$type];
+engine/view/process/index.php:						$item['headline'] = Objects::transform('text')->headline($item['text']);
+engine/view/process/abstract.php:		$this->call = Plugins::extend($this);
+engine/view/process/abstract.php:		$callback = array($this->call,(string) Globals::$controller);
+engine/view/process/date.php:		return $this->call->rudate($date);
+engine/view/process/date.php:		$date = $this->call->rumonth(date('m'), $time).date(' j, Y', $time);
+engine/view/process/navi.php:		$low_end = max($data['curr_page'] - $radius, 2);
+engine/view/process/navi.php:		$high_end = min($data['curr_page'] + $radius, $data['pagecount'] - 1);
+engine/view/process/navi.php:					$i = $data['pagecount'] - 1;
+engine/view/process/navi.php:					$i = $low_end - 1;
+engine/view/process/navi.php:			$data['navi_back'] = $base.'page/'.($data['curr_page'] - 1).'/';

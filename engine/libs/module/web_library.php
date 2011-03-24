@@ -1,6 +1,6 @@
 <?
 
-class Module_Web_Library
+class Module_Web_Library implements Plugins
 {
 	public static function get_download(& $url) {
 

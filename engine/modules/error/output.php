@@ -1,8 +1,8 @@
 <?
 
-class Error_Output extends Module_Output
+class Error_Output extends Module_Output implements Plugins
 {
-	public function class_not_found() {
+	public function main () {
 		$return = array();
 
 		$return['pic'] = Globals::db()->get_full_row('art', "area != 'deleted' order by RAND()");
@@ -10,5 +10,9 @@ class Error_Output extends Module_Output
 		$return['template'] = 'error';
 
 		return $return;
+	}
+	
+	public function class_not_found () {
+		return $this->main();
 	}
 }

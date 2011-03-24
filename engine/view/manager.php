@@ -8,7 +8,6 @@ class Manager
 	protected $data = array();
 
 	public function __construct($data) {
-		$this->call = Plugins::extend($this);
 		$this->data = $data;
 
 		$templater = Config::main('template', 'Engine');

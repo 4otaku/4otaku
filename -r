@@ -1,0 +1,3 @@
+engine/run.php:	Globals::$data = $core->call->process(Globals::$query);
+engine/run.php:	$view->call->postprocess();
+engine/run.php:	$view->call->output();
