@@ -19,9 +19,9 @@
 	Globals::get_url($_SERVER['REQUEST_URI']);
 	Globals::get_user($user_info);	
 	
-	// Загружаем найденные плагины
+	// Проверяем кеш расширенных плагинами библиотек
 	
-	$plugin_files = glob(ROOT.SL.'plugins'.SL.'*.php');
+	$extended_files = glob(ROOT.SL.'cache'.SL.'extended'.SL.'*.md5');
 	
 	foreach ($plugin_files as $plugin_file) {		
 		Plugins::load($plugin_file);
