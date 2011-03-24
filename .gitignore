@@ -1,6 +1,9 @@
-cache/*
-!cache/index.php
+cache/unknown_links/*
 !cache/unknown_links/index.php
+cache/twig/*
+!cache/twig/index.php
+cache/extended/*
+!cache/extended/index.php
 
 config/*
 .htaccess

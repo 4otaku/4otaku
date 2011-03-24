@@ -27,7 +27,7 @@ class Controller_Web extends Controller_Abstract
 	}
 
 	public function build_output ($url, $preferences) {
-		$module = $this->call->get_module($url);
+		$module = $this->call->get_module(& $url);
 var_dump($url);
 		$worker = $module . '_web';
 		$worker = new $worker();
@@ -58,7 +58,7 @@ var_dump($url);
 		if (empty($url)) {
 			$url = array('index');
 		}
-		
+
 		$modules = Config::alias();
 
 		$string = implode('/', $url);
@@ -69,11 +69,11 @@ var_dump($url);
 				
 				if (strpos($string, $alias) === 0) {
 					$url = explode('/', substr($string, strlen($alias)));
-					
+			
 					array_unshift($url, $name);
 					
 					$url = array_values(array_filter($url));
-					var_dump($url);
+							var_dump($url);		
 					return $name;
 				}
 			}

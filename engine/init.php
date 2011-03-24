@@ -15,6 +15,13 @@
 	function autoload($name) {
 		global $autoload_directories;
 		
+		$extended = ROOT.SL.'cache'.SL.'extended'.SL.$name.'.php';
+		
+		if (is_readable($extended)) {
+			include_once($extended);
+			return true;
+		}
+		
 		$name = str_replace('_', '/', strtolower($name));
 		$alt_name = preg_replace('/^(.+)\/(.+?)$/', '$1_$2', $name);
 
