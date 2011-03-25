@@ -1,8 +1,8 @@
 <?
 
-class Output_Links extends Output_Abstract implements Plugins
+class Links_Output extends Module_Output implements Plugins
 {
-	public function listing () {
+	public function main () {
 		$return = array();
 		
 		$fields = array('item_id', 'data', 'status');

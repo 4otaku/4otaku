@@ -21,7 +21,7 @@ class Post_Output extends Module_Output implements Plugins
 	public function main ($query) {
 		$return = array();
 
-		$perpage = Config::settings('post', 'Amount');
+		$perpage = Config::settings('per_page');
 
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
 

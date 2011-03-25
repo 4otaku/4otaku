@@ -4,21 +4,17 @@ class Video_Output extends Module_Output implements Plugins
 {
 	protected $sizes = array();
 
-	public function __construct ($class_name) {
-		parent::__construct($class_name);
-
-		$this->sizes = array(
-			Config::settings('video', 'Width'),
-			Config::settings('video', 'Height')
-		);
-	}
-
 	public function single ($query) {
 		$video = Globals::db()->get_row('video', $query['id']);
 
 		$video['date'] = Globals::db()->date_to_unix($video['date']);
 
 		$video['object'] = Crypt::unpack($video['object']);
+		$video['object'] = str_replace(
+			array('%video_width%','%video_height%'),
+			Config::settings('fullsize'),
+			$video['object']
+		);
 
 		$meta = Meta::prepare_meta(array($video['id'] => $video['meta']));
 
@@ -32,7 +28,7 @@ class Video_Output extends Module_Output implements Plugins
 	public function main ($query) {
 		$return = array();
 
-		$perpage = Config::settings('video', 'Amount');
+		$perpage = Config::settings('per_page');
 
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
 
@@ -56,7 +52,7 @@ class Video_Output extends Module_Output implements Plugins
 
 			$video['object'] = str_replace(
 				array('%video_width%','%video_height%'),
-				$this->sizes,
+				Config::settings('thumbsize'),
 				$video['object']
 			);
 		}
