@@ -1,12 +1,12 @@
 <?
 	
-class Process_Date extends Process_Abstract
+class Process_Date
 {	
-	public function web($date) {		
-		return $this->rudate($date);
+	public static function web ($date) {		
+		return self::rudate($date);
 	}
 	
-	public function rumonth($in) {
+	public static function rumonth($in) {
 		$rumonth = array('','Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
 		
 		if (is_numeric($in)) {
@@ -16,12 +16,12 @@ class Process_Date extends Process_Abstract
 		return array_search($in,$rumonth);
 	}
 
-	public function rudate($time = false, $minutes = false) {
+	public static function rudate($time = false, $minutes = false) {
 		if (empty($time)) {
 			$time = time();
 		}
 		
-		$date = $this->rumonth(date('m'), $time).date(' j, Y', $time);
+		$date = self::rumonth(date('m'), $time).date(' j, Y', $time);
 		
 		if ($minutes) {
 			$date .= date('; G:i', $time);

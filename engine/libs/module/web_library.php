@@ -12,15 +12,15 @@ class Module_Web_Library implements Plugins
 	}
 
 	public static function get_area(& $url) {
-		if (isset($url[1])) {
+		if (isset($url[0])) {
 			if (
-				$url[1] == 'workshop' ||
-				$url[1] == 'flea' ||
-				$url[1] == 'sprites'
+				$url[0] == 'workshop' ||
+				$url[0] == 'flea' ||
+				$url[0] == 'sprites'
 			) {
-				$area = array_splice($url, 1, 1);
+				$area = array_shift($url);
 
-				return array('area' => current($area));
+				return array('area' => $area);
 			}
 		}
 
@@ -29,10 +29,10 @@ class Module_Web_Library implements Plugins
 
 	public static function get_mixed(& $url) {
 
-		if (isset($url[1]) && $url[1] == 'mixed' && isset($url[2])) {
-			$mixed = Meta::parse_mixed_url($url[2]);
+		if (isset($url[0]) && $url[0] == 'mixed' && isset($url[1])) {
+			$mixed = Meta::parse_mixed_url($url[1]);
 
-			array_splice($url, 1, 2);
+			array_splice($url, 0, 2);
 
 			return array('mixed' => $mixed, 'function' => 'main');
 		}
@@ -41,18 +41,18 @@ class Module_Web_Library implements Plugins
 	public static function get_meta(& $url) {
 		$meta_types = array('tag', 'category', 'language', 'author');
 
-		if (isset($url[1]) && in_array($url[1], $meta_types) && isset($url[2])) {
+		if (isset($url[0]) && in_array($url[0], $meta_types) && isset($url[1])) {
 
-			$meta = array_splice($url, 1, 2);
+			$meta = array_splice($url, 0, 2);
 
 			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'main');
 		}
 	}
 
 	public static function get_page(& $url) {
-		if (isset($url[1]) && $url[1] == 'page' && isset($url[2]) && is_numeric($url[2])) {
+		if (isset($url[0]) && $url[0] == 'page' && isset($url[1]) && is_numeric($url[1])) {
 
-			$page = array_splice($url, 1, 2);
+			$page = array_splice($url, 0, 2);
 
 			return array('page' => end($page), 'function' => 'main');
 		}
@@ -60,11 +60,11 @@ class Module_Web_Library implements Plugins
 
 	public static function get_id(& $url) {
 
-		if (isset($url[1]) && is_numeric($url[1])) {
+		if (isset($url[0]) && is_numeric($url[0])) {
 
-			$id = array_splice($url, 1, 1);
+			$id = array_shift($url);
 
-			return array('id' => current($id), 'function' => 'single');
+			return array('id' => $id, 'function' => 'single');
 		}
 	}
 }

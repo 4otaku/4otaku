@@ -1,8 +1,8 @@
 <?
 
-class Process_Navi extends Process_Abstract
+class Process_Navi
 {
-	public function web($data) {
+	public static function web ($data) {
 
 		$data['navi'] = array();
 

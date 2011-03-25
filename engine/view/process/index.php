@@ -1,8 +1,8 @@
 <?
 
-class Process_Index extends Process_Abstract
+class Process_Index
 {
-	public function web ($data) {
+	public static function web ($data) {
 		foreach ($data as & $part) {
 			if (!empty($part['latest']) && is_array($part['latest'])) {
 				

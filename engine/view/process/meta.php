@@ -1,11 +1,11 @@
 <?
 
-class Process_Meta extends Process_Abstract
+class Process_Meta
 {
 	protected $singluar = array();
 	protected $plural = array();
 
-	public function web($item) {
+	public static function web ($item) {
 		if (empty($this->singluar)) {
 			$this->singluar = Config::template('singular');
 		}
