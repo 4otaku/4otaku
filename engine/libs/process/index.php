@@ -1,8 +1,8 @@
 <?
 
-class Process_Index
+class Process_Index implements Process_Interface
 {
-	public static function web ($data) {
+	public function process_web ($data) {
 		foreach ($data as & $part) {
 			if (!empty($part['latest']) && is_array($part['latest'])) {
 				

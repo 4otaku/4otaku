@@ -1,8 +1,8 @@
 <?
 
-class Process_Navi
+class Process_Navi implements Process_Interface
 {
-	public static function web ($data) {
+	public function process_web ($data) {
 
 		$data['navi'] = array();
 

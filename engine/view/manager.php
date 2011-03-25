@@ -5,7 +5,7 @@ class Manager
 	protected static $template_type = 'web';
 	protected static $template = 'default';
 	protected static $template_engine = false;
-	protected $data = array();
+	public $data = array();
 
 	public function __construct($data) {
 		$this->data = $data;
@@ -23,37 +23,7 @@ class Manager
 	public function make_clean($buffer) {
 		return preg_replace(array('/[\t\r\n]+/', '/\s+/'), array('', ' '), $buffer);
 	}
-
-	public function postprocess() {
-
-		if (!empty($this->data['pagecount']) && !empty($this->data['curr_page'])) {
-			$worker = new Process_Navi();
-			$this->data = $worker->process($this->data);
-		}
-
-		if (!empty($this->data['items'])) {
-			$meta_worker = new Process_Meta();
-			$date_worker = new Process_Date();
-
-			foreach ($this->data['items'] as & $item) {
-				if (!empty($item['meta'])) {
-					$item = $meta_worker->process($item);
-				}
-
-				if (!empty($item['date'])) {
-					$item['date'] = $date_worker->process($item['date']);
-				}
-			}
-			unset ($item);
-		}
-		
-		if (self::$template == 'index') {
-			$worker = new Process_Index();
-			
-			$this->data = $worker->process($this->data);
-		}
-	}
-
+	
 	public function output() {
 		ob_start(array($this, 'make_clean'));
 

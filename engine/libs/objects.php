@@ -11,6 +11,9 @@ class Objects
 	// Для контроллера запроса
 	public static $controller = false;	
 	
+	// Хранилище для контроллера от модуля
+	public static $wrapper = false;	
+	
 	// Обращается к объекту базы данных
 	public static function db ($name = 'main') {
 		if (empty(self::$bases[$name])) {

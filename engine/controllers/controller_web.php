@@ -37,9 +37,9 @@ class Controller_Web extends Controller_Abstract implements Plugins
 			$worker = 'error_web';
 		}
 		
-		$worker = new $worker();
+		Objects::$wrapper = new $worker();
 
-		$query = $worker->make_query($url);
+		$query = Objects::$wrapper->make_query($url);
 
 		$query = array_replace_recursive(array(
 			'type' => 'output',

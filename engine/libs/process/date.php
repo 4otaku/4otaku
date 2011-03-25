@@ -1,8 +1,8 @@
 <?
 	
-class Process_Date
+class Process_Date implements Process_Interface
 {	
-	public static function web ($date) {		
+	public function process_web ($date) {		
 		return self::rudate($date);
 	}
 	

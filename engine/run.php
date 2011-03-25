@@ -52,7 +52,7 @@
 	
 	// Полученный результат подхватывает менеджер представлений
 	$view = new Manager(Globals::$data);
-	$view->postprocess();
+	$view->data = Objects::$wrapper->postprocess($view->data);
 	
 	// И выводит пользователю, используя подходящий шаблонизатор
 	$view->output();

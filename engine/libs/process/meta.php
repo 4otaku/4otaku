@@ -1,11 +1,11 @@
 <?
 
-class Process_Meta
+class Process_Meta implements Process_Interface
 {
 	protected $singluar = array();
 	protected $plural = array();
 
-	public static function web ($item) {
+	public function process_web ($item) {
 		if (empty($this->singluar)) {
 			$this->singluar = Config::template('singular');
 		}
