@@ -21,6 +21,8 @@ class Video_Output extends Module_Output implements Plugins
 		$return['items'] = array(
 			$video['id'] => array_merge($video, current($meta))
 		);
+		
+		$return['items'] = $this->mark_item_types($return['items'], 'video');
 
 		return $return;
 	}
@@ -60,6 +62,7 @@ class Video_Output extends Module_Output implements Plugins
 		$meta = Meta::prepare_meta($index);
 
 		$return['items'] = array_replace_recursive($return['items'], $meta);
+		$return['items'] = $this->mark_item_types($return['items'], 'video');		
 
 		$count = Globals::db()->get_count('video', $listing_condition);
 

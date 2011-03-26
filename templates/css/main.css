@@ -163,12 +163,6 @@ div.mini-shell div.text {
 
 /* Глобальные элементы */
 
-#header {		
-	height: 100px;
-	padding: 0;
-	margin: 0;		
-}
-
 #content {	
 	padding-left: 15px; 
 	padding-right: 15px;
@@ -195,58 +189,6 @@ div.mini-shell div.text {
 	margin-top: 20px; 
 	border-top: 1px solid #E7E7E7;
 	background: url(/images/hline.gif) repeat-x; 	
-}
-
-/* Header */
-
-#logo {
-	float: left;
-	padding-left: 10px;	
-}
-
-#top_buttons {
-	width:480px; 
-	float:left; 
-	margin-left: 10px;
-}
-
-#rss {
-	float: right;
-	width: 240px; 		
-	margin-right: 15px; 	
-}
-
-#rss span {		
-	position: relative;
-	float: left;
-	top: 3px;.archive_navi ul {
-	margin: 0;
-	padding-left: 25px;	
-}
-
-}
-
-#rss span img {
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-
-.first_index_box {
-	margin-top: 18px;
-}
-
-.first_box {
-	margin-top: 4px;
-}
-
-.feed {
-	margin-top: 10px;
-}
-
-#hline {		
-	clear: both;	
-	height: 4px;
-	background: url(/images/hline.gif) repeat-x;	
 }
 
 /* Content, общее */

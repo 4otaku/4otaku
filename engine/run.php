@@ -70,6 +70,9 @@
 	// Полученный результат проходит пост-обработку
 	Globals::$data = Objects::$wrapper->postprocess(Globals::$data);
 	
+	// TODO убрать этот временный хак для удобной отладки
+	Globals::$data['domain'] = 'http://beta.4otaku.ru';
+	
 	// И результаты субзапросов, после чего они присоединются к основному результату
 	foreach (Globals::$sub_data as $submodule => $data) {
 		Globals::$data['sub'][$submodule] = Objects::$sub_wrapper[$submodule]->postprocess($data);

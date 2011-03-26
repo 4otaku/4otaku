@@ -7,12 +7,13 @@ class Header_Output extends Module_Output implements Plugins
 
 		$menu = Config::menu();
 		
-		foreach ($menu as $part) {
+		foreach ($menu as $title => $part) {
 			$name = $part['url'];
 			
 			unset($part['url']);
 			
-			$return[$name] = array_flip($part);
+			$return[$name]['items'] = array_flip($part);
+			$return[$name]['title'] = $title;
 		}
 		
 		return $return;

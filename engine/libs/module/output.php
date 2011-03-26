@@ -2,27 +2,19 @@
 
 abstract class Module_Output implements Plugins
 {
-	protected $class_name = '';
-
-	public function __construct($class_name) {
-		$this->class_name = $class_name;
-	}
-
-	public function common_postprocess($data) {
-		$data['domain'] = 'http://beta.4otaku.ru';
-
-		if (!empty($data['items']) && is_array($data['items'])) {
-			foreach ($data['items'] as & $item) {
+	public function mark_item_types ($items, $type) {
+		if (!empty($items) && is_array($items)) {
+			foreach ($items as & $item) {
 				if (empty($item['item_type'])) {
-					$item['item_type'] = $this->class_name;
+					$item['item_type'] = $type;
 				}
 			}
 		}
 
-		return $data;
+		return $items;
 	}
 
-	public function build_listing_condition($query) {
+	public function build_listing_condition ($query) {
 		$condition = "area = '{$query['area']}'";
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {

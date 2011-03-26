@@ -1,0 +1,55 @@
+#header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#header li {
+	list-style: none;
+	float: left; 
+}
+
+#header li a {
+	display: block;
+	padding: 3px 8px;
+	text-transform: uppercase;
+	text-decoration: none; 
+	color: #999;
+	font-weight: bold; 
+}
+
+#header li a:hover {
+	color: #000; 
+}
+
+#header li ul {
+	display: none;  
+}
+
+#header li:hover ul, #header li.hover ul {
+	position: absolute;
+	display: inline;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0; 
+}
+
+#header li:hover li, #header li.hover li {
+	float: left; 
+}
+
+#header li:hover li a, #header li.hover li a {
+	color: #000; 
+}
+#header li li a:hover {
+	color: #357; 
+}
+
+#hline {		
+	clear: both;	
+	height: 4px;
+	background: url(/images/hline.gif) repeat-x;	
+}
