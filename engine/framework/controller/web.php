@@ -1,16 +1,16 @@
 <?
 
-class Controller_Web extends Controller_Abstract implements Plugins
+class Controller_Web implements Controller_Interface, Plugins
 {
-	public function build () {
+	public function query () {
 		if (array_key_exists('do', Globals::$vars)) {
-			return $thisbuild_input(Globals::$vars, Globals::$preferences);
+			return $this->build_input(Globals::$vars);
 		}
 
-		return $this->build_output(Globals::$url, Globals::$preferences);
+		return $this->build_output(Globals::$url);
 	}
 
-	protected function build_input ($vars, $preferences) {
+	protected function build_input ($vars) {
 		$do = explode('.', $vars['do']);
 
 		if (count($do) != 2) {
@@ -26,7 +26,7 @@ class Controller_Web extends Controller_Abstract implements Plugins
 		return array_merge($vars, $query);
 	}
 
-	protected function build_output ($url, $preferences) {
+	protected function build_output ($url) {
 		$url = $this->check_alias($url);
 
 		$module = array_shift($url);
@@ -44,22 +44,39 @@ class Controller_Web extends Controller_Abstract implements Plugins
 		$query = array_replace_recursive(array(
 			'type' => 'output',
 			'module' => $module,
-			'function' => 'main'
+			'function' => 'main',
 		), $query);
-
-		if (
-			array_key_exists('mixed', $query) &&
-			is_array($preferences) &&
-			array_key_exists('mixed', $preferences)
-		) {
-			$query['mixed'] = array_replace_recursive(
-				$preferences['mixed'],
-				$query['mixed']
-			);
-		}
 
 		return $query;
 	}
+	
+	public function subquery ($submodule, $area, $query) {
+		if (
+			$query['type'] != 'output' || 
+			!Controller::test_sub_area($area, $query['function'])
+		) {
+			return null;
+		}
+		
+		$worker = $submodule . '_web';
+		if (!class_exists($worker)) {
+			return null;
+		}
+		
+		$wrapper = & Objects::$sub_wrapper[$submodule];
+		
+		$wrapper = new $worker();
+		
+		$query = $wrapper->make_subquery($query);
+		
+		$query = array_replace_recursive(array(
+			'type' => 'output',
+			'module' => $submodule,
+			'function' => 'main',
+		), $query);
+
+		return $query;		
+	}	
 	
 	public function check_alias ($url) {
 		if (empty($url)) {

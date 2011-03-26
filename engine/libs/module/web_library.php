@@ -2,7 +2,7 @@
 
 class Module_Web_Library implements Plugins
 {
-	public static function get_download(& $url) {
+	public static function get_download (& $url) {
 
 		if (isset($url[0]) && $url[0] == 'download') {
 			array_shift($url);
@@ -11,7 +11,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_area(& $url) {
+	public static function get_area (& $url) {
 		if (isset($url[0])) {
 			if (
 				$url[0] == 'workshop' ||
@@ -27,18 +27,22 @@ class Module_Web_Library implements Plugins
 		return array('area' => 'main');
 	}
 
-	public static function get_mixed(& $url) {
+	public static function get_mixed (& $url) {
 
 		if (isset($url[0]) && $url[0] == 'mixed' && isset($url[1])) {
+			
 			$mixed = Meta::parse_mixed_url($url[1]);
-
 			array_splice($url, 0, 2);
+
+			if (array_key_exists('mixed', Globals::$preferences)) {
+				$mixed = array_replace_recursive(Globals::$preferences['mixed'], $mixed);
+			}			
 
 			return array('mixed' => $mixed, 'function' => 'main');
 		}
 	}
 
-	public static function get_meta(& $url) {
+	public static function get_meta (& $url) {
 		$meta_types = array('tag', 'category', 'language', 'author');
 
 		if (isset($url[0]) && in_array($url[0], $meta_types) && isset($url[1])) {
@@ -49,7 +53,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_page(& $url) {
+	public static function get_page (& $url) {
 		if (isset($url[0]) && $url[0] == 'page' && isset($url[1]) && is_numeric($url[1])) {
 
 			$page = array_splice($url, 0, 2);
@@ -58,7 +62,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_id(& $url) {
+	public static function get_id (& $url) {
 
 		if (isset($url[0]) && is_numeric($url[0])) {
 

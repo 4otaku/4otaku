@@ -26,7 +26,7 @@ class Core implements Plugins
 
 		$worker = new $classname($query['module']);
 
-		$return = (array) $worker->$function($query);
+		$return = (array) $worker->$function($query);		
 
 		$return = $worker->common_postprocess($return);
 		

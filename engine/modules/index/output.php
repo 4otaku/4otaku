@@ -21,9 +21,6 @@ class Index_Output extends Module_Output implements Plugins
 	);
 
 	public function main () {
-
-		$return['template'] = 'index';
-
 		if ($unseen = Globals::user('unseen')) {
 
 			foreach ($unseen as & $unseen_item) {

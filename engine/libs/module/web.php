@@ -17,6 +17,10 @@ abstract class Module_Web extends Module_Web_Library implements Plugins
 		return $query;
 	}
 	
+	public function make_subquery () {
+		return array();
+	}
+	
 	abstract public function postprocess ($data);
 	
 	protected function postprocess_navi ($data) {

@@ -5,30 +5,46 @@ class Controller implements Plugins
 	// Хранит рабочий контроллер
 	private $worker;
 
-	function __construct() {
+	function __construct () {
+
 		if (!empty(Globals::$user_data['mobile'])) {
 			$this->worker = new Controller_Mobile();
-			return;
-		}
-
-		if (!empty(Globals::$vars['ajax'])) {
+		} elseif (!empty(Globals::$vars['ajax'])) {
 			$this->worker = new Controller_Ajax();
-			return;
+		} else {
+			$this->worker = new Controller_Web();
 		}
-
-		$this->worker = new Controller_Web();
-	}
-
-	function build() {
-		if (!($this->worker instanceOf Controller_Abstract)) {
+		
+		if (!($this->worker instanceOf Controller_Interface)) {
 			$name = get_class($this->worker);
-			Error::fatal("Контроллер $name не является ребенком Controller_Abstract");
+			Error::fatal("Контроллер $name не использует Controller_Interface");
+		}		
+	}
+	
+	public function build () {
+		return $this->worker;
+	}
+	
+	public static function test_sub_area ($area, $function) {
+		$area = explode(',', $area);
+		
+		foreach ($area as $test) {
+			if ($test == '*') {
+				return true;
+			}
+			
+			if (preg_match('/^\{([a-z_]+)\}$/i', $test, $match)) {
+				if ($function == $match[1]) {
+					return true;
+				}
+			}
 		}
-
-		return $this->worker->build();
+		
+		return false;
 	}
 
-    public function __toString() {
-		return preg_replace('/^[a-z]+?_/i', '', get_class($this->worker));
+    public function get_type () {
+		$worker_name = strtolower(get_class($this->worker));
+		return preg_replace('/^[a-z]+?_/', '', $worker_name);
     }
 }

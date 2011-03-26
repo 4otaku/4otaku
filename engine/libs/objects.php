@@ -12,7 +12,10 @@ class Objects
 	public static $controller = false;	
 	
 	// Хранилище для контроллера от модуля
-	public static $wrapper = false;	
+	public static $wrapper = false;		
+	
+	// Хранилище для контроллеров от субмодулей
+	public static $sub_wrapper = array();	
 	
 	// Обращается к объекту базы данных
 	public static function db ($name = 'main') {

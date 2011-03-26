@@ -44,21 +44,37 @@
 	
 	// Унифицируем запрос с помощью контроллера
 	
-	Globals::$query = Objects::$controller->build();
+	Globals::$query = Objects::$controller->build()->query();
 	
 	// Теперь мы знаем, какой модуль сегодня выполняет. Подгрузим его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.Globals::$query['module'].SL.'settings.ini';
 	Config::load($module_config_file);
 	
+	// И создадим субзапросы согласно этому конфигу
+	$submodules = Config::settings('side');
+	$subqueries = array();
+	foreach ($submodules as $submodule => $area) {
+		$subqueries[$submodule] = Objects::$controller->build()->subquery($submodule, $area, Globals::$query);
+	}
+	$subqueries = array_filter($subqueries);
+	
 	// Ядро обрабатывает запрос
 	$core = new Core();
 	Globals::$data = $core->process(Globals::$query);
 	
-	// Полученный результат подхватывает менеджер представлений
-	$view = new View(Globals::$data);
-	$view->data = Objects::$wrapper->postprocess($view->data);
+	// И субзапросы
+	foreach ($subqueries as $submodule => $query) {
+		Globals::$sub_data[$submodule] = $core->process($query);
+	}
 	
+	// Полученный результат проходит пост-обработку
+	Globals::$data = Objects::$wrapper->postprocess(Globals::$data);
+	
+	// И результаты субзапросов, после чего они присоединются к основному результату
+	foreach (Globals::$sub_data as $submodule => $data) {
+		Globals::$data['sub'][$submodule] = Objects::$sub_wrapper[$submodule]->postprocess($data);
+	}	
+
 	// И выводит пользователю, используя подходящий шаблонизатор
-	$view->output();
-	
-	
+	$template = new Templater();	
+	$template->output();

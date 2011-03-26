@@ -1,30 +1,33 @@
 <?
 
-class View
+class Templater
 {
 	protected static $template_type = 'web';
 	protected static $template = 'default';
 	protected static $template_engine = false;
-	public $data = array();
 
-	public function __construct($data) {
-		$this->data = $data;
-
+	public function __construct () {
 		$templater = Config::main('template', 'Engine');
 		if (!empty($templater)) {
 			self::$template_engine = $templater;
 		}
+		
+		if (Config::settings('template')) {
+			self::$template = Config::settings('template');
+		}		
 
-		if (!empty($data['template'])) {
-			self::$template = $data['template'];
+		if (!empty(Globals::$data['template'])) {
+			self::$template = Globals::$data['template'];
 		}
+		
+		self::$template_type = Objects::$controller->get_type();
 	}
 
-	public function make_clean($buffer) {
+	public function make_clean ($buffer) {
 		return preg_replace(array('/[\t\r\n]+/', '/\s+/'), array('', ' '), $buffer);
 	}
 	
-	public function output() {
+	public function output () {
 		ob_start(array($this, 'make_clean'));
 
 		if (!empty(self::$template_engine)) {
@@ -34,12 +37,12 @@ class View
 				self::$template_engine . '_load_template',
 				self::$template_type,
 				self::$template,
-				$this->data
+				Globals::$data
 			);
 		} else {
 			global $data;
 
-			$data = $this->data;
+			$data = Globals::$data;
 
 			include_once ROOT.SL.'templates'.SL.self::$template.SL.'index.php';
 		}

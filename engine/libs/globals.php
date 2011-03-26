@@ -20,6 +20,9 @@ final class Globals extends Objects
 	// Для полученных из ядра данных
 	public static $data = array();		
 	
+	// Для полученных из ядра субмодулями данных
+	public static $sub_data = array();		
+	
 	static private $safe_replacements = array(
 		'&' => '&amp;',
 		'"' => '&quot;',
