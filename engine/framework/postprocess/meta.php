@@ -1,6 +1,6 @@
 <?
 
-class Process_Meta implements Process_Interface
+class Postprocess_Meta implements Postprocess_Interface
 {
 	protected $singluar = array();
 	protected $plural = array();

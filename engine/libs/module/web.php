@@ -21,7 +21,7 @@ abstract class Module_Web extends Module_Web_Library implements Plugins
 	
 	protected function postprocess_navi ($data) {
 		if (!empty($data['pagecount']) && !empty($data['curr_page'])) {
-			$worker = new Process_Navi();
+			$worker = new Postprocess_Navi();
 			return $worker->process_web($data);
 		}
 		
@@ -30,8 +30,8 @@ abstract class Module_Web extends Module_Web_Library implements Plugins
 	
 	protected function postprocess_items ($data) {
 		if (!empty($data['items'])) {
-			$meta_worker = new Process_Meta();
-			$date_worker = new Process_Date();
+			$meta_worker = new Postprocess_Meta();
+			$date_worker = new Postprocess_Date();
 
 			foreach ($data['items'] as & $item) {
 				if (!empty($item['meta'])) {

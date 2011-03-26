@@ -1,6 +1,6 @@
 <?
 
-class Process_Index implements Process_Interface
+class Postprocess_Index implements Postprocess_Interface
 {
 	public function process_web ($data) {
 		foreach ($data as & $part) {
