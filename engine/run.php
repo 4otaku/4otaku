@@ -55,7 +55,7 @@
 	Globals::$data = $core->process(Globals::$query);
 	
 	// Полученный результат подхватывает менеджер представлений
-	$view = new Manager(Globals::$data);
+	$view = new View(Globals::$data);
 	$view->data = Objects::$wrapper->postprocess($view->data);
 	
 	// И выводит пользователю, используя подходящий шаблонизатор

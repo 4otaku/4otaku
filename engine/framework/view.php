@@ -1,6 +1,6 @@
 <?
 
-class Manager
+class View
 {
 	protected static $template_type = 'web';
 	protected static $template = 'default';
