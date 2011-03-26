@@ -2,9 +2,7 @@
 	
 	// Задаем autoloader
 	// Он ищет сперва в cache/extended с проверкой, нет ли расширенного плагинами
-	// Потом ищет во всех под-директориях внтури engine/
-	
-	$library_directories = glob(ENGINE.SL.'*', GLOB_ONLYDIR);
+	// Потом ищет в engine/framework, engine/module, engine/libs
 	
 	function autoload_extended ($name) {
 		if ($name == 'index') {
@@ -31,12 +29,16 @@
 	}
 	
 	function search_lib ($name) {
-		global $library_directories;
+		$directories = array(
+			ENGINE.SL.'framework'.SL,
+			ENGINE.SL.'modules'.SL,
+			ENGINE.SL.'libs'.SL,
+		);
 
 		$name = str_replace('_', '/', strtolower($name));
 		$alt_name = preg_replace('/^(.+)\/(.+?)$/', '$1_$2', $name);
 		
-		foreach ($library_directories as $directory) {
+		foreach ($directories as $directory) {
 
 			if (is_readable($directory.SL.$name.'.php')) {
 				return $directory.SL.$name.'.php';

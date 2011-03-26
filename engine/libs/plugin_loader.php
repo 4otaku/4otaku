@@ -19,7 +19,7 @@ final class Plugin_Loader
 	public static function make_cache () {
 		self::$plugins = array();
 		
-		$plugin_files = glob(ROOT.SL.'plugins'.SL.'*.php');
+		$plugin_files = glob(ENGINE.SL.'plugins'.SL.'*.php');
 		
 		foreach ($plugin_files as $plugin_file) {
 			self::load($plugin_file);
