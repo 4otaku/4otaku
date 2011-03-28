@@ -33,7 +33,7 @@ jQuery.cookie = function (key, value, options) {
 			if (cookie != null && local == null) {
 				localStorage.setItem('4otaku_settings', cookie);
 			} else if (cookie != local) {
-				$.cookie("settings", local, { expires: 60 , path : window.config.site_dir + '/' });
+				$.cookie("settings", local, { expires: 60 , path : window.config.site_dir + '/' , domain : '4otaku.ru' });
 			}
 		} catch (err) {}
 	}
@@ -166,6 +166,12 @@ function is_left_click(event) {
 }
 
 $(document).ready(function(){  
+	
+	$(".main_header_menu_item").hover(function(){
+		$(".sub_header_menu").hide();
+		$("."+$(this).attr('rel')).show();
+	});	
+
 
 	/* Shared settings */
 	

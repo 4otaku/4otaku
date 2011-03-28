@@ -1,55 +1,22 @@
-#header {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 0;
+.header_menu {
 	padding: 0;
+	cellspacing: 5px;
+	border: 4px solid rgb(153, 255, 153);
 }
 
-#header li {
-	list-style: none;
-	float: left; 
-}
-
-#header li a {
-	display: block;
-	padding: 3px 8px;
-	text-transform: uppercase;
-	text-decoration: none; 
-	color: #999;
-	font-weight: bold; 
-}
-
-#header li a:hover {
-	color: #000; 
-}
-
-#header li ul {
-	display: none;  
-}
-
-#header li:hover ul, #header li.hover ul {
-	position: absolute;
-	display: inline;
-	left: 0;
+.main_header_menu {
+	font-size: 120%;
+	margin: 0 0 40px 0;	
 	width: 100%;
-	margin: 0;
-	padding: 0; 
 }
 
-#header li:hover li, #header li.hover li {
-	float: left; 
+.sub_header_menu {
+	display: none;
+	position: absolute;
+	top: 40px;
+	width: 100%;
 }
 
-#header li:hover li a, #header li.hover li a {
-	color: #000; 
-}
-#header li li a:hover {
-	color: #357; 
-}
-
-#hline {		
-	clear: both;	
-	height: 4px;
-	background: url(/images/hline.gif) repeat-x;	
+.sub_header_menu:hover {
+	display: block !important;
 }
