@@ -16,7 +16,7 @@
 	padding-bottom: 0;
 }
 
-.header_menu ul{
+.header_menu ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0 0 0 20px;
@@ -24,8 +24,11 @@
 	height: 100%;
 }
 
-.header_menu li{
+.header_menu li {
 	float: left;
+}
+.header_menu li:hover {
+	background: #CCFF99;
 }
 
 .header_menu a, .header_menu:visited {
