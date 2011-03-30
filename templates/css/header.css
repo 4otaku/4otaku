@@ -1,22 +1,102 @@
 .header_menu {
+	position: relative;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	height: 2em;
+	background: #E8FFE8;
+	border-bottom: 1px solid #777777;
+	border-right: 1px solid #E8FFE8;
+	border-left: 1px solid #E8FFE8;
+	padding-bottom: 1px;
+	margin-bottom: 3em;
+}
+
+* html .header_menu {
+	padding-bottom: 0;
+}
+
+.header_menu ul{
+	list-style-type: none;
 	padding: 0;
-	cellspacing: 5px;
-	border: 4px solid rgb(153, 255, 153);
-}
-
-.main_header_menu {
-	font-size: 120%;
-	margin: 0 0 40px 0;	
+	margin: 0 0 0 20px;
 	width: 100%;
+	height: 100%;
 }
 
-.sub_header_menu {
-	display: none;
+.header_menu li{
+	float: left;
+}
+
+.header_menu a, .header_menu:visited {
+	text-decoration: none;
+}
+
+.header_menu a em, .header_menu:visited em {
+	display: block;
+	float: left;
+	width: 5px;
+	height: 2em;
+}
+
+.header_menu a b, .header_menu:visited b {
+	display: block;
+	font-weight: normal;
+	float: left;
+	padding: 0 10px;
+	height: 2em;
+	line-height: 1.9em;
+	cursor: pointer;
+}
+
+.header_menu ul ul {
+	visibility: hidden;
 	position: absolute;
-	top: 40px;
+	height: 2em;
+	top: 2em;
+	left: -20px;
 	width: 100%;
+	border: 1px solid #777777;
+	background: #CCCCCC;
 }
 
-.sub_header_menu:hover {
-	display: block !important;
+.header_menu:hover {
+	white-space: normal;
+}
+
+.header_menu a:hover b {
+	color: #000000;
+}
+
+.header_menu li:hover > a b {
+	color: #000000;
+}
+
+.header_menu ul li:hover ul, .header_menu ul a:hover ul{
+	display: block;
+	visibility: visible;
+	top: 2em;
+	margin-top: -1px;
+}
+
+.header_menu ul :hover ul li {
+	display: block; 
+	border-left: 1px solid #777777; 
+	background: #CCCCCC; 
+	height: 2em;
+}
+
+.header_menu ul :hover ul li a {
+	display: block; 
+	font-size: 0.8em; 
+	height: 2em; 
+	line-height: 2.5em; 
+	width: auto; 
+	float: left; 
+	color: #444444; 
+	padding: 0 10px;
+}
+
+.header_menu ul :hover ul li a:hover {
+	color: #CC0000;
 }

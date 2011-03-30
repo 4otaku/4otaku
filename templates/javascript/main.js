@@ -166,12 +166,12 @@ function is_left_click(event) {
 }
 
 $(document).ready(function(){  
-	
+/*	
 	$(".main_header_menu_item").hover(function(){
 		$(".sub_header_menu").hide();
 		$("."+$(this).attr('rel')).show();
 	});	
-
+*/
 
 	/* Shared settings */
 	
