@@ -2,6 +2,9 @@
 
 class Links_Output extends Module_Output implements Plugins
 {
+	protected static $broken = 0;
+	protected static $unclear = 0;
+	
 	public function main () {
 		$return = array();
 		
@@ -19,11 +22,18 @@ class Links_Output extends Module_Output implements Plugins
 		$titles = Globals::db()->get_vector('post', 'id,title', $condition, $ids);
 		
 		foreach ($links as $link) {
-			$full_id = $link['status'].'-'.$link['item_id'];
+			$status = $link['status'];			
+			$full_id = $status.'-'.$link['item_id'];
+	
+			if ($status == 'broken') {
+				self::$broken++;
+			} elseif ($status == 'unclear') {
+				self::$unclear++;
+			}
 			
 			if (empty($return['items'][$full_id])) {
 				$return['items'][$full_id] = array(
-					'item_type' => 'links_'.$link['status'],
+					'item_type' => 'links_'.$status,
 					'id' => $link['item_id'],
 					'title' => $titles[$link['item_id']],
 					'links' => array(),
@@ -34,7 +44,14 @@ class Links_Output extends Module_Output implements Plugins
 		}
 		
 		uksort($return['items'], 'strnatcasecmp');
-		
+	
 		return $return;
+	}
+	
+	public static function description () {
+		return array(
+			'broken_total' => self::$broken,
+			'unclear_total' => self::$unclear,
+		);
 	}
 }

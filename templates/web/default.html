@@ -2,6 +2,9 @@
 
 {% block content %}
 	<td valign="top" id="content">
+		{% if sub.description.template %}
+			{% include ['web/description/',sub.description.template,'.html']|join %}
+		{% endif %}
 		<div class="post">
 			{% for id, item in items %}
 				{% include ['web/single/',item.item_type,'.html']|join %}

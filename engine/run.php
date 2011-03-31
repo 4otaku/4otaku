@@ -53,7 +53,7 @@
 	// И создадим субзапросы согласно этому конфигу
 	$submodules = Config::settings('side');
 	$subqueries = array();
-	foreach ($submodules as $submodule => $area) {
+	foreach ((array) $submodules as $submodule => $area) {
 		$subqueries[$submodule] = Objects::$controller->build()->subquery($submodule, $area, Globals::$query);
 	}
 	$subqueries = array_filter($subqueries);
