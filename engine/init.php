@@ -6,6 +6,11 @@
 	define('SL', DIRECTORY_SEPARATOR);
 	define('ENGINE', __DIR__);
 	define('ROOT', dirname(__DIR__));
+	
+	define('MINUTE', 60);
+	define('HOUR', MINUTE * 60);
+	define('DAY', HOUR * 24);
+	define('WEEK', DAY * 7);
 
 	include_once 'autoloader.php';
 	

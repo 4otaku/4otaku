@@ -168,8 +168,8 @@ class Database_Mysql extends Database_Common implements Database_Interface
 			$update_keys = array_keys($update_values);
 			$update_values = array_values($update_values);	
 
-			foreach ($keys as $key) {
-				$query .= "`$key` = ?,";
+			foreach ($update_keys as $update_key) {
+				$query .= "`$update_key` = ?,";
 			}
 		
 			$query = rtrim($query,',');	
@@ -253,7 +253,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return mysql_affected_rows($this->connection);	
 	}	
 	
-	public function delete($table, $condition = false) {
+	public function delete($table, $condition = false, $params = false) {
 		$query = "DELETE FROM `{$this->prefix}$table`";
 		
 		if (is_numeric($condition)) {
@@ -264,7 +264,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 			$query .= " WHERE $condition";
 		}
 		
-		$this->query($query);
+		$this->query($query, $params);
 		
 		return mysql_affected_rows($this->connection);
 	}

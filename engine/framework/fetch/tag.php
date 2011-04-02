@@ -3,7 +3,7 @@
 class Fetch_Tag implements Plugins
 {
 	public function get_data_by_alias($aliases) {
-		$condition = Globals::db()->array_in('alias', $aliases);
+		$condition = Objects::db()->array_in('alias', $aliases);
 		$full_condition = "type='tag' and ".$condition;
 
 		$select = array('alias','name','color');

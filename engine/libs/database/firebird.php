@@ -220,14 +220,14 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return ibase_affected_rows($this->connection);	
 	}	
 	
-	public function delete($table, $condition = false) {
+	public function delete($table, $condition = false, $params = false) {
 		$query = "DELETE FROM {$this->prefix}$table";
 		
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";
 		}
 		
-		$this->query($query);
+		$this->query($query, $params);
 		
 		return ibase_affected_rows($this->connection);
 	}

@@ -1,12 +1,8 @@
 <?
 	
-class Cache_Memcache implements Cache_Interface, Plugins
+class Cache_Memcache implements Cache_Interface_Single, Plugins
 {	
 	public static function set ($key, $value, $expire = null) {
-		
-	}
-	
-	public static function set_array ($keys, $values, $expire = null) {
 		
 	}
 	
@@ -14,15 +10,7 @@ class Cache_Memcache implements Cache_Interface, Plugins
 		
 	}
 	
-	public static function get_array ($keys) {
-		
-	}
-	
 	public static function delete ($key) {
-		
-	}
-	
-	public static function delete_array ($keys) {
 		
 	}
 	
@@ -30,15 +18,7 @@ class Cache_Memcache implements Cache_Interface, Plugins
 		
 	}
 	
-	public static function increment_array ($keys, $values = 1) {
-		
-	}
-	
 	public static function decrement ($key, $value = 1) {
-		
-	}
-	
-	public static function decrement_array ($keys, $values = 1) {
 		
 	}
 }

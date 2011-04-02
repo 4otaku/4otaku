@@ -11,13 +11,13 @@ Interface Database_Interface
 	
 	// Запросы на чтение данных
 	
-	public function get_table($table, $condition, $values);
+	public function get_table($table, $values, $condition);
 	
-	public function get_vector($table, $condition, $values, $unset);
+	public function get_vector($table, $values, $condition);
 	
-	public function get_row($table, $condition, $values);
+	public function get_row($table, $values, $condition);
 	
-	public function get_field($table, $condition, $value);
+	public function get_field($table, $value, $condition);
 	
 	// запросы на запись/модификацию
 	
