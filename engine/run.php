@@ -1,11 +1,10 @@
-<?
-	
+<?	
 	include 'init.php';
 	
 	// Загружаем глобальные переменные
 	
 	$user_info = array(
-		'cookie' => $_COOKIE[Config::main('cookie', 'Name')],
+		'cookie' => $_COOKIE[Config::main('cookie', 'name')],
 		'agent' => $_SERVER['HTTP_USER_AGENT'],
 		'accept' => $_SERVER['HTTP_ACCEPT'],
 		'mobile' => !empty($_SERVER['HTTP_PROFILE']) ? $_SERVER['HTTP_PROFILE'] 
@@ -44,7 +43,7 @@
 	
 	// Унифицируем запрос с помощью контроллера
 	
-	Globals::$query = Objects::$controller->build()->query();
+	Globals::$query = Objects::$controller->query();
 	
 	// Теперь мы знаем, какой модуль сегодня выполняет. Подгрузим его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.Globals::$query['module'].SL.'settings.ini';
@@ -54,7 +53,7 @@
 	$submodules = Config::settings('side');
 	$subqueries = array();
 	foreach ((array) $submodules as $submodule => $area) {
-		$subqueries[$submodule] = Objects::$controller->build()->subquery($submodule, $area, Globals::$query);
+		$subqueries[$submodule] = Objects::$controller->subquery($submodule, $area, Globals::$query);
 	}
 	$subqueries = array_filter($subqueries);
 	

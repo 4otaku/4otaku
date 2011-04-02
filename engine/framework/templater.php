@@ -7,7 +7,7 @@ class Templater
 	protected static $template_engine = false;
 
 	public function __construct () {
-		$templater = Config::main('template', 'Engine');
+		$templater = Config::main('template', 'engine');
 		if (!empty($templater)) {
 			self::$template_engine = $templater;
 		}

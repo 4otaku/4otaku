@@ -240,3 +240,12 @@ CREATE TABLE `<pr>order_links` (
   `link` text NOT NULL,
   PRIMARY KEY  (`order_id`,`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `<pr>order_links`;
+CREATE TABLE IF NOT EXISTS `<pr>cache` (
+  `key` varchar(255) NOT NULL,
+  `value` longtext NOT NULL,
+  `expires` datetime NOT NULL,
+  PRIMARY KEY (`key`),
+  KEY `selector` (`expires`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

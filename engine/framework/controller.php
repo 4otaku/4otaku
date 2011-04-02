@@ -1,6 +1,6 @@
 <?
 
-class Controller implements Plugins
+class Controller implements Controller_Interface, Plugins
 {
 	// Хранит рабочий контроллер
 	private $worker;
@@ -21,10 +21,6 @@ class Controller implements Plugins
 		}		
 	}
 	
-	public function build () {
-		return $this->worker;
-	}
-	
 	public static function test_sub_area ($area, $function) {
 		$area = explode(',', $area);
 		
@@ -41,6 +37,14 @@ class Controller implements Plugins
 		}
 		
 		return false;
+	}
+	
+	public function query() {
+		return $this->worker->query();
+	}
+	
+	public function subquery($submodule, $area, $query) {
+		return $this->worker->subquery($submodule, $area, $query);
 	}
 
     public function get_type () {
