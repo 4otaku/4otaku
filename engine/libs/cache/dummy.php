@@ -2,6 +2,8 @@
 	
 class Cache_Dummy implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 {	
+	public $able_to_work = true;
+	
 	public static function set ($key, $value, $expire) {}
 	
 	public static function set_array ($keys, $values, $expire) {}

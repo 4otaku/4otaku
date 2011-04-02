@@ -29,7 +29,10 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 			if (class_exists($defined_driver)) {
 				self::$worker = new $defined_driver();
 				
-				if (self::$worker instanceOf Cache_Interface_Single) {
+				if (
+					self::$worker instanceOf Cache_Interface_Single &&
+					self::$worker->able_to_work
+				) {
 					return self::$worker;
 				} else {
 					unset(self::$worker);

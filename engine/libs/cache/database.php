@@ -1,7 +1,9 @@
 <?
 	
 class Cache_Database implements Cache_Interface_Single, Cache_Interface_Array, Plugins
-{	
+{
+	public $able_to_work = true;	
+	
 	public static function set ($key, $value, $expire = null) {
 		
 		if (is_array($value)) {
