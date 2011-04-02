@@ -34,6 +34,25 @@ abstract class Database_Common
 		}
 	}
 	
+	public function format_insert_values (& $values) { 
+		if (empty($values)) {
+			Error::warning("Пустой массив для вставки в БД");
+			return;
+		}
+		
+		$values = (array) $values;
+		
+		$keys = array_keys($values);
+		$values = array_keys($values);
+		
+		if (count(array_diff_key($values,array_keys($keys))) === 0) {
+			return "VALUES(NULL".str_repeat(",?",count($values)).")";
+		}
+		
+		foreach ($keys as &$key) $key = '`'.trim($key,'`').'`';
+		return "(".implode(",",$keys).") VALUES(?".str_repeat(",?",count($values) - 1).")";
+	}
+	
 	public function date_to_unix($date) {
 		return strtotime($date);
 	}
@@ -60,5 +79,5 @@ abstract class Database_Common
 	
 	public function get_count($table, $condition = false, $params = false) {
 		return $this->get_field($table, 'count(*)', $condition, $params);
-	}	
+	}
 }

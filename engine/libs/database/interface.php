@@ -23,9 +23,11 @@ Interface Database_Interface
 	
 	public function insert($table, $values);
 	
+	public function replace($table, $values);
+	
 	public function bulk_insert($table, $rows);
 	
-	public function update($table, $condition, $fields, $values);
+	public function update($table, $condition, $values);
 	
 	public function delete($table, $condition);
 	

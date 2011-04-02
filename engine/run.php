@@ -2,7 +2,7 @@
 	include 'init.php';
 	
 	// Загружаем глобальные переменные
-	
+
 	$user_info = array(
 		'cookie' => $_COOKIE[Config::main('cookie', 'name')],
 		'agent' => $_SERVER['HTTP_USER_AGENT'],

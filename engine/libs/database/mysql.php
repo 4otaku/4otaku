@@ -148,37 +148,56 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return reset($return);
 	}
 	
-	public function insert($table, $values, $keys = false) {
-		return $this->conditional_insert($table, $values, $keys);
+	public function insert($table, $values) {
+		return $this->conditional_insert($table, $values);
 	}
 	
-	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
-		$values = (array) $values;
-		$keys = (array) $keys;
+	public function replace($table, $values, $primary_key = false) {
+		$update_values = $values;
+		if (!empty($primary_key) && isset($update_values[$primary_key])) {
+			unset($update_values[$primary_key]);
+		}
 		
-		$query = "INSERT INTO `{$this->prefix}$table`";
+		$insert = $this->format_insert_values($values);
 		
-		$data = str_repeat(',?',count($values));
+		$query = "INSERT INTO `{$this->prefix}$table` {$insert}";
 		
-		if (count($values) === count($keys)) {
-			foreach ($keys as &$key) $key = '`'.trim($key,'`').'`';
-			$query .= " (".implode(',',$keys).")";
-			$data = ltrim($data,',');
-		} else {
-			$data = "NULL".$data;
-		}		
+		if (!empty($update_values)) {
+			$query .= " ON DUPLICATE KEY UPDATE ";
+			
+			$update_keys = array_keys($update_values);
+			$update_values = array_values($update_values);	
+
+			foreach ($keys as $key) {
+				$query .= "`$key` = ?,";
+			}
+		
+			$query = rtrim($query,',');	
+			$values = array_merge($values, $update_values);
+		}
+		
+		$this->query($query, $values);
+		
+		return mysql_affected_rows($this->connection);		
+	}
+	
+	public function conditional_insert($table, $values, $deny_condition = false, $deny_params = array()) {
+		$query = "INSERT INTO `{$this->prefix}$table` ";	
+		
+		$insert = $this->format_insert_values($values);
 		
 		if (empty($deny_condition)) {
-			$query .= " VALUES($data)";
+			$query .= $insert;
 		} else {
-			$query .= " SELECT $data FROM helper WHERE NOT EXISTS (SELECT * FROM `$table` WHERE $deny_condition)";
+			$query .= preg_replace('/VALUES\s*\((.*?)\)/', 'SELECT $1', $insert, 1);
+			$query .=  " FROM helper WHERE NOT EXISTS (SELECT * FROM `$table` WHERE $deny_condition)";
 			$values = array_merge($values, $deny_params);
 		}
 		
 		$this->query($query, $values);
 		
 		return mysql_affected_rows($this->connection);		
-	}	
+	}
 	
 	public function bulk_insert($table, $rows, $keys = false) {
 		$keys = (array) $keys;
@@ -208,16 +227,10 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return mysql_affected_rows($this->connection);		
 	}
 	
-	public function update($table, $condition, $fields, $values = false) {
+	public function update($table, $condition, $values) {
 		
-		if ($values === false) {
-			// Если четвертый параметр пустой, значит вместо третьего ассоциативный массив
-			$values = array_values($fields);
-			$fields = array_keys($fields);
-		} else {
-			$fields = (array) $fields;
-			$values = (array) $values;
-		}
+		$keys = array_keys($values);
+		$values = array_values($values);			
 		
 		if (is_numeric($condition)) {
 			$condition = 'id = '.$condition;
@@ -225,8 +238,8 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		
 		$query = "UPDATE `{$this->prefix}$table` SET ";
 
-		foreach ($fields as $field) {
-			$query .= "`$field` = ?,";
+		foreach ($keys as $key) {
+			$query .= "`$key` = ?,";
 		}
 		
 		$query = rtrim($query,',');
@@ -242,6 +255,10 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	
 	public function delete($table, $condition = false) {
 		$query = "DELETE FROM `{$this->prefix}$table`";
+		
+		if (is_numeric($condition)) {
+			$condition = 'id = '.$condition;
+		}		
 		
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";

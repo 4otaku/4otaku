@@ -155,36 +155,31 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return reset($return);
 	}
 	
-	protected function make_insert_statement($table, $values, $keys = false) {
-		$values = (array) $values;
-		$keys = (array) $keys;
+	protected function make_insert_statement($table, $values, $update = false) {
+		$update = (bool) $update ? "UPDATE OR" : "";
 		
-		$query = "INSERT INTO {$this->prefix}$table";
+		$query = "$update INSERT INTO {$this->prefix}$table ";
 		
-		if (count($values) === count($keys)) {
-			$query .= " (".implode(',',$keys).")";
-		}
+		$query .= $this->format_insert_values($values);
 		
-		$query .= " VALUES(''".str_repeat(",?",count($values)).")";
-		
-		return $query;
+		return trim($query);
 	}
 	
-	public function insert($table, $values, $keys = false) {
-		$query = $this->make_insert_statement($table, $values, $keys);
+	public function insert($table, $values, $update = false) {
+		$query = $this->make_insert_statement($table, $values, $update);
 		
 		$this->query($query, $values);
 		
 		return ibase_affected_rows($this->connection);
 	}
 	
-	public function bulk_insert($table, $rows, $keys = false) {
+	public function bulk_insert($table, $rows) {
 		$query = "set term ^ ;
 			EXECUTE BLOCK AS BEGIN";
 		
 		$params = array();
 		foreach ($rows as $row) {
-			$query .= "\n".$this->make_insert_statement($table, $row, $keys).";";
+			$query .= "\n".$this->make_insert_statement($table, $row).";";
 			$params = array_merge($params, $row);
 		}
 		
@@ -195,15 +190,14 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		return ibase_affected_rows($this->connection);
 	}
 	
-	public function update($table, $condition, $fields, $values = false) {
-		if (empty($values)) {
-			// Если четвертый параметр пустой, значит вместо третьего ассоциативный массив
-			$values = array_values($fields);
-			$fields = array_keys($fields);
-		} else {
-			$fields = (array) $fields;
-			$values = (array) $values;
-		}
+	public function replace($table, $values) {
+		return $this->insert($table, $values, true);
+	}	
+	
+	public function update($table, $condition, $values) {
+
+		$keys = array_keys($values);
+		$values = array_values($values);
 		
 		if (is_numeric($condition)) {
 			$condition = 'id = '.$condition;
@@ -212,7 +206,7 @@ class Database_Firebird extends Database_Common implements Database_Interface
 		$query = "UPDATE {$this->prefix}$table SET ";
 		
 		foreach ($fields as $field) {
-			$query .= "$field = ??,";
+			$query .= "$field = ?,";
 		}
 		
 		$query = rtrim($query,',');
