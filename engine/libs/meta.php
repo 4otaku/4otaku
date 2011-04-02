@@ -35,7 +35,7 @@ class Meta
 			$names = array_unique($names);
 			
 			$data = $worker->get_data_by_alias($names);
-			
+		
 			foreach ($index as $id => $item) {
 				foreach ($data as $one) {
 					if (in_array($one['alias'],$item[$type])) {

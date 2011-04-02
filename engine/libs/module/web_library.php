@@ -26,6 +26,15 @@ class Module_Web_Library implements Plugins
 
 		return array('area' => 'main');
 	}
+	
+	public static function get_tag_cloud (& $url) {
+		if (isset($url[0]) && $url[0] == 'tag_cloud') {
+
+			array_shift($url);
+
+			return array('function' => 'tag_cloud');
+		}
+	}
 
 	public static function get_mixed (& $url) {
 
