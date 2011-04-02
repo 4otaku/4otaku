@@ -43,11 +43,12 @@ abstract class Database_Common
 		$values = (array) $values;
 		
 		$keys = array_keys($values);
-		$values = array_values($values);
 		
-		if (count(array_diff_key($values,array_keys($keys))) === 0) {
+		if (count(array_diff_key($values, $keys)) === 0) {
 			return "VALUES(NULL".str_repeat(",?",count($values)).")";
 		}
+
+		$values = array_values($values);		
 		
 		foreach ($keys as &$key) $key = '`'.trim($key,'`').'`';
 		return "(".implode(",",$keys).") VALUES(?".str_repeat(",?",count($values) - 1).")";
