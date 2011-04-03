@@ -4,6 +4,24 @@ class Cache_Database implements Cache_Interface_Single, Cache_Interface_Array, P
 {
 	public $able_to_work = true;	
 	
+	public function __construct ($config) {
+		$scheme = Objects::db()->sql('DESCRIBE `<pr>cache`');
+		
+		if (empty($scheme)) {
+			$this->able_to_work = false;
+			return;
+		}
+		
+		$fields = array();
+		$required_fields = array('key',	'value', 'expires');
+		
+		foreach ($scheme as $row) {
+			$fields[] = $row['Field'];
+		}		
+				
+		$this->able_to_work = ! (bool) array_diff($required_fields, $fields);
+	}
+	
 	public static function set ($key, $value, $expire = null) {
 		
 		if (is_array($value)) {

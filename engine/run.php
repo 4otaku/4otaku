@@ -3,13 +3,19 @@
 	
 	// Загружаем глобальные переменные
 
+	$cookie = isset($_COOKIE[Config::main('cookie', 'name')]) ?
+		$_COOKIE[Config::main('cookie', 'name')] :
+		false;
+		
+	$wap_profile = !empty($_SERVER['HTTP_PROFILE']) ? $_SERVER['HTTP_PROFILE'] 
+		: !empty($_SERVER['HTTP_X_WAP_PROFILE']) ? $_SERVER['HTTP_X_WAP_PROFILE']
+		: null;
+	
 	$user_info = array(
-		'cookie' => $_COOKIE[Config::main('cookie', 'name')],
+		'cookie' => $cookie,
 		'agent' => $_SERVER['HTTP_USER_AGENT'],
 		'accept' => $_SERVER['HTTP_ACCEPT'],
-		'mobile' => !empty($_SERVER['HTTP_PROFILE']) ? $_SERVER['HTTP_PROFILE'] 
-			: !empty($_SERVER['HTTP_X_WAP_PROFILE']) ? $_SERVER['HTTP_X_WAP_PROFILE'] 
-			: null,
+		'mobile' => $wap_profile,
 		'ip' => $_SERVER['REMOTE_ADDR'],
 	);
 	

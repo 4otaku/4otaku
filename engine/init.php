@@ -6,6 +6,7 @@
 	define('SL', DIRECTORY_SEPARATOR);
 	define('ENGINE', __DIR__);
 	define('ROOT', dirname(__DIR__));
+	define('CACHE', ROOT.SL.'cache');
 	
 	define('MINUTE', 60);
 	define('HOUR', MINUTE * 60);

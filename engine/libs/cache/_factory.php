@@ -16,27 +16,30 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 		'Cache_Memcached',
 		'Cache_Memcache',
 		'Cache_Database',
+		'Cache_Files',
 		'Cache_Dummy',
 	);
 	
 	// Для хранения объекта выполняющего собственно кеширование
-	protected static $worker;
+	protected static $worker = false;
 	
 	protected static function get_worker () {
 		if (is_object(self::$worker)) {
 			return self::$worker;
 		}
+		
+		$config = Config::main('cache');
 			
-		self::$base_prefix = Config::main('cache', 'prefix');
+		self::$base_prefix = $config['prefix'];
 			
-		$defined_driver = Config::main('cache', 'engine');
+		$defined_driver = $config['engine'];
 		
 		if (!empty($defined_driver)) {
 			$defined_driver{0} = strtoupper($defined_driver{0});
 			$defined_driver = 'Cache_'.$defined_driver;
 
 			if (class_exists($defined_driver)) {
-				self::$worker = new $defined_driver();
+				self::$worker = new $defined_driver($config);
 				
 				if (
 					self::$worker instanceOf Cache_Interface_Single &&
@@ -44,19 +47,19 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 				) {
 					return self::$worker;
 				} else {
-					unset(self::$worker);
+					self::$worker = false;
 				}
 			}
 		}
 		
 		foreach (self::$drivers_list as $driver) {
 			if (class_exists($driver)) {
-				self::$worker = new $driver();
+				self::$worker = new $driver($config);
 				
 				if (self::$worker instanceOf Cache_Interface_Single) {
 					break;
 				} else {
-					unset(self::$worker);
+					self::$worker = false;
 				}
 			}
 		}
