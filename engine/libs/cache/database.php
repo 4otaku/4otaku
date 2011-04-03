@@ -52,8 +52,8 @@ class Cache_Database implements Cache_Interface_Single, Cache_Interface_Array, P
 		$condition = Objects::db()->array_in('key', $keys);
 		$condition = $condition.' and `expires` > NOW()';	
 		
-		$values = Objects::db()->get_vector('cache', 'key,value', $condition, $keys);
-		
+		$values = Objects::db()->get_vector('cache', array('key','value'), $condition, $keys);
+
 		foreach ($values as & $value) {
 			$value = Crypt::unpack($value);
 		}

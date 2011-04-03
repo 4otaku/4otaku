@@ -37,6 +37,8 @@ Interface Database_Interface
 	
 	public function debug();
 	
+	public function make_search_condition($field, $search_values);
+	
 	// Транзакции
 	
 	public function begin();

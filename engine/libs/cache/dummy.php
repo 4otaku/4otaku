@@ -13,7 +13,7 @@ class Cache_Dummy implements Cache_Interface_Single, Cache_Interface_Array, Plug
 	}
 	
 	public static function get_array ($keys) {
-		return array_fill_keys($keys, null);
+		return array();
 	}
 	
 	public static function delete ($key) {}

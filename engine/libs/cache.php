@@ -2,6 +2,13 @@
 	
 class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 {	
+	// Базовый префикс, нужен чтобы избежать коллизий с кешем других сайтов
+	// Берется из конфига
+	protected static $base_prefix = '';
+	
+	// Текущий префикс, нужный для конкретной операции
+	public static $prefix = '';
+	
 	// Список классов которые можно использовать 
 	// в роли кеширующих, в порядке приоритета
 	
@@ -19,6 +26,8 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 		if (is_object(self::$worker)) {
 			return self::$worker;
 		}
+			
+		self::$base_prefix = Config::main('cache', 'prefix');
 			
 		$defined_driver = Config::main('cache', 'engine');
 		
@@ -54,12 +63,18 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 		
 		if (empty(self::$worker)) {
 			Error::fatal("Не найден подоходящий класс для кеширования");
-		}
+		}		
 		
 		return self::$worker;
 	}
 	
-	protected static function call_worker_function ($function, $array_call, $keys, $values, $expire) {
+	protected static function call_worker_function (
+		$function, 
+		$array_call, 
+		$keys, 
+		$values = null, 
+		$expire = null
+	) {
 		$array_call = (bool) $array_call;
 		
 		if (is_array($keys)) {
@@ -69,7 +84,7 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 		$worker = self::get_worker();
 		
 		if (!$array_call) {	
-			$key = Config::main('cache', 'prefix') . $keys;
+			$key = self::$base_prefix . self::$prefix . $keys;
 			return $worker->$function($key, $values, $expire);
 		}		
 		
@@ -78,7 +93,7 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 		}
 		
 		foreach ($keys as &$key) {
-			$key = Config::main('cache', 'prefix') . $key;
+			$key = self::$base_prefix . self::$prefix . $key;
 		}
 		unset($key);
 		
@@ -98,11 +113,13 @@ class Cache implements Cache_Interface_Single, Cache_Interface_Array, Plugins
 			}
 		}
 		
-		if (empty($return) || !is_array($return)) {
-			return array_fill_keys($keys, null);
+		if (empty($tmp_return) || !is_array($tmp_return)) {
+			return array();
 		}
 		
-		$prefix_length = strlen(Config::main('cache', 'prefix'));
+		array_filter($tmp_return);
+		
+		$prefix_length = strlen(self::$base_prefix . self::$prefix);
 		
 		$return = array();
 		foreach ($tmp_return as $key => $value) {

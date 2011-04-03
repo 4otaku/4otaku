@@ -290,6 +290,21 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return $return;
 	}
 	
+	public function make_search_condition($field, $search_values) {
+		$return = 'match (`meta`) against ("';
+		
+		foreach ($search_values as $value) {
+			list($sign, $word, $prefix) = $value;
+			
+			$value = ' ' . $sign . ($prefix ? $prefix . '_' : '') . $word;
+			$return .= mysql_real_escape_string($value, $this->connection);
+		}
+		
+		$return .= '" in boolean mode)';
+		
+		return $return;
+	}
+	
 	public function free_result() {
 		mysql_free_result($this->result);
 	}
