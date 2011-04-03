@@ -108,16 +108,14 @@ class Cron
 			Cache::set('_actual_tag_areas', $modules, WEEK);
 		}
 		
+		Objects::db()->delete('meta_count', 'expires < NOW()');
+		
 		$tags = Objects::db()->get_vector('meta', 'alias', '`type` = "tag" order by rand() limit 100');
 		
 		foreach ($modules as $module => $areas) {
 			foreach ($areas as $area) {
-				Cache::$prefix = Fetch_Tag::get_tag_count_prefix($module, $area);
 				foreach ($tags as $tag) {
-					$count = Fetch_Tag::count_tag($tag, $module, $area);
-					if (!empty($count)) {
-						Cache::set($tag, $count, WEEK);
-					}
+					$count = Meta_Library::count_tag($tag, $module, $area);
 				}
 			}
 		}

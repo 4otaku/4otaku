@@ -12,6 +12,20 @@ CREATE TABLE `<pr>meta` (
   UNIQUE KEY `identity` (`type`,`alias`,`area`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `<pr>meta_count` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(16) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `module` varchar(16) NOT NULL,
+  `area` varchar(16) NOT NULL,
+  `count` int(10) unsigned NOT NULL,
+  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`type`,`alias`,`module`,`area`),
+  KEY `selector` (`type`,`alias`,`module`,`area`,`expires`),
+  KEY `list_active_tags` (`type`,`count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `<pr>tag_variants`;
 CREATE TABLE `<pr>tag_variants` (
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,

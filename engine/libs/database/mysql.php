@@ -157,10 +157,16 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return $this->conditional_insert($table, $values);
 	}
 	
-	public function replace($table, $values, $primary_key = false) {
+	public function replace($table, $values, $dont_update = false) {
 		$update_values = $values;
-		if (!empty($primary_key) && isset($update_values[$primary_key])) {
-			unset($update_values[$primary_key]);
+		if (!empty($dont_update)) {
+			$dont_update = (array) $dont_update;
+			
+			foreach ($dont_update as $one) {
+				if (isset($update_values[$one])) {
+					unset($update_values[$one]);
+				}
+			}
 		}
 		
 		$insert = $this->format_insert_values($values);

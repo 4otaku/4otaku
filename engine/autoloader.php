@@ -37,8 +37,8 @@
 		return false;
 	}	
 	
-	function autoload_factory ($name) {
-		$name = str_replace('_', '/', strtolower($name)).SL.'_factory.php';
+	function autoload_wrapper ($name) {
+		$name = str_replace('_', '/', strtolower($name)).SL.'wrapper.php';
 
 		if ($library = search_lib($name)) {
 			include_once($library);
@@ -69,4 +69,4 @@
 	// может потребоваться добавить свой autoload
 	spl_autoload_register('autoload_extended', false);
 	spl_autoload_register('autoload_normal', false);
-	spl_autoload_register('autoload_factory', false);
+	spl_autoload_register('autoload_wrapper', false);

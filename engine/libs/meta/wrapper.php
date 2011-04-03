@@ -1,12 +1,7 @@
 <?
 	
-class Meta
-{	
-	public static function parse_mixed_url($url) {
-		
-		return array();
-	}
-	
+class Meta extends Meta_Library implements Plugins
+{
 	public static function prepare_meta($index) {
 		
 		$common = array();
@@ -28,7 +23,7 @@ class Meta
 		}		
 		
 		foreach ($common as $type => $names) {
-			$classname = 'Fetch_'.$type;
+			$classname = 'Meta_'.$type;
 			
 			if (!class_exists($classname)) {
 				continue;

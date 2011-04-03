@@ -1,9 +1,9 @@
 <?
 
-class Fetch_Author implements Plugins
+class Meta_Language extends Meta_Library implements Plugins
 {
 	public function get_data_by_alias($aliases) {
-		$condition = "type='author' and ".Globals::db()->array_in('alias', $aliases);
+		$condition = "type='language' and ".Globals::db()->array_in('alias', $aliases);
 
 		$select = array('alias','name');
 
