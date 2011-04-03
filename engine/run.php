@@ -1,4 +1,4 @@
-<?	$a=microtime(true);
+<?
 	include 'init.php';
 	
 	// Загружаем глобальные переменные
@@ -80,5 +80,3 @@
 	// И выводит пользователю, используя подходящий шаблонизатор
 	$template = new Templater();	
 	$template->output();
-
-var_dump(microtime(true) -$a); var_dump(memory_get_peak_usage(true));

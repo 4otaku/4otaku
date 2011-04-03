@@ -100,13 +100,18 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		}
 
 		$return = array();
+		$i = 0;
 		while ($row = mysql_fetch_assoc($this->result)) {
-			$id = $row[$key];
-			
-			if ($unset) {
-				unset($row[$key]);
-			}
-			
+			if (isset($row[$key])) {
+				$id = $row[$key];
+				
+				if ($unset) {
+					unset($row[$key]);
+				}
+			} else {
+				$id = $i++;
+			}		
+				
 			if (count($row) == 1) {
 				$row = reset($row);
 			}
@@ -145,7 +150,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		}
 		
 		$return = mysql_fetch_assoc($this->result);
-		return reset($return);
+		return is_array($return) ? reset($return) : $return;
 	}
 	
 	public function insert($table, $values) {
@@ -227,7 +232,9 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		return mysql_affected_rows($this->connection);		
 	}
 	
-	public function update($table, $condition, $values) {
+	public function update($table, $condition, $values, $condition_params = array()) {
+		$values = (array) $values;
+		$condition_params = (array) $condition_params;
 		
 		$keys = array_keys($values);
 		$values = array_values($values);			
@@ -248,7 +255,9 @@ class Database_Mysql extends Database_Common implements Database_Interface
 			$query .= " WHERE $condition";
 		}
 		
-		$this->query($query, $values);
+		$params = array_merge(array_values($values), $condition_params);
+		
+		$this->query($query, $params);
 		
 		return mysql_affected_rows($this->connection);	
 	}	

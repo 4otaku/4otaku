@@ -17,7 +17,7 @@ class Cron
 		if (Objects::db()->get_count('cron', '`name` = ? and `status` = "idle"', $task)) {
 			
 			if (method_exists($this, $task)) {
-				Objects::db()->update('cron', '`name` = ?', 'status', array('process', $task));
+				Objects::db()->update('cron', '`name` = ?', array('status' => 'process'), $task);
 				
 				$time = time(); 
 				$memory = memory_get_usage();
@@ -27,10 +27,13 @@ class Cron
 				$time = time() - $time;				
 				$memory = max(0, $task_memory - $memory);
 				
-				$fields = array('status', 'runtime', 'memory');
-				$values = array('idle', $time, $memory, $task);
+				$update = array(
+					'status' => 'idle', 
+					'runtime' => $time, 
+					'memory' => $memory, 
+				);
 				
-				Objects::db()->update('cron', '`name` = ?', $fields, $values);
+				Objects::db()->update('cron', '`name` = ?', $update, $task);
 				
 				$memory = round($memory / 1024, 2);
 				
@@ -73,4 +76,52 @@ class Cron
 		
 		return memory_get_usage();
 	}
+	
+	private function do_tag_count_cache () {
+		Cache::$prefix = '';
+		
+		if (!$modules = Cache::get('_actual_tag_areas')) {
+			$modules = array();
+			$config_files = glob(ENGINE.SL.'modules'.SL.'*'.SL.'settings.ini');
+			
+			if (empty($config_files)) {
+				return;
+			}
+			
+			foreach ($config_files as $config_file) {
+				$config = parse_ini_file($config_file, true);
+				
+				if (
+					isset($config['meta']['tag']) && 
+					is_array($config['area']) &&
+					$config['meta']['tag'] == 'enabled'
+				) {
+					$module = preg_replace('/.*\\'.SL.'/', '', dirname($config_file));
+					foreach ($config['area'] as $area => $mode) {
+						if ($mode == 'enabled') {
+							$modules[$module][] = $area;
+						}
+					}
+				}
+			}
+			
+			Cache::set('_actual_tag_areas', $modules, WEEK);
+		}
+		
+		$tags = Objects::db()->get_vector('meta', 'alias', '`type` = "tag" order by rand() limit 100');
+		
+		foreach ($modules as $module => $areas) {
+			foreach ($areas as $area) {
+				Cache::$prefix = Fetch_Tag::get_tag_count_prefix($module, $area);
+				foreach ($tags as $tag) {
+					$count = Fetch_Tag::count_tag($tag, $module, $area);
+					if (!empty($count)) {
+						Cache::set($tag, $count, WEEK);
+					}
+				}
+			}
+		}
+		
+		return memory_get_usage();
+	}	
 }

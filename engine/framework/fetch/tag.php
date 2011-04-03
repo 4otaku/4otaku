@@ -32,9 +32,9 @@ class Fetch_Tag implements Plugins
 		return $tags;
 	}
 	
-	public function get_tag_numbers($aliases, $module, $area = false) {
+	public function get_tag_numbers($aliases, $module, $area) {
 		
-		Cache::$prefix = self::CACHE_COUNT_PREFIX.(string) $module.'_'.(string) $area.'_';		
+		Cache::$prefix = self::get_tag_count_prefix($module, $area);
 		$cached = Cache::get_array($aliases);
 
 		$aliases = array_diff($aliases, array_keys($cached));		
@@ -42,15 +42,23 @@ class Fetch_Tag implements Plugins
 		
 		if (!empty($aliases)) {
 			foreach ($aliases as $alias) {
-				$condition = '`area`= ? and ';
-				$search = array('+', $alias, 'tag');
-				$condition .= Objects::db()->make_search_condition('meta', array($search));
-				$return[$alias] = Objects::db()->get_count($module, $condition, $area);
+				$return[$alias] = self::count_tag($alias, $module, $area);
 			}
 			
 			Cache::set_array(array_keys($return), array_values($return), WEEK);
 		}
 		
 		return array_merge($return, $cached);
+	}
+	
+	public static function count_tag($alias, $module, $area) {
+		$condition = '`area`= ? and ';
+		$search = array('+', $alias, 'tag');
+		$condition .= Objects::db()->make_search_condition('meta', array($search));
+		return Objects::db()->get_count($module, $condition, $area);		
+	}
+	
+	public static function get_tag_count_prefix($module, $area) {
+		return self::CACHE_COUNT_PREFIX.(string) $module.'_'.(string) $area.'_';		
 	}
 }

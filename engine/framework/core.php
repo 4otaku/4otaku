@@ -27,7 +27,7 @@ class Core implements Plugins
 		$worker = new $classname($query['module']);
 
 		$return = (array) $worker->$function($query);
-		
+/*		
 		if (
 			isset($query['header']) && 
 			class_exists($header_class = 'output_header_'.$query['header'])
@@ -38,7 +38,7 @@ class Core implements Plugins
 				array('template' => $query['header'])				
 			);
 		}
-
+*/
 		return $return;
 	}
 

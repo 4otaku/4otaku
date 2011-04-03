@@ -11,7 +11,7 @@ class Meta
 		
 		$common = array();
 		$return = array();
-		
+
 		foreach ($index as $id => $meta) {
 			$meta = explode(' ', substr($meta, 7));
 			$meta = array_filter($meta);
@@ -30,10 +30,14 @@ class Meta
 		foreach ($common as $type => $names) {
 			$classname = 'Fetch_'.$type;
 			
+			if (!class_exists($classname)) {
+				continue;
+			}
+			
 			$worker = new $classname();
 			
 			$names = array_unique($names);
-			
+
 			$data = $worker->get_data_by_alias($names);
 		
 			foreach ($index as $id => $item) {

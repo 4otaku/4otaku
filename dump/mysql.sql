@@ -183,7 +183,9 @@ CREATE TABLE `<pr>cron` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `<pr>cron` (`name`, `last_call`, `period`, `runtime`, `memory`, `status`) 
-VALUES ('check_links', '', '00:01:00', '', '', 'idle');
+VALUES 
+('check_links', '', '00:01:00', '', '', 'idle'),
+('do_tag_count_cache', '', '00:01:00', '', '', 'idle');
 
 DROP TABLE IF EXISTS `<pr>logs`;
 CREATE TABLE `<pr>logs` (
