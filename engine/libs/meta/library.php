@@ -9,6 +9,9 @@ class Meta_Library implements Plugins
 		
 	public function get_meta_numbers($aliases, $type, $module, $area) {
 		
+		// TODO: оптимизировать обращение к таблице. 
+		// array_in сейчас не дает пользоваться ключами с этим полем
+		
 		$condition = '`type` = ? and `module` = ? and `area` = ? and ';
 		$condition .= Objects::db()->array_in('alias', $aliases);
 		$params = array($type, $module, $area);
