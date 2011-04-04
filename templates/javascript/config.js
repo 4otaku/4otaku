@@ -1,3 +1,10 @@
-window.config = new Array();
-window.config.site_dir = "";
-window.config.image_dir = window.config.site_dir + "/images";
+$.ajaxSetup({
+	url: "/",
+	global: false,
+	type: "POST",
+	cache: false,
+	data: {
+		ajax: true,
+		cookie: $.cookie('settings')
+	}
+});
