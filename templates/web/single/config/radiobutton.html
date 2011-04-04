@@ -1,0 +1,10 @@
+{{option.name}}: 
+{% for key, value in option.value %}
+	<input 
+		type="radio" 
+		name="{{block_alias}}.{{option_alias}}" 
+		value="{{value}}" 
+		{% if value == option.default_value %}class="default"{% endif %} 
+		{% if value == option.user_value %}checked{% endif %} 
+	> {{utils.one_of(option.value_name[key],value)}} 
+{% endfor %}

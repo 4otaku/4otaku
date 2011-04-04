@@ -19,10 +19,9 @@ CREATE TABLE IF NOT EXISTS `<pr>meta_count` (
   `module` varchar(16) NOT NULL,
   `area` varchar(16) NOT NULL,
   `count` int(10) unsigned NOT NULL,
-  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `expires` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`type`,`alias`,`module`,`area`),
-  KEY `selector` (`type`,`alias`,`module`,`area`,`expires`),
   KEY `list_active_tags` (`type`,`count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -265,3 +264,15 @@ CREATE TABLE IF NOT EXISTS `<pr>cache` (
   PRIMARY KEY (`key`),
   KEY `selector` (`expires`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `<pr>cookies`;
+CREATE TABLE IF NOT EXISTS `<pr>cookies` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cookie` varchar(32) NOT NULL,
+  `section` varchar(16) NOT NULL,
+  `data` text NOT NULL,
+  `expires` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`cookie`,`section`),
+  KEY `expires` (`expires`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

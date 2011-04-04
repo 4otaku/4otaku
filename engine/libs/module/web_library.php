@@ -11,6 +11,14 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
+	public static function get_section (& $url) {
+		if (isset($url[0]) && !empty($url[0])) {
+			$section = array_shift($url);
+
+			return array('section' => $section);
+		}
+	}
+
 	public static function get_area (& $url) {
 		if (isset($url[0])) {
 			if (

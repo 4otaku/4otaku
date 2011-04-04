@@ -14,7 +14,28 @@ final class Config
 		}
 		
 		$data = parse_ini_file($file, true);
-		$name = basename($file, '.ini');		
+		$name = basename($file, '.ini');
+	
+		foreach ($data as & $section) {
+			if (is_array($section)) {
+				foreach ($section as $value_name => $value) {
+					if (strpos($value_name, '.')) {
+						$name_parts = explode('.', $value_name);					
+						$link = & $section;
+						
+						while ($part = array_shift($name_parts)) {							
+							$link = & $link[$part];
+						}
+						
+						$link = $value;
+						
+						unset($section[$value_name]);
+					}
+				}
+			}
+		}
+		unset($section);
+		
 		self::$data[$name] = $data;
 		
 		return true;

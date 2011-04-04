@@ -1,0 +1,10 @@
+{{option.name}}: 
+<select name="{{block_alias}}.{{option_alias}}">
+{% for key, value in option.value %}
+	<option 
+		value="{{value}}" 
+		{% if value == option.default_value %} class="default"{% endif %}
+		{% if value == option.user_value %} selected="selected"{% endif %}
+	>{{utils.one_of(option.value_name[key],value)}}</option>
+{% endfor %}
+</select>

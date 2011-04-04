@@ -1,0 +1,11 @@
+{% macro one_of(first, second, third, fourth) %}
+    {% if first %}
+		{{first}}
+    {% elseif second %}
+		{{second}}
+    {% elseif third %}
+		{{third}}
+	{% else %}
+		{{fourth}}
+	{% endif %}
+{% endmacro %}

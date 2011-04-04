@@ -1,0 +1,18 @@
+<h2>
+	<a href="/settings/{{id}}" title="{{item.name}}">
+		{{item.name}}
+	</a>
+</h2>
+<div class="shell">
+	{% for block_alias, block in item.data %}
+		<table cellspacing="0" cellpadding="0" width="100%" class="margin10">
+			{% for option_alias, option in block %}
+				<tr>
+					<td class="config_option">
+						{% include ['web/single/config/',option.type,'.html']|join %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endfor %}
+</div>

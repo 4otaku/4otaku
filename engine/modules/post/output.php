@@ -51,7 +51,7 @@ class Post_Output extends Module_Output implements Plugins
 		$meta = Meta::prepare_meta($index);
 
 		$return['items'] = array_replace_recursive($return['items'], $meta);
-		$return['items'] = $this->mark_item_types($return['items'], 'post');		
+		$return['items'] = $this->mark_item_types($return['items'], 'post');
 
 		$count = Globals::db()->get_count('post', $listing_condition);
 
