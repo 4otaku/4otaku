@@ -23,7 +23,7 @@
 	Globals::get_vars($_POST);	
 	Globals::get_url($_SERVER['REQUEST_URI']);
 	Globals::get_user($user_info);	
-	
+	Globals::user('derp');
 	// Проверяем кеш расширенных плагинами библиотек
 	
 	$extended_files = glob(ROOT.SL.'cache'.SL.'extended'.SL.'*.md5');

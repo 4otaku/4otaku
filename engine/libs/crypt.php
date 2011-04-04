@@ -34,4 +34,10 @@ class Crypt
 			return unserialize($string);
 		}
 	}
+	
+	public static function md5_salt($string, $salt) {
+		$salt = sha1($salt . $string);
+		
+		return md5("$salt $string $salt");
+	}
 }

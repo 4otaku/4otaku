@@ -12,6 +12,7 @@
 	define('HOUR', MINUTE * 60);
 	define('DAY', HOUR * 24);
 	define('WEEK', DAY * 7);
+	define('MONTH', DAY * 30);
 
 	include_once 'autoloader.php';
 	

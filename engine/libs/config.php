@@ -3,7 +3,7 @@
 final class Config
 {
 	// Хранилище для загруженных данных
-	public static $data = array();
+	private static $data = array();
 	
 	public static function load($file) {
 		if (

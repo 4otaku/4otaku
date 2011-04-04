@@ -111,5 +111,7 @@ final class Globals extends Objects
 			
 			$preferences = $preferences[$argument];
 		}
+		
+		return $preferences;
 	}	
 }
