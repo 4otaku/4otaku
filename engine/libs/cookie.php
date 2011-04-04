@@ -33,8 +33,10 @@ class Cookie
 		
 		if (!empty($data)) {
 			$data = Crypt::unpack($data);
+			$need_expiration = false;
 		} else {
 			$data = array();
+			$need_expiration = true;
 		}
 		
 		$parts = explode('.', $key);
@@ -45,7 +47,16 @@ class Cookie
 		
 		$link = $value;
 		
-		$insert = array('cookie' => $cookie, 'section' => $section, 'data' => Crypt::pack($data));
+		$insert = array(
+			'cookie' => $cookie, 
+			'section' => $section, 
+			'data' => Crypt::pack($data),
+		);
+		
+		if ($need_expiration) {
+			$expires = Objects::transform('string')->parse_time(Config::main('cookie', 'lifespan'));		
+			$insert['expires'] = Objects::db()->unix_to_date($expires);
+		}
 		
 		Objects::db()->replace('cookie', $insert, array('cookie', 'section'));
 	}
@@ -58,6 +69,11 @@ class Cookie
 		if ($cookie_domain == 'localhost') {
 			$cookie_domain = '';
 		}
+		
+		$expires = Objects::transform('string')->parse_time(Config::main('cookie', 'lifespan'));
+		$update = array('expires' => Objects::db()->unix_to_date($expires));
+		
+		Objects::db()->update('cookie', '`cookie` = ?', $update, $cookie);
 		
 		setcookie(
 			Config::main('cookie', 'name'), 

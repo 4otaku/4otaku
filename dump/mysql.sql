@@ -12,6 +12,7 @@ CREATE TABLE `<pr>meta` (
   UNIQUE KEY `identity` (`type`,`alias`,`area`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `<pr>meta_count`;
 CREATE TABLE IF NOT EXISTS `<pr>meta_count` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(16) NOT NULL,
