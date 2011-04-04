@@ -265,8 +265,8 @@ CREATE TABLE IF NOT EXISTS `<pr>cache` (
   KEY `selector` (`expires`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `<pr>cookies`;
-CREATE TABLE IF NOT EXISTS `<pr>cookies` (
+DROP TABLE IF EXISTS `<pr>cookie`;
+CREATE TABLE IF NOT EXISTS `<pr>cookie` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cookie` varchar(32) NOT NULL,
   `section` varchar(16) NOT NULL,

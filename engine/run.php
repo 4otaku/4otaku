@@ -67,22 +67,26 @@
 	$core = new Core();
 	Globals::$data = $core->process(Globals::$query);
 	
-	// И субзапросы
-	foreach ($subqueries as $submodule => $query) {
-		Globals::$sub_data[$submodule] = $core->process($query);
-	}
+	// Продолжаем только если не получили стоп-сигнал
+	if (Globals::$data !== Core::STOP_SIGNAL) {
 	
-	// Полученный результат проходит пост-обработку
-	Globals::$data = Objects::$wrapper->postprocess(Globals::$data);
-	
-	// TODO убрать этот временный хак для удобной отладки
-	Globals::$data['domain'] = 'http://beta.4otaku.ru';
-	
-	// И результаты субзапросов, после чего они присоединются к основному результату
-	foreach (Globals::$sub_data as $submodule => $data) {
-		Globals::$data['sub'][$submodule] = Objects::$sub_wrapper[$submodule]->postprocess($data);
-	}	
+		// Обрабатываем субзапросы
+		foreach ($subqueries as $submodule => $query) {
+			Globals::$sub_data[$submodule] = $core->process($query);
+		}
+		
+		// Полученный результат проходит пост-обработку
+		Globals::$data = Objects::$wrapper->postprocess(Globals::$data);
+		
+		// TODO убрать этот временный хак для удобной отладки
+		Globals::$data['domain'] = 'http://beta.4otaku.ru';
+		
+		// И результаты субзапросов, после чего они присоединются к основному результату
+		foreach (Globals::$sub_data as $submodule => $data) {
+			Globals::$data['sub'][$submodule] = Objects::$sub_wrapper[$submodule]->postprocess($data);
+		}	
 
-	// И выводит пользователю, используя подходящий шаблонизатор
-	$template = new Templater();	
-	$template->output();
+		// И выводит пользователю, используя подходящий шаблонизатор
+		$template = new Templater();	
+		$template->output();
+	}

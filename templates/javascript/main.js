@@ -7,5 +7,3 @@ $(".config_option input, .config_option select").live(
 		option_value: $(this).val()
 	}});}
 );
-
-
