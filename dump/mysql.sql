@@ -277,3 +277,18 @@ CREATE TABLE IF NOT EXISTS `<pr>cookie` (
   UNIQUE KEY `unique` (`cookie`,`section`),
   KEY `expires` (`expires`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `<pr>user`;
+CREATE TABLE IF NOT EXISTS `<pr>user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(128) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `cookie` varchar(32) NOT NULL,
+  `rights` smallint(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  KEY `login_name` (`username`,`password`),
+  KEY `login_mail` (`email`,`password`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
