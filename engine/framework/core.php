@@ -44,7 +44,7 @@ class Core implements Plugins
 
 		$worker->$function($query);
 		
-		if (!empty($worker->redirect_address)) {
+		if ($worker->redirect_address !== false) {
 			Http::redirect($worker->redirect_address);
 		}
 		

@@ -51,7 +51,7 @@
 	
 	Globals::$query = Objects::$controller->query();
 	
-	// Теперь мы знаем, какой модуль сегодня выполняет. Подгрузим его конфиг
+	// Теперь мы знаем, какой модуль сегодня выполняет работу. Подгрузим его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.Globals::$query['module'].SL.'settings.ini';
 	Config::load($module_config_file);
 	

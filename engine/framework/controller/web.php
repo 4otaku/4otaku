@@ -19,7 +19,7 @@ class Controller_Web implements Controller_Interface, Plugins
 
 		$query = array(
 			'type' => 'input',
-			'class' => $do[0],
+			'module' => $do[0],
 			'function' => $do[1],
 		);
 

@@ -17,7 +17,7 @@
 	</div>
 	<div class="margin20 login login_part">
 		<form enctype="multipart/form-data" method="post">
-			<input type="hidden" name="do" value="profile.login">
+			<input type="hidden" name="do" value="login.login">
 			Логин: <input type="text" name="login"> <br /><br />
 			Пароль: <input type="password" name="pass"> <br /><br />
 			<input type="submit" value="Залогиниться">
@@ -25,7 +25,7 @@
 	</div>
 	<div class="margin20 register hidden login_part">
 		<form enctype="multipart/form-data" method="post">
-			<input type="hidden" name="do" value="profile.register">
+			<input type="hidden" name="do" value="login.register">
 			Логин: <input type="text" name="login"> <br /><br />
 			Пароль: <input type="password" name="pass[]"> <br /><br />
 			Пароль, еще раз: <input type="password" name="pass[]"> <br /><br />
@@ -35,7 +35,7 @@
 	</div>
 	<div class="margin20 remember hidden login_part">
 		<form enctype="multipart/form-data" method="post">
-			<input type="hidden" name="do" value="profile.resend_password">
+			<input type="hidden" name="do" value="login.resend_password">
 			Логин или Е-мейл: <input type="text" name="login"> <br /><br />
 			<input type="submit" value="Восстановить пароль">
 		</form>

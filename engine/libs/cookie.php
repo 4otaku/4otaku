@@ -10,8 +10,6 @@ class Cookie
 		
 		self::set_cookie($cookie);
 		
-		$cookie = Crypt::md5_salt($cookie, Config::main('cookie', 'salt'));
-		
 		$data = Objects::db()->get_vector('cookie', array('section', 'data'), '`cookie` = ?', $cookie);
 		$info = Objects::db()->get_full_row('user', '`cookie` = ?', $cookie);
 
@@ -30,9 +28,7 @@ class Cookie
 		return $data;
 	}
 	
-	public static function save_preference($cookie, $section, $key, $value) {
-		$cookie = Crypt::md5_salt($cookie, Config::main('cookie', 'salt'));
-		
+	public static function save_preference($cookie, $section, $key, $value) {		
 		$condition = '`cookie` = ? and `section` = ?';
 		
 		$data = Objects::db()->get_field('cookie', 'data', $condition, array($cookie, $section));
@@ -93,7 +89,7 @@ class Cookie
 	protected static function create_cookie () {
 		$cookie = Crypt::md5_salt(
 			time() . Globals::$user_data['ip'], 
-			strrev(Config::main('cookie', 'salt'))
+			strrev(Config::main('salt'))
 		);	
 		
 		self::set_cookie($cookie);
