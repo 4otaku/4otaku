@@ -8,8 +8,13 @@ $(".config_option input, .config_option select").live(
 	}});}
 );
 
+$(".logout").live('click', function() { 
+	$.cookie('settings', null, {path: '/', domain: window.location.hostname});
+	document.location.reload();
+});
+
 $(document).ready(function(){
 	$(".checked").attr('checked', true);
 	$(".not_checked").attr('checked', false);
-	$("select .selected").attr('selected', 'selected');
+	$("select .selected").attr('selected', 'selected');	
 });

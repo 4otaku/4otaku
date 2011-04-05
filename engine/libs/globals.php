@@ -114,4 +114,12 @@ final class Globals extends Objects
 		
 		return $preferences;
 	}	
+	
+	public static function user_info() {
+		$arguments = func_get_args();
+		
+		array_unshift($arguments, 'info');
+		
+		return call_user_func_array(array('self', 'user'), $arguments);
+	}	
 }

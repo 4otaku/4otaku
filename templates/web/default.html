@@ -5,6 +5,9 @@
 		{% if sub.description.template %}
 			{% include ['web/description/',sub.description.template,'.html']|join %}
 		{% endif %}
+		{% if sub.login is not none %}
+			{% include 'web/misc/login.html' %}
+		{% endif %}		
 		<div class="post">
 			{% for id, item in items %}
 				{% include ['web/single/',item.item_type,'.html']|join %}

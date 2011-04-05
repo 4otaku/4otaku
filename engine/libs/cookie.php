@@ -13,14 +13,19 @@ class Cookie
 		$cookie = Crypt::md5_salt($cookie, Config::main('cookie', 'salt'));
 		
 		$data = Objects::db()->get_vector('cookie', array('section', 'data'), '`cookie` = ?', $cookie);
+		$info = Objects::db()->get_full_row('user', '`cookie` = ?', $cookie);
 
-		if (empty($data)) {
+		if (empty($data) && empty($info)) {
 			return array();
-		}		
+		}
+		
+		$data = (array) $data;
 		
 		foreach ($data as & $section) {
 			$section = Crypt::unpack($section);
 		}
+		
+		$data['info'] = $info;
 
 		return $data;
 	}
