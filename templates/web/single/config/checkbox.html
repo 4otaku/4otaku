@@ -1,0 +1,19 @@
+{{option.name}}: 
+<input 
+	type="checkbox" 
+	name="{{id}}.{{block_alias}}.{{option_alias}}" 
+	value="1" 
+	{% if option.user_value is none or option.user_value == option.default %}
+		{% if option.default == 1 %}
+			 class="default checked" checked="checked"
+		{% endif %}
+	{% else %}
+		{% if option.default == 1 %}
+			 class="default"
+		{% endif %}
+		{% if option.user_value == 1%} 
+			 class="checked"
+			 checked="checked"
+		{% endif %}
+	{% endif %}		
+>
