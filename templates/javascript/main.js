@@ -1,3 +1,7 @@
+$(".disabled").live('click',function(event){  
+	event.preventDefault();
+});
+
 $(".config_option input, .config_option select").live(
 	'change', function() { $.ajax({data: {
 		module : 'profile',
@@ -11,6 +15,12 @@ $(".config_option input, .config_option select").live(
 $(".logout").live('click', function() { 
 	$.cookie('settings', null, {path: '/', domain: window.location.hostname});
 	document.location.reload();
+});
+
+$(".login_trigger").live('click', function() { 
+	$(this).addClass("plaintext");
+	$(".login_trigger").not(this).removeClass("plaintext");
+	$(".login_part").show().not("."+$(this).attr('href')).hide();
 });
 
 $(document).ready(function(){

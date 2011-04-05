@@ -1,0 +1,7 @@
+.login_part {
+	width: 400px;
+}
+
+.login_part input[type=text], .login_part input[type=password] {
+	float: right;
+}

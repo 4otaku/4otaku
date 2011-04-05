@@ -5,22 +5,39 @@
 		<a href="http://wiki.4otaku.ru/Куки">Подробнее</a>.
 	</div>
 	<div class="margin20 right">
-		<a href="#" class="disabled registration">
+		<a href="login" class="disabled login_trigger plaintext">
+			Залогиниться
+		</a> <br />
+		<a href="register" class="disabled login_trigger">
 			Зарегистрироваться
-		</a> <br /><br />
-		<a href="#" class="disabled remember_password">
+		</a> <br />
+		<a href="remember" class="disabled login_trigger">
 			Восстановить пароль
-		</a>		
+		</a>
 	</div>
-	<div class="margin20">
-		Залогиниться: 
+	<div class="margin20 login login_part">
 		<form enctype="multipart/form-data" method="post">
-			<input type="hidden" name="do" value="admin.login">
-			Логин: 
-			<input type="text" name="login"> 
-			Пароль: 
-			<input type="password" name="pass"> 
-			<input type="submit" value="Вперед">
+			<input type="hidden" name="do" value="profile.login">
+			Логин: <input type="text" name="login"> <br /><br />
+			Пароль: <input type="password" name="pass"> <br /><br />
+			<input type="submit" value="Залогиниться">
+		</form>
+	</div>
+	<div class="margin20 register hidden login_part">
+		<form enctype="multipart/form-data" method="post">
+			<input type="hidden" name="do" value="profile.register">
+			Логин: <input type="text" name="login"> <br /><br />
+			Пароль: <input type="password" name="pass[]"> <br /><br />
+			Пароль, еще раз: <input type="password" name="pass[]"> <br /><br />
+			Е-мейл (необязательно): <input type="text" name="mail"> <br /><br />
+			<input type="submit" value="Зарегистрироваться">
+		</form>
+	</div>
+	<div class="margin20 remember hidden login_part">
+		<form enctype="multipart/form-data" method="post">
+			<input type="hidden" name="do" value="profile.resend_password">
+			Логин или Е-мейл: <input type="text" name="login"> <br /><br />
+			<input type="submit" value="Восстановить пароль">
 		</form>
 	</div>
 {% else %}
