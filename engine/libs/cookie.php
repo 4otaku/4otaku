@@ -63,7 +63,7 @@ class Cookie
 		Objects::db()->replace('cookie', $insert, array('cookie', 'section'));
 	}
 	
-	protected static function set_cookie ($cookie) {		
+	public static function set_cookie ($cookie) {		
 		$cookie_domain = Config::main('cookie', 'domain') ?
 			Config::main('cookie', 'domain') :
 			$_SERVER['SERVER_NAME'];   
