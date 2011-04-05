@@ -13,7 +13,7 @@ class Cookie
 		$cookie = Crypt::md5_salt($cookie, Config::main('cookie', 'salt'));
 		
 		$data = Objects::db()->get_vector('cookie', array('section', 'data'), '`cookie` = ?', $cookie);
-		
+
 		if (empty($data)) {
 			return array();
 		}		
@@ -21,11 +21,12 @@ class Cookie
 		foreach ($data as & $section) {
 			$section = Crypt::unpack($section);
 		}
-		
+
 		return $data;
 	}
 	
 	public static function save_preference($cookie, $section, $key, $value) {
+		$cookie = Crypt::md5_salt($cookie, Config::main('cookie', 'salt'));
 		
 		$condition = '`cookie` = ? and `section` = ?';
 		

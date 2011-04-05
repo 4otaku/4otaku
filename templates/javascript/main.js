@@ -7,3 +7,9 @@ $(".config_option input, .config_option select").live(
 		option_value: $(this).val()
 	}});}
 );
+
+$(document).ready(function(){
+	$(".checked").attr('checked', true);
+	$(".not_checked").attr('checked', false);
+	$("select .selected").attr('selected', 'selected');
+});

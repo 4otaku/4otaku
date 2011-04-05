@@ -4,7 +4,18 @@
 		type="radio" 
 		name="{{id}}.{{block_alias}}.{{option_alias}}" 
 		value="{{value}}" 
-		{% if value == option.default_value %}class="default"{% endif %} 
-		{% if value == option.user_value %}checked{% endif %} 
+		{% if option.user_value is none or option.user_value == option.default %}
+			{% if value == option.default %}
+				 class="default checked" checked="checked"
+			{% endif %}
+		{% else %}
+			{% if value == option.default %}
+				 class="default"
+			{% endif %}
+			{% if value == option.user_value %} 
+				 class="checked"
+				 checked="checked"
+			{% endif %}
+		{% endif %}		
 	> {{utils.one_of(option.value_name[key],value)}} 
 {% endfor %}

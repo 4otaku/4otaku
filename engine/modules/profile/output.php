@@ -9,11 +9,21 @@ class Profile_Output extends Module_Output implements Plugins
 			$return['items'] = Config::profile();
 		}
 		
-		foreach ($return['items'] as & $item) {
-			$item = array('data' => $item, 'name' => $item['name']);
-			unset($item['data']['name']);
+		$user_settings = Globals::user();
+		$merge_prepare = function(& $value) {
+			$value = array('user_value' => $value);
+		};
+		array_walk_recursive($user_settings, $merge_prepare);
+
+		foreach ($return['items'] as $section_name => & $section) {
+			if (isset($user_settings[$section_name])) {
+				$section = array_replace_recursive($section, $user_settings[$section_name]);
+			}
+			
+			$section = array('data' => $section, 'name' => $section['name']);
+			unset($section['data']['name']);			
 		}
-		unset($item);
+		unset($section);
 		
 		$return['items'] = $this->mark_item_types($return['items'], 'config_block');
 

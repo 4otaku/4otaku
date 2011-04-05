@@ -3,8 +3,19 @@
 {% for key, value in option.value %}
 	<option 
 		value="{{value}}" 
-		{% if value == option.default_value %} class="default"{% endif %}
-		{% if value == option.user_value %} selected="selected"{% endif %}
+		{% if option.user_value is none or option.user_value == option.default %}
+			{% if value == option.default %}
+				 class="default selected" selected="selected"
+			{% endif %}
+		{% else %}
+			{% if value == option.default %}
+				 class="default"
+			{% endif %}
+			{% if value == option.user_value %} 
+				 class="selected"
+				 selected="selected"
+			{% endif %}
+		{% endif %}		
 	>{{utils.one_of(option.value_name[key],value)}}</option>
 {% endfor %}
 </select>
