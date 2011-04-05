@@ -13,8 +13,8 @@ $(".config_option input, .config_option select").live(
 );
 
 $(".logout").live('click', function() { 
-	$.cookie('settings', null, {path: '/', domain: window.location.hostname});
-	$.cookie('settings', null, {path: '/', domain: '.'+window.location.hostname});
+	$.cookie('beta_settings', null, {path: '/', domain: window.location.hostname});
+	$.cookie('beta_settings', null, {path: '/', domain: '.'+window.location.hostname});
 	document.location.reload();
 });
 
