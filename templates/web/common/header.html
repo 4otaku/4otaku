@@ -3,7 +3,7 @@
 		<div class="header_menu">
 			<ul>
 				{% for url, part in sub.header %}
-					<li class="header_menu_item_{{loop.index0 % 10}}">
+					<li class="header_menu_item_{{loop.index0 % 11}} header_menu_item">
 						<a href="{{url}}" title="{{part.title}}">
 							<em></em>
 							<b>{{part.title}}</b>
@@ -22,6 +22,9 @@
 						{% endif %}
 					</li>
 				{% endfor %}
+				<li class="header_menu_item_10 header_menu_item header_menu_item_last">
+					&nbsp;
+				</li>
 			</ul>
 		</div>
 		<div id="hline"></div>

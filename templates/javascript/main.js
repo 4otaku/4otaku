@@ -28,4 +28,11 @@ $(document).ready(function(){
 	$(".checked").attr('checked', true);
 	$(".not_checked").attr('checked', false);
 	$("select .selected").attr('selected', 'selected');	
+	
+	$(".header_menu_item").hover(
+		function(){
+			$(".header_menu_item").not(this).removeClass("header_menu_item_hover");
+			$(this).addClass("header_menu_item_hover");
+		}
+	);
 });
