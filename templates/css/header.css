@@ -1,15 +1,93 @@
+.header_menu_item_0 {
+	background: #F7D9FF;
+}
+
+.header_menu_item_1 {
+	background: #E2D9FF;
+}
+
+.header_menu_item_2 {
+	background: #D9EDFF;
+}
+
+.header_menu_item_3 {
+	background: #D9FFFC;
+}
+
+.header_menu_item_4 {
+	background: #DCFED4;
+}
+
+.header_menu_item_5 {
+	background: #EBFCBE;
+}
+
+.header_menu_item_6 {
+	background: #FEECBC;
+}
+
+.header_menu_item_7 {
+	background: #FBE5CF;
+}
+
+.header_menu_item_8 {
+	background: #FDDBE5;
+}
+
+.header_menu_item_9 {
+	background: #EEEEEE;
+}
+
+.header_menu_item_0:hover, .header_menu_item_0:hover ul {
+	background: #f2c5ff;
+}
+
+.header_menu_item_1:hover, .header_menu_item_1:hover ul {
+	background: #D3C5FF;
+}
+
+.header_menu_item_2:hover, .header_menu_item_2:hover ul {
+	background: #b7dcff;
+}
+
+.header_menu_item_3:hover, .header_menu_item_3:hover ul {
+	background: #c2fef6;
+}
+
+.header_menu_item_4:hover, .header_menu_item_4:hover ul {
+	background: #e2fb95;
+}
+
+.header_menu_item_5:hover, .header_menu_item_5:hover ul {
+	background: #fcfb94;
+}
+
+.header_menu_item_6:hover, .header_menu_item_6:hover ul {
+	background: #fdde93;
+}
+
+.header_menu_item_7:hover, .header_menu_item_7:hover ul {
+	background: #f7c799;
+}
+
+.header_menu_item_8:hover, .header_menu_item_8:hover ul {
+	background: #fccedb;
+}
+
+.header_menu_item_9:hover, .header_menu_item_9:hover ul {
+	background: #e5e5e5;
+}
+
 .header_menu {
 	position: relative;
 	margin-left: 5%;
 	margin-right: 5%;
 	width: 90%;
-	height: 2em;
-	background: #E8FFE8;
-	border-bottom: 1px solid #777777;
-	border-right: 1px solid #E8FFE8;
-	border-left: 1px solid #E8FFE8;
+	height: 20px;
+	border: 1px solid #FFFFFF;
 	padding-bottom: 1px;
-	margin-bottom: 3em;
+	margin-bottom: 30px;
+	background: #EEEEEE;
 }
 
 * html .header_menu {
@@ -19,16 +97,13 @@
 .header_menu ul {
 	list-style-type: none;
 	padding: 0;
-	margin: 0 0 0 20px;
+	margin: 0;
 	width: 100%;
 	height: 100%;
 }
 
 .header_menu li {
 	float: left;
-}
-.header_menu li:hover {
-	background: #CCFF99;
 }
 
 .header_menu a, .header_menu:visited {
@@ -39,7 +114,7 @@
 	display: block;
 	float: left;
 	width: 5px;
-	height: 2em;
+	height: 20px;
 }
 
 .header_menu a b, .header_menu:visited b {
@@ -47,27 +122,27 @@
 	font-weight: normal;
 	float: left;
 	padding: 0 10px;
-	height: 2em;
-	line-height: 1.9em;
+	height: 20px;
+	line-height: 19px;
 	cursor: pointer;
 }
 
 .header_menu ul ul {
 	visibility: hidden;
 	position: absolute;
-	height: 2em;
-	top: 2em;
-	left: -20px;
+	height: 20px;
+	top: 20px;
+	left: 0px;
 	width: 100%;
-	border: 1px solid #777777;
-	background: #CCCCCC;
+	border-bottom: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
 }
 
 .header_menu:hover {
 	white-space: normal;
 }
 
-.header_menu a:hover b {
+.header_menu a b, .header_menu a:hover b {
 	color: #000000;
 }
 
@@ -78,28 +153,34 @@
 .header_menu ul li:hover ul, .header_menu ul a:hover ul{
 	display: block;
 	visibility: visible;
-	top: 2em;
+	top: 20px;
 	margin-top: -1px;
 }
 
-.header_menu ul :hover ul li {
+.header_menu ul:hover ul li:first-child {
 	display: block; 
-	border-left: 1px solid #777777; 
-	background: #CCCCCC; 
-	height: 2em;
+	border-left: none;
+	background: inherit;
+	height: 20px;
 }
 
-.header_menu ul :hover ul li a {
+.header_menu ul:hover ul li {
 	display: block; 
-	font-size: 0.8em; 
-	height: 2em; 
-	line-height: 2.5em; 
+	border-left: 1px solid #FFFFFF;
+	background: inherit;
+	height: 20px;
+}
+
+.header_menu ul:hover ul li a {
+	display: block; 
+	height: 20px; 
+	line-height: 25px; 
 	width: auto; 
-	float: left; 
-	color: #444444; 
+	float: left;
+	color: #000000;
 	padding: 0 10px;
 }
 
-.header_menu ul :hover ul li a:hover {
-	color: #CC0000;
+.header_menu ul:hover ul li a:hover {
+	color: #000000;
 }

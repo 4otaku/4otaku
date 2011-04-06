@@ -2,6 +2,7 @@
 	width: 400px;
 }
 
-.login_part input[type=text], .login_part input[type=password] {
+.login_part input[type=text], 
+.login_part input[type=password] {
 	float: right;
 }

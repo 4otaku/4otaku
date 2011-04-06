@@ -3,7 +3,7 @@
 		<div class="header_menu">
 			<ul>
 				{% for url, part in sub.header %}
-					<li>
+					<li class="header_menu_item_{{loop.index0 % 10}}">
 						<a href="{{url}}" title="{{part.title}}">
 							<em></em>
 							<b>{{part.title}}</b>
