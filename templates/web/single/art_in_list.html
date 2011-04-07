@@ -1,0 +1,35 @@
+<div class="
+	thumbnail show_toggler show_{{id}} 
+	{% if settings.large_thumbnail %}large_thumbnail{% else %}small_thumbnail{% endif %}"
+>
+	<a 
+		href="/{% if settings.download_mode %}download/{% endif %}art/{{id}}" 
+		class="with_help3 picture_{{id}}" 
+		title="
+			{{item.meta_header.author}}: 
+			{% for key, author in item.meta.author %}
+				{% if not loop.first %}, {% endif %}
+				{{author.name}}
+			{% endfor %} | 
+			{{item.meta_header.category}}: 
+			{% for key, category in item.meta.category %}
+				{% if not loop.first %}, {% endif %}
+				{{category.name}}
+			{% endfor %} | 
+			{{item.meta_header.tag}}: 
+			{% for key, tag in item.meta.tag %}
+				{% if not loop.first %}, {% endif %}
+				{{tag.name}}
+			{% endfor %}"
+		{% if settings.blank_mode %} target="_blank"{% endif %}
+	>
+		<img src="
+			{{domain}}/images/art/
+			{% if settings.blank_mode %}large_{% endif %}
+			thumbnail/{{item.thumbnail}}.jpg"
+		>
+	</a>
+	{% if item.similar_count %}
+		<img class="similar_sign" src="/i/plus_{{item.similar_count}}.png">
+	{% endif %}
+</div>

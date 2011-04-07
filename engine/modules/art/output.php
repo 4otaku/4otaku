@@ -7,7 +7,7 @@ class Art_Output extends Module_Output implements Plugins
 
 //		$items = $this->get_items($art['id']);
 
-		$post['date'] = Globals::db()->date_to_unix($art['date']);
+		$art['date'] = Globals::db()->date_to_unix($art['date']);
 
 		$meta = Meta::prepare_meta(array($art['id'] => $art['meta']));
 
@@ -15,7 +15,7 @@ class Art_Output extends Module_Output implements Plugins
 			$art['id'] => array_merge($art, current($meta)),
 		);
 		
-		$return['items'] = $this->mark_item_types($return['items'], 'post');		
+		$return['items'] = $this->mark_item_types($return['items'], 'art');		
 
 		return $return;
 	}
@@ -33,27 +33,26 @@ class Art_Output extends Module_Output implements Plugins
 
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$return['items'] = Globals::db()->get_full_vector('post', $condition);
+		$return['items'] = Globals::db()->get_full_vector('art', $condition);
 
 		$keys = array_keys($return['items']);
 		$index = array();
 
-		$items = $this->get_items($keys);
+//		$items = $this->get_items($keys);
 
-		foreach ($return['items'] as $id => & $post) {
-			$post = array_merge($post, (array) $items[$id]);
+		foreach ($return['items'] as $id => & $art) {
+//			$art = array_merge($art, (array) $items[$id]);
 
-			$index[$id] = $post['meta'];
-
-			$post['date'] = Globals::db()->date_to_unix($post['date']);
+			$index[$id] = $art['meta'];
+			unset($art['date']);
 		}
 
 		$meta = Meta::prepare_meta($index);
 
 		$return['items'] = array_replace_recursive($return['items'], $meta);
-		$return['items'] = $this->mark_item_types($return['items'], 'post');
+		$return['items'] = $this->mark_item_types($return['items'], 'art_in_list');
 
-		$count = Globals::db()->get_count('post', $listing_condition);
+		$count = Globals::db()->get_count('art', $listing_condition);
 
 		$return['curr_page'] = $page;
 		$return['pagecount'] = ceil($count / $perpage);

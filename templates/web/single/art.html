@@ -1,0 +1,149 @@
+<div class="show_toggler">
+	<table width="100%">
+		<tr>
+			<td class="booru_main"> 
+				{% for pool_id, pool in item.pool %}
+					{% if loop.first %}<div class="margin10">{% endif %}
+						<div class="mini-shell art-bar">
+							Эта картинка принадлежит группе: 
+							<a href="/art/pool/{{pool_id}}/">
+								{{pool.name}}
+							</a>. 
+							{% if pool.previous %}
+								<a href="/art{{pool.previous.area}}/{{pool.previous.id}}">
+									Предыдущая
+								</a>. 		
+							{% endif %}
+							{% if pool.next %}
+								<a href="/art{{pool.next.area}}/{{pool.next.id}}">
+									Следующая
+								</a>. 
+							{% endif %}									
+							<a href="/art/slideshow/pool/{{pool_id}}#1">
+								Перейти в слайдшоу
+							</a>. 												
+						</div>					
+					{% if loop.last %}</div>{% endif %}
+				{% endfor %}
+				{% for similar_id, similar in item.similar %}
+					{% if loop.first %}
+						<div class="margin10">
+							<div class="mini-shell art-bar">
+								На эту картинку есть вариации. 
+								<a href="/art/{{id}}#1" class="similar_navi similar_navi_1">
+									1
+									<span rel="-35">
+										<img class="hiddenthumb" src="#" rel="{{domain}}/images/art/thumbnail/{{item.thumbnail}}.jpg" />
+									</span>
+								</a>
+					{% endif %}	
+					, 
+					<a href="/art/{{id}}#{{loop.index}}" class="similar_navi similar_navi_{{loop.index}}">
+						{{loop.index}}
+						<span rel="-35">
+							<img class="hiddenthumb" src="#" rel="{{domain}}/images/art/thumbnail/{{similar}}.jpg" />
+						</span>
+					</a>
+					{% if loop.first %}
+								. 
+								<img src="/images/loading_variation.gif" class="loading_variation" />
+							</div>
+						</div>
+					{% endif %}	
+				{% endfor %}
+				{% if item.is_resized %}	
+					<div class="clear margin20 mini-shell art-bar">
+						<a href="#" class="disabled booru_show_toggle" rel="{{item.extension}}">
+							Показать в полном размере
+						</a> ({{item.resized}}). 
+						<a href="#" class="disabled booru_show_full_always">
+							 Всегда показывать в полном размере
+						</a>. 
+						<a href="/download/art/{{id}}" target="_blank">
+							 Скачать
+						</a>.												
+					</div>								
+					<div class="booru_img image booru_translation_toggle" rel="resized">
+						<img src="{{domain}}/images/art/resized/{{item.md5}}.jpg">
+						{% for translation in item.translation.resized %}
+							<div 
+								class="art_translation hidden" 
+								title="{{translation.text}}" 
+								style="
+									width:{{translation.x2}}px;
+									height:{{translation.y2}}px;
+									top:{{translation.y1}}px;
+									left:{{translation.x1}}px;
+								">
+							</div>
+						{% endfor %}			
+					</div>
+				{% endif %}
+				<div class="image booru_translation_toggle">						
+					<img src="{{domain}}/images/art/full/{{item.md5}}.{{item.extension}}">
+					{% for translation in item.translation.full %}
+						<div 
+							class="art_translation hidden" 
+							title="{{translation.text}}" 
+							style="
+								width:{{translation.x2}}px;
+								height:{{translation.y2}}px;
+								top:{{translation.y1}}px;
+								left:{{translation.x1}}px;
+							">
+						</div>
+					{% endfor %}
+				</div>
+			</td>
+		 </tr>
+		 <tr>
+			 <td>				
+				<div class="wrapper">
+					<p class="meta">
+						{% include 'web/common/meta.html' %}
+						{% if item.translator %}
+							| Переводчик: {{item.translator}}
+						{% endif %}
+						{% if item.source %}
+							| Источник: {{item.source}}
+						{% endif %}	
+						| <a href="/download/art/{{id}}" target="_blank">
+							 Скачать
+						</a>
+					</p>
+				</div>										
+					</p>
+					<div class="hidden translations_hideout">
+						{% if item.is_resized %}
+							{% for translation in item.translation.full %}
+								<div 
+									class="art_translation hidden" 
+									title="{{translation.text}}" 
+									style="
+										width:{{translation.x2}}px;
+										height:{{translation.y2}}px;
+										top:{{translation.y1}}px;
+										left:{{translation.x1}}px;
+									">
+								</div>
+							{% endfor %}
+						{% else %}
+							{% for translation in item.translation.resized %}
+								<div 
+									class="art_translation hidden" 
+									title="{{translation.text}}" 
+									style="
+										width:{{translation.x2}}px;
+										height:{{translation.y2}}px;
+										top:{{translation.y1}}px;
+										left:{{translation.x1}}px;
+									">
+								</div>
+							{% endfor %}
+						{% endif %}						
+					</div>
+				</div>
+			</td>
+		 </tr>		 
+	</table>
+</div>
