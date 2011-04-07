@@ -47,13 +47,17 @@
 	
 	Objects::$controller = new Controller();
 	
+	// Узнаем имя модуля с которым нам предстоит работать
+	
+	$module = Objects::$controller->get_module();
+	
+	// И подгружаем его конфиг
+	$module_config_file = ENGINE.SL.'modules'.SL.$module.SL.'settings.ini';
+	Config::load($module_config_file);
+
 	// Унифицируем запрос с помощью контроллера
 	
 	Globals::$query = Objects::$controller->query();
-	
-	// Теперь мы знаем, какой модуль сегодня выполняет работу. Подгрузим его конфиг
-	$module_config_file = ENGINE.SL.'modules'.SL.Globals::$query['module'].SL.'settings.ini';
-	Config::load($module_config_file);
 	
 	// И создадим субзапросы согласно этому конфигу
 	$submodules = Config::settings('side');
@@ -66,7 +70,7 @@
 	// Ядро обрабатывает запрос
 	$core = new Core();
 	Globals::$data = $core->process(Globals::$query);
-	
+
 	// Продолжаем только если не получили стоп-сигнал
 	if (Globals::$data !== Core::STOP_SIGNAL) {
 	
@@ -77,7 +81,7 @@
 		
 		// Полученный результат проходит пост-обработку
 		Globals::$data = Objects::$wrapper->postprocess(Globals::$data);
-		
+	
 		// TODO убрать этот временный хак для удобной отладки
 		Globals::$data['domain'] = 'http://beta.4otaku.ru';
 		

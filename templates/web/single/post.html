@@ -22,17 +22,6 @@
 			</table>
 			<table cellspacing="0" cellpadding="0" width="100%">
 				<tr>
-					{% if item.image %}
-						<td class="imageholder">
-							{% for key, image in item.image %}
-								<div class="image-{{key}}">
-									<a href="{{domain}}/images/post/full/{{image.file}}" target="_blank">
-										<img src="{{domain}}/images/post/thumbnail/{{image.file}}" /> 
-									</a>													
-								</div>								
-							{% endfor %}
-						</td>
-					{% endif %}
 					<td valign="top">
 						<div class="posttext">
 							{{item.text}}
@@ -97,6 +86,17 @@
 							</p>
 						{% endif %}		
 					</td>
+					{% if item.image %}
+						<td class="imageholder">
+							{% for key, image in item.image %}
+								<div class="image-{{key}}">
+									<a href="{{domain}}/images/post/full/{{image.file}}" target="_blank">
+										<img src="{{domain}}/images/post/thumbnail/{{image.file}}" /> 
+									</a>													
+								</div>								
+							{% endfor %}
+						</td>
+					{% endif %}					
 				</tr>
 			</table>
 		</div>

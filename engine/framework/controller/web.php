@@ -1,35 +1,39 @@
 <?
 
 class Controller_Web implements Controller_Interface, Plugins
-{
-	public function query () {
-		if (array_key_exists('do', Globals::$vars)) {
-			return $this->build_input(Globals::$vars);
+{	
+	protected $module_name = false;
+	protected $aliased_url = array();
+	
+	public function get_module () {
+		if (empty($this->module_name)) {
+			if (!empty(Globals::$vars['module']) && !empty(Globals::$vars['function'])) {
+				$this->module_name = Globals::$vars['module'];
+			} else {
+				$this->aliased_url = $this->check_alias(Globals::$url);
+				$this->module_name = array_shift($this->aliased_url);
+			}
 		}
 
-		return $this->build_output(Globals::$url);
+		return $this->module_name;
+	}
+
+	public function query () {
+		if (empty(Globals::$vars['module']) || empty(Globals::$vars['function'])) {
+			return $this->build_output(Globals::$url);
+		}
+	
+		return $this->build_input(Globals::$vars);
 	}
 
 	protected function build_input ($vars) {
-		$do = explode('.', $vars['do']);
-
-		if (count($do) != 2) {
-			Error::fatal("Неверный формат аргумента 'do'");
-		}
-
-		$query = array(
-			'type' => 'input',
-			'module' => $do[0],
-			'function' => $do[1],
-		);
+		$query = array('type' => 'input');
 
 		return array_merge($vars, $query);
 	}
 
 	protected function build_output ($url) {
-		$url = $this->check_alias($url);
-
-		$module = array_shift($url);
+		$module = $this->get_module();		
 
 		$worker = $module . '_web';
 		if (!class_exists($worker)) {
@@ -39,7 +43,7 @@ class Controller_Web implements Controller_Interface, Plugins
 		
 		Objects::$wrapper = new $worker();
 
-		$query = Objects::$wrapper->make_query($url);
+		$query = Objects::$wrapper->make_query($this->aliased_url);
 
 		$query = array_replace_recursive(array(
 			'type' => 'output',

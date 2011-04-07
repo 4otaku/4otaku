@@ -51,4 +51,8 @@ class Controller implements Controller_Interface, Plugins
 		$worker_name = strtolower(get_class($this->worker));
 		return preg_replace('/^[a-z]+?_/', '', $worker_name);
     }
+
+    public function get_module () {
+		return $this->worker->get_module();
+    }
 }

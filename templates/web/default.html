@@ -1,6 +1,9 @@
 {% extends "web/base.html" %}
 
 {% block content %}
+	<td valign="top" id="sidebar">
+		
+	</td>
 	<td valign="top" id="content">
 		{% if sub.description.template %}
 			{% include ['web/description/',sub.description.template,'.html']|join %}
@@ -16,8 +19,5 @@
 		{% if navi %}
 			{% include 'web/common/navi.html' %}
 		{% endif %}
-	</td>
-	<td valign="top" id="sidebar">
-		
 	</td>
 {% endblock %}

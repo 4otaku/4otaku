@@ -20,21 +20,20 @@ class Module_Web_Library implements Plugins
 	}
 
 	public static function get_area (& $url) {
-		if (isset($url[0])) {
-			if (
-				$url[0] == 'workshop' ||
-				$url[0] == 'flea' ||
-				$url[0] == 'sprites'
-			) {
-				$area = array_shift($url);
-
-				return array('area' => $area);
-			}
+		$possible_areas = Config::settings('area');
+		
+		if (empty($possible_areas)) {
+			return;
+		}
+		
+		if (isset($url[0]) && in_array($url[0], $possible_areas)) {
+			$area = array_shift($url);
+			return array('area' => $area);
 		}
 
 		return array('area' => 'main');
 	}
-	
+/*	
 	public static function get_tag_cloud (& $url) {
 		if (isset($url[0]) && $url[0] == 'tag_cloud') {
 
@@ -43,7 +42,7 @@ class Module_Web_Library implements Plugins
 			return array('function' => 'tag_cloud');
 		}
 	}
-
+*/
 	public static function get_mixed (& $url) {
 
 		if (isset($url[0]) && $url[0] == 'mixed' && isset($url[1])) {
