@@ -11,11 +11,11 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_section (& $url) {
+	public static function get_part (& $url) {
 		if (isset($url[0]) && !empty($url[0])) {
 			$section = array_shift($url);
 
-			return array('section' => $section);
+			return array('part' => $section);
 		}
 	}
 
@@ -32,6 +32,26 @@ class Module_Web_Library implements Plugins
 		}
 
 		return array('area' => 'main');
+	}
+
+	public static function get_section (& $url) {
+		$possible_sections = Config::settings('sections');
+
+		if (empty($possible_sections)) {
+			return;
+		}
+		
+		if (isset($url[0]) && array_key_exists($url[0], $possible_sections)) {
+			$section = array_shift($url);
+			$return = array('section' => $section, 'function' => 'section');
+			
+			if (isset($url[0]) && array_key_exists($url[0], $possible_sections[$section]['items'])) {
+				$subsection = array_shift($url);
+				$return['subsection'] = $subsection;
+			}
+			
+			return $return;
+		}		
 	}
 /*	
 	public static function get_tag_cloud (& $url) {

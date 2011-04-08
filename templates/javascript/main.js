@@ -35,4 +35,33 @@ $(document).ready(function(){
 			$(this).addClass("header_menu_item_hover");
 		}
 	);
+	
+	$("a.car-toggler").click(function(event){  
+		event.preventDefault();
+		if ( $(this).attr('rel') == 'closed' ) {
+			$(this).attr('rel','open');
+			$(this).html('Свернуть все');
+			$(".car-monthlisting").slideDown();
+		}
+		else {
+			$(this).attr('rel','closed');
+			$(this).html('Развернуть все');
+			$(".car-monthlisting").slideUp();
+		}
+	});
+	
+	$(".car-yearmonth").click(function(){  
+		if ( $(this).attr('rel') == 'closed' ) {
+			$(this).attr('rel','open');
+			id = $(this).attr('class').split(' ');		
+			if (id[2] == 'remember') $.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=order."+id[3]+"&val=1");
+			$("ul."+id[1]).slideDown();
+		}
+		else {
+			$(this).attr('rel','closed');
+			id = $(this).attr('class').split(' ');			
+			if (id[2] == 'remember') $.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=order."+id[3]+"&val=0");
+			$("ul."+id[1]).slideUp();
+		}
+	});	
 });

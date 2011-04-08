@@ -1,0 +1,42 @@
+<div class="car-container car-collapse">
+	<a href="#" class="car-toggler" rel="closed">
+		Развернуть все
+	</a>
+	<ul class="car-list">
+		<br />
+		Всего {{total}} на 4отаку.
+		<br /><br />
+		{% for year, year_months in item.years %}
+			<li><br /></li>
+			<li><b>{{year}}</b></li>
+			<li><br /></li>
+			{% for month_number, month in year_months %}
+				<li>
+					<img src="/i/tb2.gif">
+					&nbsp;
+					<span class="car-yearmonth car-{{id}}{{month_number}}" rel="closed">
+						{{month.name}} 
+						<span title="Всего записей">
+							({{month.count}})
+						</span>
+					</span>
+					<ul style="display: none;" class="car-monthlisting car-{{id}}{{month_number}}">
+						{% for list_item in month.items %}
+							<li>
+								{{list_item.day}} числа: 
+								<a href="/{{list_type}}/{{list_item.id}}">
+									{{list_item.title}}
+								</a>.
+								{% if list_item.comments > 0 %}
+									<span title="Всего комментариев">
+										Комментариев: ({{list_item.comments}})
+									</span>
+								{% endif %}
+							</li>
+						{% endfor %}
+					</ul>
+				</li>		
+			{% endfor %}
+		{% endfor %}
+	</ul>
+</div>

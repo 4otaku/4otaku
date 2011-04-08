@@ -3,8 +3,8 @@
 class Profile_Output extends Module_Output implements Plugins
 {
 	public function main ($query) {
-		if (!empty($query['section'])) {
-			$return['items'] = array($query['section'] => Config::profile($query['section']));
+		if (!empty($query['part'])) {
+			$return['items'] = array($query['part'] => Config::profile($query['part']));
 		} else {
 			$return['items'] = Config::profile();
 		}

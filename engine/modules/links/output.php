@@ -21,6 +21,8 @@ class Links_Output extends Module_Output implements Plugins
 		$condition = Globals::db()->array_in('id',$ids);		
 		$titles = Globals::db()->get_vector('post', 'id,title', $condition, $ids);
 		
+		$return['items'] = array();
+		
 		foreach ($links as $link) {
 			$status = $link['status'];			
 			$full_id = $status.'-'.$link['item_id'];
