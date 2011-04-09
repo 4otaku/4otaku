@@ -38,7 +38,8 @@ class Archive_Output extends Module_Output implements Plugins
 			
 			Cache::set($type.'_'.$group_by, $return['items'], DAY);
 		}
-
+		
+		$return['meta_type'] = $group_by;
 		return $return;
 	}
 	
@@ -50,15 +51,15 @@ class Archive_Output extends Module_Output implements Plugins
 				$condition = '`area` = "main"';
 				break;
 			case 'art':
-				$fields = 'count(*) as count, year(`date`) as year, month(`date`) as month, day(`date`) as date';
-				$condition = '`area` = "main" or `area` = "sprites" group by year(`date`), month(`date`), day(`date`)';
+				$fields = 'count(*) as count, year(`date`) as year, month(`date`) as month, day(`date`) as day';
+				$condition = '`area` = "main" group by year(`date`), month(`date`), day(`date`)';
 				break;
 			default: Error::fatal("Не умею выводить архив для $type");
 		}
 		
 		$data = Objects::db()->get_table($type, $fields, $condition);
 		$return = array();
-		
+
 		switch ($type) {
 			case 'post': 
 			case 'video':
@@ -69,21 +70,50 @@ class Archive_Output extends Module_Output implements Plugins
 				break;
 			case 'art':
 				foreach ($data as $item) {
-					$return[$item['year']][$item['month']][$item['day']] = $item['count'];
+					$return[$item['year']][$item['month']][$item['day']] = $item;
 				}
 				break;
 			default: Error::fatal("Не умею выводить архив для $type");
 		}
 		
-		$mark = ($type == 'art') ? 'archive_date_art' : 'archive_date';
 		$return = array('years' => $return);
-		$return = $this->mark_item_types(array($return), $mark);	
+		$return = $this->mark_item_types(array($return), 'archive_date');
 		
 		return $return;
 	}
 	
 	protected function get_archive_by_meta ($type, $meta_name) {
+		$meta = Objects::db()->get_vector('meta', array('alias', 'name'), '`type` = ?', $meta_name);
+		$aliases = array_unique(array_keys($meta));
 		
+		$count_worker = new Meta_Library();
+		$data = $count_worker->get_meta_numbers($aliases, $meta_name, $type, 'main');
+		$data = array_filter($data);
+		
+		$fields = array('id', 'title', 'date', 'comments');
+		
+		arsort($data);
+		
+		foreach ($data as $alias => & $one) {
+			$one = array(
+				'alias' => $alias,
+				'count' => $one,
+				'name' => $meta[$alias],
+			);
+			
+			if ($type != 'art') {				
+				$condition = '`area`= \'main\' and ';
+				$search = array('+', $alias, $meta_name);
+				$condition .= Objects::db()->make_search_condition('meta', array($search));
+				$one['items'] = Objects::db()->get_table($type,	$fields, $condition);
+			}
+		}
+		unset($one);
+
+		$return = array('data' => array_values($data));
+		$return = $this->mark_item_types(array($return), 'archive_meta');
+		
+		return $return;			
 	}
 	
 	public static function description () {

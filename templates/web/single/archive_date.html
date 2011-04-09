@@ -14,25 +14,34 @@
 				<li>
 					<img src="/i/tb2.gif">
 					&nbsp;
-					<span class="car-yearmonth car-{{id}}{{month_number}}" rel="closed">
+					<span class="car-yearmonth car-{{year}}{{month_number}}" rel="closed">
 						{{month.name}} 
-						<span title="Всего записей">
+						<span>
 							({{month.count}})
 						</span>
 					</span>
-					<ul style="display: none;" class="car-monthlisting car-{{id}}{{month_number}}">
+					<ul class="hidden car-monthlisting car-{{year}}{{month_number}}">
 						{% for list_item in month.items %}
-							<li>
-								{{list_item.day}} числа: 
-								<a href="/{{list_type}}/{{list_item.id}}">
-									{{list_item.title}}
-								</a>.
-								{% if list_item.comments > 0 %}
-									<span title="Всего комментариев">
-										Комментариев: ({{list_item.comments}})
-									</span>
-								{% endif %}
-							</li>
+							{% if list_type == 'art' %}
+								<li>
+									{{list_item.day}} числа: добавлено 
+									<a href="/{{list_type}}/date/{{list_item.year}}-{{list_item.month}}-{{list_item.day}}/">
+										{{list_item.count}} артов
+									</a>.
+								</li>
+							{% else %}								
+								<li>
+									{{list_item.day}} числа: 
+									<a href="/{{list_type}}/{{list_item.id}}">
+										{{list_item.title}}
+									</a>.
+									{% if list_item.comments > 0 %}
+										<span title="Всего комментариев">
+											Комментариев: ({{list_item.comments}})
+										</span>
+									{% endif %}
+								</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</li>		

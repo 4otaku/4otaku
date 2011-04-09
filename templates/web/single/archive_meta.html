@@ -1,0 +1,43 @@
+<div class="car-container car-collapse">
+	<a href="#" class="car-toggler" rel="closed">
+		Развернуть все
+	</a>
+	<ul class="car-list">
+		<br />
+		{% for meta in item.data %}
+			<li>
+				<img src="/i/tb2.gif">
+				&nbsp;
+				{% if list_type == 'art' %}
+					<span>
+						{{meta.name}}: 
+						<a href="/art/{{meta_type}}/{{meta.alias}}/">
+							{{meta.count}} артов
+						</a>.
+					</span>
+				{% else %}
+					<span class="car-yearmonth car-{{loop.index}}" rel="closed">
+						{{meta.name}} 
+						<span>
+							({{meta.count}})
+						</span>
+					</span>			
+					<ul class="hidden car-monthlisting car-{{loop.index}}">
+						{% for list_item in meta.items %}				
+							<li>
+								<a href="/{{list_type}}/{{list_item.id}}">
+									{{list_item.title}}
+								</a>.
+								{% if list_item.comments > 0 %}
+									<span title="Всего комментариев">
+										Комментариев: ({{list_item.comments}})
+									</span>
+								{% endif %}
+							</li>					
+						{% endfor %}
+					</ul>					
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+</div>
