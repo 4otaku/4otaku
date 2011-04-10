@@ -27,7 +27,12 @@ abstract class Module_Output implements Plugins
 	protected function test_area ($area) {
 		$url = Globals::$url;
 		
-		if (empty($url[2]) || $url[2] == $area || (is_numeric($url[2]) && $area == 'main')) {
+		if (
+			empty($url[2]) || 
+			empty($area) ||
+			$url[2] == $area || 
+			(is_numeric($url[2]) && $area == 'main')
+		) {
 			return;
 		}
 		
