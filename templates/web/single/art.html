@@ -1,8 +1,34 @@
 <div class="show_toggler">
 	<table width="100%">
 		<tr>
-			<td class="booru_main"> 
-				{% for pool_id, pool in item.pool %}
+			<td class="booru_main"> 				
+				{% for pack_id, pack in item.packs %}
+					{% if loop.first %}<div class="margin10">{% endif %}
+						<div class="mini-shell art-bar">
+							Вы просматриваете CG из игры: 
+							<a href="/art/cg_pack/{{pack_id}}/">
+								{{pack.name}}
+							</a>. 
+							{% if pack.previous %}
+								<a href="/art{{pack.previous.area}}/{{pack.previous.id}}">
+									Предыдущая
+								</a>. 		
+							{% endif %}
+							{% if pack.next %}
+								<a href="/art{{pack.next.area}}/{{pack.next.id}}">
+									Следующая
+								</a>. 
+							{% endif %}
+							<a href="/art/slideshow/cg_pack/{{pack_id}}#1">
+								Перейти в слайдшоу
+							</a>. 
+							<a href="/download/art/cg_pack/{{pack_id}}">
+								Скачать одним архивом
+							</a>. 
+						</div>					
+					{% if loop.last %}</div>{% endif %}
+				{% endfor %}
+				{% for pool_id, pool in item.pools %}
 					{% if loop.first %}<div class="margin10">{% endif %}
 						<div class="mini-shell art-bar">
 							Эта картинка принадлежит группе: 

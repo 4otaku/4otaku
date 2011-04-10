@@ -26,7 +26,7 @@ class Meta extends Meta_Library implements Plugins
 			$classname = 'Meta_'.$type;
 			
 			if (!class_exists($classname)) {
-				continue;
+				$classname = 'Meta_Default';
 			}
 			
 			$worker = new $classname();
@@ -34,10 +34,13 @@ class Meta extends Meta_Library implements Plugins
 			$names = array_unique($names);
 
 			$data = $worker->get_data_by_alias($names);
-		
+
 			foreach ($index as $id => $item) {
 				foreach ($data as $one) {
-					if (in_array($one['alias'],$item[$type])) {
+					if ( 
+						in_array($one, $item[$type])|| 
+						in_array($one['alias'], $item[$type])
+					) {
 						$return[$id]['meta'][$type][] = $one;
 					}
 				}

@@ -15,8 +15,9 @@ class Art_Output extends Module_Output implements Plugins
 				$art, 
 				current($meta),
 				array('translations' => current($this->get_translations($art['id']))),
-				array('groups' => current($this->get_groups($art['id']))),
-				array('variations' => current($this->get_variations($art['id'])))
+				array('pools' => $this->get_pools(current($meta))),
+				array('packs' => $this->get_packs(current($meta))),
+				array('variations' => current($this->get_variants($art['id'])))
 			),
 		);
 		
@@ -61,40 +62,45 @@ class Art_Output extends Module_Output implements Plugins
 		return $return;
 	}
 	
+	protected function get_pools ($meta) {
+		if (empty($meta['meta']['pool'])) {
+			return array();
+		}
+		
+		return Objects::db()->get_vector(
+			'art_pool', 
+			array('id', 'title', 'order'), 
+			Objects::db()->array_in('id', $meta['meta']['pool']), 
+			$meta['meta']['pool']
+		);
+	}
+	
+	protected function get_packs ($meta) {
+		if (empty($meta['meta']['cg'])) {
+			return array();
+		}
+		
+		return Objects::db()->get_vector(
+			'art_cg_pack', 
+			array('id', 'title', 'order'), 
+			Objects::db()->array_in('id', $meta['meta']['cg']), 
+			$meta['meta']['cg']
+		);
+	}
+	
 	protected function get_translations ($ids) {
 		$ids = (array) $ids;
 
-		$condition = Globals::db()->array_in('item_id',$ids);
+//		var_dump()
 
-		$items = Globals::db()->get_table('post_items', 'item_id,type,sort_number,data', $condition, $ids);
+		return array();
+	}
+	
+	protected function get_variants ($ids) {
+		$ids = (array) $ids;
 
-		$return = array();
+//		var_dump()
 
-		if (!empty($items)) {
-			foreach ($items as $item) {
-				$data = Crypt::unpack($item['data']);
-
-				if (empty($data['url']) && empty($data['file'])) {
-					continue;
-				}
-
-				if ($item['type'] != 'link') {
-					$return[$item['item_id']][$item['type']][$item['sort_number']] = $data;
-				} else {
-					$crc = crc32($data['name'].'&'.$data['size'].'&'.$data['sizetype']);
-
-					$link = & $return[$item['item_id']]['link'][$crc];
-
-					if (!empty($link)) {
-						$link['url'][$data['url']] = $data['alias'];
-					} else {
-						$link = $data;
-						$link['url'] = array($link['url'] => $link['alias']);
-					}
-				}
-			}
-		}
-
-		return $return;
+		return array();
 	}
 }
