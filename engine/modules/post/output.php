@@ -4,6 +4,7 @@ class Post_Output extends Module_Output implements Plugins
 {
 	public function single ($query) {
 		$post = Globals::db()->get_row('post', $query['id']);
+		$this->test_area($post['area']);
 
 		$items = $this->get_items($post['id']);
 

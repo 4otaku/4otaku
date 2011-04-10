@@ -6,6 +6,7 @@ class Video_Output extends Module_Output implements Plugins
 
 	public function single ($query) {
 		$video = Globals::db()->get_row('video', $query['id']);
+		$this->test_area($video['area']);
 
 		$video['date'] = Globals::db()->date_to_unix($video['date']);
 

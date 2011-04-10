@@ -21,12 +21,16 @@ class Module_Web_Library implements Plugins
 
 	public static function get_area (& $url) {
 		$possible_areas = Config::settings('area');
-		
+
 		if (empty($possible_areas)) {
 			return;
 		}
 		
-		if (isset($url[0]) && in_array($url[0], $possible_areas)) {
+		if (
+			isset($url[0]) && 
+			array_key_exists($url[0], $possible_areas) &&
+			$possible_areas[$url[0]] != 'disabled'
+		) {
 			$area = array_shift($url);
 			return array('area' => $area);
 		}
