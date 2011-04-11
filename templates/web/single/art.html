@@ -23,7 +23,7 @@
 								Перейти в слайдшоу
 							</a>. 
 							<a href="/download/art/cg_pack/{{pack_id}}">
-								Скачать одним архивом
+								Скачать одним архивом ({{pack.weight}} {{pack.weight_type}})).
 							</a>. 
 						</div>					
 					{% if loop.last %}</div>{% endif %}
@@ -77,11 +77,11 @@
 						</div>
 					{% endif %}	
 				{% endfor %}
-				{% if item.is_resized %}	
+				{% if item.resized %}
 					<div class="clear margin20 mini-shell art-bar">
 						<a href="#" class="disabled booru_show_toggle" rel="{{item.extension}}">
 							Показать в полном размере
-						</a> ({{item.resized}}). 
+						</a> ({{item.width}}x{{item.height}}px; {{item.weight}} {{item.weight_type}}). 
 						<a href="#" class="disabled booru_show_full_always">
 							 Всегда показывать в полном размере
 						</a>. 
@@ -89,7 +89,7 @@
 							 Скачать
 						</a>.												
 					</div>								
-					<div class="booru_img image booru_translation_toggle" rel="resized">
+					<div class="booru_img booru_translation_toggle" rel="resized">
 						<img src="{{domain}}/images/art/resized/{{item.md5}}.jpg">
 						{% for translation in item.translation.resized %}
 							<div 
@@ -105,7 +105,7 @@
 						{% endfor %}			
 					</div>
 				{% endif %}
-				<div class="image booru_translation_toggle">						
+				<div class="{% if item.resized %}hidden {% endif %}booru_translation_toggle">						
 					<img src="{{domain}}/images/art/full/{{item.md5}}.{{item.extension}}">
 					{% for translation in item.translation.full %}
 						<div 
@@ -140,7 +140,7 @@
 				</div>										
 					</p>
 					<div class="hidden translations_hideout">
-						{% if item.is_resized %}
+						{% if item.resized %}
 							{% for translation in item.translation.full %}
 								<div 
 									class="art_translation hidden" 

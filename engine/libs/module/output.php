@@ -15,10 +15,11 @@ abstract class Module_Output implements Plugins
 	}
 
 	protected function build_listing_condition ($query) {
-		$condition = "area = '{$query['area']}'";
+		$condition = "area = '{$query['area']}' ";
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {
-			$condition .= " and match (meta) against ('+{$query['meta']}_{$query['alias']}' in boolean mode)";
+			$search = array('+', $query['alias'], $query['meta']);
+			$condition .= Objects::db()->make_search_condition('meta', array($search));
 		}
 
 		return $condition;

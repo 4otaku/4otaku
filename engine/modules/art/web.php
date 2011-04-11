@@ -1,7 +1,7 @@
 <?
 
 class Art_Web extends Module_Web implements Plugins
-{
+{	
 	public $url_parts = array('area', 'mixed', 'meta', 'page', 'id');
 	
 	public function postprocess ($data) {
@@ -11,6 +11,8 @@ class Art_Web extends Module_Web implements Plugins
 		
 		if (Globals::$query['function'] == 'single') {
 			$art = reset($data['items']);
+			
+			list($art['weight'], $art['weight_type']) = Transform_String::round_bytes($art['weight']);
 			
 			$area_needed = array();
 			
@@ -38,8 +40,10 @@ class Art_Web extends Module_Web implements Plugins
 				}
 			}
 			
-			foreach ($art['packs'] as & $pack) {
+			foreach ($art['packs'] as $pack_id => & $pack) {
 				$pack['name'] = $pack['title'];
+				list($pack['weight'], $pack['weight_type']) = 
+					Art_Output::get_pack_weight($pack_id);
 				
 				$order = explode(',', $pack['order']);
 				
@@ -94,5 +98,5 @@ class Art_Web extends Module_Web implements Plugins
 		}
 		
 		return $data;	
-	}	
+	}
 }

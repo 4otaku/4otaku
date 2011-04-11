@@ -20,7 +20,7 @@ class Transform_String
 		}
 		
 		return '';
-	}	
+	}
 	
 	public function parse_time ($string, $add_current = true) {
 		$parts = preg_split('/([^\d]+)/', $string, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
@@ -42,6 +42,18 @@ class Transform_String
 		}
 		
 		return $time + (int) $add_current * time();
+	}
+	
+	public static function round_bytes ($bytes, $precision = 1) {
+		if ($bytes > GIGABYTE) {
+			return array(round($bytes/GIGABYTE, $precision), 'гб');
+		} elseif ($bytes > MEGABYTE) {
+			return array(round($bytes/MEGABYTE, $precision), 'мб');
+		} elseif ($bytes > KILOBYTE) {
+			return array(round($bytes/KILOBYTE, $precision), 'кб');
+		} else {
+			return array($bytes, 'б');
+		}		
 	}
 	
 }

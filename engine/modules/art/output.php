@@ -2,6 +2,8 @@
 
 class Art_Output extends Module_Output implements Plugins
 {
+	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
+	
 	public function single ($query) {
 		$art = Globals::db()->get_row('art', $query['id']);
 		$this->test_area($art['area']);	
@@ -103,4 +105,23 @@ class Art_Output extends Module_Output implements Plugins
 
 		return array();
 	}
+		
+	public static function get_pack_weight ($pack_id) {
+		Cache::$prefix = self::PACK_FILE_SIZE_PREFIX;
+		
+		if (!($size = Cache::get($pack_id))) {
+			
+			$filename = FILES.SL.'art'.SL.'cg_packs'.SL.$pack_id.'.zip';
+			
+			if (!file_exists($filename)) {
+				Art_Input::create_pack_file($pack_id);
+			}
+			
+			$size = filesize($filename);
+			
+			Cache::set($pack_id, $size, MONTH);
+		}
+		
+		return Transform_String::round_bytes($size);
+	}	
 }

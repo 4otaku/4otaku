@@ -5,22 +5,30 @@
 	<a 
 		href="/{% if settings.download_mode %}download/{% endif %}art/{{id}}" 
 		class="with_help3 picture_{{id}}" 
-		title="
-			{{item.meta_header.author}}: 
-			{% for key, author in item.meta.author %}
-				{% if not loop.first %}, {% endif %}
-				{{author.name}}
-			{% endfor %} | 
-			{{item.meta_header.category}}: 
-			{% for key, category in item.meta.category %}
-				{% if not loop.first %}, {% endif %}
-				{{category.name}}
-			{% endfor %} | 
-			{{item.meta_header.tag}}: 
-			{% for key, tag in item.meta.tag %}
-				{% if not loop.first %}, {% endif %}
-				{{tag.name}}
-			{% endfor %}"
+		{% if item.meta.author or item.meta.category or item.meta.tag %}
+			title="
+				{% if item.meta.author %}
+					{{item.meta_header.author}}: 
+					{% for key, author in item.meta.author %}
+						{% if not loop.first %}, {% endif %}
+						{{author.name}}
+					{% endfor %} | 
+				{% endif %}
+				{% if item.meta.category %}
+					{{item.meta_header.category}}: 
+					{% for key, category in item.meta.category %}
+						{% if not loop.first %}, {% endif %}
+						{{category.name}}
+					{% endfor %} | 
+				{% endif %}
+				{% if item.meta.tag %}
+					{{item.meta_header.tag}}: 
+					{% for key, tag in item.meta.tag %}
+						{% if not loop.first %}, {% endif %}
+						{{tag.name}}
+					{% endfor %}
+				{% endif %}"
+		{% endif %}				
 		{% if settings.blank_mode %} target="_blank"{% endif %}
 	>
 		<img src="

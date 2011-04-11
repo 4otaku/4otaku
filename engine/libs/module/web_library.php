@@ -83,7 +83,7 @@ class Module_Web_Library implements Plugins
 	}
 
 	public static function get_meta (& $url) {
-		$meta_types = array('tag', 'category', 'language', 'author');
+		$meta_types = array('tag', 'category', 'language', 'author', 'cg_pack');
 
 		if (isset($url[0]) && in_array($url[0], $meta_types) && isset($url[1])) {
 

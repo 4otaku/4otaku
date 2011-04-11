@@ -136,7 +136,6 @@ CREATE TABLE `<pr>art_pool` (
 DROP TABLE IF EXISTS `<pr>art_cg_pack`;
 CREATE TABLE `<pr>art_cg_pack` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `md5` varchar(32) NOT NULL,
   `filename` varchar(2040) NOT NULL,
   `weight` int(10) unsigned NOT NULL,
   `cover` varchar(32) NOT NULL,
