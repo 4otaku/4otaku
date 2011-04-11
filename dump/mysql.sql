@@ -147,7 +147,6 @@ CREATE TABLE `<pr>art_cg_pack` (
   `comments` smallint(5) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `md5` (`md5`),
   UNIQUE KEY `title` (`title`),
   KEY `date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
