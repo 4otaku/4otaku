@@ -78,15 +78,15 @@ class Art_Output extends Module_Output implements Plugins
 	}
 	
 	protected function get_packs ($meta) {
-		if (empty($meta['meta']['cg'])) {
+		if (empty($meta['meta']['cg_pack'])) {
 			return array();
 		}
 		
 		return Objects::db()->get_vector(
 			'art_cg_pack', 
 			array('id', 'title', 'order'), 
-			Objects::db()->array_in('id', $meta['meta']['cg']), 
-			$meta['meta']['cg']
+			Objects::db()->array_in('id', $meta['meta']['cg_pack']), 
+			$meta['meta']['cg_pack']
 		);
 	}
 	

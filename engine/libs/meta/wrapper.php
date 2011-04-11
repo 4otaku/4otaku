@@ -13,7 +13,7 @@ class Meta extends Meta_Library implements Plugins
 					
 			$index[$id] = array();
 			foreach ($meta as $one) {
-				list($type, $name) = preg_split('/_/', $one, 2);
+				list($type, $name) = preg_split('/__/', $one, 2);
 			
 				$index[$id][$type][] = $name;
 				$common[$type][] = $name;

@@ -29,7 +29,7 @@ class Art_Input extends Module_Output implements Plugins
 				
 				$art_file = $image_dir.$art['md5'].'.'.$art['extension'];
 				
-				if (preg_match('/\sfilename_([^\s]+)/is', $art['meta'], $name)) {
+				if (preg_match('/\sfilename__([^\s]+)/is', $art['meta'], $name)) {
 					$art_filename = $name[1];
 				} else {
 					$art_filename = $art['id'].'.'.$art['extension'];
