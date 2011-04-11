@@ -83,13 +83,31 @@ class Module_Web_Library implements Plugins
 	}
 
 	public static function get_meta (& $url) {
-		$meta_types = array('tag', 'category', 'language', 'author', 'cg_pack', 'pool');
+		$meta_types = array('tag', 'category', 'language', 'author');
 
 		if (isset($url[0]) && in_array($url[0], $meta_types) && isset($url[1])) {
 
 			$meta = array_splice($url, 0, 2);
 
 			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'main');
+		}
+	}
+
+	public static function get_pool (& $url) {
+		if (isset($url[0]) && $url[0] == 'pool' && isset($url[1])) {
+
+			$meta = array_splice($url, 0, 2);
+
+			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pool', 'area' => false);
+		}
+	}
+
+	public static function get_pack (& $url) {
+		if (isset($url[0]) && $url[0] == 'cg_pack' && isset($url[1])) {
+
+			$meta = array_splice($url, 0, 2);
+
+			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pack', 'area' => false);
 		}
 	}
 

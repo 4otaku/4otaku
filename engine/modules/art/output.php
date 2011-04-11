@@ -64,6 +64,16 @@ class Art_Output extends Module_Output implements Plugins
 		return $return;
 	}
 	
+	// Алиасы для настройки субмодулей
+	
+	public function pool ($query) {
+		return $this->main($query);
+	}
+	
+	public function pack ($query) {
+		return $this->main($query);
+	}
+	
 	protected function get_pools ($meta) {
 		if (empty($meta['meta']['pool'])) {
 			return array();

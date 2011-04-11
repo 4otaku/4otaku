@@ -15,7 +15,7 @@ abstract class Module_Output implements Plugins
 	}
 
 	protected function build_listing_condition ($query) {
-		$condition = "area = '{$query['area']}'";
+		$condition = $query['area'] ? "area = '{$query['area']}'" : "area != 'deleted'";
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {
 			$search = array('+', $query['alias'], $query['meta']);
