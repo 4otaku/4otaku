@@ -311,7 +311,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		foreach ($search_values as $value) {
 			list($sign, $word, $prefix) = $value;
 			
-			$value = ' ' . $sign . ($prefix ? $prefix . '_' : '') . $word;
+			$value = ' ' . $sign . ($prefix ? $prefix . '__' : '') . $word;
 			$return .= mysql_real_escape_string($value, $this->connection);
 		}
 		
