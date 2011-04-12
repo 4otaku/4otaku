@@ -123,9 +123,8 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	}	
 	
 	public function get_row($table, $values = '*', $condition = false, $params = false) {
-		if (is_numeric($values) && empty($condition)) {
-			$condition = "id = $values";
-			$values = '*';
+		if (is_numeric($condition)) {
+			$condition = "id = $condition";
 		}
 		
 		$this->get_common($table, $values, $condition." LIMIT 1", $params);

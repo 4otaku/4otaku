@@ -69,6 +69,7 @@ class Art_Output extends Module_Output implements Plugins
 			$pack_id = (int) Globals::$query['alias'];
 			
 			$pack = Objects::db()->get_row('art_cg_pack', array('title', 'text'), $pack_id);
+
 			list($weight, $weight_type) = self::get_pack_weight($pack_id);
 			
 			return array(
