@@ -9,3 +9,7 @@
 		{{fourth}}
 	{% endif %}
 {% endmacro %}
+
+{% macro area(area) %}
+	{% if area == 'main' %}{% else %}/{{area}}{% endif %}
+{% endmacro %}

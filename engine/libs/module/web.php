@@ -24,6 +24,7 @@ abstract class Module_Web extends Module_Web_Library implements Plugins
 	abstract public function postprocess ($data);
 	
 	protected function postprocess_navi ($data) {
+
 		if (!empty($data['pagecount']) && !empty($data['curr_page'])) {
 			$worker = new Postprocess_Navi();
 			return $worker->process_web($data);

@@ -4,11 +4,27 @@ class Art_Web extends Module_Web implements Plugins
 {	
 	public $url_parts = array('area', 'mixed', 'meta', 'pool', 'pack', 'page', 'id');
 	
+	protected $pack_text_replacements = array(
+		'/\[url=(.+?)\](.+?)\[\/url\]/' => '$2: $1',
+		'/\[.+?\](.+?)\[\/.+?\]/' => '$1',
+		'/\n/' => '<br />',
+	);
+	
 	public function postprocess ($data) {
 		
 		$data = $this->postprocess_items($data);
 		$data = $this->postprocess_navi($data);
 		
+		if (Globals::$query['function'] == 'pack_list') {
+			foreach ($data['items'] as & $pack) {
+				$pack['text'] = preg_replace(
+					array_keys($this->pack_text_replacements), 
+					array_values($this->pack_text_replacements),
+					trim(htmlspecialchars($pack['pretty_text']))
+				);
+			}
+		}
+			
 		if (Globals::$query['function'] == 'single') {
 			$art = reset($data['items']);
 			
@@ -78,9 +94,15 @@ class Art_Web extends Module_Web implements Plugins
 						!empty($pool['previous']['id']) && 
 						array_key_exists($pool['previous']['id'], $areas)
 					) {
-						$area = $areas[$pool['previous']['id']];
-						$pool['previous']['area'] = $area == 'main' ? '' : '/'.$area;
+						$pool['previous']['area'] = $areas[$pool['previous']['id']];
 					}
+					
+					if (
+						!empty($pool['next']['id']) && 
+						array_key_exists($pool['next']['id'], $areas)
+					) {
+						$pool['next']['area'] = $areas[$pool['next']['id']];
+					}					
 				}
 				
 				foreach ($art['packs'] as & $pack) {
@@ -88,9 +110,15 @@ class Art_Web extends Module_Web implements Plugins
 						!empty($pack['previous']['id']) && 
 						array_key_exists($pack['previous']['id'], $areas)
 					) {
-						$area = $areas[$pack['previous']['id']];
-						$pack['previous']['area'] = $area == 'main' ? '' : '/'.$area;
+						$pack['previous']['area'] = $areas[$pack['previous']['id']];
 					}
+					
+					if (
+						!empty($pack['next']['id']) && 
+						array_key_exists($pack['next']['id'], $areas)
+					) {
+						$pack['next']['area'] = $areas[$pack['next']['id']];
+					}						
 				}
 			}
 			

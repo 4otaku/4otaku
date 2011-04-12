@@ -94,20 +94,30 @@ class Module_Web_Library implements Plugins
 	}
 
 	public static function get_pool (& $url) {
-		if (isset($url[0]) && $url[0] == 'pool' && isset($url[1])) {
-
-			$meta = array_splice($url, 0, 2);
-
-			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pool', 'area' => false);
+		if (isset($url[0]) && $url[0] == 'pool') {
+			if (isset($url[1]) && is_numeric($url[1])) {
+				
+				$meta = array_splice($url, 0, 2);				
+				return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pool', 'area' => false);
+			} else {
+				
+				array_shift($url);
+				return array('function' => 'pool_list');
+			}
 		}
 	}
 
 	public static function get_pack (& $url) {
-		if (isset($url[0]) && $url[0] == 'cg_pack' && isset($url[1])) {
-
-			$meta = array_splice($url, 0, 2);
-
-			return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pack', 'area' => false);
+		if (isset($url[0]) && $url[0] == 'cg_pack') {
+			if (isset($url[1]) && is_numeric($url[1])) {
+				
+				$meta = array_splice($url, 0, 2);				
+				return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pack', 'area' => false);
+			} else {
+				
+				array_shift($url);
+				return array('function' => 'pack_list');
+			}
 		}
 	}
 
@@ -116,7 +126,7 @@ class Module_Web_Library implements Plugins
 
 			$page = array_splice($url, 0, 2);
 
-			return array('page' => end($page), 'function' => 'main');
+			return array('page' => end($page));
 		}
 	}
 

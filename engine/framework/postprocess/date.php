@@ -21,6 +21,8 @@ class Postprocess_Date implements Postprocess_Interface
 			$time = time();
 		}
 		
+		$time = (int) $time;
+		
 		$date = self::rumonth(date('m'), $time).date(' j, Y', $time);
 		
 		if ($minutes) {

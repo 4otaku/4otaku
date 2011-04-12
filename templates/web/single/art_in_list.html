@@ -3,8 +3,8 @@
 	{% if settings.large_thumbnail %}large_thumbnail{% else %}small_thumbnail{% endif %}"
 >
 	<a 
-		href="/{% if settings.download_mode %}download/{% endif %}art/{{id}}" 
-		class="with_help3 picture_{{id}}" 
+		href="/{% if settings.download_mode %}download/{% endif %}art{{utils.area(item.area)}}/{{id}}" 
+		class="with_help picture_{{id}}" 
 		{% if item.meta.author or item.meta.category or item.meta.tag %}
 			title="
 				{% if item.meta.author %}

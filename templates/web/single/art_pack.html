@@ -1,0 +1,22 @@
+<div class="
+	margin20 thumbnail show_toggler show_{{id}} 
+	{% if settings.large_thumbnail %}large_thumbnail{% else %}small_thumbnail{% endif %}"
+>
+	<div class="margin10">
+		<a href="/art/cg_pack/{{id}}/" class="cg_name">
+			{{item.title}}
+		</a>
+	</div>
+	<a 
+		href="/art/cg_pack/{{id}}" 
+		class="with_help_art" 
+		nice_title="{{item.text|raw}}"
+		{% if settings.blank_mode %} target="_blank"{% endif %}
+	>
+		<img src="
+			{{domain}}/images/art/
+			{% if settings.large_thumbnail %}large_{% endif %}
+			thumbnail/{{item.cover}}.jpg"
+		>
+	</a>
+</div>

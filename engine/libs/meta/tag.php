@@ -10,7 +10,7 @@ class Meta_Tag extends Meta_Library implements Plugins
 		$select = array('alias','name','color');
 
 		$tags = Objects::db()->get_vector('meta', $select, $full_condition, $aliases, false);
-		
+	
 		if (empty($tags)) {
 			return array();
 		}

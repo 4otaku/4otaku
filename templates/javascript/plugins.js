@@ -35,3 +35,66 @@ jQuery.cookie = function(name, value, options) {
         return cookieValue;
     }
 };
+
+(function($) {
+	$.fn.easyTooltip = function(options){	  
+		var defaults = {	
+			xOffset: 10,		
+			yOffset: 25,
+			tooltipId: "easyTooltip",
+			clickRemove: false,
+			content: "",
+			useAttribute: "",
+			timeOut: false
+		};			
+		var options = $.extend(defaults, options);  
+		var content;			
+		this.each(function() {
+			var title = $(this).attr("title");
+			$(this).hover(function(e){
+				$("#" + options.tooltipId).remove();
+				$(this).attr("title","");
+				content = (options.content != "") ? options.content : title;
+				content = (options.useAttribute != "") ? $(this).attr(options.useAttribute) : content;
+				if (content != "" && content != undefined){			
+					$("body").append("<div id='"+ options.tooltipId +"'>"+ content +"</div>");
+					var left_margin = ($(document).width() > e.pageX * 2) ?
+						e.pageX + options.xOffset :
+						e.pageX - options.xOffset - 20 - $('#'+options.tooltipId).width();
+					if (options.timeOut) {
+						$("#" + options.tooltipId)
+							.css("position","absolute")
+							.css("top",(e.pageY - options.yOffset) + "px")
+							.css("left",left_margin + "px")						
+							.css("display","none");
+							setTimeout(function() {$("#" + options.tooltipId).fadeIn("fast")}, options.timeOut);	
+					} else {
+						$("#" + options.tooltipId)
+							.css("position","absolute")
+							.css("top",(e.pageY - options.yOffset) + "px")
+							.css("left",left_margin + "px")						
+							.css("display","none").fadeIn("fast");
+					}
+				}
+			},
+			function(){	
+				$("#" + options.tooltipId).remove();
+				$(this).attr("title",title);
+			});	
+			$(this).mousemove(function(e){
+				var left_margin = ($(document).width() > e.pageX * 2) ?
+					e.pageX + options.xOffset :
+					e.pageX - options.xOffset - 20 - $('#'+options.tooltipId).width();				
+				$("#" + options.tooltipId)
+					.css("top",(e.pageY - options.yOffset) + "px")
+					.css("left",left_margin + "px")					
+			});	
+			if(options.clickRemove){
+				$(this).mousedown(function(e){
+					$("#" + options.tooltipId).remove();
+					$(this).attr("title",title);
+				});				
+			}
+		});	  
+	};
+})(jQuery);

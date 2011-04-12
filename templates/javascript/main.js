@@ -27,7 +27,13 @@ $(".login_trigger").live('click', function() {
 $(document).ready(function(){
 	$(".checked").attr('checked', true);
 	$(".not_checked").attr('checked', false);
-	$("select .selected").attr('selected', 'selected');	
+	$("select .selected").attr('selected', 'selected');
+	
+	$("a.with_help").easyTooltip();
+	$("a.with_help_art").easyTooltip({
+		useAttribute : 'nice_title',
+		timeOut: 1000
+	});
 	
 	$(".header_menu_item").hover(
 		function(){

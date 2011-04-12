@@ -5,10 +5,10 @@ class Art_Output extends Module_Output implements Plugins
 	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
 	
 	public function single ($query) {
-		$art = Globals::db()->get_row('art', $query['id']);
+		$art = Objects::db()->get_row('art', $query['id']);
 		$this->test_area($art['area']);	
 		
-		$art['date'] = Globals::db()->date_to_unix($art['date']);
+		$art['date'] = Objects::db()->date_to_unix($art['date']);
 		
 		$meta = Meta::prepare_meta(array($art['id'] => $art['meta']));
 
@@ -41,7 +41,7 @@ class Art_Output extends Module_Output implements Plugins
 
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$return['items'] = Globals::db()->get_full_vector('art', $condition);
+		$return['items'] = Objects::db()->get_full_vector('art', $condition);
 
 		$keys = array_keys($return['items']);
 		$index = array();
@@ -56,13 +56,75 @@ class Art_Output extends Module_Output implements Plugins
 		$return['items'] = array_replace_recursive($return['items'], $meta);
 		$return['items'] = $this->mark_item_types($return['items'], 'art_in_list');
 
-		$count = Globals::db()->get_count('art', $listing_condition);
+		$count = Objects::db()->get_count('art', $listing_condition);
 
 		$return['curr_page'] = $page;
 		$return['pagecount'] = ceil($count / $perpage);
 
 		return $return;
+	}	
+	
+	public static function description () {
+		if (Globals::$query['function'] == 'pack') {
+			$pack_id = (int) Globals::$query['alias'];
+			
+			$pack = Objects::db()->get_row('art_cg_pack', array('title', 'text'), $pack_id);
+			list($weight, $weight_type) = self::get_pack_weight($pack_id);
+			
+			return array(
+				'text' => $pack['text'], 
+				'name' => $pack['title'], 
+				'type' => 'pack', 
+				'weight' => $weight, 
+				'weight_type' => $weight_type, 
+				'id' => $pack_id
+			);
+		}
+		
+		if (Globals::$query['function'] == 'pool') {
+			$pool_id = (int) Globals::$query['alias'];
+			
+			$pool = Objects::db()->get_full_row('art_pool', $pool_id);
+			
+			return array_merge($pool, array('type' => 'pool'));
+		}
+		
+		return array();
 	}
+	
+	public function pool_list ($query) {
+		$return = array();
+		$perpage = Config::settings('pool_per_page');
+		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
+		$start = (int) ($page - 1) * $perpage;
+		$return['items'] = Objects::db()->get_full_vector('art_pool', '1 order by date desc limit '.$start.', '.$perpage);
+
+		$return['items'] = $this->mark_item_types($return['items'], 'art_pool');
+		
+		$count = Objects::db()->get_count('art_pool');
+		$return['curr_page'] = $page;
+		$return['navi_base'] = 'pool';
+		$return['pagecount'] = ceil($count / $perpage);		
+		
+		return $return;
+	}
+	
+	public function pack_list ($query) {
+		$return = array();
+		$perpage = Config::settings('pack_per_page');
+		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
+		$start = (int) ($page - 1) * $perpage;
+		$return['items'] = Objects::db()->get_full_vector('art_cg_pack', '1 order by date desc limit '.$start.', '.$perpage);
+
+		$return['items'] = $this->mark_item_types($return['items'], 'art_pack');
+		
+		$count = Objects::db()->get_count('art_cg_pack');
+		$return['curr_page'] = $page;
+		$return['navi_base'] = 'cg_pack';
+		$return['pagecount'] = ceil($count / $perpage);				
+		
+		return $return;		
+	}	
 	
 	// Алиасы для настройки субмодулей
 	

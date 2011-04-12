@@ -139,10 +139,11 @@ input:hover, input:focus, button:hover, button:focus, textarea:hover, textarea:f
 }
 
 #easyTooltip {
-	padding:5px 10px;
-	border:1px solid #195fa4;
-	background:#195fa4 url('/images/bg.gif') repeat-x;
-	color:#fff;
+	padding: 5px 10px;
+	max-width: 45%;
+	border: 1px solid #195fa4;
+	background: #195fa4 url('/i/bg.gif') repeat-x;
+	color: #fff;
 }
 
 #superbox-innerbox {
@@ -740,6 +741,10 @@ ol.orders_list {
 
 .cg_name {
 	font-weight: bold;
+}
+
+.pack_description {
+	margin-left: 20px;
 }
 
 .similar_sign {

@@ -143,6 +143,10 @@ class Database_Mysql extends Database_Common implements Database_Interface
 			$condition = "id = $condition";
 		}
 		
+		if (empty($condition)) {
+			$condition = "1";
+		}		
+		
 		$this->get_common($table, $value, $condition." LIMIT 1", $params);
 		
 		if (!is_resource($this->result)) {

@@ -36,10 +36,12 @@ class Meta extends Meta_Library implements Plugins
 			$data = $worker->get_data_by_alias($names);
 
 			foreach ($index as $id => $item) {
+				
 				foreach ($data as $one) {
 					if ( 
 						in_array($one, $item[$type])|| 
-						in_array($one['alias'], $item[$type])
+						(isset($one['alias']) &&
+						in_array($one['alias'], $item[$type]))
 					) {
 						$return[$id]['meta'][$type][] = $one;
 					}

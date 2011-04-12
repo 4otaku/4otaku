@@ -10,21 +10,21 @@
 								{{pack.name}}
 							</a>. 
 							{% if pack.previous %}
-								<a href="/art{{pack.previous.area}}/{{pack.previous.id}}">
+								<a href="/art{{utils.area(pack.previous.area)}}/{{pack.previous.id}}">
 									Предыдущая
 								</a>. 		
 							{% endif %}
 							{% if pack.next %}
-								<a href="/art{{pack.next.area}}/{{pack.next.id}}">
+								<a href="/art{{utils.area(pack.next.area)}}/{{pack.next.id}}">
 									Следующая
 								</a>. 
 							{% endif %}
-							<a href="/art/slideshow/cg_pack/{{pack_id}}#1">
+							<a href="/art/slideshow/cg_pack/{{pack_id}}#1" target="_blank">
 								Перейти в слайдшоу
 							</a>. 
-							<a href="/download/art/cg_pack/{{pack_id}}">
+							<a href="/download/art/cg_pack/{{pack_id}}" target="_blank">
 								Скачать одним архивом
-							</a> ({{pack.weight}} {{pack.weight_type}}). 
+							</a> (~{{pack.weight|default('0')}} {{pack.weight_type}}). 
 						</div>					
 					{% if loop.last %}</div>{% endif %}
 				{% endfor %}
@@ -36,16 +36,16 @@
 								{{pool.name}}
 							</a>. 
 							{% if pool.previous %}
-								<a href="/art{{pool.previous.area}}/{{pool.previous.id}}">
+								<a href="/art{{utils.area(pool.previous.area)}}/{{pool.previous.id}}">
 									Предыдущая
 								</a>. 		
 							{% endif %}
 							{% if pool.next %}
-								<a href="/art{{pool.next.area}}/{{pool.next.id}}">
+								<a href="/art{{utils.area(pool.next.area)}}/{{pool.next.id}}">
 									Следующая
 								</a>. 
 							{% endif %}									
-							<a href="/art/slideshow/pool/{{pool_id}}#1">
+							<a href="/art/slideshow/pool/{{pool_id}}#1" target="_blank">
 								Перейти в слайдшоу
 							</a>. 												
 						</div>					
@@ -128,12 +128,12 @@
 					<p class="meta">
 						{% include 'web/common/meta.html' %}
 						{% if item.translator %}
-							| Переводчик: {{item.translator}}
+							 | Переводчик: {{item.translator}}
 						{% endif %}
 						{% if item.source %}
-							| Источник: {{item.source}}
+							 | Источник: {{item.source}}
 						{% endif %}	
-						| <a href="/download/art/{{id}}" target="_blank">
+						 | <a href="/download/art/{{id}}" target="_blank">
 							 Скачать
 						</a>
 					</p>

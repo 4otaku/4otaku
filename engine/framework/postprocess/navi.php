@@ -7,8 +7,12 @@ class Postprocess_Navi implements Postprocess_Interface
 		$data['navi'] = array();
 
 		$base = '/'.Globals::$query['module'].'/';
+		
+		$base .= !empty($data['navi_base']) ? $data['navi_base'].'/' : '';
 
-		$base .= Globals::$query['area'] == 'main' ? '' : Globals::$query['area'].'/';
+		if (!empty(Globals::$query['area']) && Globals::$query['area'] != 'main') {
+			$base .= Globals::$query['area'].'/';
+		}
 
 		if (!empty(Globals::$query['meta']) && !empty(Globals::$query['alias'])) {
 			$base .= Globals::$query['meta'].'/'.Globals::$query['alias'].'/';

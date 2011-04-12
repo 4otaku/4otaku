@@ -5,13 +5,13 @@
 				<tr>
 					<td align="left">
 						<h2>
-							<a href="/video/{{id}}" title="{{item.title}}">
+							<a href="/video{{utils.area(item.area)}}/{{id}}" title="{{item.title}}">
 								{{item.title}}
 							</a>
 						</h2>
 					</td>
 					<td align="right" valign="top">
-						<a href="/video/{{id}}">
+						<a href="/video{{utils.area(item.area)}}/{{id}}">
 							Комментировать
 						</a>
 						{% if item.comments %}
