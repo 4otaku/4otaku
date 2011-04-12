@@ -19,7 +19,7 @@ class Art_Output extends Module_Output implements Plugins
 				array('translations' => current($this->get_translations($art['id']))),
 				array('pools' => $this->get_pools(current($meta))),
 				array('packs' => $this->get_packs(current($meta))),
-				array('variations' => current($this->get_variants($art['id'])))
+				array('variations' => $this->get_variants($art['id'], $art['variants']))
 			),
 		);
 		
@@ -165,16 +165,25 @@ class Art_Output extends Module_Output implements Plugins
 	
 	protected function get_translations ($ids) {
 		$ids = (array) $ids;
+		
+		$condition = Objects::db()->array_in('art_id', $ids);
+		$condition .= ' and active = 1';
 
-//		var_dump()
+		$translations = Objects::db()->get_full_vector('art_translation', $condition, $ids);
+
+		var_dump($translations);
 
 		return array();
 	}
 	
-	protected function get_variants ($ids) {
-		$ids = (array) $ids;
+	protected function get_variants ($id, $variants_count) {
+		if (empty($variants_count)) {
+			return array();
+		}
 
-//		var_dump()
+		$variants = Objects::db()->get_full_vector('art', 'area = "variant" and parent_id = ?', $id);
+		
+		var_dump($variants);
 
 		return array();
 	}

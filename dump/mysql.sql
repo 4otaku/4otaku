@@ -160,8 +160,8 @@ CREATE TABLE `<pr>art_translation` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `selector` (`item_id`, `active`),
-  UNIQUE KEY `sort` (`item_id`, `date`)
+  KEY `selector` (`art_id`, `active`),
+  UNIQUE KEY `sort` (`art_id`, `date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `<pr>comment`;
