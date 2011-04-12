@@ -154,7 +154,7 @@ CREATE TABLE `<pr>art_cg_pack` (
 DROP TABLE IF EXISTS `<pr>art_translation`;
 CREATE TABLE `<pr>art_translation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `item_id` int(10) unsigned NOT NULL,
+  `art_id` int(10) unsigned NOT NULL,
   `data` text NOT NULL,
   `translator` varchar(255) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
