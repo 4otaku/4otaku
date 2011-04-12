@@ -26,17 +26,26 @@ $(".login_trigger").live('click', function() {
 	
 $(".art_size_toggle").live('click', function(event){
 	if(is_left_click(event)) {
-		$(".art_toggle").toggle();
+		var visible = $(".art_toggle:visible");
+		var hidden = $(".art_toggle").not(":visible");
+		visible.hide();
+		hidden.css('display', 'inline-block');
 	}
 });	
 
 $(".booru_show_full_always").live('click', function(){
-
+// TODO: запилить
 });	
 
 $(".art_toggle").live('click', function(event){
 	if(is_left_click(event)) {
-		$(".art_translation").toggle();
+		if ($(".art_translation").length > 0) {
+			if ($(".art_translation:visible").length > 0) {
+				$(".art_translation").hide();
+			} else {
+				$(".art_translation").show();
+			}
+		}		
 	}
 });		
 
@@ -86,4 +95,14 @@ $(document).ready(function(){
 			$("ul."+id[1]).slideUp();
 		}
 	});	
+	
+	$("a.imageholder, a.similar_navi").hover(function(){
+		var imagethumb = $(this).find(".hiddenthumb");
+		if (imagethumb.attr('src') == '#') {
+			imagethumb.attr('src',imagethumb.attr('rel'));  
+		}
+		imagethumb.css( {left : ($(this).offset().left + 15) + 'px',top : parseInt($(this).offset().top) - 15 - imagethumb.parent().attr('rel') + 'px'} ).show();
+	}, function(){
+		$(this).find(".hiddenthumb").hide();
+	});		
 });
