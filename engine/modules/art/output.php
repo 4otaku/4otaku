@@ -5,21 +5,38 @@ class Art_Output extends Module_Output implements Plugins
 	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
 	
 	public function single ($query) {
-		$art = Objects::db()->get_row('art', $query['id']);
+		$art = Objects::db()->get_full_row('art', $query['id']);
 		$this->test_area($art['area']);	
 		
 		$art['date'] = Objects::db()->date_to_unix($art['date']);
 		
 		$meta = Meta::prepare_meta(array($art['id'] => $art['meta']));
+		
+		$translations = current($this->get_translations($art['id']));
+		$art['translator'] = $translations['translator'];
+		$translations['full'] = (array) $translations['data'];
+		
+		if ($art['resized']) {
+			foreach ($translations['full'] as $key => $translation) {
+				foreach ($translation as $name => & $field) {
+					if (preg_match('/^[xy][12]$/', $name)) {
+						$field = floor($field * $art['resized']);
+					}
+				}
+				unset($field);
+				
+				$translations['resized'][$key] = $translation;
+			}
+		}
+		$art['translation'] = $translations;
 
 		$return['items'] = array(
 			$art['id'] => array_merge(
 				$art, 
 				current($meta),
-				array('translations' => current($this->get_translations($art['id']))),
 				array('pools' => $this->get_pools(current($meta))),
 				array('packs' => $this->get_packs(current($meta))),
-				array('variations' => $this->get_variants($art['id'], $art['variants']))
+				array('variations' => $this->get_variants($art['id'], $art['variations']))
 			),
 		);
 		
@@ -168,12 +185,16 @@ class Art_Output extends Module_Output implements Plugins
 		
 		$condition = Objects::db()->array_in('art_id', $ids);
 		$condition .= ' and active = 1';
+		
+		$fields = array('art_id', 'data', 'translator');
 
-		$translations = Objects::db()->get_full_vector('art_translation', $condition, $ids);
+		$translations = (array) Objects::db()->get_vector('art_translation', $fields, $condition, $ids);
+		
+		foreach ($translations as & $translation) {
+			$translation['data'] = Crypt::unpack($translation['data']);
+		}
 
-		var_dump($translations);
-
-		return array();
+		return $translations;
 	}
 	
 	protected function get_variants ($id, $variants_count) {
@@ -181,11 +202,7 @@ class Art_Output extends Module_Output implements Plugins
 			return array();
 		}
 
-		$variants = Objects::db()->get_full_vector('art', 'area = "variant" and parent_id = ?', $id);
-		
-		var_dump($variants);
-
-		return array();
+		return Objects::db()->get_full_vector('art', 'area = "variation" and parent_id = ?', $id);
 	}
 		
 	public static function get_pack_weight ($pack_id) {

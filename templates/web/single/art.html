@@ -51,7 +51,30 @@
 						</div>					
 					{% if loop.last %}</div>{% endif %}
 				{% endfor %}
-				{% for similar_id, similar in item.similar %}
+				{% for pool_id, pool in item.pools %}
+					{% if loop.first %}<div class="margin10">{% endif %}
+						<div class="mini-shell art-bar">
+							Эта картинка принадлежит группе: 
+							<a href="/art/pool/{{pool_id}}/">
+								{{pool.name}}
+							</a>. 
+							{% if pool.previous %}
+								<a href="/art{{utils.area(pool.previous.area)}}/{{pool.previous.id}}">
+									Предыдущая
+								</a>. 		
+							{% endif %}
+							{% if pool.next %}
+								<a href="/art{{utils.area(pool.next.area)}}/{{pool.next.id}}">
+									Следующая
+								</a>. 
+							{% endif %}									
+							<a href="/art/slideshow/pool/{{pool_id}}#1" target="_blank">
+								Перейти в слайдшоу
+							</a>. 												
+						</div>					
+					{% if loop.last %}</div>{% endif %}
+				{% endfor %}
+				{% for variation in item.variations %}
 					{% if loop.first %}
 						<div class="margin10">
 							<div class="mini-shell art-bar">
@@ -64,10 +87,10 @@
 								</a>
 					{% endif %}	
 					, 
-					<a href="/art/{{id}}#{{loop.index}}" class="similar_navi similar_navi_{{loop.index}}">
-						{{loop.index}}
+					<a href="/art/{{id}}#{{loop.index + 1}}" class="similar_navi similar_navi_{{loop.index + 1}}">
+						{{loop.index + 1}}
 						<span rel="-35">
-							<img class="hiddenthumb" src="#" rel="{{domain}}/images/art/thumbnail/{{similar}}.jpg" />
+							<img class="hiddenthumb" src="#" rel="{{domain}}/images/art/thumbnail/{{variation.thumbnail}}.jpg" />
 						</span>
 					</a>
 					{% if loop.first %}
@@ -79,7 +102,7 @@
 				{% endfor %}
 				{% if item.resized %}
 					<div class="clear margin20 mini-shell art-bar">
-						<a href="#" class="disabled booru_show_toggle" rel="{{item.extension}}">
+						<a href="#" class="disabled art_size_toggle" rel="{{item.extension}}">
 							Показать в полном размере
 						</a> ({{item.width}}x{{item.height}}px; {{item.weight}} {{item.weight_type}}). 
 						<a href="#" class="disabled booru_show_full_always">
@@ -89,11 +112,11 @@
 							 Скачать
 						</a>.												
 					</div>								
-					<div class="booru_img booru_translation_toggle" rel="resized">
+					<div class="art_toggle image">
 						<img src="{{domain}}/images/art/resized/{{item.md5}}.jpg">
 						{% for translation in item.translation.resized %}
 							<div 
-								class="art_translation hidden" 
+								class="art_translation with_help" 
 								title="{{translation.text}}" 
 								style="
 									width:{{translation.x2}}px;
@@ -105,11 +128,11 @@
 						{% endfor %}			
 					</div>
 				{% endif %}
-				<div class="{% if item.resized %}hidden {% endif %}booru_translation_toggle">						
+				<div class="{% if item.resized %}hidden {% endif %}relative art_toggle">						
 					<img src="{{domain}}/images/art/full/{{item.md5}}.{{item.extension}}">
 					{% for translation in item.translation.full %}
 						<div 
-							class="art_translation hidden" 
+							class="art_translation with_help" 
 							title="{{translation.text}}" 
 							style="
 								width:{{translation.x2}}px;

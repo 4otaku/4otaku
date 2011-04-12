@@ -23,14 +23,30 @@ $(".login_trigger").live('click', function() {
 	$(".login_trigger").not(this).removeClass("plaintext");
 	$(".login_part").show().not("."+$(this).attr('href')).hide();
 });
+	
+$(".art_size_toggle").live('click', function(event){
+	if(is_left_click(event)) {
+		$(".art_toggle").toggle();
+	}
+});	
+
+$(".booru_show_full_always").live('click', function(){
+
+});	
+
+$(".art_toggle").live('click', function(event){
+	if(is_left_click(event)) {
+		$(".art_translation").toggle();
+	}
+});		
 
 $(document).ready(function(){
 	$(".checked").attr('checked', true);
 	$(".not_checked").attr('checked', false);
 	$("select .selected").attr('selected', 'selected');
 	
-	$("a.with_help").easyTooltip();
-	$("a.with_help_art").easyTooltip({
+	$(".with_help").easyTooltip();
+	$(".with_help_art").easyTooltip({
 		useAttribute : 'nice_title',
 		timeOut: 1000
 	});
