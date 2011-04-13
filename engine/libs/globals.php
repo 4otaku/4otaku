@@ -8,20 +8,14 @@ final class Globals extends Objects
 	// Для адреса запроса
 	public static $url = array();	
 	
+	// Для алиасов урла
+	public static $url_aliases = array();
+	
 	// Для информации о пользователе
 	public static $user_data = array();
 	
 	// Настройки пользователя
 	public static $preferences = false;
-	
-	// Для самого запроса
-	public static $query = array();	
-	
-	// Для полученных из ядра данных
-	public static $data = array();		
-	
-	// Для полученных из ядра субмодулями данных
-	public static $sub_data = array();		
 	
 	static private $safe_replacements = array(
 		'&' => '&amp;',
@@ -44,7 +38,33 @@ final class Globals extends Objects
 		$request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $request);
 		$url = explode('/', preg_replace('/\?[^\/]+$/', '', $request)); 
 		
-		self::$url = array_filter($url);
+		$url = array_values(array_filter($url));
+		
+		if (empty($url)) {
+			$url = array('index');
+		}
+		
+		$aliases = Config::alias();
+		foreach ($aliases as $key => $alias) {
+			if (empty($alias['from']) || empty($alias['to']) || !is_numeric($alias['position'])) {
+				unset($aliases[$key]);
+				continue;
+			}
+			
+			$aliases[$key]['from'] = trim($alias['from'], '/');
+			$aliases[$key]['to'] = explode('/', trim($alias['to'], '/'));
+		}
+		
+		foreach ($url as $id => $section) {
+			foreach ($aliases as $alias) {
+				if ($alias['from'] == $section && $alias['position'] == $id + 1) {
+					array_splice($url, $id, 1, $alias['to']);
+				}
+			}
+		}
+		
+		self::$url = $url;
+		self::$url_aliases = $aliases;
 	}
 	
 	public static function get_user($user_data) {

@@ -6,16 +6,18 @@
 	$cookie = isset($_COOKIE[Config::main('cookie', 'name')]) ?
 		$_COOKIE[Config::main('cookie', 'name')] :
 		false;
-		
+
+/*		
 	$wap_profile = !empty($_SERVER['HTTP_PROFILE']) ? $_SERVER['HTTP_PROFILE'] 
 		: !empty($_SERVER['HTTP_X_WAP_PROFILE']) ? $_SERVER['HTTP_X_WAP_PROFILE']
 		: null;
-	
+*/	
+
 	$user_info = array(
 		'cookie' => $cookie,
 		'agent' => $_SERVER['HTTP_USER_AGENT'],
 		'accept' => $_SERVER['HTTP_ACCEPT'],
-		'mobile' => $wap_profile,
+//		'mobile' => $wap_profile,
 		'ip' => $_SERVER['REMOTE_ADDR'],
 	);
 	
@@ -23,7 +25,7 @@
 	Globals::get_vars($_POST);	
 	Globals::get_url($_SERVER['REQUEST_URI']);
 	Globals::get_user($user_info);	
-	Globals::user('derp');
+
 	// Проверяем кеш расширенных плагинами библиотек
 	
 	$extended_files = glob(ROOT.SL.'cache'.SL.'extended'.SL.'*.md5');
@@ -43,54 +45,49 @@
 		}	
 	}
 	
-	// Определяем тип запроса, и выбираем контроллер.
-	
-	Objects::$controller = new Controller();
-	
 	// Узнаем имя модуля с которым нам предстоит работать
 	
-	$module = Objects::$controller->get_module();
+	$module = Core::get_module(Globals::$url, Globals::$vars);
 	
 	// И подгружаем его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.$module.SL.'settings.ini';
 	Config::load($module_config_file);
 
-	// Унифицируем запрос с помощью контроллера
+	// Унифицируем запрос
 	
-	Globals::$query = Objects::$controller->query();
-	
-	// И создадим субзапросы согласно этому конфигу
-	$submodules = Config::settings('side');
-	$subqueries = array();
-	foreach ((array) $submodules as $submodule => $area) {
-		$subqueries[$submodule] = Objects::$controller->subquery($submodule, $area, Globals::$query);
-	}
-	$subqueries = array_filter($subqueries);
-	
-	// Ядро обрабатывает запрос
-	$core = new Core();
-	Globals::$data = $core->process(Globals::$query);
+	list($query_input, $query_output) = Core::make_query(Globals::$url, Globals::$vars);
 
-	// Продолжаем только если не получили стоп-сигнал
-	if (Globals::$data !== Core::STOP_SIGNAL) {
+	if (!empty($query_input)) {
+		
+		$worker = $module.'_Input';
+		$worker = new $worker();
+		$worker->process($query_input);
+		
+		if (!empty($worker->redirect_address)) {
+			Http::redirect($worker->redirect_address);
+		}
+	}
 	
-		// Обрабатываем субзапросы
-		foreach ($subqueries as $submodule => $query) {
-			Globals::$sub_data[$submodule] = $core->process($query);
+	$worker = $module.'_Output';
+	if (class_exists($worker)) {
+		
+		$data = new $worker();
+		$data->process($query_output);
+		
+		// Если ожидается вывод данных, создадим субзапросы согласно подгруженному конфигу
+		$submodules = Config::settings('side');
+
+		foreach ((array) $submodules as $submodule => $area) {
+			if (Core::valid_subquery($area, $query_output)) {
+
+				$subquery = Core::make_subquery($submodule, $query_output);
+				
+				$worker = $submodule.'_Output';
+				$worker = new $worker();
+				$data->add_sub_data($worker->process($subquery));
+			}
 		}
 		
-		// Полученный результат проходит пост-обработку
-		Globals::$data = Objects::$wrapper->postprocess(Globals::$data);
-	
-		// TODO убрать этот временный хак для удобной отладки
-		Globals::$data['domain'] = 'http://beta.4otaku.ru';
-		
-		// И результаты субзапросов, после чего они присоединются к основному результату
-		foreach (Globals::$sub_data as $submodule => $data) {
-			Globals::$data['sub'][$submodule] = Objects::$sub_wrapper[$submodule]->postprocess($data);
-		}	
-
-		// И выводит пользователю, используя подходящий шаблонизатор
-		$template = new Templater();	
-		$template->output();
+		$output = new Templater();
+		$output->output($data);
 	}

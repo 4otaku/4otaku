@@ -1,8 +1,8 @@
 <?
 
-class Module_Web_Library implements Plugins
+class Query_Library implements Plugins
 {
-	public static function get_download (& $url) {
+	public static function download (& $url) {
 
 		if (isset($url[0]) && $url[0] == 'download') {
 			array_shift($url);
@@ -11,7 +11,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_part (& $url) {
+	public static function part (& $url) {
 		if (isset($url[0]) && !empty($url[0])) {
 			$section = array_shift($url);
 
@@ -19,7 +19,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_area (& $url) {
+	public static function area (& $url) {
 		$possible_areas = Config::settings('area');
 
 		if (empty($possible_areas)) {
@@ -38,7 +38,7 @@ class Module_Web_Library implements Plugins
 		return array('area' => 'main');
 	}
 
-	public static function get_section (& $url) {
+	public static function section (& $url) {
 		$possible_sections = Config::settings('sections');
 
 		if (empty($possible_sections)) {
@@ -67,7 +67,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 */
-	public static function get_mixed (& $url) {
+	public static function mixed (& $url) {
 
 		if (isset($url[0]) && $url[0] == 'mixed' && isset($url[1])) {
 			
@@ -93,7 +93,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_pool (& $url) {
+	public static function pool (& $url) {
 		if (isset($url[0]) && $url[0] == 'pool') {
 			if (isset($url[1]) && is_numeric($url[1])) {
 				
@@ -107,7 +107,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_pack (& $url) {
+	public static function pack (& $url) {
 		if (isset($url[0]) && $url[0] == 'cg_pack') {
 			if (isset($url[1]) && is_numeric($url[1])) {
 				
@@ -121,7 +121,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_page (& $url) {
+	public static function page (& $url) {
 		if (isset($url[0]) && $url[0] == 'page' && isset($url[1]) && is_numeric($url[1])) {
 
 			$page = array_splice($url, 0, 2);
@@ -130,7 +130,7 @@ class Module_Web_Library implements Plugins
 		}
 	}
 
-	public static function get_id (& $url) {
+	public static function id (& $url) {
 
 		if (isset($url[0]) && is_numeric($url[0])) {
 

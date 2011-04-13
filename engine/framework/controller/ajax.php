@@ -13,7 +13,7 @@ class Controller_Ajax implements Controller_Interface, Plugins
 		
 		$query = array(
 			'type' => empty(Globals::$vars['input']) ? 'output' : 'input',
-		);		
+		);
 
 		return array_merge(Globals::$vars, $query);
 	}

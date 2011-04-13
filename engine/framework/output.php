@@ -1,6 +1,6 @@
 <?
 
-abstract class Module_Output implements Plugins
+abstract class Output extends Array_Access implements Plugins
 {
 	protected function mark_item_types ($items, $type) {
 		if (!empty($items) && is_array($items)) {
@@ -57,5 +57,9 @@ abstract class Module_Output implements Plugins
 		}
 
 		Http::redirect('/'.implode('/', $url).'/');
+	}
+	
+	public function add_sub_data ($data) {
+		
 	}
 }

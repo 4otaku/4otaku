@@ -1,4 +1,4 @@
-{% import "web/utils.html" as utils %}
+{% import "html/utils.html" as utils %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ru-RU">
 <head>
@@ -13,14 +13,14 @@
 	<table width="100%">
 		{% block header %}
 			{% if sub.header %}
-				{% include 'web/common/header.html' %}
+				{% include 'html/common/header.html' %}
 			{% endif %}
 		{% endblock %}
 		<tr>
 			{% block content %}{% endblock %}
 		</tr>
 		{% if sub.footer %}
-			{% include 'web/common/footer.html' %}
+			{% include 'html/common/footer.html' %}
 		{% endif %}
 	</table>
 </body>

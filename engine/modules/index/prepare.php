@@ -1,6 +1,6 @@
 <?
 
-class Index_Web extends Module_Web implements Plugins
+class Index_Prepare extends Prepare implements Plugins
 {
 	public $url_parts = array();
 	

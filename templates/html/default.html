@@ -1,4 +1,4 @@
-{% extends "web/base.html" %}
+{% extends "html/base.html" %}
 
 {% block content %}
 	<td valign="top" id="sidebar">
@@ -6,18 +6,18 @@
 	</td>
 	<td valign="top" id="content">
 		{% if sub.description.template %}
-			{% include ['web/description/',sub.description.template,'.html']|join %}
+			{% include ['html/description/',sub.description.template,'.html']|join %}
 		{% endif %}
 		{% if sub.login is not none %}
-			{% include 'web/misc/login.html' %}
+			{% include 'html/misc/login.html' %}
 		{% endif %}		
 		<div class="post">
 			{% for id, item in items %}
-				{% include ['web/single/',item.item_type,'.html']|join %}
+				{% include ['html/single/',item.item_type,'.html']|join %}
 			{% endfor %}
 		</div>
 		{% if navi %}
-			{% include 'web/common/navi.html' %}
+			{% include 'html/common/navi.html' %}
 		{% endif %}
 	</td>
 {% endblock %}

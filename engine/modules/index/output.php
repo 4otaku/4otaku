@@ -1,6 +1,6 @@
 <?
 
-class Index_Output extends Module_Output implements Plugins
+class Index_Output extends Output implements Plugins
 {
 	protected $wiki_namespaces = array(
 		1 => 'Обсуждение',
@@ -20,7 +20,7 @@ class Index_Output extends Module_Output implements Plugins
 		15 => 'Обсуждение_категории',
 	);
 
-	public function main () {
+	public function process () {
 		if ($unseen = Globals::user('unseen')) {
 
 			foreach ($unseen as & $unseen_item) {
@@ -88,6 +88,6 @@ class Index_Output extends Module_Output implements Plugins
 
 		$return['links'] = Objects::db()->get_count('post_items', 'type = "link" and status = "broken"');
 
-		return $return;
+		$this->data = $return;
 	}
 }

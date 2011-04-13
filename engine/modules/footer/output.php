@@ -1,8 +1,8 @@
 <?
 
-class Footer_Output extends Module_Output implements Plugins
+class Footer_Output extends Output implements Plugins
 {
-	public function main () {
+	public function process () {
 
 		return array('year' => date('Y'));
 	}
