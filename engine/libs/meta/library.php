@@ -2,6 +2,15 @@
 
 class Meta_Library implements Plugins
 {	
+	protected $items_info = array();
+	
+	public function __construct ($items_type = false, $items_area = false) {
+		$this->items_info = array(
+			'type' => $items_type, 
+			'area' => $items_area ? $items_area : 'main',
+		);
+	}
+	
 	public static function parse_mixed_url($url) {
 		
 		return array();

@@ -84,7 +84,7 @@
 				
 				$worker = $submodule.'_Output';
 				$worker = new $worker();
-				$data->add_sub_data($worker->process($subquery));
+				$data->add_sub_data($worker->process($subquery), $submodule);
 			}
 		}
 		

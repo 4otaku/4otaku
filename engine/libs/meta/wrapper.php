@@ -2,7 +2,7 @@
 	
 class Meta extends Meta_Library implements Plugins
 {
-	public static function prepare_meta($index) {
+	public static function prepare_meta($index, $items_type = false, $items_area = false) {
 		
 		$common = array();
 		$return = array();
@@ -29,7 +29,7 @@ class Meta extends Meta_Library implements Plugins
 				$classname = 'Meta_Default';
 			}
 			
-			$worker = new $classname();
+			$worker = new $classname($items_type, $items_area);
 			
 			$names = array_unique($names);
 

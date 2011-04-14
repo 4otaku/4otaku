@@ -2,7 +2,7 @@
 
 class Array_Access implements ArrayAccess
 {
-	public $data;
+	protected $data;
 
     public function offsetSet($offset, $value) {
         if (is_null($offset)) {

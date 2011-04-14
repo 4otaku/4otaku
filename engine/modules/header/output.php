@@ -1,10 +1,8 @@
 <?
 
-class Header_Output extends Module_Output implements Plugins
+class Header_Output extends Output implements Plugins
 {
 	public function main () {
-		$return = array();
-
 		$menu = Config::menu();
 		
 		foreach ($menu as $title => $part) {
@@ -12,10 +10,8 @@ class Header_Output extends Module_Output implements Plugins
 			
 			unset($part['url']);
 			
-			$return[$name]['items'] = array_flip($part);
-			$return[$name]['title'] = $title;
+			$this->items[$name]['items'] = array_flip($part);
+			$this->items[$name]['title'] = $title;
 		}
-		
-		return $return;
 	}
 }

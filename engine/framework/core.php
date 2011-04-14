@@ -15,7 +15,9 @@ class Core implements Plugins
 	protected static $url_parts = array();
 	
 	public static function make_query ($url, $vars) {
-		self::$url_parts = Config::settings('url_parts');
+		
+		self::$url_parts = Config::settings('url_parts');		
+		ksort(self::$url_parts);
 		
 		$query_input = self::make_query_input($vars);
 		$query_output = self::make_query_output($url, $vars);		

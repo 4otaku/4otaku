@@ -3,7 +3,7 @@
 class Transform_String
 {
 	
-	public function detect_language ($string) {
+	public static function detect_language ($string) {
 		
 		$count_all = mb_strlen($string, 'UTF-8');
 		
@@ -22,7 +22,33 @@ class Transform_String
 		return '';
 	}
 	
-	public function parse_time ($string, $add_current = true) {
+	public static function rumonth($in) {
+		$rumonth = array('','Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
+		
+		if (is_numeric($in)) {
+			return $rumonth[ltrim($in,'0')];
+		}
+		
+		return array_search($in,$rumonth);
+	}
+
+	public static function rudate($time = false, $minutes = false) {
+		if (empty($time)) {
+			$time = time();
+		}
+		
+		$time = (int) $time;
+		
+		$date = self::rumonth(date('m'), $time).date(' j, Y', $time);
+		
+		if ($minutes) {
+			$date .= date('; G:i', $time);
+		}
+		
+		return $date;
+	}
+	
+	public static function parse_time ($string, $add_current = true) {
 		$parts = preg_split('/([^\d]+)/', $string, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 		
 		$time = 0;

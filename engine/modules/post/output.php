@@ -1,6 +1,6 @@
 <?
 
-class Post_Output extends Module_Output implements Plugins
+class Post_Output extends Output_Main implements Plugins
 {
 	public function single ($query) {
 		$post = Globals::db()->get_full_row('post', $query['id']);
@@ -12,9 +12,7 @@ class Post_Output extends Module_Output implements Plugins
 
 		$meta = Meta::prepare_meta(array($post['id'] => $post['meta']));
 
-		$return['items'] = array(
-			$post['id'] => array_merge($post, current($meta), current($items))
-		);
+		$this->items[$post['id']] = array_merge($post, current($meta), current($items));
 		
 		$return['items'] = $this->mark_item_types($return['items'], 'post');		
 
@@ -25,34 +23,32 @@ class Post_Output extends Module_Output implements Plugins
 		$return = array();
 
 		$perpage = Config::settings('per_page');
-
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
-
 		$start = ($page - 1) * $perpage;
-
+		
 		$listing_condition = $this->build_listing_condition($query);
-
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$return['items'] = Globals::db()->get_full_vector('post', $condition);
-
-		$keys = array_keys($return['items']);
+		$items = Globals::db()->get_full_vector('post', $condition);
+		
 		$index = array();
+		
+		foreach ($items as $id => $item) {
+			$this->items[$id] = new Item_Post($item);
+			$index[$id] = $item['meta'];
+		}
+		unset ($items);
 
-		$items = $this->get_items($keys);
+		$keys = array_keys($this->items);
+		$post_subitems = $this->get_subitems($keys);
+		
+		$meta = Meta::prepare_meta($index);
 
-		foreach ($return['items'] as $id => & $post) {
-			$post = array_merge($post, (array) $items[$id]);
-
-			$index[$id] = $post['meta'];
+		foreach ($this->items as $id => & $post) {
+			$post = Transform_Item::merge($post, $post_subitems[$id], $meta[$id]);
 
 			$post['date'] = Globals::db()->date_to_unix($post['date']);
 		}
-
-		$meta = Meta::prepare_meta($index);
-
-		$return['items'] = array_replace_recursive($return['items'], $meta);
-		$return['items'] = $this->mark_item_types($return['items'], 'post');
 
 		$count = Globals::db()->get_count('post', $listing_condition);
 
@@ -62,7 +58,7 @@ class Post_Output extends Module_Output implements Plugins
 		return $return;
 	}
 	
-	public function get_items ($ids) {
+	public function get_subitems ($ids) {
 		$ids = (array) $ids;
 
 		$condition = Globals::db()->array_in('item_id',$ids);

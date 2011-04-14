@@ -4,7 +4,7 @@
 	<tr>
 		<td align="center" class="index_topholder">
 			<div class="center margin10">
-				<a href="{{domain}}/">
+				<a href="/">
 					<img src="/i/4otakulogo.png" alt="4отаку. Материалы для отаку." style="margin-bottom: 15px;">
 				</a>
 			</div>
@@ -15,7 +15,7 @@
 			<a title="Yukarin Subs" href="http://yukarinsubs.4otaku.ru" class="with_help">
 				<img src="/i/buttons/ys.png">
 			</a>
-			<a title="Архив" href="{{domain}}/archive/" class="with_help">
+			<a title="Архив" href="/archive/" class="with_help">
 				<img src="/i/buttons/arch.png">
 			</a>
 			<a title="Кикаки: додзинси и ёнкомы" href="http://raincat.4otaku.ru" class="with_help">
@@ -42,7 +42,7 @@
 			</div>
 			<div class="yukari_corner">
 				<div class="margin10">
-					<a href="{{domain}}/">
+					<a href="/">
 						<img src="/i/yukari.gif" class="right">
 					</a>
 				</div>
@@ -54,12 +54,12 @@
 					</a>
 				</div>
 				<div class="margin10 box first_index_box">
-					<a href="{{domain}}/ajax.php?m=box&f=rss&width=600&height=240" title="Выберите, что показывать вам в RSS" class="thickbox">
+					<a href="/ajax.php?m=box&f=rss&width=600&height=240" title="Выберите, что показывать вам в RSS" class="thickbox">
 						Выберите свой RSS
 					</a>
 				</div>
 				<div class="margin10 box">
-					<a href="{{domain}}/ajax.php?m=box&f=settings&width=500&height=650" title="Ваши личные настройки" class="thickbox">
+					<a href="/ajax.php?m=box&f=settings&width=500&height=650" title="Ваши личные настройки" class="thickbox">
 						Настройки
 					</a>
 				</div>
@@ -75,54 +75,54 @@
 			<a href="http://jabberworld.info/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%8B_Jabber">
 				Помощь по настройке
 			</a>. 
-			<a href="{{domain}}/logs/">
+			<a href="/logs/">
 				Логи
 			</a>. 
 			<span class="right">
-				{{broken_links|default(0)}} битых ссылок. 
-				<a href="{{domain}}/gouf/">
+				{{items.broken_links|default(0)}} битых ссылок. 
+				<a href="/gouf/">
 					Помочь
 				</a>.
 			</span>
 		</div>
 		<div class="mini-shell margin10">
-			<a href="{{domain}}/board/">
+			<a href="/board/">
 				Борда сайта
 			</a>. 
-			Всего тредов: {{board.all|default(0)}}
-			{% if board.new %}
-				, <a href="{{domain}}/board/new/{{board.link}}">
-					{{board.new}} из них новых
+			Всего тредов: {{items.board.all|default(0)}}
+			{% if items.board.new %}
+				, <a href="/board/new/{{board.link}}">
+					{{items.board.new}} из них новых
 				</a>
 			{% endif %}
-			{% if board.updated %}
-				, <a href="{{domain}}/board/updated/{{board.link}}">
-					{{board.updated}} обновилось
+			{% if items.board.updated %}
+				, <a href="/board/updated/{{board.link}}">
+					{{items.board.updated}} обновилось
 				</a>
 			{% endif %}
 			.
 			<span class="right">
-				{% if wiki %}
+				{% if items.wiki %}
 					<a href="http://wiki.4otaku.ru">
 						Вики сайта
 					</a>. 
 					Последняя правка: 
 					<a href="http://wiki.4otaku.ru/{{wiki|url_encode}}">
-						{{wiki}}
+						{{items.wiki}}
 					</a>.
 				{% endif %}
 			</span>
 		</div>
-		{% if news.title %}
-			<div class="compressed_news mini-shell clear {% if not news.read %}hidden{% endif %} margin30">
-				<a href="{{domain}}/news/{{news.url}}/">
-					{{news.title}}
+		{% if items.news.title %}
+			<div class="compressed_news mini-shell clear {% if not flag.news.read %}hidden{% endif %} margin30">
+				<a href="/news/{{items.news.url}}/">
+					{{items.news.title}}
 				</a>
-				{% if news.comments %} ({{news.comments}}){% endif %}
+				{% if news.comments %} ({{items.news.comments}}){% endif %}
 				<a href="#" class="uncompress_news togglenews news_bar">
 					Развернуть новость.
 				</a>
-				<a href="{{domain}}/news/" class="news_bar">
+				<a href="/news/" class="news_bar">
 					Архив новостей.
 				</a>
 			</div>
@@ -130,37 +130,37 @@
 		<div class="left index_smallcolumn defaultvideoholder">
 			<div class="mainblock">
 				<p class="head">
-					<a href="{{domain}}/post/">
+					<a href="/post/">
 						Записи
 					</a>
 				</p>
-				Всего {{post.total|default(0)}} записей. 
-				{% if post.new %}{{post.new}} из них новых{% endif %}
-				{% if post.latest %}
+				Всего {{items.post.total|default(0)}} записей. 
+				{% if items.post.new %}{{items.post.new}} из них новых{% endif %}
+				{% if items.post.latest %}
 					Последние записи: <br /><br />
-					{% for key, one in post.latest %}
+					{% for key, one in items.post.latest %}
 						{% if not loop.first %}<br />{% endif %}
-						<a href="{{domain}}/post/{{one.id}}" class="with_help" title="{{one.headline}}">
+						<a href="/post/{{one.id}}" class="with_help" title="{{one.headline}}">
 							{{one.title}}
 						</a>
 						{% if one.comments %} ({{one.comments}}){% endif %}
 					{% endfor %}
 				{% endif %}
 			</div>
-			{% if not news.read %}
+			{% if not flag.news.read %}
 				<div class="mainblock videoblock">
 					<p class="head">
-						<a href="{{domain}}/video/">
+						<a href="/video/">
 							Видео
 						</a>
 					</p>
-					Всего {{video.total|default(0)}} видео. 
-					{% if video.new %}{{video.new}} из них новых{% endif %}
-					{% if video.latest %}
+					Всего {{items.video.total|default(0)}} видео. 
+					{% if items.video.new %}{{items.video.new}} из них новых{% endif %}
+					{% if items.video.latest %}
 						Последние записи: <br /><br />
-						{% for key, one in video.latest %}
+						{% for key, one in items.video.latest %}
 							{% if not loop.first %}<br />{% endif %}
-							<a href="{{domain}}/video/{{one.id}}" class="with_help" title="{{one.headline}}">
+							<a href="/video/{{one.id}}" class="with_help" title="{{one.headline}}">
 								{{one.title}}
 							</a>
 							{% if one.comments %} ({{one.comments}}){% endif %}
@@ -169,21 +169,21 @@
 				</div>
 			{% endif %}
 		</div>
-		<div class="left index_smallcolumn {% if news.read %}hidden{% endif %} videoholder">
-			{% if news.read %}
+		<div class="left index_smallcolumn {% if flag.news.read %}hidden{% endif %} videoholder">
+			{% if flag.news.read %}
 				<div class="mainblock videoblock">
 					<p class="head">
-						<a href="{{domain}}/video/">
+						<a href="/video/">
 							Видео
 						</a>
 					</p>
-					Всего {{video.total|default(0)}} видео. 
-					{% if video.new %}{{video.new}} из них новых{% endif %}
-					{% if video.latest %}
+					Всего {{items.video.total|default(0)}} видео. 
+					{% if items.video.new %}{{items.video.new}} из них новых{% endif %}
+					{% if items.video.latest %}
 						Последние записи: <br /><br />
-						{% for key, one in video.latest %}
+						{% for key, one in items.video.latest %}
 							{% if not loop.first %}<br />{% endif %}
-							<a href="{{domain}}/video/{{one.id}}" class="with_help" title="{{one.headline}}">
+							<a href="/video/{{one.id}}" class="with_help" title="{{one.headline}}">
 								{{one.title}}
 							</a>
 							{% if one.comments %} ({{one.comments}}){% endif %}
@@ -192,21 +192,21 @@
 				</div>
 			{% endif %}
 		</div>
-		<div class="left index_smallcolumn {% if not news.read %}hidden{% endif %} artholder">
-			{% if news.read %}
+		<div class="left index_smallcolumn {% if not flag.news.read %}hidden{% endif %} artholder">
+			{% if flag.news.read %}
 				<div class="mainblock artblock">
 					<p class="head">
-						<a href="{{domain}}/art/">
+						<a href="/art/">
 							Арт
 						</a>
 					</p>
-					Всего {{art.total|default(0)}} артов. 
-					{% if art.new %}{{art.new}} из них новых{% endif %}
-					{% if art.latest.thumb %}
+					Всего {{items.art.total|default(0)}} артов. 
+					{% if items.art.new %}{{items.art.new}} из них новых{% endif %}
+					{% if items.art.latest.thumbnail %}
 						Последнее изображение: <br /><br />
 						<div style="text-align:center; width: 100%;">
-							<a href="{{domain}}/art/{{art.latest.id}}">
-								<img src="{{domain}}/images/art/thumbnail/{{art.latest.thumb}}.jpg">
+							<a href="/art/{{items.art.latest.id}}">
+								<img src="{{domain}}/images/art/thumbnail/{{items.art.latest.thumbnail}}.jpg">
 							</a>
 						</div>
 					{% endif %}
@@ -216,69 +216,69 @@
 		<div class="left index_smallcolumn defaultartholder">
 			<div class="mainblock">
 				<p class="head">
-					<a href="{{domain}}/order/">
+					<a href="/order/">
 						Заказы
 					</a>
 				</p>
-				Всего {{order.total|default(0)}} заказов. 
-				{% if order.new %}{{order.new}} из них открыты{% endif %}
-				{% if order.latest %}
+				Всего {{items.order.total|default(0)}} заказов. 
+				{% if items.order.new %}{{items.order.new}} из них открыты{% endif %}
+				{% if items.order.latest %}
 					Последние заказы: <br /><br />
-					{% for key, one in order.latest %}
+					{% for key, one in items.order.latest %}
 						{% if not loop.first %}<br /><br />{% endif %}
 						{{one.username}} заказал 
-						<a href="{{domain}}/video/{{one.id}}" class="with_help" title="{{one.headline}}">
+						<a href="/video/{{one.id}}" class="with_help" title="{{one.headline}}">
 							{{one.title}}
 						</a>
 						{% if one.comments %} ({{one.comments}}){% endif %}
 					{% endfor %}
 				{% endif %}
 			</div>
-			{% if not news.read %}
+			{% if not flag.news.read %}
 				<div class="mainblock artblock">
 					<p class="head">
-						<a href="{{domain}}/art/">
+						<a href="/art/">
 							Арт
 						</a>
 					</p>
-					Всего {{art.total|default(0)}} артов. 
-					{% if art.new %}{{art.new}} из них новых{% endif %}
-					{% if art.latest.thumbnail %}
+					Всего {{items.art.total|default(0)}} артов. 
+					{% if items.art.new %}{{items.art.new}} из них новых{% endif %}
+					{% if items.art.latest.thumbnail %}
 						Последнее изображение: <br /><br />
 						<div style="text-align:center; width: 100%;">
-							<a href="{{domain}}/art/{{art.latest.id}}">
-								<img src="{{domain}}/images/art/thumbnail/{{art.latest.thumbnail}}.jpg">
+							<a href="/art/{{items.art.latest.id}}">
+								<img src="{{domain}}/images/art/thumbnail/{{items.art.latest.thumbnail}}.jpg">
 							</a>
 						</div>
 					{% endif %}
 				</div>
 			{% endif %}
 		</div>
-		{% if news.title %}
-			<div class="left {% if news.read %}hidden{% endif %} index_largecolumn">
+		{% if items.news.title %}
+			<div class="left {% if flag.news.read %}hidden{% endif %} index_largecolumn">
 				<div class="post mainblock">
 					<p class="head">
-						<a href="{{domain}}/news/{{news.url}}/">
+						<a href="/news/{{items.news.url}}/">
 							{{news.title}}
 						</a>
 					</p>
 					<div class="entry">
-						<a href="{{domain}}/images/news/full/{{news.image}}" target="_blank">
-							<img src="{{domain}}/images/news/thumbnail/{{news.image}}" align="left" class="news_image" />
+						<a href="/images/news/full/{{items.news.image}}" target="_blank">
+							<img src="{{domain}}/images/news/thumbnail/{{items.news.image}}" align="left" class="news_image" />
 						</a>
-						{{news.text}}
+						{{items.news.text}}
 					</div>
 					<span class="semi_large">
-						<a href="{{domain}}/news/{{news.url}}/">
+						<a href="/news/{{items.news.url}}/">
 							Комментировать
 						</a>.
-						{% if news.comments %} ({{news.comments}}){% endif %}
+						{% if items.news.comments %} ({{items.news.comments}}){% endif %}
 						<a href="#" class="right compress_news togglenews">
 							Я прочел, уберите новость.
 						</a>
 					</span>
 					<div class="center clear">
-						<a href="{{domain}}/news/">
+						<a href="/news/">
 							Архив новостей.
 						</a>
 					</div>

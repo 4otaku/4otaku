@@ -21,16 +21,19 @@ class Meta_Tag extends Meta_Library implements Plugins
 			$tags[$variant['alias']]['variants'][] = $variant['variant'];
 		}
 		
-		$numbers = $this->get_meta_numbers(
-			$aliases, 
-			'tag', 
-			Globals::$query['module'], 
-			Globals::$query['area']
-		);
-		
-		foreach ($numbers as $alias => $number) {
-			$tags[$alias]['count'] = $number;
-		}		
+		if (!empty($this->items_info['type'])) {
+			
+			$numbers = $this->get_meta_numbers(
+				$aliases, 
+				'tag', 
+				$this->items_info['type'], 
+				$this->items_info['area']
+			);
+			
+			foreach ($numbers as $alias => $number) {
+				$tags[$alias]['count'] = $number;
+			}
+		}
 
 		return $tags;
 	}

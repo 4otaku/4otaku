@@ -29,8 +29,8 @@ class Transform_Text
 		return implode('',$chars);
 	}
 	
-	function headline ($text, $minimum_return = 40) {
-        $text = $this->cutout_hidden($text);
+	public static function headline ($text, $minimum_return = 40) {
+        $text = self::cutout_hidden($text);
         
         $text = strip_tags($text, '<br>');
         
@@ -54,7 +54,7 @@ class Transform_Text
         return $return;		
 	}
 	
-	function cutout_hidden ($text) {
+	public static function cutout_hidden ($text) {
 		return preg_replace('/<([a-zA-Z]+)[^>]+class="[^"]*(?<=\s|")hidden(?=\s|")[^"]*"[^>]*>.*?<\/\1>/is', '', $text);
 	}
 

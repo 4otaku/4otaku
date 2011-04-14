@@ -31,7 +31,14 @@ class Templater
 			self::$template = Globals::$data['template'];
 		}
 		
-		$data = $data->data;
+		$data = array(
+			'items' => $data->items,
+			'flag' => $data->flags,
+			'sub' => $data->submodules,
+		);
+		
+		// TODO: убрать этот хак для тестирования
+		$data['domain'] = 'http://beta.4otaku.ru';
 
 		if (!empty(self::$template_engine)) {
 			include_once ENGINE.SL.'templaters'.SL.self::$template_engine.'.php';
