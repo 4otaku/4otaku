@@ -82,7 +82,7 @@ class Query_Library implements Plugins
 		}
 	}
 
-	public static function get_meta (& $url) {
+	public static function meta (& $url) {
 		$meta_types = array('tag', 'category', 'language', 'author');
 
 		if (isset($url[0]) && in_array($url[0], $meta_types) && isset($url[1])) {

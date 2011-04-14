@@ -1,46 +1,51 @@
 <?
 
-class Archive_Output extends Module_Output implements Plugins
+class Archive_Output extends Output implements Plugins
 {	
 	const CACHE_PREFIX = '_archive_cache_items_';
 	
-	public function main () {
-		$return = array();
+	protected $count = 0;
 	
-		return $return;
-	}
+	public function main () {}
 	
-	public function section () {
+	public function section ($query) {
 		$return = array();
 		
-		$type = Globals::$query['section'];
-		if (empty(Globals::$query['subsection'])) {
+		$type = $query['section'];
+		if (empty($query['subsection'])) {
 			$items = Config::settings('subsections', $type, 'items');
 			$group_by = current($items);
 		} else {
-			$group_by = Globals::$query['subsection'];
+			$group_by = $query['subsection'];
 		}
 
 		Cache::$prefix = self::CACHE_PREFIX;
 		
-		if (!($return['items'] = Cache::get($type.'_'.$group_by))) { 
+		if (!($items = Cache::get($type.'_'.$group_by))) { 
 		
 			switch ($group_by) {
 				case 'date': 
-					$return['items'] = $this->get_archive_by_date($type); 
+					$items = $this->get_archive_by_date($type); 
 					break;
 				case 'author': 
 				case 'category': 
-					$return['items'] = $this->get_archive_by_meta($type, $group_by); 
+					$items = $this->get_archive_by_meta($type, $group_by); 
 					break;
 				default: Error::fatal("Неправильный конфиг архива");
 			}
 			
-			Cache::set($type.'_'.$group_by, $return['items'], DAY);
+			Cache::set($type.'_'.$group_by, $items, DAY);
 		}
 		
-		$return['meta_type'] = $group_by;
-		return $return;
+		foreach ($items as $key => $item) {
+			$this->items[$key] = $group_by == 'date' ? 
+				new Item_Archive_Date ($item) :
+				new Item_Archive_Meta ($item);
+		}
+		
+		$this->flags['meta_type'] = $group_by;
+		$this->flags['list_type'] = $type;
+		$this->flags['count'] = Objects::db()->get_count($type, '`area` = "main"');
 	}
 	
 	protected function get_archive_by_date ($type) {
@@ -76,9 +81,6 @@ class Archive_Output extends Module_Output implements Plugins
 			default: Error::fatal("Не умею выводить архив для $type");
 		}
 		
-		$return = array('years' => $return);
-		$return = $this->mark_item_types(array($return), 'archive_date');
-		
 		return $return;
 	}
 	
@@ -95,6 +97,7 @@ class Archive_Output extends Module_Output implements Plugins
 		arsort($data);
 		
 		foreach ($data as $alias => & $one) {
+			
 			$one = array(
 				'alias' => $alias,
 				'count' => $one,
@@ -110,15 +113,12 @@ class Archive_Output extends Module_Output implements Plugins
 		}
 		unset($one);
 
-		$return = array('data' => array_values($data));
-		$return = $this->mark_item_types(array($return), 'archive_meta');
-		
-		return $return;			
+		return array_values($data);
 	}
 	
 	public static function description () {
 		$types = Config::settings('sections');
-		
+
 		return array(
 			'types' => $types,
 			'column_width' => floor(100 / count($types)),

@@ -36,7 +36,7 @@ class Templater
 			'flag' => $data->flags,
 			'sub' => $data->submodules,
 		);
-		
+
 		// TODO: убрать этот хак для тестирования
 		$data['domain'] = 'http://beta.4otaku.ru';
 

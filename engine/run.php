@@ -80,14 +80,14 @@
 		foreach ((array) $submodules as $submodule => $area) {
 			if (Core::valid_subquery($area, $query_output)) {
 
-				$subquery = Core::make_subquery($submodule, $query_output);
-				
 				$worker = $submodule.'_Output';
 				$worker = new $worker();
+
+				$subquery = $worker->make_subquery($query_output, $module);				
 				$data->add_sub_data($worker->process($subquery), $submodule);
 			}
 		}
-		
+
 		$output = new Templater();
 		$output->output($data);
 	}

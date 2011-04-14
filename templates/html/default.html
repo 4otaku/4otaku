@@ -13,11 +13,8 @@
 		{% endif %}		
 		<div class="post">
 			{% for id, item in items %}
-				{% include ['html/single/',item.item_type,'.html']|join %}
+				{% include ['html/item/',item.item_type,'.html']|join %}
 			{% endfor %}
 		</div>
-		{% if navi %}
-			{% include 'html/common/navi.html' %}
-		{% endif %}
 	</td>
 {% endblock %}

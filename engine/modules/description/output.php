@@ -1,17 +1,23 @@
 <?
 
-class Description_Output extends Module_Output implements Plugins
+class Description_Output extends Output_Simple implements Plugins
 {
-	public function main () {
+	public function main ($query) {
+		$module = reset($query);
 
-		$return = array('template' => Globals::$query['module']);
+		$return = array('template' => $module);
 		
-		$class = Globals::$query['module'] . '_output';
+		$class = $module . '_Output';
 		
 		if (is_callable(array($class, 'description'))) {
-			$return = array_merge(call_user_func(array($class, 'description')), $return);
+			$data = call_user_func(array($class, 'description'));
+			$return = array_merge((array) $data, $return);
 		}
-		
+
 		return $return;
+	}
+	
+	public function make_subquery ($query, $module) {
+		return array($module);
 	}
 }

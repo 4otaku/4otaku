@@ -1,6 +1,6 @@
 <?
 
-abstract class Output implements Plugins
+abstract class Output extends Core implements Plugins
 {
 	// Флаги вывода, вроде размера тамбнейлов
 	public $flags = array();
@@ -12,8 +12,9 @@ abstract class Output implements Plugins
 	public $submodules = array();
 	
 	public function process ($query) {
+		$query = (array) $query;		
 		$function = empty($query['function']) ? 'main' : $query['function'];
-		
+
 		$this->$function($query);
 
 		foreach ($this->items as & $item) {
@@ -26,9 +27,15 @@ abstract class Output implements Plugins
 	}
 	
 	public function add_sub_data ($data, $name) {
-		$this->submodules[$name] = array(
-			'items' => $data->items, 
-			'flag' => $data->flags
-		);
+
+		if (!is_object($data)) {
+			$this->submodules[$name] = $data;
+			
+		} else {		
+			$this->submodules[$name] = array(
+				'items' => $data->items, 
+				'flag' => $data->flags
+			);
+		}
 	}
 }

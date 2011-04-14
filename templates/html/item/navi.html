@@ -2,16 +2,16 @@
 	<code>
 		<ul>
 			<li class="page_info">
-				Страница {{curr_page}} из {{pagecount}}
+				Страница {{item.curr_page}} из {{item.pagecount}}
 			</li>
-			{% if navi_back %}
+			{% if item.backward %}
 				<li>
-					<a href="{{navi_back}}">
+					<a href="{{item.backward}}">
 						&lt;
 					</a>
 				</li>
 			{% endif %}
-			{% for number, element in navi %}
+			{% for number, element in item.pages %}
 				{% if element.type == 'active' %}
 					<li class="active_page">
 						<a href="{{element.url}}">
@@ -30,9 +30,9 @@
 					</li>
 				{% endif %}
 			{% endfor %}
-			{% if navi_forward %}
+			{% if item.forward %}
 				<li>
-					<a href="{{navi_forward}}">
+					<a href="{{item.forward}}">
 						&gt;
 					</a>
 				</li>

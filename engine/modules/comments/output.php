@@ -1,6 +1,6 @@
 <?
 
-class Comments_Output extends Module_Output implements Plugins
+class Comments_Output extends Output implements Plugins
 {
 	public function main () {
 

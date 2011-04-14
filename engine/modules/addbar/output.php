@@ -1,6 +1,6 @@
 <?
 
-class Addbar_Output extends Module_Output implements Plugins
+class Addbar_Output extends Output implements Plugins
 {
 
 	public function main () {

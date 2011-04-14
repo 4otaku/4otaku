@@ -1,75 +1,53 @@
 <?
 
-class Video_Output extends Module_Output implements Plugins
+class Video_Output extends Output_Main implements Plugins
 {
-	protected $sizes = array();
-
-	public function single ($query) {
-		$video = Globals::db()->get_full_row('video', $query['id']);
-		$this->test_area($video['area']);
-
-		$video['date'] = Globals::db()->date_to_unix($video['date']);
-
-		$video['object'] = Crypt::unpack($video['object']);
-		$video['object'] = str_replace(
-			array('%video_width%','%video_height%'),
-			Config::settings('fullsize'),
-			$video['object']
-		);
-
-		$meta = Meta::prepare_meta(array($video['id'] => $video['meta']));
-
-		$return['items'] = array(
-			$video['id'] => array_merge($video, current($meta))
-		);
+	public function single ($query) {		
+		$id = $query['id'];
+		$video = Globals::db()->get_full_row('video', $id);
 		
-		$return['items'] = $this->mark_item_types($return['items'], 'video');
+		$this->test_area($video['area']);
+		
+		$this->items[$id] = new Item_Video($video, 'fullsize');	
 
-		return $return;
+		$meta = Meta::prepare_meta(array($id => $video['meta']));
+
+		$this->items[$id] = Transform_Item::merge($this->items[$id], current($meta));
 	}
 
 	public function main ($query) {
 		$return = array();
 
 		$perpage = Config::settings('per_page');
-
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
-
 		$start = ($page - 1) * $perpage;
 
 		$listing_condition = $this->build_listing_condition($query);
-
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$return['items'] = Globals::db()->get_full_vector('video', $condition);
+		$items = Globals::db()->get_full_vector('video', $condition);
 
 		$index = array();
-
-		foreach ($return['items'] as $id => & $video) {
-			$video = array_merge($video);
-
-			$index[$id] = $video['meta'];
-
-			$video['date'] = Globals::db()->date_to_unix($video['date']);
-			$video['object'] = Crypt::unpack($video['object']);
-
-			$video['object'] = str_replace(
-				array('%video_width%','%video_height%'),
-				Config::settings('thumbsize'),
-				$video['object']
-			);
+		
+		foreach ($items as $id => $item) {
+			$this->items[$id] = new Item_Video($item, 'thumbsize');
+			$index[$id] = $item['meta'];
 		}
+		unset ($items);
 
 		$meta = Meta::prepare_meta($index);
-
-		$return['items'] = array_replace_recursive($return['items'], $meta);
-		$return['items'] = $this->mark_item_types($return['items'], 'video');		
-
+		
+		foreach ($this->items as $id => & $item) {
+			$item = Transform_Item::merge($item, $meta[$id]);
+		}
+		
 		$count = Globals::db()->get_count('video', $listing_condition);
-
-		$return['curr_page'] = $page;
-		$return['pagecount'] = ceil($count / $perpage);
-
-		return $return;
+		
+		$this->items[] = new Item_Navi(array(
+			'curr_page' => $page,
+			'pagecount' => ceil($count / $perpage),
+			'query' => $query,
+			'module' => 'video',
+		));		
 	}
 }

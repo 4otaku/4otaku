@@ -3,20 +3,17 @@
 class Post_Output extends Output_Main implements Plugins
 {
 	public function single ($query) {
-		$post = Globals::db()->get_full_row('post', $query['id']);
-		$this->test_area($post['area']);
-
-		$items = $this->get_items($post['id']);
-
-		$post['date'] = Globals::db()->date_to_unix($post['date']);
-
-		$meta = Meta::prepare_meta(array($post['id'] => $post['meta']));
-
-		$this->items[$post['id']] = array_merge($post, current($meta), current($items));
+		$id = $query['id'];
+		$post = Globals::db()->get_full_row('post', $id);
 		
-		$return['items'] = $this->mark_item_types($return['items'], 'post');		
+		$this->test_area($post['area']);
+		
+		$this->items[$id] = new Item_Post($post);
 
-		return $return;
+		$subitems = current($this->get_subitems($id));
+		$meta = current(Meta::prepare_meta(array($id => $post['meta'])));
+
+		$this->items[$id] = Transform_Item::merge($this->items[$id], $meta, $subitems);
 	}
 
 	public function main ($query) {
@@ -44,21 +41,21 @@ class Post_Output extends Output_Main implements Plugins
 		
 		$meta = Meta::prepare_meta($index);
 
-		foreach ($this->items as $id => & $post) {
-			$post = Transform_Item::merge($post, $post_subitems[$id], $meta[$id]);
-
-			$post['date'] = Globals::db()->date_to_unix($post['date']);
+		foreach ($this->items as $id => & $item) {
+			$item = Transform_Item::merge($item, $post_subitems[$id], $meta[$id]);
 		}
-
+		
 		$count = Globals::db()->get_count('post', $listing_condition);
-
-		$return['curr_page'] = $page;
-		$return['pagecount'] = ceil($count / $perpage);
-
-		return $return;
+		
+		$this->items[] = new Item_Navi(array(
+			'curr_page' => $page,
+			'pagecount' => ceil($count / $perpage),
+			'query' => $query,
+			'module' => 'post',
+		));
 	}
 	
-	public function get_subitems ($ids) {
+	protected function get_subitems ($ids) {
 		$ids = (array) $ids;
 
 		$condition = Globals::db()->array_in('item_id',$ids);

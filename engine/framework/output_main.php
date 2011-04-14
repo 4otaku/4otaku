@@ -17,12 +17,12 @@ class Output_Main extends Output implements Plugins
 
 	protected function test_area ($area) {
 		$url = Globals::$url;
-		
+
 		if (
-			empty($url[2]) || 
+			empty($url[1]) || 
 			empty($area) ||
-			$url[2] == $area || 
-			(is_numeric($url[2]) && $area == 'main')
+			$url[1] == $area || 
+			(is_numeric($url[1]) && $area == 'main')
 		) {
 			return;
 		}
@@ -30,13 +30,13 @@ class Output_Main extends Output implements Plugins
 		$possible_areas = Config::settings('area');
 		
 		if (
-			array_key_exists($url[2], $possible_areas) &&
-			$possible_areas[$url[2]] != 'disabled'
+			array_key_exists($url[1], $possible_areas) &&
+			$possible_areas[$url[1]] != 'disabled'
 		) {
 			if ($area == 'main') {
-				unset($url[2]);
+				unset($url[1]);
 			} else {
-				$url[2] = $area;
+				$url[1] = $area;
 			}
 		} else {
 			if ($area == 'main') {

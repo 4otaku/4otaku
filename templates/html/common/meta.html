@@ -11,7 +11,7 @@
 {% if item.meta.category %}
 	 | {{item.meta_header.category}} 
 	{% for key, category in item.meta.category %}
-		{% if not loop.first %}, {% endif %}																	
+		{% if not loop.first %}, {% endif %}
 		<a href="{{item.base}}category/{{category.alias}}/">
 			{{category.name}}
 		</a>

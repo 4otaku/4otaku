@@ -27,6 +27,10 @@ class Core implements Plugins
 	
 	public static function make_query_output ($url, $vars) {
 		$query = array();
+		
+		// Первый элемент массива урла - указатель на рабочий модуль, 
+		// он уже не нужен, убираем
+		array_shift($url);
 
 		if (is_array(self::$url_parts)) {
 			foreach (self::$url_parts as $function) {
@@ -50,22 +54,26 @@ class Core implements Plugins
 	public static function valid_subquery ($area, $query) {
 		$area = explode(',', $area);
 		
+		$function = empty($query['function']) ? 'main' : $query['function'];
+		
 		foreach ($area as $test) {
 			if ($test == '*') {
 				return true;
 			}
 			
-			if (preg_match('/^\{([a-z_]+)\}$/i', $test, $match)) {
-				if (!empty($query['function']) && $query['function'] == $match[1]) {
-					return true;
-				}
+			if (
+				preg_match('/^\{([a-z_]+)\}$/i', $test, $match) &&
+				$function == $match[1]
+			) {
+				return true;
 			}
 		}
 		
 		return false;
 	}
 	
-	public static function make_subquery ($query) {
+	// Дефолтное, на случай если не переопределено в модуле
+	public function make_subquery ($query, $module) {
 		return array();
 	}
 }

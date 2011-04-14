@@ -4,7 +4,7 @@
 
 abstract class Item_Abstract_Marked extends Item_Abstract_Base implements Plugins
 {	
-	public function __construct ($data, $flag = false) {
+	public function __construct ($data = array(), $flag = false) {
 		parent::__construct($data, $flag);
 		
 		$class = get_called_class();
