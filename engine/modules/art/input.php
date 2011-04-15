@@ -1,6 +1,6 @@
 <?
 
-class Art_Input extends Module_Output implements Plugins
+class Art_Input extends Input implements Plugins
 {
 	public static function create_pack_file ($pack_id) {
 		$image_dir = IMAGES.SL.'art'.SL.'full'.SL;

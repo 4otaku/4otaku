@@ -51,29 +51,6 @@
 						</div>					
 					{% if loop.last %}</div>{% endif %}
 				{% endfor %}
-				{% for pool_id, pool in item.pools %}
-					{% if loop.first %}<div class="margin10">{% endif %}
-						<div class="mini-shell art-bar">
-							Эта картинка принадлежит группе: 
-							<a href="/art/pool/{{pool_id}}/">
-								{{pool.name}}
-							</a>. 
-							{% if pool.previous %}
-								<a href="/art{{utils.area(pool.previous.area)}}/{{pool.previous.id}}">
-									Предыдущая
-								</a>. 		
-							{% endif %}
-							{% if pool.next %}
-								<a href="/art{{utils.area(pool.next.area)}}/{{pool.next.id}}">
-									Следующая
-								</a>. 
-							{% endif %}									
-							<a href="/art/slideshow/pool/{{pool_id}}#1" target="_blank">
-								Перейти в слайдшоу
-							</a>. 												
-						</div>					
-					{% if loop.last %}</div>{% endif %}
-				{% endfor %}
 				{% for variation in item.variations %}
 					{% if loop.first %}
 						<div class="margin10">
@@ -150,8 +127,8 @@
 				<div class="wrapper">
 					<p class="meta">
 						{% include 'html/common/meta.html' %}
-						{% if item.translator %}
-							 | Переводчик: {{item.translator}}
+						{% if item.translation.translator %}
+							 | Переводчик: {{item.translation.translator}}
 						{% endif %}
 						{% if item.source %}
 							 | Источник: {{item.source}}

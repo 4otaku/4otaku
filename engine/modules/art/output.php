@@ -1,48 +1,27 @@
 <?
 
-class Art_Output extends Module_Output implements Plugins
+class Art_Output extends Output_Main implements Plugins
 {
 	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
 	
 	public function single ($query) {
-		$art = Objects::db()->get_full_row('art', $query['id']);
-		$this->test_area($art['area']);	
+		$id = $query['id'];
+		$art = Globals::db()->get_full_row('art', $id);
 		
-		$art['date'] = Objects::db()->date_to_unix($art['date']);
+		$this->test_area($art['area']);
 		
-		$meta = Meta::prepare_meta(array($art['id'] => $art['meta']));
+		$this->items[$id] = new Item_Art($art);
 		
-		$translations = current($this->get_translations($art['id']));
-		$art['translator'] = $translations['translator'];
-		$translations['full'] = (array) $translations['data'];
-		
-		if ($art['resized']) {
-			foreach ($translations['full'] as $key => $translation) {
-				foreach ($translation as $name => & $field) {
-					if (preg_match('/^[xy][12]$/', $name)) {
-						$field = floor($field * $art['resized']);
-					}
-				}
-				unset($field);
-				
-				$translations['resized'][$key] = $translation;
-			}
-		}
-		$art['translation'] = $translations;
+		$meta = Meta::prepare_meta(array($id => $art['meta']));
 
-		$return['items'] = array(
-			$art['id'] => array_merge(
-				$art, 
-				current($meta),
-				array('pools' => $this->get_pools(current($meta))),
-				array('packs' => $this->get_packs(current($meta))),
-				array('variations' => $this->get_variants($art['id'], $art['variations']))
-			),
+		$this->items[$id] = Transform_Item::merge(
+			$this->items[$id], 
+			current($meta),
+			array('translation' => current($this->get_translations($id))),
+			array('pools' => $this->get_pools(current($meta))),
+			array('packs' => $this->get_packs(current($meta))),
+			array('variations' => $this->get_variants($id, $art['variations']))
 		);
-		
-		$return['items'] = $this->mark_item_types($return['items'], 'art');		
-
-		return $return;
 	}
 
 	public function main ($query) {
