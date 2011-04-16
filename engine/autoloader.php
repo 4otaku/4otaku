@@ -28,11 +28,16 @@
 		}
 		
 		$alt_name = preg_replace('/^(.+)\\'.SL.'(.+?)$/', '$1_$2', $name);
+		while ($alt_name != $name) {
 		
-		if ($library = search_lib($alt_name)) {
-			include_once($library);
-			return true;			
-		}		
+			if ($library = search_lib($alt_name)) {
+				include_once($library);
+				return true;
+			}
+			
+			$name = $alt_name;
+			$alt_name = preg_replace('/^(.+)\\'.SL.'(.+?)$/', '$1_$2', $name);
+		}
 		
 		return false;
 	}	

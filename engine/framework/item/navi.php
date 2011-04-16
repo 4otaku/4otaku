@@ -14,7 +14,7 @@ class Item_Navi extends Item_Abstract_Marked implements Plugins
 		
 		$base = '/'.$module.'/';
 		
-		$base .= !empty($this->data['navi_base']) ? $this->data['navi_base'].'/' : '';
+		$base .= !empty($this->data['submodule']) ? $this->data['submodule'].'/' : '';
 
 		if (!empty($query['area']) && $query['area'] != 'main') {
 			$base .= $query['area'].'/';

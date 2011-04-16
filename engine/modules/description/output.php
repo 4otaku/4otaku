@@ -2,15 +2,15 @@
 
 class Description_Output extends Output_Simple implements Plugins
 {
-	public function main ($query) {
-		$module = reset($query);
+	public function main ($query) {	
+		$module = $query['module'];
 
 		$return = array('template' => $module);
 		
-		$class = $module . '_Output';
-		
+		$class = Core::get_worker_name($module, $query, 'output');
+
 		if (is_callable(array($class, 'description'))) {
-			$data = call_user_func(array($class, 'description'));
+			$data = call_user_func(array($class, 'description'), $query);
 			$return = array_merge((array) $data, $return);
 		}
 
@@ -18,6 +18,10 @@ class Description_Output extends Output_Simple implements Plugins
 	}
 	
 	public function make_subquery ($query, $module) {
-		return array($module);
+		unset($query['function']);
+		
+		$subquery = array_merge($query, array('module' => $module));
+		
+		return $subquery;
 	}
 }

@@ -51,6 +51,14 @@ class Core implements Plugins
 		return $vars;
 	}
 	
+	public static function get_worker_name ($module, $query, $type) {
+		if (!empty($query['submodule'])) {
+			return ucfirst($module).'_Submodule_'.ucfirst($query['submodule']);
+		}
+		
+		return ucfirst($module).'_'.ucfirst($type);
+	}
+	
 	public static function valid_subquery ($area, $query) {
 		$area = explode(',', $area);
 		

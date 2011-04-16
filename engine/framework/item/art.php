@@ -21,6 +21,25 @@ class Item_Art extends Item_Abstract_Meta implements Plugins
 		);
 	}
 	
+	protected function postprocess_translations (& $translations, $resized) {
+		
+		$translations['full'] = (array) $translations['data'];
+		unset($translations['data']);
+		
+		if ($resized) {
+			foreach ($translations['full'] as $key => $translation) {
+				foreach ($translation as $name => & $field) {
+					if (preg_match('/^[xy][12]$/', $name)) {
+						$field = floor($field * $resized);
+					}
+				}
+				unset($field);
+				
+				$translations['resized'][$key] = $translation;
+			}
+		}		
+	}
+	
 	protected function postprocess_groups_data (& $pools, & $packs) {
 		
 		$area_needed = array();
@@ -34,7 +53,7 @@ class Item_Art extends Item_Abstract_Meta implements Plugins
 			$this->postprocess_single_group($pack, $area_needed);
 			
 			list($pack['weight'], $pack['weight_type']) = 
-				Art_Output::get_pack_weight($pack_id);
+				Art_Submodule_Pack::get_pack_weight($pack_id);
 		}
 		unset ($pack);
 
@@ -91,24 +110,5 @@ class Item_Art extends Item_Abstract_Meta implements Plugins
 				$group['next']['area'] = $areas[$group['next']['id']];
 			}						
 		}
-	}
-	
-	protected function postprocess_translations (& $translations, $resized) {
-		
-		$translations['full'] = (array) $translations['data'];
-		unset($translations['data']);
-		
-		if ($resized) {
-			foreach ($translations['full'] as $key => $translation) {
-				foreach ($translation as $name => & $field) {
-					if (preg_match('/^[xy][12]$/', $name)) {
-						$field = floor($field * $resized);
-					}
-				}
-				unset($field);
-				
-				$translations['resized'][$key] = $translation;
-			}
-		}		
 	}
 }

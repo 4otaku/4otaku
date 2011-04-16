@@ -59,7 +59,7 @@
 
 	if (!empty($query_input)) {
 		
-		$worker = $module.'_Input';
+		$worker = Core::get_worker_name($module, $query_input, 'input');
 		$worker = new $worker();
 		$worker->process($query_input);
 		
@@ -68,23 +68,23 @@
 		}
 	}
 	
-	$worker = $module.'_Output';
+	$worker = Core::get_worker_name($module, $query_output, 'output');
 	if (class_exists($worker)) {
 		
 		$data = new $worker();
 		$data->process($query_output);
 		
 		// Если ожидается вывод данных, создадим субзапросы согласно подгруженному конфигу
-		$submodules = Config::settings('side');
+		$side_modules = Config::settings('side');
 
-		foreach ((array) $submodules as $submodule => $area) {
-			if (Core::valid_subquery($area, $query_output)) {
+		foreach ((array) $side_modules as $side_module => $area) {
+			if ($data->valid_subquery($area, $query_output)) {
 
-				$worker = $submodule.'_Output';
+				$worker = $side_module.'_Output';
 				$worker = new $worker();
 
-				$subquery = $worker->make_subquery($query_output, $module);				
-				$data->add_sub_data($worker->process($subquery), $submodule);
+				$side_query = $worker->make_subquery($query_output, $module);				
+				$data->add_sub_data($worker->process($side_query), $side_module);
 			}
 		}
 

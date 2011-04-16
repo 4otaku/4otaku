@@ -98,11 +98,20 @@ class Query_Library implements Plugins
 			if (isset($url[1]) && is_numeric($url[1])) {
 				
 				$meta = array_splice($url, 0, 2);				
-				return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pool', 'area' => false);
+				return array(
+					'meta' => $meta[0], 
+					'alias' => $meta[1], 
+					'submodule' => 'pool', 
+					'area' => false,
+					'function' => 'group',
+				);
 			} else {
 				
 				array_shift($url);
-				return array('function' => 'pool_list');
+				return array(
+					'submodule' => 'pool',
+					'function' => 'index'
+				);
 			}
 		}
 	}
@@ -112,11 +121,20 @@ class Query_Library implements Plugins
 			if (isset($url[1]) && is_numeric($url[1])) {
 				
 				$meta = array_splice($url, 0, 2);				
-				return array('meta' => $meta[0], 'alias' => $meta[1], 'function' => 'pack', 'area' => false);
+				return array(
+					'meta' => $meta[0], 
+					'alias' => $meta[1], 
+					'submodule' => 'pack', 
+					'area' => false,
+					'function' => 'group',
+				);
 			} else {
 				
 				array_shift($url);
-				return array('function' => 'pack_list');
+				return array(
+					'submodule' => 'pack', 
+					'function' => 'index',
+				);
 			}
 		}
 	}
