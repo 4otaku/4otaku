@@ -9,16 +9,16 @@ class Core implements Plugins
 			$module = reset($url);
 		}
 
-		return class_exists($module.'_Output') ? $module : 'Error';
+		return class_exists(ucfirst($module).'_Output') ? $module : 'error';
 	}
 	
 	protected static $url_parts = array();
 	
 	public static function make_query ($url, $vars) {
-		
+	
 		self::$url_parts = (array) Config::settings('url_parts');		
 		ksort(self::$url_parts);
-		
+
 		$query_input = self::make_query_input($vars);
 		$query_output = self::make_query_output($url, $vars);		
 				

@@ -1,7 +1,7 @@
 <a href="http://4otaku.ru">Hello world!</a>
 <br /><br />
-{% if pic.resized %}
-	<img src="{{domain}}/images/art/resized/{{pic.md5}}.jpg" />
+{% if items.pic.resized %}
+	<img src="{{domain}}/images/art/resized/{{items.pic.md5}}.jpg" />
 {% else %}
-	<img src="{{domain}}/images/art/full/{{pic.md5}}.{{pic.extension}}" />
+	<img src="{{domain}}/images/art/full/{{items.pic.md5}}.{{items.pic.extension}}" />
 {% endif %}

@@ -9,7 +9,71 @@
 			{% for option_alias, option in block %}
 				<tr>
 					<td class="config_option">
-						{% include ['web/single/config/',option.type,'.html']|join %}
+						{% if option.type == 'checkbox' %}
+							{{option.name}}: 
+							<input 
+								type="checkbox" 
+								name="{{id}}.{{block_alias}}.{{option_alias}}" 
+								value="1" 
+								{% if option.user_value is none or option.user_value == option.default %}
+									{% if option.default == 1 %}
+										 class="default checked" checked="checked"
+									{% endif %}
+								{% else %}
+									{% if option.default == 1 %}
+										 class="default"
+									{% endif %}
+									{% if option.user_value == 1%} 
+										 class="checked"
+										 checked="checked"
+									{% endif %}
+								{% endif %}		
+							>						
+						{% elseif option.type == 'radiobutton' %}
+							{{option.name}}: 
+							{% for key, value in option.value %}
+								<input 
+									type="radio" 
+									name="{{id}}.{{block_alias}}.{{option_alias}}" 
+									value="{{value}}" 
+									{% if option.user_value is none or option.user_value == option.default %}
+										{% if value == option.default %}
+											 class="default checked" checked="checked"
+										{% endif %}
+									{% else %}
+										{% if value == option.default %}
+											 class="default"
+										{% endif %}
+										{% if value == option.user_value %} 
+											 class="checked"
+											 checked="checked"
+										{% endif %}
+									{% endif %}		
+								> {{utils.one_of(option.value_name[key],value)}} 
+							{% endfor %}						
+						{% elseif option.type == 'select' %}
+							{{option.name}}: 
+							<select name="{{id}}.{{block_alias}}.{{option_alias}}">
+							{% for key, value in option.value %}
+								<option 
+									value="{{value}}" 
+									{% if option.user_value is none or option.user_value == option.default %}
+										{% if value == option.default %}
+											 class="default selected" selected="selected"
+										{% endif %}
+									{% else %}
+										{% if value == option.default %}
+											 class="default"
+										{% endif %}
+										{% if value == option.user_value %} 
+											 class="selected"
+											 selected="selected"
+										{% endif %}
+									{% endif %}		
+								>{{utils.one_of(option.value_name[key],value)}}</option>
+							{% endfor %}
+							</select>						
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}

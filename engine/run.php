@@ -48,13 +48,13 @@
 	// Узнаем имя модуля с которым нам предстоит работать
 	
 	$module = Core::get_module(Globals::$url, Globals::$vars);
-	
+
 	// И подгружаем его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.$module.SL.'settings.ini';
 	Config::load($module_config_file);
 
 	// Унифицируем запрос
-	
+
 	list($query_input, $query_output) = Core::make_query(Globals::$url, Globals::$vars);
 
 	if (!empty($query_input)) {
@@ -67,12 +67,12 @@
 			Http::redirect($worker->redirect_address);
 		}
 	}
-	
+
 	$worker = Core::get_worker_name($module, $query_output, 'output');
 	if (class_exists($worker)) {
 		
 		$data = new $worker();
-		$data->process($query_output);
+		$data = $data->process($query_output);
 		
 		// Если ожидается вывод данных, создадим субзапросы согласно подгруженному конфигу
 		$side_modules = Config::settings('side');

@@ -1,13 +1,11 @@
 <?
 
-class Error_Output extends Module_Output implements Plugins
+class Error_Output extends Output implements Plugins
 {
 	public function main () {
-		$return = array();
 
-		$return['pic'] = Globals::db()->get_full_row('art', "area != 'deleted' order by RAND()");
+		$this->items['pic'] = Globals::db()->get_full_row('art', "area != 'deleted' order by RAND()");
 
-		return $return;
 	}
 	
 	public function class_not_found () {

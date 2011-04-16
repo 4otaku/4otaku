@@ -12,7 +12,7 @@ final class Config
 		) {
 			return false;
 		}
-		
+	
 		$data = parse_ini_file($file, true);
 		$name = basename($file, '.ini');
 	

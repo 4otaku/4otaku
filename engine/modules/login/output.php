@@ -1,6 +1,6 @@
 <?
 
-class Login_Output extends Module_Output implements Plugins
+class Login_Output extends Output implements Plugins
 {
 	public function main () {
 		

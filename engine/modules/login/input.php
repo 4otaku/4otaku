@@ -1,6 +1,6 @@
 <?
 
-class Login_Input extends Module_Output implements Plugins
+class Login_Input extends Input implements Plugins
 {
 	const	INCORRECT_PASSWORD = 'profile_incorrect_password',
 			NO_SUCH_USER = 'profile_no_such_user',
