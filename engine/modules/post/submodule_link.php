@@ -31,14 +31,13 @@ class Post_Submodule_Link extends Output implements Plugins
 				self::$unclear++;
 			}
 			
-			if (empty($return['items'][$full_id])) {
+			if (empty($this->items[$full_id])) {				
 				$this->items[$full_id] = New Item_Post_Brokenlinks (array(
-					'item_type' => 'post_links_'.$status,
 					'id' => $link['item_id'],
 					'title' => $titles[$link['item_id']],
 					'links' => array(),
-				));
-			}
+				), $status);
+			}			
 			
 			$this->items[$full_id]->add_to('links', Crypt::unpack($link['data']));
 		}

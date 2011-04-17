@@ -28,8 +28,8 @@ class Array_Access implements ArrayAccess
 		return isset($this->data[$offset]) ? $this->data[$offset] : null;
 	}
 	
-	public function add_to ($key, $value, $offset = null) {
-		if (is_null($offset)) {
+	public function add_to ($key, $value, $offset = null) {		
+		if (is_null($offset)) {			
 			$this->data[$key][] = $value;
 		} else {
 			$this->data[$key][$offset] = $value;
