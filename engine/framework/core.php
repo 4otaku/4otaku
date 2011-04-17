@@ -60,19 +60,28 @@ class Core implements Plugins
 	}
 	
 	public static function valid_subquery ($area, $query) {
-		$area = explode(',', $area);
+	
+		$rule = array();		
+		
+		if (!empty($query['submodule'])) {
+			$rule[] = $query['submodule'];
+		}
 		
 		$function = empty($query['function']) ? 'main' : $query['function'];
+		if ($function != 'main' || empty($rule)) {
+			$rule[] = $function;
+		}
 		
+		$rule = '{'.implode('.', $rule).'}';
+		
+		$area = explode(',', $area);
+
 		foreach ($area as $test) {
 			if ($test == '*') {
 				return true;
 			}
 			
-			if (
-				preg_match('/^\{([a-z_]+)\}$/i', $test, $match) &&
-				$function == $match[1]
-			) {
+			if ($rule === $test) {
 				return true;
 			}
 		}

@@ -5,7 +5,12 @@ class Description_Output extends Output_Simple implements Plugins
 	public function main ($query) {	
 		$module = $query['module'];
 
-		$return = array('template' => $module);
+		$template = $module;
+		if (!empty($query['submodule'])) {
+			$template .= '_'.$query['submodule'];
+		}
+		$return = array('template' => $template);
+		
 		
 		$class = Core::get_worker_name($module, $query, 'output');
 

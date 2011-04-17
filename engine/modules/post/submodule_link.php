@@ -1,13 +1,11 @@
 <?
 
-class Links_Output extends Module_Output implements Plugins
+class Post_Submodule_Link extends Output implements Plugins
 {
 	protected static $broken = 0;
 	protected static $unclear = 0;
 	
-	public function main () {
-		$return = array();
-		
+	public function main () {		
 		$fields = array('item_id', 'data', 'status');
 		
 		$links = Globals::db()->get_table('post_items', $fields, "status != 'ok'");
@@ -34,18 +32,18 @@ class Links_Output extends Module_Output implements Plugins
 			}
 			
 			if (empty($return['items'][$full_id])) {
-				$return['items'][$full_id] = array(
-					'item_type' => 'links_'.$status,
+				$this->items[$full_id] = New Item_Post_Brokenlinks (array(
+					'item_type' => 'post_links_'.$status,
 					'id' => $link['item_id'],
 					'title' => $titles[$link['item_id']],
 					'links' => array(),
-				);
+				));
 			}
 			
-			$return['items'][$full_id]['links'][] = Crypt::unpack($link['data']);
+			$this->items[$full_id]->add_to('links', Crypt::unpack($link['data']));
 		}
 		
-		uksort($return['items'], 'strnatcasecmp');
+		uksort($this->items, 'strnatcasecmp');
 	
 		return $return;
 	}

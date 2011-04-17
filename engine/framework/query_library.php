@@ -139,6 +139,14 @@ class Query_Library implements Plugins
 		}
 	}
 
+	public static function links (& $url) {
+		if (isset($url[0]) && $url[0] == 'links') {
+				
+			array_shift($url);
+			return array('submodule' => 'link');
+		}
+	}
+
 	public static function page (& $url) {
 		if (isset($url[0]) && $url[0] == 'page' && isset($url[1]) && is_numeric($url[1])) {
 
