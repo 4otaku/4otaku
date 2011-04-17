@@ -1,6 +1,6 @@
 <?
 
-final class Globals extends Objects
+final class Globals implements Plugins
 {
 	// Для загруженных данных
 	public static $vars = array();

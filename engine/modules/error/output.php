@@ -4,7 +4,7 @@ class Error_Output extends Output implements Plugins
 {
 	public function main () {
 
-		$this->items['pic'] = Globals::db()->get_full_row('art', "area != 'deleted' order by RAND()");
+		$this->items['pic'] = Database::get_full_row('art', "area != 'deleted' order by RAND()");
 
 	}
 	

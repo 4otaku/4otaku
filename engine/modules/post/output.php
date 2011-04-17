@@ -4,7 +4,7 @@ class Post_Output extends Output_Main implements Plugins
 {
 	public function single ($query) {
 		$id = $query['id'];
-		$post = Globals::db()->get_full_row('post', $id);
+		$post = Database::get_full_row('post', $id);
 		
 		$this->test_area($post['area']);
 		
@@ -26,7 +26,7 @@ class Post_Output extends Output_Main implements Plugins
 		$listing_condition = $this->build_listing_condition($query);
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$items = Globals::db()->get_full_vector('post', $condition);
+		$items = Database::get_full_vector('post', $condition);
 		
 		$index = array();
 		
@@ -45,7 +45,7 @@ class Post_Output extends Output_Main implements Plugins
 			$item = Transform_Item::merge($item, $post_subitems[$id], $meta[$id]);
 		}
 		
-		$count = Globals::db()->get_count('post', $listing_condition);
+		$count = Database::get_count('post', $listing_condition);
 		
 		$this->items[] = new Item_Navi(array(
 			'curr_page' => $page,
@@ -58,9 +58,9 @@ class Post_Output extends Output_Main implements Plugins
 	protected function get_subitems ($ids) {
 		$ids = (array) $ids;
 
-		$condition = Globals::db()->array_in('item_id',$ids);
+		$condition = Database::array_in('item_id',$ids);
 
-		$items = Globals::db()->get_table('post_items', 'item_id,type,sort_number,data', $condition, $ids);
+		$items = Database::get_table('post_items', 'item_id,type,sort_number,data', $condition, $ids);
 
 		$return = array();
 

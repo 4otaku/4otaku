@@ -3,7 +3,7 @@
 class Cron
 {	
 	public function get_task_list () {
-		$tasks = Objects::db()->get_table('cron', 'name', '`period` + `last_call` < NOW()');
+		$tasks = Database::get_table('cron', 'name', '`period` + `last_call` < NOW()');
 
 		foreach ($tasks as & $task) {
 			$task = current($task);
@@ -14,10 +14,10 @@ class Cron
 	
 	public function do_task ($task) {
 		
-		if (Objects::db()->get_count('cron', '`name` = ? and `status` = "idle"', $task)) {
+		if (Database::get_count('cron', '`name` = ? and `status` = "idle"', $task)) {
 			
 			if (method_exists($this, $task)) {
-				Objects::db()->update('cron', '`name` = ?', array('status' => 'process'), $task);
+				Database::update('cron', '`name` = ?', array('status' => 'process'), $task);
 				
 				$time = time(); 
 				$memory = memory_get_usage();
@@ -33,7 +33,7 @@ class Cron
 					'memory' => $memory, 
 				);
 				
-				Objects::db()->update('cron', '`name` = ?', $update, $task);
+				Database::update('cron', '`name` = ?', $update, $task);
 				
 				$memory = round($memory / 1024, 2);
 				
@@ -50,11 +50,11 @@ class Cron
 
 	private function check_links () {
 		
-		$count = Objects::db()->get_count('post_items', '`type` = "link"');
+		$count = Database::get_count('post_items', '`type` = "link"');
 		
 		$limit = ceil($count/1440);
 		
-		$links = Objects::db()->get_vector('post_items', 'id, data', '`type` = "link" order by last_check limit '.$limit);
+		$links = Database::get_vector('post_items', 'id, data', '`type` = "link" order by last_check limit '.$limit);
 
 		if (is_array($links)) {
 			foreach ($links as $id => $link) {
@@ -67,10 +67,10 @@ class Cron
 				
 				$update = array(
 					'status' => $result,
-					'last_check' => Objects::db()->unix_to_date()
+					'last_check' => Database::unix_to_date()
 				);
 				
-				Objects::db()->update('post_items', $id, $update);
+				Database::update('post_items', $id, $update);
 			}
 		}
 		
@@ -108,9 +108,9 @@ class Cron
 			Cache::set('_actual_tag_areas', $modules, WEEK);
 		}
 		
-		Objects::db()->delete('meta_count', 'expires < NOW()');
+		Database::delete('meta_count', 'expires < NOW()');
 		
-		$tags = Objects::db()->get_vector('meta', 'alias', '`type` = "tag" order by rand() limit 100');
+		$tags = Database::get_vector('meta', 'alias', '`type` = "tag" order by rand() limit 100');
 		
 		foreach ($modules as $module => $areas) {
 			foreach ($areas as $area) {

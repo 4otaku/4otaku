@@ -1,6 +1,6 @@
 <?
 
-abstract class Input extends Core implements Plugins
+abstract class Input extends Query implements Plugins
 {
 	public $redirect_address = false;
 	public $status_message = false;

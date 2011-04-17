@@ -1,38 +1,78 @@
 <?
 
-class Query extends Query_Library implements Plugins
-{
-
-/*	
-	abstract public function postprocess ($data);
+class Query implements Plugins
+{	
+	protected static $url_parts = array();
 	
-	protected function postprocess_navi ($data) {
+	public static function make_query ($url, $vars) {
+	
+		self::$url_parts = (array) Config::settings('url_parts');		
+		ksort(self::$url_parts);
 
-		if (!empty($data['pagecount']) && !empty($data['curr_page'])) {
-			$worker = new Postprocess_Navi();
-			return $worker->process_web($data);
-		}
-		
-		return $data;
+		$query_input = self::make_query_input($vars);
+		$query_output = self::make_query_output($url, $vars);		
+				
+		return array($query_input, $query_output);
 	}
 	
-	protected function postprocess_items ($data) {
-		if (!empty($data['items'])) {
-			$meta_worker = new Postprocess_Meta();
-			$date_worker = new Postprocess_Date();
+	public static function make_query_output ($url, $vars) {
+		$query = array();
+		
+		// Первый элемент массива урла - указатель на рабочий модуль, 
+		// он уже не нужен, убираем
+		array_shift($url);
 
-			foreach ($data['items'] as & $item) {
-				if (!empty($item['meta'])) {
-					$item = $meta_worker->process_web($item);
-				}
-
-				if (!empty($item['date'])) {
-					$item['date'] = $date_worker->process_web($item['date']);
+		if (is_array(self::$url_parts)) {
+			foreach (self::$url_parts as $function) {
+				if (is_callable(array('Query_Library', $function))) {
+					$query = array_merge($query, (array) Query_Library::$function($url));
 				}
 			}
-			unset ($item);
 		}
 		
-		return $data;
-	} */
+		return $query;
+	}
+	
+	public static function make_query_input ($vars) {
+		if (empty($vars['function'])) {
+			return array();
+		}
+		
+		return $vars;
+	}
+	
+	public static function valid_subquery ($area, $query) {
+	
+		$rule = array();		
+		
+		if (!empty($query['submodule'])) {
+			$rule[] = $query['submodule'];
+		}
+		
+		$function = empty($query['function']) ? 'main' : $query['function'];
+		if ($function != 'main' || empty($rule)) {
+			$rule[] = $function;
+		}
+		
+		$rule = '{'.implode('.', $rule).'}';
+		
+		$area = explode(',', $area);
+
+		foreach ($area as $test) {
+			if ($test == '*') {
+				return true;
+			}
+			
+			if ($rule === $test) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	// Дефолтное, на случай если не переопределено в модуле
+	public function make_subquery ($query, $module) {
+		return array();
+	}
 }

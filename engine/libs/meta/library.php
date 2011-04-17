@@ -19,10 +19,10 @@ class Meta_Library implements Plugins
 	public function get_meta_numbers($aliases, $type, $module, $area) {
 		
 		$condition = '`type` = ? and `module` = ? and `area` = ? and ';
-		$condition .= Objects::db()->array_in('alias', $aliases);
+		$condition .= Database::array_in('alias', $aliases);
 		$params = array($type, $module, $area);
 		$params = array_merge($params, $aliases);
-		$found = Objects::db()->get_vector('meta_count', array('alias', 'count'), $condition, $params);
+		$found = Database::get_vector('meta_count', array('alias', 'count'), $condition, $params);
 
 		$aliases = array_diff($aliases, array_keys($found));		
 		$return = array();
@@ -39,8 +39,8 @@ class Meta_Library implements Plugins
 	public static function count_meta($alias, $type, $module, $area) {
 		$condition = '`area`= ? and ';
 		$search = array('+', $alias, $type);
-		$condition .= Objects::db()->make_search_condition('meta', array($search));
-		$count = Objects::db()->get_count($module, $condition, $area);
+		$condition .= Database::make_search_condition('meta', array($search));
+		$count = Database::get_count($module, $condition, $area);
 		
 		$insert = array(
 			'type' => $type,
@@ -48,12 +48,12 @@ class Meta_Library implements Plugins
 			'module' => $module,
 			'area' => $area,
 			'count' => $count,
-			'expires' => Objects::db()->unix_to_date(time() + WEEK),
+			'expires' => Database::unix_to_date(time() + WEEK),
 		);
 		
 		$dont_update = array('type', 'alias', 'module', 'area');
 		
-		Objects::db()->replace('meta_count', $insert, $dont_update);
+		Database::replace('meta_count', $insert, $dont_update);
 		
 		return $count;
 	}

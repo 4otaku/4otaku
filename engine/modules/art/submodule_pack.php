@@ -8,7 +8,7 @@ class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 
 		$pack_id = (int) $query['alias'];
 		
-		$pack = Objects::db()->get_row('art_cg_pack', array('title', 'text'), $pack_id);
+		$pack = Database::get_row('art_cg_pack', array('title', 'text'), $pack_id);
 
 		list($weight, $weight_type) = self::get_pack_weight($pack_id);
 		
@@ -45,9 +45,9 @@ class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 		$image_dir = IMAGES.SL.'art'.SL.'full'.SL;
 		
 		$search = array('+', $pack_id, 'cg_pack');
-		$condition = Objects::db()->make_search_condition('meta', array($search));
+		$condition = Database::make_search_condition('meta', array($search));
 		
-		$arts = Objects::db()->get_table('art', array('id', 'md5','extension','meta'), $condition);
+		$arts = Database::get_table('art', array('id', 'md5','extension','meta'), $condition);
 
 		if (empty($arts)) {
 			Error::warning("Серъезная ошибка в данных CG-пака № $pack_id");

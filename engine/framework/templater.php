@@ -28,7 +28,7 @@ class Templater
 		ob_start(array($this, 'make_clean'));
 
 		if (!empty($data->template)) {
-			self::$template = Globals::$data['template'];
+			self::$template = $data->template;
 		}
 		
 		$data = array(

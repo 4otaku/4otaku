@@ -58,9 +58,9 @@ class Item_Art extends Item_Abstract_Meta implements Plugins
 		unset ($pack);
 
 		if (!empty($area_needed)) {
-			$areas = Objects::db()->get_vector('art',
+			$areas = Database::get_vector('art',
 				array('id', 'area'), 
-				Objects::db()->array_in('id', $area_needed), 
+				Database::array_in('id', $area_needed), 
 				$area_needed
 			);
 			

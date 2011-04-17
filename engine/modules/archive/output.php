@@ -45,7 +45,7 @@ class Archive_Output extends Output implements Plugins
 		
 		$this->flags['meta_type'] = $group_by;
 		$this->flags['list_type'] = $type;
-		$this->flags['count'] = Objects::db()->get_count($type, '`area` = "main"');
+		$this->flags['count'] = Database::get_count($type, '`area` = "main"');
 	}
 	
 	protected function get_archive_by_date ($type) {
@@ -62,7 +62,7 @@ class Archive_Output extends Output implements Plugins
 			default: Error::fatal("Не умею выводить архив для $type");
 		}
 		
-		$data = Objects::db()->get_table($type, $fields, $condition);
+		$data = Database::get_table($type, $fields, $condition);
 		$return = array();
 
 		switch ($type) {
@@ -85,7 +85,7 @@ class Archive_Output extends Output implements Plugins
 	}
 	
 	protected function get_archive_by_meta ($type, $meta_name) {
-		$meta = Objects::db()->get_vector('meta', array('alias', 'name'), '`type` = ?', $meta_name);
+		$meta = Database::get_vector('meta', array('alias', 'name'), '`type` = ?', $meta_name);
 		$aliases = array_unique(array_keys($meta));
 		
 		$count_worker = new Meta_Library();
@@ -107,8 +107,8 @@ class Archive_Output extends Output implements Plugins
 			if ($type != 'art') {				
 				$condition = '`area`= \'main\' and ';
 				$search = array('+', $alias, $meta_name);
-				$condition .= Objects::db()->make_search_condition('meta', array($search));
-				$one['items'] = Objects::db()->get_table($type,	$fields, $condition);
+				$condition .= Database::make_search_condition('meta', array($search));
+				$one['items'] = Database::get_table($type,	$fields, $condition);
 			}
 		}
 		unset($one);

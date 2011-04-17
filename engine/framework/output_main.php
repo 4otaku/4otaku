@@ -9,7 +9,7 @@ class Output_Main extends Output implements Plugins
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {
 			$search = array('+', $query['alias'], $query['meta']);
-			$condition .= " and ".Objects::db()->make_search_condition('meta', array($search));
+			$condition .= " and ".Database::make_search_condition('meta', array($search));
 		}
 
 		return $condition;

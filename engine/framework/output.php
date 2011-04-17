@@ -1,6 +1,6 @@
 <?
 
-abstract class Output extends Core implements Plugins
+abstract class Output extends Query implements Plugins
 {
 	// Флаги вывода, вроде размера тамбнейлов
 	public $flags = array();

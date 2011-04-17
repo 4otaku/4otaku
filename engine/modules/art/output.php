@@ -6,7 +6,7 @@ class Art_Output extends Output_Main implements Plugins
 	
 	public function single ($query) {
 		$id = $query['id'];
-		$art = Globals::db()->get_full_row('art', $id);
+		$art = Database::get_full_row('art', $id);
 		
 		$this->test_area($art['area']);
 		
@@ -32,7 +32,7 @@ class Art_Output extends Output_Main implements Plugins
 		$listing_condition = $this->build_listing_condition($query);
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$items = Objects::db()->get_full_vector('art', $condition);
+		$items = Database::get_full_vector('art', $condition);
 		
 		$index = array();
 		
@@ -48,7 +48,7 @@ class Art_Output extends Output_Main implements Plugins
 			$item = Transform_Item::merge($item, $meta[$id]);
 		}
 		
-		$count = Globals::db()->get_count('art', $listing_condition);
+		$count = Database::get_count('art', $listing_condition);
 		
 		$this->items[] = new Item_Navi(array(
 			'curr_page' => $page,
@@ -63,10 +63,10 @@ class Art_Output extends Output_Main implements Plugins
 			return array();
 		}
 		
-		return Objects::db()->get_vector(
+		return Database::get_vector(
 			'art_pool', 
 			array('id', 'title', 'order'), 
-			Objects::db()->array_in('id', $meta['meta']['pool']), 
+			Database::array_in('id', $meta['meta']['pool']), 
 			$meta['meta']['pool']
 		);
 	}
@@ -76,10 +76,10 @@ class Art_Output extends Output_Main implements Plugins
 			return array();
 		}
 		
-		return Objects::db()->get_vector(
+		return Database::get_vector(
 			'art_cg_pack', 
 			array('id', 'title', 'order'), 
-			Objects::db()->array_in('id', $meta['meta']['cg_pack']), 
+			Database::array_in('id', $meta['meta']['cg_pack']), 
 			$meta['meta']['cg_pack']
 		);
 	}
@@ -87,12 +87,12 @@ class Art_Output extends Output_Main implements Plugins
 	protected function get_translations ($ids) {
 		$ids = (array) $ids;
 		
-		$condition = Objects::db()->array_in('art_id', $ids);
+		$condition = Database::array_in('art_id', $ids);
 		$condition .= ' and active = 1';
 		
 		$fields = array('art_id', 'data', 'translator');
 
-		$translations = (array) Objects::db()->get_vector('art_translation', $fields, $condition, $ids);
+		$translations = (array) Database::get_vector('art_translation', $fields, $condition, $ids);
 		
 		foreach ($translations as & $translation) {
 			$translation['data'] = Crypt::unpack($translation['data']);
@@ -106,6 +106,6 @@ class Art_Output extends Output_Main implements Plugins
 			return array();
 		}
 
-		return Objects::db()->get_full_vector('art', 'area = "variation" and parent_id = ?', $id);
+		return Database::get_full_vector('art', 'area = "variation" and parent_id = ?', $id);
 	}	
 }

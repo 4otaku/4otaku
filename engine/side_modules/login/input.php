@@ -13,7 +13,7 @@ class Login_Input extends Input implements Plugins
 		$params = array($query['login']);
 		$params[] = $this->encode_password($query['pass']);
 
-		$cookie = Objects::db()->get_field('user', 'cookie', '`username` = ? and `password` = ?', $params);
+		$cookie = Database::get_field('user', 'cookie', '`username` = ? and `password` = ?', $params);
 		
 		if (!empty($cookie)) {
 			Cookie::set_cookie($cookie);
@@ -21,7 +21,7 @@ class Login_Input extends Input implements Plugins
 			return;
 		} 
 		
-		if (Objects::db()->get_field('user', 'cookie', '`username` = ?', $query['login'])) {
+		if (Database::get_field('user', 'cookie', '`username` = ?', $query['login'])) {
 			$this->status_message = self::INCORRECT_PASSWORD;
 		} else {
 			$this->status_message = self::NO_SUCH_USER;
@@ -46,7 +46,7 @@ class Login_Input extends Input implements Plugins
 			return;	
 		}
 		
-		if (Objects::db()->get_field('user', 'cookie', '`username` = ?', $query['login'])) {
+		if (Database::get_field('user', 'cookie', '`username` = ?', $query['login'])) {
 			$this->status_message = self::USER_ALREADY_EXISTS;
 			return;
 		}
@@ -58,7 +58,7 @@ class Login_Input extends Input implements Plugins
 			'email'=> $query['mail'],
 		);
 		
-		Objects::db()->insert('user', $insert);
+		Database::insert('user', $insert);
 		$this->redirect_address = '';
 	}
 	

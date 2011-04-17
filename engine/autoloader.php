@@ -57,6 +57,7 @@
 		$directories = array(
 			ENGINE.SL.'framework'.SL,
 			ENGINE.SL.'modules'.SL,
+			ENGINE.SL.'side_modules'.SL,
 			ENGINE.SL.'libs'.SL,
 		);
 

@@ -55,7 +55,7 @@
 
 	// Унифицируем запрос
 
-	list($query_input, $query_output) = Core::make_query(Globals::$url, Globals::$vars);
+	list($query_input, $query_output) = Query::make_query(Globals::$url, Globals::$vars);
 
 	if (!empty($query_input)) {
 		

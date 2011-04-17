@@ -8,7 +8,7 @@ class Post_Submodule_Link extends Output implements Plugins
 	public function main () {		
 		$fields = array('item_id', 'data', 'status');
 		
-		$links = Globals::db()->get_table('post_items', $fields, "status != 'ok'");
+		$links = Database::get_table('post_items', $fields, "status != 'ok'");
 		
 		$ids = array();		
 		foreach ($links as $link) {
@@ -16,8 +16,8 @@ class Post_Submodule_Link extends Output implements Plugins
 		}
 		
 		$ids = array_unique($ids);		
-		$condition = Globals::db()->array_in('id',$ids);		
-		$titles = Globals::db()->get_vector('post', 'id,title', $condition, $ids);
+		$condition = Database::array_in('id',$ids);		
+		$titles = Database::get_vector('post', 'id,title', $condition, $ids);
 		
 		$return['items'] = array();
 		

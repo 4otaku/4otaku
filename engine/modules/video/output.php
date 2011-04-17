@@ -4,7 +4,7 @@ class Video_Output extends Output_Main implements Plugins
 {
 	public function single ($query) {		
 		$id = $query['id'];
-		$video = Globals::db()->get_full_row('video', $id);
+		$video = Database::get_full_row('video', $id);
 		
 		$this->test_area($video['area']);
 		
@@ -25,7 +25,7 @@ class Video_Output extends Output_Main implements Plugins
 		$listing_condition = $this->build_listing_condition($query);
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$items = Globals::db()->get_full_vector('video', $condition);
+		$items = Database::get_full_vector('video', $condition);
 
 		$index = array();
 		
@@ -41,7 +41,7 @@ class Video_Output extends Output_Main implements Plugins
 			$item = Transform_Item::merge($item, $meta[$id]);
 		}
 		
-		$count = Globals::db()->get_count('video', $listing_condition);
+		$count = Database::get_count('video', $listing_condition);
 		
 		$this->items[] = new Item_Navi(array(
 			'curr_page' => $page,

@@ -10,8 +10,8 @@ class Cookie
 		
 		self::set_cookie($cookie);
 		
-		$data = Objects::db()->get_vector('cookie', array('section', 'data'), '`cookie` = ?', $cookie);
-		$info = Objects::db()->get_full_row('user', '`cookie` = ?', $cookie);
+		$data = Database::get_vector('cookie', array('section', 'data'), '`cookie` = ?', $cookie);
+		$info = Database::get_full_row('user', '`cookie` = ?', $cookie);
 
 		if (empty($data) && empty($info)) {
 			return array();
@@ -31,7 +31,7 @@ class Cookie
 	public static function save_preference($cookie, $section, $key, $value) {		
 		$condition = '`cookie` = ? and `section` = ?';
 		
-		$data = Objects::db()->get_field('cookie', 'data', $condition, array($cookie, $section));
+		$data = Database::get_field('cookie', 'data', $condition, array($cookie, $section));
 		
 		if (!empty($data)) {
 			$data = Crypt::unpack($data);
@@ -56,11 +56,11 @@ class Cookie
 		);
 		
 		if ($need_expiration) {
-			$expires = Objects::transform('string')->parse_time(Config::main('cookie', 'lifespan'));		
-			$insert['expires'] = Objects::db()->unix_to_date($expires);
+			$expires = Transform_String::parse_time(Config::main('cookie', 'lifespan'));		
+			$insert['expires'] = Database::unix_to_date($expires);
 		}
 		
-		Objects::db()->replace('cookie', $insert, array('cookie', 'section'));
+		Database::replace('cookie', $insert, array('cookie', 'section'));
 	}
 	
 	public static function set_cookie ($cookie) {		
@@ -72,15 +72,15 @@ class Cookie
 			$cookie_domain = '';
 		}
 		
-		$expires = Objects::transform('string')->parse_time(Config::main('cookie', 'lifespan'));
-		$update = array('expires' => Objects::db()->unix_to_date($expires));
+		$expires = Transform_String::parse_time(Config::main('cookie', 'lifespan'));
+		$update = array('expires' => Database::unix_to_date($expires));
 		
-		Objects::db()->update('cookie', '`cookie` = ?', $update, $cookie);
+		Database::update('cookie', '`cookie` = ?', $update, $cookie);
 		
 		setcookie(
 			Config::main('cookie', 'name'), 
 			$cookie, 
-			Objects::transform('string')->parse_time(Config::main('cookie', 'lifespan')), 
+			Transform_String::parse_time(Config::main('cookie', 'lifespan')), 
 			'/', 
 			$cookie_domain
 		);		
