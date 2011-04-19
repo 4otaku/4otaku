@@ -41,7 +41,7 @@ class Query implements Plugins
 		return $vars;
 	}
 	
-	public static function valid_subquery ($area, $query) {
+	public function valid_subquery ($area, $query) {
 	
 		$rule = array();		
 		
@@ -65,6 +65,17 @@ class Query implements Plugins
 			
 			if ($rule === $test) {
 				return true;
+			}
+			
+			if (preg_match('/^\[.+\]$/', $test)) {
+				$test_function = 'is_'.trim($test, '[]');
+
+				if (
+					is_callable(array($this, $test_function)) && 
+					$this->$test_function($query)
+				) {		
+					return true;
+				}
 			}
 		}
 		

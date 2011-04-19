@@ -5,7 +5,7 @@
 class Output_Main extends Output implements Plugins
 {
 	protected function build_listing_condition ($query) {
-		$condition = $query['area'] ? "area = '{$query['area']}'" : "area != 'deleted'";
+		$condition = !empty($query['area']) ? "area = '{$query['area']}'" : "area != 'deleted'";
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {
 			$search = array('+', $query['alias'], $query['meta']);

@@ -1,0 +1,10 @@
+<div class="center margin10" width="100%">
+	Доски: [
+	{% for alias, name in board_list %}
+		{% if not loop.first %} / {% endif %}
+		<a href="/board/{{alias}}/">
+			{{name}}
+		</a>
+	{% endfor %}
+	]
+</div>

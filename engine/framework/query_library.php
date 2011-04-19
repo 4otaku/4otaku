@@ -165,4 +165,40 @@ class Query_Library implements Plugins
 			return array('id' => $id, 'function' => 'single');
 		}
 	}
+	
+	public static function board (& $url) {
+		if (isset($url[0])) {
+
+			$board = array_shift($url);
+
+			return array('board' => $board);
+		}		
+	}
+		
+	public static function thread (& $url) {
+		if (isset($url[0]) && $url[0] == 'thread' && isset($url[1]) && is_numeric($url[1])) {
+			
+			$thread = array_splice($url, 0, 2);
+			
+			return array('id' => end($thread), 'function' => 'single');
+		}
+	}
+			
+	public static function boards_new (& $url) {
+		if (isset($url[0]) && $url[0] == 'new' && isset($url[1])) {
+
+			$date = array_splice($url, 0, 2);
+
+			return array('type' => 'new', 'date' => end($date));
+		}				
+	}
+				
+	public static function boards_updated (& $url) {
+		if (isset($url[0]) && $url[0] == 'updated' && isset($url[1])) {
+
+			$date = array_splice($url, 0, 2);
+
+			return array('type' => 'updated', 'date' => end($date));
+		}			
+	}
 }
