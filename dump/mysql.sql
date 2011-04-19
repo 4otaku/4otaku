@@ -295,7 +295,6 @@ DROP TABLE IF EXISTS `<pr>board`;
 CREATE TABLE `<pr>board` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `thread` int(10) unsigned NOT NULL,  
-  `sage` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `trip` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `cookie` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -305,9 +304,11 @@ CREATE TABLE `<pr>board` (
   `meta` text COLLATE utf8_unicode_ci NOT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT NULL, 
+  `sage` tinyint(1) NOT NULL DEFAULT '0',  
+  `sticky` tinyint(1) NOT NULL DEFAULT '0',
   `area` enum('main','deleted') COLLATE utf8_general_ci NOT NULL, 
   PRIMARY KEY (`id`),
-  KEY `selector` (`thread`,`deleted`,`updated`),
-  KEY `posts` (`thread`,`deleted`,`date`),
+  KEY `selector` (`thread`,`sticky`,`area`,`updated`),
+  KEY `posts` (`thread`,`area`,`date`),
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
