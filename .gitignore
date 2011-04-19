@@ -35,6 +35,12 @@ images/news/full/*
 images/news/thumbnail/*
 !images/news/thumbnail/index.php
 
+images/board/full/*
+!images/board/full/index.php
+
+images/board/thumbnail/*
+!images/board/thumbnail/index.php
+
 files/art/cg_packs/*
 !files/art/cg_packs/index.php
 
@@ -46,5 +52,8 @@ files/post/image/*
 
 files/post/plain/*
 !files/post/plain/index.php
+
+files/board/flash/*
+!files/board/flash/index.php
 
 misc/*
