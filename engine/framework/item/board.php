@@ -2,6 +2,9 @@
 
 class Item_Board extends Item_Abstract_Meta implements Plugins
 {
+	// TODO: унылый хак, решить. См Board_Output::add_needed_content
+	public $data = array();
+	
 	protected function get_downloads () {
 		$return = array('pdf' => true);
 
@@ -22,7 +25,9 @@ class Item_Board extends Item_Abstract_Meta implements Plugins
 		if (!empty($this->data['posts'])) {
 			foreach ($this->data['posts'] as $post) {
 				foreach ($count as $key => &$value) {
-					$value += content($post['content'][$key]);
+					$value += isset($post['content'][$key]) ?
+						count($post['content'][$key])
+						: 0;
 				}
 			}
 		}
