@@ -1,109 +1,136 @@
-<div class="shell">
-	<div class="post" id="post-{{id}}">
-		<div class="innerwrap">
-			<table width="100%">
-				<tr>
-					<td align="left">
-						<h2>
-							<a href="/post{{utils.area(item.area)}}/{{id}}" title="{{item.title}}">
-								{{item.title}}
+<div class="thread" id="board-{{id}}">
+	{% if flag.thread_list %}
+	
+		<span class="link_last">
+			<a href="/board/{{item.current_board}}/thread/{{id}}#reply">
+				Ответить
+			</a>
+		</span>
+		<span class="link_right">
+			<a href="/board/{{item.current_board}}/thread/{{id}}/">
+				Читать
+			</a>
+		</span>
+		
+	{% else %}
+
+		<span class="link_last" style="margin-left: 10px">
+			<a href="javascript:add_text('>>{{id}}');">
+				Ответить
+			</a>
+		</span>
+
+		{% if item.downloads %}
+			<span class="link_last download_thread">
+				<a href="#" class="disabled">
+					Скачать
+				</a>
+				<div class="relative">
+					<span class="variants">
+						{% if item.downloads.pdf %}
+							<a href="#download-{{id}}-html" class="board_download">
+								<nobr>
+									Тред в html
+								</nobr>
 							</a>
-						</h2>
-					</td>
-					<td align="right" valign="top">
-						<a href="/post{{utils.area(item.area)}}/{{id}}">
-							Комментировать
-						</a>
-						{% if item.comments %}
-							 ({{item.comments}})
+							<br />
 						{% endif %}
-					</td>
-				</tr>
-			</table>
-			<table cellspacing="0" cellpadding="0" width="100%">
-				<tr>
-					<td valign="top">
-						<div class="posttext">
-							{{item.text}}
-						</div>
-						{% if item.link %}
-							<p>
-								{% for link in item.link %}
-									{% if not loop.first %}<br />{% endif %}
-									{{link.name}}: 
-									{% for url, alias in link.url %}
-										{% if not loop.first %}|{% endif %} 
-										<a href="{{url}}" target="_blank">
-											{{alias}}
-										</a>
-									{% endfor %}
-									 (~{{link.size}} {{link.sizetype}})
-								{% endfor %}
-							</p>
-						{% endif %}	
-						{% if item.file %}
-							<p class="post-files">
-								{% for file in item.file %}
-									{% if not loop.first %}<br />{% endif %}
-									{% if file.type == 'plain' %}
-										<img src="/i/file.png" class="post-image"> 
-										{{file.name}}: 
-										<a href="{{domain}}/files/post/{{file.type}}/{{file.folder}}/{{file.filename}}">
-											{{file.filename}}
-										</a>
-										 ({{file.size}})							
-									{% elseif file.type == 'image' %}							
-										<img src="/i/file-image.png" class="post-image"> 
-										{{file.name}}: 
-										<a href="{{domain}}/files/post/{{file.type}}/{{file.folder}}/{{file.filename}}" class="imageholder" target="_blank">
-											{{file.filename}}
-											<span rel="{{file.height}}">
-												<img class="hiddenthumb" src="#" rel="{{domain}}/files/post/{{file.type}}/{{file.folder}}/thumb_{{file.filename}}" />
-											</span>	
-										</a>
-										 ({{file.size}})									
-									{% elseif file.type == 'audio' %}
-										<img src="/i/file-audio.png" class="post-image"> 
-										<span>{{file.name}}: </span>
-										<object type="application/x-shockwave-flash" align="bottom" data="/templates/musicplayer/player_mp3_maxi.swf" width="250" height="16">
-											<param name="movie" value="/templates/musicplayer/player_mp3_maxi.swf" />
-											<param name="bgcolor" value="#ffffff" />
-											<param name="FlashVars" value="mp3={{domain|url_encode}}/files/post/{{file.type}}/{{file.folder}}/{{file.filename|url_encode}}&amp;width=250&amp;height=16&amp;showstop=1&amp;showvolume=1&amp;buttonwidth=20&amp;sliderwidth=15&amp;volumewidth=40" />
-										</object>
-									{% endif %}					
-								{% endfor %}
-							</p>
+						{% if item.downloads.zip %}
+							<a href="#download-{{id}}-zip" class="board_download">
+								<nobr>
+									Все картинки, архивом
+								</nobr>
+							</a>
+							<br />
 						{% endif %}
-						{% if item.info %}
-							<p>
-								{% for info in item.info %}
-									{% if not loop.first %}<br />{% endif %}
-									{{info.name}}: 
-									<a href="{{info.url}}" target="_blank">
-										{{info.alias}}
-									</a>							
-								{% endfor %}
-							</p>
-						{% endif %}		
-					</td>
-					{% if item.image %}
-						<td class="imageholder">
-							{% for key, image in item.image %}
-								<div class="image-{{key}}">
-									<a href="{{domain}}/images/post/full/{{image.file}}" target="_blank">
-										<img src="{{domain}}/images/post/thumbnail/{{image.file}}" /> 
-									</a>													
-								</div>								
-							{% endfor %}
-						</td>
-					{% endif %}					
-				</tr>
-			</table>
-		</div>
-		<div class="wrapper">
-			<p class="meta">
-				{% include 'html/common/meta.html' %}
-			</p>
+					</span>
+				</div>	
+			</span>	
+		{% endif %}
+		{% if item.content.image %}
+			<span class="link_right">
+				<a href="#" rel="Свернуть все" class="board_unfold_all">
+					Развернуть все
+				</a>
+			</span> 
+		{% endif %}
+	{% endif %}
+	{% if item.delete %}
+		<span class="link_delete">
+			 <img src="/i/comment_delete.png" alt="удалить" rel="{{id}}" class="delete_from_board">
+		</span>
+	{% endif %}
+	<span class="author">
+		{{item.name}}
+	</span>
+	{% if item.trip %}
+		<span class="trip">
+			{{item.trip}}
+		</span>
+	{% endif %}
+	<span class="number">
+		<a href="/board/{{item.current_board}}/thread/{{id}}/" class="number_link">
+			#{{id}}
+		</a>
+		 в разделе 
+		{% for category in item.meta.category %}
+			{% if not loop.first %}
+				/
+			{% endif %}
+			<a href="/board/{{category.alias}}/">
+				{{category.alias}}
+			</a>
+		{% endfor %}
+	</span>
+	<span class="date">
+		{{item.date}}
+	</span>
+	<div class="tbody">
+		{% if item.content.image %}
+		
+			{% for image in item.content.image %}
+				<a href="/images/board/full/{{image.full}}" 
+					target="_blank" class="board_image_thumb with_help" 
+					title="{{image.size_info}}" 
+					rel="{{image.sizes}}">
+					<img align="left" src="{{domain}}/images/board/thumbnail/{{image.thumbnail}}">
+				</a>
+			{% endfor %}
+			
+		{% elseif item.content.flash %}
+		
+			{% for flash in item.content.flash %}
+				<a href="/images/board/full/{{flash.full}}" 
+					target="_blank" class="with_help" 
+					title="{{flash.size_info}}">
+					<img align="left" src="/i/flash.png">
+				</a>
+			{% endfor %}
+						
+		{% elseif item.content.video %}
+		
+			{% for video in item.content.video %}
+				{% if flag.embed_video %}
+					<div class="video" style="height:{{video.height}}px;">
+						<br />
+						<input type="button" class="open_video margin10" rel="{{id}}" value="Показать видео">
+						<br />
+						<input type="button" class="always_embed_video" value="Всегда показывать">
+					</div>
+				{% else %}
+					<div class="video">
+						{{video.object}}
+					</div>
+				{% endif %}
+			{% endfor %}
+					
+		{% endif %}
+		<div class="posttext">
+			{% if flag.thread_list %}
+				{{item.short_text}}
+			{% else %}
+				{{item.text}}
+			{% endif %}
 		</div>
 	</div>
 </div>

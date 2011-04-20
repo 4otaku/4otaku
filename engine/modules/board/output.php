@@ -12,16 +12,18 @@ class Board_Output extends Output_Main implements Plugins
 		
 		$this->test_area($thread['area']);
 		
-		$this->items[$id] = new Item_Post($thread);
+		$this->items[$id] = new Item_Board($thread);
 
 		$meta = current(Meta::prepare_meta(array($id => $thread['meta'])));
 
-		$this->items[$id] = Transform_Item::merge($this->items[$id], $meta);
+		$this->items[$id] = Transform_Item::merge($this->items[$id], $meta);;		
+		$this->items[$id]['current_board'] = $this->random_board($meta['meta']['category']);
 	}
 
 	public function main ($query) {
 		
-		$this->flag['skip_message'] = Globals::user('board', 'skip_message');
+		$this->flags['skip_message'] = Globals::user('board', 'skip_message');
+		$this->flags['thread_list'] = true;
 		
 		if ($this->is_message($query)) {
 			return;
@@ -47,6 +49,12 @@ class Board_Output extends Output_Main implements Plugins
 		$meta = Meta::prepare_meta($index);
 
 		foreach ($this->items as $id => & $item) {
+
+			$current_board = isset($query['alias']) ? 
+				$query['alias'] : 
+				$this->random_board($meta[$id]['meta']['category']);
+			$item['current_board'] = $current_board;				
+			
 			$item = Transform_Item::merge($item, $meta[$id]);
 		}
 		
@@ -60,9 +68,18 @@ class Board_Output extends Output_Main implements Plugins
 		), 'short_base');
 	}
 	
+	protected function random_board ($categories) {
+		if (empty($categories)) {
+			Error::warning("Тред, не причиленный ни к одной доске");
+			return '';
+		}
+				
+		return $categories[array_rand($categories)]['alias'];
+	}
+	
 	public function is_message ($query) {
 				
-		return (bool) (empty($query) && !$this->flag['skip_message']);
+		return (bool) (empty($query) && !$this->flags['skip_message']);
 	}
 	
 	public static function description ($query) {

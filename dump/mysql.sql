@@ -298,7 +298,6 @@ CREATE TABLE `<pr>board` (
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `trip` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `cookie` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `content` text COLLATE utf8_unicode_ci NOT NULL,
   `pretty_text` text COLLATE utf8_unicode_ci NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `meta` text COLLATE utf8_unicode_ci NOT NULL,
@@ -312,3 +311,14 @@ CREATE TABLE `<pr>board` (
   KEY `posts` (`thread`,`area`,`date`),
   FULLTEXT KEY `index` (`meta`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+DROP TABLE `<pr>board_items`;
+CREATE TABLE `<pr>board_items` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `item_id` int(10) unsigned NOT NULL,
+  `type` enum('image','flash','video') NOT NULL,
+  `sort_number` int(10) unsigned NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`),
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
