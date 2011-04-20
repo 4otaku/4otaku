@@ -320,5 +320,5 @@ CREATE TABLE `<pr>board_items` (
   `sort_number` int(10) unsigned NOT NULL,
   `data` text NOT NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`),
+  UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
