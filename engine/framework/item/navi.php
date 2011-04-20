@@ -21,7 +21,8 @@ class Item_Navi extends Item_Abstract_Marked implements Plugins
 		}
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {
-			$base .= $query['meta'].'/'.$query['alias'].'/';
+			$base .= empty($this->flag['short_base']) ? $query['meta'].'/' : '';
+			$base .= $query['alias'].'/';
 		}
 
 		$radius = max(1, (int) Config::template('navi_radius'));

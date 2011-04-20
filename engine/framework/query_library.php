@@ -171,7 +171,7 @@ class Query_Library implements Plugins
 
 			$board = array_shift($url);
 
-			return array('board' => $board);
+			return array('meta' => 'category', 'alias' => $board);
 		}		
 	}
 		

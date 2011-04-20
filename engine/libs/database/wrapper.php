@@ -102,7 +102,7 @@ class Database implements Plugins
 	}
 	
 	public static function debug ($print = true) {
-		return self::use_main_db('last_id', $print);
+		return self::use_main_db('debug', $print);
 	}
 	
 	public static function make_search_condition ($field, $search_values) {
@@ -161,7 +161,7 @@ class Database implements Plugins
 	
 	public static function __callStatic ($name, $arguments) {
 		array_unshift($arguments, $name);
-		
+
 		return call_user_func_array(array('self','use_main_db'), $arguments);
 	}	
 }
