@@ -1,10 +1,7 @@
 <?
 
 class Item_Board extends Item_Abstract_Meta implements Plugins
-{
-	// TODO: унылый хак, решить. См Board_Output::add_needed_content
-	public $data = array();
-	
+{	
 	protected function get_downloads () {
 		$return = array('pdf' => true);
 
@@ -33,5 +30,5 @@ class Item_Board extends Item_Abstract_Meta implements Plugins
 		}
 		
 		return $count;
-	}	
+	}
 }

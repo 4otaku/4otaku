@@ -35,4 +35,10 @@ class Array_Access implements ArrayAccess
 			$this->data[$key][$offset] = $value;
 		}
 	}
+	
+	// Алиас для краткости и читаемости, в случаях когда надо вызвать функцию напрямую.
+	
+	public function add ($offset, $value) {
+		$this->offsetSet ($offset, $value);
+	}
 }

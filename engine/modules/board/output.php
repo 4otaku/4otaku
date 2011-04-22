@@ -108,8 +108,7 @@ class Board_Output extends Output_Main implements Plugins
 			} else {
 				$thread = $this->items_needed[$id];
 				
-				// TODO: унылый хак, решить. См Item_Board::$data
-				$this->items[$thread]->data['posts'][$id]['content'] = $item;
+				$this->items[$thread]['posts'][$id]->add('content', $item);
 			}
 		}
 	}
@@ -133,7 +132,7 @@ class Board_Output extends Output_Main implements Plugins
 		$return = array();
 		
 		foreach ($posts as $id => $post) {
-			$return[$post['thread']]['posts'][] = new Item_Board($post);
+			$return[$post['thread']]['posts'][$id] = new Item_Board($post);
 			$this->items_needed[$id] = $post['thread'];
 		}
 				
