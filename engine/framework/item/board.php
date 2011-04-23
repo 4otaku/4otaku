@@ -2,6 +2,11 @@
 
 class Item_Board extends Item_Abstract_Container implements Plugins
 {	
+	const BOARD_LINK_PREFIX = '_board_link_prefix_';
+	
+	protected $links = array();
+	protected $link_regexp = '/&gt;&gt;(\d+)(\s|$|<br[^>]*>)/s';
+	
 	public function postprocess () {
 
 		parent::postprocess();
@@ -16,6 +21,60 @@ class Item_Board extends Item_Abstract_Container implements Plugins
 				);				
 			}
 		}
+		
+		if (preg_match_all($this->link_regexp, $this->data['text'], $links)) {
+			Cache::$prefix = self::BOARD_LINK_PREFIX;
+			
+			$links = array_unique($links[1]);
+			
+			$found_links = Cache::get_array($links);	
+			$not_found_links = array_diff($links, array_keys($found_links));
+
+			if (!empty($not_found_links)) {
+				$condition = Database::array_in('id', $not_found_links);
+				$condition .= " and `area` != 'deleted'";
+				
+				$not_found_links = Database::get_vector(
+					'board', 
+					array('id', 'thread', 'meta'), 
+					$condition, 
+					$not_found_links
+				);
+				
+				foreach ($not_found_links as & $link) {
+					preg_match_all('/category__([a-z]+)/i', $link['meta'], $categories);
+					$link['board'] = empty($categories[1]) ? '' : 
+						$categories[1][array_rand($categories[1])].'/';
+					unset($link['meta']);
+				}
+				unset($link);
+
+				Cache::set_array(
+					array_keys($not_found_links), 
+					array_values($not_found_links), 
+					DAY
+				);
+			}
+			
+			$this->links = array_replace($found_links, $not_found_links);
+
+			$this->data['text'] = preg_replace_callback(
+				$this->link_regexp, array($this, 'set_link'), $this->data['text']);
+		}
+	}
+
+	protected function set_link ($id) {
+
+		if (isset($this->links[$id[1]])) {
+			
+			$link = $this->links[$id[1]];
+
+			return '<a href="/board/'.$link['board'].'thread/'.
+				($link['thread'] ? $link['thread'] : $id[1]).
+				'#board-'.$id[1].'">&gt;&gt;'.$id[1].'</a>'.$id[2];
+		}
+			
+		return $id[0];
 	}	
 		
 	protected function get_downloads () {

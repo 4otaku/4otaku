@@ -160,7 +160,7 @@ class Board_Output extends Output_Main implements Plugins
 			$sql = "
 				select count(*) as count, <pr>board_items.type, <pr>board.thread 
 				from <pr>board_items left join <pr>board on <pr>board_items.item_id = <pr>board.id 
-				where ".Database::array_in("<pr>board.thread", $ids)."
+				where ".Database::array_in("<pr>board.thread", $ids)." and <pr>board.area != 'deleted'
 				group by <pr>board.thread, <pr>board_items.type";
 				
 			$totals = Database::sql($sql,$ids);

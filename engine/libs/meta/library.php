@@ -24,7 +24,7 @@ class Meta_Library implements Plugins
 		$params = array_merge($params, $aliases);
 		$found = Database::get_vector('meta_count', array('alias', 'count'), $condition, $params);
 
-		$aliases = array_diff($aliases, array_keys($found));		
+		$aliases = array_diff($aliases, array_keys($found));
 		$return = array();
 		
 		if (!empty($aliases)) {
