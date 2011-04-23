@@ -13,3 +13,13 @@
 {% macro area(area) %}
 	{% if area == 'main' %}{% else %}/{{area}}{% endif %}
 {% endmacro %}
+
+{% macro wcase(count, case1, case2, case3) %}
+	{% if count % 10 == 0 or count % 10 > 4 or (count % 100 > 9 and count % 100 < 20) %}
+		{{case3}}
+	{% elseif count % 10 == 1 %}
+		{{case1}}
+	{% else %}
+		{{case2}}
+	{% endif %}
+{% endmacro %}

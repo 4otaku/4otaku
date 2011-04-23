@@ -26,6 +26,8 @@ abstract class Database_Common
 	}
 	
 	public function array_in($field, $array) {
+		$field = str_replace('.', '`.`', $field);
+		
 		if (!empty($array) && is_array($array)) {
 			return "`$field` in (".str_repeat('?,',count($array)-1)."?)";
 		} else {

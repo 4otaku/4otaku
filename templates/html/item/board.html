@@ -134,3 +134,122 @@
 		</div>
 	</div>
 </div>
+
+{% if item.skipped %}
+	<div class="skipped">
+		<a href="/board/{{item.current_board}}/thread/{{id}}/" class="readmore">
+			Читать
+		</a>
+		Пропущено: 
+		{{item.skipped.post}} 
+		{{utils.wcase(item.skipped.post,'ответ','ответа','ответов')}}
+		{% if item.skipped.image %}
+			, 
+			{{item.skipped.image}} 
+			{{utils.wcase(item.skipped.post,'картинка','картинки','картинок')}}
+		{% endif %}	
+		{% if item.skipped.flash %}
+			, 
+			{{item.skipped.flash}} 
+			{{utils.wcase(item.skipped.post,'флешка','флешки','флешек')}}
+		{% endif %}	
+		{% if item.skipped.video %}
+			, 
+			{{item.skipped.video}} 
+			видео
+		{% endif %}	
+	</div>
+{% endif %}	
+
+{% for sub_id, sub_item in item.items %}
+
+	<div class="message" id="board-{{sub_id}}">	
+		{% if flag.thread_list %}
+
+			<span class="link_last">
+				<a href="/board/{{item.current_board}}/thread/{{id}}#reply-{{sub_id}}">
+					Ответить
+				</a>
+			</span>
+		
+		{% else %}
+
+			<span class="link_last" style="margin-left: 10px">
+				<a href="javascript:add_text('>>{{sub_id}}');">
+					Ответить
+				</a>
+			</span>	
+			
+		{% endif %}
+		{% if sub_item.delete %}
+			<span class="link_delete">
+				 <img src="/i/comment_delete.png" alt="удалить" rel="{{sub_id}}" class="delete_from_board">
+			</span>
+		{% endif %}
+		<span class="author">
+			{{sub_item.name}}
+		</span>
+		{% if sub_item.trip %}
+			<span class="trip">
+				{{sub_item.trip}}
+			</span>
+		{% endif %}
+		<span class="number">
+			<a href="/board/{{item.current_board}}/thread/{{id}}/#board-{{sub_id}}" class="number_link">
+				#{{sub_id}}
+			</a>
+		</span> 
+		<span class="date">
+			{{sub_item.date}}
+		</span>
+		<div class="tbody">
+			{% if sub_item.content.image %}
+			
+				{% for image in sub_item.content.image %}
+					<a href="{{domain}}/images/board/full/{{image.full}}" 
+						target="_blank" class="board_image_thumb with_help" 
+						title="{{image.size_info}}" 
+						rel="{{image.sizes}}">
+						<img align="left" src="{{domain}}/images/board/thumbnail/{{image.thumbnail}}">
+					</a>
+				{% endfor %}
+				
+			{% elseif sub_item.content.flash %}
+			
+				{% for flash in sub_item.content.flash %}
+					<a href="/images/board/full/{{flash.full}}" 
+						target="_blank" class="with_help" 
+						title="{{flash.size_info}}">
+						<img align="left" src="/i/flash.png">
+					</a>
+				{% endfor %}
+							
+			{% elseif sub_item.content.video %}
+			
+				{% for video in sub_item.content.video %}
+					{% if flag.embed_video %}
+						<div class="video" style="height:{{video.height}}px;">
+							<br />
+							<input type="button" class="open_video margin10" rel="{{sub_id}}" value="Показать видео">
+							<br />
+							<input type="button" class="always_embed_video" value="Всегда показывать">
+						</div>
+					{% else %}
+						<div class="video">
+							{{video.object}}
+						</div>
+					{% endif %}
+				{% endfor %}
+						
+			{% endif %}
+			<div class="posttext">
+				{% if flag.thread_list %}
+					{{sub_item.short_text}}
+				{% else %}
+					{{sub_item.text}}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endfor %}

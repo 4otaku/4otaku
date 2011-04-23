@@ -145,14 +145,15 @@ class Transform_Text
 		return $case2;
 	}
 
-	function cut_long_words ($string, $length = false, $break = '<wbr />') {
-		global $def;
-		if (empty($length)) $length = $def['text']['word_length'];
+	public static function cut_long_words ($string, $length = false, $break = '<wbr />') {
+
+		if (empty($length)) $length = Config::template('word_cut_length');
 
 		$parts = preg_split('/(<[^>]*>|\s)/',$string,null,PREG_SPLIT_DELIM_CAPTURE);
 
 		foreach ($parts as $key => $part) {
 			if (
+				!empty($part) &&
 				!in_array($part{0},array(' ',"\t","\r","\n",'<')) &&
 				strlen($part) > $length &&
 				preg_match_all('/(&[a-z]{1,8};|.){'.($length+1).'}/iu', $part, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)
@@ -170,13 +171,12 @@ class Transform_Text
 		return implode($break,$parts);
 	}
 	
-	function cut_long_text ($text, $length, $prepend = ' ...', $cut_words = false) {
-		if (strlen($text) < $length) {
-			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);	
-		}
-
-		if (!preg_match('/^(&\p{L}{1,8};|(<.+?>)*.){0,'.$length.'}/ius', $text, $match)) {
-			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
+	public static function cut_long_text ($text, $length, $prepend = ' ...', $cut_words = false) {
+		if (
+			strlen($text) < $length ||
+			preg_match_all('/&\p{L}{1,8};|(<.+?>)*./ius', $text, $match) < $length
+		) {
+			return empty($cut_words) ? $text : self::cut_long_words($text,$cut_words);
 		}
 	
 		preg_match_all('/<([^\s>\/]+)(?![^>]*\/>)[^>]*>/is', $match[0], $opening_tags);
@@ -192,7 +192,7 @@ class Transform_Text
 			$tags[$tag_name]--;			
 		}
 		
-		$return = empty($cut_words) ? $match[0] : $this->cut_long_words($match[0],$cut_words);
+		$return = empty($cut_words) ? $match[0] : self::cut_long_words($match[0],$cut_words);
 
 		foreach ($tags as $tag_name => $count) {
 			if ($count > 0) {

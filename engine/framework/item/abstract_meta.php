@@ -6,7 +6,7 @@ abstract class Item_Abstract_Meta extends Item_Abstract_Marked implements Plugin
 {	
 	public function postprocess () {
 
-		if (!empty($this->data['meta'])) {
+		if (!empty($this->data['meta']) && is_array($this->data['meta'])) {
 			
 			$singluar = Config::template('singular');
 			$plural = Config::template('plural');			
