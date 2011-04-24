@@ -1,3 +1,7 @@
+{% if not loop.first %}
+	<hr class="board_hr" />
+{% endif %}
+
 <div class="thread" id="board-{{id}}">
 	{% if flag.thread_list %}
 	
@@ -83,7 +87,7 @@
 		{% endfor %}
 	</span>
 	<span class="date">
-		{{item.date}}
+		{{item.precise_date}}
 	</span>
 	<div class="tbody">
 		{% if item.content.image %}

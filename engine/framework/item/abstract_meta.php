@@ -37,7 +37,10 @@ abstract class Item_Abstract_Meta extends Item_Abstract_Marked implements Plugin
 		}
 
 		if (!empty($this->data['date'])) {
+						
 			$this->data['date'] = Database::date_to_unix($this->data['date']);
+			
+			$this->data['precise_date'] = Transform_String::rudate($this->data['date'], true);
 			$this->data['date'] = Transform_String::rudate($this->data['date']);
 		}
 	}
