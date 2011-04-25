@@ -322,3 +322,15 @@ CREATE TABLE `<pr>board_items` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `selector` (`item_id`,`type`,`sort_number`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE `<pr>logs`;
+CREATE TABLE `<pr>logs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `section` varchar(64) NOT NULL,
+  `year` smallint(5) unsigned NOT NULL,
+  `month` tinyint(3) unsigned NOT NULL,
+  `day` tinyint(3) unsigned NOT NULL,
+  `data` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`section`,`year`,`month`,`day`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

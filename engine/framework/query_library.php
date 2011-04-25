@@ -57,6 +57,28 @@ class Query_Library implements Plugins
 			return $return;
 		}		
 	}
+
+	public static function date (& $url) {
+		$return = array(
+			'year' => date('Y'),
+			'month' => date('n'),
+			'day' => date('j'),
+		);
+		
+		if (isset($url[0]) && is_numeric($url[0])) {
+			$return['year'] = array_shift($url);
+		}
+		
+		if (isset($url[0]) && is_numeric($url[0])) {
+			$return['month'] = array_shift($url);
+		}
+		
+		if (isset($url[0]) && is_numeric($url[0])) {
+			$return['day'] = array_shift($url);
+		}
+		
+		return $return;
+	}
 /*	
 	public static function get_tag_cloud (& $url) {
 		if (isset($url[0]) && $url[0] == 'tag_cloud') {

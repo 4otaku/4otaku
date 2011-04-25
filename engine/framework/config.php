@@ -5,6 +5,9 @@ final class Config
 	// Хранилище для загруженных данных
 	private static $data = array();
 	
+	// Ссылки на загруженные файлы настроек
+	private static $links = array();	
+	
 	public static function load($file) {
 		if (
 			!is_readable($file) || 
@@ -15,6 +18,8 @@ final class Config
 	
 		$data = parse_ini_file($file, true);
 		$name = basename($file, '.ini');
+		
+		self::$links[$name] = $file;
 	
 		foreach ($data as & $section) {
 			if (is_array($section)) {
@@ -39,6 +44,41 @@ final class Config
 		self::$data[$name] = $data;
 		
 		return true;
+	}
+	
+	public static function update() {
+		
+		$arguments = func_get_args();		
+		
+		$value = array_pop($arguments);	
+		
+		$filename = self::$links[array_shift($arguments)];
+		if (empty($filename)) {
+			return;
+		}
+		
+		$file = file_get_contents($filename);
+		if (empty($file)) {
+			return;
+		}		
+		
+		if (count($arguments) == 1) {
+			$setting = array_shift($arguments);
+			$section = '';
+		} else {
+			$section = array_shift($arguments);
+			$setting = implode('.', $arguments);
+		}
+		
+		if (!empty($section)) {
+			$section = '.*?\n\['.preg_quote($section, '/').'\]';
+		}
+		
+		$setting = preg_quote($setting, '/');
+		
+		$file = preg_replace('/^('.$section.'.*?\n'.$setting.'\s*=\s*)[^\n]+/s', '$1'.$value, $file);
+		
+		file_get_contents($filename, $file);
 	}
 	
 	public static function __callStatic($name, $arguments) {

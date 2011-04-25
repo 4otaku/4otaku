@@ -41,127 +41,113 @@ class Database implements Plugins
 		return $return;
 	}
 	
-	protected static function use_main_db() {
-		$arguments = func_get_args();
-		
-		if (empty($arguments)) {
-			return;
-		}
-		
-		$function = array_shift($arguments);
-		
-		$worker = self::db('main');
-		
-		return call_user_func_array(array($worker, $function), $arguments);
-	}
-	
 	// Алиасы для удобного обращения к главной базе данных
 	
 	public static function sql ($query, $params = array()) {
-		return self::use_main_db('sql', $query, $params);
+		return self::db()->sql($query, $params);
 	}
 
 	public static function get_table ($table, $values = '*', $condition = false, $params = false) {
-		return self::use_main_db('get_table', $table, $values, $condition, $params);
+		return self::db()->get_table($table, $values, $condition, $params);
 	}
 	
 	public static function get_vector ($table, $values = '*', $condition = false, $params = false, $unset = true) {
-		return self::use_main_db('get_vector', $table, $values, $condition, $params, $unset);
+		return self::db()->get_vector($table, $values, $condition, $params, $unset);
 	}	
 	
 	public static function get_row ($table, $values = '*', $condition = false, $params = false) {
-		return self::use_main_db('get_row', $table, $values, $condition, $params);
+		return self::db()->get_row($table, $values, $condition, $params);
 	}
 	
 	public static function get_field ($table, $value, $condition, $params = false) {
-		return self::use_main_db('get_field', $table, $value, $condition, $params);
+		return self::db()->get_field($table, $value, $condition, $params);
 	}
 	
 	public static function insert ($table, $values) {
-		return self::use_main_db('insert', $table, $values);
+		return self::db()->insert($table, $values);
 	}
 	
 	public static function replace ($table, $values, $dont_update = false) {
-		return self::use_main_db('replace', $table, $values, $dont_update);
+		return self::db()->replace($table, $values, $dont_update);
 	}
 	
 	public static function bulk_insert ($table, $rows, $keys = false) {
-		return self::use_main_db('bulk_insert', $table, $rows, $keys);
+		return self::db()->bulk_insert($table, $rows, $keys);
 	}
 	
 	public static function update ($table, $condition, $values, $condition_params = array()) {
-		return self::use_main_db('update', $table, $condition, $values, $condition_params);
+		return self::db()->update($table, $condition, $values, $condition_params);
 	}	
 	
 	public static function delete ($table, $condition = false, $params = false) {
-		return self::use_main_db('delete', $table, $condition, $params);
+		return self::db()->delete($table, $condition, $params);
 	}
 	
 	public static function last_id () {
-		return self::use_main_db('last_id');
+		return self::db()->last_id();
 	}
 	
 	public static function debug ($print = true) {
-		return self::use_main_db('debug', $print);
+		return self::db()->debug($print);
 	}
 	
 	public static function make_search_condition ($field, $search_values) {
-		return self::use_main_db('make_search_condition', $field, $search_values);
+		return self::db()->make_search_condition($field, $search_values);
 	}
 	
 	public static function free_result () {
-		return self::use_main_db('free_result');
+		return self::db()->free_result();
 	}
 	
 	public static function begin () {
-		return self::use_main_db('begin');
+		return self::db()->begin();
 	}
 	
 	public static function commit () {
-		return self::use_main_db('commit');
+		return self::db()->commit();
 	}
 	
 	public static function rollback () {
-		return self::use_main_db('rollback');
+		return self::db()->rollback();
 	}
 	
 	public static function conditional_insert ($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
-		return self::use_main_db('conditional_insert', $table, $values, $keys, $deny_condition, $deny_params);
+		return self::db()->conditional_insert($table, $values, $keys, $deny_condition, $deny_params);
 	}
 	
 	public static function array_in ($field, $array) {
-		return self::use_main_db('array_in', $field, $array);
+		return self::db()->array_in($field, $array);
 	}
 	
 	public static function date_to_unix ($date) {
-		return self::use_main_db('date_to_unix', $date);
+		return self::db()->date_to_unix($date);
 	}
 	
 	public static function unix_to_date ($time = false) {
-		return self::use_main_db('unix_to_date', $time);
+		return self::db()->unix_to_date($time);
 	}
 	
 	public static function get_full_table ($table, $condition = false, $params = false) {
-		return self::use_main_db('get_full_table', $table, $condition, $params);
+		return self::db()->get_full_table($table, $condition, $params);
 	}
 	
 	public static function get_full_vector ($table, $condition = false, $params = false) {
-		return self::use_main_db('get_full_vector', $table, $condition, $params);
+		return self::db()->get_full_vector($table, $condition, $params);
 	}	
 	
 	public static function get_full_row ($table, $condition = false, $params = false) {
-		return self::use_main_db('get_full_row', $table, $condition, $params);
+		return self::db()->get_full_row($table, $condition, $params);
 	}	
 	
 	public static function get_count ($table, $condition = false, $params = false) {
-		return self::use_main_db('get_count', $table, $condition, $params);
+		return self::db()->get_count($table, $condition, $params);
 	}	
 	
 	// И на всякий случай __callStatic	
 	
 	public static function __callStatic ($name, $arguments) {
-		array_unshift($arguments, $name);
+		$worker = self::db();
 
-		return call_user_func_array(array('self','use_main_db'), $arguments);
+		return call_user_func_array(array($worker, $name), $arguments);
 	}	
 }

@@ -17,7 +17,6 @@ class Post_Output extends Output_Main implements Plugins
 	}
 
 	public function main ($query) {
-		$return = array();
 
 		$perpage = Config::settings('per_page');
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
