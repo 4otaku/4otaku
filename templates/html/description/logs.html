@@ -1,1 +1,34 @@
+<div class="margin20 center">
+	 : 
+	{% for month in sub.description.month %}
+		{% if month.type != 'current' %}
+			<a href="/logs{{utils.area(month.section)}}/{{month.year}}/{{month.month}}/">
+				{{month.name}}
+			</a> : 
+		{% else %}
+			{{month.name}} : 
+		{% endif %}
+	{% endfor %}
+</div>	
+{% if not sub.description.nologs %}
+	<div class="margin20 center">
+		{% if sub.description.navi.yesterday %}&lt;= {% endif %}
 
+		{% for day in sub.description.navi %}
+			{% if not loop.first %} : {% endif %}
+			{% if day.year and day.month and day.day %}
+				<a href="/logs{{utils.area(day.section)}}/{{day.year}}/{{day.month}}/{{day.day}}/">
+					{{day.name}}
+				</a>
+			{% else %}
+				{{day.name}}
+			{% endif %}
+		{% endfor %}
+		
+		{% if sub.description.navi.tomorrow %} =&gt;{% endif %}
+	</div>
+{% elseif sub.description.nologs.past %}
+	<h2 class="center">За такие ранние числа логов нет в наличии.</h2>
+{% elseif sub.description.nologs.future %}
+	<h2 class="center">Забегаем в будущее?</h2>
+{% endif %}

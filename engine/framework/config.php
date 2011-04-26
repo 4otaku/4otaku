@@ -57,6 +57,11 @@ final class Config
 			return;
 		}
 		
+		if (!is_writable($filename)) {
+			Error::warning("Недостаточно прав для записи конфига в $filename");
+			return;
+		}		
+		
 		$file = file_get_contents($filename);
 		if (empty($file)) {
 			return;
@@ -76,9 +81,10 @@ final class Config
 		
 		$setting = preg_quote($setting, '/');
 		
-		$file = preg_replace('/^('.$section.'.*?\n'.$setting.'\s*=\s*)[^\n]+/s', '$1'.$value, $file);
+		$file = preg_replace('/^('.$section.'.*?\n'.$setting.'\s*=)[^\n]+/s', '$1 '.$value, $file);
+
 		
-		file_get_contents($filename, $file);
+		file_put_contents($filename, $file);
 	}
 	
 	public static function __callStatic($name, $arguments) {

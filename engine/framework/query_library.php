@@ -49,7 +49,11 @@ class Query_Library implements Plugins
 			$section = array_shift($url);
 			$return = array('section' => $section, 'function' => 'section');
 			
-			if (isset($url[0]) && array_key_exists($url[0], $possible_sections[$section]['items'])) {
+			if (
+				isset($url[0]) && 
+				isset($possible_sections[$section]['items']) && 
+				array_key_exists($url[0], $possible_sections[$section]['items'])
+			) {
 				$subsection = array_shift($url);
 				$return['subsection'] = $subsection;
 			}

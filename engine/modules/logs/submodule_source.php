@@ -17,7 +17,9 @@ abstract class Logs_Submodule_Source implements Plugins
 		if (empty($start)) {
 			$start = $this->extract_start();
 			
-			Config::update('settings', 'sections', $this->name, 'start', $start);
+			if (!empty($start)) {
+				Config::update('settings', 'sections', $this->name, 'start', $start);
+			}
 		}
 		
 		return $start;
@@ -47,10 +49,26 @@ abstract class Logs_Submodule_Source implements Plugins
 			Database::replace('logs', $insert, $dont_update);
 		}
 		
+		foreach ($data as & $row) {
+			$row['item_type'] = 'log';
+		}
+		
 		return $data;
 	}
 	
 	abstract protected function extract_start();
 	
 	abstract protected function extract_data($query);
+		
+	protected function make_safe($text) {
+		
+		$text = str_replace(array('<','>'), array('&lt;','&gt;'), $text);
+		$text = preg_replace(
+			array('/http:\/\/([^\/]+)[^\s]*/s', '/[\r\n]+/su'), 
+			array('<a href="$0">$0</a>', '<br />'), 
+			$text
+		);
+		
+		return Transform_Text::cut_long_words($text, 40);
+	}
 }

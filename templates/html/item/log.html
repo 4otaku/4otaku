@@ -1,11 +1,14 @@
 <div 
-	class="logs-{{item.key}}" 
-	id="time-{{item.time}}"
+	class="logs-{{loop.index % 2}}" 
+	id="time-{{item.time}}.{{item.milliseconds}}"
 >
-	<a href="/logs/{{flag.year}}/{{flag.month}}/{{flag.day}}#time-{{item.time}}">
+	<a href="#time-{{item.time}}.{{item.milliseconds}}">
 		<span class="logs-time">
 			[{{item.time}}]
 		</span>
-	</a>
+	</a> 
+	<span class="logs-nick">
+		{{item.name}}
+	</span> 
 	{{item.text}}
 </div>

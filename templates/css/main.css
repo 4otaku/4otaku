@@ -842,25 +842,6 @@ ul.list li {
 	margin-bottom: 3px;
 }
 
-/* Content, логи */
-
-#logs .logs-odd {
-	background-color: #FFF8E6;
-	width: 100%;
-}
-
-#logs .logs-odd .logs-time {
-	color: #666666;
-}
-
-#logs .logs-even .logs-time {
-	color: #999999;
-}
-
-#logs .logs-nick {
-	color: #0000AA;
-}
-
 /* Top, Форма добавления */
 
 #addform {
