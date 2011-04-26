@@ -6,7 +6,7 @@ abstract class Logs_Submodule_Source implements Plugins
 	protected $name;
 	
 	public function __construct($name) {
-		
+
 		$this->config = Config::settings('sections', $name);
 		$this->name = $name;
 	}
