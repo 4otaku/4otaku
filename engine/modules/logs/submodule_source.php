@@ -36,17 +36,19 @@ abstract class Logs_Submodule_Source implements Plugins
 		if (empty($data)) {
 			$data = $this->extract_data($query);
 	
-			$insert = array(
-				'data' => Crypt::pack($data),
-				'section' => $this->name, 
-				'year' => $query['year'],
-				'month' => $query['month'],
-				'day' => $query['day'],
-			);
+			if ($this->completed_day($query)) {
+				$insert = array(
+					'data' => Crypt::pack($data),
+					'section' => $this->name, 
+					'year' => $query['year'],
+					'month' => $query['month'],
+					'day' => $query['day'],
+				);			
 			
-			$dont_update = array('section', 'year', 'month', 'day');
+				$dont_update = array('section', 'year', 'month', 'day');
 			
-			Database::replace('logs', $insert, $dont_update);
+				Database::replace('logs', $insert, $dont_update);
+			}
 		}
 		
 		foreach ($data as & $row) {
@@ -59,6 +61,17 @@ abstract class Logs_Submodule_Source implements Plugins
 	abstract protected function extract_start();
 	
 	abstract protected function extract_data($query);
+		
+	protected function completed_day($query) {
+		
+		$day = $query['year'].'-'.$query['month'].'-'.$query['day'];
+		$day = new DateTime($day);
+		$day->add(new DateInterval('P1D'));
+		
+		$today = new DateTime();
+		
+		return (bool) ($today > $day);
+	}
 		
 	protected function make_safe($text) {
 		
