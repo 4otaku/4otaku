@@ -1,0 +1,49 @@
+<div class="shell">
+	<div class="post" id="post-{{id}}">
+		<div class="innerwrap">
+			<table width="100%">
+				<tr>
+					<td align="left">
+						<h2>
+							<a href="/news{{utils.area(item.area)}}/{{item.url}}" title="{{item.title}}">
+								{{item.title}}
+							</a>
+						</h2>
+					</td>
+					<td align="right" valign="top">
+						{% if flag.single %}
+							{{item.date}}
+						{% else %}
+							<a href="/news{{utils.area(item.area)}}/{{item.url}}">
+								Комментировать
+							</a>
+							{% if item.comments %}
+								 ({{item.comments}})
+							{% endif %}
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+					<td valign="top">
+						<div class="posttext">
+							{{item.text}}
+						</div>	
+					</td>
+					{% if item.image %}
+						<td class="imageholder">
+							{% for key, image in item.image %}
+								<div class="image-{{key}}">
+									<a href="{{domain}}/images/post/full/{{image.file}}" target="_blank">
+										<img src="{{domain}}/images/post/thumbnail/{{image.file}}" /> 
+									</a>													
+								</div>								
+							{% endfor %}
+						</td>
+					{% endif %}					
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

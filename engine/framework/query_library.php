@@ -191,6 +191,16 @@ class Query_Library implements Plugins
 			return array('id' => $id, 'function' => 'single');
 		}
 	}
+
+	public static function name (& $url) {
+
+		if (isset($url[0]) && !is_numeric($url[0])) {
+
+			$name = array_shift($url);
+
+			return array('name' => $name, 'function' => 'single');
+		}
+	}
 	
 	public static function board (& $url) {
 		if (isset($url[0])) {
