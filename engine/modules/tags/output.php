@@ -1,6 +1,6 @@
 <?
 
-class Tags_Output extends Output_Simple implements Plugins
+class Tags_Output extends Output implements Plugins
 {	
 	const CACHE_PREFIX = '_tag_cache_items_';
 	
@@ -29,7 +29,7 @@ class Tags_Output extends Output_Simple implements Plugins
 		
 		if (!($items = Cache::get($type.'_'.$area))) { 
 		
-			$items = $this->get_tag_cloud($type);
+			$items = $this->get_full_tag_cloud($type, $area);
 			
 			Cache::set($type.'_'.$area, $items, DAY);
 		}
@@ -38,7 +38,7 @@ class Tags_Output extends Output_Simple implements Plugins
 		$this->flags['type'] = $type;
 	}
 	
-	protected function get_tag_cloud ($type, $area) {
+	protected function get_full_tag_cloud ($type, $area) {
 		$meta = Database::get_vector('meta', array('alias', 'name', 'color'), '`type` = tag');
 		$aliases = array_unique(array_keys($meta));
 		
