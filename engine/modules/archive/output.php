@@ -14,7 +14,7 @@ class Archive_Output extends Output implements Plugins
 		$type = $query['section'];
 		if (empty($query['subsection'])) {
 			$items = Config::settings('subsections', $type, 'items');
-			$group_by = current($items);
+			$group_by = key($items);
 		} else {
 			$group_by = $query['subsection'];
 		}

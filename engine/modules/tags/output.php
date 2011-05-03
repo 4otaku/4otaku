@@ -20,7 +20,7 @@ class Tags_Output extends Output implements Plugins
 		$type = $query['section'];
 		if (empty($query['subsection'])) {
 			$items = Config::settings('sections', $type, 'items');
-			$area = current($items);
+			$area = key($items);
 		} else {
 			$area = $query['subsection'];
 		}
