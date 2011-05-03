@@ -103,7 +103,7 @@ class Archive_Output extends Output implements Plugins
 				$condition = '`area`= \'main\' and ';
 				$search = array('+', $alias, $meta_name);
 				$condition .= Database::make_search_condition('meta', array($search));
-				$one['items'] = Database::get_table($type,	$fields, $condition);
+				$one['items'] = Database::get_table($type, $fields, $condition);
 			}
 		}
 		unset($one);
