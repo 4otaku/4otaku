@@ -16,7 +16,7 @@ class Tags_Output extends Output implements Plugins
 	
 	public function section ($query) {
 		$return = array();
-		
+
 		$type = $query['section'];
 		if (empty($query['subsection'])) {
 			$items = Config::settings('sections', $type, 'items');
@@ -26,10 +26,10 @@ class Tags_Output extends Output implements Plugins
 		}
 
 		Cache::$prefix = self::CACHE_PREFIX;
+
+		if (!($this->items = Cache::get($type.'_'.$area))) { 
 		
-		if (!($items = Cache::get($type.'_'.$area))) { 
-		
-			$items = $this->get_full_tag_cloud($type, $area);
+			$this->items = $this->get_full_tag_cloud($type, $area);
 			
 			Cache::set($type.'_'.$area, $items, DAY);
 		}
@@ -39,27 +39,46 @@ class Tags_Output extends Output implements Plugins
 	}
 	
 	protected function get_full_tag_cloud ($type, $area) {
-		$meta = Database::get_vector('meta', array('alias', 'name', 'color'), '`type` = tag');
+		$meta = Database::get_vector('meta', array('alias', 'name', 'color'), '`type` = "tag"');
 		$aliases = array_unique(array_keys($meta));
-		
+	
 		$count_worker = new Meta_Library();
 		$data = $count_worker->get_meta_numbers($aliases, 'tag', $type, $area);
 		$data = array_filter($data);
 
-//		arsort($data);
-
-		foreach ($data as $alias => & $one) {
+		$return = array();
+		$max = 0; $min = false;
+		
+		foreach ($data as $alias => $one) {		
 			
-			$one = array(
-				'alias' => $alias,
-				'count' => $one,
-				'color' => $meta[$alias]['color'],
-				'name' => $meta[$alias]['name'],
-				'item_type' => 'tag',
-			);
+			if (!empty($meta[$alias])) {
+				$return[] = array(
+					'alias' => $alias,
+					'count' => $one,
+					'color' => $meta[$alias]['color'],
+					'name' => $meta[$alias]['name'],
+					'item_type' => 'tag',
+				);
+				
+				$max = max($max, $one);
+				$min = $min ? min($min, $one) : $one;
+			}
 		}
-		unset($one);
+		
+		$maxsize = Config::settings('tag_sizes', 'full_cloud_max');
+		$minsize = Config::settings('tag_sizes', 'full_cloud_min');
+		
+		foreach ($return as & $one) {		
+			
+			$one['size'] = round(($maxsize - $minsize)*($one['count']-$min)/($max-$min) + $minsize);
+		}		
 
-		return array_values($data);
+		usort($return, array($this, 'namesort'));
+
+		return $return;
+	}
+	
+	protected function namesort($a, $b) {
+		return strcmp($a['name'], $b['name']);
 	}
 }

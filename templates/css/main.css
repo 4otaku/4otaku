@@ -994,15 +994,15 @@ span.href {
 	color: #42A3B9;
 }
 
-#tag_bar {
+a.tag_in_cloud {
 	line-height: 19pt;	
 }
 
-#tag_bar a {
+a.tag_in_cloud {
 	text-decoration: none;
 }
 
-#tag_bar a:hover {
+a.tag_in_cloud:hover {
 	text-decoration: underline;
 }
 
