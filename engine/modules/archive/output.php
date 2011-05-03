@@ -23,15 +23,10 @@ class Archive_Output extends Output implements Plugins
 		
 		if (!($items = Cache::get($type.'_'.$group_by))) { 
 		
-			switch ($group_by) {
-				case 'date': 
-					$items = $this->get_archive_by_date($type); 
-					break;
-				case 'author': 
-				case 'category': 
-					$items = $this->get_archive_by_meta($type, $group_by); 
-					break;
-				default: Error::fatal("Неправильный конфиг архива");
+			if ($group_by == 'date') {
+				$items = $this->get_archive_by_date($type); 
+			} else { 
+				$items = $this->get_archive_by_meta($type, $group_by); 
 			}
 			
 			Cache::set($type.'_'.$group_by, $items, DAY);
@@ -91,11 +86,11 @@ class Archive_Output extends Output implements Plugins
 		$count_worker = new Meta_Library();
 		$data = $count_worker->get_meta_numbers($aliases, $meta_name, $type, 'main');
 		$data = array_filter($data);
-		
+
 		$fields = array('id', 'title', 'date', 'comments');
 		
 		arsort($data);
-		
+
 		foreach ($data as $alias => & $one) {
 			
 			$one = array(

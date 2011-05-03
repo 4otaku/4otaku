@@ -3,7 +3,7 @@
 {% endif %}
 
 <div class="thread" id="board-{{id}}">
-	{% if flag.thread_list %}
+	{% if flag.listing %}
 	
 		<span class="link_last">
 			<a href="/board/{{item.current_board}}/thread/{{id}}#reply">
@@ -130,7 +130,7 @@
 					
 		{% endif %}
 		<div class="posttext">
-			{% if flag.thread_list %}
+			{% if flag.listing %}
 				{{item.short_text}}
 			{% else %}
 				{{item.text}}
@@ -168,7 +168,7 @@
 {% for sub_id, sub_item in item.items %}
 
 	<div class="message" id="board-{{sub_id}}">	
-		{% if flag.thread_list %}
+		{% if flag.listing %}
 
 			<span class="link_last">
 				<a href="/board/{{item.current_board}}/thread/{{id}}#reply-{{sub_id}}">
@@ -247,7 +247,7 @@
 						
 			{% endif %}
 			<div class="posttext">
-				{% if flag.thread_list %}
+				{% if flag.listing %}
 					{{sub_item.short_text}}
 				{% else %}
 					{{sub_item.text}}

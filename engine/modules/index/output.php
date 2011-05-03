@@ -67,7 +67,7 @@ class Index_Output extends Output implements Plugins
 			$this->items['board'] = array(
 				'new' => Database::get_field('board', count(*) from board where `type` = "2" and sortdate > '.$sets['visit']['board']*1000,2),
 				'updated' => Database::get_field('select count(*) from board where `type` = "2" and sortdate < '.($sets['visit']['board']*1000).' and updated > '.$sets['visit']['board']*1000,2),
-				'link' => _base64_encode(pack('i*',$sets['visit']['board']), true),
+				'link' => Crypt::pack_url_date($sets['visit']['board']),
 			);
 		}
 

@@ -3,7 +3,6 @@
 class News_Output extends Output_Main implements Plugins
 {
 	public function single ($query) {
-		$this->flags['single'] = true;
 		
 		if (!empty($query['id'])) {
 			$data = Database::get_full_row('news', $query['id']);

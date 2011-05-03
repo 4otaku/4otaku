@@ -11,15 +11,15 @@
 						</h2>
 					</td>
 					<td align="right" valign="top">
-						{% if flag.single %}
-							{{item.date}}
-						{% else %}
+						{% if flag.listing %}
 							<a href="/news{{utils.area(item.area)}}/{{item.url}}">
 								Комментировать
 							</a>
 							{% if item.comments %}
 								 ({{item.comments}})
 							{% endif %}
+						{% else %}
+							{{item.date}}
 						{% endif %}
 					</td>
 				</tr>

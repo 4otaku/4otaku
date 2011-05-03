@@ -5,6 +5,9 @@
 class Output_Main extends Output implements Plugins
 {
 	protected function build_listing_condition ($query) {
+		
+		$this->flags['listing'] = true;
+		
 		$condition = !empty($query['area']) ? "area = '{$query['area']}'" : "area != 'deleted'";
 
 		if (!empty($query['meta']) && !empty($query['alias'])) {

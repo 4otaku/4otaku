@@ -31,7 +31,6 @@ class Board_Output extends Output_Main implements Plugins
 	public function main ($query) {
 		
 		$this->flags['skip_message'] = Globals::user('board', 'skip_message');
-		$this->flags['thread_list'] = true;
 		
 		if ($this->is_message($query)) {
 			return;
@@ -83,6 +82,19 @@ class Board_Output extends Output_Main implements Plugins
 			'module' => 'board',
 		), 'short_base');
 	}
+	
+	protected function build_listing_condition ($query) {
+		
+		$condition = parent::build_listing_condition($query);
+		
+		if (!empty($query['type']) && !empty($query['date'])) {
+			$date = Crypt::unpack_url_date($query['date']);
+			
+			$condition .= " and `".($query['type'] == 'new' ? "date" : "updated")."` > '$date'"
+		}
+
+		return $condition;
+	}	
 	
 	protected function add_needed_content () {
 		if (empty($this->items_needed)) {
