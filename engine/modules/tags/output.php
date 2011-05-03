@@ -9,7 +9,7 @@ class Tags_Output extends Output implements Plugins
 	public function main () {
 		$sections = Config::settings('sections');
 		
-		$query['section'] = current($sections);
+		$query['section'] = key($sections);
 		
 		return $this->section($query);
 	}

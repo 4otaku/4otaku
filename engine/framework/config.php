@@ -91,6 +91,7 @@ final class Config
 
 		if (isset(self::$data[$name])) {
 			$return = self::$data[$name];
+			
 			while ($next = array_shift($arguments)) {
 				if (isset($return[$next])) {
 					$return = $return[$next];
