@@ -31,7 +31,7 @@ class Tags_Output extends Output implements Plugins
 		
 			$this->items = $this->get_full_tag_cloud($type, $area);
 			
-			Cache::set($type.'_'.$area, $items, DAY);
+			Cache::set($type.'_'.$area, $this->items, DAY);
 		}
 		
 		$this->flags['area'] = $area;
@@ -64,14 +64,14 @@ class Tags_Output extends Output implements Plugins
 				$min = $min ? min($min, $one) : $one;
 			}
 		}
-		
+
 		$maxsize = Config::settings('tag_sizes', 'full_cloud_max');
 		$minsize = Config::settings('tag_sizes', 'full_cloud_min');
 		
-		foreach ($return as & $one) {		
-			
+		foreach ($return as & $one) {			
 			$one['size'] = round(($maxsize - $minsize)*($one['count']-$min)/($max-$min) + $minsize);
-		}		
+		}
+		unset($one);
 
 		usort($return, array($this, 'namesort'));
 
