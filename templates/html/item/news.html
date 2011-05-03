@@ -33,13 +33,13 @@
 					</td>
 					{% if item.image %}
 						<td class="imageholder">
-							{% for key, image in item.image %}
-								<div class="image-{{key}}">
-									<a href="{{domain}}/images/post/full/{{image.file}}" target="_blank">
-										<img src="{{domain}}/images/post/thumbnail/{{image.file}}" /> 
+							{% if item.image %}
+								<div class="image-0">
+									<a href="{{domain}}/images/news/full/{{item.image}}" target="_blank">
+										<img src="{{domain}}/images/news/thumbnail/{{item.image}}" /> 
 									</a>													
 								</div>								
-							{% endfor %}
+							{% endif %}
 						</td>
 					{% endif %}					
 				</tr>
