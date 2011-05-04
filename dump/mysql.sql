@@ -229,33 +229,7 @@ CREATE TABLE `<pr>news` (
   KEY `selector` (`area`,`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `<pr>order`;
-CREATE TABLE `<pr>order` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `title` varchar(510) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Анонимус',
-  `email` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'default@avatar.mail',
-  `spam` tinyint(1) unsigned NOT NULL,
-  `text` text character set utf8 collate utf8_unicode_ci NOT NULL,
-  `pretty_text` text character set utf8 collate utf8_unicode_ci NOT NULL,
-  `meta` text NOT NULL,
-  `comments` smallint(5) unsigned NOT NULL,
-  `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  `area` enum('open','completed','dropped','deleted') NOT NULL default 'open',
-  PRIMARY KEY  (`id`),
-  KEY `selector` (`area`,`date`),
-  FULLTEXT KEY `index` (`meta`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-DROP TABLE IF EXISTS `<pr>order_links`;
-CREATE TABLE `<pr>order_links` (
-  `order_id` int(10) unsigned NOT NULL,
-  `sort` smallint(5) unsigned NOT NULL,
-  `link` text NOT NULL,
-  PRIMARY KEY  (`order_id`,`sort`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `<pr>order_links`;
+DROP TABLE IF EXISTS `<pr>cache`;
 CREATE TABLE IF NOT EXISTS `<pr>cache` (
   `key` varchar(255) NOT NULL,
   `value` longtext NOT NULL,
@@ -334,3 +308,14 @@ CREATE TABLE `<pr>logs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`section`,`year`,`month`,`day`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE `<pr>mail_list`;
+CREATE TABLE `<pr>mail_list` (
+  `id` int(10) unsigned NOT NULL,
+  `mail` varchar(512) NOT NULL,
+  `item_type` varchar(32) NOT NULL,
+  `item_id` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `selector` (`item_type`,`item_id`(255)),
+  KEY `unsubscribe` (`mail`(255),`item_type`,`item_id`(255))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
