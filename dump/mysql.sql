@@ -311,7 +311,7 @@ CREATE TABLE `<pr>logs` (
 
 DROP TABLE `<pr>mail_list`;
 CREATE TABLE `<pr>mail_list` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL auto_increment,
   `mail` varchar(512) NOT NULL,
   `item_type` varchar(32) NOT NULL,
   `item_id` varchar(512) NOT NULL,
