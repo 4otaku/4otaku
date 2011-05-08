@@ -124,14 +124,31 @@ class Cron
 	}	
 	
 	private function get_video_thumbnail () {
-		$condition = Database::make_search_condition('meta', array(array('+','thumbnail','not_fetched')));
+		$condition = 'object_type = "youtube" and object_thumbnail="" limit 50';
 		
-		$videos = Database::get_vector('video', array('id', 'object', 'meta'), $condition);
+		$videos = Database::get_full_table('video', $condition);
 		
 		foreach ($videos as $video) {
-			$video['object'] = Crypt::unpack($video['object']);
+			$data = file_get_contents('http://img.youtube.com/vi/'.$video['object_id'].'/0.jpg');
 			
-			var_dump($video);
+			if (empty($data)) {
+				Database::update('video', $video['id'], array('object_thumbnail' => 'deleted'));
+				
+				continue;
+			}
+			
+			$tmpfname = tempnam('/tmp', 'jpg');
+			file_put_contents($tmpfname, $data);		
+			
+			$pretty_name = $video['id'].'.jpg';
+			$name = IMAGES.SL.'video'.SL.'thumbnail'.SL.$pretty_name;
+			
+			$image = new Transform_Image($tmpfname);
+			$image->target($name)->scale(200);
+			
+			Database::update('video', $video['id'], array('object_thumbnail' => $pretty_name));
+			
+			unlink($tmpfname);	
 		}		
 		
 		return memory_get_usage();

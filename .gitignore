@@ -23,6 +23,9 @@ images/art/thumbnail/*
 images/art/large_thumbnail/*
 !images/art/large_thumbnail/index.php
 
+images/video/thumbnail/*
+!images/video/thumbnail/index.php
+
 images/post/full/*
 !images/post/full/index.php
 
