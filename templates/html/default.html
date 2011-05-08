@@ -10,11 +10,14 @@
 		{% endif %}
 		{% if sub.login is not none %}
 			{% include 'html/misc/login.html' %}
-		{% endif %}		
+		{% endif %}	
 		<div class="post">
 			{% for id, item in items %}
 				{% include ['html/item/',item.item_type,'.html']|join %}
 			{% endfor %}
 		</div>
+		{% if sub.comments is not none %}
+			{% include 'html/misc/comments.html' %}
+		{% endif %}	
 	</td>
 {% endblock %}

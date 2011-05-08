@@ -1,6 +1,6 @@
 <?
 
-class Item_Comment extends Item_Abstract_Meta implements Plugins
+class Item_Comment extends Item_Abstract_Container implements Plugins
 {
 	public function postprocess () {
 

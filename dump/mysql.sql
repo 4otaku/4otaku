@@ -1,5 +1,13 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+DROP TABLE IF EXISTS `<pr>helper`;
+CREATE TABLE `<pr>helper` (
+  `id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `<pr>helper` (`id`) VALUES (1);
+
 DROP TABLE IF EXISTS `<pr>meta`;
 CREATE TABLE `<pr>meta` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

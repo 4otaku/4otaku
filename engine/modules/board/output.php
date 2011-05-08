@@ -43,7 +43,7 @@ class Board_Output extends Output_Main implements Plugins
 		$listing_condition = $this->build_listing_condition($query) . " and `thread` = 0";
 		$condition = $listing_condition . " order by `updated` desc limit $start, $perpage";
 
-		$items = Database::get_full_vector('board', $condition);
+		$items = Database::set_counter()->get_full_vector('board', $condition);
 	
 		$index = array();
 		
@@ -73,7 +73,7 @@ class Board_Output extends Output_Main implements Plugins
 		
 		$this->add_needed_content();
 		
-		$count = Database::get_count('board', $listing_condition);
+		$count = Database::get_counter();
 
 		$this->items[] = new Item_Navi(array(
 			'curr_page' => $page,

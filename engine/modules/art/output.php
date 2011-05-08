@@ -32,7 +32,7 @@ class Art_Output extends Output_Main implements Plugins
 		$listing_condition = $this->build_listing_condition($query);
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
 
-		$items = Database::get_full_vector('art', $condition);
+		$items = Database::set_counter()->get_full_vector('art', $condition);
 		
 		$index = array();
 		
@@ -48,7 +48,7 @@ class Art_Output extends Output_Main implements Plugins
 			$item = Transform_Item::merge($item, $meta[$id]);
 		}
 		
-		$count = Database::get_count('art', $listing_condition);
+		$count = Database::get_counter();
 		
 		$this->items[] = new Item_Navi(array(
 			'curr_page' => $page,

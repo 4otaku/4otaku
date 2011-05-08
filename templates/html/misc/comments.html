@@ -1,0 +1,7 @@
+{% for id, item in sub.comments.items %}
+	{% if item.item_type == 'comment' %}
+		{% include 'html/item/comment.html' %}
+	{% elseif item.item_type == 'navi' %}
+		{% include 'html/item/navi.html' %}
+	{% endif %}
+{% endfor %}
