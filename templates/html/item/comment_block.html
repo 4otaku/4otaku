@@ -1,0 +1,49 @@
+<div class="shell post">
+	<div class="left">
+		<h2>
+			<a href="/{{item.place}}/{{item.link}}/">
+				{{item.title}}
+			</a>
+		</h2>
+	</div>
+	<div class="right">
+		<b>
+			Всего комментариев: {{item.comments}}
+		</b>
+	</div>
+	<table cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<td valign="top">
+				{% if item.comments > item.limit %}
+					<p class="help">
+						Показываются только {{item.limit}} последних {{utils.wcase(item.limit, 'комментарий', 'комментария', 'комментариев')}}. 
+						<a href="/{{item.place}}/{{item.link}}/comments/all">
+							Читать все
+						</a>.
+					</p>
+				{% endif %}
+				{% for comment in item.items %}
+					{% if loop.length - loop.index < item.limit %}
+						!
+					{% endif %}
+				{% endfor %}
+				<div class="respond">
+					<h2>
+						<a href="/{{item.place}}/{{item.link}}/">
+							Ответить
+						</a>
+					</h2>
+				</div>
+			</td>
+			{% if item.image %}
+				<td class="imageholder">
+					<div class="image-0">
+						<a href="/{{item.place}}/{{item.link}}/">
+							<img src="{{domain}}{{item.image}}" />
+						</a>
+					</div>
+				</td>
+			{% endif %}
+		</tr>
+	</table>
+</div>

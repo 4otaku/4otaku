@@ -122,4 +122,18 @@ class Cron
 		
 		return memory_get_usage();
 	}	
+	
+	private function get_video_thumbnail () {
+		$condition = Database::make_search_condition('meta', array(array('+','thumbnail','not_fetched')));
+		
+		$videos = Database::get_vector('video', array('id', 'object', 'meta'), $condition);
+		
+		foreach ($videos as $video) {
+			$video['object'] = Crypt::unpack($video['object']);
+			
+			var_dump($video);
+		}		
+		
+		return memory_get_usage();
+	}
 }

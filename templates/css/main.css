@@ -538,6 +538,10 @@ a.comments {
 	margin-left: 75px; 	 
 }
 
+div.respond {
+	margin-left:50px;
+}
+
 /* Content, навигация по страницам внизу */
 
 #navi_bottom ul, #navi_bottom li, #navi_bottom a, #navi_bottom span {

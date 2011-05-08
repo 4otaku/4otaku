@@ -309,7 +309,7 @@ class Database_Mysql extends Database_Common implements Database_Interface
 	}
 	
 	public function make_search_condition($field, $search_values) {
-		$return = 'match (`meta`) against ("';
+		$return = 'match (`'.$field.'`) against ("+index';
 		
 		foreach ($search_values as $value) {
 			list($sign, $word, $prefix) = $value;

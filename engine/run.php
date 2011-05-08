@@ -70,10 +70,10 @@
 
 	$worker = Core::get_worker_name($module, $query_output, 'output');
 	if (class_exists($worker)) {
-		
+			
 		$data = new $worker();
 		$data = $data->process($query_output);
-		
+
 		// Если ожидается вывод данных, создадим субзапросы согласно подгруженному конфигу
 		$side_modules = Config::settings('side');
 

@@ -4,7 +4,7 @@ class Array_Access implements ArrayAccess
 {
 	protected $data = array();
 	
-    public function __set($key, $value) {		var_dump($key); die;
+    public function __set($key, $value) {
         $this->offsetSet($key, $value);
     }	
 

@@ -72,6 +72,9 @@ CREATE TABLE `<pr>video` (
   `title` varchar(510) COLLATE utf8_general_ci NOT NULL,
   `link` varchar(255) COLLATE utf8_general_ci NOT NULL,
   `object` text COLLATE utf8_general_ci NOT NULL,
+  `object_type` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `object_id` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `object_thumbnail` varchar(32) COLLATE utf8_general_ci NOT NULL,
   `text` text COLLATE utf8_general_ci NOT NULL,
   `pretty_text` text COLLATE utf8_general_ci NOT NULL,
   `meta` text COLLATE utf8_general_ci NOT NULL,
@@ -197,7 +200,8 @@ CREATE TABLE `<pr>cron` (
 INSERT INTO `<pr>cron` (`name`, `last_call`, `period`, `runtime`, `memory`, `status`) 
 VALUES 
 ('check_links', '', '00:01:00', '', '', 'idle'),
-('do_tag_count_cache', '', '00:01:00', '', '', 'idle');
+('do_tag_count_cache', '', '00:01:00', '', '', 'idle'),
+('get_video_thumbnail', '', '01:00:00', '', '', 'idle');
 
 DROP TABLE IF EXISTS `<pr>logs`;
 CREATE TABLE `<pr>logs` (

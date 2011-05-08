@@ -2,6 +2,7 @@
 
 abstract class Item_Abstract_Base extends Array_Access implements Plugins
 {
+	protected $parent;
 	protected $flag;
 	protected $cache = array();
 	
