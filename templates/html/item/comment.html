@@ -1,21 +1,36 @@
-<div class="comment" id="comment-<?=$comment['id'];?>"<?=($comment['position'] ? ' style="padding-left: '.($comment['position']*50).'px;"' : '');?>>
-	<div class="comment-top">
-		<b><?=($block['comment_count'] - $i);?>) <?=$comment['username'];?></b>
+<div 
+	class="comment clear" 
+	id="comment-{{id}}" 
+	{% if item.ladder_position %}
+		style="padding-left: {{item.ladder_position}}px;"
+	{% endif %}	
+>
+	<div class="comment-top margin10">
+		<b>{{index}}) {{item.username}}</b>
 		<span class="datetime">
-			 <?=$comment['pretty_date'];?>
+			 {{item.precise_date}}
 		</span>
-		<span class="commentmetadata"><a href="#comment-<?=$comment['id'];?>" title="">#</a></span>
+		<span class="commentmetadata"><a href="#comment-{{id}}" title="">#</a></span>
 	</div>
 	<div class="comment-content">
 		<div class="avatar-n">
-			<img alt='' src='http://www.gravatar.com/avatar/<?=md5( strtolower($comment['email']) );?>?s=50&d=identicon&r=G' class='avatar avatar-50 photo' height='50' width='50' />
+			<img 
+				src="http://www.gravatar.com/avatar/{{item.gravatar}}?s=50&d=identicon&r=G" 
+				height="50" width="50" 
+			/>
 		</div>
 		<div class="comment-text">
-		<span><?=$comment['text'];?></span>
-		<br /><br />
-		<a href="<?=$def['site']['dir']?>/<?=$block['place'];?>/<?=$block['id'];?>/comments/all#reply-<?=$comment['id'];?>">Ответить</a>
-		<div class="c-wrap"></div>
+			{% if item.quotation %}
+				<blockquote class="quotation margin10">
+					<span class="username">{{item.quotation.username}}:</span>
+					{{item.quotation.text}}
+				</blockquote>
+			{% endif %}			
+			<div class="margin10">{{item.text}}</div>
+			{% if item.link and item.place %}
+				<a href="/{{item.place}}/{{item.link}}/comments/all#reply-{{id}}">Ответить</a>
+				<div class="c-wrap"></div>
+			{% endif %}
 		</div>
 	</div>
-	<br />
 </div>

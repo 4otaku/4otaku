@@ -539,7 +539,20 @@ a.comments {
 }
 
 div.respond {
-	margin-left:50px;
+	margin-left: 50px;
+}
+
+.quotation {
+	padding: 8px;
+	background-color: #faebbc;
+	border: 1px solid #e1cc89;
+	margin: 5px;
+	margin-bottom: 15px;
+}
+
+.quotation .username {
+	font-weight: bold;
+	margin-right: 10px;
 }
 
 /* Content, навигация по страницам внизу */

@@ -6,11 +6,15 @@ class Item_Comment_Block extends Item_Abstract_Container implements Plugins
 	
 	public function postprocess () {
 
-		parent::postprocess();
-		
 		$this->data['id'] = (int) $this->data['id'];
 		$this->data['place'] = preg_replace('/[^a-z_]+/i', '', $this->data['place']);
 		$this->item_data = Database::get_full_row($this->data['place'], $this->data['id']);
+		
+		$this->data['link'] = !empty($this->item_data['url']) ?
+			$this->item_data['url'] :
+			$this->data['id'];
+
+		parent::postprocess();
 	}
 	
 	public function get_title () {
@@ -23,14 +27,6 @@ class Item_Comment_Block extends Item_Abstract_Container implements Plugins
 		}
 		
 		return '';
-	}
-	
-	public function get_link () {
-		if (!empty($this->item_data['url'])) {
-			return $this->item_data['url'];
-		}
-		
-		return $this->data['id'];
 	}
 	
 	public function get_comments () {
@@ -57,7 +53,14 @@ class Item_Comment_Block extends Item_Abstract_Container implements Plugins
 			
 				return '/images/post/thumbnail/'.$image['file'];
 			case 'video':
-				return '/images/art/thumbnail/'.$this->item_data['thumbnail'].'.jpg';
+				if (
+					!empty($this->item_data['object_thumbnail']) && 
+					$this->item_data['object_thumbnail'] != 'deleted'
+				) {
+					return '/images/video/thumbnail/'.$this->item_data['object_thumbnail'];
+				} else {
+					return '/i/novideo.jpg';
+				}
 			case 'news':
 				return '/images/news/thumbnail/'.$this->item_data['image'];
 			default:

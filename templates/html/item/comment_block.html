@@ -8,7 +8,7 @@
 	</div>
 	<div class="right">
 		<b>
-			Всего комментариев: {{item.comments}}
+			Всего комментариев: {{item.comments|default('0')}}
 		</b>
 	</div>
 	<table cellspacing="0" cellpadding="0" width="100%">
@@ -22,9 +22,9 @@
 						</a>.
 					</p>
 				{% endif %}
-				{% for comment in item.items %}
+				{% for comment_id, comment in item.items %}
 					{% if loop.length - loop.index < item.limit %}
-						!
+						{% include 'html/item/comment.html' with {'item': comment, 'id': comment_id, 'index': loop.index} %}
 					{% endif %}
 				{% endfor %}
 				<div class="respond">

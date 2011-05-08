@@ -91,6 +91,14 @@ class Database implements Plugins
 		return self::db()->debug($print);
 	}
 	
+	public function set_counter() {
+		return self::db()->set_counter();
+	}
+	
+	public function get_counter() {
+		return self::db()->get_counter();
+	}
+	
 	public static function make_search_condition ($field, $search_values) {
 		return self::db()->make_search_condition($field, $search_values);
 	}

@@ -37,6 +37,10 @@ Interface Database_Interface
 	
 	public function debug();
 	
+	public function set_counter();
+	
+	public function get_counter();
+	
 	public function make_search_condition($field, $search_values);
 	
 	// Транзакции

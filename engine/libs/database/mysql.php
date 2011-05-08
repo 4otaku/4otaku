@@ -4,6 +4,9 @@ class Database_Mysql extends Database_Common implements Database_Interface
 {
 	const null_replacement = '_4o_NULL_replace_';
 	
+	protected $counter = 0;
+	protected $counter_lock = false;
+	
 	public function __construct($config) {
 		$this->connection =	mysql_connect(
 			$config['Server'], 
@@ -55,20 +58,30 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		}
 		
 		return $return;		
-	}	
+	}
 	
 	protected function get_common($table, $values = '*', $condition = false, $params = false) {
 		if (is_array($values)) {
 			$values = "`".implode("`,`", $values)."`";
 		}
 		
-		$query = "SELECT $values FROM `{$this->prefix}$table`";
+		$query = "SELECT ";
+		if ($this->counter_lock) {
+			$query .= "SQL_CALC_FOUND_ROWS ";
+		}
+		$query .= "$values FROM `{$this->prefix}$table`";
 		
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";
 		}
 		
 		$this->result = $this->query($query, $params);
+		
+		if ($this->counter_lock) {
+			$count = $this->query("SELECT FOUND_ROWS()");
+			$this->counter = current(mysql_fetch_assoc($count));
+			$this->counter_lock = false;
+		}
 	}
 
 	public function get_table($table, $values = '*', $condition = false, $params = false) {
@@ -307,6 +320,20 @@ class Database_Mysql extends Database_Common implements Database_Interface
 		
 		return $return;
 	}
+	
+	public function set_counter() {
+		$this->counter_lock = true;
+		
+		return $this;
+	}
+	
+	public function get_counter() {
+		if ($this->counter_lock) {
+			Error::warning("Попытка получить counter до запроса");
+			return 0;
+		}
+		return $this->counter;
+	}		
 	
 	public function make_search_condition($field, $search_values) {
 		$return = 'match (`'.$field.'`) against ("+index';
