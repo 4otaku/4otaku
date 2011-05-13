@@ -10,57 +10,40 @@ class Cookie
 		
 		self::set_cookie($cookie);
 		
-		$data = Database::get_vector('cookie', array('section', 'data'), '`cookie` = ?', $cookie);
+		$data = Database::get_vector('session', array('key', 'value'), '`cookie` = ?', $cookie);
 		$info = Database::get_full_row('user', '`cookie` = ?', $cookie);
-
-		if (empty($data) && empty($info)) {
-			return array();
+		
+		$return = array();
+		
+		foreach ((array) $data as $key => $setting) {
+			$key = explode('.', $key);
+			
+			$pointer = & $return;
+			
+			while ($part = array_shift($key)) {
+				$pointer = & $pointer[$part];
+			}
+			
+			$pointer = Crypt::unpack($setting);
 		}
-		
-		$data = (array) $data;
-		
-		foreach ($data as & $section) {
-			$section = Crypt::unpack($section);
-		}
-		
-		$data['info'] = $info;
 
-		return $data;
+		$return['info'] = (array) $info;
+
+		return $return;
 	}
 	
-	public static function save_preference($cookie, $section, $key, $value) {		
-		$condition = '`cookie` = ? and `section` = ?';
-		
-		$data = Database::get_field('cookie', 'data', $condition, array($cookie, $section));
-		
-		if (!empty($data)) {
-			$data = Crypt::unpack($data);
-			$need_expiration = false;
-		} else {
-			$data = array();
-			$need_expiration = true;
+	public static function save_preference($cookie, $key, $value) {			
+		if (is_array($value) || is_object($value)) {
+			$value = Crypt::pack($value);
 		}
-		
-		$parts = explode('.', $key);
-		$link = & $data;
-		while ($part = array_shift($parts)) {
-			$link = & $link[$part];
-		}
-		
-		$link = $value;
 		
 		$insert = array(
 			'cookie' => $cookie, 
-			'section' => $section, 
-			'data' => Crypt::pack($data),
-		);
+			'key' => $key, 
+			'value' => $value,
+		);		
 		
-		if ($need_expiration) {
-			$expires = Transform_String::parse_time(Config::main('cookie', 'lifespan'));		
-			$insert['expires'] = Database::unix_to_date($expires);
-		}
-		
-		Database::replace('cookie', $insert, array('cookie', 'section'));
+		Database::replace('session', $insert, array('cookie', 'key'));
 	}
 	
 	public static function set_cookie ($cookie) {		

@@ -250,16 +250,16 @@ CREATE TABLE IF NOT EXISTS `<pr>cache` (
   KEY `selector` (`expires`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `<pr>cookie`;
-CREATE TABLE IF NOT EXISTS `<pr>cookie` (
+DROP TABLE IF EXISTS `<pr>session`;
+CREATE TABLE IF NOT EXISTS `<pr>session` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cookie` varchar(32) NOT NULL,
-  `section` varchar(16) NOT NULL,
-  `data` text NOT NULL,
-  `expires` datetime NOT NULL,
+  `key` varchar(128) NOT NULL,
+  `value` text NOT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique` (`cookie`,`section`),
-  KEY `expires` (`expires`)
+  UNIQUE KEY `unique` (`cookie`,`key`),
+  KEY `expires` (`cookie`,`updated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `<pr>user`;

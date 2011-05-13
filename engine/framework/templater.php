@@ -35,6 +35,8 @@ class Templater
 			'items' => $data->items,
 			'flag' => $data->flags,
 			'sub' => $data->submodules,
+			'config' => new Settings_Access('config'),
+			'user' => new Settings_Access('user'),
 		);
 
 		// TODO: убрать этот хак для тестирования

@@ -106,4 +106,11 @@ final class Config
 
 		Error::fatal("Missing config file $name.ini");
 	} 
+	
+	// Доступ на чтение, но не на запись
+	
+	public static function data() {
+
+		return self::$data;
+	} 
 }

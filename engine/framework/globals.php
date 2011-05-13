@@ -115,13 +115,21 @@ final class Globals implements Plugins
 	}
 	
 	public static function user() {
-		if (self::$preferences === false) {
-			self::$preferences = Cookie::get_preferences(self::$user_data['cookie']);
+		
+		if (self::$preferences === false) {			
+			$user_data = Cookie::get_preferences(self::$user_data['cookie']);
+			
+			$module = Core::get_module(self::$url, self::$vars);
+			if (!empty($user_data['module'])) {
+				$user_data['settings'] = $user_data['module'];
+			}
+					
+			self::$preferences = array_replace_recursive(Config::data(), $user_data);
 		}
 		
 		$preferences = self::$preferences;		
 		$arguments = func_get_args();
-		
+
 		while (!empty($arguments)) {
 			$argument = array_shift($arguments);
 			
@@ -133,7 +141,7 @@ final class Globals implements Plugins
 		}
 		
 		return $preferences;
-	}	
+	}
 	
 	public static function user_info() {
 		$arguments = func_get_args();
@@ -141,5 +149,13 @@ final class Globals implements Plugins
 		array_unshift($arguments, 'info');
 		
 		return call_user_func_array(array('self', 'user'), $arguments);
-	}	
+	}
+	
+	public static function user_settings() {
+		$arguments = func_get_args();
+		
+		array_unshift($arguments, 'settings');
+		
+		return call_user_func_array(array('self', 'user'), $arguments);
+	}
 }

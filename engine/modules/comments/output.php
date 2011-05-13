@@ -100,7 +100,7 @@ class Comments_Output extends Output implements Plugins
 	}
 	
 	public function make_subquery ($query, $module) {
-		Config::load(__DIR__.SL.'sub_settings.ini');
+		Config::load(__DIR__.SL.'comments_sub.ini');
 		
 		if ($module != 'sidebar' && !empty($query['id'])) {
 			return array(
@@ -116,8 +116,11 @@ class Comments_Output extends Output implements Plugins
 	
 	public function single ($query) {
 
-		$perpage = Config::sub_settings('single_item', 'per_page');
-		$display = Config::sub_settings('single_item', 'display');
+		$config = Globals::user('comments_sub', 'single_item');
+		
+		$perpage = $config['per_page'];
+		$display = $config['display'];
+		$inverted = $config['inverted'];
 
 		if ($query['page'] != 'all') {			
 			$page = $query['page'];
@@ -129,14 +132,11 @@ class Comments_Output extends Output implements Plugins
 			$start = 0;
 		}
 		
-		if ($display == 'ladder') {
-			$root = "and root = 0";
-		} else {
-			$root = "";
-		}
+		$root = $display == 'ladder' ? "and root = 0" : "";		
+		$direction = (bool) $inverted ? "desc" : "asc";
 		
 		$params = array('deleted', $query['place'], $query['item_id']);
-		$condition = "area != ? and place = ? and item_id = ? $root order by date desc $limit";
+		$condition = "area != ? and place = ? and item_id = ? $root order by date $direction $limit";
 
 		$comments = Database::set_counter()->get_full_vector('comment', $condition, $params, false);
 		
@@ -155,13 +155,36 @@ class Comments_Output extends Output implements Plugins
 		} else {
 			$children = array();
 		}
+		
+		if ($display == 'quotation') {
+			$parents = array();
+			
+			foreach ($comments as $comment) {
+				$parents[] = $comment['parent'];
+			}
+			
+			$condition = "area != ? and place = ? and item_id = ? and ".
+				Database::array_in('id', $parents);
+			$params = array_merge($params, $parents);
+							
+			$parents = Database::get_full_vector('comment', $condition, $params, false);
+		} else {
+			$parents = array();
+		}		
 
 		foreach ($comments as $id => $comment) {
 			$item_children = array();
+			$item_parent = null;
 			
 			foreach ($children as $child_id => $child) {
 				if ($id == $child['root']) {				
 					$item_children[$child_id] = new Item_Comment($child, $display);
+				}
+			}
+			
+			foreach ($parents as $parent_id => $parent) {
+				if ($parent_id == $comment['parent']) {				
+					$item_parent = new Item_Comment($parent);
 				}
 			}
 			
@@ -170,6 +193,7 @@ class Comments_Output extends Output implements Plugins
 					$comment, 
 					array(
 						'items' => $item_children,
+						'quotation' => $item_parent,
 						'index' => $current--,
 					)
 				),

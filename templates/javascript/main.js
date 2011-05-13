@@ -3,13 +3,30 @@ $(".disabled").live('click',function(event){
 });
 
 $(".config_option input, .config_option select").live(
-	'change', function() { $.ajax({data: {
-		module : 'profile',
-		input: true,
-		function: 'set_option',
-		option_name: $(this).attr('name'),
-		option_value: $(this).val()
-	}});}
+	'change', function() { 
+		$.ajax({data: {
+			module : 'profile',
+			input: true,
+			function: 'set_option',
+			option_name: $(this).attr('name'),
+			option_value: $(this).val()
+		}});
+	}
+);
+
+$(".config_option_reload input, .config_option_reload select").live(
+	'change', function() { 
+		$.ajax({data: {
+			module : 'profile',
+			input: true,
+			function: 'set_option',
+			option_name: $(this).attr('name'),
+			option_value: $(this).val(),  
+			success: function(data) {
+				document.location.reload();
+			}
+		}});
+	}
 );
 
 $(".logout").live('click', function() { 
