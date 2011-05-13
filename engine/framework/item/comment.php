@@ -4,8 +4,6 @@ class Item_Comment extends Item_Abstract_Container implements Plugins
 {
 	public function postprocess () {
 
-		parent::postprocess();
-
 		switch ($this->flag) {
 			case 'quotation':
 				if (
@@ -16,10 +14,46 @@ class Item_Comment extends Item_Abstract_Container implements Plugins
 				}
 				break;
 			case 'ladder':
+				if (!empty($this->data['items'])) {
+					if (empty($this->parent)) {
+						$tree_length = 0;
+						
+						foreach ($this->data['items'] as $child) {
+							$tree_length = max($tree_length, count($child['tree']));
+						}
+						
+						$config = Config::sub_settings('single_item');
+						
+						if ($tree_length * $config['max_single_margin'] < $config['max_margin']) {
+							$this->data['margin'] = $config['max_single_margin'];
+						} else {
+							$this->data['margin'] = round($config['max_margin'] / $tree_length);
+						}
+					}
+					
+					$indirect_children = array();
+					
+					foreach ($this->data['items'] as $id => $child) {
+						if ($this->data['id'] != $child->last_of('tree')) {
+							$indirect_children[$id] = $child;
+							unset($this->data['items'][$id]);
+						}
+					}
+					
+					foreach ($this->data['items'] as $id => $child) {
+						foreach ($indirect_children as $indirect_id => $indirect_child) {
+							if (in_array($id, $indirect_child['tree'])) {
+								$this->data['items'][$id]->add_to('items', $indirect_child, $indirect_id);
+							}
+						}
+					}
+				}
 				break;
 			default: 
 				break;
 		}
+		
+		parent::postprocess();
 		
 		if (!empty($this->parent) && !empty($this->parent->data['place'])) {
 			$this->data['place'] = $this->parent->data['place'];
@@ -29,5 +63,18 @@ class Item_Comment extends Item_Abstract_Container implements Plugins
 	
 	public function get_gravatar () {
 		return md5(strtolower($this->data['email']));
+	}
+	
+	public function get_margin () {
+		
+		if (isset($this->data['margin'])) {
+			return $this->data['margin'];
+		}
+
+		if (!empty($this->parent)) {
+			return $this->parent->inner_get('margin');
+		}
+		
+		return 0;
 	}
 }

@@ -1,12 +1,9 @@
 <div 
 	class="comment clear" 
-	id="comment-{{id}}" 
-	{% if item.ladder_position %}
-		style="padding-left: {{item.ladder_position}}px;"
-	{% endif %}	
+	id="comment-{{id}}"
 >
-	<div class="comment-top margin10">
-		<b>{{index}}) {{item.username}}</b>
+	<div class="comment-top">
+		<b>{{utils.one_of(index,item.index)}}) {{item.username}}</b>
 		<span class="datetime">
 			 {{item.precise_date}}
 		</span>
@@ -32,5 +29,12 @@
 				<div class="c-wrap"></div>
 			{% endif %}
 		</div>
-	</div>
+	</div>	
+	{% if item.items %}
+		<div style="margin: 20px 0px 20px {{item.margin|default('0')}}px;">
+			{% for comment_id, comment in item.items %}
+				{% include 'html/item/comment.html' with {'item': comment, 'id': comment_id, 'index': [utils.one_of(index,item.index), loop.index]|join('.')} %}
+			{% endfor %}
+		</div>
+	{% endif %}
 </div>

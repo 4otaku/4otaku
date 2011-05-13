@@ -125,6 +125,8 @@ class Comments_Output extends Output implements Plugins
 			$limit = " limit $start, $perpage";	
 		} else {
 			$limit = "";
+			$page = 1;
+			$start = 0;
 		}
 		
 		if ($display == 'ladder') {
@@ -136,16 +138,20 @@ class Comments_Output extends Output implements Plugins
 		$params = array('deleted', $query['place'], $query['item_id']);
 		$condition = "area != ? and place = ? and item_id = ? $root order by date desc $limit";
 
-		$comments = Database::set_counter()->get_full_vector('comment', $condition, $params);
+		$comments = Database::set_counter()->get_full_vector('comment', $condition, $params, false);
+		
+		$total = Database::get_counter();
+		$current = $total - $start;
 			
 		if ($display == 'ladder') {
 			$roots = array_keys($comments);
 			
-			$condition = "area != ? and place = ? and item_id = ? ".
+			$condition = "area != ? and place = ? and item_id = ? and ".
 				Database::array_in('root', $roots)." order by date";
 			$params = array_merge($params, $roots);
 			
-			$children = Database::get_full_vector('comment', $condition, $params);
+			$children = Database::get_full_vector('comment', $condition, $params, false);
+			$this->build_tree($children);
 		} else {
 			$children = array();
 		}
@@ -159,17 +165,58 @@ class Comments_Output extends Output implements Plugins
 				}
 			}
 			
-			$this->items[] = new Item_Comment(
-				array_merge($comment, array('items' => $item_children)),
+			$this->items[$id] = new Item_Comment(
+				array_merge(
+					$comment, 
+					array(
+						'items' => $item_children,
+						'index' => $current--,
+					)
+				),
 				$display
 			);
 		}
 		
-		$this->items[] = new Item_Navi(array(
+		$this->items[] = new Item_Comment_Navi(array(
 			'curr_page' => $page,
-			'pagecount' => ceil(Database::get_counter() / $perpage),
+			'pagecount' => ceil($total / $perpage),
 			'query' => $query,
 			'module' => 'comments',
-		));			
-	}	
+		));
+	}
+	
+	protected function build_tree(& $children) {
+		foreach ($children as & $comment) {
+			
+			if ($comment['parent'] == $comment['root']) {
+				$comment['tree'] = array((int) $comment['root']);
+			}
+		}			
+		unset($comment);		
+		
+		$building = true;
+		$iteration = 0;
+		
+		while ($building && ++$iteration < 100) {
+			$building = false;
+			
+			foreach ($children as & $comment) {
+				
+				if (empty($comment['tree'])) {					
+					$building = true;
+					
+					foreach ($children as $parent_id => $possible_parent) {
+						if (
+							$parent_id == $comment['parent'] &&
+							!empty($possible_parent['tree'])
+						) {
+							$comment['tree'] = $possible_parent['tree'];
+							$comment['tree'][] = (int) $parent_id;
+						}
+					}
+				}
+			}			
+			unset($comment);
+		}
+	}
 }

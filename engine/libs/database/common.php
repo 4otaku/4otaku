@@ -72,8 +72,8 @@ abstract class Database_Common
 		return $this->get_table($table, '*', $condition, $params);
 	}
 	
-	public function get_full_vector($table, $condition = false, $params = false) {
-		return $this->get_vector($table, '*', $condition, $params);
+	public function get_full_vector($table, $condition = false, $params = false, $unset = true) {
+		return $this->get_vector($table, '*', $condition, $params, $unset);
 	}	
 	
 	public function get_full_row($table, $condition = false, $params = false) {

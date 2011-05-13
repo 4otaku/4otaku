@@ -476,10 +476,6 @@ input.edit {
 
 /* Content, вывод комментариев */
 
-#comments {
-	margin-left: 15px; 
-}
-
 a.comments {
   margin-top: 5px; 
   margin-bottom: 20px; 
@@ -503,21 +499,21 @@ a.comments {
 	font-size: 10px;
 }
 
-#comments p{
-	padding: 0;
-	margin: 0;
+.comment {
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 .comment-top {
 	height: 23px;
 	background: #FFFAF0;
 	padding-left: 10px; 
-	padding-top: 7px; 
 }
 
 .comment-content {		
-	padding-left: 10px; 	
-	padding-top: 10px;	
+	padding-left: 10px; 
+	min-height: 50px;	
+	padding-top: 3px;	
 }
 
 .c-wrap {
@@ -534,6 +530,7 @@ a.comments {
 	border: 1px solid Black;	
 	margin-right: 10px; 	 
 }
+
 .comment-text {	
 	margin-left: 75px; 	 
 }
@@ -544,8 +541,8 @@ div.respond {
 
 .quotation {
 	padding: 8px;
-	background-color: #faebbc;
-	border: 1px solid #e1cc89;
+	background-color: #EEEEEE;
+	border: 1px solid #777777;
 	margin: 5px;
 	margin-bottom: 15px;
 }

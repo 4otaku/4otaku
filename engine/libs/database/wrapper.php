@@ -139,8 +139,8 @@ class Database implements Plugins
 		return self::db()->get_full_table($table, $condition, $params);
 	}
 	
-	public static function get_full_vector ($table, $condition = false, $params = false) {
-		return self::db()->get_full_vector($table, $condition, $params);
+	public static function get_full_vector ($table, $condition = false, $params = false, $unset = true) {
+		return self::db()->get_full_vector($table, $condition, $params, $unset);
 	}	
 	
 	public static function get_full_row ($table, $condition = false, $params = false) {

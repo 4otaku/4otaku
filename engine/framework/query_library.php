@@ -182,6 +182,29 @@ class Query_Library implements Plugins
 		}
 	}
 
+	public static function comment_page (& $url) {
+		if (
+			isset($url[0]) && $url[0] == 'comments' && 
+			isset($url[1]) && $url[1] == 'all'
+		) {
+
+			array_splice($url, 0, 2);
+
+			return array('comment_page' => 'all');
+		}
+		
+		if (
+			isset($url[0]) && $url[0] == 'comments' && 
+			isset($url[1]) && $url[1] == 'page' &&
+			isset($url[2]) && is_numeric($url[2])
+		) {
+
+			$page = array_splice($url, 0, 3);
+
+			return array('comment_page' => end($page));
+		}		
+	}
+
 	public static function id (& $url) {
 
 		if (isset($url[0]) && is_numeric($url[0])) {

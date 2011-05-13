@@ -2,7 +2,9 @@
 	<code>
 		<ul>
 			<li class="page_info">
-				Страница {{item.curr_page}} из {{item.pagecount}}
+				Страница 
+				{% if item.is_comment %}комментариев {% endif %}
+				{{item.curr_page}} из {{item.pagecount}}
 			</li>
 			{% if item.backward %}
 				<li>
@@ -34,6 +36,13 @@
 				<li>
 					<a href="{{item.forward}}">
 						&gt;
+					</a>
+				</li>
+			{% endif %}
+			{% if item.is_comment %}
+				<li>
+					<a href="{{item.comment_all}}">
+						Показать все
 					</a>
 				</li>
 			{% endif %}
