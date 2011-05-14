@@ -5,6 +5,6 @@ $.ajaxSetup({
 	cache: false,
 	data: {
 		ajax: true,
-		cookie: $.cookie('settings')
+		cookie: $.cookie('beta_settings')
 	}
 });
