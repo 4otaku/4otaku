@@ -1,0 +1,17 @@
+{% for name, part in sub.sidebar.items %}
+	<div class="cats">	
+		{% if part.header %}
+		<h2>
+			<a href="{{part.url|default('#')}}">
+				{{part.header}}
+			</a>
+			 <a href="#" class="bar_arrow" rel="{{name}}">
+				<img src="/i/text2391.png">
+			</a>
+		</h2>
+		{% endif %}
+		<div id="{{name}}_bar">
+			{% include ['html/sidebar/',name,'.html']|join %}
+		</div>
+	</div>
+{% endfor %}

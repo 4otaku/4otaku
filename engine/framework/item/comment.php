@@ -79,4 +79,13 @@ class Item_Comment extends Item_Abstract_Container implements Plugins
 		
 		return 0;
 	}
+	
+	public function get_short_text () {
+		$text = $this->data['text'];
+		
+		$text = Transform_Text::cut_long_text(strip_tags($text,'<br><em><strong><s>'),100);
+		$text = preg_replace('/(<br(\s[^>]*)?>\n*)+/si','<br />',$text);
+
+		return Transform_Text::cut_long_words($text);
+	}
 }

@@ -2,14 +2,14 @@
 
 {% block content %}
 	<td valign="top" id="sidebar">
-		
+		{% include 'html/common/sidebar.html' %}
 	</td>
 	<td valign="top" id="content">
 		{% if sub.description.template %}
 			{% include ['html/description/',sub.description.template,'.html']|join %}
 		{% endif %}
 		{% if sub.login is not none %}
-			{% include 'html/misc/login.html' %}
+			{% include 'html/common/login.html' %}
 		{% endif %}	
 		<div class="post">
 			{% for id, item in items %}
@@ -17,7 +17,7 @@
 			{% endfor %}
 		</div>
 		{% if sub.comments is not none %}
-			{% include 'html/misc/comments.html' %}
+			{% include 'html/common/comments.html' %}
 		{% endif %}	
 	</td>
 {% endblock %}
