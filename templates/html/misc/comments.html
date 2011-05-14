@@ -1,13 +1,13 @@
-<div class="mini-shell config_option_reload">	
+<div class="mini-shell config_option">	
 	Инвертированные комментарии: 
 	<input 
 		type="checkbox" 
 		name="comments_sub.single_item.inverted" 
 		value="1" 
 		{% if user['comments_sub.single_item.inverted'] == 1 %}
-			class="default checked" checked="checked"
+			class="default reload checked" checked="checked"
 		{% else %}
-			class="default"
+			class="default reload"
 		{% endif %}		
 	>
 	
@@ -18,9 +18,9 @@
 			name="comments_sub.single_item.display" 
 			value="ladder" 
 			{% if user['comments_sub.single_item.display'] == 'ladder' %}
-				class="default checked" checked="checked"
+				class="default reload checked" checked="checked"
 			{% else %}
-				class="default"
+				class="default reload"
 			{% endif %}		
 		> лесенка, 
 		<input 
@@ -28,9 +28,9 @@
 			name="comments_sub.single_item.display" 
 			value="quotation" 
 			{% if user['comments_sub.single_item.display'] == 'quotation' %}
-				class="checked" checked="checked"
+				class="checked reload" checked="checked"
 			{% else %}
-				
+				class="reload"		
 			{% endif %}		
 		> цитаты, 
 		<input 
@@ -38,9 +38,9 @@
 			name="comments_sub.single_item.display" 
 			value="simple" 
 			{% if user['comments_sub.single_item.display'] == 'simple' %}
-				class="checked" checked="checked"
+				class="checked reload" checked="checked"
 			{% else %}
-				
+				class="reload"				
 			{% endif %}		
 		> простой.	
 	</span>
@@ -49,7 +49,7 @@
 {% for id, item in sub.comments.items %}
 	{% if item.item_type == 'comment' %}
 		{% include 'html/item/comment.html' %}
-	{% elseif item.item_type == 'navi' %}
+	{% elseif item.item_type == 'navi' and loop.last and not loop.first %}
 		{% include 'html/item/navi.html' %}
 	{% endif %}
 {% endfor %}

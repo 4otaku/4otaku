@@ -119,7 +119,7 @@ final class Globals implements Plugins
 		if (self::$preferences === false) {			
 			$user_data = Cookie::get_preferences(self::$user_data['cookie']);
 			
-			$module = Core::get_module(self::$url, self::$vars);
+			$module = Query::get_module(self::$url, self::$vars);
 			if (!empty($user_data['module'])) {
 				$user_data['settings'] = $user_data['module'];
 			}

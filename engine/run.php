@@ -47,7 +47,7 @@
 	
 	// Узнаем имя модуля с которым нам предстоит работать
 	
-	$module = Core::get_module(Globals::$url, Globals::$vars);
+	$module = Query::get_module(Globals::$url, Globals::$vars);
 
 	// И подгружаем его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.$module.SL.'settings.ini';
@@ -59,7 +59,7 @@
 
 	if (!empty($query_input)) {
 		
-		$worker = Core::get_worker_name($module, $query_input, 'input');
+		$worker = Query::get_worker_name($module, $query_input, 'input');
 		$worker = new $worker();
 		$worker->process($query_input);
 		
@@ -68,8 +68,9 @@
 		}
 	}
 
-	$worker = Core::get_worker_name($module, $query_output, 'output');
-	if (class_exists($worker)) {
+	$worker = Query::get_worker_name($module, $query_output, 'output');
+
+	if (class_exists($worker) && !empty($query_output['output'])) {
 			
 		$data = new $worker();
 		$data = $data->process($query_output);

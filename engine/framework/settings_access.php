@@ -10,7 +10,10 @@ class Settings_Access implements Plugins, ArrayAccess
 		
 		$this->mode = (string) $mode;
 		
-		$this->updated = Globals::$preferences['updated'];
+		// Лекарство от кеша по входящим данным
+		if (!empty(Globals::$preferences['updated'])) {
+			$this->updated = Globals::$preferences['updated'];
+		}
 	}	
 	
 	// Разумеется эти объекты должны быть ридонли

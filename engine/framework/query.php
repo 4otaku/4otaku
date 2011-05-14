@@ -18,6 +18,10 @@ class Query implements Plugins
 	public static function make_query_output ($url, $vars) {
 		$query = array();
 		
+		if (empty($vars['ajax']) || !empty($vars['output'])) {
+			$query['output'] = true;
+		}
+		
 		// Первый элемент массива урла - указатель на рабочий модуль, 
 		// он уже не нужен, убираем
 		array_shift($url);
@@ -40,6 +44,24 @@ class Query implements Plugins
 		
 		return $vars;
 	}
+	
+	public static function get_module ($url, $vars) {
+		if (!empty($vars['module'])) {
+			$module = $vars['module'];
+		} else {
+			$module = reset($url);
+		}
+
+		return class_exists(ucfirst($module).'_Output') ? $module : 'error';
+	}
+	
+	public static function get_worker_name ($module, $query, $type) {
+		if (!empty($query['submodule'])) {
+			return ucfirst($module).'_Submodule_'.ucfirst($query['submodule']);
+		}
+		
+		return ucfirst($module).'_'.ucfirst($type);
+	}	
 	
 	public function valid_subquery ($area, $query) {
 	

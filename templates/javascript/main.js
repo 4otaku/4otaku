@@ -4,27 +4,29 @@ $(".disabled").live('click',function(event){
 
 $(".config_option input, .config_option select").live(
 	'change', function() { 
-		$.ajax({data: {
-			module : 'profile',
-			input: true,
-			function: 'set_option',
-			option_name: $(this).attr('name'),
-			option_value: $(this).val()
-		}});
-	}
-);
-
-$(".config_option_reload input, .config_option_reload select").live(
-	'change', function() { 
-		$.ajax({data: {
-			module : 'profile',
-			input: true,
-			function: 'set_option',
-			option_name: $(this).attr('name'),
-			option_value: $(this).val(),  
-			success: function(data) {
+		var val; var on_complete;
+		
+		if ($(this).is(':checkbox')) {
+			val = $(this).is(':checked') + 0;
+		} else {
+			val = $(this).val();
+		}
+		
+		if ($(this).is('.reload')) {
+			on_complete = function() {
 				document.location.reload();
-			}
+			};
+		} else {
+			on_complete = function() {};
+		}
+		
+		$.ajax({data: {
+			module : 'profile',
+			input: true,
+			function: 'set_option',
+			option_name: $(this).attr('name'),
+			option_value: val,  
+			success: on_complete
 		}});
 	}
 );

@@ -12,7 +12,7 @@ class Description_Output extends Output_Simple implements Plugins
 		$return = array('template' => $template);
 		
 
-		$class = Core::get_worker_name($module, $query, 'output');
+		$class = $this->get_worker_name($module, $query, 'output');
 
 		if (is_callable(array($class, 'description'))) {
 			$data = call_user_func(array($class, 'description'), $query);
