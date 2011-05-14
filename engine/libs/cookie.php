@@ -10,10 +10,10 @@ class Cookie
 		
 		self::set_cookie($cookie);
 		
-		$data = Database::get_vector('session', array('key', 'value'), '`cookie` = ?', $cookie);
+		$data = Database::get_vector('session', array('key', 'value', 'updated'), '`cookie` = ?', $cookie);
 		$info = Database::get_full_row('user', '`cookie` = ?', $cookie);
 		
-		$return = array();
+		$return = array('updated' => '');
 		
 		foreach ((array) $data as $key => $setting) {
 			$key = explode('.', $key);
@@ -24,7 +24,9 @@ class Cookie
 				$pointer = & $pointer[$part];
 			}
 			
-			$pointer = Crypt::unpack($setting);
+			$pointer = Crypt::unpack($setting['value']);
+			
+			$return['updated'] = max($return['updated'], $setting['updated']);
 		}
 
 		$return['info'] = (array) $info;

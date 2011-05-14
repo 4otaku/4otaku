@@ -4,10 +4,13 @@ class Settings_Access implements Plugins, ArrayAccess
 {
 	protected $cache = array();
 	protected $mode = 'config';
+	protected $updated = '';
 	
 	public function __construct ($mode = 'config') {
 		
 		$this->mode = (string) $mode;
+		
+		$this->updated = Globals::$preferences['updated'];
 	}	
 	
 	// Разумеется эти объекты должны быть ридонли
