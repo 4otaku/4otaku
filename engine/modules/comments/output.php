@@ -141,7 +141,7 @@ class Comments_Output extends Output implements Plugins
 		$comments = Database::set_counter()->get_full_vector('comment', $condition, $params, false);
 		
 		$total = Database::get_counter();
-		$current = $total - $start;
+		$current = (bool) $inverted ? $total - $start : $start;
 			
 		if ($display == 'ladder') {
 			$roots = array_keys($comments);
@@ -194,7 +194,7 @@ class Comments_Output extends Output implements Plugins
 					array(
 						'items' => $item_children,
 						'quotation' => $item_parent,
-						'index' => $current--,
+						'index' => (bool) $inverted ? $current-- : ++$current,
 					)
 				),
 				$display
