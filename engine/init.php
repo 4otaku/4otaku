@@ -29,7 +29,7 @@
 	
 	if (!empty($config_files)) {
 		foreach ($config_files as $config_file) {
-			Config::load($config_file);
+			Config::add_file($config_file);
 		}
 	} else {
 		Error::fatal('Конфиг не найден.');

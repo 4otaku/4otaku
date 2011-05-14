@@ -120,28 +120,40 @@ final class Globals implements Plugins
 			$user_data = Cookie::get_preferences(self::$user_data['cookie']);
 			
 			$module = Query::get_module(self::$url, self::$vars);
-			if (!empty($user_data['module'])) {
-				$user_data['settings'] = $user_data['module'];
+			if (!empty($user_data[$module])) {
+				$user_data['settings'] = $user_data[$module];
 			}
 					
-			self::$preferences = array_replace_recursive(Config::data(), $user_data);
+			self::$preferences = $user_data;
 		}
 		
-		$preferences = self::$preferences;		
+		$preferences = self::$preferences;
+		$config = Config::data();
 		$arguments = func_get_args();
-
+		
+		$preferences = self::search_array($preferences, $arguments);
+		$config = self::search_array($config, $arguments);
+		
+		if (!is_array($preferences)) {
+			return $preferences === null ? $config : $preferences;
+		}
+		
+		return array_replace_recursive($config, $preferences);
+	}
+	
+	public static function search_array($data, $arguments) {
 		while (!empty($arguments)) {
 			$argument = array_shift($arguments);
 			
-			if (!isset($preferences[$argument])) {
+			if (!isset($data[$argument])) {
 				return null;
 			}
 			
-			$preferences = $preferences[$argument];
+			$data = $data[$argument];
 		}
 		
-		return $preferences;
-	}
+		return $data;
+	}	
 	
 	public static function user_info() {
 		$arguments = func_get_args();

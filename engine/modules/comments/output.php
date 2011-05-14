@@ -100,7 +100,7 @@ class Comments_Output extends Output implements Plugins
 	}
 	
 	public function make_subquery ($query, $module) {
-		Config::load(__DIR__.SL.'comments_sub.ini');
+		Config::load(__DIR__.SL.'settings.ini', true);
 		
 		if ($module != 'sidebar' && !empty($query['id'])) {
 			return array(
@@ -116,8 +116,8 @@ class Comments_Output extends Output implements Plugins
 	
 	public function single ($query) {
 
-		$config = Globals::user('comments_sub', 'single_item');
-		
+		$config = Globals::user('comments', 'single_item');
+
 		$perpage = $config['per_page'];
 		$display = $config['display'];
 		$inverted = $config['inverted'];

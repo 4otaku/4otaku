@@ -24,7 +24,7 @@ class Item_Comment extends Item_Abstract_Container implements Plugins
 							$tree_length = max($tree_length, count($child['tree']));
 						}
 						
-						$config = Globals::user('comments_sub', 'single_item');
+						$config = Globals::user('comments', 'single_item');
 						
 						if ($tree_length * $config['max_single_margin'] < $config['max_margin']) {
 							$this->data['margin'] = $config['max_single_margin'];

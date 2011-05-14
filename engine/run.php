@@ -51,7 +51,7 @@
 
 	// И подгружаем его конфиг
 	$module_config_file = ENGINE.SL.'modules'.SL.$module.SL.'settings.ini';
-	Config::load($module_config_file);
+	Config::load($module_config_file, true, true);
 
 	// Унифицируем запрос
 

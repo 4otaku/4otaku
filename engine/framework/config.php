@@ -5,10 +5,19 @@ final class Config
 	// Хранилище для загруженных данных
 	private static $data = array();
 	
-	// Ссылки на загруженные файлы настроек
+	// Ссылки на найденные файлы настроек
 	private static $links = array();	
 	
-	public static function load($file) {
+	// Доступ на чтение, но не на запись
+	
+	public static function add_file($file) {
+
+		$name = basename($file, '.ini');
+		
+		self::$links[$name] = $file;
+	} 
+	
+	public static function load($file, $module_config = false, $main_module = false) {
 		if (
 			!is_readable($file) || 
 			pathinfo($file, PATHINFO_EXTENSION) !== 'ini'
@@ -17,7 +26,15 @@ final class Config
 		}
 	
 		$data = parse_ini_file($file, true);
-		$name = basename($file, '.ini');
+		
+		if ($module_config == false) {
+			$name = basename($file, '.ini');
+		} else {
+			$name = basename(rtrim(dirname($file), SL));
+			if ($main_module != false) {
+				self::$data['settings'] = & self::$data[$name];
+			}
+		}
 		
 		self::$links[$name] = $file;
 	
@@ -89,6 +106,10 @@ final class Config
 	
 	public static function __callStatic($name, $arguments) {
 
+		if (!isset(self::$data[$name]) && isset(self::$links[$name])) {
+			self::load(self::$links[$name]);
+		}
+		
 		if (isset(self::$data[$name])) {
 			$return = self::$data[$name];
 
