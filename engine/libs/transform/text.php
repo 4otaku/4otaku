@@ -174,7 +174,7 @@ class Transform_Text
 	public static function cut_long_text ($text, $length, $prepend = ' ...', $cut_words = false) {
 		if (
 			strlen($text) < $length ||
-			preg_match_all('/&\p{L}{1,8};|(<.+?>)*./ius', $text, $match) < $length
+			!preg_match('/((?:<.+?>)*(?:&[\w#\d]{1,8};|.)){'.$length.'}/ius', $text, $match)
 		) {
 			return empty($cut_words) ? $text : self::cut_long_words($text,$cut_words);
 		}

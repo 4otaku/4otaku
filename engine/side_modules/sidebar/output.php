@@ -48,4 +48,8 @@ class Sidebar_Output extends Output implements Plugins
 	}
 	
 	protected function search ($settings) {}
+	
+	protected function responses ($settings) {}
+	
+	protected function tags ($settings) {}
 }
