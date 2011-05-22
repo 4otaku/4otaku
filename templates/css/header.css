@@ -19,7 +19,7 @@
 }
 
 .header_menu_item_2 a b {
-	 color: #28A80A;
+#	 color: #28A80A;
 }
 
 .header_menu_item_3 {
@@ -27,7 +27,7 @@
 }
 
 .header_menu_item_3 a b {
-	 color: #79A70B;
+#	 color: #79A70B;
 }	 
 	 
 .header_menu_item_4 {
@@ -94,21 +94,11 @@
 	border: 1px solid #D3C5FF;
 }
 .header_menu_item_1:hover, 
-.header_menu_item_1.header_menu_item_hover
-{
-	border: 1px solid #B7DCFF;
-}
-
+.header_menu_item_1.header_menu_item_hover,
 .header_menu_item_1.header_menu_item_hover ul, 
 .header_menu_item_1:hover ul
 {
-	border: 1px solid #DCFED4;
-}
-
-.header_menu_item_1.header_menu_item_hover ul li:hover, 
-.header_menu_item_1:hover ul li:hover
-{
-	border: 1px solid #BFFEAE;
+	border: 1px solid #B7DCFF;
 }
 
 .header_menu_item_2:hover, 
@@ -184,6 +174,10 @@
 	border: 1px solid solid #FFFFFF;
 	padding-bottom: 1px;
 	margin-bottom: 30px;
+}
+
+.header_menu a {
+	color: #000000;
 }
 
 * html .header_menu {
