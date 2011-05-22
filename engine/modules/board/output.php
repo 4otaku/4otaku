@@ -90,7 +90,7 @@ class Board_Output extends Output_Main implements Plugins
 		if (!empty($query['type']) && !empty($query['date'])) {
 			$date = Crypt::unpack_url_date($query['date']);
 			
-			$condition .= " and `".($query['type'] == 'new' ? "date" : "updated")."` > '$date'"
+			$condition .= " and `".($query['type'] == 'new' ? "date" : "updated")."` > '$date'";
 		}
 
 		return $condition;

@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `<pr>meta_count` (
   `expires` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`type`,`alias`,`module`,`area`),
-  KEY `list_active_tags` (`type`,`count`)
+  KEY `list_active_tags` (`type`,`count`),
+  KEY `list_large_tags` (`type`,`module`,`area`,`count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `<pr>tag_variants`;
@@ -331,3 +332,14 @@ CREATE TABLE `<pr>mail_list` (
   KEY `selector` (`item_type`,`item_id`(255)),
   KEY `unsubscribe` (`mail`(255),`item_type`,`item_id`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `<pr>response`;
+CREATE TABLE `<pr>response` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cookie` varchar(32) NOT NULL,
+  `place` varchar(32) NOT NULL,
+  `item_id` int(10) unsigned NOT NULL,
+  `comment_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `selector` (`cookie`,`place`,`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -2,16 +2,22 @@
 
 class Sidebar_Output extends Output implements Plugins
 {
+	protected $query = array();
+	
 	public function main ($query) {	
+		$this->query = $query;
+		
 		Config::load(__DIR__.SL.'settings.ini', true);
 		
 		$parts = Globals::user('sidebar', 'parts');
-		
-		uksort($parts, array($this, 'position_sort'));
-		
-		foreach ($parts as $function => $settings) {
 
-			if ((bool) $settings['enabled']) {
+		uksort($parts, 'strnatcmp');
+		
+		foreach ($parts as $settings) {
+
+			$function = $settings['type'];
+
+			if ((bool) $settings['enabled'] && method_exists($this, $function)) {
 			
 				$this->items[$function] = new Item_Sidebar_Block(array(
 					'items' => $this->$function($settings), 
@@ -22,10 +28,6 @@ class Sidebar_Output extends Output implements Plugins
 		}
 	}
 	
-	protected function position_sort ($a, $b) {	
-		return ($a['position'] < $b['position']) ? 1 : -1;
-	}
-	
 	protected function comments ($settings) {
 		$limit = $settings['count'];
 		
@@ -33,7 +35,6 @@ class Sidebar_Output extends Output implements Plugins
 		$condition = "area != ? group by place, item_id order by max(date) desc limit $limit";
 
 		$comments = Database::get_full_table('comment', $condition, $params);
-		
 		$return = array();
 		
 		foreach ($comments as $comment) {
@@ -51,5 +52,42 @@ class Sidebar_Output extends Output implements Plugins
 	
 	protected function responses ($settings) {}
 	
-	protected function tags ($settings) {}
+	protected function tags ($settings) {
+
+		if (Config::settings('meta', 'tag') == 'enabled') {
+			$module = $this->query['module'];
+		} else {
+			$module = $settings['default']['module'];
+		}
+		
+		if (!empty($this->query['area'])) {
+			$area = $this->query['area'];
+		} else {
+			$area = $settings['default']['area'];
+		}
+		
+		$tags = Tags_Output::get_partial_tag_cloud(
+			$module, 
+			$area, 
+			$settings['count'], 
+			$settings['size']['minimum'], 
+			$settings['size']['maximum']
+		);
+		
+		foreach ($tags as & $tag) {
+			$tag['flag'] = array(
+				'type' => $module,
+				'area' => $area
+			);
+		}
+		
+		return $tags;
+	}
+	
+	public function make_subquery ($query, $module) {
+		$query['module'] = $module;
+		unset($query['function']);
+		
+		return $query;
+	}	
 }

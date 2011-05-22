@@ -171,6 +171,13 @@ class Transform_Text
 		return implode($break,$parts);
 	}
 	
+	public static function insert_linebreaks ($text, $symbol) {
+		$symbol = (array) $symbol;
+		$symbol = preg_quote(join($symbol), '/');
+		
+		return preg_replace('/['.$symbol.']/us', '$0<wbr />', $text);
+	}
+	
 	public static function cut_long_text ($text, $length, $prepend = ' ...', $cut_words = false) {
 		if (
 			strlen($text) < $length ||
