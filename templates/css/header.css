@@ -94,23 +94,12 @@
 	background: #D3C5FF;
 }
 .header_menu_item_1:hover, 
-.header_menu_item_1.header_menu_item_hover
+.header_menu_item_1:hover ul,  
+.header_menu_item_1.header_menu_item_hover, 
+.header_menu_item_1.header_menu_item_hover ul
 {
 	background: #B7DCFF;
 }
-
-.header_menu_item_1.header_menu_item_hover ul, 
-.header_menu_item_1:hover ul
-{
-	background: #DCFED4;
-}
-
-.header_menu_item_1.header_menu_item_hover ul li:hover, 
-.header_menu_item_1:hover ul li:hover
-{
-	background: #BFFEAE;
-}
-
 .header_menu_item_2:hover, 
 .header_menu_item_2:hover ul,  
 .header_menu_item_2.header_menu_item_hover, 
@@ -273,6 +262,7 @@
 	display: block; 
 	border-left: none;
 	border-right: none;
+	background: inherit;
 	height: 20px;
 }
 
@@ -281,6 +271,7 @@
 	display: block; 
 	border-left: 1px solid #FFFFFF;
 	border-right: none;
+	background: inherit;
 	height: 20px;
 }
 
