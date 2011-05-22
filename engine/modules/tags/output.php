@@ -119,7 +119,7 @@ class Tags_Output extends Output implements Plugins
 		
 		if ($max > $min && $maxsize > $minsize) {
 			foreach ($return as & $one) {			
-				$one["size"] = round(($maxsize - $minsize)*sqrt(($one["count"]-$min)/($max-$min)) + $minsize);
+				$one["size"] = round(($maxsize - $minsize)*($one["count"]-$min)/($max-$min) + $minsize);
 			}
 			unset($one);
 		}			
