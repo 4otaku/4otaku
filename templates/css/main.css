@@ -348,7 +348,7 @@ p.head {
 
 .yukari_corner {
 	position: absolute; 
-	top: 50px; 
+	top: 40px; 
 	right: 5px; 
 	width: 150px;
 }
@@ -359,7 +359,7 @@ p.head {
 }
 
 .index_topholder {
-	height: 130px;
+	height: 90px;
 }
 
 .index_smallcolumn {
