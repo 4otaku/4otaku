@@ -1,32 +1,28 @@
-<tr>				
-	<td colspan="2">
-		<div class="header_menu">
-			<ul>
-				{% for url, part in sub.header.items %}
-					<li class="header_menu_item_1 header_menu_item">
-						<a href="{{url}}" title="{{part.title}}">
-							<em></em>
-							<b>{{part.title}}</b>
-							<em></em>
-						</a>
-						{% if part.items %}
-							<ul>
-								{% for url, name in part.items %}
-								<li>
-									<a href="{{url}}" title="{{name}}">
-										{{name}}
-									</a>
-								</li>
-								{% endfor %}
-							</ul>
-						{% endif %}
-					</li>
-				{% endfor %}
-				<li class="header_menu_item_10 header_menu_item header_menu_item_last">
-					&nbsp;
-				</li>
-			</ul>
-		</div>
-		<div id="hline"></div>
-	</td>
-</tr>
+<div class="header_menu">
+	<ul class="usermenu"> 
+		<li><a title="Настройки" href="/settings/">Настройки</a></li> 
+		<li><a title="Залогиниться/Разлогиниться" href="#login">Вход</a></li> 
+		<li><a title="Зарегистрироваться" href="#registration">Регистрация</a></li> 
+	</ul>
+
+	<ul class="mainmenu"> 
+		{% for url, part in sub.header.items %}
+			<li class="header_menu_item">
+				<a title="{{part.title}}" href="{{url}}">
+					{{part.title}}
+				</a> 
+				{% if part.items %}
+					<ul> 
+						{% for url, name in part.items %}
+							<li>
+								<a title="{{name}}" href="{{url}}">
+									{{name}}
+								</a>
+							</li> 
+						{% endfor %}
+					</ul> 
+				{% endif %}
+			</li> 
+		{% endfor %}
+	</ul>
+</div>

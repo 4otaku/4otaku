@@ -4,36 +4,24 @@
 	{% if sub.header %}
 		{% include 'html/common/header.html' %}
 	{% endif %}
-	<tr>
-		<td align="center" class="index_topholder" valign="middle">
-			<div class="center margin10">
-				<input type="text" size="50" class="search"> <input type="button" value="искать" class="searchb">
-			</div>
-			<div id="search-tip" class="center search-main" rel="0"></div>
-			<div class="center margin10">
-				<input type="checkbox" checked="checked" value="p" class="searcharea"> В записях
-				<input type="checkbox" checked="checked" value="v" class="searcharea"> В видео
-				<input type="checkbox" value="a" class="searcharea"> В артах
-				<input type="checkbox" value="n" class="searcharea"> В новостях
-				<input type="checkbox" checked="checked" value="o" class="searcharea"> В столе заказов
-				<input type="checkbox" value="c" class="searcharea"> В комментариях
-			</div>
-			<div class="logo_corner">
-				<div class="margin10">
-					<a href="/">
-						<img src="/i/4otakulogos.gif" class="right" />
-					</a>
-				</div>
-			</div>
-			<div class="yukari_corner">
-				<div class="margin10">
-					<a href="/">
-						<img src="/i/yukari120.gif" class="left" height="100px" width="100px" />
-					</a>
-				</div>
-			</div>		
-		</td>
-	</tr>
+	<div class="branding margin20"> 
+		<a href="http://4otaku.ru" class="logo">
+			<img src="/i/4otakulogos.gif" alt="4отаку" />
+		</a> 
+		<img class="right" src="/i/yukari120.gif" alt="Юкарин" /> 
+		<div class="mainsearch"> 
+			<div class="center margin10"><input size="50" class="search" type="text"> <input value="искать" class="searchb" type="button"></div> 
+			<div id="search-tip" class="center search-main" rel="0"></div> 
+			<div class="center margin10"> 
+				<input id="search_p" checked="checked" value="p" class="searcharea" type="checkbox"><label for="search_p">В записях</label> 
+				<input id="search_v" checked="checked" value="v" class="searcharea" type="checkbox"><label for="search_v">В видео</label> 
+				<input id="search_a" value="a" class="searcharea" type="checkbox"><label for="search_a">В артах</label> 
+				<input id="search_n" value="n" class="searcharea" type="checkbox"><label for="search_n">В новостях</label> 
+				<input id="search_o" checked="checked" value="o" class="searcharea" type="checkbox"><label for="search_o">В столе заказов</label> 
+				<input id="search_c" value="c" class="searcharea" type="checkbox"><label for="search_c">В комментариях</label> 
+			</div> 
+		</div> 
+	</div> 
 {% endblock %}
 
 {% block content %}
