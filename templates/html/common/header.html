@@ -8,14 +8,14 @@
 	<ul class="mainmenu"> 
 		{% for url, part in sub.header.items %}
 			<li class="header_menu_item">
-				<a title="{{part.title}}" href="{{url}}">
+				<a href="{{url}}">
 					{{part.title}}
 				</a> 
 				{% if part.items %}
 					<ul> 
 						{% for url, name in part.items %}
 							<li>
-								<a title="{{name}}" href="{{url}}">
+								<a href="{{url}}">
 									{{name}}
 								</a>
 							</li> 
