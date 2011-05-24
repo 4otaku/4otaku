@@ -118,8 +118,12 @@
 }
 
 .mainsearch { 
-	width: 700px; 
+	width: 650px; 
 	margin: 10px auto; 
 	overflow: hidden; 
 	text-align: center; 
+}
+
+.searcharea { 
+	margin-right: 5px;
 }

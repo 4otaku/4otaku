@@ -305,22 +305,10 @@ div.addborder > a {
 
 /* Content, главная страница */
 
-p.head {
-	font-size: 14pt;
-	text-align: center;
-	margin-bottom: 5px;
-	padding-bottom: 0px;	
-	width: 100%;
-}
-
 .loadwindow {
 	text-decoration: none;
 	border-bottom: 1px dashed rgb(204, 204, 204); 
 	margin-top: 10px;
-}
-
-.mainblock {
-	margin: 2% 5% 10% 5%;
 }
 
 .togglenews {
@@ -342,20 +330,6 @@ p.head {
   height:100%;
   width:100%;
   border:none;
-}	
-
-.logo_corner {
-	position: absolute; 
-	top: 70px; 
-	left: 5px; 
-	width: 240px;
-}
-
-.yukari_corner {
-	position: absolute; 
-	top: 40px; 
-	right: 5px; 
-	width: 150px;
 }
 
 .index_centerholder {
