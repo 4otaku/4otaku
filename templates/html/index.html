@@ -25,7 +25,49 @@
 {% endblock %}
 
 {% block content %}
-	<td class="index_centerholder" valign="top">
+	<td class="index_leftholder" valign="top">
+		{% for name, block in items %}
+			{% if block.settings.align == 'left' %}
+				<div class="cats">	
+					{% if block.settings.header %}
+					<h2>
+						<a href="{{part.url|default('#')}}">
+							{{block.settings.header}}
+						</a>
+						 <a href="#" class="bar_arrow" rel="{{name}}">
+							<img src="/i/text2391.png">
+						</a>
+					</h2>
+					{% endif %}
+					<div id="{{name}}_bar">
+						{% include ['html/sidebar/',name,'.html']|join %}
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</td>
+	<td class="index_rightholder" valign="top">
+		{% for name, block in items %}
+			{% if block.settings.align == 'right' %}
+				<div class="cats">	
+					{% if block.settings.header %}
+					<h2>
+						<a href="{{part.url|default('#')}}">
+							{{block.settings.header}}
+						</a>
+						 <a href="#" class="bar_arrow" rel="{{name}}">
+							<img src="/i/text2391.png">
+						</a>
+					</h2>
+					{% endif %}
+					<div id="{{name}}_bar">
+						{% include ['html/sidebar/',name,'.html']|join %}
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</td>
+	<!--
 		<div class="mini-shell margin10">
 			Наша комната в джаббере: main@room.4otaku.ru; 
 			<a href="http://jabberworld.info/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%8B_Jabber">
@@ -241,5 +283,5 @@
 				</div>
 			</div>
 		{% endif %}
-	</td>
+	</td> -->
 {% endblock %}

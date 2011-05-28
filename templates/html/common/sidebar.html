@@ -1,9 +1,9 @@
-{% for name, part in sub.sidebar.items %}
+{% for name, block in sub.sidebar.items %}
 	<div class="cats">	
-		{% if part.header %}
+		{% if block.settings.header %}
 		<h2>
-			<a href="{{part.url|default('#')}}">
-				{{part.header}}
+			<a href="{{block.url|default('#')}}">
+				{{block.settings.header}}
 			</a>
 			 <a href="#" class="bar_arrow" rel="{{name}}">
 				<img src="/i/text2391.png">

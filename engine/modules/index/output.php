@@ -1,6 +1,6 @@
 <?
 
-class Index_Output extends Output implements Plugins
+class Index_Output extends Output_Blocks implements Plugins
 {
 	protected $wiki_namespaces = array(
 		1 => 'Обсуждение',
@@ -19,8 +19,13 @@ class Index_Output extends Output implements Plugins
 		14 => 'Категория',
 		15 => 'Обсуждение_категории',
 	);
-
+	
+/*
 	public function main () {
+		$blocks = Globals::user_settings('blocks');
+		
+		var_dump($blocks);
+		
 		if ($unseen = Globals::user('unseen')) {
 
 			foreach ($unseen as & $unseen_item) {
@@ -73,7 +78,7 @@ class Index_Output extends Output implements Plugins
 
 		$return['board']['all'] = Database::sql('select count(*) from board where `type` = "2"',2);
 */
-
+/*
 		$wiki = Database::db('wiki')->get_row('recentchanges', 'rc_title, rc_namespace', 'rc_type < 2 order by rc_id desc');
 
 		if (!empty($wiki)) {
@@ -88,4 +93,5 @@ class Index_Output extends Output implements Plugins
 
 		$this->items['links'] = Database::get_count('post_items', 'type = "link" and status = "broken"');
 	}
+*/
 }
