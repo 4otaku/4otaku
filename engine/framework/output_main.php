@@ -17,6 +17,17 @@ class Output_Main extends Output implements Plugins
 
 		return $condition;
 	}
+	
+	public function main ($query) {
+
+		$perpage = Config::settings('per_page');
+		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
+		$start = ($page - 1) * $perpage;
+		
+		$this->get_content($query, $perpage, $page, $start);
+	}
+	
+	public function get_content () {}
 
 	protected function test_area ($area) {
 		$url = Globals::$url;

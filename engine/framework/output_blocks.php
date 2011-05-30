@@ -4,7 +4,8 @@ abstract class Output_Blocks extends Output implements Plugins
 {
 	protected $query = array();
 	
-	public function main ($query, $config = 'settings') {			
+	public function main ($query, $config = 'settings') {	
+				
 		$this->query = $query;		
 		
 		$parts = Globals::user($config, 'blocks');
@@ -15,7 +16,7 @@ abstract class Output_Blocks extends Output implements Plugins
 
 			$function = $settings['type'];
 
-			if ((bool) $settings['enabled'] && method_exists($this, $function)) {
+			if (!empty($settings['enabled']) && method_exists($this, $function)) {
 			
 				$this->items[$function] = new Item_Block(array(
 					'items' => $this->$function($settings), 
@@ -77,4 +78,33 @@ abstract class Output_Blocks extends Output implements Plugins
 		
 		return $tags;
 	}
+	
+	protected function posts ($settings) {
+
+		return $this->content($settings, 'post');
+	}
+	
+	protected function video ($settings) {
+
+		return $this->content($settings, 'video');
+	}
+	
+	protected function art ($settings) {
+
+		return $this->content($settings, 'art');
+	}		
+	
+	protected function content ($settings, $type) {
+
+		$return = array();
+		
+		if (empty($type)) {
+			return $return;
+		}
+		
+		$worker = 'Output_'.ucfirst($type);
+		$worker = new $worker();
+		
+		return $return;
+	}	
 }

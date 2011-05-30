@@ -16,11 +16,7 @@ class Post_Output extends Output_Main implements Plugins
 		$this->items[$id] = Transform_Item::merge($this->items[$id], $meta, $subitems);
 	}
 
-	public function main ($query) {
-
-		$perpage = Config::settings('per_page');
-		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
-		$start = ($page - 1) * $perpage;
+	public function get_content ($query, $perpage, $page, $start) {
 		
 		$listing_condition = $this->build_listing_condition($query);
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";

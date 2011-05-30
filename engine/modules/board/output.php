@@ -28,17 +28,12 @@ class Board_Output extends Output_Main implements Plugins
 		$this->add_needed_content();
 	}
 
-	public function main ($query) {
-		
+	public function get_content ($query, $perpage, $page, $start) {
 		$this->flags['skip_message'] = Globals::user('board', 'skip_message');
 		
 		if ($this->is_message($query)) {
 			return;
-		}
-
-		$perpage = Config::settings('threads_per_page');
-		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
-		$start = ($page - 1) * $perpage;
+		}		
 		
 		$listing_condition = $this->build_listing_condition($query) . " and `thread` = 0";
 		$condition = $listing_condition . " order by `updated` desc limit $start, $perpage";
