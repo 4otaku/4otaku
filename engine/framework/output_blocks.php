@@ -79,7 +79,7 @@ abstract class Output_Blocks extends Output implements Plugins
 		return $tags;
 	}
 	
-	protected function posts ($settings) {
+	protected function post ($settings) {
 
 		return $this->content($settings, 'post');
 	}
@@ -102,9 +102,9 @@ abstract class Output_Blocks extends Output implements Plugins
 			return $return;
 		}
 		
-		$worker = 'Output_'.ucfirst($type);
-		$worker = new $worker();
-		
-		return $return;
+		$worker = ucfirst($type).'_Output';
+		$worker = new $worker();		
+
+		return $worker->get_content($settings, $settings['count']);
 	}	
 }

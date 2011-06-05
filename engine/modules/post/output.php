@@ -16,7 +16,9 @@ class Post_Output extends Output_Main implements Plugins
 		$this->items[$id] = Transform_Item::merge($this->items[$id], $meta, $subitems);
 	}
 
-	public function get_content ($query, $perpage, $page, $start) {
+	public function get_content ($query, $perpage, $page = 1, $start = 0) {
+		
+		$return = array();
 		
 		$listing_condition = $this->build_listing_condition($query);
 		$condition = $listing_condition . " order by date desc limit $start, $perpage";
@@ -26,7 +28,7 @@ class Post_Output extends Output_Main implements Plugins
 		$index = array();
 		
 		foreach ($items as $id => $item) {
-			$this->items[$id] = new Item_Post($item);
+			$return[$id] = new Item_Post($item);
 			$index[$id] = $item['meta'];
 		}
 		unset ($items);
@@ -36,18 +38,11 @@ class Post_Output extends Output_Main implements Plugins
 		
 		$meta = Meta::prepare_meta($index);
 
-		foreach ($this->items as $id => & $item) {
+		foreach ($return as $id => & $item) {
 			$item = Transform_Item::merge($item, $post_subitems[$id], $meta[$id]);
 		}
 		
-		$count = Database::get_counter();
-		
-		$this->items[] = new Item_Navi(array(
-			'curr_page' => $page,
-			'pagecount' => ceil($count / $perpage),
-			'query' => $query,
-			'module' => 'post',
-		));
+		return $return;
 	}
 	
 	protected function get_subitems ($ids) {

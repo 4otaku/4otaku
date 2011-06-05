@@ -24,7 +24,16 @@ class Output_Main extends Output implements Plugins
 		$page = isset($query['page']) && $query['page'] > 0 ? $query['page'] : 1;
 		$start = ($page - 1) * $perpage;
 		
-		$this->get_content($query, $perpage, $page, $start);
+		$this->items = $this->get_content($query, $perpage, $page, $start);		
+		
+		$count = Database::get_counter();
+		
+		$this->items[] = new Item_Navi(array(
+			'curr_page' => $page,
+			'pagecount' => ceil($count / $perpage),
+			'query' => $query,
+			'module' => 'post',
+		));		
 	}
 	
 	public function get_content () {}
