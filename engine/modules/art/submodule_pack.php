@@ -1,6 +1,6 @@
 <?
 
-class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins, Downloadable
+class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins, Downloads
 {
 	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
 	

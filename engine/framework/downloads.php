@@ -1,6 +1,6 @@
 <?
 
-interface Downloadable
+interface Downloads
 {
 	public function get_download_file ($query);
 	
