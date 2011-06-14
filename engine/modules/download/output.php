@@ -26,7 +26,7 @@ class Download_Output extends Output implements Plugins
 		$worker = new $worker();
 		
 		// Убеждаемся, что попали в подходящий модуль
-		if (!($worker instanceOf Downloadable)) {
+		if (!($worker instanceOf Downloads)) {
 			Error::fatal("Некорректный путь для скачки");
 		}
 		
