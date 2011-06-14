@@ -6,17 +6,17 @@ class Query implements Plugins
 	
 	public static function make_query ($url, $vars) {
 	
-		self::$url_parts = (array) Config::settings('url_parts');		
-		ksort(self::$url_parts);
-
 		$query_input = self::make_query_input($vars);
 		$query_output = self::make_query_output($url, $vars);		
 				
 		return array($query_input, $query_output);
 	}
 	
-	public static function make_query_output ($url, $vars) {
+	public static function make_query_output ($url, $vars = array()) {
 		$query = array();
+		
+		$url_parts = (array) Config::settings('url_parts');		
+		ksort($url_parts);
 		
 		if (empty($vars['ajax']) || !empty($vars['output'])) {
 			$query['output'] = true;
@@ -26,8 +26,8 @@ class Query implements Plugins
 		// он уже не нужен, убираем
 		array_shift($url);
 
-		if (is_array(self::$url_parts)) {
-			foreach (self::$url_parts as $function) {
+		if (is_array($url_parts)) {
+			foreach ($url_parts as $function) {
 				if (is_callable(array('Query_Library', $function))) {
 					$query = array_merge($query, (array) Query_Library::$function($url));
 				}
@@ -45,7 +45,7 @@ class Query implements Plugins
 		return $vars;
 	}
 	
-	public static function get_module ($url, $vars) {
+	public static function get_module ($url, $vars = array()) {
 		if (!empty($vars['module'])) {
 			$module = $vars['module'];
 		} else {

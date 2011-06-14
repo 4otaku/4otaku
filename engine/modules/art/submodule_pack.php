@@ -1,6 +1,6 @@
 <?
 
-class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
+class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins, Downloadable
 {
 	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
 	
@@ -41,6 +41,19 @@ class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 		}
 		
 		return Transform_String::round_bytes($size);
+	}
+	
+	public function get_download_file ($query) {
+		$pack_id = $query['alias'];
+
+		return self::get_pack_filename($pack_id, true);
+	}
+	
+	public function get_download_name ($query) {
+
+		$pack_id = (int) $query['alias'];
+		
+		return Database::get_field('art_cg_pack', 'filename', $pack_id);
 	}
 	
 	public static function get_pack_filename ($pack_id, $joined = false) {
