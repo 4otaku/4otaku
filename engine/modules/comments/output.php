@@ -34,13 +34,13 @@ class Comments_Output extends Output implements Plugins
 				) {
 					$item_comments[$id] = new Item_Comment(
 						$comment, 
-						Config::settings('display')
+						Globals::user_settings('display')
 					);
 				}
 			}
 			
 			$this->items[] = new Item_Comment_Block(array(
-				'limit' =>  Config::settings('last_comments'),
+				'limit' =>  Globals::user_settings('last_comments'),
 				'place' => $item['place'],
 				'id' => $item['item_id'],
 				'items' => $item_comments,
@@ -74,13 +74,13 @@ class Comments_Output extends Output implements Plugins
 				if ($comment['item_id'] == $item) {				
 					$item_comments[$id] = new Item_Comment(
 						$comment, 
-						Config::settings('display')
+						Globals::user_settings('display')
 					);
 				}
 			}
 			
 			$this->items[] = new Item_Comment_Block(array(
-				'limit' =>  Config::settings('last_comments'),
+				'limit' =>  Globals::user_settings('last_comments'),
 				'place' => $query['section'],
 				'id' => $item,
 				'items' => $item_comments,
@@ -102,11 +102,19 @@ class Comments_Output extends Output implements Plugins
 	public function make_subquery ($query, $module) {
 		Config::load(__DIR__.SL.'settings.ini', true);
 		
-		if ($module != 'sidebar' && !empty($query['id'])) {
+		if (!empty($query['submodule']) && !empty($query['meta'])) {
+			$item_id = $query['alias'];
+			$place = $query['meta'];			
+		} else {
+			$item_id = $query['id'];
+			$place = $module;
+		}
+	
+		if ($module != 'sidebar' && !empty($item_id)) {
 			return array(
 				'function' => 'single', 
-				'place' => $module, 
-				'item_id' => $query['id'],
+				'place' => $place, 
+				'item_id' => $item_id,
 				'page' => empty($query['comment_page']) ? 1 : $query['comment_page'], 
 			);
 		}

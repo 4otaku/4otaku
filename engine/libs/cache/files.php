@@ -10,7 +10,7 @@ class Cache_Files implements Cache_Interface_Single, Plugins
 		
 	public function __construct ($config) {
 		
-		if (!is_writable(CACHE.SL.FOLDER)) {
+		if (!is_writable(CACHE.SL.self::FOLDER)) {
 			$this->able_to_work = false;
 		}
 		

@@ -84,7 +84,7 @@
 				$worker = $side_module.'_Output';
 				$worker = new $worker();
 
-				$side_query = $worker->make_subquery($query_output, $module);				
+				$side_query = $worker->make_subquery($query_output, $module);
 				$data->add_sub_data($worker->process($side_query), $side_module);
 			}
 		}

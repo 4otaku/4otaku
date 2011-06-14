@@ -2,7 +2,7 @@
 
 // Для вывода основных контентных разделов 
 
-class Output_Main extends Output implements Plugins
+abstract class Output_Main extends Output implements Plugins
 {
 	protected function build_listing_condition ($query) {
 		
