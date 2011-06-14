@@ -153,4 +153,19 @@ class Cron
 		
 		return memory_get_usage();
 	}
+	
+	private function create_art_pack_file () {
+		$packs = Database::get_vector('art_cg_pack', array('id', 'title'));
+		
+		foreach ($packs as $id => $title) {
+			$filename = Art_Submodule_Pack::get_pack_filename($id, true);
+			
+			if (!file_exists($filename)) {
+				Art_Submodule_Pack::create_pack_file($id);
+				break;
+			}
+		}
+		
+		return memory_get_usage();
+	}
 }

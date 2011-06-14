@@ -210,7 +210,8 @@ INSERT INTO `<pr>cron` (`name`, `last_call`, `period`, `runtime`, `memory`, `sta
 VALUES 
 ('check_links', '', '00:01:00', '', '', 'idle'),
 ('do_tag_count_cache', '', '00:01:00', '', '', 'idle'),
-('get_video_thumbnail', '', '01:00:00', '', '', 'idle');
+('get_video_thumbnail', '', '01:00:00', '', '', 'idle'),
+('create_art_pack_file', '', '00:10:00', '', '', 'idle');
 
 DROP TABLE IF EXISTS `<pr>logs`;
 CREATE TABLE `<pr>logs` (

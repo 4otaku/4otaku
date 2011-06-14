@@ -2,6 +2,8 @@
 
 class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 {
+	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
+	
 	protected $type = 'cg_pack';
 	
 	public static function description ($query) {
@@ -27,7 +29,7 @@ class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 		
 		if (!($size = Cache::get($pack_id))) {
 			
-			$filename = FILES.SL.'art'.SL.'cg_packs'.SL.$pack_id.'.zip';
+			$filename = self::get_pack_filename($pack_id, true);
 			
 			if (!file_exists($filename)) {
 				self::create_pack_file($pack_id);
@@ -41,7 +43,18 @@ class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 		return Transform_String::round_bytes($size);
 	}
 	
-	protected static function create_pack_file ($pack_id) {
+	public static function get_pack_filename ($pack_id, $joined = false) {
+		$filename = $pack_id.'.zip';
+		$dirname = FILES.SL.'art'.SL.'cg_packs'.SL;
+		
+		if ($joined) {
+			return $dirname.$filename;
+		}
+		
+		return array($dirname, $filename);
+	}
+	
+	public static function create_pack_file ($pack_id) {
 		$image_dir = IMAGES.SL.'art'.SL.'full'.SL;
 		
 		$search = array('+', $pack_id, 'cg_pack');
@@ -54,8 +67,7 @@ class Art_Submodule_Pack extends Art_Submodule_Group implements Plugins
 			return;
 		}
 		
-		$filename = $pack_id.'.zip';
-		$dirname = FILES.SL.'art'.SL.'cg_packs'.SL;
+		list($dirname, $filename) = self::get_pack_filename($pack_id);
 
 		if (!is_writable($dirname)) {
 			Error::warning("Не хватает прав доступа для создания архива");

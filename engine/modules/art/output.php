@@ -2,7 +2,6 @@
 
 class Art_Output extends Output_Main implements Plugins
 {
-	const PACK_FILE_SIZE_PREFIX = '_size_packfile_id_';
 	
 	public function single ($query) {
 		$id = $query['id'];
