@@ -4,6 +4,7 @@ cache/twig/*
 !cache/twig/index.php
 cache/extended/*
 !cache/extended/index.php
+cache/autoload.cache
 
 config/*
 .htaccess
