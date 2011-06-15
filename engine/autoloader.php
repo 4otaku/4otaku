@@ -75,11 +75,12 @@
 			}			
 		}
 		
-		public static function cache ($name) {
+		public static function cache ($class) {
+			$class = strtolower($class);
 			
-			if (array_key_exists($name, self::$cached)) {
+			if (array_key_exists($class, self::$cached)) {
 				
-				$file = self::$cached[$name];
+				$file = self::$cached[$class];
 				
 				if (file_exists($file)) {
 					
@@ -87,7 +88,7 @@
 					return true;								
 				} else {
 					
-					self::$cached_diff_remove[$name] = $file;
+					self::$cached_diff_remove[$class] = $file;
 				}
 			} 
 			
@@ -95,11 +96,13 @@
 		}
 
 		public static function extended ($class) {
+			$class = strtolower($class);
+			
 			if ($class == 'index') {
 				return false;
 			}
 			
-			$extended = ROOT.SL.'cache'.SL.'extended'.SL.strtolower($class).'.php';
+			$extended = ROOT.SL.'cache'.SL.'extended'.SL.$class.'.php';
 			
 			if (file_exists($extended)) {
 				self::$cached_diff_add[$class] = $extended;					
@@ -112,7 +115,8 @@
 		}
 		
 		public static function normal ($class) {
-			$name = str_replace('_', SL, strtolower($class)).'.php';
+			$class = strtolower($class);
+			$name = str_replace('_', SL, $class).'.php';
 
 			if ($library = self::search_lib($name)) {
 				self::$cached_diff_add[$class] = $library;
@@ -139,7 +143,8 @@
 		}	
 		
 		public static function wrapper ($class) {
-			$name = str_replace('_', '/', strtolower($class)).SL.'wrapper.php';
+			$class = strtolower($class);
+			$name = str_replace('_', '/', $class).SL.'wrapper.php';
 
 			if ($library = self::search_lib($name)) {
 				self::$cached_diff_add[$class] = $library;
