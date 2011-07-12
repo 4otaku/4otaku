@@ -1,6 +1,6 @@
 .header_menu { 
 	height: 28px; 
-	background: url(/i/top.png) 0px 0px repeat-x; 
+	background: url(/new/templates/images/top.png) 0px 0px repeat-x; 
 }
 
 .usermenu { 
@@ -18,12 +18,12 @@
 	height: 28px; 
 	line-height: 28px; 
 	padding: 0 10px; 
-	background: url(/i/top.png) 0px -28px repeat-x; 
+	background: url(/new/templates/images/top.png) 0px -28px repeat-x; 
 	text-decoration: none; 
 }
 
 .usermenu li:hover a { 
-	background: url(/i/top.png) 0px -84px repeat-x; 
+	background: url(/new/templates/images/top.png) 0px -84px repeat-x; 
 }
 
 .mainmenu { 
@@ -41,7 +41,7 @@
 	height: 28px; 
 	line-height: 28px; 
 	padding: 0 10px; 
-	background: url(/i/top.png) 0px -28px repeat-x; 
+	background: url(/new/templates/images/top.png) 0px -28px repeat-x; 
 	text-decoration: none; 
 }
 
@@ -49,15 +49,15 @@
 	display: block; 
 	width: 5px; 
 	height: 28px; 
-	background: url(/i/top.png) 0px -28px repeat-x; 
+	background: url(/new/templates/images/top.png) 0px -28px repeat-x; 
 }
 
 .mainmenu li.header_menu_item:hover a { 
-	background: url(/i/top.png) 0px -84px repeat-x; 
+	background: url(/new/templates/images/top.png) 0px -84px repeat-x; 
 }
 
 .mainmenu li.header_menu_active a { 
-	color: #42A3B9; background: url(/i/top.png) 0px -56px repeat-x; 
+	color: #42A3B9; background: url(/new/templates/images/top.png) 0px -56px repeat-x; 
 }
 
 .mainmenu li.header_menu_item a:hover { 
@@ -67,7 +67,7 @@
 .mainmenu li.header_menu_item ul { 
 	display: none; 
 	position: absolute; 
-	background: #fff url(/i/top.png) 0px -112px repeat-x; 
+	background: #fff url(/new/templates/images/top.png) 0px -112px repeat-x; 
 	border: 1px solid #909090;
 	-moz-box-shadow: 0px 4px 4px #999; 
 	-webkit-box-shadow: 0px 4px 4px #999; 
@@ -109,7 +109,7 @@
 .branding { 
 	height: 65px; 
 	padding: 10px; 
-	background: #fff url(/i/brand.png) repeat-x; 
+	background: #fff url(/new/templates/images/brand.png) repeat-x; 
 	overflow: hidden; 
 }
 
