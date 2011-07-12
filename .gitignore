@@ -1,3 +1,5 @@
+cache/autoload.cache
+
 cache/unknown_links/*
 !cache/unknown_links/index.php
 cache/twig/*
