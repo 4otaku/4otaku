@@ -11,7 +11,8 @@
 	float: left; 
 }
 
-.usermenu li a { 
+.usermenu li a, 
+.usermenu li span.disabled_link { 
 	text-shadow: 0px 1px 2px #fff; 
 	color: #444; 
 	display: block; 
@@ -22,7 +23,8 @@
 	text-decoration: none; 
 }
 
-.usermenu li:hover a { 
+.usermenu li:hover a,
+.usermenu li:hover span.disabled_link { 
 	background: url(/new/templates/images/top.png) 0px -84px repeat-x; 
 }
 
@@ -34,7 +36,8 @@
 	float: left; 
 }
 
-.mainmenu li.header_menu_item a { 
+.mainmenu li.header_menu_item a, 
+.mainmenu li.header_menu_item span.disabled_link { 
 	text-shadow: 0px 0px 1px #fff; 
 	color: #444; 
 	display: block; 
@@ -52,11 +55,13 @@
 	background: url(/new/templates/images/top.png) 0px -28px repeat-x; 
 }
 
-.mainmenu li.header_menu_item:hover a { 
+.mainmenu li.header_menu_item:hover a,
+.mainmenu li.header_menu_item:hover span.disabled_link { 
 	background: url(/new/templates/images/top.png) 0px -84px repeat-x; 
 }
 
-.mainmenu li.header_menu_active a { 
+.mainmenu li.header_menu_active a, 
+.mainmenu li.header_menu_active span.disabled_link { 
 	color: #42A3B9; background: url(/new/templates/images/top.png) 0px -56px repeat-x; 
 }
 
@@ -76,8 +81,10 @@
 
 .mainmenu li.header_menu_item:hover ul li, 
 .mainmenu li.header_menu_item:hover ul li a, 
+.mainmenu li.header_menu_item:hover ul li span.disabled_link, 
 .mainmenu li.header_menu_item ul li, 
-.mainmenu li.header_menu_item ul li a { 
+.mainmenu li.header_menu_item ul li a, 
+.mainmenu li.header_menu_item ul li span.disabled_link { 
 	background: transparent; 
 }
 
@@ -85,18 +92,22 @@
 	border-bottom: 1px solid #eee; 
 }
 
-.mainmenu li.header_menu_item ul li a {
+.mainmenu li.header_menu_item ul li a,
+.mainmenu li.header_menu_item ul li span.disabled_link {
 	display: block; 
 	padding: 0 8px; 
 	margin: 0; 
 	font-weight: normal;
 }
-.mainmenu li.header_menu_item ul li:hover a { 
+
+.mainmenu li.header_menu_item ul li:hover a, 
+.mainmenu li.header_menu_item ul li:hover span.disabled_link { 
 	color: #07A00B; 
 	text-decoration: none;
 }
 
-.mainmenu li.header_menu_active ul a { 
+.mainmenu li.header_menu_active ul a, 
+.mainmenu li.header_menu_active ul span.disabled_link { 
 	color: #333; 
 }
 

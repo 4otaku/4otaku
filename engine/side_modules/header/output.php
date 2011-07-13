@@ -6,9 +6,13 @@ class Header_Output extends Output implements Plugins
 		$menu = Config::menu();
 		
 		foreach ($menu as $title => $part) {
-			$name = $part['url'];
 			
-			unset($part['url']);
+			if (isset($part['url'])) {
+				$url = $part['url'];
+				unset($part['url']);
+			} else {
+				$url = false;
+			}
 			
 			if (!empty($part['function']) && method_exists($this, $part['function'])) {
 				$function = $part['function'];
@@ -24,9 +28,11 @@ class Header_Output extends Output implements Plugins
 				unset($part['prefix']);
 			}
 			
-			$this->items[$name]['items'] = array_flip($part);
-			
-			$this->items[$name]['title'] = $title;
+			$this->items[] = array (
+				'items' => array_flip($part),
+				'title' => $title,
+				'url' => $url
+			);
 		}
 	}
 	

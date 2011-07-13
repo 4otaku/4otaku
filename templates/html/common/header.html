@@ -6,11 +6,17 @@
 	</ul>
 
 	<ul class="mainmenu"> 
-		{% for url, part in sub.header.items %}
+		{% for part in sub.header.items %}
 			<li class="header_menu_item">
-				<a href="{{url}}">
-					{{part.title}}
-				</a> 
+				{% if part.url %}
+					<a href="{{part.url}}">
+						{{part.title}}
+					</a> 
+				{% else %}
+					<span class="disabled_link">
+						{{part.title}}
+					</span> 
+				{% endif %}
 				{% if part.items %}
 					<ul> 
 						{% for url, name in part.items %}
