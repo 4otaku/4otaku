@@ -1,5 +1,4 @@
 post_output=/var/www/engine/modules/post/output.php
-addbar_output=/var/www/engine/side_modules/addbar/output.php
 index_output=/var/www/engine/modules/index/output.php
 output_main=/var/www/framework/core/output_main.php
 item_post=/var/www/engine/item/post.php
@@ -47,3 +46,6 @@ cache_interface_array=/var/www/new/framework/libs/cache/interface_array.php
 cache_memcached=/var/www/new/framework/libs/cache/memcached.php
 cache_database=/var/www/new/framework/libs/cache/database.php
 meta_library=/var/www/new/framework/libs/meta/library.php
+addbar_output=/var/www/new/engine/side_modules/addbar/output.php
+_output=/var/www/new/framework/core//output.php
+output_simple=/var/www/new/framework/core/output_simple.php

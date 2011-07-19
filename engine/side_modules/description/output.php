@@ -12,7 +12,7 @@ class Description_Output extends Output_Simple implements Plugins
 		$return = array('template' => $template);
 		
 
-		$class = $this->get_worker_name($module, $query, 'output');
+		$class = $this->get_output_module($query);
 
 		if (is_callable(array($class, 'description'))) {
 			$data = call_user_func(array($class, 'description'), $query);
@@ -20,13 +20,5 @@ class Description_Output extends Output_Simple implements Plugins
 		}
 
 		return $return;
-	}
-	
-	public function make_subquery ($query, $module) {
-		unset($query['function']);
-		
-		$subquery = array_merge($query, array('module' => $module));
-		
-		return $subquery;
 	}
 }
