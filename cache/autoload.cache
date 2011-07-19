@@ -49,3 +49,5 @@ meta_library=/var/www/new/framework/libs/meta/library.php
 addbar_output=/var/www/new/engine/side_modules/addbar/output.php
 _output=/var/www/new/framework/core//output.php
 output_simple=/var/www/new/framework/core/output_simple.php
+addbar_input=/var/www/new/engine/side_modules/addbar/input.php
+input=/var/www/new/framework/core/input.php

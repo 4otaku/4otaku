@@ -20,14 +20,16 @@ $(".config_option input, .config_option select").live(
 			on_complete = function() {};
 		}
 		
-		$.ajax({data: {
-			module : 'profile',
-			input: true,
-			function: 'set_option',
-			option_name: $(this).attr('name'),
-			option_value: val,  
-			success: on_complete
-		}});
+		$.ajax({
+			data: {
+				'module' : 'profile',
+				'input': true,
+				'function': 'set_option',
+				'option_name': $(this).attr('name'),
+				'option_value': val
+			},  
+			'success': on_complete
+		});
 	}
 );
 
@@ -67,6 +69,44 @@ $(".art_toggle").live('click', function(event){
 		}		
 	}
 });		
+
+$("div#downscroller a.disabled").live("click", function(){
+	if (!($(this).attr('rel')=='on')) {
+		
+		$(this).attr('rel', 'on');
+		
+		$("div#add_loader img").show();
+		$("div.edit_field").html(''); 
+		$("div.edit_field").hide();
+
+		vars = $(this).attr('href').split('#');
+		
+		$.ajax({
+			data: {
+				'module' : 'addbar',
+				'output': true,
+				'function': 'display',
+				'vars': vars
+			},
+			context: $("div#add_form"),
+			success: function(data){
+				register_unload();
+				$("div#downscroller span.arrow").html(' ↑');
+				$("div#add_loader img").hide();
+				$(this).html(data).slideDown();
+			}
+		});
+
+	} else {
+		$(this).attr('rel', 'off');
+		
+		$("#add_form").hide();
+		$("#add_form").html('');
+		
+		unregister_unload();
+		$("div#downscroller span.arrow").html(' ↓');
+	}
+});
 
 $(document).ready(function(){
 	$(".checked").attr('checked', true);

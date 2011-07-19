@@ -20,6 +20,10 @@ class Addbar_Output extends Output_Simple implements Plugins
 			Config::addbar('caption', $class);
 		}
 		
+		if (empty($return['module'])) {
+			$return['module'] = $query['module'];
+		}
+		
 		return $return;
 	}
 }
