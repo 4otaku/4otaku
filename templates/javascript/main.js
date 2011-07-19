@@ -71,16 +71,19 @@ $(".art_toggle").live('click', function(event){
 });		
 
 $("div#downscroller a.disabled").live("click", function(){
-	if (!($(this).attr('rel')=='on')) {
-		
+	var loader = $("div#add_loader img");
+	var form = $("#add_form");
+	var arrow = $("div#downscroller span.arrow");
+	var edit_field = $("div.edit_field");
+	
+	if (!($(this).attr('rel')=='on')) {		
 		$(this).attr('rel', 'on');
 		
-		$("div#add_loader img").show();
-		$("div.edit_field").html(''); 
-		$("div.edit_field").hide();
+		loader.show();
+		edit_field.hide().html(''); 
 
 		vars = $(this).attr('href').split('#');
-		
+
 		$.ajax({
 			data: {
 				'module' : 'addbar',
@@ -88,23 +91,21 @@ $("div#downscroller a.disabled").live("click", function(){
 				'function': 'display',
 				'vars': vars
 			},
-			context: $("div#add_form"),
+			context: form,
 			success: function(data){
-				register_unload();
-				$("div#downscroller span.arrow").html(' ↑');
-				$("div#add_loader img").hide();
+				register_unload();								
 				$(this).html(data).slideDown();
+				loader.hide();
+				arrow.html(' ↑');
 			}
 		});
 
 	} else {
-		$(this).attr('rel', 'off');
-		
-		$("#add_form").hide();
-		$("#add_form").html('');
-		
 		unregister_unload();
-		$("div#downscroller span.arrow").html(' ↓');
+		
+		$(this).attr('rel', 'off');		
+		form.hide().html('');		
+		arrow.html(' ↓');
 	}
 });
 

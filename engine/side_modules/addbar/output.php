@@ -26,4 +26,30 @@ class Addbar_Output extends Output_Simple implements Plugins
 		
 		return $return;
 	}
+	
+	public function display ($query) {
+		$this->template = 'addbar';
+		
+		$vars = array_filter($query['vars']);
+		$function = current($vars);
+
+		if (is_callable(array($this, $function))) {
+			$return = $this->$function($vars);
+		
+			if (empty($return['template'])) {
+				$return['template'] = $function;
+			}
+	
+			return $return;			
+		}
+		
+		return array('template' => $function);
+	}
+	
+	// Сбор информации для конкретных вызовов формы добавления
+	
+	protected function challenge ($vars) {
+		
+		return array();
+	}
 }
