@@ -1,5 +1,9 @@
 /* Начальные настройки */
 
+document, html, body {
+	height:100%;
+}
+
 body {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 13px;
@@ -10,11 +14,12 @@ table.body {
 	background: url(/images/topbg.gif) repeat-x;	
 	padding: 5px 0 0;
 	margin-top: 10px;
+	height: 95%;
 }
 
 table.body a {
 	color: #42A3B9;
-	cursor:pointer;
+	cursor: pointer;
 	text-decoration: underline;
 }
 

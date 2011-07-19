@@ -1,0 +1,21 @@
+<div class="addborder">
+	<div id="downscroller">
+		<div>
+			<a href="#scroll" class="disabled">
+				{{sub.addbar.caption}}
+			</a>
+			<span class="arrow"> ↓</span> 
+			{% if sub.addbar.require_password %}
+				<span class="right">
+					Пароль: <input name="password" class="password" type="text">
+				</span>
+			{% endif %}
+		</div>
+		<div id="add_loader">
+			<img src="{{base}}images/ajax-loader.gif">
+		</div>
+		<div id="add_form">
+			&nbsp;
+		</div>
+	</div>
+</div>

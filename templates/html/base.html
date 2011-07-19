@@ -11,12 +11,12 @@
 	<link rel="stylesheet" href="{{base}}minify?b=templates/css&f=reset.css,main.css,header.css,login.css,board.css,logs.css&ver=20" type="text/css" media="screen" />
 </head>
 <body>	
-	{% block header %}
-		{% if sub.header %}
-			{% include 'html/common/header.html' %}
-		{% endif %}
-	{% endblock %}
 	<table width="100%" class="body">
+		{% block header %}
+			{% if sub.header %}
+				{% include 'html/common/header.html' %}
+			{% endif %}
+		{% endblock %}
 		<tr>
 			{% block content %}{% endblock %}
 		</tr>
