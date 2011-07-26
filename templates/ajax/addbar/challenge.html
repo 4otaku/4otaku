@@ -1,8 +1,34 @@
-<div class="fields">
-	<span>Тип турнира:</span>
-</div>
 <table width="100%">		
-	<tbody class="link_main">
+	<tbody>
+		<tr>
+			<td class="input field_name">
+				Тип турнира
+			</td>
+			<td class="inputdata">
+				<select name="type" class="type_switcher">
+					<option value="fighting" class="selected">Файтинг-турнир</a>
+					<option value="art">Конкурс творчества</a>
+				</select>
+			</td>
+		</tr>		
+	</tbody>  		
+</table>
+<div class="fields"></div>
+<table width="100%" class="switched switched_fighting">
+	<tbody>
+		<tr>
+			<td class="input field_name">
+				Название
+			</td>
+			<td class="inputdata">
+				<input size="65%" name="title" value="" type="text">
+			</td>
+		</tr>
+	</tbody>  		
+</table>
+
+<table width="100%" class="hidden switched switched_art">
+	<tbody>
 		<tr>
 			<td class="input field_name">
 				Название

@@ -68,7 +68,12 @@ $(".art_toggle").live('click', function(event){
 			}
 		}		
 	}
-});		
+});
+
+$(".type_switcher").live("change", function(){
+	$(".switched").hide();
+	$(".switched_"+$(this).val()).show();
+});
 
 $("div#downscroller a.disabled").live("click", function(){
 	var loader = $("div#add_loader img");
