@@ -1,8 +1,10 @@
-<table width="100%">		
+<link rel="stylesheet" href="{{base}}minify/?b=templates/css/add&f=plugins.css,common.css&ver=14" type="text/css" media="screen" />
+<script type="text/javascript" src="{{base}}minify/?b=templates/javascript/add&f=plugins.js,common.js,challenge.js&ver=10"></script>
+<table>
 	<tbody>
 		<tr>
 			<td class="input field_name">
-				Тип турнира
+				Тип соревнования
 			</td>
 			<td class="inputdata">
 				<select name="type" class="type_switcher">
@@ -10,32 +12,26 @@
 					<option value="art">Конкурс творчества</a>
 				</select>
 			</td>
-		</tr>		
-	</tbody>  		
+		</tr>
+	</tbody>
 </table>
 <div class="fields"></div>
-<table width="100%" class="switched switched_fighting">
-	<tbody>
-		<tr>
-			<td class="input field_name">
-				Название
-			</td>
-			<td class="inputdata">
-				<input size="65%" name="title" value="" type="text">
-			</td>
-		</tr>
-	</tbody>  		
-</table>
 
-<table width="100%" class="hidden switched switched_art">
+{% include 'ajax/addbar/challenge/fighting.html' %}
+{% include 'ajax/addbar/challenge/art.html' %}
+
+<div class="fields"></div>
+<table>
 	<tbody>
 		<tr>
 			<td class="input field_name">
-				Название
+
 			</td>
 			<td class="inputdata">
-				<input size="65%" name="title" value="" type="text">
+				<input type="hidden" name="module" value="challenge" />
+				<input type="hidden" name="function" value="create" />
+				<input type="submit" value="Создать новое соревнование" />
 			</td>
 		</tr>
-	</tbody>  		
+	</tbody>
 </table>

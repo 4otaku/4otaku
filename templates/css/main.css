@@ -10,10 +10,9 @@ body {
 	min-width: 1006px;
 }
 
-table.body {	
-	background: url(/images/topbg.gif) repeat-x;	
+table.body {
+	background: url(/images/topbg.gif) repeat-x;
 	padding: 5px 0 0;
-	margin-top: 10px;
 	height: 95%;
 }
 
@@ -42,8 +41,8 @@ ul li {
 
 ul.plain_list {
 	margin: 0;
-	padding: 0;	
-	list-style-type: !important;	
+	padding: 0;
+	list-style-type: !important;
 }
 
 .cancel-holder {
@@ -54,7 +53,7 @@ img.cancel {
 	position: relative;
 	bottom: 9px;
 	left: 9px;
-	cursor:pointer;	
+	cursor:pointer;
 }
 
 .left  {
@@ -66,8 +65,8 @@ img.cancel {
 }
 
 .center {
-	margin-left: auto; 
-	margin-right: auto; 
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
 }
 
@@ -123,22 +122,22 @@ input, textarea {
     border:1px solid #CCCCCC !important;
     border-bottom:1px solid #eee !important;
     border-right:1px solid #eee !important;
-    padding:3px 3px 3px 3px !important; 
+    padding:3px 3px 3px 3px !important;
 }
 
 button, input {
     background-color:#FFFFFF !important;
     text-decoration:none !important;
-    font-weight:bold !important; 
+    font-weight:bold !important;
     color:#565656 !important;
     cursor:pointer !important;
-    padding:3px 3px 3px 3px !important; 
+    padding:3px 3px 3px 3px !important;
 }
 
 textarea {
     background-color:#FFFFFF !important;
     cursor:pointer !important;
-    padding:3px 3px 3px 3px !important; 
+    padding:3px 3px 3px 3px !important;
 }
 
 input:hover, input:focus, button:hover, button:focus, textarea:hover, textarea:focus {
@@ -158,10 +157,10 @@ input:hover, input:focus, button:hover, button:focus, textarea:hover, textarea:f
 
 #superbox-innerbox {
 	height: auto !important;
-} 
+}
 
-wbr { 
-	display: inline-block; 
+wbr {
+	display: inline-block;
 }
 
 div.mini-shell div.text {
@@ -174,8 +173,8 @@ div.mini-shell div.text {
 
 /* Глобальные элементы */
 
-#content {	
-	padding-left: 15px; 
+#content {
+	padding-left: 15px;
 	padding-right: 15px;
 	border-left: 1px solid #E7E7E7;
 	border-right: 1px solid #E7E7E7;
@@ -183,23 +182,23 @@ div.mini-shell div.text {
 	min-height: 500px;
 }
 
-#sidebar {	
-	padding-left: 10px; 
+#sidebar {
+	padding-left: 10px;
 	line-height: 15pt;
 	width: 240px;
 }
 
-.art_body #sidebar {	
+.art_body #sidebar {
 	width: 220px;
 }
 
-#footer {	
+#footer {
 	height: 60px;
-	padding-left: 30px; 
-	padding-top: 10px; 
-	margin-top: 20px; 
+	padding-left: 30px;
+	padding-top: 10px;
+	margin-top: 20px;
 	border-top: 1px solid #E7E7E7;
-	background: url(/images/hline.gif) repeat-x; 	
+	background: url(/images/hline.gif) repeat-x;
 }
 
 /* Content, общее */
@@ -223,12 +222,12 @@ div.addborder {
 
 
 div.addborder > div {
-	border: 1px solid rgb(204, 204, 204); 
+	border: 1px solid rgb(204, 204, 204);
 	padding: 12px;
 }
 
 div.addborder > a {
-	border-bottom: 1px dashed rgb(204, 204, 204); 
+	border-bottom: 1px dashed rgb(204, 204, 204);
 	text-decoration: none;
 }
 
@@ -257,12 +256,12 @@ div.addborder > a {
 }
 
 .scrollerin {
-	border: 1px solid rgb(204, 204, 204); 
+	border: 1px solid rgb(204, 204, 204);
 	padding: 12px;
 }
 
 .scrollertext {
-	border-bottom: 1px dashed rgb(204, 204, 204); 
+	border-bottom: 1px dashed rgb(204, 204, 204);
 	text-decoration: none;
 }
 
@@ -283,14 +282,14 @@ div.addborder > a {
 	color: green;
 	font-weight: bold;
 }
-
+/*
 #content ul{
 	padding-left: 15px;
 	margin: 0;
 }
 
 #content .car-list li{
-	list-style: none;	
+	list-style: none;
 	padding: 0;
 	margin-bottom: 4px;
 }
@@ -298,7 +297,7 @@ div.addborder > a {
 #content li ul li{
 	margin-bottom: 2px;
 }
-
+*/
 .car-yearmonth:hover {
 	cursor: pointer;
 	text-decoration: underline;
@@ -312,21 +311,21 @@ div.addborder > a {
 
 .loadwindow {
 	text-decoration: none;
-	border-bottom: 1px dashed rgb(204, 204, 204); 
+	border-bottom: 1px dashed rgb(204, 204, 204);
 	margin-top: 10px;
 }
 
 .togglenews {
 	text-decoration: none;
-	border-bottom: 1px dashed rgb(204, 204, 204); 	
+	border-bottom: 1px dashed rgb(204, 204, 204);
 }
 
 .news_bar {
-	margin-left: 20px;	
+	margin-left: 20px;
 }
 
 .news_image {
-	margin-right: 10px;	
+	margin-right: 10px;
 }
 
 .wrapwindow {
@@ -338,7 +337,7 @@ div.addborder > a {
 }
 
 .index_centerholder {
-	padding-right: 3%; 
+	padding-right: 3%;
 	padding-left: 3%;
 }
 
@@ -370,14 +369,14 @@ div.addborder > a {
 
 .post h2{
 	font-size: 14pt;
-	font-weight: normal; 	
+	font-weight: normal;
 	margin-top: 5px;
 }
 
 .wrapper {
 	clear: both;
-	padding-top: 5px; 
-	line-height: 14pt;	
+	padding-top: 5px;
+	line-height: 14pt;
 }
 
 .meta {
@@ -387,7 +386,7 @@ div.addborder > a {
 	border-top: 1px dashed #ccc;
 }
 
-.shell {	
+.shell {
 	border: 1px solid #E7E7E7;
 	padding: 5px;
 	margin-bottom: 25px;
@@ -397,7 +396,7 @@ div div.handler {
 width:97%;
 }
 
-.mini-shell {	
+.mini-shell {
 	border: 1px solid #E7E7E7;
 	padding: 2px;
 }
@@ -415,7 +414,7 @@ width:97%;
 }
 
 .image-0 {
-	margin-top: 0px !important; 
+	margin-top: 0px !important;
 }
 
 .imageholder {
@@ -429,8 +428,8 @@ width:97%;
 	position: absolute;
 	z-index: 999;
     border: 2px solid #CCCCCC;
-    background: #E7E7E7; 
-    padding: 10px; 	
+    background: #E7E7E7;
+    padding: 10px;
 }
 
 .imageholder div {
@@ -454,19 +453,19 @@ input.edit {
 }
 
 #updates_field .entry{
-	padding: 0 80px; 
-	margin-top: 15px; 
+	padding: 0 80px;
+	margin-top: 15px;
 }
 
 /* Content, вывод комментариев */
 
 a.comments {
-  margin-top: 5px; 
-  margin-bottom: 20px; 
+  margin-top: 5px;
+  margin-bottom: 20px;
 }
 
 .commentsh2 {
-  font-size: 14pt; 	
+  font-size: 14pt;
   font-weight: normal;
   color: #42A3B9;
   margin-top: 0px !important;
@@ -491,32 +490,32 @@ a.comments {
 .comment-top {
 	height: 23px;
 	background: #FFFAF0;
-	padding-left: 10px; 
+	padding-left: 10px;
 }
 
-.comment-content {		
-	padding-left: 10px; 
-	min-height: 50px;	
-	padding-top: 3px;	
+.comment-content {
+	padding-left: 10px;
+	min-height: 50px;
+	padding-top: 3px;
 }
 
 .c-wrap {
 	clear: both;
-	padding-top: 20px; 	
+	padding-top: 20px;
 	border-bottom: 1px solid #DCDCDC;
 }
 
-.avatar-n {	
+.avatar-n {
 	float: left;
 	width: 50px;
-	height: 50px;	
+	height: 50px;
 	padding: 5px;
-	border: 1px solid Black;	
-	margin-right: 10px; 	 
+	border: 1px solid Black;
+	margin-right: 10px;
 }
 
-.comment-text {	
-	margin-left: 75px; 	 
+.comment-text {
+	margin-left: 75px;
 }
 
 div.respond {
@@ -623,7 +622,7 @@ div.respond {
 }
 
 #navi_bottom div {
-	float: none; 
+	float: none;
 	clear: both;
 }
 
@@ -639,11 +638,11 @@ ol.orders_list {
 
 .archive_navi ul {
 	margin: 0;
-	padding-left: 25px;	
+	padding-left: 25px;
 }
 
 .archive_navi li {
-	list-style: none;	
+	list-style: none;
 }
 
 /* Content, Booru */
@@ -685,7 +684,7 @@ ol.orders_list {
 
 .art-bar {
 	text-align: left;
-	padding-left: 5px;	  
+	padding-left: 5px;
 }
 
 .art_translation {
@@ -718,7 +717,7 @@ ol.orders_list {
 
 .edit_switch {
 	position: absolute;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .edit_translation {
@@ -820,7 +819,7 @@ div.skipped a.readmore { float: right; }
 	z-index: 102;
 	color:#000000;
 	height: 25%;
-	width: 25%;	
+	width: 25%;
 	border: 4px solid #525252;
 	text-align: center;
 	font-weight: bold;
@@ -846,9 +845,13 @@ ul.list li {
 	margin-top: 30px;
 }
 
+#addform table {
+	width: 100%;
+}
+
 #addform .fields {
 	font-size: 18pt;
-	margin: 15px 0; 
+	margin: 15px 0;
 }
 
 #addform .fields span {
@@ -857,6 +860,7 @@ ul.list li {
 
 #addform .input {
 	background-color: #e6e6e6;
+	width: 25%;
 }
 
 input.sign {
@@ -894,33 +898,33 @@ input.sign {
 }
 
 #transparent div {
-	float:left; 
+	float:left;
 	text-align: right;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border: 2px dashed #B6B6B6;
 	margin: 5px 10px;
 }
 
 .upload_button {
-	width: 61px !important; 
-	height: 26px !important; 
+	width: 61px !important;
+	height: 26px !important;
 	background-image: url('/images/upload_button.png');
 }
 
 .post_images div {
-	width: 200px; 
-	height: 150px !important;	
+	width: 200px;
+	height: 150px !important;
 }
 
 .art_images div {
-	width: 150px; 
-	height: 150px !important;	
+	width: 150px;
+	height: 150px !important;
 }
 
 .board_images div {
-	width: 240px; 
-	height: 180px !important;  
+	width: 240px;
+	height: 180px !important;
 }
 
 .processing {
@@ -960,7 +964,7 @@ img.bb {
 
 div.cats {
 	border-top: 1px dashed #ccc;
-	margin: 0 0 10px 0;		
+	margin: 0 0 10px 0;
 }
 
 .searchbox .active {
@@ -975,7 +979,7 @@ div.cats {
 	width: 500px;
 }
 
-#sidebar input.search {	
+#sidebar input.search {
 	width: 140px;
 }
 
@@ -993,7 +997,7 @@ span.href {
 }
 
 a.tag_in_cloud {
-	line-height: 19pt;	
+	line-height: 19pt;
 }
 
 a.tag_in_cloud {
