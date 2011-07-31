@@ -35,6 +35,12 @@ images/post/full/*
 images/post/thumbnail/*
 !images/post/thumbnail/index.php
 
+images/challenge/full/*
+!images/challenge/full/index.php
+
+images/challenge/thumbnail/*
+!images/challenge/thumbnail/index.php
+
 images/news/full/*
 !images/news/full/index.php
 

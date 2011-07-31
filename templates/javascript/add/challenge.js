@@ -20,7 +20,7 @@ $(".fighting_character_needed").live("change", function(){
 
 if ($('#challenge-image').length > 0) image_upload = new qq.FileUploader({
 	element: $('#challenge-image')[0],
-	action: '/upload/',
+	action: '/upload/?ajax=true&input=true&function=challenge_image',
 	autoSubmit: true,
 	onSubmit: function(id, file) {
 		$(".processing-image").show();
