@@ -393,7 +393,7 @@ div.addborder > a {
 }
 
 div div.handler {
-width:97%;
+	width:97%;
 }
 
 .mini-shell {
@@ -909,7 +909,7 @@ input.sign {
 .upload_button {
 	width: 61px !important;
 	height: 26px !important;
-	background-image: url('/images/upload_button.png');
+	background-image: url('/new/templates/images/upload_button.png');
 }
 
 .post_images div {

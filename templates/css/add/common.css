@@ -60,10 +60,10 @@ input.sign {
 .upload_button {
 	width: 61px !important;
 	height: 26px !important;
-	background-image: url('/templates/images/upload_button.png');
+	background-image: url('/new/templates/images/upload_button.png');
 }
 
-.post_images div {
+.standart_images div {
 	width: 200px;
 	height: 150px !important;
 }

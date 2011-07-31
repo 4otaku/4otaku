@@ -45,6 +45,20 @@ $(".login_trigger").live('click', function() {
 	$(".login_part").show().not("."+$(this).attr('href')).hide();
 });
 
+$("div div.handler a").live('click', function(event){  
+	if ($(this).parent().children("span").html() == "↓") {
+		$(this).parent().children("span").html("↑");
+		$(this).parent().parent().children("div.text").slideDown();
+	}
+	else {
+		$(this).parent().children("span").html("↓");
+		if ($(this).parent().parent().find("img").length > 0)
+			$(this).parent().parent().children("div.text").hide();
+		else
+			$(this).parent().parent().children("div.text").slideUp();
+	}
+});	
+
 $(".art_size_toggle").live('click', function(event){
 	if(is_left_click(event)) {
 		var visible = $(".art_toggle:visible");

@@ -3,3 +3,22 @@ body {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 13px;
 }
+
+a {
+	color: #42A3B9;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.mini-shell {
+	border: 1px solid #E7E7E7;
+	padding: 2px;
+}
+
+div div.handler {
+	width:97%;
+}
+
+div.mini-shell div.text {
+	margin: 15px;
+}
