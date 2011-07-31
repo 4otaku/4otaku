@@ -55,3 +55,6 @@ tags_output=/var/www/new/engine/modules/tags/output.php
 challenge_output=/var/www/new/engine/modules/challenge/output.php
 query_library=/var/www/new/framework/core/query_library.php
 challenge_input=/var/www/new/engine/modules/challenge/input.php
+profile_output=/var/www/new/engine/modules/profile/output.php
+item_config_block=/var/www/new/engine/item/config_block.php
+login_output=/var/www/new/engine/side_modules/login/output.php

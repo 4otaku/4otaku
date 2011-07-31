@@ -140,6 +140,14 @@ $(document).ready(function(){
 			$(this).addClass("header_menu_item_hover");
 		}
 	);
+	
+	$("a.external_overlay").overlay({
+		onBeforeLoad: function() {
+
+			var wrap = this.getOverlay().find(".content_wrap");
+			wrap.load(this.getTrigger().attr("href"));
+		}		
+	});
 
 	$("a.car-toggler").click(function(event){
 		event.preventDefault();
