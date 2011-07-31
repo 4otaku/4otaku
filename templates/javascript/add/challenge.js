@@ -29,14 +29,20 @@ if ($('#challenge-image').length > 0) image_upload = new qq.FileUploader({
 	},
 	onComplete: function(id, file, response) {
 		window.processing_image = window.processing_image - 1;
-		if (window.processing_image == 0) $(".processing-image").hide(); 
-		if (response['error'] == 'filetype') {$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');}
-		else if (response['error'] == 'maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');}
-		else {
-			$('#transparent td').append('<div style="background-image: url('+response['image']+');"><img class="cancel" src="/new/templates/cancel.png"><input type="hidden" name="images[]" value="'+response['data']+'"></div>');
-			$("#transparent td img.cancel").click(function(){  
-				$(this).parent().remove();
-			});
+		if (window.processing_image == 0) {
+			$(".processing-image").hide(); 
+		}
+		
+		if (response['error'] == 'filetype') {
+			$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');
+		} else if (response['error'] == 'maxsize') {
+			$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');
+		} else {
+			$('#transparent td').append(
+				'<div style="background-image: url(/new/images/challenge/thumbnail/'+response['thumbnail']+');">'+
+					'<img class="cancel" src="/new/templates/cancel.png">'+
+					'<input type="hidden" name="images[]" value="'+response['full']+'">'+
+				'</div>');
 		}
 	}
 });

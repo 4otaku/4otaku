@@ -3,6 +3,17 @@ $(".type_switcher").live("change", function(){
 	$(".switched_"+$(this).val()).show();
 });
 
+$("#transparent td img.cancel").live("click",function(){  
+	$(this).parent().remove();
+});
+
+window.processing_image = 0;
+window.processing_file = 0;
+
+$('#addform').die("submit").live("submit", function() {
+	unregister_unload();
+});
+
 $.tools.dateinput.localize("ru", {
 	'months': 'Январь,Февраль,Март,Апрель,Май,Июнь,Июль,Август,Сентябрь,Октябрь,Ноябрь,Декабрь',
 	'shortMonths': 'янв,фев,март,апр,май,июнь,июль,авг,сен,окт,ноя,дек',
