@@ -146,7 +146,8 @@ $(document).ready(function(){
 
 			var wrap = this.getOverlay().find(".content_wrap");
 			wrap.load(this.getTrigger().attr("href"));
-		}		
+		},
+		closeOnClick: true,
 	});
 
 	$("a.car-toggler").click(function(event){

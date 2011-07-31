@@ -58,3 +58,5 @@ challenge_input=/var/www/new/engine/modules/challenge/input.php
 profile_output=/var/www/new/engine/modules/profile/output.php
 item_config_block=/var/www/new/engine/item/config_block.php
 login_output=/var/www/new/engine/side_modules/login/output.php
+login_input=/var/www/new/engine/side_modules/login/input.php
+http=/var/www/new/framework/libs/http.php
