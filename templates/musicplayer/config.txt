@@ -1,7 +1,0 @@
-width=250
-height=16
-showstop=1
-showvolume=1
-buttonwidth=20
-sliderwidth=15
-volumewidth=40
