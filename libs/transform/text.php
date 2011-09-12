@@ -28,9 +28,9 @@ class transform__text
 		return implode('',$chars);
 	}
 
-	function format($text) {
+	public static function format($text) {
 		$text = str_replace("\r","",$text);
-		$text = $this->bb2html($text);
+		$text = self::bb2html($text);
 		$text = preg_replace(self::URL_REGEX, '<a href="$0">$0</a>', $text);
 		$text = str_replace('⟯','http',nl2br($text));
 		return $text;
@@ -191,7 +191,7 @@ class transform__text
 		return $return;
 	}
 
-	function bb2html($string) {
+	public static function bb2html($string) {
         while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is', $string, $matches)) {
 			foreach ($matches[0] as $key => $match) {
 				list($tag, $param, $innertext) = array($matches[1][$key], $matches[2][$key], $matches[3][$key]);
@@ -221,3 +221,6 @@ class transform__text
         return $string;
     }
 }
+
+// Новое имя. Заменить им старое, после завершения всех замен.
+class Transform_Text extends transform__text {}

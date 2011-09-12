@@ -13,37 +13,9 @@ switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(__FILE__));
-if (file_exists(ROOT_DIR . SL . 'custom_templates')) {
-	define('TEMPLATE_DIR', ROOT_DIR . SL . 'custom_templates');
-} else {
-	define('TEMPLATE_DIR', ROOT_DIR . SL . 'templates');
-}
 
 include_once "constants.php";
 include_once "autoloader.php";
-Autoload::init(ROOT_DIR.SL.'libs');
-
-function autoload_old ($class_name) {
-	$class = ROOT_DIR.SL.'libs'.SL.str_replace('__',SL,$class_name).'.php';
-	if (file_exists($class)) {
-		include_once $class;
-		return true;
-	}
-
-	$class = ROOT_DIR.SL.'engine'.SL.str_replace('__',SL,$class_name).'.php';
-	if (file_exists($class)) {
-		include_once $class;
-		return true;
-	}
-
-	if (_INDEX_) {
-		include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
-		ob_end_flush();
-	}
-	exit();
-}
-
-spl_autoload_register('autoload_old', false);
 
 function myoutput($buffer) {
 	$known = array('msie', 'firefox', 'opera');

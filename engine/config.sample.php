@@ -29,6 +29,7 @@ $def['site']['short_name'] = '4отаку.'; // Короткая версия з
 // Загрузка файлов
 
 $def['booru']['filesize'] = 10*1024*1024;
+$def['booru']['packsize'] = 200*1024*1024;
 $def['booru']['thumbsize'] = 150;
 $def['booru']['largethumbsize'] = 250;
 $def['booru']['resizewidth'] = 750;

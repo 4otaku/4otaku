@@ -1,5 +1,11 @@
 <?php
 
+	if (file_exists(ROOT_DIR.SL.'custom_templates')) {
+		define('TEMPLATE_DIR', ROOT_DIR.SL.'custom_templates');
+	} else {
+		define('TEMPLATE_DIR', ROOT_DIR.SL.'templates');
+	}
+
 	define('CACHE', ROOT_DIR.SL.'cache');
 	define('FILES', ROOT_DIR.SL.'files');
 	define('IMAGES', ROOT_DIR.SL.'images');
