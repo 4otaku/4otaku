@@ -1,0 +1,55 @@
+<div class="header_menu">
+	<ul class="usermenu"> 
+		<li>
+			{% if user.rights > 0 %}
+				<a href="/admin/">
+					Админка
+				</a>
+			{% else %}
+				<a 
+					title="Раздел вики со справкой"
+					href="http://wiki.4otaku.ru/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ"
+				>
+					Справка
+				</a>			
+			{% endif %}
+		</li>
+		<li class="box">
+			<a 
+				title="Ваши личные настройки" class="thickbox" 
+				href="/ajax.php?m=box&f=settings&width=500&height=650"
+			>
+				Настройки
+			</a>
+		</li> 
+		<li class="box">
+			<a 
+				title="Выберите, что показывать вам в RSS" class="thickbox" 
+				href="/ajax.php?m=box&f=rss&width=600&height=240"
+			>
+				RSS
+			</a>
+		</li>
+	</ul>
+
+	<ul class="mainmenu">
+		{% for menu in header.top_buttons.menu %}
+			<li class="header_menu_item">
+				<a href="{{menu.url}}">
+					{{menu.name}}
+				</a> 
+				{% if menu.items %}
+					<ul> 
+						{% for child_menu in menu.items %}
+							<li>
+								<a href="{{child_menu.url}}">
+									{{child_menu.name}}
+								</a>
+							</li> 
+						{% endfor %}
+					</ul> 
+				{% endif %}
+			</li> 
+		{% endfor %}
+	</ul>
+</div>

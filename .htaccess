@@ -1,0 +1,19 @@
+php_value upload_max_filesize 200M
+php_value post_max_size 201M
+php_value memory_limit 512M
+php_value max_execution_time 3000
+
+AddDefaultCharset UTF-8
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !go/
+	RewriteCond %{REQUEST_FILENAME} !myadmin/
+	RewriteRule . /index.php [NE,L]
+</IfModule>
+
+<FilesMatch "config.js">
+	AddHandler application/x-httpd-php .js
+</FilesMatch>
