@@ -9,6 +9,7 @@
 	define('CACHE', ROOT_DIR.SL.'cache');
 	define('FILES', ROOT_DIR.SL.'files');
 	define('IMAGES', ROOT_DIR.SL.'images');
+	define('ENGINE', ROOT_DIR.SL.'engine');
 
 	define('MINUTE', 60);
 	define('HOUR', MINUTE * 60);

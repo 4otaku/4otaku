@@ -70,8 +70,8 @@ class Database
 		return self::db()->bulk_insert($table, $rows, $keys);
 	}
 
-	public static function update ($table, $condition, $values, $condition_params = array()) {
-		return self::db()->update($table, $condition, $values, $condition_params);
+	public static function update ($table, $values, $condition, $condition_params = array()) {
+		return self::db()->update($table, $values, $condition, $condition_params);
 	}
 
 	public static function delete ($table, $condition = false, $params = false) {

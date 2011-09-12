@@ -27,6 +27,6 @@ foreach ($tasks as $task => $period) {
 		$cron->$task();
 
 		$nexttime = Database::unix_to_date(Transform_Time::parse($period) - 15);
-		Database::update('cron', 'function = ?', array('last_time' => $nexttime), $task);
+		Database::update('cron', array('last_time' => $nexttime), 'function = ?', $task);
 	}
 }

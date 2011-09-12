@@ -45,8 +45,8 @@ class Database_Instance extends Database_Abstract
 
 		if ($this->counter_lock) {
 			$query = preg_replace("/^\s+SELECT/is", "$0 SQL_CALC_FOUND_ROWS ", $query);
-		}		
-		
+		}
+
 		$data = $this->query($query, $params);
 		var_dump($data);
 		if ($this->counter_lock) {
@@ -55,12 +55,17 @@ class Database_Instance extends Database_Abstract
 			$this->counter_lock = false;
 		}
 
-		return $data;		
+		return $data;
 	}
 
 	protected function get_common($table, $values = "*", $condition = false, $params = false) {
 		if (is_array($values)) {
-			$values = "`".implode("`,`", $values)."`";
+			foreach ($values as &$value) {
+				if (!strpos($value, "`")) {
+					$value = "`$value`";
+				}
+			}
+			$values = implode(",", $values);
 		}
 
 		$query = "SELECT ";
@@ -200,7 +205,9 @@ class Database_Instance extends Database_Abstract
 		$query = "INSERT INTO `{$this->prefix}$table`";
 
 		if (count(current($rows)) === count($keys)) {
-			foreach ($keys as &$key) $key = "`".trim($key,"`")."`";
+			foreach ($keys as &$key) {
+				$key = "`".trim($key,"`")."`";
+			}
 			$query .= " (".implode(",",$keys).")";
 			$prepend = "";
 		} else {
@@ -222,7 +229,7 @@ class Database_Instance extends Database_Abstract
 		return $this->last_query->rowCount();
 	}
 
-	public function update($table, $condition, $values, $condition_params = array()) {
+	public function update($table, $values, $condition, $condition_params = array()) {
 		$values = (array) $values;
 		$condition_params = (array) $condition_params;
 

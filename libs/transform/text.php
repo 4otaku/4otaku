@@ -1,6 +1,6 @@
 <?
 
-class transform__text
+class transform__text extends Transform_Time
 {
 	const URL_REGEX = '/(https?|ftp):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/is';
 
@@ -113,20 +113,6 @@ class transform__text
 		if ($count == 0 || $count > 4) return $case3;
 		if ($count == 1) return $case1;
 		return $case2;
-	}
-
-	function rumonth($in) {
-		$rumonth = array('','Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
-		if (is_numeric($in))
-			return $rumonth[ltrim($in,'0')];
-		else
-			return array_search($in,$rumonth);
-	}
-
-	function rudate($minutes = false) {
-		$date = $this->rumonth(date('m')).date(' j, Y');
-		if ($minutes) $date .= date('; G:i');
-		return $date;
 	}
 
 	function cut_long_words($string, $length = false, $break = '<wbr />') {
