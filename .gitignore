@@ -2,6 +2,7 @@ custom_templates/*
 
 myadmin/*
 
+files/autoload.cache
 files/board_cache/*
 !files/board_cache/index.php
 files/pack_cache/*
