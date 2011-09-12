@@ -19,6 +19,7 @@ if (file_exists(ROOT_DIR . SL . 'custom_templates')) {
 	define('TEMPLATE_DIR', ROOT_DIR . SL . 'templates');
 }
 
+include_once "constants.php";
 include_once "autoloader.php";
 Autoload::init(ROOT_DIR.SL.'libs');
 
@@ -49,7 +50,7 @@ function myoutput($buffer) {
 	$agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 	$pattern = '#(?<browser>'.implode('|', $known).')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
 	preg_match_all($pattern, $agent, $matches);
-	
+
 	if (end($matches['browser']) == 'opera' && end($matches['version']) < 9.8) {
 		$buffer = str_replace('<wbr /> ',' ',$buffer);
 		$buffer = str_replace(' <wbr />',' ',$buffer);
@@ -57,7 +58,7 @@ function myoutput($buffer) {
 		$buffer = str_replace('<wbr /><br />','<br />',$buffer);
 		$buffer = str_replace('<wbr />','&shy;',$buffer);
 	}
-	
+
 	if (strpos($buffer,'<textarea') && (_AJAX_)) return $buffer;
     return str_replace(array("\t","  ","\n","\r","<!--br-->"),array(""," ","","","\n"),$buffer);
 }
@@ -99,7 +100,7 @@ if (!(_CRON_)) {
 // Тут мы работаем с сессиями
 if (!(_CRON_)) {
 	// Логично, что у крона сессии нет.
-	
+
 	// Удалим все левые куки, нечего захламлять пространство
 	foreach ($_COOKIE as $key => $cook) if ($key != 'settings') setcookie ($key, "", time() - 3600);
 

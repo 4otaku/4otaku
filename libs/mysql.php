@@ -2,10 +2,10 @@
 
 class mysql
 {
-	public $connection;	
+	public $connection;
 	public $mode;
 	public $debug = '';
-	
+
 	function __construct() {
 		$this->connection = mysql_connect(def::db('host'), def::db('user'), def::db('pass'));
 		$this->set_connection('main');
@@ -18,28 +18,28 @@ class mysql
 			$this->mode = $base;
 		}
 	}
-	
+
 	function return_row($result) {
 		$row = mysql_fetch_array($result);
-		if (is_array($row)) 
-			foreach ($row as $key => &$field) 
+		if (is_array($row))
+			foreach ($row as $key => &$field)
 				if (is_numeric($key) || is_null($field)) unset($row[$key]);
-				else $field = stripslashes($field);	
+				else $field = stripslashes($field);
 		return $row;
 	}
-	
+
 	function return_single($result) {
 		$row = mysql_fetch_array($result);
 		if (is_array($row)) return stripslashes(current($row));
-	}	
-	
+	}
+
 	function return_table($result,$index) {
 		while ($row=mysql_fetch_array($result))
 			if (is_array($row)) {
-				foreach ($row as $key => &$field) 
+				foreach ($row as $key => &$field)
 					if (is_numeric($key) || is_null($field)) unset($row[$key]);
-					else $field = stripslashes($field);	
-				$return[] = $row; 
+					else $field = stripslashes($field);
+				$return[] = $row;
 			}
 		if (!is_numeric($index)) {
 			foreach ($return as $row) {
@@ -52,19 +52,19 @@ class mysql
 		}
 		return $return;
 	}
-	
+
 	function sql($sql,$i = 3) {
-		
+
 		$result = mysql_query($sql, $this->connection);
 		$this->debug = $sql;
 
-		if ($i && $result && mysql_num_rows($result) != 0) 
+		if ($i && $result && is_resource($result) && mysql_num_rows($result) != 0)
 			if ($i == 1) return $this->return_row($result);
 			elseif ($i == 2) return $this->return_single($result);
 			else return $this->return_table($result,$i);
-	}	
-	
-	function debug() { 
+	}
+
+	function debug() {
 		echo $this->debug;
 	}
 
@@ -73,10 +73,10 @@ class mysql
 		$values = ($prepend_index ? '"",' : '').'"'.implode('","',$values).'"';
 		$this->sql('insert into '.$table.' values('.$values.')',0);
 	}
-	
+
 	function update($table, $valueskeys, $values, $keyvalue, $key = 'id') {
 		if (is_array($values)) foreach ($values as $num => &$value) $value = '`'.$valueskeys[$num].'`="'.mysql_real_escape_string($value).'"';
-		else $values = array('`'.$valueskeys.'`="'.mysql_real_escape_string($values).'"');		
+		else $values = array('`'.$valueskeys.'`="'.mysql_real_escape_string($values).'"');
 		$update = implode(', ',$values);
 		$this->sql('update '.$table.' set '.$update.' where '.$key.'="'.$keyvalue.'"',0);
 	}

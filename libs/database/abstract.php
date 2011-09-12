@@ -14,7 +14,7 @@ abstract class Database_Abstract
 
 	const PACKED_MARK = "=packed=";
 
-	public static function pack($data) {
+	public static function pack ($data) {
 		if (function_exists("igbinary_serialize")) {
 			$data = igbinary_serialize($data);
 		} else {
@@ -24,7 +24,7 @@ abstract class Database_Abstract
 		return self::PACKED_MARK.rtrim(base64_encode($data),"=");
 	}
 
-	public static function unpack($input_string) {
+	public static function unpack ($input_string) {
 		$mark_length = strlen(self::PACKED_MARK);
 
 		if (substr($input_string, 0, $mark_length) != self::PACKED_MARK) {
@@ -45,7 +45,7 @@ abstract class Database_Abstract
 		}
 	}
 
-	public function conditional_insert($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
+	public function conditional_insert ($table, $values, $keys = false, $deny_condition = false, $deny_params = array()) {
 		if ($this->get_row($table, $deny_condition, "*", $deny_params)) {
 			return 0;
 		}
@@ -53,7 +53,7 @@ abstract class Database_Abstract
 		return $this->insert($table, $values, $keys);
 	}
 
-	public function array_in($field, $array) {
+	public function array_in ($field, $array) {
 		$field = str_replace(".", "`.`", $field);
 
 		if (!empty($array) && is_array($array)) {
@@ -66,7 +66,7 @@ abstract class Database_Abstract
 
 	public function format_insert_values (& $values) {
 		if (empty($values)) {
-			Error::warning("Пустой массив для вставки в БД");
+//			Error::warning("Пустой массив для вставки в БД");
 			return;
 		}
 
@@ -86,11 +86,11 @@ abstract class Database_Abstract
 		return "(".implode(",",$keys).") VALUES(?".str_repeat(",?",count($values) - 1).")";
 	}
 
-	public function date_to_unix($date) {
+	public function date_to_unix ($date) {
 		return strtotime($date);
 	}
 
-	public function unix_to_date($time = false) {
+	public function unix_to_date ($time = false) {
 		if (empty($time)) {
 			$time = time();
 		}
@@ -98,19 +98,19 @@ abstract class Database_Abstract
 		return date("Y-m-d H:i:s", $time);
 	}
 
-	public function get_full_table($table, $condition = false, $params = false) {
+	public function get_full_table ($table, $condition = false, $params = false) {
 		return $this->get_table($table, "*", $condition, $params);
 	}
 
-	public function get_full_vector($table, $condition = false, $params = false, $unset = true) {
+	public function get_full_vector ($table, $condition = false, $params = false, $unset = true) {
 		return $this->get_vector($table, "*", $condition, $params, $unset);
 	}
 
-	public function get_full_row($table, $condition = false, $params = false) {
+	public function get_full_row ($table, $condition = false, $params = false) {
 		return $this->get_row($table, "*", $condition, $params);
 	}
 
-	public function get_count($table, $condition = false, $params = false) {
+	public function get_count ($table, $condition = false, $params = false) {
 		return $this->get_field($table, "count(*)", $condition, $params);
 	}
 }

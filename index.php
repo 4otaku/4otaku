@@ -4,7 +4,7 @@ include_once 'inc.common.php';
 
 $request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $_SERVER["REQUEST_URI"]);
 $request = preg_replace('/\/tag\/([^\/]*)/eui', '"/tag/".urlencode("$1")', $request);
-$url = explode('/', preg_replace('/\?[^\/]+$/', '', $request)); 
+$url = explode('/', preg_replace('/\?[^\/]+$/', '', $request));
 
 if (isset($url[0])) {
 	unset($url[0]);
@@ -20,14 +20,14 @@ if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 		input__comment::subscribe_comments(
 			decrypt($url[2]),
 			$url[3],
-			$url[5] ? $url[4].'|'.$url[5] : null, 
+			$url[5] ? $url[4].'|'.$url[5] : null,
 			$url[5] ? null: $url[4]
 		);
 	} else {
 		input__comment::add_to_black_list(decrypt($url[2]));
 	}
 	$redirect = 'http://'.def::site('domain').'/'.(empty($url[3]) ? 'news/' : $url[3].'/'.$url[4].'/'.$url[5]);
-	engine::redirect($redirect);	
+	engine::redirect($redirect);
 }
 
 if (isset(query::$post['do'])) {
@@ -36,23 +36,23 @@ if (isset(query::$post['do'])) {
 		$input_class = 'input__'.query::$post['do'][0];
 		$input = new $input_class;
 		$input_function = query::$post['do'][1];
-		$input->$input_function(query::$post);		
+		$input->$input_function(query::$post);
 	}
 	$redirect = 'http://'.def::site('domain').(empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
 	engine::redirect($redirect);
 } else {
-	
+
 	$data = array();
 
 	$output_class = 'output__'.$url[1];
 	$output = new $output_class;
 
 	$output->check_404($output->allowed_url);
-	if (!$error) 
+	if (!$error)
 		$data['main'] = $output->get_data();
 
 	$data = array_merge($data, $output->get_side_data($output->side_modules));
-	if ($error) 
+	if ($error)
 		$output->make_404($output->error_template);
 
 	include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';

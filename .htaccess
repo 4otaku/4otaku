@@ -1,3 +1,5 @@
+php_flag short_open_tag on
+
 php_value upload_max_filesize 200M
 php_value post_max_size 201M
 php_value memory_limit 512M
@@ -7,7 +9,7 @@ AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase /
-	
+
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !go/
 	RewriteCond %{REQUEST_FILENAME} !myadmin/
