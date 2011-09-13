@@ -3,7 +3,9 @@
 include_once 'inc.common.php';
 
 $request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $_SERVER["REQUEST_URI"]);
-$request = preg_replace('/\/tag\/([^\/]*)/eui', '"/tag/".urlencode("$1")', $request);
+$request = urldecode($request);
+$request = preg_replace('/\/tag\/([^\/\p{Cyrillic}\p{Hiragana}\p{Katakana}]*)/eui', '"/tag/".urlencode("$1")', $request);
+
 $url = explode('/', preg_replace('/\?[^\/]+$/', '', $request));
 
 if (isset($url[0])) {

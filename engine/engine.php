@@ -4,7 +4,7 @@ class engine
 {
 	public $error_template = 'main';
 
-	function parse_area () {
+	public function parse_area () {
 		global $url;
 
 		if (in_array($url[2], def::get('area'))) {
@@ -27,7 +27,7 @@ class engine
 		}
 	}
 
-	function check_404 ($ways) {
+	public function check_404 ($ways) {
 		global $url; global $error;
 
 		$error = true;
@@ -62,14 +62,14 @@ class engine
 		}
 	}
 
-	function make_404 ($type = false) {
+	public function make_404 ($type = false) {
 		if (!empty($type)) {
 			$this->template = '404__'.$type;
 		}
 		self::error_headers();
 	}
 
-	static function error_headers () {
+	public static function error_headers () {
 		header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
 		header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -77,7 +77,7 @@ class engine
 		header("HTTP/1.x 404 Not Found");
 	}
 
-	function get_side_data ($input) {
+	public function get_side_data ($input) {
 		$return = array();
 
 		foreach ($input as $part => $modules) {
@@ -90,7 +90,7 @@ class engine
 		return $return;
 	}
 
-	function get_meta ($rows, $tables) {
+	public function get_meta ($rows, $tables) {
 
 		$alias = array_fill_keys($tables, '');
 		foreach ($rows as $row) {
@@ -126,7 +126,7 @@ class engine
 		return $return;
 	}
 
-	static function have_tag_variants($tags) {
+	public static function have_tag_variants($tags) {
 		if (is_array($tags)) {
 			foreach ($tags as $tag) {
 				if (!empty($tag['variants'])) {
@@ -138,7 +138,7 @@ class engine
 		return false;
 	}
 
-	function get_comments ($place, $id, $pos = false) {
+	public function get_comments ($place, $id, $pos = false) {
 		$return = array();
 
 		if ($pos === false) {
@@ -191,7 +191,7 @@ class engine
 		}
 	}
 
-	function get_comments_tree ($root, $children, $return, $position = 0) {
+	public function get_comments_tree ($root, $children, $return, $position = 0) {
 		$return = array_merge($root, array('position' => $position));
 
 		if (is_array($children)) {
@@ -205,63 +205,62 @@ class engine
 		return $return;
 	}
 
-	function make_tip($text) {
-		$text = strip_tags($text,'<br>');
-		$pos = mb_strpos($text,'<br');
-		if ($pos > 20) {
-			$return = mb_substr($text,0,$pos);
-			return strlen($return) != strlen($text) ? $return.' ... ' : $return;
-		} elseif ($pos) {
-			$pos = mb_strpos($text,'<br',20);
-			$return = mb_substr($text,0,$pos);
-			return strlen($return) != strlen($text) ? $return.' ... ' : $return;
-		}
-		return $text;
-	}
+	public static function add_res($text, $error = false, $force_cookie = false) {
+		global $add_res;
 
-/* Отрефакторено досюда */
-
-	static function add_res($text, $error = false, $force_cookie = false) {
-		global $add_res; global $cookie;
 		$add_res = array('text' => $text, 'error' => $error);
+
 		if (!empty(query::$post['do']) || $force_cookie) {
-			if (empty($cookie)) $cookie = new dynamic__cookie();
-			$cookie->inner_set('add_res.text',$text);
-			$cookie->inner_set('add_res.error',$error);
+
+			$cookie = obj::get('dynamic__cookie');
+
+			$cookie->inner_set('add_res.text', $text);
+			$cookie->inner_set('add_res.error', $error);
 		}
 	}
 
-	static function mixed_parse($string) {
+	public static function mixed_parse($string) {
 		global $error; global $mixed;
-		$temp_params = explode('&',str_replace(' ','+',$string));
+
+		$temp_params = explode('&', str_replace(' ', '+', $string));
+
+		$params = array();
 		foreach ($temp_params as $param) {
-			$param_part=explode ('=',$param);
+			$param_part = explode('=', $param);
 			$params[$param_part[0]] = $param_part[1];
 		}
 
-		$singular = array(0 => 'category',1 => 'tag',2 => 'language',3 => 'author');
-		$plural = array(0 => 'categories',1 => 'tags',2 => 'languages',3 => 'authors');
+		$singular = array(0 => 'category', 1 => 'tag', 2 => 'language', 3 => 'author');
+		$plural = array(0 => 'categories', 1 => 'tags', 2 => 'languages', 3 => 'authors');
 
+		$mixed = array();
 		foreach ($params as $key => &$param) {
-			if (in_array($key,$singular) || in_array($key,$plural)) {
-				$i=0; $value=''; $sign="+";
-				while (!($i > strlen($param))) {
+			if (in_array($key, $singular) || in_array($key, $plural)) {
+
+				$value = ''; $sign = "+";
+				for ($i = 0; $i <= strlen($param); $i++) {
 					if ($param{$i} == "+" || $param{$i} == "-" || $i == strlen($param)) {
-						if ($value) {
-							$return[$key][] = array('data' => explode(',',urldecode($value)), 'sign' => $sign);
+
+						if (!empty($value)) {
+							$mixed[$key][] = array(
+								'data' => explode(',', urldecode($value)),
+								'sign' => $sign
+							);
 						}
-						$sign = $param{$i}; $value='';
+						$sign = $param{$i}; $value = '';
+					} else {
+						$value .= $param{$i};
 					}
-					else $value .= $param{$i};
-					$i++;
 				}
+			} elseif (!empty($key)) {
+				$error = true;
 			}
-			elseif ($key) $error = true;
 		}
-		return $mixed = $return;
+
+		return $mixed;
 	}
 
-	static function mixed_make_sql($mixed) {
+	public static function mixed_make_sql($mixed) {
 		global $url;
 		$return = 'area="'.$url['area'].'"';
 		$plusing = array('categories' => 'category','tags' => 'tag','languages' => 'language','authors' => 'author');
@@ -280,7 +279,7 @@ class engine
 		return $return;
 	}
 
-	static function mixed_make_url($mixed) {
+	public static function mixed_make_url($mixed) {
 		global $url; global $def;
 
 		if ($url['area'] != $def['area'][0]) $base = '/'.$url[1].'/'.$url['area'].'/';
@@ -311,7 +310,7 @@ class engine
 		return $base.'mixed/'.substr($return,0,-1).'/';
 	}
 
-	function mixed_add($new,$type,$sign = '+') {
+	public function mixed_add($new,$type,$sign = '+') {
 		global $mixed;
 		if (!isset($mixed)) $mixed = array();
 
@@ -340,7 +339,7 @@ class engine
 		return $this->mixed_make_url($temp);
 	}
 
-	function tag_cloud ($maxsize,$minsize,$area,$words,$limit = false) {
+	public function tag_cloud ($maxsize,$minsize,$area,$words,$limit = false) {
 		if ($limit) $limit =  ' limit '.$limit;
 		$tags = array('ru' => array(), 'nonru' => array());
 
@@ -366,7 +365,7 @@ class engine
 		}
 	}
 
-	function make_rss($area,$type,$value) {
+	public function make_rss($area,$type,$value) {
 		$name = array('tag' => 'тега', 'author' => 'автора', 'language' => 'языка', 'category' => 'Категории', 'pool' => 'Группы');
 		if ($type == 'pool') $metaname = obj::db()->sql('select name from art_pool where id='.$value,2);
 		else $metaname = obj::db()->sql('select name from '.$type.' where alias="'.$value.'"',2);
@@ -379,7 +378,7 @@ class engine
 		);
 	}
 
-	function get_navigation($parts) {
+	public function get_navigation($parts) {
 		global $url; global $def;
 		foreach ($parts as $part) {
 			if ($part == 'tag') {
@@ -396,7 +395,7 @@ class engine
 		return $return;
 	}
 
-	static function redirect($url, $permanent = false) {
+	public static function redirect($url, $permanent = false) {
 		$permanent ? header("HTTP/1.x 301 Moved Permanently") : header("HTTP/1.x 302 Moved Temporarily");
 		header("Location: $url");
 		exit();
