@@ -148,7 +148,7 @@ class engine
 				', '.sets::pp('comment_in_post');
 		}
 
-		if ($sets['dir']['comments_tree']) {
+		if (sets::dir('comments_tree')) {
 			$order = ' desc';
 		} else {
 			$order = '';
@@ -211,14 +211,15 @@ class engine
 		if ($pos > 20) {
 			$return = mb_substr($text,0,$pos);
 			return strlen($return) != strlen($text) ? $return.' ... ' : $return;
-		}
-		elseif ($pos) {
+		} elseif ($pos) {
 			$pos = mb_strpos($text,'<br',20);
 			$return = mb_substr($text,0,$pos);
 			return strlen($return) != strlen($text) ? $return.' ... ' : $return;
 		}
 		return $text;
 	}
+
+/* Отрефакторено досюда */
 
 	static function add_res($text, $error = false, $force_cookie = false) {
 		global $add_res; global $cookie;
