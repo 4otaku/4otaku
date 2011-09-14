@@ -513,7 +513,7 @@ class engine
 		return $return;
 	}
 
-	public static function redirect($url, $permanent = false) {
+	public static function redirect($url, $permanent = false, $exit = true) {
 
 		if (!empty($permanent)) {
 			header("HTTP/1.x 301 Moved Permanently");
@@ -522,6 +522,9 @@ class engine
 		}
 
 		header("Location: $url");
-		exit();
+
+		if (!empty($exit)) {
+			exit();
+		}
 	}
 }
