@@ -39,17 +39,6 @@ if (!$warning) {
 			</a>
 		</body>
 	</html>
-<? } else { ?>
-	<html>
-		<head>
-			<meta name="robots" content="noindex" />
-		</head>
-		<body>
-			Вы уверены что хотите перейти по адресу <?=$link;?>? <br />Данная ссылка может содержать спам.
-			<br /><br />
-			<a href="<?=$link;?>">Перейти.</a>
-			<br /><br />
-			<a href="/">Отказаться от перехода.</a>
-		</body>
-	</html>
-<? }
+<? } else {
+	header("HTTP/1.x 404 Not Found");
+}
