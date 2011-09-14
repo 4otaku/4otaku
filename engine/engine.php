@@ -4,6 +4,13 @@ class engine
 {
 	public $error_template = 'main';
 
+	protected static $meta_plural_singular = array(
+		'categories' => 'category',
+		'tags' => 'tag',
+		'languages' => 'language',
+		'authors' => 'author'
+	);
+
 	public function parse_area () {
 		global $url;
 
@@ -70,8 +77,10 @@ class engine
 	}
 
 	public static function error_headers () {
-		header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
-		header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+		$date = gmdate("D, d M Y H:i:s");
+
+		header("Expires: $date GMT");
+		header("Last-Modified: $date GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Pragma: no-cache");
 		header("HTTP/1.x 404 Not Found");
@@ -197,7 +206,8 @@ class engine
 		if (is_array($children)) {
 			foreach ($children as $child) {
 				if ($child['parent'] == $root['id']) {
-					$return['children'][] = $this->get_comments_tree($child,$children,$return,($position+1));
+					$return['children'][] =
+						$this->get_comments_tree($child, $children, $return, ($position+1));
 				}
 			}
 		}
@@ -230,8 +240,8 @@ class engine
 			$params[$param_part[0]] = $param_part[1];
 		}
 
-		$singular = array(0 => 'category', 1 => 'tag', 2 => 'language', 3 => 'author');
-		$plural = array(0 => 'categories', 1 => 'tags', 2 => 'languages', 3 => 'authors');
+		$singular = array_values(self::$meta_plural_singular);
+		$plural = array_keys(self::$meta_plural_singular);
 
 		$mixed = array();
 		foreach ($params as $key => &$param) {
@@ -262,16 +272,27 @@ class engine
 
 	public static function mixed_make_sql($mixed) {
 		global $url;
+
 		$return = 'area="'.$url['area'].'"';
-		$plusing = array('categories' => 'category','tags' => 'tag','languages' => 'language','authors' => 'author');
+		$plusing = self::$meta_plural_singular;
 
 		foreach ($mixed as $key => &$param) {
-			if (array_key_exists($key,$plusing)) $key = $plusing[$key];
+			if (array_key_exists($key, $plusing)) {
+				$key = $plusing[$key];
+			}
+
 			foreach ($param as $one) {
-				if (count($one['data']) == 1) $return .= ' and '.($one['sign'] == "+" ? '' : '!').'locate("|'.current($one['data']).'|",'.$key.')';
-				else {
-					$return .= ' and '.($one['sign'] == "+" ? '' : '!').'( ';
-					foreach ($one['data'] as $or => $part) $return .= ($or ? 'or' : '').' locate("|'.$part.'|",'.$key.') ';
+				$sign = $one['sign'] == "+" ? '' : '!';
+
+				if (count($one['data']) == 1) {
+
+					$return .= ' and '.$sign.'locate("|'.reset($one['data']).'|",'.$key.')';
+				} else {
+
+					$return .= ' and '.$sign.'( ';
+					foreach ($one['data'] as $or => $part) {
+						$return .= ($or ? 'or' : '').' locate("|'.$part.'|",'.$key.') ';
+					}
 					$return .= ')';
 				}
 			}
@@ -279,96 +300,164 @@ class engine
 		return $return;
 	}
 
-	public static function mixed_make_url($mixed) {
-		global $url; global $def;
+	public static function mixed_make_url ($mixed) {
+		global $url;
 
-		if ($url['area'] != $def['area'][0]) $base = '/'.$url[1].'/'.$url['area'].'/';
-		else $base = '/'.$url[1].'/';
+		if ($url['area'] != def::area(0)) {
+			$base = '/'.$url[1].'/'.$url['area'].'/';
+		} else {
+			$base = '/'.$url[1].'/';
+		}
 
-		$plusing = array('categories' => 'category','tags' => 'tag','languages' => 'language','authors' => 'author');
+		$plusing = self::$meta_plural_singular;
 
-		if (count($mixed) == 0) return $base;
+		if (count($mixed) == 0) {
+			return $base;
+		}
 
 		if (count($mixed) == 1) {
-			$key = key($mixed); $value = current($mixed);
+			$key = key($mixed);
+			$value = current($mixed);
+
 			if (count($value) == 1) {
 				$value = current($value);
-				if ($value['sign'] == '+' && count($value['data']) == 1)
-					return $base.(array_key_exists($key,$plusing) ? $plusing[$key] : $key).'/'.current($value['data']).'/';
+				if ($value['sign'] == '+' && count($value['data']) == 1) {
+
+					if (array_key_exists($key, $plusing)) {
+						$key = $plusing[$key];
+					}
+					return $base.$key.'/'.current($value['data']).'/';
+				}
 			}
 		}
 
 		foreach ($mixed as $key => &$param) {
-			$return .= $key.'='; $first = true;
-			foreach ($param as $one) {
-				if ($one['sign'] == '+' && $first) $one['sign'] = '';
-				$return .= $one['sign'].implode(',',$one['data']);
-				$first = false;
+			$return .= $key.'=';
+
+			foreach ($param as $id => $one) {
+				if ($one['sign'] == '+' && !$id) {
+					$one['sign'] = '';
+				}
+				$return .= $one['sign'].implode(',', $one['data']);
 			}
+
 			$return .= '&';
 		}
-		return $base.'mixed/'.substr($return,0,-1).'/';
+		return $base.'mixed/'.substr($return, 0, -1).'/';
 	}
 
-	public function mixed_add($new,$type,$sign = '+') {
+	public function mixed_add ($new, $type, $sign = '+') {
 		global $mixed;
-		if (!isset($mixed)) $mixed = array();
 
-		$plusing = array('categories' => 'category','tags' => 'tag','languages' => 'language','authors' => 'author');
+		if (!isset($mixed)) {
+			$mixed = array();
+		}
+
+		$plusing = self::$meta_plural_singular;
 		$singplu = array_flip($plusing);
 
 		$temp = $mixed;
+
 		foreach ($temp as $key => $part) {
 			if ($key == $type || $plusing[$key] == $type || $singplu[$key] == $type) {
+
 				foreach ($part as $key2 => $param) {
-					$key3 = array_search($new,$param['data']);
-					if ($key3 !== false)
-						if ($param['sign'] == $sign) return $this->mixed_make_url($mixed);
-						else {
+					$key3 = array_search($new, $param['data']);
+
+					if ($key3 !== false) {
+						if ($param['sign'] == $sign) {
+							return $this->mixed_make_url($mixed);
+						} else {
+
 							unset ($temp[$key][$key2]['data'][$key3]);
-							if (empty($temp[$key][$key2]['data'])) unset ($temp[$key][$key2]);
-							if (empty($temp[$key])) unset ($temp[$key]);
+							if (empty($temp[$key][$key2]['data'])) {
+								unset ($temp[$key][$key2]);
+							}
+							if (empty($temp[$key])) {
+								unset ($temp[$key]);
+							}
 							return $this->mixed_make_url($temp);
 						}
+					}
 				}
 				$temp[$key][] = array('data' => array($new), 'sign' => $sign);
 				return $this->mixed_make_url($temp);
 			}
 		}
+
 		$temp[$type][] = array('data' => array($new), 'sign' => $sign);
 		return $this->mixed_make_url($temp);
 	}
 
-	public function tag_cloud ($maxsize,$minsize,$area,$words,$limit = false) {
-		if ($limit) $limit =  ' limit '.$limit;
+	public function tag_cloud ($maxsize, $minsize, $area, $words, $limit = false) {
 		$tags = array('ru' => array(), 'nonru' => array());
 
-		$temp_tags = obj::db()->sql('select alias, name, '.$area.' from tag where ('.$area.' > 0 and alias != "prostavte_tegi") order by '.$area.' desc'.$limit);
-		if ($temp_tags) {
+		if (preg_match('/[^a-z\d_]/is', $area) || preg_match('/[^\s\d,]/is', $limit)) {
+			return $tags;
+		}
+		if (!empty($limit)) {
+			$limit =  ' limit '.$limit;
+		}
+
+		$temp_tags = Database::get_table('tag',
+			array('alias', 'name', $area),
+			$area.' > 0 and alias != ? order by '.$area.' desc'.$limit,
+			'prostavte_tegi');
+
+		if (!empty($temp_tags)) {
 			$max = $temp_tags[0][$area];
 			$min = end(end($temp_tags));
 
-			if ($max - $min < 4) return true;
-
-			foreach ($temp_tags as $tag) {
-				$name = obj::transform('text')->strtolower_ru($tag['name']);
-				$calc = round(($maxsize - $minsize)*($tag[$area]-$min)/($max-$min) + $minsize);
-				$word = obj::transform('text')->wcase($tag[$area],$words[0],$words[1],$words[2]);
-				if (preg_match('/[а-яА-Я]/u', mb_substr($tag['name'],0,1)))
-					$tags['ru'][str_replace('_','_<wbr />',$name)]= array('alias' => $tag['alias'], 'count' => $tag[$area], 'size' => $calc, 'word' => $word);
-				else
-					$tags['nonru'][str_replace('_','_<wbr />',$name)]= array('alias' => $tag['alias'], 'count' => $tag[$area], 'size' => $calc, 'word' => $word);
+			if ($max - $min < 4) {
+				return true;
 			}
 
-			ksort($tags['ru'],SORT_LOCALE_STRING);ksort($tags['nonru'],SORT_LOCALE_STRING);
-			return array_merge($tags['ru'],$tags['nonru']);
+			foreach ($temp_tags as $tag) {
+				$name = Transform_Text::strtolower_ru($tag['name']);
+
+				$calc = round(($maxsize - $minsize)*($tag[$area]-$min)/($max-$min) + $minsize);
+				$word = Transform_Text::wcase($tag[$area], $words);
+
+				$name = str_replace('_','_<wbr />',$name);
+				$add_tag = array(
+					'alias' => $tag['alias'],
+					'count' => $tag[$area],
+					'size' => $calc,
+					'word' => $word
+				);
+				if (preg_match('/^[а-яё]/ui', $tag['name'])) {
+					$tags['ru'][$name] = $add_tag;
+				} else {
+					$tags['nonru'][$name] = $add_tag;
+				}
+			}
+
+			ksort($tags['ru'], SORT_LOCALE_STRING);
+			ksort($tags['nonru'], SORT_LOCALE_STRING);
+			return array_merge($tags['ru'], $tags['nonru']);
 		}
 	}
 
-	public function make_rss($area,$type,$value) {
-		$name = array('tag' => 'тега', 'author' => 'автора', 'language' => 'языка', 'category' => 'Категории', 'pool' => 'Группы');
-		if ($type == 'pool') $metaname = obj::db()->sql('select name from art_pool where id='.$value,2);
-		else $metaname = obj::db()->sql('select name from '.$type.' where alias="'.$value.'"',2);
+	public function make_rss($area, $type, $value) {
+
+		if (preg_match('/[^a-z\d_]/is', $type)) {
+			return array();
+		}
+
+		$name = array(
+			'tag' => 'тега',
+			'author' => 'автора',
+			'language' => 'языка',
+			'category' => 'категории',
+			'pool' => 'группы'
+		);
+
+		if ($type == 'pool') {
+			$metaname = Database::get_field('art_pool', 'name', (int) $value);
+		} else {
+			$metaname = Database::get_field($type, 'name', 'alias = ?', $value);
+		}
+
 		return array(
 			'type-name' => $name[$type],
 			'meta-name' => $metaname,
@@ -379,24 +468,59 @@ class engine
 	}
 
 	public function get_navigation($parts) {
-		global $url; global $def;
+		global $url;
+
+		$return = array();
+		if (preg_match('/[^a-z\d_]/is', $url[1])) {
+			return $return;
+		}
+
 		foreach ($parts as $part) {
-			if ($part == 'tag') {
-				if ($url['area'] != $def['area'][2]) $area = $url[1].'_'.$def['area'][0];
-				else $area = $url[1].'_'.$def['area'][2];
-				if ($return[$part] = obj::db()->sql('select alias, name from '.$part.' order by '.$area.' desc limit 70','alias')) {
-					foreach($return[$part] as &$tag) $tag = str_replace('_',' ',$tag);
-				}
+			if (preg_match('/[^a-z\d_]/is', $part)) {
+				continue;
 			}
-			else {
-				$return[$part] = obj::db()->sql('select alias, name from '.$part.($part == 'category' ? ' where locate("|'.$url[1].'|",area)' : '').' order by id','alias');
+
+			if ($part == 'tag') {
+
+				if ($url['area'] != def::area(2)) {
+					$area = $url[1].'_'.def::area(0);
+				} else {
+					$area = $url[1].'_'.def::area(2);
+				}
+
+				$return[$part] = Database::get_vector(
+					$part,
+					array('alias', 'name'),
+					'1 order by '.$area.' desc limit 70'
+				);
+
+				if (!empty($return[$part])) {
+					foreach($return[$part] as &$tag) {
+						$tag = str_replace('_', ' ', $tag);
+					}
+				}
+			} else {
+				$condition = $part == 'category' ? 'locate("|'.$url[1].'|",area)' : '1';
+
+				$return[$part] = Database::get_vector(
+					$part,
+					array('alias', 'name'),
+					$condition.' order by id'
+				);
 			}
 		}
+
 		return $return;
 	}
 
 	public static function redirect($url, $permanent = false) {
-		$permanent ? header("HTTP/1.x 301 Moved Permanently") : header("HTTP/1.x 302 Moved Temporarily");
+
+		if (!empty($permanent)) {
+			header("HTTP/1.x 301 Moved Permanently");
+		} else {
+			header("HTTP/1.x 302 Moved Temporarily");
+		}
+
 		header("Location: $url");
 		exit();
 	}

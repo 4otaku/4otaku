@@ -52,7 +52,11 @@ class def
 	}
 
 	static function db($key) {
-		return self::get('db',$key);
+		return self::get('db', $key);
+	}
+
+	static function area($key) {
+		return self::get('area', $key);
 	}
 
 	static function site($key) {

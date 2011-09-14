@@ -1,7 +1,7 @@
 <?
 
 class query
-{	
+{
 	static public $url = array();
 	static public $class;
 	static public $type;
@@ -9,7 +9,7 @@ class query
 	static public $post = array();
 	static public $get = array();
 	static public $cookie;
-	
+
 	static private $safe_replacements = array(
 		'&' => '&amp;',
 		'"' => '&quot;',
@@ -19,10 +19,8 @@ class query
 		"'" => '&apos;',
 		'⟯' => '',
 	);
-	
+
 	static function get_globals($get, $post) {
-//		self::clean_globals($get);
-//		self::clean_globals($post);
 		self::$get = self::clean_globals($get, array());
 		self::$post = self::clean_globals($post, array());
 
@@ -30,8 +28,8 @@ class query
 			$md5 = md5(serialize($post));
 			if (obj::db()->sql('select id from input_filter where md5 = "'.$md5.'"',2)) unset($post);
 			else obj::db()->insert('input_filter',array($md5,time()));
-		}		
-		
+		}
+
 		unset ($_GET, $_POST);
 		return array(self::$get, self::$post);
 	}
@@ -45,29 +43,29 @@ class query
 			$new_k = str_replace(
 				array_keys(self::$safe_replacements),
 				array_values(self::$safe_replacements),
-				$k);			
-			
+				$k);
+
 			if (is_array($v)) {
 				$input[$new_k] = self::clean_globals($data[$k], array(), $iteration + 1);
 			} else {
 				$v = stripslashes($v);
-				
+
 				$v = str_replace(
 					array_keys(self::$safe_replacements),
 					array_values(self::$safe_replacements),
-					$v);								
-				
+					$v);
+
 				$v = str_replace(chr('0'),'',$v);
 				$v = str_replace("\0",'',$v);
 				$v = str_replace("\x00",'',$v);
 				$v = str_replace('%00','',$v);
 				$v = str_replace("../","&#46;&#46;/",$v);
-				
+
 				$input[$new_k] = $v;
 			}
 		}
-		
+
 		return $input;
 	}
-	
+
 }
