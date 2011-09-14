@@ -1,25 +1,55 @@
 <?
 $request = preg_replace('/^\/go\/?(\?|\/index\.php\?)?/i', '', urldecode($_SERVER['REQUEST_URI']));
 
-//if(!$_GET) die;
-
 $test = preg_match_all('/(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?(.*)?$/iD', $request, $matches);
 if (!($test == 1 || !(preg_match('/[^a-zа-яё\d_\-\+%&\.,=\/]/iu', $request) && $test == 0))) die;
 
 $link = str_replace('"','\\"',$matches[0][0] ? $matches[0][0] : $request);
 
-header("Location: ".$link, true, 302);
+$warning = true;
+$valid = array('narod.ru', 'megaupload.com', 'mediafire.com', '4shared.com');
+foreach ($valid as $domain) {
+	if (stripos($link, $domain)) {
+		$warning = false;
+		break;
+	}
+}
 
-?>
-<html>
-	<head>
-		<meta name="robots" content="noindex" />
-		<meta http-equiv="REFRESH" content="0;url=<?=$link;?>">
-	</head>
-	<body>
-		Выполняется перенаправление на адрес
-		<a href="<?=$link;?>">
-			<?=$link;?>
-		</a>
-	</body>
-</html>
+if ($warning) {
+	include_once '../engine/config.php';
+	if (stripos($def['site']['domain'], $_SERVER["HTTP_REFERER"])) {
+		$warning = false;
+	}
+}
+
+if (!$warning) {
+
+	header("Location: $link", true, 302);
+
+	?>
+	<html>
+		<head>
+			<meta name="robots" content="noindex" />
+			<meta http-equiv="REFRESH" content="0;url=<?=$link;?>">
+		</head>
+		<body>
+			Выполняется перенаправление на адрес
+			<a href="<?=$link;?>">
+				<?=$link;?>
+			</a>
+		</body>
+	</html>
+<? } else { ?>
+	<html>
+		<head>
+			<meta name="robots" content="noindex" />
+		</head>
+		<body>
+			Вы уверены что хотите перейти по адресу <?=$link;?>? <br />Данная ссылка может содержать спам.
+			<br /><br />
+			<a href="<?=$link;?>">Перейти.</a>
+			<br /><br />
+			<a href="/">Отказаться от перехода.</a>
+		</body>
+	</html>
+<? }
