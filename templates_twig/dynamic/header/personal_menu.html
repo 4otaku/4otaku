@@ -1,0 +1,19 @@
+{% for id, item in items %}
+	<li>
+		<a title="Редактировать ссылку"
+			 class="right edit_private_item thickbox"
+			 href="/ajax.php?m=box&f=edit_personal_menu&width=600&height=200&id={{id}}">
+			<img src="/images/edit.gif" />
+		</a>
+		<a href="{{item.url}}" class="link">
+			{{item.name}}
+		</a>
+	</li>
+{% endfor %}
+<li class="box">
+	<a title="Добавить еще одну ссылку в личное меню"
+		 class="link thickbox"
+		 href="/ajax.php?m=box&f=add_personal_menu&width=600&height=200">
+		 Добавить ссылку
+	</a>
+</li>

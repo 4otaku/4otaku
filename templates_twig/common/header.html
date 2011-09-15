@@ -6,9 +6,8 @@
 					Админка
 				</a>
 			{% else %}
-				<a
-					title="Раздел вики со справкой"
-					href="http://wiki.4otaku.ru/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ"
+				<a title="Раздел вики со справкой"
+					 href="http://wiki.4otaku.ru/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FAQ"
 				>
 					Справка
 				</a>
@@ -16,15 +15,15 @@
 		</li>
 		<li class="box">
 			<a title="Ваши личные настройки"
-				class="thickbox"
-				href="/ajax.php?m=box&f=settings&width=500&height=650">
+				 class="thickbox"
+				 href="/ajax.php?m=box&f=settings&width=500&height=650">
 				Настройки
 			</a>
 		</li>
 		<li class="box">
 			<a title="Выберите, что показывать вам в RSS"
-				class="thickbox"
-				href="/ajax.php?m=box&f=rss&width=600&height=240">
+				 class="thickbox"
+				 href="/ajax.php?m=box&f=rss&width=600&height=240">
 				RSS
 			</a>
 		</li>
@@ -33,14 +32,14 @@
 	<ul class="main_menu">
 		{% for menu in header.menu %}
 			<li class="header_menu_item">
-				<a href="{{menu.url}}">
+				<a href="{{menu.url}}" class="link">
 					{{menu.name}}
 				</a>
 				{% if menu.items %}
 					<ul>
 						{% for child_menu in menu.items %}
 							<li>
-								<a href="{{child_menu.url}}">
+								<a href="{{child_menu.url}}" class="link">
 									{{child_menu.name}}
 								</a>
 							</li>
@@ -52,20 +51,7 @@
 		<li class="header_menu_item header_private_item">
 			<span>Личное</span>
 			<ul>
-				{% for item in header.personal %}
-					<li>
-						<a href="{{item.url}}">
-							{{item.name}}
-						</a>
-					</li>
-				{% endfor %}
-				<li class="box">
-					<a title="Добавить еще одну ссылку в личное меню"
-						class="thickbox"
-						href="/ajax.php?m=box&f=add_personal_menu&width=600&height=200">
-						Добавить ссылку
-					</a>
-				</li>
+				{% include 'dynamic/header/personal_menu.html' with {'items': header.personal} %}
 			</ul>
 		</li>
 	</ul>

@@ -27,8 +27,8 @@ class side__header
 
 	function personal () {
 
-		return Database::get_table('head_menu_user',
-			array('url', 'name'),
+		return Database::get_vector('head_menu_user',
+			array('id', 'url', 'name'),
 			'cookie = ? order by `order`',
 			query::$cookie
 		);
