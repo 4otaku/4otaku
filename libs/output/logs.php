@@ -1,4 +1,4 @@
-<? 
+<?
 
 class output__logs extends engine
 {
@@ -17,21 +17,21 @@ class output__logs extends engine
 	);
 	public $template = 'general';
 	public $side_modules = array(
-		'head' => array('title'),	
-		'header' => array('top_buttons'),
+		'head' => array('title'),
+		'header' => array('menu', 'personal'),
 		'top' => array(),
 		'sidebar' => array('comments','quicklinks','orders'),
 		'footer' => array()
 	);
-	
+
 	function get_data() {
 		global $url;
-		
+
 		if ($url[2] == 'search') {
-			$page = empty($url[5]) ? 1 : $url[5];			
+			$page = empty($url[5]) ? 1 : $url[5];
 			return $this->search($url[3], $page);
 		}
-		
+
 		$return['display'] = array('logs_navi','logs_search','logs_body','logs_arrows');
 		if (!$this->nocache) {
 			$return['logs'] = base64_decode(obj::db()->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].')',2,'cache'));
@@ -49,8 +49,8 @@ class output__logs extends engine
 		$end = array(date("Y"),date("n"),date("j"));
 		$current = array($url[2],$url[3],$url[4]);
 		if (array_diff_assoc($end,$current) && is_array($return['logs'])) $this->make_logs_cache($return['logs'],$url[2],$url[3],$url[4]);
-		$rumonth = array('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');		
-		
+		$rumonth = array('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
+
 		for ($i = $start[0]; $i <= $end[0]; $i++) {
 			$start_month = $i == $start[0] ? $start[1] : 1;
 			$end_month = $i == $end[0] ? $end[1] : 12;
@@ -80,8 +80,8 @@ class output__logs extends engine
 		}
 		return $return;
 	}
-	
-	function format_logs ($text,$author=false,$mark=array()) {	
+
+	function format_logs ($text,$author=false,$mark=array()) {
 		$text = str_replace(array('<','>'),array('&lt;','&gt;'),$text);
 		foreach ($mark as $one) {
 			$text = preg_replace('/(?<=\b)'.preg_quote($one,'/').'(?=\b)/uis', '<span style="background-color:yellow;">$0</span>', $text);
@@ -89,7 +89,7 @@ class output__logs extends engine
 		$text = preg_replace(array("/[\r\n]+/su"), array("<br />"), $text);
 		$text = preg_replace(transform__text::URL_REGEX, '<a href="$0">$0</a>', $text);
 		$text = obj::transform('text')->cut_long_words($text,40);
-			
+
 		if (substr($text,0,3) == '/me') return '<span class="logs-nick">'.$author.'</span>'.substr($text,3);
 		else return ($author ? '<span class="logs-nick">&lt;'.$author.'&gt;</span> ' : '').$text;
 	}
@@ -112,28 +112,28 @@ class output__logs extends engine
 				obj::db()->insert('logs',array(base64_encode($cache),$year,$month,$day));
 		}
 	}
-	
+
 	function search ($query, $page) {
 		global $search;
 		if (!$search) $search = new search();
-		
+
 		$return = array();
 		$return['display'] = array('logs_search','logs_results','navi');
-		
+
 		$perpage = 10; $start = ($page - 1) * $perpage;
-		
+
 		$query = $search->prepare_string(urldecode($query),true);
 		$mark = preg_split('/\s+/s', $query);
 		$fixed_query = '+'.preg_replace('/\s+/s', ' +', $query);
 		$select_query = ' MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE)';
-		
+
 		$sql = 'SELECT id, date FROM raw_logs WHERE'.$select_query;
 		$days = obj::db()->sql($sql.' group by date order by date desc limit '.$start.', '.$perpage, 'id');
-		
+
 		if (!empty($days)) {
 			$select_days = '"'.implode('","',$days).'"';
 			$data = obj::db()->sql('SELECT `date`, `time`, `text` FROM raw_logs WHERE `date` in ('.$select_days.') and'.$select_query);
-			
+
 			foreach ($days as $day) {
 				foreach ($data as $key => $log) {
 					if ($log['date'] == $day) {
@@ -141,7 +141,7 @@ class output__logs extends engine
 							'time' => $log['time'],
 							'text' => $this->format_logs($log['text'],false,$mark),
 						);
-						
+
 						unset($data[$key]);
 						if (count($return['days'][$day]) > 4) {
 							break;
@@ -149,14 +149,14 @@ class output__logs extends engine
 					}
 				}
 			}
-			
+
 			$return['navi']['meta'] = '/logs/search/'.$query.'/';
 			$return['navi']['curr'] = $page;
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil(obj::db()->sql('select count(distinct(date)) from raw_logs WHERE MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE)',2)/$perpage);			
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(distinct(date)) from raw_logs WHERE MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE)',2)/$perpage);
 		} else {
 			$return['display'] = array('logs_search','logs_results');
-		}	
+		}
 
 		return $return;
 	}

@@ -1,13 +1,13 @@
-<? 
+<?
 
 class output__video extends engine
 {
 	function __construct() {
 		global $cookie; global $url;
 		if (!$cookie) $cookie = new dynamic__cookie();
-		$cookie->inner_set('visit.video',time(),false);	
+		$cookie->inner_set('visit.video',time(),false);
 		$this->parse_area();
-		if (!$url[2]) $this->error_template = 'empty';		
+		if (!$url[2]) $this->error_template = 'empty';
 	}
 	public $allowed_url = array(
 		array(1 => '|video|', 2 => '|tag|category|author|mixed|', 3=> 'any', 4 => '|page|', 5 => 'num', 6 => 'end'),
@@ -17,18 +17,18 @@ class output__video extends engine
 	);
 	public $template = 'general';
 	public $side_modules = array(
-		'head' => array('title'),	
-		'header' => array('top_buttons'),
+		'head' => array('title'),
+		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
 		'sidebar' => array('comments','quicklinks','orders','tags'),
 		'footer' => array()
 	);
-	
+
 	function get_data() {
-		global $url; global $def; global $sets; 
-		$return['navigation'] = $this->get_navigation(array('tag','category'));		
+		global $url; global $def; global $sets;
+		$return['navigation'] = $this->get_navigation(array('tag','category'));
 		if (is_numeric($url[2]) && $url[2]>0) {
-			$return['display'] = array('video','comments');		
+			$return['display'] = array('video','comments');
 			$return['video'] = $this->get_video(1,'id='.$url[2].' and area != "deleted"',$sets['video']['full']);
 			$url['area'] = $return['video'][0]['area'];
 			$return['comments'] = $this->get_comments($url[1],$url[2],(is_numeric($url[5]) ? $url[5] : ($url[4] == 'all' ? false : 1)));
@@ -37,37 +37,37 @@ class output__video extends engine
 			$return['navi']['name'] = "Страница комментариев";
 			$return['navi']['meta'] = $url[2].'/comments/';
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);			
+			$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
 			$this->side_modules['top'] = array();
 		}
 		else {
-			$return['display'] = array('video','navi');		
+			$return['display'] = array('video','navi');
 			if ($url[2] == 'page' || !$url[2]) {
 				$area = 'area = "'.$url['area'].'"';
-				$return['navi']['curr'] = max(1,$url[3]);			
+				$return['navi']['curr'] = max(1,$url[3]);
 				$return['video'] = $this->get_video(($return['navi']['curr']-1)*$sets['pp']['video'].', '.$sets['pp']['video'],$area,$sets['video']['thumb']);
 			}
 			elseif ($url[2] == 'tag' || $url[2] == 'category' || $url[2] == 'author' || $url[2] == 'language') {
 				$this->mixed_parse($url[2].'='.$url[3]);
 				$area = 'area = "'.$url['area'].'" and locate("|'.($url['tag'] ? $url['tag'] : mysql_real_escape_string($url[3])).'|",video.'.$url[2].')';
-				$return['navi']['curr'] = max(1,$url[5]);				
+				$return['navi']['curr'] = max(1,$url[5]);
 				$return['video'] = $this->get_video(($return['navi']['curr']-1)*$sets['pp']['video'].', '.$sets['pp']['video'],$area,$sets['video']['thumb']);
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 				$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);
 			}
 			elseif ($url[2] == 'mixed') {
 				$area = $this->mixed_make_sql($this->mixed_parse($url[3]));
-				$return['navi']['curr'] = max(1,$url[5]);				
+				$return['navi']['curr'] = max(1,$url[5]);
 				$return['video'] = $this->get_video(($return['navi']['curr']-1)*$sets['pp']['video'].', '.$sets['pp']['video'],$area,$sets['video']['thumb']);
-				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';			
+				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from video where ('.$area.')',2,'count(id)')/$sets['pp']['video']);		
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from video where ('.$area.')',2,'count(id)')/$sets['pp']['video']);
 		}
-		$return['navi']['base'] = '/video'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';		
+		$return['navi']['base'] = '/video'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';
 		return $return;
 	}
-	
+
 	function get_video($limit, $area, $sizes) {
 		global $error;
 		$sizes = explode('x',$sizes);
@@ -91,12 +91,12 @@ class output__video extends engine
 						}
 						foreach ($video['meta'] as &$video_meta) {
 							uasort($video_meta, 'transform__array::meta_sort');
-						}						
+						}
 					}
 				}
 			}
 			return $return;
 		}
 		else $error = true;
-	}		
+	}
 }

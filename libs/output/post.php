@@ -1,4 +1,4 @@
-<? 
+<?
 
 class output__post extends engine
 {
@@ -7,26 +7,26 @@ class output__post extends engine
 		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.post',time(),false);
 		$this->parse_area();
-		if (!$url[2]) $this->error_template = 'empty';		
+		if (!$url[2]) $this->error_template = 'empty';
 	}
 	public $allowed_url = array(
 		array(1 => '|post|', 2 => '|tag|category|author|language|mixed|', 3=> 'any', 4 => '|page|', 5 => 'num', 6 => 'end'),
 		array(1 => '|post|', 2 => '|page|', 3 => 'num', 4 => 'end'),
 		array(1 => '|post|', 2 => 'num', 3=> '|show_updates|comments|', 4 => '|all|', 5 => 'end'),
 		array(1 => '|post|', 2 => 'num', 3=> '|comments|', 4 => '|page|', 5 => 'num', 6 => 'end'),
-		array(1 => '|post|', 2 => '|updates|', 3 => '|page|', 4 => 'num', 5 => 'end')		
+		array(1 => '|post|', 2 => '|updates|', 3 => '|page|', 4 => 'num', 5 => 'end')
 	);
 	public $template = 'general';
 	public $side_modules = array(
-		'head' => array('title'),	
-		'header' => array('top_buttons'),
+		'head' => array('title'),
+		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
 		'sidebar' => array('comments','update','orders','tags'),
 		'footer' => array()
 	);
-	
+
 	function get_data() {
-		global $url; global $def; global $sets; 
+		global $url; global $def; global $sets;
 		$return['navigation'] = $this->get_navigation(array('tag','category','language'));
 		if (is_numeric($url[2]) && $url[2]>0) {
 			$return['display'] = array('post','comments');
@@ -39,7 +39,7 @@ class output__post extends engine
 			$return['navi']['meta'] = $url[2].'/comments/';
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
-			$this->side_modules['top'] = array();			
+			$this->side_modules['top'] = array();
 		}
 		elseif ($url[2] != 'updates') {
 			$return['display'] = array('post','navi');
@@ -49,9 +49,9 @@ class output__post extends engine
 				$return['post'] = $this->get_post(($return['navi']['curr']-1)*$sets['pp']['post'].', '.$sets['pp']['post'],$area);
 			}
 			elseif ($url[2] == 'tag' || $url[2] == 'category' || $url[2] == 'author' || $url[2] == 'language') {
-				$this->mixed_parse($url[2].'='.$url[3]);			
+				$this->mixed_parse($url[2].'='.$url[3]);
 				$area = 'area = "'.$url['area'].'" and locate("|'.($url['tag'] ? $url['tag'] : mysql_real_escape_string($url[3])).'|",post.'.$url[2].')';
-				$return['navi']['curr'] = max(1,$url[5]);				
+				$return['navi']['curr'] = max(1,$url[5]);
 				$return['post'] = $this->get_post(($return['navi']['curr']-1)*$sets['pp']['post'].', '.$sets['pp']['post'],$area);
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 				$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);
@@ -77,10 +77,10 @@ class output__post extends engine
 				$update['image'] = explode('|',trim($update['image'],'|'));
 			}
 		}
-		$return['navi']['base'] = '/post'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';		
+		$return['navi']['base'] = '/post'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';
 		return $return;
 	}
-	
+
 	function get_post($limit, $area) {
 		global $error;
 		$return = obj::db()->sql('select * from post where ('.$area.') order by sortdate desc limit '.$limit);
@@ -113,5 +113,5 @@ class output__post extends engine
 			return $return;
 		}
 		else $error = true;
-	}	
+	}
 }

@@ -1,4 +1,4 @@
-<? 
+<?
 
 class output__tags extends engine
 {
@@ -12,27 +12,27 @@ class output__tags extends engine
 	);
 	public $template = 'general';
 	public $side_modules = array(
-		'header' => array('top_buttons'),
+		'header' => array('menu', 'personal'),
 		'top' => array(),
 		'sidebar' => array('comments','quicklinks','orders'),
 		'footer' => array()
 	);
-	
+
 	function get_data() {
 		global $sets; global $def; global $url;
 		$return['display'] = array('tags');
 		if (!$url[2]) $url[2] = $def['type'][0];
 		if ($url['3'] != $def['area'][0] && $url['3'] != $def['area'][2]) $area = $url[2].'_'.$def['area'][0];
 		else $area = $url[2].'_'.$url['3'];
-		
+
 		$words = array(
 			$def['type'][0] => array('запись','записей','записи'),
 			$def['type'][1] => array('видео','видео','видео'),
-			$def['type'][2] => array('арт','арта','артов')						
+			$def['type'][2] => array('арт','арта','артов')
 		);
 
 		$return['tags'] = $this->tag_cloud(30,10,$area,$words[$url[2]]);
 		return $return;
 	}
-	
+
 }

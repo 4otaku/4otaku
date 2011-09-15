@@ -1,4 +1,4 @@
-<? 
+<?
 
 class output__art extends engine
 {
@@ -7,7 +7,7 @@ class output__art extends engine
 		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.art',time(),false);
 		$this->parse_area();
-		if (!$url[2]) $this->error_template = 'booru_empty';		
+		if (!$url[2]) $this->error_template = 'booru_empty';
 		if ($url[2] == 'slideshow' && $url[3] && $url[4]) {
 			foreach ($url as $key => $one) if ($key > 2) $url[$key-1] = $one;
 			unset($url[count($url)-1]);
@@ -22,18 +22,18 @@ class output__art extends engine
 		array(1 => '|art|', 2 => '|pool|cg_packs|', 3 => 'num', 4 => '|page|sort|', 5 => 'num', 6 => 'end'),
 		array(1 => '|art|', 2 => '|download|', 3 => 'any', 4 => 'any', 5 => 'any', 6 => 'end'),
 		array(1 => '|art|', 2 => 'any', 3 => '|comments|', 4 => '|all|', 5 => 'end'),
-		array(1 => '|art|', 2 => 'any', 3 => '|comments|', 4 => '|page|', 5 => 'num', 6 => 'end')		
+		array(1 => '|art|', 2 => 'any', 3 => '|comments|', 4 => '|page|', 5 => 'num', 6 => 'end')
 	);
 	public $template = 'booru';
 	public $error_template = 'booru';
 	public $side_modules = array(
 		'head' => array('title'),
-		'header' => array('top_buttons'),
+		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
 		'sidebar' => array('masstag','art_tags','comments'),
 		'footer' => array()
 	);
-	
+
 	function get_data() {
 		if ($this->template != 'slideshow') {
 			global $url; global $error; global $sets; global $def;
@@ -47,26 +47,26 @@ class output__art extends engine
 				$return['navi']['name'] = "Страница комментариев";
 				$return['navi']['meta'] = $url[2].'/comments/';
 				$return['navi']['start'] = max($return['navi']['curr']-5,2);
-				$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);				
+				$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
 				$this->side_modules['top'] = array();
-				
+
 				$cookie = query::$cookie;
 				$ip = ip2long($_SERVER['REMOTE_ADDR']);
 				$return['art'][0]['rating'] = array();
-		
+
 				$return['art'][0]['rating']['voted'] = obj::db()->sql("select id from art_rating where art_id = $url[2] and (ip = $ip or cookie = '$cookie')",2);
 				$return['art'][0]['rating']['score'] = (int) obj::db()->sql("select SUM(rating) from art_rating where art_id = $url[2]",2);
-				
+
 				$return['art'][0]['packs'] = obj::db()->sql("
-					select * from 
-						art_pack as p left join 
-						art_in_pack as a on 
-						a.pack_id = p.id 
+					select * from
+						art_pack as p left join
+						art_in_pack as a on
+						a.pack_id = p.id
 					where a.art_id = $url[2]");
 			}
 			elseif ($url[2] != 'pool' && $url[2] != 'cg_packs' && $url[2] != 'download') {
 				$return['display'] = array('booru_page','navi');
-				if ($url[2] == 'page' || !$url[2]) {							
+				if ($url[2] == 'page' || !$url[2]) {
 					$area = 'area = "'.$url['area'].'"';
 					$return['navi']['curr'] = max(1,$url[3]);
 					if ($sets['art']['sort'] == 'tag-desc') $return['art']['thumbs'] =  $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'], $area, 'order by (length(tag) - length(replace(tag,\'|\',\'\'))) desc');
@@ -77,25 +77,25 @@ class output__art extends engine
 					$parts = explode('-',$url[3]);
 					if (is_numeric($parts[0].$parts[1].$parts[2]) && count($parts) == 3) {
 						$area = 'area = "'.$url['area'].'" and pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'"';
-						$return['navi']['curr'] = max(1,$url[5]);				
+						$return['navi']['curr'] = max(1,$url[5]);
 						$return['art']['thumbs'] = $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],$area);
 						$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 					}
 					else $error = true;
-				}			
+				}
 				elseif ($url[2] != 'mixed') {
-					$this->mixed_parse($url[2].'='.$url[3]);				
+					$this->mixed_parse($url[2].'='.$url[3]);
 					$area = 'area = "'.$url['area'].'" and locate("|'.($url['tag'] ? $url['tag'] : mysql_real_escape_string($url[3])).'|",art.'.$url[2].')';
-					$return['navi']['curr'] = max(1,$url[5]);				
+					$return['navi']['curr'] = max(1,$url[5]);
 					$return['art']['thumbs'] = $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],$area);
 					$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
-					$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);								
+					$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);
 				}
 				else {
 					$area = $this->mixed_make_sql($this->mixed_parse($url[3]));
 					$return['navi']['curr'] = max(1,$url[5]);
 					$return['art']['thumbs'] = $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],$area);
-					$return['navi']['meta'] = $url[2].'/'.$url[3].'/';					
+					$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 				}
 				$return['navi']['start'] = max($return['navi']['curr']-5,2);
 				$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from art where ('.$area.')',2)/$sets['pp']['art']);
@@ -111,7 +111,7 @@ class output__art extends engine
 							$return['navi']['curr'] = max(1,$url[5]);
 							$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 							$return['navi']['start'] = max($return['navi']['curr']-5,2);
-							$pool = array_slice($pool,($return['navi']['curr']-1)*$sets['pp']['art'],$sets['pp']['art']);			
+							$pool = array_slice($pool,($return['navi']['curr']-1)*$sets['pp']['art'],$sets['pp']['art']);
 							$return['navi']['last'] = ceil($return['pool']['count']/$sets['pp']['art']);
 						}
 						$where = 'id='.implode(' or id=',$pool);
@@ -120,7 +120,7 @@ class output__art extends engine
 							foreach ($art as $one) $return['art']['thumbs'][$pool[$one['id']]] = $one;
 							ksort($return['art']['thumbs']);
 						}
-						$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);					
+						$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);
 					}
 					else {
 						$return['display'] = array('booru_poolpage','navi');
@@ -161,7 +161,7 @@ class output__art extends engine
 						if (empty($url[4]) || !is_numeric($url[4])) {
 							$error = true;
 						} else {
-							if (empty($url[5]) || !is_numeric($url[5])) {								
+							if (empty($url[5]) || !is_numeric($url[5])) {
 								$pack = obj::db()->sql("select title, weight from art_pack where id = $url[4]", 1);
 								if ($pack['weight'] == 0) {
 									$error = true;
@@ -175,19 +175,19 @@ class output__art extends engine
 							} else {
 								$this->template = 'download';
 								$this->side_modules = array();
-								
+
 								$art = obj::db()->sql("
-									select a.md5, a.extension, p.filename 
+									select a.md5, a.extension, p.filename
 									from art as a left join art_in_pack as p on a.id = p.art_id
 									where a.id = $url[5] and p.pack_id = $url[4]", 1);
 								$file = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension'];
-								
+
 								if (pathinfo($file,PATHINFO_EXTENSION) == 'jpg') {
-									$type = 'jpeg'; 
+									$type = 'jpeg';
 								} else {
 									$type = pathinfo($file,PATHINFO_EXTENSION);
 								}
-								return array('file' => $file, 'name' => $art['filename'], 'type' => $type);								
+								return array('file' => $file, 'name' => $art['filename'], 'type' => $type);
 							}
 						}
 					}
@@ -195,15 +195,15 @@ class output__art extends engine
 						$this->template = 'download';
 						$this->side_modules = array();
 						if (pathinfo($url[3],PATHINFO_EXTENSION) == 'jpg') $type = 'jpeg'; else $type = pathinfo($url[3],PATHINFO_EXTENSION);
-						return array('file' => ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$url[3], 'name' => $url[3], 'type' => $type);							
+						return array('file' => ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$url[3], 'name' => $url[3], 'type' => $type);
 					}
 				}
 			}
-			$return['navi']['base'] = '/art'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';		
+			$return['navi']['base'] = '/art'.($url['area'] != $def['area'][0] ? '/'.$url['area'] : '').'/';
 			return $return;
 		}
 	}
-	
+
 	function get_art($limit, $area, $order = false, $join = '') {
 		global $error; global $url; global $check; global $def; global $sets;
 
@@ -214,13 +214,13 @@ class output__art extends engine
 				($order_sets[1] == 'asc' ? 'asc' : 'desc').' '.
 				($order_sets[0] == 'rating' ? ', sortdate desc' : '');
 		}
-		
+
 		if ($limit) $limit = 'limit '.$limit;
 		$return = obj::db()->sql('select * from art '.$join.' where ('.$area.') '.$order.' '.$limit);
 		if (is_array($return)) {
 			if ($limit == 'limit 1') {
 				$return[0]['translations']['full'] = unserialize(base64_decode(obj::db()->sql('select data from art_translation where (art_id='.$return[0]['id'].' and active = 1)',2)));
-				if (is_array($return[0]['translations']['full'])) foreach ($return[0]['translations']['full'] as $key => $one) $return[0]['translations']['full'][$key]['text'] = str_replace('"','&quot;',$one['text']); 
+				if (is_array($return[0]['translations']['full'])) foreach ($return[0]['translations']['full'] as $key => $one) $return[0]['translations']['full'][$key]['text'] = str_replace('"','&quot;',$one['text']);
 				if ($return[0]['resized'] && is_array($return[0]['translations']['full'])) {
 					$size = explode('x',$return[0]['resized']);
 					$small_size = getimagesize(ROOT_DIR.SL.'images/booru/resized/'.$return[0]['md5'].'.jpg');
@@ -246,7 +246,7 @@ class output__art extends engine
 					$ids .= $art['id'].',';
 				}
 				$ids = substr($ids, 0, -1).')';
-				$variations = obj::db()->sql('select count(*), art_id from art_variation where '.$ids.' group by art_id', 'art_id');				
+				$variations = obj::db()->sql('select count(*), art_id from art_variation where '.$ids.' group by art_id', 'art_id');
 				foreach ($return as &$art) {
 					if (isset($variations[$art['id']])) {
 						$art['similar_count'] = $variations[$art['id']];
@@ -269,7 +269,7 @@ class output__art extends engine
 						}
 						foreach ($art['meta'] as &$art_meta) {
 							uasort($art_meta, 'transform__array::meta_sort');
-						}						
+						}
 					}
 				}
 			}
@@ -292,8 +292,8 @@ class output__art extends engine
 		$return['navi']['name'] = "Страница комментариев";
 		$return['navi']['meta'] = $url[2].'/comments/';
 		$return['navi']['start'] = max($return['navi']['curr']-5,2);
-		$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);				
-		$this->side_modules['top'] = array();				
+		$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
+		$this->side_modules['top'] = array();
 	}
-			
+
 */

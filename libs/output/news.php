@@ -1,4 +1,4 @@
-<? 
+<?
 
 class output__news extends engine
 {
@@ -9,13 +9,13 @@ class output__news extends engine
 	);
 	public $template = 'general';
 	public $side_modules = array(
-		'head' => array('title'),	
-		'header' => array('top_buttons'),
+		'head' => array('title'),
+		'header' => array('menu', 'personal'),
 		'top' => array(),
 		'sidebar' => array('comments','quicklinks','orders'),
 		'footer' => array()
 	);
-	
+
 	function get_data() {
 		global $url; global $def; global $sets; global $side_modules;
 		if ($url[2] && $url[2] != 'page') {
@@ -27,20 +27,20 @@ class output__news extends engine
 			$return['navi']['name'] = "Страница комментариев";
 			$return['navi']['meta'] = $url[2].'/comments/';
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);			
+			$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
 		}
 		else {
 			$return['display'] = array('news','navi');
 			$return['navi']['curr'] = max(1,$url[3]);
 			$return['news'] = $this->get_news(($return['navi']['curr']-1)*$sets['pp']['news'].', '.$sets['pp']['news'],"");
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from news',2,'count(id)')/$sets['pp']['news']);		
-			$this->side_modules['top'][] = 'title';			
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from news',2,'count(id)')/$sets['pp']['news']);
+			$this->side_modules['top'][] = 'title';
 		}
-		$return['navi']['base'] = '/news/';		
+		$return['navi']['base'] = '/news/';
 		return $return;
 	}
-	
+
 	function get_news($limit, $area) {
 		global $error;
 		$return = obj::db()->sql('select * from news '.$area.' order by sortdate desc limit '.$limit);
@@ -51,5 +51,5 @@ class output__news extends engine
 			return $return;
 		}
 		else $error = true;
-	}	
+	}
 }

@@ -1,4 +1,4 @@
-<? 
+<?
 
 class output__archive extends engine
 {
@@ -13,7 +13,7 @@ class output__archive extends engine
 	public $template = 'general';
 	public $side_modules = array(
 		'head' => array('title'),
-		'header' => array('top_buttons'),
+		'header' => array('menu', 'personal'),
 		'top' => array(),
 		'sidebar' => array('comments'),
 		'footer' => array()
@@ -23,23 +23,23 @@ class output__archive extends engine
 		'video' => array('видео','видео','видео'),
 		'post' => array('запись','записи','записей')
 	);
-	
+
 	function get_data() {
 		global $url;
 		if ($url[2]) $func = trim('archive_'.$url[3],'_');
 		else $func = "archive_main";
 		return $this->$func();
 	}
-	
-	function archive_main() {		
-		return array('display' => array('archive_main'));
-	}	
 
-	function archive() {		
+	function archive_main() {
+		return array('display' => array('archive_main'));
+	}
+
+	function archive() {
 		return $this->archive_date();
 	}
 
-	function archive_date() {		
+	function archive_date() {
 		global $url;
 		if ($url[2] != 'art') { $title = ' title,'; $return['display'] = array('archive_date'); }
 		else $return['display'] = array('archive_artdate');
@@ -50,10 +50,10 @@ class output__archive extends engine
 			if ($url[2] != 'art') $return['archives'][$item['pretty_date'][2]][$item['pretty_date'][0]][] = $item;
 			else $return['archives'][$item['pretty_date'][2]][$item['pretty_date'][0]][$item['pretty_date'][1]]++;
 		}
-		return $return; 
+		return $return;
 	}
 
-	function archive_category() {	
+	function archive_category() {
 		global $url;
 		if ($url[2] != 'art') { $title = ' title,'; $return['display'] = array('archive_body'); }
 		else $return['display'] = array('archive_artbody');
@@ -66,13 +66,13 @@ class output__archive extends engine
 				else $return['archives'][$category]++;
 		}
 		$return['name'] = obj::db()->sql('select alias,name from category','alias');
-		return $return;	
+		return $return;
 	}
 
-	function archive_author() {	
+	function archive_author() {
 		global $url;
 		if ($url[2] != 'art') { $title = ' title,'; $return['display'] = array('archive_body'); }
-		else $return['display'] = array('archive_artbody');	
+		else $return['display'] = array('archive_artbody');
 		$items = obj::db()->sql('select author,'.$title.' id, comment_count from '.$url[2].' where area="main" order by sortdate');
 		$return['count'] = count($items).' '.obj::transform('text')->wcase(count($items),$this->wcase[$url[2]][0],$this->wcase[$url[2]][1],$this->wcase[$url[2]][2]);
 		if (is_array($items)) foreach ($items as $item) {
@@ -84,5 +84,5 @@ class output__archive extends engine
 		$return['name'] = obj::db()->sql('select alias,name from author','alias');
 		return $return;
 	}
-	
+
 }

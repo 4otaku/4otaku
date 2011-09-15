@@ -8,7 +8,7 @@ class output__index extends engine
 	public $template = 'index';
 	public $side_modules = array(
 		'head' => array('title'),
-		'header' => array('top_buttons')
+		'header' => array('menu', 'personal')
 	);
 
 	private $wiki_namespaces = array(

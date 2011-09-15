@@ -19,7 +19,7 @@ class output__search extends engine
 	public $template = 'general';
 	public $side_modules = array(
 		'head' => array('title'),
-		'header' => array('top_buttons'),
+		'header' => array('menu', 'personal'),
 		'sidebar' => array('comments','quicklinks','orders'),
 		'footer' => array()
 	);

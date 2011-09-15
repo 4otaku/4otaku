@@ -6,15 +6,15 @@ class output__board extends engine
 		global $cookie;
 		if (!$cookie) $cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.board',time()+1,false);
-	}	
-	
+	}
+
 	public $allowed_url = array(
 		array(1 => '|board|', 2 => 'any', 3=> 'any', 4 => 'any', 5 => 'num', 6 => 'end'),
 	);
 	public $template = 'general';
 	public $side_modules = array(
 		'head' => array('title'),
-		'header' => array('top_buttons'),
+		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
 		'sidebar' => array('board_list','comments','quicklinks'),
 		'footer' => array()
@@ -25,14 +25,14 @@ class output__board extends engine
 	private $inner_links = array();
 	private $thread = false;
 	private $board_categories = array();
-	
+
 	function get_data() {
 		global $url;
-		
-		$this->board_categories = Database::get_vector('category', 
-			array('id', 'alias', 'name'), 
+
+		$this->board_categories = Database::get_vector('category',
+			array('id', 'alias', 'name'),
 			'locate("|board|",area) ORDER BY id');
-		
+
 		if (!$url[2] || $url[2] == 'page') {
 			return $this->main();
 		} elseif ($url[2] == 'new' || $url[2] == 'updated') {
@@ -46,13 +46,13 @@ class output__board extends engine
 
 	function main() {
 		global $url;
-		
+
 		$return['boards'] = $this->board_categories;
-		
+
 		if (!sets::get('board','allthreads')) {
 			$return['display'] = array('board_switcher','board_main');
 		} else {
-			$return['display'] = array('board_menu','board_page','navi','board_menu','board_switcher');			
+			$return['display'] = array('board_menu','board_page','navi','board_menu','board_switcher');
 			$return['navi']['curr'] = max(1,$url[3]);
 			$limit = 'limit '.($return['navi']['curr']-1)*sets::pp('board').', '.sets::pp('board');
 			$condition = '';
@@ -64,43 +64,43 @@ class output__board extends engine
 
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil(obj::db()->sql('
-				SELECT count(distinct(board.id)) 
-				FROM board LEFT JOIN board_category ON board.id=board_category.thread_id 
-				WHERE board.`type` = "thread" AND board_category.actual = 1		
+				SELECT count(distinct(board.id))
+				FROM board LEFT JOIN board_category ON board.id=board_category.thread_id
+				WHERE board.`type` = "thread" AND board_category.actual = 1
 			',2)/sets::pp('board'));
 			$return['navi']['base'] = '/board/';
 		}
 		return $return;
 	}
-	
+
 	function updated() {
 		global $url; global $error;
-		
-		$time = current(unpack('i*',_base64_decode($url[3])))*1000;	
-		
+
+		$time = current(unpack('i*',_base64_decode($url[3])))*1000;
+
 		$return['boards'] = $this->board_categories;
-		
-		$return['display'] = array('board_page','navi','board_menu');			
+
+		$return['display'] = array('board_page','navi','board_menu');
 		$return['navi']['curr'] = max(1,$url[5]);
 		$limit = 'limit '.($return['navi']['curr']-1)*sets::pp('board').', '.sets::pp('board');
-		$condition = $url[2] == 'new' ? 
-			'board.sortdate > '.$time.' AND ' : 
+		$condition = $url[2] == 'new' ?
+			'board.sortdate > '.$time.' AND ' :
 			'board.updated > '.$time.' AND board.sortdate < '.$time.' AND ';
-			
+
 		$return['threads'] = $this->get_threads($condition, $limit);
 		if (empty($return['threads'])) {
 			$error = true;
 			$this->side_modules['top'] = array('board_list');
 		}
-		
+
 		$return['navi']['start'] = max($return['navi']['curr']-5,2);
 		$return['navi']['last'] = ceil(obj::db()->sql('
-			SELECT count(distinct(board.id)) 
-			FROM board LEFT JOIN board_category ON board.id=board_category.thread_id 
-			WHERE '.$condition.' board.`type` = "thread" AND board_category.actual = 1	
+			SELECT count(distinct(board.id))
+			FROM board LEFT JOIN board_category ON board.id=board_category.thread_id
+			WHERE '.$condition.' board.`type` = "thread" AND board_category.actual = 1
 		',2)/sets::pp('board'));
 		$return['navi']['base'] = '/board/'.$url[2].'/'.$url[3].'/';
-		
+
 		return $return;
 	}
 
@@ -119,50 +119,50 @@ class output__board extends engine
 				if ($return['navi']['curr'] == 1) {
 					$this->error_template = 'board_empty';
 				} else {
-					$this->side_modules['top'] = array('board_list');	
+					$this->side_modules['top'] = array('board_list');
 				}
 			}
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil(obj::db()->sql('
-				SELECT count(distinct(board.id)) 
-				FROM board LEFT JOIN board_category ON board.id=board_category.thread_id 
+				SELECT count(distinct(board.id))
+				FROM board LEFT JOIN board_category ON board.id=board_category.thread_id
 				WHERE '.$condition.'
-					board.`type` = "thread" AND 
+					board.`type` = "thread" AND
 					board_category.actual = 1
 			',2)/$sets['pp']['board']);
 			$return['navi']['base'] = '/board/'.$url[2].'/';
-			
+
 			return $return;
 		} else {
 			$error = true;
 			$this->side_modules['top'] = array('board_list');
 		}
 	}
-	
+
 	function get_threads($condition, $limit) {
 		$return = obj::db()->sql('
 			SELECT board.*, board_category.category_id
 			FROM board LEFT JOIN board_category ON board.id=board_category.thread_id
-			WHERE '.$condition.' 					
-				board.`type` = "thread" AND 
-				board_category.actual = 1 
-			GROUP BY board.id 
+			WHERE '.$condition.'
+				board.`type` = "thread" AND
+				board_category.actual = 1
+			GROUP BY board.id
 			ORDER BY board.updated DESC '.$limit
 		,'id');
-		
+
 		if (is_array($return)) {
 			$categories = obj::db()->sql('
-				SELECT * FROM board_category 
+				SELECT * FROM board_category
 				WHERE thread_id in ('.implode(',',array_keys($return)).')
 			');
-			
+
 			foreach ($categories as $category) {
 				$return[$category['thread_id']]['categories'][] = array_merge(
 					$this->board_categories[$category['category_id']],
 					array('actual' => $category['actual'])
 				);
 			}
-			
+
 			$this->process_content($return);
 
 			$keys = 'thread='.implode(' or thread=', array_keys($return));
@@ -174,7 +174,7 @@ class output__board extends engine
 				}
 
 				foreach ($return as $key => $thread) {
-					
+
 					if (!empty($thread['posts'])) {
 						list($total_images, $total_flash, $total_video) = $this->process_content($thread['posts']);
 						$total = count($thread['posts']);
@@ -196,7 +196,7 @@ class output__board extends engine
 		}
 		$this->build_inner_links($this->inner_links, $return);
 		return $return;
-	}	
+	}
 
 	function thread() {
 		global $url; global $sets; global $error;
@@ -206,14 +206,14 @@ class output__board extends engine
 			$op_post = obj::db()->sql('select * from board where `type`="thread" and id = '.$url[4], 1);
 
 			$categories = obj::db()->sql('SELECT * FROM board_category WHERE thread_id ='.$url[4]);
-			
-			foreach ($categories as $category) {			
+
+			foreach ($categories as $category) {
 				$op_post['categories'][] = array_merge(
 					$this->board_categories[$category['category_id']],
 					array('actual' => $category['actual'])
 				);
-			}	
-			
+			}
+
 
 			$return['posts'] = array($op_post['id'] => $op_post);
 			$op_post = & $return['posts'][$op_post['id']];
@@ -222,20 +222,20 @@ class output__board extends engine
 			foreach ($replies as $reply) {
 				$return['posts'][$reply['id']] = $reply;
 			}
-	
+
 			list($images, $video) = $this->process_content($return['posts']);
 			$op_post['images_count'] = $images;
 		}
 
 		$wrong_board = !obj::db()->sql('select id from category where locate("|board|",area) and alias="'.$url[2].'"',2);
-		
+
 		if ($url[2] == 'download') {
 			$this->template = 'main__board__download';
 			$wrong_board = false;
 		}
-		
+
 		if (
-			empty($return['posts']) || 
+			empty($return['posts']) ||
 			$op_post['type'] != 'thread' ||
 			$wrong_board
 		) {
@@ -249,7 +249,7 @@ class output__board extends engine
 			return $return;
 		}
 	}
-	
+
 	function check_downloads($op_post) {
 		$op_post['downloads']['pdf'] = true;
 		if (
@@ -260,20 +260,20 @@ class output__board extends engine
 		}
 		return $op_post;
 	}
-	
+
 	function count_content($array) {
 		$images_count = 0; $video_count = 0; $flash_count = 0;
 		if (!empty($array)) {
 			foreach ($array as $key => $item) {
-				if (!empty($item['content'])) {					
+				if (!empty($item['content'])) {
 					if (!empty($item['content']['image'])) {
 						$images_count += count($item['content']['image']);
 					}
-					
+
 					if (!empty($item['content']['flash'])) {
 						$flash_count++;
 					}
-					
+
 					if (!empty($item['content']['video'])) {
 						$video_count++;
 					}
@@ -281,7 +281,7 @@ class output__board extends engine
 			}
 		}
 		return array($images_count, $flash_count, $video_count);
-	}	
+	}
 
 	function process_content(&$array) {
 		global $url;
@@ -301,62 +301,62 @@ class output__board extends engine
 					'video' => array(),
 				);
 			}
-			
+
 
 			foreach ($content_array as $content) {
-				$array[$content['post_id']]['content'][$content['type']][] = 
+				$array[$content['post_id']]['content'][$content['type']][] =
 					unserialize(base64_decode($content['data']));
 			}
-			
+
 			foreach ($array as $key => $item) {
-				
-				if (!empty($item['content'])) {					
+
+				if (!empty($item['content'])) {
 					$content = $item['content'];
 					$current_count = 0;
 
 					if (!empty($content['image'])) {
 						foreach ($content['image'] as $image_key => $image) {
-							$content['image'][$image_key]['full_size_info'] = 
-								obj::transform('file')->weight($image['weight']) . 
+							$content['image'][$image_key]['full_size_info'] =
+								obj::transform('file')->weight($image['weight']) .
 								', ' . $image['sizes'] . ' пикселей';
-								
+
 							$images_count++;
 							$current_count++;
 						}
 					}
-		
+
 					if (!empty($content['flash'])) {
 						foreach ($content['flash'] as $flash_key => $flash) {
-							$content['flash'][$flash_key]['full_size_info'] = 
+							$content['flash'][$flash_key]['full_size_info'] =
 								obj::transform('file')->weight($flash['weight']);
-								
+
 							$flash_count++;
 							$current_count++;
 						}
-					}					
-					
+					}
+
 					if (!empty($content['video'])) {
 						$width = def::board('thumbwidth');
-						
-						foreach ($content['video'] as $video_key => $video) {							
+
+						foreach ($content['video'] as $video_key => $video) {
 							$height = $width * $video['aspect'];
-							
+
 							$content['video'][$video_key]['object'] = str_replace(
 								array('%video_width%','%video_height%'),
-								array($width,$height), 
+								array($width,$height),
 								$video['object']
 							);
-							
+
 							$content['video'][$video_key]['height'] = $height;
-							
+
 							$video_count++;
 							$current_count++;
 						}
 					}
-					
+
 					$array[$key]['content'] = $content;
 				}
-				
+
 				if (!empty($item['boards'])) {
 					$array[$key]['boards'] = array_values(array_filter(array_unique(explode('|',$item['boards']))));
 				}
@@ -373,7 +373,7 @@ class output__board extends engine
 						$this->inner_links[] = $inner_link;
 					}
 				}
-				
+
 				if ($current_count > 1) {
 					$array[$key]['multi_content'] = true;
 				}
@@ -385,12 +385,12 @@ class output__board extends engine
 	function build_inner_links($links, &$threads) {
 		$inner_links = (array) obj::db()->sql('
 			select board.id, board.thread, board_category.category_id
-			FROM board LEFT JOIN board_category ON 
+			FROM board LEFT JOIN board_category ON
 				board.thread=board_category.thread_id OR
 				board.id=board_category.thread_id
-			WHERE 
-				board.`type`!="deleted" and 
-				board.`type`!="old" and 
+			WHERE
+				board.`type`!="deleted" and
+				board.`type`!="old" and
 				(board.id='.implode(' or board.id=',$links).') and
 				board_category.actual = 1
 		');
@@ -403,11 +403,11 @@ class output__board extends engine
 					'boards' => array()
 				);
 			}
-			
+
 			$this->inner_links[$link['id']]['boards'][] =
 				$this->board_categories[$link['category_id']]['alias'];
 		}
-		
+
 		if (is_array($threads)) {
 			foreach ($threads as $key => $thread) {
 				$threads[$key]['text'] = $this->set_inner_links($thread['text']);

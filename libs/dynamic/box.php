@@ -2,19 +2,23 @@
 
 class dynamic__box
 {
-	function rss() { 	
+	function rss () {
 		return true;
 	}
-	
-	function faq() { 	
+
+	function faq () {
 		return true;
 	}
-	
-	function settings() { 	
+
+	function settings () {
 		return true;
 	}
-	
-	function wakaba() { 	
+
+	function wakaba () {
 		return true;
-	}			
+	}
+
+	function add_personal_menu () {
+		return true;
+	}
 }
