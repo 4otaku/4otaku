@@ -44,7 +44,7 @@ class engine
 			foreach ($conditions as $key => $condition) {
 
 				if (!empty($url[$key])) {
-					if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=:\s]/iu", $url[$key])) {
+					if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=;:\s]/iu", $url[$key])) {
 						$error = true;
 					} elseif ($condition == 'end') {
 						$error = true;
