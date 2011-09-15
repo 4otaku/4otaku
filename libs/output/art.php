@@ -50,19 +50,8 @@ class output__art extends engine
 				$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
 				$this->side_modules['top'] = array();
 
-				$cookie = query::$cookie;
-				$ip = ip2long($_SERVER['REMOTE_ADDR']);
-				$return['art'][0]['rating'] = array();
-
-				$return['art'][0]['rating']['voted'] = obj::db()->sql("select id from art_rating where art_id = $url[2] and (ip = $ip or cookie = '$cookie')",2);
-				$return['art'][0]['rating']['score'] = (int) obj::db()->sql("select SUM(rating) from art_rating where art_id = $url[2]",2);
-
-				$return['art'][0]['packs'] = obj::db()->sql("
-					select * from
-						art_pack as p left join
-						art_in_pack as a on
-						a.pack_id = p.id
-					where a.art_id = $url[2]");
+				$return['art'][0]['rating'] = $this->get_rating($url[2]);
+				$return['art'][0]['packs'] = $this->get_packs($url[2]);
 			}
 			elseif ($url[2] != 'pool' && $url[2] != 'cg_packs' && $url[2] != 'download') {
 				$return['display'] = array('booru_page','navi');
@@ -277,23 +266,24 @@ class output__art extends engine
 		}
 		else $error = true;
 	}
-}
 
-/*
-
-	elseif (substr($url[2],0,3) == 'cg_' && is_numeric(substr($url[2],3))) {
-		if (!$sets['show']['nsfw']) $return['display'] = array('booru_w8m_nsfw','comments');
-		else $return['display'] = array('booru_w8m_art','comments');
-		$return['art'] = obj::db('sub')->sql('select * from w8m_art where id='.substr($url[2],3),1);
-		$return['gallery'] = obj::db('sub')->sql('select * from w8m_galleries where id='.$return['art']['gallery_id'],1);
-		$return['comments'] = $this->get_comments($url[1],$url[2],(is_numeric($url[5]) ? $url[5] : ($url[4] == 'all' ? false : 1)));
-		$return['navi']['curr'] = ($url[4] == 'all' ? 'all' : max(1,$url[5]));
-		$return['navi']['all'] = true;
-		$return['navi']['name'] = "Страница комментариев";
-		$return['navi']['meta'] = $url[2].'/comments/';
-		$return['navi']['start'] = max($return['navi']['curr']-5,2);
-		$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
-		$this->side_modules['top'] = array();
+	public function get_packs ($id) {
+		return obj::db()->sql("
+			select * from
+				art_pack as p left join
+				art_in_pack as a on
+				a.pack_id = p.id
+			where a.art_id = $id");
 	}
 
-*/
+	public function get_rating ($id) {
+		$cookie = query::$cookie;
+		$ip = ip2long($_SERVER['REMOTE_ADDR']);
+
+		$return = array();
+		$return['voted'] = obj::db()->sql("select id from art_rating where art_id = $id and (ip = $ip or cookie = '$cookie')",2);
+		$return['score'] = (int) obj::db()->sql("select SUM(rating) from art_rating where art_id = $id",2);
+
+		return $return;
+	}
+}
