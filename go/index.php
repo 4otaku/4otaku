@@ -1,4 +1,6 @@
 <?
+define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11');
+
 $request = preg_replace('/^\/go\/?(\?|\/index\.php\?)?/i', '', urldecode($_SERVER['REQUEST_URI']));
 
 $test = preg_match_all('/(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?(.*)?$/iD', $request, $matches);
@@ -17,7 +19,8 @@ foreach ($valid as $domain) {
 
 if ($warning) {
 	include_once '../engine/config.php';
-	if (stripos($def['site']['domain'], $_SERVER["HTTP_REFERER"])) {
+
+	if (stripos($_SERVER["HTTP_REFERER"], $def['site']['domain'])) {
 		$warning = false;
 	}
 }
