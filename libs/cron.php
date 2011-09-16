@@ -61,7 +61,7 @@ class cron
 			break;
 
 		}
-		
+
 		if ($return == 'error' && $one['alias'] == '4shared.com') {
 			$fh = fopen("test.txt", 'w');
 			fwrite($fh, $link."\n\n".implode("/n", $tests)."\n\n".$input);
@@ -110,13 +110,13 @@ class cron
 
 	function delete_unneeded_variants () {
 		obj::db()->sql('
-			update `tag` set 
-			`variants` = Replace(`variants`, Concat("|",`name`,"|"), "|") 
+			update `tag` set
+			`variants` = Replace(`variants`, Concat("|",`name`,"|"), "|")
 			WHERE `variants` like binary Concat("%|",`name`,"|%");'
 		);
 		obj::db()->sql(
-			'update `tag` set 
-			`variants` = Replace(`variants`, Concat("|",`alias`,"|"), "|") 
+			'update `tag` set
+			`variants` = Replace(`variants`, Concat("|",`alias`,"|"), "|")
 			WHERE `variants` like binary Concat("%|",`alias`,"|%");'
 		);
 	}
@@ -124,14 +124,14 @@ class cron
 	function check_wiki_tags() {
 		$tags = obj::db('wiki')->sql('select `page_title` from `page` where `page_namespace` = 500');
 		$already_marked = obj::db()->sql('select id, alias from tag where have_description = 1', 'id');
-		
+
 		if (empty($already_marked)) {
 			$already_marked = array();
 		}
 
 		foreach ($tags as $tag) {
 			$tag = current($tag);
-	
+
 			if (!in_array($tag, $already_marked)) {
 				obj::db()->update('tag',array('have_description'),array(1),$tag,'alias');
 			}
@@ -144,18 +144,18 @@ class cron
 		foreach ($logs as $log) {
 			$md5 = md5(implode($log));
 			$text = $log['nickname'].': '.$log['body'];
-			
+
 			$timestamp = round(ltrim($log['logTime'], '0') / 1000);
 			$date = date("Y-m-d", $timestamp);
 			$time = date("H:i:s", $timestamp);
-			
+
 			obj::db()->insert('raw_logs',array($md5, $date, $time, $text));
 		}
 	}
 
 	function create_pack_archive () {
 		$pack_id = obj::db()->sql('select id from art_pack where weight = 0 and cover != "" limit 1',2);
-		
+
 		if (!empty($pack_id)) {
 			$work_dir = ROOT_DIR.SL.'files'.SL.'pack_cache'.SL;
 			$image_dir = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL;
@@ -178,7 +178,7 @@ class cron
 			$weight = filesize($work_dir.$zip_name);
 			obj::db()->update('art_pack', 'weight', $weight, $pack_id);
 		}
-	}	
+	}
 
 	function clean_settings() {
 		obj::db()->sql('DELETE FROM settings WHERE ((data="YTowOnt9" OR data="") AND lastchange < '.(time()-3600).')',0);
@@ -201,7 +201,7 @@ class cron
 	function close_orders() {
 	/*
 		Перед запуском проверить добавление комментария
-	
+
 		$data = obj::db()->sql('select * from misc where type = "close_order" and data1 < '.time());
 		if (!empty($data)) {
 			foreach ($data as $delete) {
@@ -370,22 +370,22 @@ class cron
 */
 		$all = obj::db()->sql('select id, vector from art_similar where vector != ""','id');
 		$arts = obj::db()->sql('select * from art_similar where vector != "" and checked=0 limit 100','id');
-		
+
 		if (is_array($all) && is_array($arts)) {
 			foreach ($all as $compare_id => $vector) {
-				$all[$compare_id] = puzzle_uncompress_cvec(base64_decode($vector));			
+				$all[$compare_id] = puzzle_uncompress_cvec(base64_decode($vector));
 			}
 
-			foreach ($arts as $id => $art) { 
-				$art['vector'] = puzzle_uncompress_cvec(base64_decode($art['vector'])); 
+			foreach ($arts as $id => $art) {
+				$art['vector'] = puzzle_uncompress_cvec(base64_decode($art['vector']));
 				$similar = '|';
-				foreach ($all as $compare_id => $vector) { 
+				foreach ($all as $compare_id => $vector) {
 					if (
 						$id != $compare_id &&
 						puzzle_vector_normalized_distance($art['vector'], $vector) < 0.3
 					) {
 						$similar .= $compare_id.'|';
-					}					
+					}
 				}
 				obj::db()->update('art_similar',array('checked','similar'),array(1,$similar),$id);
 			}
