@@ -8,7 +8,6 @@ $def['db']['host'] = 'localhost';
 $def['db']['user'] = '';
 $def['db']['pass'] = '';
 $def['db']['main_db'] = '';
-$def['db']['sub_db'] = '';
 $def['db']['wiki_db'] = '';
 $def['db']['chat_db'] = '';
 

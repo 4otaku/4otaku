@@ -319,12 +319,7 @@ class output__search extends engine
 				'"';
 		} elseif ($item['place'] == 'art') {
 			$item['title'] = 'Комментарий к изображению';
-			if (is_numeric($item['post_id'])) {
-				$item['preview_picture'] = obj::db()->sql('select thumb from art where id='.$item['post_id'],2);
-			} else {
-				$item['preview_cg'] = obj::db('sub')->sql('select md5, gallery_id from w8m_art where id='.substr($item['post_id'],3),1);
-				$item['preview_cg']['gallery'] = obj::db('sub')->sql('select md5 from w8m_galleries where id='.$item['preview_cg']['gallery_id'],2);
-			}
+			$item['preview_picture'] = obj::db()->sql('select thumb from art where id='.$item['post_id'],2);
 		} else {
 			$item['title'] = 'Комментарий к '.
 				$this->comment_titles($item['place']).' "'.

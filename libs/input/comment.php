@@ -48,8 +48,6 @@ class input__comment extends input__common
 
 			if ($table == 'news') {
 				obj::db()->sql('update news set comment_count=comment_count+1, last_comment='.$time.' where url="'.$item_id.'"',0);
-			} elseif ($table == 'art' && substr($item_id,0,3) == 'cg_') {
-				obj::db('sub')->sql('update w8m_art set comment_count=comment_count+1, last_comment='.$time.' where id='.substr($item_id,3),0);
 			} else {
 				obj::db()->sql('update '.$table.' set comment_count=comment_count+1, last_comment='.$time.' where id='.$item_id,0);
 			}
@@ -80,27 +78,27 @@ class input__comment extends input__common
 		global $check;
 
 		$rights = $check->rights(true);
-		
+
 		if ($rights) {
 			$this->admin_edit();
 			return;
 		}
-		
+
 		$cookie = obj::db()->sql('select cookie from comment where id = '.((int) query::$post['id']),2);
 		if ($cookie == query::$cookie) {
 			$this->user_edit();
 		}
 	}
-	
+
 	protected function admin_edit () {
 		$comment = obj::transform('text')->format(query::$post['text']);
 		if (str_replace('*','',query::$post['mail'])) {
 			obj::db()->update('comment',array('username','email','text','pretty_text'),array(query::$post['author'],query::$post['mail'],$comment,query::$post['text']),query::$post['id']);
 		} else {
 			obj::db()->update('comment',array('username','text','pretty_text'),array(query::$post['author'],$comment,query::$post['text']),query::$post['id']);
-		}		
+		}
 	}
-	
+
 	protected function user_edit () {
 		$comment = obj::transform('text')->format(query::$post['text']);
 		obj::db()->update(
@@ -108,7 +106,7 @@ class input__comment extends input__common
 			array('text','pretty_text','edit_date'),
 			array($comment,query::$post['text'],obj::transform('text')->rudate(true)),
 		query::$post['id']);
-	}	
+	}
 
 	function delete() {
 		global $check; global $url;

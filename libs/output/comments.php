@@ -49,25 +49,21 @@ class output__comments extends engine
 				$def['type'][0] => "id, comment_count, title, image, last_comment",
 				$def['type'][1] => "id, comment_count, title, id as image, last_comment",
 				$def['type'][2] => "id, comment_count, id as title, thumb as image, last_comment",
-//				"w8m_art" => "concat('cg_', id) as id, comment_count, id as title, md5 as image, last_comment, gallery_id",
 				"orders" => "id, comment_count, title, email as image, last_comment",
 				"news" => "url as id, comment_count, title, image, last_comment"
 			);
 			foreach ($return as $one) {
-//				if ($one['place'] == 'art' && substr($one['post_id'],0,3) == 'cg_') $queries["w8m_art"] .= '" or id="'.substr($one['post_id'],3);
 				if ($one['place'] != 'news') $queries[$one['place']] .= '" or id="'.$one['post_id'];
 				else  $queries[$one['place']] .= '" or url="'.$one['post_id'];
 				$comment_query .= ' or (post_id="'.$one['post_id'].'" and place="'.$one['place'].'")';
 			}
 			$return = array();
-			foreach ($queries as $key => $query)
-//				if ($key != "w8m_art") {
-					if ($_comments = obj::db()->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment'))
-						$return = $return + $_comments;
-//				} else {
-//					if ($_comments = obj::db('sub')->sql('select '.$select[$key].', "art" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment'))
-//					$return = $return + $_comments;
-//				}
+			foreach ($queries as $key => $query) {
+				if ($_comments = obj::db()->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment')) {
+					$return = $return + $_comments;
+				}
+			}
+
 			krsort($return);
 			$comments = obj::db()->sql('select * from comment where (('.substr($comment_query,4).') and area != "deleted") order by sortdate');
 			foreach ($return as &$one) {
@@ -84,13 +80,8 @@ class output__comments extends engine
 						$one['title'] = "Видео: ".$one['title'];
 						break;
 					case $def['type'][2]:
-//						if (substr($one['id'],0,3) == 'cg_') {
-//							$one['image'] = 'http://w8m.4otaku.ru/image/'.obj::db('sub')->sql('select md5 from w8m_galleries where id='.$one['gallery_id'],2).'/thumb/'.$one['image'].'.jpg';
-//							$one['title'] = "Game CG №".$one['title'];
-//						} else {
-							$one['image'] = '/images/booru/thumbs/'.$one['image'].'.jpg';
-							$one['title'] = "Изображение №".$one['title'];
-//						}
+						$one['image'] = '/images/booru/thumbs/'.$one['image'].'.jpg';
+						$one['title'] = "Изображение №".$one['title'];
 						break;
 					case "orders":
 						$one['image'] = 'http://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';
