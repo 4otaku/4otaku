@@ -10,7 +10,7 @@ class transform__text extends Transform_Time
 		return str_replace($alfavitupper, $alfavitlover, strtolower($text));
 	}
 
-	function strtoupper_ru($text) {
+	public static function strtoupper_ru($text) {
 		$alfavitlover = array('ё','й','ц','у','к','е','н','г', 'ш','щ','з','х','ъ','ф','ы','в', 'а','п','р','о','л','д','ж','э', 'я','ч','с','м','и','т','ь','б','ю');
 		$alfavitupper = array('Ё','Й','Ц','У','К','Е','Н','Г', 'Ш','Щ','З','Х','Ъ','Ф','Ы','В', 'А','П','Р','О','Л','Д','Ж','Э', 'Я','Ч','С','М','И','Т','Ь','Б','Ю');
 		return str_replace($alfavitlover,$alfavitupper,strtoupper($text));

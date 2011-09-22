@@ -76,6 +76,12 @@ class output__search extends engine
 //			$request = preg_replace('/(\s|^)('.implode('|',$this->minus_words).')\s+(?=[^\s])/uis', ' -', $request);
 			$request = preg_replace('/(\s|^)('.implode('|',$this->cyrillic_stoplist).')\s*/uis', ' ', $request);
 			$terms = $search->parse_text($request);
+
+			if ($search->error == true) {
+				$error = true;
+				return;
+			}
+
 			$pretty_query = $query ? $request : $search->prepare_string(urldecode($url[4]),true);
 
 			if (empty($terms)) $return['display'] = array('search_info','search_error');

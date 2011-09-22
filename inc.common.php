@@ -82,7 +82,10 @@ if (!(_CRON_)) {
 	query::$cookie = (!empty($_COOKIE['settings']) && $check->hash($_COOKIE['settings'])) ? $_COOKIE['settings'] : md5(microtime(true));
 
 	// Пробуем прочитать настройки для хэша
-	$sess = obj::db()->sql('SELECT data, lastchange FROM settings WHERE cookie = "'.query::$cookie.'"', 1);
+	$sess = Database::get_row('settings',
+		array('data', 'lastchange'),
+		'cookie = ?',
+		query::$cookie);
 
         // Проверяем полученные настройки
 	if (isset($sess['data']) && isset($sess['lastchange'])) {
@@ -90,9 +93,12 @@ if (!(_CRON_)) {
 
 		// Обновляем cookie еще на 2 мес у клиента, если она поставлена больше месяца назад
 		if(intval($sess['lastchange']) < (time()-3600*24*30)) {
-			setcookie("settings", query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
+			setcookie('settings', query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
 			// Фиксируем факт обновления в БД
-			obj::db()->sql('UPDATE settings SET lastchange = "'.time().'" WHERE cookie = "'.query::$cookie.'"',0);
+			Database::update('settings',
+				array('lastchange' => time()),
+				'cookie = ?',
+				query::$cookie);
 		}
 
 		// Проверяем валидность настроек и исправляем, если что-то не так
@@ -102,14 +108,21 @@ if (!(_CRON_)) {
 			sets::import($sets);
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)
-			obj::db()->sql('UPDATE settings SET data = "YTowOnt9" WHERE cookie = "'.query::$cookie.'"',0);
+			Database::update('settings',
+				array('data' => 'YTowOnt9'),
+				'cookie = ?',
+				query::$cookie);
 		}
 	} else {
 		// Настроек нет, создаем их
 
-		setcookie("settings", query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
+		setcookie('settings', query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
 		// Вносим в БД сессию с дефолтными настройками
-		obj::db()->sql('INSERT INTO settings (cookie, data, lastchange) VALUES ("'.query::$cookie.'", "YTowOnt9", "'.time().'")',0);
+		Database::insert('settings', array(
+			'cookie' => query::$cookie,
+			'data' => 'YTowOnt9',
+			'lastchange' => time()
+		));
 	}
 }
 
