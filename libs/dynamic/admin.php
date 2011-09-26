@@ -2,70 +2,98 @@
 
 class dynamic__admin extends engine
 {
-	function delete_tag() {
-		global $check;
-		$check->rights();
-		obj::db()->sql('delete from tag where id='.query::$get['id'],0);
-		obj::db()->sql('update post set tag = replace(tag,"|'.query::$get['old_alias'].'|","|")',0);
-		obj::db()->sql('update video set tag = replace(tag,"|'.query::$get['old_alias'].'|","|")',0);
-		obj::db()->sql('update art set tag = replace(tag,"|'.query::$get['old_alias'].'|","|")',0);			
+	public function __construct() {
+		// Thou shall not pass
+		Check::rights();
 	}
-	
-	function color_tag() {
-		global $check;
-		$check->rights();
-		obj::db()->update('tag','color',query::$get['color'],urldecode(query::$get['tag']),'name');
+
+	public function delete_tag () {
+		Database::delete('tag', query::$get['id']);
+
+		Database::sql('update post set tag = replace (tag, ?, "|")',
+			'|'.query::$get['old_alias'].'|');
+
+		Database::sql('update video set tag = replace (tag, ?, "|")',
+			'|'.query::$get['old_alias'].'|');
+
+		Database::sql('update art set tag = replace (tag, ?, "|")',
+			'|'.query::$get['old_alias'].'|');
+	}
+
+	public function color_tag() {
+		Database::update('tag',
+			array('color' => query::$get['color']),
+			'name = ?',
+			urldecode(query::$get['tag'])
+		);
+
 		$this->delete_color_tag();
 	}
-		 
-	function delete_color_tag() {
-		global $check;
-		$check->rights();
-		obj::db()->sql('delete from misc where id='.query::$get['id'],0);		
-	}	
-	
-	function dinamic_tag() {
-		global $check;
-		$check->rights();
-		$return['current'] = max(1, query::$get['current']);
-		list($return['tags'], $return['page_count']) = output__admin::search_tags(query::$get['query'],$return['current'],10);
+
+	public function delete_color_tag() {
+		Database::delete('misc', query::$get['id']);
+	}
+
+	public function dinamic_tag() {
+		$return = array('current' => max(1, query::$get['current']));
+		list($return['tags'], $return['page_count']) =
+			output__admin::search_tags(query::$get['query'],$return['current'],10);
 		return $return;
 	}
-	
-	function merge_tag() {
-		global $check;
-		$check->rights();
-		
+
+	public function merge_tag() {
+
 		if (query::$get['master'] != query::$get['slave']) {
-			$master = obj::db()->sql('select * from tag where id='.query::$get['master'],1);
-			$slave = obj::db()->sql('select * from tag where id='.query::$get['slave'],1);
-			
-			$old_count = $master['post_main'] + $master['post_flea_market'] + $master['video_main'] + $master['video_flea_market'] + $master['art_main'] + $master['art_flea_market'];
-			
-			obj::db()->sql('update post set tag = if (tag like "%|'.$master['alias'].'|%", replace(tag,"|'.$slave['alias'].'|","|"), replace(tag,"|'.$slave['alias'].'|","|'.$master['alias'].'|"))',0);
-			obj::db()->sql('update video set tag = if (tag like "%|'.$master['alias'].'|%", replace(tag,"|'.$slave['alias'].'|","|"), replace(tag,"|'.$slave['alias'].'|","|'.$master['alias'].'|"))',0);
-			obj::db()->sql('update art set tag = if (tag like "%|'.$master['alias'].'|%", replace(tag,"|'.$slave['alias'].'|","|"), replace(tag,"|'.$slave['alias'].'|","|'.$master['alias'].'|"))',0);
-			
-			$variants = explode('|',$master['variants'].$slave['variants']);
-			if ($slave['name'] != $master['name']) $variants[] = $slave['name'];		
-			
+			$master = Database::get_full_row('tag', query::$get['master']);
+			$slave = Database::get_full_row('tag', query::$get['slave']);
+
+			$old_count = $master['post_main'] +
+				$master['post_flea_market'] +
+				$master['video_main'] +
+				$master['video_flea_market'] +
+				$master['art_main'] +
+				$master['art_flea_market'];
+
+			$params = array(
+				'%|'.$master['alias'].'|%',
+				'|'.$slave['alias'].'|',
+				'|'.$slave['alias'].'|',
+				'|'.$master['alias'].'|',
+			);
+
+			Database::sql('update post set tag = if (tag like ?,
+				replace(tag, ?, "|"), replace(tag, ?, ?))', $params);
+			Database::sql('update video set tag = if (tag like ?,
+				replace(tag, ?, "|"), replace(tag, ?, ?))', $params);
+			Database::sql('update art set tag = if (tag like ?,
+				replace(tag, ?, "|"), replace(tag, ?, ?))', $params);
+
+			$variants = explode('|', $master['variants'].$slave['variants']);
+			if ($slave['name'] != $master['name']) {
+				$variants[] = $slave['name'];
+			}
+
+			$params_main = array('|'.$master['alias'].'|', 'main');
+			$params_flea = array('|'.$master['alias'].'|', 'flea_market');
+
 			$update = array(
-				'post_main' => obj::db()->sql('select count(*) from post where locate("|'.$master['alias'].'|",tag) and area="main"',2),
-				'post_flea_market' => obj::db()->sql('select count(*) from post where locate("|'.$master['alias'].'|",tag) and area="flea_market"',2),
-				'video_main' => obj::db()->sql('select count(*) from video where locate("|'.$master['alias'].'|",tag) and area="main"',2),
-				'video_flea_market' => obj::db()->sql('select count(*) from video where locate("|'.$master['alias'].'|",tag) and area="flea_market"',2),
-				'art_main' => obj::db()->sql('select count(*) from art where locate("|'.$master['alias'].'|",tag) and area="main"',2),
-				'art_flea_market' => obj::db()->sql('select count(*) from art where locate("|'.$master['alias'].'|",tag) and area="flea_market"',2),
+				'post_main' => Database::get_count('post', 'locate(?, tag) and area = ?', $params_main),
+				'post_flea_market' => Database::get_count('post', 'locate(?, tag) and area = ?', $params_flea),
+				'video_main' => Database::get_count('video', 'locate(?, tag) and area = ?', $params_main),
+				'video_flea_market' => Database::get_count('video', 'locate(?, tag) and area = ?', $params_flea),
+				'art_main' => Database::get_count('art', 'locate(?, tag) and area = ?', $params_main),
+				'art_flea_market' => Database::get_count('art', 'locate(?, tag) and area = ?', $params_flea),
 				'variants' => '|'.implode('|',array_unique(array_filter($variants))).'|',
 				'color' => empty($master['color']) ? $slave['color'] : $master['color']
 			);
-			
-			obj::db()->update('tag',array_keys($update),array_values($update),query::$get['master']);
-			obj::db()->sql('delete from tag where id='.query::$get['slave'],0);
-			
+
+			Database::update('tag', $update, query::$get['master']);
+			Database::delete('tag', query::$get['slave']);
+
 			$add_count = array_sum(array_slice($update,0,6)) - $old_count;
-			
-			engine::add_res("Тег {$slave['name']} успешно влит в {$master['name']}. Счет {$master['name']} подрос на $add_count нахождений.", false, true);
+
+			engine::add_res("Тег {$slave['name']} успешно влит в {$master['name']}. ".
+				"Счет {$master['name']} подрос на $add_count нахождений.", false, true);
 		}
 	}
 }

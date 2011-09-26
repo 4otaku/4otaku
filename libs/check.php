@@ -42,11 +42,14 @@ class Check
 	}
 
 	public static function rights($soft = false) {
-		global $sets;
-		if (!$sets['user']['rights']) {
-			if ($soft) return false;
-			die;
+		if (sets::user('rights')) {
+			return true;
 		}
-		return true;
+
+		if ($soft) {
+			return false;
+		}
+
+		die;
 	}
 }
