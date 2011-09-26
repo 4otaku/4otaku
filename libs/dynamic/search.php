@@ -5,7 +5,7 @@ class dynamic__search
 	private $areas = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comment', 'o' => 'orders');
 
 	function searchtip() {
-		 global $check; global $search;
+		global $check; global $search;
 		if (!$search) $search = new search();
 		$query = $search->prepare_string(urldecode(query::$get['data']),true);
 		if (!empty($query)) {
