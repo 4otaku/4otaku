@@ -59,14 +59,16 @@ class Database_Instance extends Database_Abstract
 	}
 
 	protected function get_common($table, $values = "*", $condition = false, $params = false) {
-		if (is_array($values)) {
-			foreach ($values as &$value) {
-				if (!strpos($value, "`")) {
-					$value = "`$value`";
-				}
-			}
-			$values = implode(",", $values);
+		if (!is_array($values)) {
+			$values = preg_split('/\s*,\s*/', $values);
 		}
+
+		foreach ($values as &$value) {
+			if (!strpos($value, "`")) {
+				$value = "`$value`";
+			}
+		}
+		$values = implode(",", $values);
 
 		$query = "SELECT ";
 		if ($this->counter_lock) {
@@ -95,6 +97,9 @@ class Database_Instance extends Database_Abstract
 
 	public function get_vector($table, $values = "*", $condition = false, $params = false, $unset = true) {
 		if (is_array($values)) {
+			$key = reset($values);
+		} elseif (strpos($values, ',')) {
+			$values = preg_split('/\s*,\s*/', $values);
 			$key = reset($values);
 		} else {
 			$key = "id";

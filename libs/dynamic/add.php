@@ -1,70 +1,79 @@
-<? 
+<?
 class dynamic__add
 {
-	function art() {
-		global $sets;
-		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
-		$return['category'] = obj::db()->sql('select alias, name from category where locate("|art|",area) order by id','alias');
-		return $return;
-	}	
-	
-	function video() {
-		global $sets;
-		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
-		$return['category'] = obj::db()->sql('select alias, name from category where locate("|video|",area) order by id','alias');
-		return $return;
+	protected function get_categories($area) {
+		return Database::get_vector('category',
+			'alias, name',
+			'locate(?, area) order by id',
+			'|'.$area.'|');
 	}
-	
-	function post() {
-		global $sets;
-		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
-		$return['category'] = obj::db()->sql('select alias, name from category where locate("|post|",area) order by id','alias');
-		$return['language'] = obj::db()->sql('select alias, name from language order by id','alias');
-		return $return;
-	}		
-	
-	function board() {
-		$return['category'] = obj::db()->sql('select alias, name from category where locate("|board|",area) order by id','alias');
-		return $return;
+
+	protected function get_languages() {
+		return Database::get_vector('language',
+			'alias, name',
+			'1 order by id');
 	}
-	
-	function order() {
-		global $sets;
-		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);
-		$return['category'] = obj::db()->sql('select alias, name from category where locate("|post|",area) order by id','alias');
-		return $return;
+
+	public function art() {
+		return array('category' => $this->get_categories('art'));
 	}
-	
-	function replay() {
-		return true;
-	}	
-	
-	function soku() {
-		return true;
-	}					
 
-	function comment() {
-		global $sets;
-		$sets['user']['name'] = preg_replace('/#.*$/','',$sets['user']['name']);	
-		return true;
-	}	
+	public function video() {
+		return array('category' => $this->get_categories('video'));
+	}
 
-	function pool() {
-		return true;
-	}	
+	public function post() {
+		return array(
+			'category' => $this->get_categories('post'),
+			'language' => $this->get_languages()
+		);
+	}
 
-	function update() {
-		 global $check;
-		if ($check->num(query::$get['id'])) {
-			$links = obj::db()->sql('select link from post where id='.query::$get['id'],2);
-		}		
+	public function board() {
+		return array('category' => $this->get_categories('board'));
+	}
+
+	public function order() {
+		return array('category' => $this->get_categories('post'));
+	}
+
+	public function replay() {
+		return true;
+	}
+
+	public function soku() {
+		return true;
+	}
+
+	public function comment() {
+		return true;
+	}
+
+	public function pool() {
+		return true;
+	}
+
+	public function update() {
+
+		if (!Check::num(query::$get['id'])) {
+			return array();
+		}
+
+		$links = Database::get_field('post', 'link', query::$get['id']);
 		return unserialize($links);
 	}
-	
-	function checkpassword() {
-		 global $check;
-		if (!$check->num(query::$get['id'])) echo 'fail';
-		elseif (obj::db()->sql('select password from art_pool where id='.query::$get['id'],2) == md5(query::$get['val'])) echo 'success';
-		else echo 'fail';
+
+	public function checkpassword() {
+		if (Check::num(query::$get['id'])) {
+
+			$pass = Database::get_field('art_pool', 'password', query::$get['id']);
+			if ($pass == md5(query::$get['val'])) {
+
+				echo 'success';
+				return;
+			}
+		}
+
+		echo 'fail';
 	}
 }
