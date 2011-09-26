@@ -64,7 +64,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		foreach ($values as &$value) {
-			if (!strpos($value, "`")) {
+			if ($value !== "*" && !strpos($value, "`")) {
 				$value = "`$value`";
 			}
 		}
