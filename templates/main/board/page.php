@@ -11,22 +11,22 @@ if (!empty($data['main']['threads'])) {
 						Читать
 					</a>
 					Пропущено:
-					<?=$thread['skipped']['posts'];?>
-					<?=obj::transform('text')->wcase($thread['skipped']['posts'],'ответ','ответа','ответов');?>
+					 <?=$thread['skipped']['posts'];?>
+					 <?=obj::transform('text')->wcase($thread['skipped']['posts'],'ответ','ответа','ответов');?>
 					<? if (!empty($thread['skipped']['images'])) { ?>
 						,
-						<?=$thread['skipped']['images'];?>
-						<?=obj::transform('text')->wcase($thread['skipped']['images'],'картинка','картинки','картинок');?>
+						 <?=$thread['skipped']['images'];?>
+						 <?=obj::transform('text')->wcase($thread['skipped']['images'],'картинка','картинки','картинок');?>
 					<? } ?>
 					<? if (!empty($thread['skipped']['flash'])) { ?>
 						,
-						<?=$thread['skipped']['flash'];?>
-						<?=obj::transform('text')->wcase($thread['skipped']['flash'],'флешка','флешки','флешек');?>
+						 <?=$thread['skipped']['flash'];?>
+						 <?=obj::transform('text')->wcase($thread['skipped']['flash'],'флешка','флешки','флешек');?>
 					<? } ?>
 					<? if (!empty($thread['skipped']['video'])) { ?>
 						,
-						<?=$thread['skipped']['video'];?>
-						видео
+						 <?=$thread['skipped']['video'];?>
+						 видео
 					<? } ?>
 				</div>
 			<? } ?>
