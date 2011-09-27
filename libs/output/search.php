@@ -328,7 +328,7 @@ class output__search extends engine
 			$item['preview_picture'] = obj::db()->sql('select thumb from art where id='.$item['post_id'],2);
 		} else {
 			$item['title'] = 'Комментарий к '.
-				$this->comment_titles($item['place']).' "'.
+				$this->comment_titles[$item['place']].' "'.
 				obj::db()->sql('select title from '.$item['place'].' where id='.$item['post_id'],2).
 				'"';
 		}

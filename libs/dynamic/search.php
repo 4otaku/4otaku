@@ -2,59 +2,127 @@
 
 class dynamic__search
 {
-	private $areas = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'n' => 'news', 'c' => 'comment', 'o' => 'orders');
+	private $_areas = array(
+		'p' => 'post',
+		'v' => 'video',
+		'a' => 'art',
+		'n' => 'news',
+		'c' => 'comment',
+		'o' => 'orders');
 
-	function searchtip() {
-		global $check; global $search;
-		if (!$search) $search = new search();
-		$query = $search->prepare_string(urldecode(query::$get['data']),true);
-		if (!empty($query)) {
+	private $_meta_tips = array('post', 'video', 'art');
 
-			if (!in_array(query::$get['area'],$this->areas)) {
-				$area = str_split(query::$get['area']);
-				foreach ($area as &$one) $one = $this->areas[$one];
-				$area = array_filter($area);
-				unset($one);
-			}
-			else $area = array(query::$get['area']);
+	function searchtip () {
 
-			$order = implode('+',$area);
-			$where = 'and ('.implode('>0 or ',$area).'> 0)';
+		$search = obj::get('search');
 
-			$variants[] = obj::db()->sql('select id, query, query as alias, "search" as type from search_queries where (Left(query , '.mb_strlen($query).') = "'.$query.'" '.$where.') order by '.$order.' desc limit 10','id');
+		$data = urldecode(query::$get['data']);
+		$query = $search->prepare_string($data, true);
 
-			if (query::$get['area'] == 'a' || query::$get['area'] == 'p' || query::$get['area'] == 'v') {
-				switch (query::$get['area']) {
-					case 'a': $area = "art"; break;
-					case 'p': $area = "post"; break;
-					case 'v': $area = "video"; break;
-					default: break;
-				}
-				$variants[] = obj::db()->sql('select id, alias, name as query, "tag" as type from tag where ((Left(alias , '.mb_strlen($query).') = "'.$query.'" or Left(name, '.mb_strlen($query).') = "'.$query.'" or locate("|'.$query.'",tag.variants)) and '.$area.'_main > 0) order by '.$area.'_main desc limit 2','id');
-				$variants[] = obj::db()->sql('select id, alias, name as query, "category" as type from category where ((Left(alias , '.mb_strlen($query).') = "'.$query.'" or Left(name, '.mb_strlen($query).') = "'.$query.'") and locate("|'.$area.'|",category.area)) limit 2','id');
-				$variants[] = obj::db()->sql('select id, alias, name as query, "language" as type from language where (Left(alias , '.mb_strlen($query).') = "'.$query.'" or Left(name, '.mb_strlen($query).') = "'.$query.'") limit 2','id');
-//				$variants[] = obj::db()->sql('select id, alias, name as query, "author" as type from author where (Left(alias , '.mb_strlen($query).') = "'.$query.'" or Left(name, '.mb_strlen($query).') = "'.$query.'") limit 2','id');
-			}
+		if (empty($query)) {
+			return;
+		}
 
-			$return = array();
-			foreach ($variants as $one)
-				if (!empty($one))
-					$return = array_merge($return,$one);
-			if (!empty($return)) {
-				shuffle($return);
-				$return = array_slice($return,0,10);
-				foreach ($return as &$one) {
-					switch ($one['type']) {
-						case 'tag': $one['query'] = "Тег: ".$one['query']; break;
-						case 'category': $one['query'] = "Категория: ".$one['query']; break;
-						case 'language': $one['query'] = "Язык: ".$one['query']; break;
-						case 'author': $one['query'] = "Автор: ".$one['query']; break;
-						default: break;
+		$area = $this->parse_area(query::$get['area']);
+
+		$order = implode('+', $area);
+		$where = 'and ('.implode('>0 or ',$area).'> 0)';
+
+		$queries = Database::get_vector('search_queries',
+			'id, query',
+			'(Left(query, ?) = ? '.$where.') order by '.$order.' desc limit 10',
+			array(mb_strlen($query), $query));
+
+		$return = array();
+		foreach ($queries as $one) {
+			$return[] = array('query' => $one,
+				'alias' => $one,
+				'type' => 'search');
+		}
+
+		if (count($area) == 1) {
+			$single = reset($area);
+			if (in_array($single, $this->_meta_tips)) {
+
+				$meta = array();
+
+				$field = $single.'_main';
+				$params = array(mb_strlen($query), $query,
+					mb_strlen($query), $query, '|'.$query);
+				$meta['tag'] = Database::get_vector('tag',
+					'`id`, `alias`, `name` as query',
+						'(Left(alias , ?) = ? or Left(name, ?) = ? or
+						locate(?, tag.variants)) and '.$field.' > 0
+						order by '.$field.' desc limit 2',
+					$params
+				);
+
+				$params = array(mb_strlen($query), $query,
+					mb_strlen($query), $query, '|'.$single.'|');
+				$meta['category'] = Database::get_vector('category',
+					'`id`, `alias`, `name` as query',
+						'(Left(alias , ?) = ? or Left(name, ?) = ?)
+						 and locate(?, category.area) limit 2',
+					$params
+				);
+
+				$params = array(mb_strlen($query), $query,
+					mb_strlen($query), $query);
+				$meta['language'] = Database::get_vector('language',
+					'`id`, `alias`, `name` as query',
+					'Left(alias , ?) = ? or Left(name, ?) = ? limit 2',
+					$params
+				);
+
+				foreach ($meta as $key => $one) {
+					foreach ((array) $one as $variant) {
+						$variant['type'] = $key;
+						$return[] = $variant;
 					}
-					if ($one['type'] != 'search') $one['alias'] = '/'.$area.'/'.$one['type'].'/'.$one['alias'].'/';
 				}
-				return $return;
 			}
 		}
+
+		shuffle($return);
+		$return = array_slice($return,0,10);
+
+		foreach ($return as &$one) {
+
+			switch ($one['type']) {
+				case 'tag':
+					$one['query'] = "Тег: ".$one['query'];
+					break;
+				case 'category':
+					$one['query'] = "Категория: ".$one['query'];
+					break;
+				case 'language':
+					$one['query'] = "Язык: ".$one['query'];
+					break;
+				default: break;
+			}
+
+			if ($one['type'] != 'search') {
+				$one['alias'] = '/'.$single.'/'.$one['type'].'/'.$one['alias'].'/';
+			}
+		}
+
+		return $return;
+	}
+
+	protected function parse_area ($area) {
+		if (!in_array($area, $this->_areas)) {
+			$area = str_split($area);
+
+			$return = array();
+			foreach ($area as $one) {
+				if (isset($this->_areas[$one])) {
+					$return[] = $this->_areas[$one];
+				}
+			}
+
+			return array_unique($return);
+		}
+
+		return array($area);
 	}
 }
