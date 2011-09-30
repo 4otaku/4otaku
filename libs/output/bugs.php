@@ -1,5 +1,5 @@
 <?
-include_once('engine'.SL.'engine.php');
+
 class output__bugs extends engine
 {
 
@@ -178,6 +178,7 @@ class output__bugs extends engine
 		$issue['created_at'] = trim(str_replace(array('T','Z'), ' ', $issue['created_at']));
 		$d_short = explode(" ", $issue['created_at']);
 		$d_short = $d_short[0];
+		$issue['body'] = nl2br($issue['body']);
 		$resp = "
 						<h2><span>Баг #{$issue['number']}:</span> {$issue['title']}</h2>
 						<p class='info'>
@@ -187,7 +188,7 @@ class output__bugs extends engine
 							<span class='labels'>{$labels}</span>
 						</p>
 						<div class='content'>
-							{$issue['body_html']}
+							{$issue['body']}
 						</div>
 						<h3 id='comments'>Комментарии:</h3>
 				";
