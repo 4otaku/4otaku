@@ -24,7 +24,7 @@ class transform__meta
 		'special' => '0000FF',
 		'служебный'	=> '0000FF',
 	);
-	
+
 	function parse($items, $default = 'Проставьте_теги', $separators = ', ') {
 		global $sets;
 		if (!$items = trim($items,$separators)) return array($default);
@@ -33,12 +33,13 @@ class transform__meta
 			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
 				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
-				if (!$color || !$sets['user']['rights']) obj::db()->insert('misc',array('tag_type',$tags[$key],substr($type[0],4,-4),$color,'',''));
-				elseif ($color) $this->colors[$tags[$key]] = $color;
+				if (!empty($color)) {
+					$this->colors[$tags[$key]] = $color;
+				}
 			}
 		return $tags;
 	}
-	
+
 	function erase_tags($erase, $erasearea){
 		foreach ($erase as $one)
 			obj::db()->sql('update tag set '.$erasearea.' = '.$erasearea.' - 1 where alias="'.$one.'"',0);
@@ -51,7 +52,7 @@ class transform__meta
 				if ($this->colors[$tag]) obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
 				$tags[$key] = $check;
 			} else {
-				$alias = $this->make_alias($tag); 
+				$alias = $this->make_alias($tag);
 				obj::db()->insert('tag',array($alias,$tag,'|',$this->colors[$tag],0,0,0,0,0,0,0,0));
 				if ($update) obj::db()->update('tag',$update,1,$alias,'alias');
 				$tags[$key] = $alias;
@@ -59,15 +60,15 @@ class transform__meta
 		}
 		return '|'.implode('|',$tags).'|';
 	}
-	
+
 	function category($categories) {
-		foreach ($categories as &$category) 
+		foreach ($categories as &$category)
 			$category = obj::db()->sql('select alias from category where name = "'.$category.'" or alias="'.$category.'"',2);
 		return '|'.implode('|',array_filter(array_unique($categories))).'|';
 	}
-	
+
 	function language($languages) {
-		foreach ($languages as &$language) 
+		foreach ($languages as &$language)
 			$language = obj::db()->sql('select alias from language where name = "'.$language.'" or alias="'.$language.'"',2);
 		return '|'.implode('|',array_filter(array_unique($languages))).'|';
 	}
@@ -75,25 +76,25 @@ class transform__meta
 	function author($authors){
 		foreach ($authors as &$author) {
 			$author = preg_replace('/#.*$/','',$author);
-			if ($check = obj::db()->sql('select alias from author where name = "'.$author.'" or alias="'.$author.'"',2)) 
+			if ($check = obj::db()->sql('select alias from author where name = "'.$author.'" or alias="'.$author.'"',2))
 				$author = $check;
 			else {
-				$alias = $this->make_alias($author); 
+				$alias = $this->make_alias($author);
 				obj::db()->insert('author',array($alias,$author));
 				$author = $alias;
 			}
 		}
 		return '|'.implode('|',$authors).'|';
 	}
-	
+
 	function make_alias($word) {
 		$word = strtolower($this->jap2lat($this->ru2lat(undo_safety($word))));
 		$word = str_replace(' ','_',$word);
 		return preg_replace('/[^a-z_\d]/eui','urlencode("$0")',$word);
 	}
-	
+
 	/* Не трогаем - тут какая-то аццкая хрень с пробелами, работает только так */
-	
+
 	function jap2lat($st) {
 		$k2r = array('/きゃ/' => 'kya', '/きゅ/' => 'kyu', '/きょ/' => 'kyo', '/
 しゃ/' => 'sha', '/しゅ/' => 'shu', '/しょ/' => 'sho', '/ちゃ/' =>
@@ -125,17 +126,17 @@ class transform__meta
 		return preg_replace(array_keys($k2r), array_values($k2r), $st);
 		return $st;
 	}
-	
+
 	function ru2lat($st) {
-		static $tbl= array('а'=>'a', 'б'=>'b', 'в'=>'v', 'г'=>'g', 'д'=>'d', 'е'=>'e', 
-			'ж'=>'g', 'з'=>'z', 'и'=>'i', 'й'=>'y', 'к'=>'k', 'л'=>'l', 'м'=>'m', 'н'=>'n', 
-			'о'=>'o', 'п'=>'p', 'р'=>'r', 'с'=>'s', 'т'=>'t', 'у'=>'u', 'ф'=>'f', 'ы'=>'i', 
-			'э'=>'e', 'А'=>'A', 'Б'=>'B', 'В'=>'V', 'Г'=>'G', 'Д'=>'D', 'Е'=>'E', 'Ж'=>'G', 
-			'З'=>'Z', 'И'=>'I', 'Й'=>'Y', 'К'=>'K', 'Л'=>'L', 'М'=>'M', 'Н'=>'N', 'О'=>'O', 
-			'П'=>'P', 'Р'=>'R', 'С'=>'S', 'Т'=>'T', 'У'=>'U', 'Ф'=>'F', 'Ы'=>'I', 'Э'=>'E', 
-			'ё'=>"yo", 'х'=>"h", 'ц'=>"ts", 'ч'=>"ch", 'ш'=>"sh", 'щ'=>"shch", 'ъ'=>"", 'ь'=>"", 
-			'ю'=>"yu", 'я'=>"ya", 'Ё'=>"YO", 'Х'=>"H", 'Ц'=>"TS", 'Ч'=>"CH", 'Ш'=>"SH", 'Щ'=>"SHCH", 
-			'Ъ'=>"", 'Ь'=>"", 'Ю'=>"YU", 'Я'=>"YA" ); 
+		static $tbl= array('а'=>'a', 'б'=>'b', 'в'=>'v', 'г'=>'g', 'д'=>'d', 'е'=>'e',
+			'ж'=>'g', 'з'=>'z', 'и'=>'i', 'й'=>'y', 'к'=>'k', 'л'=>'l', 'м'=>'m', 'н'=>'n',
+			'о'=>'o', 'п'=>'p', 'р'=>'r', 'с'=>'s', 'т'=>'t', 'у'=>'u', 'ф'=>'f', 'ы'=>'i',
+			'э'=>'e', 'А'=>'A', 'Б'=>'B', 'В'=>'V', 'Г'=>'G', 'Д'=>'D', 'Е'=>'E', 'Ж'=>'G',
+			'З'=>'Z', 'И'=>'I', 'Й'=>'Y', 'К'=>'K', 'Л'=>'L', 'М'=>'M', 'Н'=>'N', 'О'=>'O',
+			'П'=>'P', 'Р'=>'R', 'С'=>'S', 'Т'=>'T', 'У'=>'U', 'Ф'=>'F', 'Ы'=>'I', 'Э'=>'E',
+			'ё'=>"yo", 'х'=>"h", 'ц'=>"ts", 'ч'=>"ch", 'ш'=>"sh", 'щ'=>"shch", 'ъ'=>"", 'ь'=>"",
+			'ю'=>"yu", 'я'=>"ya", 'Ё'=>"YO", 'Х'=>"H", 'Ц'=>"TS", 'Ч'=>"CH", 'Ш'=>"SH", 'Щ'=>"SHCH",
+			'Ъ'=>"", 'Ь'=>"", 'Ю'=>"YU", 'Я'=>"YA" );
 		return strtr($st, $tbl);
 	}
 }

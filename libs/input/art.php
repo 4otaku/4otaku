@@ -5,7 +5,7 @@ class input__art extends input__common
 	function add() {
 		global $check; global $def; global $url; global $sets; global $cookie;
 		if (!$cookie) $cookie = new dynamic__cookie();
-		
+
 		if (is_array(query::$post['images'])) {
 			if ($url[2] == 'pool' && is_numeric($url[3])) $data = obj::db()->sql('select concat(id,"|") as pool, password from art_pool where id='.$url[3],1);
 			if (!$data['password'] || $data['password'] == md5(query::$post['password'])) {
@@ -13,9 +13,9 @@ class input__art extends input__common
 				$category = obj::transform('meta')->category(query::$post['category']);
 				$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
 //				query::$post['images'] = array_reverse(query::$post['images']);
-				
+
 				$similar = array();
-				
+
 				if (!empty(query::$post['dublicates'])) {
 					foreach (query::$post['images'] as $image_key => $image) {
 						if (query::$post['dublicates'] != $image_key + 1) {
@@ -26,14 +26,14 @@ class input__art extends input__common
 						}
 					}
 				}
-				
+
 				foreach (query::$post['images'] as $image) {
 					$name = explode('#',$image);
 					$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
 					if (
 						$name[0] && $name[1] && $name[2] &&
 						!obj::db()->sql('select id from art where md5="'.$name[0].'"',2)
-					) {						
+					) {
 						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],(int) $name[4],$author,$category,$tags,"|".$data['pool'],0,"",
 												query::$post['source'],0,0,obj::transform('text')->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 						obj::db()->insert('versions',array('art',$id = obj::db()->sql('select @@identity from art',2),
@@ -50,17 +50,17 @@ class input__art extends input__common
 						$i++;
 					}
 				}
-				
+
 				if (!empty($similar)) {
 					if (!$id) $id = obj::db()->sql('select @@identity from art',2);
 					$order_next = 0;
 					foreach ($similar as $variant) {
-						$insert = array($id, $variant[0], 
-							$variant[1], $variant[2], 
+						$insert = array($id, $variant[0],
+							$variant[1], $variant[2],
 							!empty($variant[3]), $order_next++, $variant[4]);
-							
-						obj::db()->insert('art_variation', $insert);	
-					}					
+
+						obj::db()->insert('art_variation', $insert);
+					}
 				}
 
 				if (!empty(query::$post['transfer_to']) && $sets['user']['rights']) {
@@ -106,7 +106,7 @@ class input__art extends input__common
 			$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
 			obj::db()->update('art',array('md5','thumb','extension','resized','animated'),$name,query::$post['id']);
 			obj::db()->update('art_similar',array('checked','similar'),array(0,'|'),query::$post['id']);
-		}		
+		}
 	}
 
 	function edit_art_source() {
@@ -159,41 +159,41 @@ class input__art extends input__common
 			obj::db()->sql('update art set translator="'.query::$post['author'].'" where id='.query::$post['id'].' and translator=""',0);
 		}
 	}
-	
+
 	function edit_art_variation() {
 		global $def; global $check;
-		
+
 		if ($check->rights()) {
 			preg_match('/(?:^|\/)(\d+)(?:\/|#|$)/', query::$post['from'], $from);
-			
+
 			$from = (int) $from[1];
 			$to = (int) query::$post['to'];
-			
+
 			if ($from && $to) {
 				$admin = new input__admin();
 				$admin->make_similar($from, $to);
 			}
 		}
-	}	
-	
+	}
+
 	function edit_art_variation_list() {
 		global $check;
-		
+
 		$id = (int) query::$post['id'];
-		
+
 		if ($check->rights() && $id) {
-			
+
 			$main_image = array_shift(query::$post['images']);
 			if (empty($main_image)) {
 				return;
 			}
-			
+
 			$main_image = explode('#', $main_image);
 			if ($main_image[3] === '1') {
 				$path = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$main_image[0].'.'.$main_image[2];
 				$sizes = getimagesize($path);
-				$weight = filesize($path);						
-			
+				$weight = filesize($path);
+
 				if ($weight > 1024*1024) {
 					$weight = round($weight/(1024*1024),1).' мб';
 				} elseif ($weight > 1024) {
@@ -203,7 +203,7 @@ class input__art extends input__common
 				}
 				$main_image[3] = "$sizes[0]x$sizes[1]px; $weight";
 			}
-			
+
 			$update = array(
 				'md5' => $main_image[0],
 				'thumb' => $main_image[1],
@@ -211,20 +211,20 @@ class input__art extends input__common
 				'resized' => $main_image[3],
 				'animated' => $main_image[4],
 			);
-			
+
 			obj::db()->update('art',array_keys($update),array_values($update),$id);
-			
+
 			obj::db()->sql('delete from art_variation where art_id='.$id,0);
 			$order_next = 0;
 			foreach (query::$post['images'] as $image) {
 				$image = explode('#', $image);
-				$insert = array($id, $image[0], 
-					$image[1], $image[2], 
+				$insert = array($id, $image[0],
+					$image[1], $image[2],
 					!empty($image[3]), $order_next++, $image[4]);
-					
+
 				obj::db()->insert('art_variation', $insert);
 			}
-		}		
+		}
 	}
 
 }

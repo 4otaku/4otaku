@@ -78,6 +78,14 @@ class Database
 		return self::db()->delete($table, $condition, $params);
 	}
 
+	public function set_order ($field, $type = 'desc') {
+		return self::db()->set_order($field, $type);
+	}
+
+	public function set_limit ($limit, $limit_from = false) {
+		return self::db()->set_limit($limit, $limit_from);
+	}
+
 	public static function last_id () {
 		return self::db()->last_id();
 	}

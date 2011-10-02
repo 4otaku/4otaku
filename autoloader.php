@@ -150,7 +150,10 @@ class Autoload
 	}
 }
 
-Autoload::init(ROOT_DIR.SL.'libs');
+Autoload::init(array(
+	ROOT_DIR.SL.'libs',
+	ENGINE.SL.'external',
+));
 
 function autoload_old ($class_name) {
 	$class = ROOT_DIR.SL.'libs'.SL.str_replace('__',SL,$class_name).'.php';

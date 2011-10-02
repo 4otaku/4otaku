@@ -9,9 +9,14 @@ class Database_Instance extends Database_Abstract
 	protected $counter_lock = false;
 	protected $counter_query = "SELECT FOUND_ROWS()";
 
+	protected $order = false;
+	protected $order_type = false;
+	protected $limit_from = false;
+	protected $limit = false;
+
 	public function __construct($worker, $prefix = "") {
-		$this->worker =	$worker;
-		$this->prefix =	$prefix;
+		$this->worker = $worker;
+		$this->prefix = $prefix;
 	}
 
 	protected function query($query, $params = array()) {
@@ -83,6 +88,20 @@ class Database_Instance extends Database_Abstract
 			$query .= " WHERE $condition";
 		}
 
+		if (!empty($this->order)) {
+			$type = empty($this->order_type) ?
+				"DESC" : $this->order_type;
+
+			$query .= " ORDER BY `$this->order` $type";
+		}
+
+		if (!empty($this->limit)) {
+			$from = empty($this->limit_from) ?
+				"" : $this->limit_from.",";
+
+			$query .= " LIMIT $from $this->limit";
+		}
+
 		$data = $this->query($query, $params);
 
 		if ($this->counter_lock) {
@@ -90,6 +109,11 @@ class Database_Instance extends Database_Abstract
 			$this->counter = (int) current(current($count));
 			$this->counter_lock = false;
 		}
+
+		$this->order = false;
+		$this->order_type = false;
+		$this->limit_from = false;
+		$this->limit = false;
 
 		return $data;
 	}
@@ -138,7 +162,13 @@ class Database_Instance extends Database_Abstract
 			$condition = "id = $condition";
 		}
 
-		$data = $this->get_common($table, $values, $condition." LIMIT 1", $params);
+		if (empty($this->limit)) {
+			$append = " LIMIT 1";
+		} else {
+			$append = "";
+		}
+
+		$data = $this->get_common($table, $values, $condition.$append, $params);
 
 		return current($data);
 	}
@@ -152,7 +182,13 @@ class Database_Instance extends Database_Abstract
 			$condition = "1";
 		}
 
-		$data = $this->get_common($table, $value, $condition." LIMIT 1", $params);
+		if (empty($this->limit)) {
+			$append = " LIMIT 1";
+		} else {
+			$append = "";
+		}
+
+		$data = $this->get_common($table, $value, $condition.$append, $params);
 
 		$data = current($data);
 		return is_array($data) ? reset($data) : $data;
@@ -288,7 +324,26 @@ class Database_Instance extends Database_Abstract
 		return $this->last_query->rowCount();
 	}
 
-	public function last_id() {
+	public function set_order ($field, $type = 'desc') {
+		if (ctype_alnum($field) && ctype_alnum($type)) {
+			$this->order = $field;
+			$this->order_type = $type;
+		}
+
+		return $this;
+	}
+
+	public function set_limit ($limit, $limit_from = false) {
+		$this->limit = (int) $limit;
+
+		if (!empty($limit_from)) {
+			$this->limit_from = (int) $limit_from;
+		}
+
+		return $this;
+	}
+
+	public function last_id () {
 		return $this->worker->lastInsertId();
 	}
 
