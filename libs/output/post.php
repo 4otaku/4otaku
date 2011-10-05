@@ -49,9 +49,8 @@ class output__post extends engine
 				$return['post'] = $this->get_post(($return['navi']['curr']-1)*$sets['pp']['post'].', '.$sets['pp']['post'],$area);
 			}
 			elseif ($url[2] == 'tag' || $url[2] == 'category' || $url[2] == 'author' || $url[2] == 'language') {
-				$this->mixed_parse($url[2].'='.$url[3]);
 				$area = 'area = "'.$url['area'].'" and locate("|'.($url['tag'] ? $url['tag'] : mysql_real_escape_string($url[3])).'|",post.'.$url[2].')';
-				$return['navi']['curr'] = max(1,$url[5]);
+				$return['navi']['curr'] = max(1, $url[5]);
 				$return['post'] = $this->get_post(($return['navi']['curr']-1)*$sets['pp']['post'].', '.$sets['pp']['post'],$area);
 				$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 				$return['rss'] = $this->make_rss($url[1],$url[2],$url[3]);

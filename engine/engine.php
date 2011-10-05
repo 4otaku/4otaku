@@ -29,7 +29,7 @@ class engine
 		}
 
 		if ($url[2] == 'tag') {
-			$locate = "|$url[3]|";
+			$locate = '|'.urldecode($url[3]).'|';
 			$url['tag'] = Database::get_field('tag', 'alias', 'locate(?,variants)', $locate);
 		}
 	}
@@ -44,8 +44,8 @@ class engine
 			foreach ($conditions as $key => $condition) {
 
 				if (!empty($url[$key])) {
-					if (preg_match("/[^a-zа-яё\d_\-\+%&\.,=;:\s]/iu", $url[$key])) {
-						$error = true;
+					if (preg_match("/[^\d_\-\+%&\.,=;:\s]/iu", $url[$key])) {
+//						$error = true;
 					} elseif ($condition == 'end') {
 						$error = true;
 					} elseif ($condition == 'num') {
