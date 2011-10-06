@@ -110,17 +110,26 @@ class dynamic__edit extends engine
 
 	public function remove_from_pool () {
 
-		if (!Check::num(query::$get['id']) || !Check::num(query::$get['val'])) {
+		if (
+			!Check::num(query::$get['id']) ||
+			!Check::num(query::$get['val']) ||
+			!Database::get_count('art_pool',
+				'id = ? and (password = "" or password = ?',
+				array(query::$get['id'], md5(query::$get['password'])))
+		) {
 			return;
 		}
 
-		obj::db()->sql('update art_pool set count = count - 1, art = replace(art,"|'.query::$get['val'].'|","|") where (id="'.query::$get['id'].'" and (password="" or password="'.md5(query::$get['password']).'"))',0);
-		obj::db()->sql('update art set pool = replace(pool,"|'.query::$get['id'].'|","|") where id="'.query::$get['val'].'"',0);
+		Database::delete('art_in_pool', 'art_id = ? and pool_id = ?',
+			array(query::$get['val'], query::$get['id']));
 	}
 
 	public function sort_pool () {
-		global $check;
-		if ($check->num(query::$get['id'])) {
+
+		if (!Check::num(query::$get['id'])) {
+			return;
+		}
+
 			query::$post['art'] = '|'.implode('|',array_reverse(query::$post['art'])).'|';
 			obj::db()->sql('update art_pool set art = "'.query::$post['art'].'" where (id="'.query::$get['id'].'" and (password="" or password="'.md5(query::$get['password']).'"))',0);
 		}

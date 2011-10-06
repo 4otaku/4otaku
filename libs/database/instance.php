@@ -290,6 +290,9 @@ class Database_Instance extends Database_Abstract
 			if ($values[$id] === "++") {
 				$query .= "`$key` = `$key`+1,";
 				unset($values[$id]);
+			} elseif ($values[$id] === "--") {
+				$query .= "`$key` = `$key`-1,";
+				unset($values[$id]);
 			} else {
 				$query .= "`$key` = ?,";
 			}
