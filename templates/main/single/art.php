@@ -222,21 +222,21 @@
 							<? if (!empty($item['rating'])) { ?>
 								 <span class="art_vote_wrapper">
 									<img
-										src="/images/minus.gif"
-										class="vote_down with_help
-										<?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"
-										title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Не понравилось');?>"
-										rel="<?=$item['id'];?>"
-										align="absbottom"
+										 src="/images/minus.gif"
+										 class="vote_down with_help
+										 <?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"
+										 title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Не понравилось');?>"
+										 rel="<?=$item['id'];?>"
+										 align="absbottom"
 									/>
 									<span><?=$item['rating']['score'];?></span>
 									<img
-										src="/images/plus.gif"
-										class="vote_up with_help
-										<?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"
-										title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Понравилось');?>"
-										rel="<?=$item['id'];?>"
-										align="absbottom"
+										 src="/images/plus.gif"
+										 class="vote_up with_help
+										 <?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"
+										 title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Понравилось');?>"
+										 rel="<?=$item['id'];?>"
+										 align="absbottom"
 									/>
 								</span> |
 							<? } ?>
