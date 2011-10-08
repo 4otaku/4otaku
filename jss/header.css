@@ -31,12 +31,93 @@
 	text-decoration: none;
 }
 
-.right_menu li:hover a {
+.right_menu li:hover>a {
 	background: url(/images/top.png) 0px -84px repeat-x;
 }
 
 .right_menu a:hover {
 	text-decoration: underline;
+}
+
+.right_menu li.header_menu_item {
+	float: left;
+}
+
+.right_menu li.header_menu_item a.link,
+.right_menu li.header_menu_item span {
+	text-shadow: 0px 0px 1px #fff;
+	color: #444;
+	display: block;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	text-decoration: none;
+}
+
+.right_menu li.header_menu_item_last {
+	display: block;
+	width: 5px;
+	height: 28px;
+	background: url(/images/top.png) 0px -28px repeat-x;
+}
+
+.right_menu li.header_menu_item:hover a.link,
+.right_menu li.header_menu_item:hover span {
+	background: url(/images/top.png) 0px -84px repeat-x;
+}
+
+.right_menu li.header_menu_active a.link,
+.right_menu li.header_menu_active span {
+	color: #42A3B9;
+	background: url(/images/top.png) 0px -56px repeat-x;
+}
+
+.right_menu li.header_menu_item a.link:hover {
+	text-decoration: underline;
+}
+
+.right_menu li.header_menu_item ul {
+	display: none;
+	position: absolute;
+	z-index: 10;
+	right: 0px;
+	background: #fff url(/images/top.png) 0px -112px repeat-x;
+	border: 1px solid #909090;
+	-moz-box-shadow: 0px 4px 4px #999;
+	-webkit-box-shadow: 0px 4px 4px #999;
+	box-shadow: 0px 4px 4px #999;
+}
+
+.right_menu li.header_menu_item:hover ul li,
+.right_menu li.header_menu_item:hover ul li a.link,
+.right_menu li.header_menu_item:hover ul li span,
+.right_menu li.header_menu_item ul li,
+.right_menu li.header_menu_item ul li a.link,
+.right_menu li.header_menu_item ul li span {
+	background: transparent;
+}
+
+.right_menu li.header_menu_item ul li {
+	border-bottom: 1px solid #eee;
+}
+
+.right_menu li.header_menu_item ul li a.link {
+	display: block;
+	padding: 0 8px;
+	margin: 0;
+	font-weight: normal;
+}
+.right_menu li.header_menu_item ul li:hover a.link {
+	color: #07A00B;
+	text-decoration: none;
+}
+
+.right_menu li.header_menu_active ul a.link {
+	color: #333;
+}
+
+.right_menu li.header_menu_item:hover ul {
+	display: block;
 }
 
 .main_menu li.header_menu_item {

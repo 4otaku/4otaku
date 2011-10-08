@@ -286,6 +286,11 @@ $(document).ready(function(){
 		}
 	});
 
+	$(".logout").live("click", function(){
+		$.cookie("settings", null);
+		document.location.reload();
+	});
+
 	/* For calling out adding and editing fields */
 
 	$("div#downscroller a.disabled").click(function(){

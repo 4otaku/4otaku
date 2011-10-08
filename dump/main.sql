@@ -1491,19 +1491,22 @@ INSERT INTO `updates` (`id`, `post_id`, `username`, `text`, `pretty_text`, `link
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `login` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `login` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `pass` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `rights` int(11) NOT NULL DEFAULT '0',
+  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `cookie` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `rights` smallint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=22 ;
+
 
 --
 -- Дамп данных таблицы `user`
 --
 
-INSERT INTO `user` (`id`, `login`, `pass`, `rights`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 2),
-(2, 'moderator', '0408f3c997f309c03b08bf3a4bc7b730', 1);
+INSERT INTO `user` (`id`, `login`, `pass`, `email`, `cookie`, `rights`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'example@admin', '', 2),
+(2, 'moderator', '0408f3c997f309c03b08bf3a4bc7b730', 'example@moder', '', 1);
 
 -- --------------------------------------------------------
 

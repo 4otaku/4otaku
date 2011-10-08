@@ -104,7 +104,16 @@ if (!(_CRON_)) {
 		// Проверяем валидность настроек и исправляем, если что-то не так
 		if ((base64_decode($sess['data']) !== false) && is_array(unserialize(base64_decode($sess['data'])))) {
 			// Все ок, применяем сохраненные настройки
-			$sets = array_replace_recursive($sets, unserialize(base64_decode($sess['data'])));
+			$sets = array_replace_recursive($sets,
+				unserialize(base64_decode($sess['data'])));
+
+			$user = Database::get_row('user', 'login, email, rights',
+				'cookie = ?', query::$cookie);
+
+			if (!empty($user)) {
+				$sets['user'] = array_replace($sets['user'], $user);
+			}
+
 			sets::import($sets);
 		} else {
 			// Заполняем поле настройками 'по-умолчанию' (YTowOnt9 разворачивается в пустой массив)

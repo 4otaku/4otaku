@@ -25,6 +25,10 @@ if ($warning) {
 	}
 }
 
+if (!preg_match('/^[a-z]{2,7}:\/\//i', $link)) {
+	$link = 'http://'.$link;
+}
+
 if (!$warning) {
 
 	header("Location: $link", true, 302);

@@ -13,12 +13,50 @@
 				</a>
 			{% endif %}
 		</li>
-		<li class="box">
+		<li class="box header_menu_item">
 			<a title="Ваши личные настройки"
 				 class="thickbox"
 				 href="/ajax.php?m=box&f=settings&width=500&height=650">
 				Настройки
 			</a>
+			<ul>
+				{% if user.login %}
+					<li>
+						<a title="Разлогиниться" class="logout">
+							Выйти
+						</a>
+					</li>
+					<li>
+						<a title="Поменять пароль от аккаунта"
+							 class="thickbox"
+							 href="/ajax.php?m=box&f=change_pass&width=500&height=350">
+							Сменить пароль
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a title="Войти, используя свой логин и пароль"
+							 class="thickbox"
+							 href="/ajax.php?m=box&f=login&width=500&height=350">
+							Войти
+						</a>
+					</li>
+					<li>
+						<a title="Зарегистрироваться на сайте"
+							 class="thickbox"
+							 href="/ajax.php?m=box&f=register&width=500&height=350">
+							Регистрация
+						</a>
+					</li>
+					<li>
+						<a title="Выслать на почту пароль от аккаунта"
+							 class="thickbox"
+							 href="/ajax.php?m=box&f=remind_pass&width=500&height=350">
+							Напомнить пароль
+						</a>
+					</li>
+				{% endif %}
+			</ul>
 		</li>
 		<li class="box">
 			<a title="Выберите, что показывать вам в RSS"

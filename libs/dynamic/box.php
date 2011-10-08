@@ -40,4 +40,20 @@ class dynamic__box
 
 		return $return;
 	}
+
+	function login () {
+		return true;
+	}
+
+	function change_pass () {
+		return true;
+	}
+
+	function remind_pass () {
+		return true;
+	}
+
+	function register () {
+		return true;
+	}
 }
