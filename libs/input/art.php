@@ -7,8 +7,10 @@ class input__art extends input__common
 		if (!$cookie) $cookie = new dynamic__cookie();
 
 		if (is_array(query::$post['images'])) {
-			if ($url[2] == 'pool' && is_numeric($url[3])) $data = obj::db()->sql('select concat(id,"|") as pool, password from art_pool where id='.$url[3],1);
-			if (!$data['password'] || $data['password'] == md5(query::$post['password'])) {
+			if ($url[2] == 'pool' && is_numeric($url[3])) {
+				$pool_password = Database::get_field('art_pool', 'password', $url[3]);
+			}
+			if (empty($pool_password) || $pool_password == md5(query::$post['password'])) {
 				$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(query::$post['tags']));
 				$category = obj::transform('meta')->category(query::$post['category']);
 				$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
@@ -34,7 +36,7 @@ class input__art extends input__common
 						$name[0] && $name[1] && $name[2] &&
 						!obj::db()->sql('select id from art where md5="'.$name[0].'"',2)
 					) {
-						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],(int) $name[4],$author,$category,$tags,"|".$data['pool'],0,"",
+						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],(int) $name[4],$author,$category,$tags,0,"",
 												query::$post['source'],0,0,obj::transform('text')->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
 						obj::db()->insert('versions',array('art',$id = obj::db()->sql('select @@identity from art',2),
 														base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
@@ -76,11 +78,20 @@ class input__art extends input__common
 					else $this->add_res('Ваше изображение успешно добавлено, и доступно по адресу <a href="/art/'.$id.'/">http://4otaku.ru/art/'.$id.'/</a> или в <a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.');
 				}
 
-				if ($data) {
-					if (!$id) $id = obj::db()->sql('select @@identity from art',2);
+				if (isset($pool_password)) {
+					if (!$id) {
+						$id = obj::db()->sql('select @@identity from art',2);
+					}
 					$j = 0;
-					while ($j < $i) $newart .= '|'.($id - $j++);
-					obj::db()->sql('update art_pool set count = count + '.$i.', art = concat("'.$newart.'",art) where id='.$url[3],0);
+					$order = Database::set_order('order')->
+						get_field('art_in_pool', 'order', 'pool_id = ?', $url[3]);
+					while ($j < $i) {
+						Database::insert('art_in_pool', array(
+							'art_id' => $id - $j++,
+							'pool_id' => $url[3],
+							'order' => ++$order
+						));
+					}
 				}
 			}
 			else $this->add_res('Неправильный пароль от группы.', true);
@@ -92,7 +103,7 @@ class input__art extends input__common
 		global $check; global $def; global $add_res;
 		if (query::$post['name'] && $text = obj::transform('text')->format(query::$post['text'])) {
 			query::$post['email'] = $check->email(query::$post['email'],'');
-			obj::db()->insert('art_pool',array(query::$post['name'],$text,query::$post['text'],0,"|",md5(query::$post['password']),query::$post['email'],microtime(true)*1000));
+			obj::db()->insert('art_pool',array(query::$post['name'],$text,query::$post['text'],md5(query::$post['password']),query::$post['email'],microtime(true)*1000));
 			$id = obj::db()->sql('select @@identity from art_pool',2);
 			$add_res['text'] = 'Новая группа успешно добавлена, и доступна по адресу <a href="/art/pool/'.$id.'/">http://4otaku.ru/art/pool/'.$id.'/</a>.';
 		}
@@ -119,16 +130,27 @@ class input__art extends input__common
 	function edit_art_groups() {
 		global $check;
 		if ($check->num(query::$post['id']) && query::$post['type'] == 'art' && is_array(query::$post['group'])) {
-			$pools = obj::db()->sql('select pool from art where id='.query::$post['id'],2);
-			query::$post['group'] = array_filter(array_unique(query::$post['group']));
-			foreach (query::$post['group'] as $key => $group)
-				if (obj::db()->sql('select id from art_pool where (id='.$group.' and (locate("|'.query::$post['id'].'|",art) or (password != "" and password != "'.md5(query::$post['password']).'")))',2))
-					unset(query::$post['group'][$key]);
-			if (count(query::$post['group'])) {
-				foreach (query::$post['group'] as $group) $pools .= $group.'|';
-				$where = 'id='.implode(' or id=',query::$post['group']);
-				obj::db()->update('art','pool',$pools,query::$post['id']);
-				obj::db()->sql('update art_pool set count = count + 1, art = concat("|'.query::$post['id'].'",art) where ('.$where.')',0);
+
+			$qroups = array_filter(array_unique(query::$post['group']));
+
+			foreach ($qroups as $key => $group) {
+				if (Database::get_count('art_pool',
+					'id = ? and password != "" and password != ?',
+					array($group, md5(query::$post['password'])))
+				) {
+					unset($qroups[$key]);
+				}
+			}
+
+			foreach ($qroups as $group) {
+				$order = Database::set_order('order')->
+					get_field('art_in_pool', 'order', 'pool_id = ?', $group);
+
+				Database::insert('art_in_pool', array(
+					'art_id' => query::$post['id'],
+					'pool_id' => $group,
+					'order' => $order + 1
+				));
 			}
 		}
 	}

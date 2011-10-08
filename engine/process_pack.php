@@ -143,7 +143,6 @@ class Process_Pack
 						'author' => '|',
 						'category' => '|nsfw|game_cg|',
 						'tag' => '|tagme|',
-						'pool' => '|',
 						'pretty_date' => Transform_Time::ru_date(),
 						'sortdate' => ceil(microtime(true)*1000),
 						'area' => 'cg'

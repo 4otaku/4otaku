@@ -52,6 +52,7 @@ class output__art extends engine
 
 				$return['art'][0]['rating'] = $this->get_rating($url[2]);
 				$return['art'][0]['packs'] = $this->get_packs($url[2]);
+				$return['art'][0]['pool'] = $this->get_pools($url[2]);
 			}
 			elseif ($url[2] != 'pool' && $url[2] != 'cg_packs' && $url[2] != 'download') {
 				$return['display'] = array('booru_page','navi');
@@ -92,17 +93,29 @@ class output__art extends engine
 			else {
 				if ($url[2] == 'pool') {
 					if (is_numeric($url[3])) {
-						if ($url[4] != 'sort') $return['display'] = array('booru_poolsingle','booru_page','navi');
-						else $return['display'] = array('booru_poolsingle','booru_page');
-						$return['pool'] = obj::db()->sql('select * from art_pool where id='.$url[3],1);
-						$pool = array_reverse(array_filter(array_unique(explode('|',$return['pool']['art']))));
+						if ($url[4] != 'sort') {
+							$return['display'] = array('booru_poolsingle','booru_page','navi');
+						} else {
+							$return['display'] = array('booru_poolsingle','booru_page');
+						}
+
+						$return['pool'] = Database::get_full_row('art_pool', $url[3]);
+						$query = Database::set_counter()->set_order('order', 'asc');
+
 						if ($url[4] != 'sort') {
 							$return['navi']['curr'] = max(1,$url[5]);
 							$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 							$return['navi']['start'] = max($return['navi']['curr']-5,2);
-							$pool = array_slice($pool,($return['navi']['curr']-1)*$sets['pp']['art'],$sets['pp']['art']);
+							$query->set_limit(sets::pp('art'), ($return['navi']['curr']-1)*sets::pp('art'));
+						}
+
+						$pool = $query->get_vector('art_in_pool', 'art_id', 'pool_id = ?', $url[3]);
+						$return['pool']['count'] = Database::get_counter();
+
+						if ($url[4] != 'sort') {
 							$return['navi']['last'] = ceil($return['pool']['count']/$sets['pp']['art']);
 						}
+
 						$where = 'id='.implode(' or id=',$pool);
 						$pool = array_flip($pool);
 						if ($art = $this->get_art(false,$where,'')) {
@@ -117,7 +130,12 @@ class output__art extends engine
 						$return['navi']['meta'] = $url[2].'/';
 						$return['navi']['start'] = max($return['navi']['curr']-5,2);
 						$return['navi']['last'] = ceil(obj::db()->sql('select count(id) from art_pool',2)/$sets['pp']['art_pool']);
-						$return['pools'] = obj::db()->sql('select id, name, count from art_pool order by sortdate desc limit '.($return['navi']['curr']-1)*$sets['pp']['art_pool'].', '.$sets['pp']['art_pool'],'id');
+						$return['pools'] = obj::db()->sql('
+							select p.id as id, p.name as name, count(*) as count
+							from art_pool as p left join art_in_pool as a on p.id = a.pool_id
+							group by p.id order by p.sortdate desc
+							limit '.($return['navi']['curr']-1)*$sets['pp']['art_pool'].', '.$sets['pp']['art_pool']
+						,'id');
 					}
 				}
 				elseif ($url[2] == 'cg_packs') {
@@ -219,15 +237,6 @@ class output__art extends engine
 						$return[0]['translations']['resized'][] = $one;
 					}
 				}
-				if ($pools = trim($return[0]['pool'],'|')) {
-					$return[0]['pool'] = obj::db()->sql('select id, name, art from art_pool where id='.str_replace('|',' or id=',$pools),'id');
-					foreach ($return[0]['pool'] as &$pool) {
-						$pool['art'] = array_reverse(explode('|',trim($pool['art'],'|')));
-						$pool['left'] = $pool['art'][array_search($return[0]['id'],$pool['art'])-1];
-						$pool['right'] = $pool['art'][array_search($return[0]['id'],$pool['art'])+1];
-					}
-					unset($pool);
-				}
 				$return[0]['similar'] = obj::db()->sql('select * from art_variation where art_id = '.$return[0]['id'].' order by `order`', 'order');
 			} else {
 				$ids = 'art_id in (';
@@ -274,6 +283,18 @@ class output__art extends engine
 				art_in_pack as a on
 				a.pack_id = p.id
 			where a.art_id = $id");
+	}
+
+	public function get_pools ($id) {
+		return obj::db()->sql("
+			SELECT p.id as `id`, p.name as `name`, r.art_id as `right`, l.art_id as `left`
+			FROM art_pool AS p
+				LEFT JOIN art_in_pool AS a ON a.pool_id = p.id
+				LEFT JOIN art_in_pool AS l ON a.pool_id = l.pool_id
+					AND a.order = l.order - 1
+				LEFT JOIN art_in_pool AS r ON a.pool_id = r.pool_id
+					AND a.order = r.order + 1
+			WHERE a.art_id = $id");
 	}
 
 	public function get_rating ($id) {

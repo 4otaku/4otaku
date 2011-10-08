@@ -19,33 +19,33 @@
 						</a>
 						<? if ($item['comment_count']) { ?>
 							 (<?=$item['comment_count'];?>)
-						<? } ?>									
+						<? } ?>
 					</td>
 				</tr>
 			<? } ?>
 			<tr>
-				<td class="booru_main"> 
+				<td class="booru_main">
 					<? if (!$data['feed'] && is_array($item['pool'])) {	?>
 						<div class="margin10">
-						<? foreach ($item['pool'] as $id => $pool) { ?>
+						<? foreach ($item['pool'] as $pool) { ?>
 							<div class="mini-shell art-bar">
-								Эта картинка принадлежит группе: 
-								<a href="<?=$def['site']['dir']?>/art/pool/<?=$id;?>/">
+								Эта картинка принадлежит группе:
+								 <a href="<?=$def['site']['dir']?>/art/pool/<?=$pool['id'];?>/">
 									<?=$pool['name'];?>
-								</a>. 
+								</a>.
 								<? if ($pool['left']) { ?>
-									<a href="<?=$def['site']['dir']?>/art/<?=$pool['left'];?>/">
+									 <a href="<?=$def['site']['dir']?>/art/<?=$pool['left'];?>/">
 										Предыдущая
-									</a>. 									
+									</a>.
 								<? } ?>
 								<? if ($pool['right']) { ?>
-									<a href="<?=$def['site']['dir']?>/art/<?=$pool['right'];?>/">
+									 <a href="<?=$def['site']['dir']?>/art/<?=$pool['right'];?>/">
 										Следующая
-									</a>. 									
-								<? } ?>												
-								<a href="<?=$def['site']['dir']?>/art/slideshow/pool/<?=$id;?>#1">
+									</a>.
+								<? } ?>
+								 <a href="<?=$def['site']['dir']?>/art/slideshow/pool/<?=$pool['id'];?>#1">
 									Перейти в слайдшоу
-								</a>. 												
+								</a>.
 							</div>
 						<? } ?>
 						</div>
@@ -54,20 +54,20 @@
 						<div class="margin10">
 						<? foreach ($item['packs'] as $pack) { ?>
 							<div class="mini-shell art-bar">
-								Вы просматриваете CG из игры "<a href="<?=$def['site']['dir']?>/art/cg_packs/<?=$pack['id'];?>/"><?=$pack['title'];?></a>". 
+								Вы просматриваете CG из игры "<a href="<?=$def['site']['dir']?>/art/cg_packs/<?=$pack['id'];?>/"><?=$pack['title'];?></a>".
 								<? if ($pack['weight'] > 0) { ?>
-									<a href="<?=$def['site']['dir']?>/art/download/pack/<?=$pack['id'];?>/" target="_blank">Скачать их одним архивом.</a> (~<?=ceil($pack['weight']/1024/1024);?> мб)
+									 <a href="<?=$def['site']['dir']?>/art/download/pack/<?=$pack['id'];?>/" target="_blank">Скачать их одним архивом.</a> (~<?=ceil($pack['weight']/1024/1024);?> мб)
 								<? } ?><br />
-								Имя файла: <a href="<?=$def['site']['dir']?>/art/download/pack/<?=$pack['id'];?>/<?=$pack['art_id'];?>" target="_blank"><?=$pack['filename'];?></a> 
+								 Имя файла: <a href="<?=$def['site']['dir']?>/art/download/pack/<?=$pack['id'];?>/<?=$pack['art_id'];?>" target="_blank"><?=$pack['filename'];?></a>
 							</div>
 						<? } ?>
 						</div>
-					<? } ?>	
+					<? } ?>
 					<? if (!$data['feed'] && !empty($item['similar'])) { ?>
 						<div class="margin10">
 							<div class="mini-shell art-bar">
-								На эту картинку есть вариации. 
-								<a href="/art/<?=$item['id'];?>#1" class="similar_navi similar_navi_1">
+								На эту картинку есть вариации.
+								 <a href="/art/<?=$item['id'];?>#1" class="similar_navi similar_navi_1">
 									1
 									<span class="hidden variant_link">
 										<?=$item['md5'].'.'.$item['extension'];?>
@@ -82,8 +82,8 @@
 									</span>
 								</a>
 								<? foreach ($item['similar'] as $number => $similar) { ?>
-									, 
-									<a href="/art/<?=$item['id'];?>#<?=($number+2);?>" class="similar_navi similar_navi_<?=($number+2);?>">
+									,
+									 <a href="/art/<?=$item['id'];?>#<?=($number+2);?>" class="similar_navi similar_navi_<?=($number+2);?>">
 										<?=($number+2);?>
 										<span class="hidden variant_link">
 											<?=$similar['md5'].'.'.$similar['extension'];?>
@@ -98,25 +98,25 @@
 										</span>
 									</a>
 								<? } ?>
-								. 
+								.
 								<img src="/images/loading_variation.gif" class="loading_variation" />
 							</div>
 						</div>
-					<? } ?>					
-					<? if (!$data['feed']) {							
+					<? } ?>
+					<? if (!$data['feed']) {
 						if (array_key_exists('nsfw',$item['meta']['category']) && is_array($item['meta']['tag'])) {
 							if (!$sets['show']['nsfw']) $reason['nsfw'] = true;
 							if (!$sets['show']['yaoi'] && array_key_exists('yaoi',$item['meta']['tag'])) $reason['yaoi'] = true;
 							if (!$sets['show']['furry'] && array_key_exists('furry',$item['meta']['tag'])) $reason['furry'] = true;
-							if (!$sets['show']['guro'] && array_key_exists('guro',$item['meta']['tag'])) $reason['guro'] = true;					
+							if (!$sets['show']['guro'] && array_key_exists('guro',$item['meta']['tag'])) $reason['guro'] = true;
 						}
 						if (is_array($reason)) { ?>
 							<div class="art_not_showed mini-shell">
 								<?
 									if ($reason['nsfw']) {
 										?>
-											У вас отключен показ материалов 18+. 
-											<a href="#" class="toggle_show_art disabled" rel="show.nsfw">
+											У вас отключен показ материалов 18+.
+											 <a href="#" class="toggle_show_art disabled" rel="show.nsfw">
 												Включить.
 											</a>
 											<br />
@@ -124,8 +124,8 @@
 									}
 									if ($reason['yaoi']) {
 										?>
-											У вас отключен показ картинок содержащих яой. 
-											<a href="#" class="toggle_show_art disabled" rel="show.yaoi">
+											У вас отключен показ картинок содержащих яой.
+											 <a href="#" class="toggle_show_art disabled" rel="show.yaoi">
 												Включить.
 											</a>
 											<br />
@@ -133,8 +133,8 @@
 									}
 									if ($reason['furry']) {
 										?>
-											У вас отключен показ картинок содержащих фурри. 
-											<a href="#" class="toggle_show_art disabled" rel="show.furry">
+											У вас отключен показ картинок содержащих фурри.
+											 <a href="#" class="toggle_show_art disabled" rel="show.furry">
 												Включить.
 											</a>
 											<br />
@@ -142,8 +142,8 @@
 									}
 									if ($reason['guro']) {
 										?>
-											У вас отключен показ картинок содержащих гуро. 
-											<a href="#" class="toggle_show_art disabled" rel="show.guro">
+											У вас отключен показ картинок содержащих гуро.
+											 <a href="#" class="toggle_show_art disabled" rel="show.guro">
 												Включить.
 											</a>
 											<br />
@@ -156,40 +156,40 @@
 											</a>
 											<br />
 										<?
-									}								
+									}
 								?>
 								<br /><a href="#" class="show_art disabled">Показать эту картинку.</a>
 							</div>
 						<? }
-						if ($url[1] != 'search') {							
+						if ($url[1] != 'search') {
 							if ($item['resized'] && $sets['art']['resized']) { ?>
 								<div<?=(is_array($reason) ? ' class="hidden hidden_art"' : "");?>>
 									<div class="clear margin20 mini-shell art-bar">
 										<a href="#" class="disabled <?=($item['animated'] ? 'animated ' : '');?>booru_show_toggle" rel="<?=$item['extension'];?>">
 											Показать в полном размере
-										</a><?=($item['resized'] !== 1 ? ' ('.$item['resized'].')' : '');?>. 
-										<a href="#" class="disabled booru_show_full_always">
+										</a><?=($item['resized'] !== 1 ? ' ('.$item['resized'].')' : '');?>.
+										 <a href="#" class="disabled booru_show_full_always">
 											 Всегда показывать в полном размере
-										</a>. 
-										<a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
+										</a>.
+										 <a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
 											 Скачать
-										</a>.												
-									</div>								
+										</a>.
+									</div>
 									<div class="booru_img image booru_translation_toggle" rel="resized">
 										<img src="<?=$def['site']['dir']?>/images/booru/resized/<?=$item['md5'];?>.<?=($item['animated'] ? 'gif' : 'jpg');?>">
-										<?  
+										<?
 											if (is_array($item['translations']['resized'])) foreach ($item['translations']['resized'] as $translation) {
 												?>
 													<div class="art_translation<?=($sets['show']['translation'] ? '' : ' hidden');?>" title="<?=$translation['text'];?>" style="width:<?=$translation['x2'];?>px;height:<?=$translation['y2'];?>px;top:<?=$translation['y1'];?>px;left:<?=$translation['x1'];?>px;"></div>
 												<?
 											}
-										?>											
+										?>
 									</div>
 								</div>
-							<? } 
+							<? }
 							else { ?>
 								<div<?=(is_array($reason) ? ' class="hidden hidden_art"' : "");?>>
-									<div class="image booru_translation_toggle">						
+									<div class="image booru_translation_toggle">
 										<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
 										<?
 											if (is_array($item['translations']['full'])) foreach ($item['translations']['full'] as $translation) {
@@ -197,7 +197,7 @@
 													<div class="art_translation<?=($sets['show']['translation'] ? '' : ' hidden');?>" title="<?=$translation['text'];?>" style="width:<?=$translation['x2'];?>px;height:<?=$translation['y2'];?>px;top:<?=$translation['y1'];?>px;left:<?=$translation['x1'];?>px;"></div>
 												<?
 											}
-										?>				
+										?>
 									</div>
 								</div>
 							<? }
@@ -211,113 +211,113 @@
 						<a href="<?=$data['feed']['domain'];?>/art/<?=$item['id'];?>/">
 							<img src="<?=$data['feed']['domain'];?>/images/booru/thumbs/large_<?=$item['thumb'];?>.jpg">
 						</a>
-					<? } ?>					
+					<? } ?>
 				</td>
 			 </tr>
 			 <tr>
 				 <td>
 					<div class="wrapper">
 						<p class="meta">
-							<?=$item['pretty_date'];?> | 
+							<?=$item['pretty_date'];?> |
 							<? if (!empty($item['rating'])) { ?>
-								<span class="art_vote_wrapper">
-									<img 
-										src="/images/minus.gif" 
+								 <span class="art_vote_wrapper">
+									<img
+										src="/images/minus.gif"
 										class="vote_down with_help
-										<?=($item['rating']['voted'] ? ' inactive_vote' : '');?>" 
-										title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Не понравилось');?>" 
-										rel="<?=$item['id'];?>" 
+										<?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"
+										title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Не понравилось');?>"
+										rel="<?=$item['id'];?>"
 										align="absbottom"
 									/>
 									<span><?=$item['rating']['score'];?></span>
-									<img 
-										src="/images/plus.gif" 
+									<img
+										src="/images/plus.gif"
 										class="vote_up with_help
-										<?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"  
-										title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Понравилось');?>" 
-										rel="<?=$item['id'];?>" 
+										<?=($item['rating']['voted'] ? ' inactive_vote' : '');?>"
+										title="<?=($item['rating']['voted'] ? 'Вы уже голосовали' : 'Понравилось');?>"
+										rel="<?=$item['id'];?>"
 										align="absbottom"
 									/>
-								</span> | 						
+								</span> |
 							<? } ?>
 							<? if (!empty($item['meta']['author'])) { ?>
 								<? if (count($item['meta']['author']) > 1) { ?>
-									Опубликовали: 
+									 Опубликовали:
 								<? } else { ?>
-									Опубликовал: 
+									 Опубликовал:
 								<? }
 									foreach ($item['meta']['author'] as $key => $meta) {
 										if ($nonfirst) { ?>
-											, 
+											,
 										<? } else { $nonfirst = true; } ?>
-											<a href="<?=$data['main']['navi']['base'];?>author/<?=$key;?>/">
+											 <a href="<?=$data['main']['navi']['base'];?>author/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
 									}	unset($nonfirst);
 								?>
-								  | 
-							<? } ?> 
+								  |
+							<? } ?>
 							<? if (!empty($item['meta']['tag'])) { ?>
 								<?
 									include('templates'.SL.'main'.SL.'single'.SL.'tags.php');
 								?>
-								 | 
-							<? } ?>  
+								 |
+							<? } ?>
 							<? if (!empty($item['meta']['category'])) { ?>
 								<?
 									if (count($item['meta']['category']) > 1) {
 										?>
-											Категории: 
+											 Категории:
 										<?
 									}
 									else {
 										?>
-											Категория: 
+											 Категория:
 										<?
 									}
 									foreach ($item['meta']['category'] as $key => $meta) {
 										if ($nonfirst) {
 											?>
-											, 
+											,
 											<?
 										}	else $nonfirst = true;
 										?>
-											<a href="<?=$data['main']['navi']['base'];?>category/<?=$key;?>/">
+											 <a href="<?=$data['main']['navi']['base'];?>category/<?=$key;?>/">
 												<?=$meta;?>
 											</a>
 										<?
 									}	unset($nonfirst);
 								?>
-							<? } ?> 
+							<? } ?>
 							<?
 								if ($item['translator']) {
 									?>
-										  | 
-											Переводчик: <?=$item['translator'];?>
+										 |
+											 Переводчик: <?=$item['translator'];?>
 									<?
 								}
-							?>							
+							?>
 							<?
 								if ($item['source']) {
 									?>
-										  | 
-											Источник: <?=$item['source'];?>
+										 |
+											 Источник: <?=$item['source'];?>
 									<?
 								}
-							?>	
-							 | 
-							<a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
+							?>
+							 |
+							 <a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
 								 Скачать
 							</a>
-							<?								
+							<?
 								if ($sets['user']['rights']) {
 									?>
-										 | 
-										<a href="<?=$def['site']['dir']?>/admin/revisions/art/<?=$item['id'];?>/">История версий</a>	
+										 |
+										 <a href="<?=$def['site']['dir']?>/admin/revisions/art/<?=$item['id'];?>/">История версий</a>
 									<?
 								}
-							?>												
+							?>
 						</p>
 						<div class="hidden translations_hideout">
 							<?
@@ -327,7 +327,7 @@
 											<div class="art_translation" title="<?=$translation['text'];?>" style="width:<?=$translation['x2'];?>px;height:<?=$translation['y2'];?>px;top:<?=$translation['y1'];?>px;left:<?=$translation['x1'];?>px;"></div>
 										<?
 									}
-								} 
+								}
 								else {
 									if (is_array($item['translations']['resized'])) foreach ($item['translations']['resized'] as $translation) {
 										?>
@@ -335,11 +335,11 @@
 										<?
 									}
 								}
-							?>								
+							?>
 						</div>
 					</div>
 				</td>
-			 </tr>		 
+			 </tr>
 		</table>
 	</div><!-- wrapend -->
 </div>
@@ -350,8 +350,8 @@
 				<tr>
 					<td>
 						<select name="edit_type" id="edit_type-<?=$item['id'];?>">
-							<option value="tag">Теги</option>		
-							<option value="category">Категории</option>					
+							<option value="tag">Теги</option>
+							<option value="category">Категории</option>
 							<option value="art_source">Источник</option>
 							<option value="art_groups">Добавить в группы</option>
 							<option value="art_translations">Переводы</option>
@@ -366,7 +366,7 @@
 									<?
 								}
 							?>
-						</select> 
+						</select>
 						<input type="submit" value="Редактировать" class="edit" rel="<?=$item['id'];?>" />
 					</td>
 					<?
@@ -379,16 +379,16 @@
 											<input type="checkbox" name="sure" />
 											<input type="hidden" name="id" value="<?=$item['id'];?>" />
 											<input type="submit" value="Утащить" class="submit" />
-											 &nbsp; 
+											 &nbsp;
 											<select name="where">
 												<?
 													foreach ($def['area'] as $area) if ($item['area'] != $area && !empty($lang['transfer'][$area])) {
 														?>
-															<option value="<?=$area;?>"> <?=$lang['transfer'][$area];?></option>	
+															<option value="<?=$area;?>"> <?=$lang['transfer'][$area];?></option>
 														<?
 													}
 												?>
-												<option value="deleted"> в печь</option>									
+												<option value="deleted"> в печь</option>
 											</select>
 										</form>
 									</div>
@@ -396,13 +396,13 @@
 							<?
 						}
 					?>
-				</tr>	
+				</tr>
 			</table>
 			<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
 			<div id="edit-<?=$item['id'];?>" rel="art" class="edit_field hidden"></div>
 		<?
 	}
-?>		
+?>
 <?
 	if ($url[1] == 'search') {
 		?>

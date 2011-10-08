@@ -8,6 +8,7 @@ foreach ($pools as $id => $arts) {
 
 	$arts = explode('|', $arts);
 	$arts = array_filter($arts);
+	$arts = array_reverse($arts);
 
 	$insert = array();
 	$order = 0;

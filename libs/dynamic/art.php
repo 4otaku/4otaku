@@ -18,10 +18,13 @@ class dynamic__art extends engine
 						$area = '(pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'")';
 					break;
 				case "pool":
-					$pool = obj::db()->sql('select art from art_pool where id='.query::$get['area'],2);
-					$pool = array_slice(array_reverse(array_filter(array_unique(explode('|',$pool)))),query::$get['id'] - 1,5);
+					$pool = Database::set_order('order', 'asc')
+						->set_limit(5, query::$get['id'] - 1)
+						->get_vector('art_in_pool', 'art_id', 'pool_id = ?', query::$get['area']);
+
 					$area = "(id=".implode(' or id=',$pool).")";
 					$limit = ''; $area_prefix = '';
+
 					break;
 				default:
 					$area = '(locate("|'.urldecode(query::$get['area']).'|",art.'.query::$get['type'].'))';
@@ -144,7 +147,7 @@ class dynamic__art extends engine
 							if($matches['digit'] >= 90)
 							{
 								$temp = $table->children(1)->children(0)->find('img');			/* Needed couse simple_html_dom syntax */
-								
+
 								if(strpos($table->children(2), 'Zerochan')) 					// Zerochan uses spaces instead of _
 								{
 									$dtags[] = str_replace(' ', '_', explode(", ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6)));
@@ -153,7 +156,7 @@ class dynamic__art extends engine
 								{
 									$dtags[] = explode(" ", substr($temp[0]->alt,strpos($temp[0]->alt,'Tags: ')+6));
 								}
-								
+
 								if ($dtags[sizeof($dtags)-1][0] !== "" || isset($dtags[sizeof($dtags)-1][1])) $diff_arr[sizeof($dtags[sizeof($dtags)-1])] = $dtags[sizeof($dtags)-1];										// My Little Magic
 
 								$category = substr($temp[0]->alt,strpos($temp[0]->alt,'Rating: ')+8,1);

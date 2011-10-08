@@ -130,8 +130,19 @@ class dynamic__edit extends engine
 			return;
 		}
 
-			query::$post['art'] = '|'.implode('|',array_reverse(query::$post['art'])).'|';
-			obj::db()->sql('update art_pool set art = "'.query::$post['art'].'" where (id="'.query::$get['id'].'" and (password="" or password="'.md5(query::$get['password']).'"))',0);
+		$arts = array_values(array_unique(query::$post['art']));
+		$id = query::$get['id'];
+
+		if (
+			count($arts) !=
+			Database::get_count('art_in_pool', 'pool_id = ?', $id)
+		) {
+			return;
+		}
+
+		foreach ($arts as $order => $art) {
+			Database::update('art_in_pool', array('order' => $order),
+				'art_id = ? and pool_id = ?', array($art, $id));
 		}
 	}
 
