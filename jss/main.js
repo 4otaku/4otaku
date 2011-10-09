@@ -287,7 +287,7 @@ $(document).ready(function(){
 	});
 
 	$(".logout").live("click", function(){
-		$.cookie("settings", null);
+		$.cookie("settings", "", -1);
 		document.location.reload();
 	});
 
