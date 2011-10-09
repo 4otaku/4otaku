@@ -49,7 +49,7 @@ class dynamic__edit extends engine
 					$output->get_rating(query::$get['id']);
 				$data['main']['art'][0]['packs'] =
 					$output->get_packs(query::$get['id']);
-				$data['main']['art'][0]['pools'] =
+				$data['main']['art'][0]['pool'] =
 					$output->get_pools(query::$get['id']);
 				$this->template = 'templates/main/booru/single.php';
 				break;
