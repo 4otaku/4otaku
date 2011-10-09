@@ -287,7 +287,8 @@ $(document).ready(function(){
 	});
 
 	$(".logout").live("click", function(){
-		$.cookie("settings", "", -1);
+		$.cookie("settings", null);
+		$.cookie("settings", null, {path: '/', domain: '.4otaku.ru'});
 		document.location.reload();
 	});
 
