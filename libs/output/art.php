@@ -291,9 +291,9 @@ class output__art extends engine
 			FROM art_pool AS p
 				LEFT JOIN art_in_pool AS a ON a.pool_id = p.id
 				LEFT JOIN art_in_pool AS l ON a.pool_id = l.pool_id
-					AND a.order = l.order - 1
+					AND a.order - 1 = l.order
 				LEFT JOIN art_in_pool AS r ON a.pool_id = r.pool_id
-					AND a.order = r.order + 1
+					AND a.order + 1 = r.order
 			WHERE a.art_id = $id");
 	}
 

@@ -49,6 +49,8 @@ class dynamic__edit extends engine
 					$output->get_rating(query::$get['id']);
 				$data['main']['art'][0]['packs'] =
 					$output->get_packs(query::$get['id']);
+				$data['main']['art'][0]['pools'] =
+					$output->get_pools(query::$get['id']);
 				$this->template = 'templates/main/booru/single.php';
 				break;
 			default: die;
@@ -153,7 +155,7 @@ class dynamic__edit extends engine
 	}
 
 	public function text () {
-		 global $check;
+		global $check;
 		$this->textarea = true;
 		if ($check->num(query::$get['id']) && $check->lat(query::$get['type']))
 			return array('value' => obj::db()->sql('select pretty_text from '.query::$get['type'].' where id='.query::$get['id'],2));
