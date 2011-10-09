@@ -16,22 +16,21 @@
 	padding-right: 10px;
 }
 
-.right_menu li {
+.right_menu li.header_menu_item {
 	float: left;
 }
 
-.right_menu li a {
+.right_menu li.header_menu_item a {
 	text-shadow: 0px 1px 2px #fff;
 	color: #444;
 	display: block;
 	height: 28px;
 	line-height: 28px;
 	padding: 0 10px;
-	background: url(/images/top.png) 0px -28px repeat-x;
 	text-decoration: none;
 }
 
-.right_menu li:hover>a {
+.right_menu li.header_menu_item:hover > a {
 	background: url(/images/top.png) 0px -84px repeat-x;
 }
 
@@ -54,13 +53,6 @@
 	text-decoration: none;
 }
 
-.right_menu li.header_menu_item_last {
-	display: block;
-	width: 5px;
-	height: 28px;
-	background: url(/images/top.png) 0px -28px repeat-x;
-}
-
 .right_menu li.header_menu_item:hover a.link,
 .right_menu li.header_menu_item:hover span {
 	background: url(/images/top.png) 0px -84px repeat-x;
@@ -80,7 +72,6 @@
 	display: none;
 	position: absolute;
 	z-index: 10;
-	right: 0px;
 	background: #fff url(/images/top.png) 0px -112px repeat-x;
 	border: 1px solid #909090;
 	-moz-box-shadow: 0px 4px 4px #999;
@@ -107,6 +98,7 @@
 	margin: 0;
 	font-weight: normal;
 }
+
 .right_menu li.header_menu_item ul li:hover a.link {
 	color: #07A00B;
 	text-decoration: none;
@@ -201,6 +193,20 @@
 	display: block;
 }
 
+/* Всплывающие окна */
+
+#TB_window {
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+}
+
+#TB_title {
+	-moz-border-radius: 15px 15px 0 0;
+	-webkit-border-radius: 15px 15px 0 0;
+	border-radius: 15px 15px 0 0;
+}
+
 .header_private_item li {
 	padding-right: 28px;
 }
@@ -226,6 +232,21 @@
 
 .header_menu_input {
 	width: 400px;
+}
+
+.login_input_table {
+	width: 500px;
+	margin-top: 10px;
+	border-collapse: collapse;
+}
+
+.login_input {
+	width: 280px;
+	float: right;
+}
+
+.login_action {
+	margin-top: 20px;
 }
 
 /* Часть для главной страницы. TODO: отдельный css для главной */
