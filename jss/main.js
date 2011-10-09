@@ -23,7 +23,7 @@ jQuery.cookie = function (key, value, options) {
 	return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
 };
 
-	/* Some Cookie Magic */
+	/* Some Cookie Magic
 
 	if (typeof localStorage == 'object') {
 		try {
@@ -36,7 +36,7 @@ jQuery.cookie = function (key, value, options) {
 				$.cookie("settings", local, { expires: 60 , path : window.config.site_dir + '/' , domain : '4otaku.ru'});
 			}
 		} catch (err) {}
-	}
+	} */
 
 (function($) {
 	$.fn.easyTooltip = function(options){
