@@ -93,7 +93,7 @@ if (!(_CRON_)) {
 
 		// Обновляем cookie еще на 2 мес у клиента, если она поставлена больше месяца назад
 		if(intval($sess['lastchange']) < (time()-3600*24*30)) {
-			setcookie('settings', query::$cookie, time()+3600*24*60, '/' , $cookie_domain);
+			setcookie('settings', query::$cookie, time()+3600*24*60, '/', $cookie_domain);
 			// Фиксируем факт обновления в БД
 			Database::update('settings',
 				array('lastchange' => time()),
@@ -134,4 +134,3 @@ if (!(_CRON_)) {
 		));
 	}
 }
-

@@ -1,6 +1,8 @@
 <?
 
-class Dynamic_Login extends Engine
+class dynamic__login extends Dynamic_Login {}
+
+class Dynamic_Login
 {
 	const	INCORRECT_PASSWORD = 'Пароль введен неверно',
 			NO_SUCH_USER = 'Такого пользователя не существует',
@@ -8,8 +10,11 @@ class Dynamic_Login extends Engine
 			PASSWORD_TOO_SHORT = 'Вы задали слишком короткий пароль',
 			LOGIN_TOO_SHORT = 'Вы задали слишком короткий логин',
 			USER_ALREADY_EXISTS = 'Такой пользователь уже существует',
+			EMAIL_ALREADY_EXISTS = 'Пользователь с таким е-мейлом уже существует',
+			EMAIL_INCORRECT = 'Е-мейл введен неверно',
 			REGISTER_SUCCESS = 'Вы успешно зарегистрировались',
-			LOGIN_SUCCESS = 'Вы успешно вошли';
+			LOGIN_SUCCESS = 'Вы успешно вошли',
+			CHANGE_SUCCESS = 'Вы успешно сменили пароль';
 
 	public function login () {
 		$query = query::$post;
@@ -17,62 +22,133 @@ class Dynamic_Login extends Engine
 		$params = array($query['login']);
 		$params[] = $this->encode_password($query['pass']);
 
-		$cookie = Database::get_field('user', 'cookie', '`username` = ? and `password` = ?', $params);
+		$cookie = Database::get_field('user', 'cookie',
+			'`login` = ? and `pass` = ?', $params);
 
-		if (!empty($cookie)) {
-			Cookie::set_cookie($cookie);
-			exit(self::LOGIN_SUCCESS);
+		if ($cookie === '') {
+			Database::update('user', array('cookie' => query::$cookie),
+				'`login` = ? and `pass` = ?', $params);
+			$this->reply(self::LOGIN_SUCCESS);
 		}
 
-		if (Database::get_field('user', 'cookie', '`username` = ?', $query['login'])) {
-			exit(self::INCORRECT_PASSWORD);
+		if (!empty($cookie)) {
+			$this->set_cookie($cookie);
+			$this->reply(self::LOGIN_SUCCESS);
+		}
+
+		$test = Database::get_field('user', 'cookie',
+			'`login` = ?', $query['login']);
+
+		if ($test !== false) {
+			$this->reply(self::INCORRECT_PASSWORD, false);
 		} else {
-			exit(self::NO_SUCH_USER);
+			$this->reply(self::NO_SUCH_USER, false);
 		}
 	}
 
-	public function register ($query) {
-		if (count($query['pass']) != 2 || count(array_unique($query['pass'])) != 1) {
-			exit(self::PASSWORDS_DONT_MATCH);
+	public function register () {
+		$query = query::$post;
+
+		if ($query['pass'] != $query['pass2']) {
+			$this->reply(self::PASSWORDS_DONT_MATCH, false);
 		}
 
-		$password = current($query['pass']);
+		$password = $query['pass'];
 
-		if (mb_strlen($password) < Config::settings('min_length', 'password')) {
-			exit(self::PASSWORD_TOO_SHORT);
+		if (mb_strlen($password) < 6) {
+			$this->reply(self::PASSWORD_TOO_SHORT, false);
 		}
 
-		if (mb_strlen($query['login']) < Config::settings('min_length', 'login')) {
-			exit(self::LOGIN_TOO_SHORT);
+		if (mb_strlen($query['login']) < 6) {
+			$this->reply(self::LOGIN_TOO_SHORT, false);
 		}
 
-		if (Database::get_field('user', 'cookie', '`username` = ?', $query['login'])) {
-			exit(self::USER_ALREADY_EXISTS);
+		if (Database::get_count('user', '`login` = ?', $query['login'])) {
+			$this->reply(self::USER_ALREADY_EXISTS, false);
 		}
 
-		if (empty($query['mail'])) {
-			$query['mail'] = md5(rand());
+		if (
+			!empty($query['email']) &&
+			!Check::email($query['email'])
+		) {
+			$this->reply(self::EMAIL_INCORRECT, false);
+		}
+
+		if (
+			!empty($query['email']) &&
+			Database::get_count('user', '`email` = ?', $query['email'])
+		) {
+			$this->reply(self::EMAIL_ALREADY_EXISTS, false);
 		}
 
 		$insert = array(
-			'cookie' => Globals::$user_data['cookie'],
-			'username' => $query['login'],
-			'password' => $this->encode_password($password),
-			'email'=> $query['mail'],
+			'cookie' => query::$cookie,
+			'login' => $query['login'],
+			'pass' => $this->encode_password($password),
+			'email'=> $query['email'],
 		);
 
 		Database::insert('user', $insert);
 
-		Meta::add('author', $query['login']);
-
-		exit(self::REGISTER_SUCCESS);
+		$this->reply(self::REGISTER_SUCCESS);
 	}
 
-	public function remember_password ($query) {
-		$this->redirect_address = '';
+	public function change_pass () {
+		$query = query::$post;
+
+		$params = array(query::$cookie);
+		$params[] = $this->encode_password($query['old_pass']);
+
+		if (
+			!Database::get_count('user',
+				'`cookie` = ? and `pass` = ?', $params)
+		) {
+			Database::debug();
+			$this->reply(self::INCORRECT_PASSWORD, false);
+		}
+
+		if ($query['pass'] != $query['pass2']) {
+			$this->reply(self::PASSWORDS_DONT_MATCH, false);
+		}
+
+		$password = $query['pass'];
+
+		if (mb_strlen($password) < 6) {
+			$this->reply(self::PASSWORD_TOO_SHORT, false);
+		}
+
+		$update = array(
+			'pass' => $this->encode_password($password)
+		);
+
+		Database::update('user', $update,
+			'`cookie` = ? and `pass` = ?', $params);
+
+		$this->reply(self::CHANGE_SUCCESS);
 	}
 
 	protected function encode_password ($password) {
-		return Crypt::md5_salt($password, Config::main('salt'));
+		return md5($password);
+	}
+
+	protected function set_cookie ($cookie) {
+
+		$cookie_domain = def::site('domain') != 'localhost' ?
+			def::site('domain') :
+			'';
+		$cookie_domain .= SITE_DIR;
+
+		setcookie('settings', $cookie,
+			time()+3600*24*60, '/', $cookie_domain);
+	}
+
+	protected function reply ($message, $success = true) {
+		$response = array(
+			'success' => $success,
+			'message' => $message,
+		);
+
+		$response = htmlspecialchars(json_encode($response), ENT_NOQUOTES);
+		exit($response);
 	}
 }

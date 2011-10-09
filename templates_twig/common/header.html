@@ -9,14 +9,16 @@
 			<ul>
 				{% if user.login %}
 					<li>
-						<a title="Разлогиниться" class="logout link">
+						<a title="Разлогиниться"
+						 class="logout link disabled"
+						 href="/">
 							Выйти
 						</a>
 					</li>
 					<li>
 						<a title="Поменять пароль от аккаунта"
 							 class="thickbox link"
-							 href="/ajax.php?m=box&f=change_pass&width=500&height=140">
+							 href="/ajax.php?m=box&f=change_pass&width=500&height=170">
 							Сменить пароль
 						</a>
 					</li>
@@ -24,24 +26,24 @@
 					<li>
 						<a title="Войти, используя свой логин и пароль"
 							 class="thickbox link"
-							 href="/ajax.php?m=box&f=login&width=500&height=130">
+							 href="/ajax.php?m=box&f=login&width=500&height=140">
 							Войти
 						</a>
 					</li>
 					<li>
 						<a title="Зарегистрироваться на сайте"
 							 class="thickbox link"
-							 href="/ajax.php?m=box&f=register&width=500&height=190">
+							 href="/ajax.php?m=box&f=register&width=500&height=200">
 							Регистрация
 						</a>
 					</li>
-					<li>
+		<!--			<li>
 						<a title="Выслать на почту пароль от аккаунта"
 							 class="thickbox link"
 							 href="/ajax.php?m=box&f=remind_pass&width=500&height=120">
 							Напомнить пароль
 						</a>
-					</li>
+					</li> -->
 				{% endif %}
 			</ul>
 		</li>
