@@ -168,7 +168,7 @@
 						<? }
 						if ($url[1] != 'search') {
 							if ($item['resized'] && $sets['art']['resized']) { ?>
-								<div<?=(is_array($reason) ? ' class="hidden hidden_art"' : "");?>>
+								<div<?=(!empty($reason) ? ' class="hidden hidden_art"' : "");?>>
 									<div class="clear margin20 mini-shell art-bar">
 										<a href="#" class="disabled <?=($item['animated'] ? 'animated ' : '');?>booru_show_toggle" rel="<?=$item['extension'];?>">
 											Показать в полном размере
@@ -193,7 +193,7 @@
 								</div>
 							<? }
 							else { ?>
-								<div<?=(is_array($reason) ? ' class="hidden hidden_art"' : "");?>>
+								<div<?=(!empty($reason) ? ' class="hidden hidden_art"' : "");?>>
 									<div class="image booru_translation_toggle">
 										<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
 										<?
