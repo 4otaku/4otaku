@@ -318,9 +318,11 @@ class Database_Instance extends Database_Abstract
 			$condition = "id = ".$condition;
 		}
 
-		if (!empty($condition)) {
-			$query .= " WHERE $condition";
+		if (empty($condition)) {
+			return 0;
 		}
+
+		$query .= " WHERE $condition";
 
 		$this->query($query, $params);
 

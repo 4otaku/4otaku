@@ -47,6 +47,13 @@ class dynamic__admin extends engine
 
 	public function merge_tag() {
 
+		if (
+			empty(query::$get['master']) || !is_numeric(query::$get['master']) ||
+			empty(query::$get['slave']) || !is_numeric(query::$get['slave'])
+		) {
+			return;
+		}
+
 		if (query::$get['master'] != query::$get['slave']) {
 			$master = Database::get_full_row('tag', query::$get['master']);
 			$slave = Database::get_full_row('tag', query::$get['slave']);
