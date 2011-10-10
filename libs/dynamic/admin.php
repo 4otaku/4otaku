@@ -8,6 +8,10 @@ class dynamic__admin extends engine
 	}
 
 	public function delete_tag () {
+		if (empty(query::$get['id']) || !is_numeric(query::$get['id'])) {
+			return;
+		}
+
 		Database::delete('tag', query::$get['id']);
 
 		Database::sql('update post set tag = replace (tag, ?, "|")',
