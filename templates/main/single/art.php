@@ -104,13 +104,18 @@
 						</div>
 					<? } ?>
 					<? if (!$data['feed']) {
-						if (array_key_exists('nsfw',$item['meta']['category']) && is_array($item['meta']['tag'])) {
-							if (!$sets['show']['nsfw']) $reason['nsfw'] = true;
-							if (!$sets['show']['yaoi'] && array_key_exists('yaoi',$item['meta']['tag'])) $reason['yaoi'] = true;
-							if (!$sets['show']['furry'] && array_key_exists('furry',$item['meta']['tag'])) $reason['furry'] = true;
-							if (!$sets['show']['guro'] && array_key_exists('guro',$item['meta']['tag'])) $reason['guro'] = true;
+						$reason = array();
+						if (is_array($item['meta']['tag'])) {
+
+							foreach ($sets['show'] as $tag => $show) {
+								$type = ($tag == 'nsfw') ? 'category' : 'tag';
+
+								if ($show === 0 && array_key_exists($tag, $item['meta'][$type])) {
+									$reason[$tag] = true;
+								}
+							}
 						}
-						if (is_array($reason)) { ?>
+						if (!empty($reason)) { ?>
 							<div class="art_not_showed mini-shell">
 								<?
 									if ($reason['nsfw']) {

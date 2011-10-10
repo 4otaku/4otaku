@@ -168,9 +168,6 @@
 				<option value="50"<?=(sets::pp('art') == 50 ? ' selected="yes"' : '');?>>50</option>
 			</select>
 			<br />
-			Показывать материалы 18+:
-			 <input type="checkbox" class="settings" rel="show.nsfw" value="1"<?=(sets::get('show','nsfw') ? ' checked' : '');?>>
-			<br />
 			Показывать яой:
 			 <input type="checkbox" class="settings" rel="show.yaoi" value="1"<?=(sets::get('show','yaoi') ? ' checked' : '');?>>
 			<br />

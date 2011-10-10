@@ -56,4 +56,9 @@ class dynamic__box
 	function register () {
 		return true;
 	}
+
+	function black_list () {
+//		var_dump(sets::$data);
+		return true;
+	}
 }
