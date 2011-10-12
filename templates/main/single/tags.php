@@ -41,7 +41,7 @@
 			</a>
 			<? if (++$i != $total) { ?>
 				,
-			<? } ?>
+			 <? } ?>
 			<span class="hidden tag_synonims tag_synonims_<?=$item['id'];?>">
 				<? if ($meta_total = count($meta['variants'])) {
 					if ($i == $total) { ?>, <? }
@@ -53,7 +53,7 @@
 							</a>
 							<? if (++$j != $meta_total) { ?>
 								,
-							<? } ?>
+							 <? } ?>
 						<?
 					}
 				} ?>
