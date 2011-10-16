@@ -42,7 +42,7 @@ $(".chzn-choices").live('keyup', function(e) {
 
 	if ((e.ctrlKey == true || this.ctrlPressed) && e.which == 86) {
 		var tags = $("#chozen_chzn li.no-results span").html() || '';
-		tags = tags.split(/\s+/);
+		tags = tags.split(/[,\s+]/);
 		
 		var box = $("#chozen");
 		$.each(tags, function(index, tag) { 
@@ -67,7 +67,7 @@ function generate_selectbox(tags) {
 	$.each(tags, function(index, tag) { 
 		$("<option/>").html(tag).val(tag).appendTo(box);
 	});
-	return;
+
 	box.chosen({no_results_text: "Нет подходящих тегов"});
 	$(".tags-loader").hide();
 }
