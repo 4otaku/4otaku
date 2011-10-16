@@ -11,7 +11,7 @@ class input__art extends input__common
 				$pool_password = Database::get_field('art_pool', 'password', $url[3]);
 			}
 			if (empty($pool_password) || $pool_password == md5(query::$post['password'])) {
-				$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(query::$post['tags']));
+				$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse_array(query::$post['tags']));
 				$category = obj::transform('meta')->category(query::$post['category']);
 				$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
 //				query::$post['images'] = array_reverse(query::$post['images']);

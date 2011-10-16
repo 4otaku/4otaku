@@ -434,6 +434,29 @@ table.wrapwindow {
 	font-size:10pt;
 }
 
+/* Редактирование */
+
+#tags #chozen {
+	width: 90%;
+	display: block;
+	visibility: hidden;
+	height: 0px;
+}
+
+#tags #chozen_chzn {
+	margin: 10px 0;
+}
+
+#tags .tags-loader{
+	text-align: center;	
+}
+
+#tags .tags-loader img{
+	margin: 0 auto;
+	clear: both;
+	text-align: center;	
+}
+
 /* Content, отображение поста */
 
 .post {
@@ -1128,6 +1151,27 @@ img.bb {
 
 .bbholder td {
 	padding: 0px !important;
+}
+
+#add_tags #chozen {
+	width: 100%;
+	display: block;
+	visibility: hidden;
+	height: 0px;
+}
+
+#add_tags #chozen_chzn {
+	margin: 0;
+}
+
+#add_tags .tags-loader{
+	text-align: center;	
+}
+
+#add_tags .tags-loader img{
+	margin: 0 auto;
+	clear: both;
+	text-align: center;	
 }
 
 /* Sidebar */

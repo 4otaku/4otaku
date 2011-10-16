@@ -11,7 +11,7 @@ class input__post extends input__common
 		
 			if (query::$post['author'] != $def['user']['name'] && query::$post['author']) $cookie->inner_set('user.name',query::$post['author']);
 			
-			$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(query::$post['tags']));
+			$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse_array(query::$post['tags']));
 			$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
 			$category = obj::transform('meta')->category(query::$post['category']);
 			$language = obj::transform('meta')->language(query::$post['language']);

@@ -50,7 +50,20 @@
 					Теги
 				</td>
 				<td class="inputdata">
-					<input size="65%" name="tags" value="" type="text">
+					<? if (true) { ?>
+						<input size="65%" name="tags" value="" type="text">
+					<? } else { ?>
+						<div id="add_tags">
+							<div class="tags-loader">
+								<img src="/images/ajax-loader.gif" />
+							</div>
+							<select data-placeholder="Проставьте теги" 
+								 multiple tabindex="3" 
+								 id="chozen" 
+								 name="tags[]">
+							</select>
+						</div>
+					<? } ?>		
 				</td>
 			</tr>
 			<tr>

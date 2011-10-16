@@ -11,7 +11,9 @@ $("#transparent td img.cancel").die("click").live("click", function(){
 	check_similar();
 });
 
-$(document).ready(function(){  	
+$(document).ready(function(){
+	
+	get_tags('art');
 
 	window.processing_art = 0;
 	

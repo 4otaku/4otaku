@@ -1,8 +1,6 @@
 <?
 
-class dynamic__login extends Dynamic_Login {}
-
-class Dynamic_Login
+class Dynamic_Login extends Dynamic_Abstract
 {
 	const	INCORRECT_PASSWORD = 'Пароль введен неверно',
 			NO_SUCH_USER = 'Такого пользователя не существует',
@@ -141,14 +139,6 @@ class Dynamic_Login
 		setcookie('settings', $cookie,
 			time()+3600*24*60, '/', $cookie_domain);
 	}
-
-	protected function reply ($message, $success = true) {
-		$response = array(
-			'success' => $success,
-			'message' => $message,
-		);
-
-		$response = htmlspecialchars(json_encode($response), ENT_NOQUOTES);
-		exit($response);
-	}
 }
+
+class dynamic__login extends Dynamic_Login {}

@@ -13,7 +13,7 @@ class input__video extends input__common
 					if ($object = obj::transform('video')->html(query::$post['link'])) {
 		
 						if (query::$post['user'] != $def['user']['name']) $cookie->inner_set('user.name',query::$post['user']); else unset(query::$post['user']);
-						$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(query::$post['tags']));
+						$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse_array(query::$post['tags']));
 						$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['user'],$def['user']['author']));
 						$category = obj::transform('meta')->category(query::$post['category']);
 						$text = obj::transform('text')->format(trim(query::$post['description']));

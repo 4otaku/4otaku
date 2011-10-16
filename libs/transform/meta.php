@@ -39,6 +39,30 @@ class transform__meta
 			}
 		return $tags;
 	}
+	
+	function parse_array ($items, $default = 'Проставьте_теги') {
+
+		if (empty($items)) {
+			return array($default);
+		}
+		
+		if (!is_array($items)) {
+			return $this->parse($items);
+		}
+		
+		$tags = array_unique(array_filter($items));
+		
+		foreach ($tags as $key => $tag) {
+			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
+				$tags[$key] = str_replace($type[0],'',$tag);
+				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
+				if (!empty($color)) {
+					$this->colors[$tags[$key]] = $color;
+				}
+			}
+		}
+		return $tags;
+	}
 
 	function erase_tags($erase, $erasearea){
 		foreach ($erase as $one)

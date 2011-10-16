@@ -17,7 +17,7 @@ function display_login_results(result){
 		$("#TB_ajaxContent #error").remove();
 		$("#TB_ajaxContent").prepend(
 			"<div id='error'>"+
-			result.message +
+			result.data +
 			"</div>"
 		);
 	}

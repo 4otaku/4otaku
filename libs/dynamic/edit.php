@@ -216,6 +216,7 @@ class dynamic__edit extends engine
 			foreach ($return['value'] as &$one) if ($meta[$one]) $one = $meta[$one];
 		}
 		uasort($return['value'], 'transform__array::meta_sort');
+		$return['area'] = query::$get['type'];
 		return $return;
 	}
 

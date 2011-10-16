@@ -1,114 +1,100 @@
-jQuery.cookie = function (key, value, options) {
-	if (arguments.length > 1 && (value === null || typeof value !== "object")) {
-		options = jQuery.extend({}, options);
-		if (value === null) { options.expires = -1; }
+var tag_areas = ["post", "video", "art"];
 
-		if (typeof options.expires === 'number') {
-			var days = options.expires, t = options.expires = new Date();
-			t.setDate(t.getDate() + days);
-		}
+$.each(tag_areas, function (index, area) {
+	
+	var tags_updated = $.Storage.get("tags_updated_"+area);
 
-		return (document.cookie = [
-			encodeURIComponent(key), '=',
-			options.raw ? String(value) : encodeURIComponent(String(value)),
-			options.expires ? '; expires=' + options.expires.toUTCString() : '',
-			options.path ? '; path=' + options.path : '',
-			options.domain ? '; domain=' + options.domain : '',
-			options.secure ? '; secure' : ''
-		].join(''));
+	if (tags_updated == undefined) {
+		return;
 	}
 
-	options = value || {};
-	var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
-	return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
-};
-
-	/* Some Cookie Magic
-
-	if (typeof localStorage == 'object') {
-		try {
-			var cookie = $.cookie("settings");
-			var local = localStorage.getItem('4otaku_settings');
-
-			if (cookie != null && local == null) {
-				localStorage.setItem('4otaku_settings', cookie);
-			} else if (cookie != local) {
-				$.cookie("settings", local, { expires: 60 , path : window.config.site_dir + '/' , domain : '4otaku.ru'});
+	if (tags_updated < new Date().getTime() - 86400000) {
+		$.post(
+			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area, 
+			function(result) {
+				result = $.parseJSON(result);	
+				$.Storage.set("tags_"+area, JSON.stringify(result.data));
+				$.Storage.set("tags_updated_"+area, new Date().getTime());
 			}
-		} catch (err) {}
-	} */
+		);
+	}
+});
 
-(function($) {
-	$.fn.easyTooltip = function(options){
-		var defaults = {
-			xOffset: 10,
-			yOffset: 25,
-			tooltipId: "easyTooltip",
-			clickRemove: true,
-			content: "",
-			useElement: "",
-			timeOut: false
-		};
-		var options = $.extend(defaults, options);
-		var content;
-		this.each(function() {
-			var title = $(this).attr("title");
-			$(this).hover(function(e){
-				$("#" + options.tooltipId).remove();
-				$(this).attr("title","");
-				content = (options.content != "") ? options.content : title;
-				content = (options.useElement != "") ? $("#" + options.useElement).html() : content;
-				if (content != "" && content != undefined){
-					$("body").append("<div id='"+ options.tooltipId +"'>"+ content +"</div>");
-					if (options.timeOut) {
-						$("#" + options.tooltipId)
-							.css("position","absolute")
-							.css("top",(e.pageY - options.yOffset) + "px")
-							.css("left",(e.pageX + options.xOffset) + "px")
-							.css("display","none");
-							setTimeout(function() {$("#" + options.tooltipId).fadeIn("fast")}, options.timeOut);
-					} else {
-						$("#" + options.tooltipId)
-							.css("position","absolute")
-							.css("top",(e.pageY - options.yOffset) + "px")
-							.css("left",(e.pageX + options.xOffset) + "px")
-							.css("display","none").fadeIn("fast");
-					}
-				}
-			},
-			function(){
-				$("#" + options.tooltipId).remove();
-				$(this).attr("title",title);
-			});
-			$(this).mousemove(function(e){
-				$("#" + options.tooltipId)
-					.css("top",(e.pageY - options.yOffset) + "px")
-					.css("left",(e.pageX + options.xOffset) + "px")
-			});
-			if(options.clickRemove){
-				$(this).mousedown(function(e){
-					$("#" + options.tooltipId).remove();
-					$(this).attr("title",title);
-				});
+$(".chzn-choices").live('keydown', function(e) {
+
+	if (e.which == 13 || e.which == 9 || e.which == 188) {
+		
+		e.preventDefault();
+		
+		var tag = $("#chozen_chzn li.no-results span").html() || 
+			$("#chozen_chzn li.active-result em:first").html() || 
+			'';
+		tag = tag.replace(/ /g, "_");
+		
+		var box = $("#chozen");		
+		box.append('<option value="'+tag+
+			'" selected="selected">'+tag+'</option>');
+		box.trigger('liszt:updated');		
+	}
+});
+
+$(".chzn-choices").live('keyup', function(e) {
+
+	if ((e.ctrlKey == true || this.ctrlPressed) && e.which == 86) {
+		var tags = $("#chozen_chzn li.no-results span").html() || '';
+		tags = tags.split(/\s+/);
+		
+		var box = $("#chozen");
+		$.each(tags, function(index, tag) { 
+			box.append('<option value="'+tag+
+				'" selected="selected">'+tag+'</option>');
+		});
+		box.trigger('liszt:updated');
+
+		this.ctrlPressed = false;
+	} else if (e.ctrlKey == true && e.which == 17) {
+		
+		this.ctrlPressed = true;
+	} else {
+		
+		this.ctrlPressed = false;
+	}
+});
+
+function generate_selectbox(tags) {
+	var box = $("#chozen");
+	
+	$.each(tags, function(index, tag) { 
+		$("<option/>").html(tag).val(tag).appendTo(box);
+	});
+	return;
+	box.chosen({no_results_text: "Нет подходящих тегов"});
+	$(".tags-loader").hide();
+}
+
+function get_tags(area) {
+	var tags = $.Storage.get("tags_"+area);
+
+	if (tags != undefined) {
+		
+		tags = $.parseJSON(tags);
+		generate_selectbox(tags);
+	} else {
+		
+		$.post(
+			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area, 
+			function(result) {
+				result = $.parseJSON(result);
+
+				$.Storage.set("tags_"+area, JSON.stringify(result.data));
+				$.Storage.set("tags_updated_"+area, new Date().getTime());
+				
+				generate_selectbox(result.data);
 			}
-		});
-	};
-})(jQuery);
-
-jQuery.download = function(url, data, method){
-	if(url && data){
-		data = typeof data == 'string' ? data : jQuery.param(data);
-		var inputs = '';
-		jQuery.each(data.split('&'), function(){
-			var pair = this.split('=');
-			inputs+='<input type="hidden" name="'+ pair[0] +'" value="'+ pair[1] +'" />';
-		});
-		jQuery('<form action="'+ url +'" method="'+ (method||'get') +'">'+inputs+'</form>')
-		.appendTo('body').submit().remove();
-	};
-};
-
-
+		);
+	}
+}
+		
 function trim (str) {
 	str = str.replace(/^\s+/, '');
 	for (var i = str.length - 1; i >= 0; i--) {

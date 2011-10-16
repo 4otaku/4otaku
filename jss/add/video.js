@@ -1,4 +1,6 @@
-$(document).ready(function(){  	
+$(document).ready(function(){
+	
+	get_tags('video');
 
 	new AjaxUpload('video-file', {
 		action: window.config.site_dir+'/ajax.php?upload=video',

@@ -8,7 +8,9 @@ String.prototype.replaceall = function(oldstr, newstr) {
 	return(target);
 }
 
-$(document).ready(function(){  	
+$(document).ready(function(){
+	
+	get_tags('post');
 
 	window.processing_art = 0;
 	window.processing_files = 0;	

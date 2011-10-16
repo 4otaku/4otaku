@@ -56,7 +56,7 @@ class input__common extends engine
 				$area = query::$post['type'].'_'.$data['area'];
 				obj::transform('meta')->erase_tags(array_unique(array_filter(explode('|',$data['tag']))),$area);
 			}
-			$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse(query::$post['tags']),$area);
+			$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse_array(query::$post['tags']),$area);
 			obj::db()->update(query::$post['type'],'tag',$tags,query::$post['id']);
 		}
 	}			
