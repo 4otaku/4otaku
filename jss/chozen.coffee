@@ -316,6 +316,9 @@ class Chosen extends AbstractChosen
       @selected_item.attr "tabindex", @search_field.attr("tabindex")
       @search_field.attr "tabindex", -1
 
+    if @search_field.val() != @default_text 
+      @form_field_jq.trigger('close', $('<div/>').text($.trim(@search_field.val())).html())
+
     @active_field = false
     this.results_hide()
 
@@ -378,15 +381,14 @@ class Chosen extends AbstractChosen
     data = {}
     data.array_index = @results_data.length
     data.options_index = @results_data.length
-    data.value = option
-    data.text = option
-    data.html = option
+    data.value = option.text
+    data.text = option.text
+    data.html = option.text + option.html
     data.selected = true
     data.disabled = false
     data.group_array_index = 0
     data.classes = ""
-    data.style = ""
-    @search_results.prepend this.result_add_option data
+    data.style = "color: #" + option.color + ";"
     this.choice_build data
     $(".active-result").removeClass("active-result")
     this.winnow_results_clear()
@@ -484,7 +486,11 @@ class Chosen extends AbstractChosen
   choice_build: (item) ->
     choice_id = @container_id + "_c_" + item.array_index
     @choices += 1
-    @search_container.before  '<li class="search-choice" id="' + choice_id + '"><span>' + item.html + '</span><a href="javascript:void(0)" class="search-choice-close" rel="' + item.array_index + '"></a></li>'
+    if item.style 
+      style = ' style="'+item.style+'"'
+    else
+      style = ''
+    @search_container.before  '<li class="search-choice" id="' + choice_id + '"'+style+'><span>' + item.html + '</span><a href="javascript:void(0)" class="search-choice-close" rel="' + item.array_index + '"></a></li>'
     link = $('#' + choice_id).find("a").first()
     link.click (evt) => this.choice_destroy_link_click(evt)
 
@@ -577,7 +583,7 @@ class Chosen extends AbstractChosen
 
     if searchText.length < 3
       $(".active-result").removeClass("active-result")
-      no_search_html = $('<li class="no-results">Подсказки начинаются от 3 символов</li>')
+      no_search_html = $('<li class="no-results">Подсказки начинаются от 3 символов<span class="hidden">'+searchText+'</span></li>')
       @search_results.append no_search_html
       return ""
 

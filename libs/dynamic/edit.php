@@ -212,8 +212,15 @@ class dynamic__edit extends engine
 		global $check;
 		if ($check->num(query::$get['id']) && $check->lat(query::$get['type'])) {
 			$return['value'] = array_unique(array_filter(explode('|',obj::db()->sql('select tag from '.query::$get['type'].' where id='.query::$get['id'],2))));
-			$meta = obj::db()->sql('select alias, name from tag where alias="'.implode('" or alias="',$return['value']).'"','alias');
-			foreach ($return['value'] as &$one) if ($meta[$one]) $one = $meta[$one];
+			$return['colors'] = array();
+			
+			$meta = obj::db()->sql('select alias, name, color from tag where alias="'.implode('" or alias="',$return['value']).'"','alias');
+			foreach ($return['value'] as &$one) {
+				if (!empty($meta[$one])) {
+					$one = $meta[$one]['name'];
+					$return['colors'][$meta[$one]['name']] = $meta[$one]['color'];
+				}
+			}
 		}
 		uasort($return['value'], 'transform__array::meta_sort');
 		$return['area'] = query::$get['type'];

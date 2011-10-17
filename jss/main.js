@@ -31,15 +31,13 @@ $(".chzn-choices").live('keydown', function(e) {
 			$("#chozen_chzn li.active-result em:first").html() ||
 			'';
 
-		if (tag.length > 0) {
-
-			var box = $("#chozen");
-			box.trigger('liszt:added', tag);
-		}
+		add_chozen_tag(tag);
 	} else if (e.which == 8) {
 		var tag = $("#chozen_chzn li.no-results span").html() ||
 			$("#chozen_chzn li.active-result em:first").html() ||
 			'';
+
+		console.log(tag);
 
 		if (tag.length == 0) {
 			e.preventDefault();
@@ -53,11 +51,8 @@ $(".chzn-choices").live('keyup', function(e) {
 		var tags = $("#chozen_chzn li.no-results span").html() || '';
 		tags = tags.split(/[,\s+]/);
 
-		var box = $("#chozen");
 		$.each(tags, function(index, tag) {
-			if (tag.length > 0) {
-				box.trigger('liszt:added', tag);
-			}
+			add_chozen_tag(tag);
 		});
 
 		this.ctrlPressed = false;
@@ -70,6 +65,57 @@ $(".chzn-choices").live('keyup', function(e) {
 	}
 });
 
+function add_chozen_tag (value) {
+	if (value.length == 0) {
+		return;
+	}
+	
+	var colors = {
+		character: '00AA00',
+		персонаж: '00AA00',
+		герой: '00AA00',
+		hero: '00AA00',
+		actor: '00AA00',
+		series: 'AA00AA',
+		аниме: 'AA00AA',
+		copyright: 'AA00AA',
+		произведение: 'AA00AA',
+		game: 'AA00AA',
+		игра: 'AA00AA',
+		художник: 'AA0000',
+		autor: 'AA0000',
+		author: 'AA0000',
+		artist: 'AA0000',
+		автор: 'AA0000',
+		мангака: 'AA0000',
+		mangaka: 'AA0000',
+		special: '0000FF',
+		служебный: '0000FF'	
+	}
+	
+	var tag_color = "333";
+	var text = value;
+	
+	var matches = value.match(/&lt;.*?&gt;/g);
+	for (var key in matches) {
+		var match = matches[key].substr(4, matches[key].length - 8);
+		
+		if (colors[match] != undefined) {
+			text = value.replace(matches[key], "");
+			tag_color = colors[match];
+			break;
+		}
+	}
+	
+	var box = $("#chozen");
+	box.trigger('liszt:added', {
+		text: text,
+		color: tag_color,
+		html: '<input type="hidden" name="tags[]" value="'+
+			value.replace('"', '&quot;')+'" />'
+	});	
+}
+
 function generate_selectbox(tags) {
 	var box = $("#chozen");
 
@@ -77,7 +123,10 @@ function generate_selectbox(tags) {
 		$("<option/>").html(tag).val(tag).appendTo(box);
 	});
 
-	box.chosen({no_results_text: ""});
+	box.chosen({no_results_text: "Проставьте теги"});
+	box.bind('close', function(event, data) {
+		add_chozen_tag(data);
+	});
 	$(".tags-loader").hide();
 }
 
