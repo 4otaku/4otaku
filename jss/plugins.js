@@ -229,7 +229,7 @@ AbstractChosen = (function() {
     this.allow_single_deselect = (this.options.allow_single_deselect != null) && this.form_field.options[0].text === "" ? this.options.allow_single_deselect : false;
     this.disable_search_threshold = this.options.disable_search_threshold || 0;
     this.choices = 0;
-    return this.results_none_found = this.options.no_results_text || "Ничего не найдено по ";
+    return this.results_none_found = this.options.no_results_text || "Ничего не найдено по";
   };
   AbstractChosen.prototype.mouse_enter = function() {
     return this.mouse_on_container = true;
@@ -536,6 +536,9 @@ Chosen = (function() {
     this.form_field_jq.bind("liszt:updated", __bind(function(evt) {
       return this.results_update_field(evt);
     }, this));
+    this.form_field_jq.bind("liszt:added", __bind(function(evt, tag) {
+      return this.results_add(tag);
+    }, this));
     this.search_field.blur(__bind(function(evt) {
       return this.input_blur(evt);
     }, this));
@@ -670,6 +673,24 @@ Chosen = (function() {
     this.search_field_scale();
     this.search_results.html(content);
     return this.parsing = false;
+  };
+  Chosen.prototype.results_add = function(option) {
+    var data;
+    data = {};
+    data.array_index = this.results_data.length;
+    data.options_index = this.results_data.length;
+    data.value = option;
+    data.text = option;
+    data.html = option;
+    data.selected = true;
+    data.disabled = false;
+    data.group_array_index = 0;
+    data.classes = "";
+    data.style = "";
+    this.search_results.prepend(this.result_add_option(data));
+    this.choice_build(data);
+    $(".active-result").removeClass("active-result");
+    return this.winnow_results_clear();
   };
   Chosen.prototype.result_add_group = function(group) {
     if (!group.disabled) {

@@ -22,19 +22,28 @@ $.each(tag_areas, function (index, area) {
 
 $(".chzn-choices").live('keydown', function(e) {
 
-	if (e.which == 13 || e.which == 9 || e.which == 188) {
+	if (e.which == 13 || e.which == 32 || e.which == 9 ||
+		(e.which == 188 && e.shiftKey == false)) {
 
 		e.preventDefault();
 
 		var tag = $("#chozen_chzn li.no-results span").html() ||
 			$("#chozen_chzn li.active-result em:first").html() ||
 			'';
-		tag = tag.replace(/ /g, "_");
 
-		var box = $("#chozen");
-		box.append('<option value="'+tag+
-			'" selected="selected">'+tag+'</option>');
-		box.trigger('liszt:updated');
+		if (tag.length > 0) {
+
+			var box = $("#chozen");
+			box.trigger('liszt:added', tag);
+		}
+	} else if (e.which == 8) {
+		var tag = $("#chozen_chzn li.no-results span").html() ||
+			$("#chozen_chzn li.active-result em:first").html() ||
+			'';
+
+		if (tag.length == 0) {
+			e.preventDefault();
+		}
 	}
 });
 
@@ -46,10 +55,10 @@ $(".chzn-choices").live('keyup', function(e) {
 
 		var box = $("#chozen");
 		$.each(tags, function(index, tag) {
-			box.append('<option value="'+tag+
-				'" selected="selected">'+tag+'</option>');
+			if (tag.length > 0) {
+				box.trigger('liszt:added', tag);
+			}
 		});
-		box.trigger('liszt:updated');
 
 		this.ctrlPressed = false;
 	} else if (e.ctrlKey == true && e.which == 17) {
