@@ -80,15 +80,6 @@ class AbstractChosen
     this.search_field_scale()
 
     switch stroke
-      when 8
-        if @is_multiple and @backstroke_length < 1 and @choices > 0
-          this.keydown_backstroke()
-        else if not @pending_backstroke
-          this.result_clear_highlight()
-          this.results_search()
-      when 13
-        evt.preventDefault()
-        this.result_select(evt) if this.results_showing
       when 27
         this.results_hide() if @results_showing
       when 9, 38, 40, 16, 91, 17
@@ -155,20 +146,31 @@ class SelectParser
       @options_index += 1
 
   push_tree: (name) ->
-    a = name[0];
-    b = name[1];
-    c = name[2];
+    a = name[0]
+    b = name[1]
+    c = name[2]
 
-    if a == undefined or b == undefined or c == undefined
+    if a == undefined or b == undefined
       return
+      
+    a = a.toLowerCase()
+    b = b.toLowerCase()
 
     if @tree[a] == undefined
       @tree[a] = {}
     if @tree[a][b] == undefined
-      @tree[a][b] = {}
+      @tree[a][b] = {data: []}
+    @tree[a][b].data.push @parsed[@parsed.length - 1]
+    
+    if c == undefined
+      return      
+    
+    c = c.toLowerCase()
+      
     if @tree[a][b][c] == undefined
-      @tree[a][b][c] = []
-    @tree[a][b][c].push @options_index;
+      @tree[a][b][c] = {data: []}
+      
+    @tree[a][b][c].data.push @parsed[@parsed.length - 1]
 
 SelectParser.select_to_array = (select) ->
   parser = new SelectParser()
@@ -578,27 +580,32 @@ class Chosen extends AbstractChosen
     this.no_results_clear()
 
     results = 0
+    $(".active-result").removeClass("active-result")
 
     searchText = if @search_field.val() is @default_text then "" else $('<div/>').text($.trim(@search_field.val())).html()
 
-    if searchText.length < 3
-      $(".active-result").removeClass("active-result")
-      no_search_html = $('<li class="no-results">Подсказки начинаются от 3 символов<span class="hidden">'+searchText+'</span></li>')
+    if searchText.length < 2
+      no_search_html = $('<li class="no-results">Подсказки начинаются от 2 символов<span class="hidden">'+searchText+'</span></li>')
       @search_results.append no_search_html
       return ""
 
-    a = searchText[0];
-    b = searchText[1];
-    c = searchText[2];
-
-    if root.SelectTree[a] == undefined or root.SelectTree[a][b] == undefined or root.SelectTree[a][b][c] == undefined
-      $(".active-result").removeClass("active-result")
+    a = searchText[0].toLowerCase()
+    b = searchText[1].toLowerCase()
+    c = searchText[2]
+    
+    if c != undefined
+      c = c.toLowerCase()
+      
+    if root.SelectTree[a] == undefined or root.SelectTree[a][b] == undefined
       return this.no_results searchText
-
-    ids = root.SelectTree[a][b][c]
-    search_data = []
-    for id in ids
-      search_data.push @results_data[id]
+      
+    if c != undefined and root.SelectTree[a][b][c] == undefined
+      return this.no_results searchText
+      
+    if c != undefined
+      search_data = root.SelectTree[a][b][c].data
+    else
+      search_data = root.SelectTree[a][b].data
 
     regex = new RegExp('^' + searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i')
     zregex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i')
@@ -614,14 +621,6 @@ class Chosen extends AbstractChosen
           if regex.test option.html
             found = true
             results += 1
-          else if option.html.indexOf(" ") >= 0 or option.html.indexOf("[") == 0
-            #TODO: replace this substitution of /\[\]/ with a list of characters to skip.
-            parts = option.html.replace(/\[|\]/g, "").split(" ")
-            if parts.length
-              for part in parts
-                if regex.test part
-                  found = true
-                  results += 1
 
           if found
             if searchText.length
@@ -776,4 +775,3 @@ get_side_border_padding = (elmt) ->
   side_border_padding = elmt.outerWidth() - elmt.width()
 
 root.get_side_border_padding = get_side_border_padding
-
