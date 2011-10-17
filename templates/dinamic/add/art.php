@@ -5,7 +5,7 @@
 			Обязательные поля
 		</span>
 	</div>
-	<table width="100%">		
+	<table width="100%">
 		<tbody>
 			<tr>
 				<td class="input field_name">
@@ -29,60 +29,60 @@
 						</tr>
 					</table>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td colspan="2" id="error">
-				
+
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" id="is_dublicates">
-				
+
 				</td>
-			</tr>			
+			</tr>
 			<tr id="transparent" class="art_images">
 				<td colspan="2">
-					
+
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td class="input field_name">
 					Теги
 				</td>
 				<td class="inputdata">
-					<? if (true) { ?>
+					<? if (false) { ?>
 						<input size="65%" name="tags" value="" type="text">
 					<? } else { ?>
 						<div id="add_tags">
 							<div class="tags-loader">
 								<img src="/images/ajax-loader.gif" />
 							</div>
-							<select data-placeholder="Проставьте теги" 
-								 multiple tabindex="3" 
-								 id="chozen" 
+							<select data-placeholder="Проставьте теги"
+								 multiple tabindex="3"
+								 id="chozen"
 								 name="tags[]">
 							</select>
 						</div>
-					<? } ?>		
+					<? } ?>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					Для утверждения арта модератором необходимо минимум 5 тегов. 
+					Для утверждения арта модератором необходимо минимум 5 тегов.
 					<a href="http://wiki.4otaku.ru/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F_%D0%BF%D0%BE_%D1%82%D0%B5%D0%B3%D0%B0%D0%BC#.D0.94.D0.BB.D1.8F_.D0.BF.D0.BE.D0.BB.D1.8C.D0.B7.D0.BE.D0.B2.D0.B0.D1.82.D0.B5.D0.BB.D0.B5.D0.B9" target="_blank">
 						Инструкция по тегам
 					</a>.
 				</td>
 			</tr>
-        </tbody>		
+        </tbody>
     </table>
 	<div class="fields">
 		<span>
 			Дополнительные поля
 		</span>
 	</div>
-	<table width="100%" id="main_fields">		
-		<tbody>						
+	<table width="100%" id="main_fields">
+		<tbody>
 			<tr>
 				<td class="input field_name">
 					Источник
@@ -90,14 +90,14 @@
 				<td class="inputdata">
 					<input size="65%" name="source" value="" type="text">
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td class="input field_name">
 					Категория
 				</td>
 				<td class="inputdata">
 					<select name="category[]" class="left">
-						<? 
+						<?
 							foreach($data['category'] as $alias => $name) {
 								?>
 									<option value="<?=$alias;?>"><?=$name;?></option>
@@ -116,22 +116,22 @@
 				<td class="inputdata">
 					<input size="35%" name="author" value="<?=$sets['user']['name'];?>" type="text" class="username">
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 	            <td class="input field_name">
 					<input class="submit" value="Добавить" type="submit">
 					<input type="hidden" name="do" value="art.add" />
-					<input type="hidden" name="remember" value="true" />					
+					<input type="hidden" name="remember" value="true" />
 				</td>
 				<td class="inputdata">
 					&nbsp;
-					<? if (!empty($sets['user']['rights'])) { ?>						
-						<input type="radio" name="transfer_to" value="main" /> Сразу на главную 
-						<input type="radio" name="transfer_to" value="sprites" /> Сразу в спрайты 
+					<? if (!empty($sets['user']['rights'])) { ?>
+						<input type="radio" name="transfer_to" value="main" /> Сразу на главную
+						<input type="radio" name="transfer_to" value="sprites" /> Сразу в спрайты
 						<input type="radio" name="transfer_to" value="" checked="checked" /> Как обычно
 					<? } ?>
 				</td>
-			</tr>		  
-        </tbody>		
+			</tr>
+        </tbody>
     </table>
 </form>

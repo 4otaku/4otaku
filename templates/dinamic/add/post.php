@@ -5,7 +5,7 @@
 			Обязательные поля
 		</span>
 	</div>
-	<table width="100%">		
+	<table width="100%">
 		<tbody class="link_main">
 			<tr>
 				<td class="input field_name">
@@ -20,9 +20,9 @@
 					Ссылка
 				</td>
 				<td class="inputdata">
-					<input size="12%" type="text" name="link[0][name]" value="Скачать" />: 
+					<input size="12%" type="text" name="link[0][name]" value="Скачать" />:
 					<input size="36%" type="text" name="link[0][link]" value="http://" />
-					~(<input size="2%" type="text" name="link[0][size]" value="" /> 
+					~(<input size="2%" type="text" name="link[0][size]" value="" />
 					<select name="link[0][sizetype]">
 						<option value="кб">кб</option>
 						<option value="мб" selected>мб</option>
@@ -31,7 +31,7 @@
 					)
 					<input type="submit" class="disabled sign remove_link" rel="main" value="-" />
 				</td>
-			</tr>			
+			</tr>
         </tbody>
         <tfoot>
 			<tr>
@@ -42,15 +42,15 @@
 					<input type="submit" class="disabled add_link" rel="main" value="+" />
 				</td>
 			</tr>
-		</tfoot>       		
+		</tfoot>
     </table>
 	<div class="fields">
 		<span>
 			Дополнительные поля
 		</span>
 	</div>
-	<table width="100%">		
-		<thead class="link_file">						
+	<table width="100%">
+		<thead class="link_file">
 			<tr>
 				<td class="input field_name">
 					Загрузить картинку
@@ -73,15 +73,15 @@
 						</tr>
 					</table>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td colspan="2" id="error">
-				
+
 				</td>
-			</tr>			
+			</tr>
 			<tr id="transparent" class="post_images">
 				<td colspan="2">
-					
+
 				</td>
 			</tr>
 			<tr>
@@ -102,14 +102,14 @@
 						</tr>
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
-						</tr>								
+						</tr>
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
 						</tr>
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
 						</tr>
-					</table>					
+					</table>
 				</td>
 			</tr>
 			<tr>
@@ -134,15 +134,15 @@
 						</tr>
 					</table>
 				</td>
-			</tr>		
+			</tr>
         </thead>
-        <tbody class="link_bonus">			
+        <tbody class="link_bonus">
 			<tr class="link" rel="0">
 				<td class="input field_name">
 					Дополнительная ссылка
 				</td>
 				<td class="inputdata">
-					<input size="12%" type="text" name="bonus_link[0][name]" value="" />: 
+					<input size="12%" type="text" name="bonus_link[0][name]" value="" />:
 					<input size="36%" type="text" name="bonus_link[0][link]" value="http://" />
 					<input type="submit" class="disabled sign remove_link" rel="bonus" value="-" />
 				</td>
@@ -162,29 +162,29 @@
 					Теги
 				</td>
 				<td class="inputdata">
-					<? if (true) { ?>
+					<? if (false) { ?>
 						<input size="65%" name="tags" value="" type="text">
 					<? } else { ?>
 						<div id="add_tags">
 							<div class="tags-loader">
 								<img src="/images/ajax-loader.gif" />
 							</div>
-							<select data-placeholder="Проставьте теги" 
-								 multiple tabindex="3" 
-								 id="chozen" 
+							<select data-placeholder="Проставьте теги"
+								 multiple tabindex="3"
+								 id="chozen"
 								 name="tags[]">
 							</select>
 						</div>
-					<? } ?>	
+					<? } ?>
 				</td>
-			</tr>					
+			</tr>
 			<tr>
 				<td class="input field_name">
 					Категория
 				</td>
 				<td class="inputdata">
 					<select name="category[]" class="left">
-						<? 
+						<?
 							foreach($data['category'] as $alias => $name) {
 								?>
 									<option value="<?=$alias;?>"><?=$name;?></option>
@@ -202,7 +202,7 @@
 				</td>
 				<td class="inputdata">
 					<select name="language[]" class="left">
-						<? 
+						<?
 							foreach($data['language'] as $alias => $name) {
 								?>
 									<option value="<?=$alias;?>"><?=$name;?></option>
@@ -213,7 +213,7 @@
 					<input type="submit" class="disabled sign add_meta" value="+" />
 					<input type="submit" class="disabled hidden sign remove_meta" value="-" />
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td class="input field_name">
 					Ваш ник
@@ -221,18 +221,18 @@
 				<td class="inputdata">
 					<input size="35%" name="author" value="<?=$sets['user']['name'];?>" type="text" class="author">
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 	            <td class="input field_name">
 					<input class="submit" value="Добавить" type="submit">
 					<input type="hidden" name="do" value="post.add" />
-					<input type="hidden" name="remember" value="true" />					
+					<input type="hidden" name="remember" value="true" />
 				</td>
 				<td class="inputdata">
 					&nbsp;
 					<?=($sets['user']['rights'] ? '<input type="checkbox" name="transfer_to_main" /> Сразу на главную' : '');?>
 				</td>
-			</tr>		  
-        </tfoot>		
+			</tr>
+        </tfoot>
     </table>
 </form>

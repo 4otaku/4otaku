@@ -1,20 +1,20 @@
 var tag_areas = ["post", "video", "art"];
 
 $.each(tag_areas, function (index, area) {
-	
+
 	var tags_updated = $.Storage.get("tags_updated_"+area);
 
 	if (tags_updated == undefined) {
 		return;
 	}
 
-	if (tags_updated < new Date().getTime() - 86400000) {
+	if (tags_updated < (new Date().getTime() - 86400000).toString()) {
 		$.post(
-			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area, 
+			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area,
 			function(result) {
-				result = $.parseJSON(result);	
+				result = $.parseJSON(result);
 				$.Storage.set("tags_"+area, JSON.stringify(result.data));
-				$.Storage.set("tags_updated_"+area, new Date().getTime());
+				$.Storage.set("tags_updated_"+area, new Date().getTime().toString());
 			}
 		);
 	}
@@ -23,18 +23,18 @@ $.each(tag_areas, function (index, area) {
 $(".chzn-choices").live('keydown', function(e) {
 
 	if (e.which == 13 || e.which == 9 || e.which == 188) {
-		
+
 		e.preventDefault();
-		
-		var tag = $("#chozen_chzn li.no-results span").html() || 
-			$("#chozen_chzn li.active-result em:first").html() || 
+
+		var tag = $("#chozen_chzn li.no-results span").html() ||
+			$("#chozen_chzn li.active-result em:first").html() ||
 			'';
 		tag = tag.replace(/ /g, "_");
-		
-		var box = $("#chozen");		
+
+		var box = $("#chozen");
 		box.append('<option value="'+tag+
 			'" selected="selected">'+tag+'</option>');
-		box.trigger('liszt:updated');		
+		box.trigger('liszt:updated');
 	}
 });
 
@@ -43,9 +43,9 @@ $(".chzn-choices").live('keyup', function(e) {
 	if ((e.ctrlKey == true || this.ctrlPressed) && e.which == 86) {
 		var tags = $("#chozen_chzn li.no-results span").html() || '';
 		tags = tags.split(/[,\s+]/);
-		
+
 		var box = $("#chozen");
-		$.each(tags, function(index, tag) { 
+		$.each(tags, function(index, tag) {
 			box.append('<option value="'+tag+
 				'" selected="selected">'+tag+'</option>');
 		});
@@ -53,22 +53,22 @@ $(".chzn-choices").live('keyup', function(e) {
 
 		this.ctrlPressed = false;
 	} else if (e.ctrlKey == true && e.which == 17) {
-		
+
 		this.ctrlPressed = true;
 	} else {
-		
+
 		this.ctrlPressed = false;
 	}
 });
 
 function generate_selectbox(tags) {
 	var box = $("#chozen");
-	
-	$.each(tags, function(index, tag) { 
+
+	$.each(tags, function(index, tag) {
 		$("<option/>").html(tag).val(tag).appendTo(box);
 	});
 
-	box.chosen({no_results_text: "Нет подходящих тегов"});
+	box.chosen({no_results_text: ""});
 	$(".tags-loader").hide();
 }
 
@@ -76,25 +76,25 @@ function get_tags(area) {
 	var tags = $.Storage.get("tags_"+area);
 
 	if (tags != undefined) {
-		
+
 		tags = $.parseJSON(tags);
 		generate_selectbox(tags);
 	} else {
-		
+
 		$.post(
-			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area, 
+			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area,
 			function(result) {
 				result = $.parseJSON(result);
 
 				$.Storage.set("tags_"+area, JSON.stringify(result.data));
-				$.Storage.set("tags_updated_"+area, new Date().getTime());
-				
+				$.Storage.set("tags_updated_"+area, new Date().getTime().toString());
+
 				generate_selectbox(result.data);
 			}
 		);
 	}
 }
-		
+
 function trim (str) {
 	str = str.replace(/^\s+/, '');
 	for (var i = str.length - 1; i >= 0; i--) {
