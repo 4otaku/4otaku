@@ -614,6 +614,9 @@ Chosen = (function() {
       this.selected_item.attr("tabindex", this.search_field.attr("tabindex"));
       this.search_field.attr("tabindex", -1);
     }
+    if (this.search_field.val() !== this.default_text) {
+      this.form_field_jq.trigger('close', $('<div/>').text($.trim(this.search_field.val())).html());
+    }
     this.active_field = false;
     this.results_hide();
     this.container.removeClass("chzn-container-active");
@@ -679,15 +682,14 @@ Chosen = (function() {
     data = {};
     data.array_index = this.results_data.length;
     data.options_index = this.results_data.length;
-    data.value = option;
-    data.text = option;
-    data.html = option;
+    data.value = option.text;
+    data.text = option.text;
+    data.html = option.text + option.html;
     data.selected = true;
     data.disabled = false;
     data.group_array_index = 0;
     data.classes = "";
-    data.style = "";
-    this.search_results.prepend(this.result_add_option(data));
+    data.style = "color: #" + option.color + ";";
     this.choice_build(data);
     $(".active-result").removeClass("active-result");
     return this.winnow_results_clear();
@@ -801,10 +803,15 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.choice_build = function(item) {
-    var choice_id, link;
+    var choice_id, link, style;
     choice_id = this.container_id + "_c_" + item.array_index;
     this.choices += 1;
-    this.search_container.before('<li class="search-choice" id="' + choice_id + '"><span>' + item.html + '</span><a href="javascript:void(0)" class="search-choice-close" rel="' + item.array_index + '"></a></li>');
+    if (item.style) {
+      style = ' style="' + item.style + '"';
+    } else {
+      style = '';
+    }
+    this.search_container.before('<li class="search-choice" id="' + choice_id + '"' + style + '><span>' + item.html + '</span><a href="javascript:void(0)" class="search-choice-close" rel="' + item.array_index + '"></a></li>');
     link = $('#' + choice_id).find("a").first();
     return link.click(__bind(function(evt) {
       return this.choice_destroy_link_click(evt);
@@ -897,7 +904,7 @@ Chosen = (function() {
     searchText = this.search_field.val() === this.default_text ? "" : $('<div/>').text($.trim(this.search_field.val())).html();
     if (searchText.length < 3) {
       $(".active-result").removeClass("active-result");
-      no_search_html = $('<li class="no-results">Подсказки начинаются от 3 символов</li>');
+      no_search_html = $('<li class="no-results">Подсказки начинаются от 3 символов<span class="hidden">' + searchText + '</span></li>');
       this.search_results.append(no_search_html);
       return "";
     }

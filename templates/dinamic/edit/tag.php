@@ -15,7 +15,13 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 			 id="chozen"
 			 name="tags[]">
 			<? foreach ($data['value'] as $tag) { ?>
-				<option value="<?=$tag;?>" selected="selected"><?=$tag;?></option>
+				<option value="<?=$tag;?>" selected="selected"
+					<? if ($data['colors'][$tag]) { ?>
+						 style="color: #<?=$data['colors'][$tag];?>;"
+					<? } ?>
+				>
+					<?=$tag;?>
+				</option>
 			<? } ?>
 		</select>
 	</div>
