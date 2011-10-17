@@ -50,7 +50,7 @@
 					Теги
 				</td>
 				<td class="inputdata">
-					<? if (false) { ?>
+					<? if (query::$cookie != '4e1d95d25d3bbc34f64b021c9db906cf') { ?>
 						<input size="65%" name="tags" value="" type="text">
 					<? } else { ?>
 						<div id="add_tags">
