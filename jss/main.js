@@ -20,6 +20,10 @@ $.each(tag_areas, function (index, area) {
 	}
 });
 
+$(".search-choice-close").live('click', function() {
+	$(this).parent().remove();
+});
+
 $(".chzn-choices").live('keydown', function(e) {
 
 	if (e.which == 13 || e.which == 32 || e.which == 9 ||
@@ -36,8 +40,6 @@ $(".chzn-choices").live('keydown', function(e) {
 		var tag = $("#chozen_chzn li.no-results span").html() ||
 			$("#chozen_chzn li.active-result em:first").html() ||
 			'';
-
-		console.log(tag);
 
 		if (tag.length == 0) {
 			e.preventDefault();
@@ -123,7 +125,7 @@ function generate_selectbox(tags) {
 		$("<option/>").html(tag).val(tag).appendTo(box);
 	});
 
-	box.chosen({no_results_text: "Проставьте теги"});
+	box.chosen();
 	box.bind('close', function(event, data) {
 		add_chozen_tag(data);
 	});

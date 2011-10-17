@@ -296,20 +296,6 @@ AbstractChosen = (function() {
     stroke = (_ref = evt.which) != null ? _ref : evt.keyCode;
     this.search_field_scale();
     switch (stroke) {
-      case 8:
-        if (this.is_multiple && this.backstroke_length < 1 && this.choices > 0) {
-          return this.keydown_backstroke();
-        } else if (!this.pending_backstroke) {
-          this.result_clear_highlight();
-          return this.results_search();
-        }
-        break;
-      case 13:
-        evt.preventDefault();
-        if (this.results_showing) {
-          return this.result_select(evt);
-        }
-        break;
       case 27:
         if (this.results_showing) {
           return this.results_hide();
@@ -406,19 +392,30 @@ SelectParser = (function() {
     a = name[0];
     b = name[1];
     c = name[2];
-    if (a === void 0 || b === void 0 || c === void 0) {
+    if (a === void 0 || b === void 0) {
       return;
     }
+    a = a.toLowerCase();
+    b = b.toLowerCase();
     if (this.tree[a] === void 0) {
       this.tree[a] = {};
     }
     if (this.tree[a][b] === void 0) {
-      this.tree[a][b] = {};
+      this.tree[a][b] = {
+        data: []
+      };
     }
+    this.tree[a][b].data.push(this.parsed[this.parsed.length - 1]);
+    if (c === void 0) {
+      return;
+    }
+    c = c.toLowerCase();
     if (this.tree[a][b][c] === void 0) {
-      this.tree[a][b][c] = [];
+      this.tree[a][b][c] = {
+        data: []
+      };
     }
-    return this.tree[a][b][c].push(this.options_index);
+    return this.tree[a][b][c].data.push(this.parsed[this.parsed.length - 1]);
   };
   return SelectParser;
 })();
@@ -897,34 +894,38 @@ Chosen = (function() {
     return this.search_field_scale();
   };
   Chosen.prototype.winnow_results = function() {
-    var a, b, c, found, id, ids, no_search_html, option, part, parts, regex, result_id, results, searchText, search_data, startTime, startpos, text, zregex, _i, _j, _k, _len, _len2, _len3;
+    var a, b, c, found, no_search_html, option, regex, result_id, results, searchText, search_data, startTime, startpos, text, zregex, _i, _len;
     startTime = new Date();
     this.no_results_clear();
     results = 0;
+    $(".active-result").removeClass("active-result");
     searchText = this.search_field.val() === this.default_text ? "" : $('<div/>').text($.trim(this.search_field.val())).html();
-    if (searchText.length < 3) {
-      $(".active-result").removeClass("active-result");
-      no_search_html = $('<li class="no-results">Подсказки начинаются от 3 символов<span class="hidden">' + searchText + '</span></li>');
+    if (searchText.length < 2) {
+      no_search_html = $('<li class="no-results">Подсказки начинаются от 2 символов<span class="hidden">' + searchText + '</span></li>');
       this.search_results.append(no_search_html);
       return "";
     }
-    a = searchText[0];
-    b = searchText[1];
+    a = searchText[0].toLowerCase();
+    b = searchText[1].toLowerCase();
     c = searchText[2];
-    if (root.SelectTree[a] === void 0 || root.SelectTree[a][b] === void 0 || root.SelectTree[a][b][c] === void 0) {
-      $(".active-result").removeClass("active-result");
+    if (c !== void 0) {
+      c = c.toLowerCase();
+    }
+    if (root.SelectTree[a] === void 0 || root.SelectTree[a][b] === void 0) {
       return this.no_results(searchText);
     }
-    ids = root.SelectTree[a][b][c];
-    search_data = [];
-    for (_i = 0, _len = ids.length; _i < _len; _i++) {
-      id = ids[_i];
-      search_data.push(this.results_data[id]);
+    if (c !== void 0 && root.SelectTree[a][b][c] === void 0) {
+      return this.no_results(searchText);
+    }
+    if (c !== void 0) {
+      search_data = root.SelectTree[a][b][c].data;
+    } else {
+      search_data = root.SelectTree[a][b].data;
     }
     regex = new RegExp('^' + searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
     zregex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
-    for (_j = 0, _len2 = search_data.length; _j < _len2; _j++) {
-      option = search_data[_j];
+    for (_i = 0, _len = search_data.length; _i < _len; _i++) {
+      option = search_data[_i];
       if (!option.disabled && !option.empty) {
         if (option.group) {
           $('#' + option.dom_id).hide();
@@ -934,17 +935,6 @@ Chosen = (function() {
           if (regex.test(option.html)) {
             found = true;
             results += 1;
-          } else if (option.html.indexOf(" ") >= 0 || option.html.indexOf("[") === 0) {
-            parts = option.html.replace(/\[|\]/g, "").split(" ");
-            if (parts.length) {
-              for (_k = 0, _len3 = parts.length; _k < _len3; _k++) {
-                part = parts[_k];
-                if (regex.test(part)) {
-                  found = true;
-                  results += 1;
-                }
-              }
-            }
           }
           if (found) {
             if (searchText.length) {
