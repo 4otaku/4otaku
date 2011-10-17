@@ -263,6 +263,7 @@ class Chosen extends AbstractChosen
     @search_results.mouseout (evt) => this.search_results_mouseout(evt)
 
     @form_field_jq.bind "liszt:updated", (evt) => this.results_update_field(evt)
+    @form_field_jq.bind "liszt:added", (evt, tag) => this.results_add(tag)
 
     @search_field.blur (evt) => this.input_blur(evt)
     @search_field.keyup (evt) => this.keyup_checker(evt)
@@ -373,6 +374,22 @@ class Chosen extends AbstractChosen
     @search_results.html content
     @parsing = false
 
+  results_add: (option) ->
+    data = {}
+    data.array_index = @results_data.length
+    data.options_index = @results_data.length
+    data.value = option
+    data.text = option
+    data.html = option
+    data.selected = true
+    data.disabled = false
+    data.group_array_index = 0
+    data.classes = ""
+    data.style = ""
+    @search_results.prepend this.result_add_option data
+    this.choice_build data
+    $(".active-result").removeClass("active-result")
+    this.winnow_results_clear()
 
   result_add_group: (group) ->
     if not group.disabled
