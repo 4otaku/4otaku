@@ -79,7 +79,10 @@
 				<option value="70"<?=(sets::pp('tags') == 70 ? ' selected="yes"' : '');?>>70</option>
 				<option value="100"<?=(sets::pp('tags') == 100 ? ' selected="yes"' : '');?>>100</option>
 				<option value="150"<?=(sets::pp('tags') == 150 ? ' selected="yes"' : '');?>>150</option>
-			</select>
+			</select>			
+			<br />
+			Использовать Chozen для редактирования тегов:
+			 <input type="checkbox" class="settings" rel="edit.newtags" value="1"<?=($sets['edit']['newtags'] ? ' checked' : '');?>>			
 		</td>
 	</tr>
 	<tr>

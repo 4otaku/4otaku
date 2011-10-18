@@ -162,8 +162,7 @@
 					Теги
 				</td>
 				<td class="inputdata">
-					<? if (query::$cookie != '4e1d95d25d3bbc34f64b021c9db906cf' &&
-						$_SERVER['REMOTE_ADDR'] != '83.69.227.104') { ?>
+					<? if (!sets::edit('newtags')) { ?>
 						<input size="65%" name="tags" value="" type="text">
 					<? } else { ?>
 						<div id="add_tags">

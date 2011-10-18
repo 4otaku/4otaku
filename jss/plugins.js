@@ -297,7 +297,7 @@ AbstractChosen = (function() {
         if (this.results_showing) {
           return this.results_hide();
         }
-        break;
+        break;      
       case 9:
       case 38:
       case 40:
@@ -528,6 +528,9 @@ Chosen = (function() {
     }, this));
     this.form_field_jq.bind("liszt:added", __bind(function(evt) {
       return this.results_add(arguments);
+    }, this));
+    this.form_field_jq.bind("liszt:selected", __bind(function(evt) {
+      return this.result_select(evt);
     }, this));
     this.search_field.blur(__bind(function(evt) {
       return this.input_blur(evt);
@@ -878,11 +881,18 @@ Chosen = (function() {
   Chosen.prototype.result_deselect = function(pos) {
     var result, result_data;
     result_data = this.results_data[pos];
-    result_data.selected = false;
-    this.form_field.options[result_data.options_index].selected = false;
-    result = $("#" + this.container_id + "_o_" + pos);
-    result.removeClass("result-selected").addClass("active-result").show();
-    this.result_clear_highlight();
+
+    if (result_data != undefined) {
+		result_data.selected = false;
+		this.form_field.options[result_data.options_index].selected = false;
+		result = $("#" + this.container_id + "_o_" + pos);
+		result.removeClass("result-selected").addClass("active-result").show();
+		this.result_clear_highlight();
+	} else {
+		result = $("#" + this.container_id + "_o_" + pos);
+		result.remove();
+	}
+
     this.winnow_results();
     this.form_field_jq.trigger("change");
     return this.search_field_scale();

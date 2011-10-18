@@ -53,6 +53,8 @@ class transform__meta
 		$tags = array_unique(array_filter($items));
 		
 		foreach ($tags as $key => $tag) {
+			$tag = str_replace(array('&amp;'), array('&'), $tag);
+
 			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
 				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
@@ -70,7 +72,9 @@ class transform__meta
 	}
 
 	function add_tags($tags, $update = false){
-		foreach ($tags as $key => $tag) {
+		foreach ($tags as $key => $tag) {			
+			$tag = str_replace(array('&amp;'), array('&'), $tag);
+			
 			if ($check = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
 				if ($update) obj::db()->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
 				if ($this->colors[$tag]) obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');

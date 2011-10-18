@@ -20,13 +20,15 @@ $.each(tag_areas, function (index, area) {
 	}
 });
 
-$(".search-choice-close").live('click', function() {
-	$(this).parent().remove();
-});
-
 $(".chzn-choices").live('keydown', function(e) {
 
-	if (e.which == 13 || e.which == 32 || e.which == 9 ||
+	if (e.which == 13 && $(".active-result.highlighted").length > 0) {
+		
+		e.preventDefault();
+
+		var box = $("#chozen");
+		box.trigger('liszt:selected', e);		
+	} else if (e.which == 13 || e.which == 32 || e.which == 9 ||
 		(e.which == 188 && e.shiftKey == false)) {
 
 		e.preventDefault();
