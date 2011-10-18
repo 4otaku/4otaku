@@ -215,9 +215,6 @@ AbstractChosen = (function() {
     this.finish_setup();
   }
   AbstractChosen.prototype.set_default_values = function() {
-    this.click_test_action = __bind(function(evt) {
-      return this.test_active_click(evt);
-    }, this);
     this.activate_action = __bind(function(evt) {
       return this.activate_field(evt);
     }, this);
@@ -256,7 +253,7 @@ AbstractChosen = (function() {
     var classes, style;
     if (!option.disabled) {
       option.dom_id = this.container_id + "_o_" + option.array_index;
-      classes = option.selected && this.is_multiple ? [] : ["active-result"];
+      classes = [];
       if (option.selected) {
         classes.push("result-selected");
       }
@@ -465,12 +462,11 @@ Chosen = (function() {
     var container_div, dd_top, dd_width, sf_width;
     this.container_id = this.form_field.id.length ? this.form_field.id.replace(/(:|\.)/g, '_') : this.generate_field_id();
     this.container_id += "_chzn";
-    this.f_width = this.form_field_jq.outerWidth();
     this.default_text = this.form_field_jq.data('placeholder') ? this.form_field_jq.data('placeholder') : this.default_text_default;
     container_div = $("<div />", {
       id: this.container_id,
       "class": "chzn-container" + (this.is_rtl ? ' chzn-rtl' : ''),
-      style: 'width: ' + this.f_width + 'px;'
+      style: 'width: 90%;'
     });
     if (this.is_multiple) {
       container_div.html('<ul class="chzn-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chzn-drop" style="left:-9000px;"><ul class="chzn-results"></ul></div>');
@@ -484,11 +480,9 @@ Chosen = (function() {
       this.container.addClass("chzn-container-single-nosearch");
     }
     this.dropdown = this.container.find('div.chzn-drop').first();
-    dd_top = this.container.height();
-    dd_width = this.f_width - get_side_border_padding(this.dropdown);
     this.dropdown.css({
-      "width": dd_width + "px",
-      "top": dd_top + "px"
+      "width": "100%",
+      "top": "-1000px"
     });
     this.search_field = this.container.find('input').first();
     this.search_results = this.container.find('ul.chzn-results').first();
@@ -500,9 +494,8 @@ Chosen = (function() {
     } else {
       this.search_container = this.container.find('div.chzn-search').first();
       this.selected_item = this.container.find('.chzn-single').first();
-      sf_width = dd_width - get_side_border_padding(this.search_container) - get_side_border_padding(this.search_field);
       this.search_field.css({
-        "width": sf_width + "px"
+        "width": "100%"
       });
     }
     this.results_build();
@@ -631,13 +624,6 @@ Chosen = (function() {
     this.active_field = true;
     this.search_field.val(this.search_field.val());
     return this.search_field.focus();
-  };
-  Chosen.prototype.test_active_click = function(evt) {
-    if ($(evt.target).parents('#' + this.container_id).length) {
-      return this.active_field = true;
-    } else {
-      return this.close_field();
-    }
   };
   Chosen.prototype.results_build = function() {
     var content, data, startTime, _i, _len, _ref;
@@ -978,17 +964,6 @@ Chosen = (function() {
     }
     return _results;
   };
-  Chosen.prototype.winnow_results_wipe = function() {
-    var li, lis, _i, _len, _results;
-    lis = this.search_results.find("li");
-    _results = [];
-    for (_i = 0, _len = lis.length; _i < _len; _i++) {
-      li = lis[_i];
-      li = $(li);
-      _results.push(li.hasClass("group-result") ? li.show() : !this.is_multiple || !li.hasClass("result-selected") ? this.result_activate(li) : void 0);
-    }
-    return _results;
-  };
   Chosen.prototype.winnow_results_set_highlight = function() {
     var do_high, selected_results;
     if (!this.result_highlight) {
@@ -1098,13 +1073,9 @@ Chosen = (function() {
       });
       div.text(this.search_field.val());
       $('body').append(div);
-      w = div.width() + 25;
       div.remove();
-      if (w > this.f_width - 10) {
-        w = this.f_width - 10;
-      }
       this.search_field.css({
-        'width': w + 'px'
+        'width': '89%'
       });
       dd_top = this.container.height();
       return this.dropdown.css({

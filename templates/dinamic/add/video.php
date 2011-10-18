@@ -5,7 +5,7 @@
 			Обязательные поля
 		</span>
 	</div>
-	<table width="100%" id="main_fields">		
+	<table width="100%" id="main_fields">
 		<tbody>
 			<tr>
 				<td class="input field_name">
@@ -14,7 +14,7 @@
 				<td class="inputdata">
 					<input size="65%" name="title" value="" type="text">
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td class="input field_name">
 					Ссылка на видео
@@ -25,14 +25,14 @@
 					</span>
 				</td>
 			</tr>
-        </tbody>		
+        </tbody>
     </table>
 	<div class="fields">
 		<span>
 			Дополнительные поля
 		</span>
 	</div>
-	<table width="100%" id="main_fields">		
+	<table width="100%" id="main_fields">
 		<tbody>
 			<tr>
 				<td class="input field_name">
@@ -52,14 +52,14 @@
 						</tr>
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
-						</tr>						
+						</tr>
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
 						</tr>
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
 						</tr>
-					</table>						
+					</table>
 				</td>
 			</tr>
 			<tr>
@@ -68,7 +68,7 @@
 				</td>
 				<td class="inputdata">
 					<select name="category[]" class="left">
-						<? 
+						<?
 							foreach($data['category'] as $alias => $name) {
 								?>
 									<option value="<?=$alias;?>"><?=$name;?></option>
@@ -79,7 +79,7 @@
 					<input type="submit" class="disabled sign add_meta" value="+" />
 					<input type="submit" class="disabled hidden sign remove_meta" value="-" />
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td class="input field_name">
 					Теги
@@ -92,13 +92,13 @@
 							<div class="tags-loader">
 								<img src="/images/ajax-loader.gif" />
 							</div>
-							<select data-placeholder="Проставьте теги" 
-								 multiple tabindex="3" 
-								 id="chozen" 
+							<select data-placeholder=" "
+								 multiple
+								 id="chozen"
 								 name="tags[]">
 							</select>
 						</div>
-					<? } ?>	
+					<? } ?>
 				</td>
 			</tr>
 			<tr>

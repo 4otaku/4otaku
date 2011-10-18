@@ -152,7 +152,7 @@ class SelectParser
 
     if a == undefined or b == undefined
       return
-      
+
     a = a.toLowerCase()
     b = b.toLowerCase()
 
@@ -161,15 +161,15 @@ class SelectParser
     if @tree[a][b] == undefined
       @tree[a][b] = {data: []}
     @tree[a][b].data.push @parsed[@parsed.length - 1]
-    
+
     if c == undefined
-      return      
-    
+      return
+
     c = c.toLowerCase()
-      
+
     if @tree[a][b][c] == undefined
       @tree[a][b][c] = {data: []}
-      
+
     @tree[a][b][c].data.push @parsed[@parsed.length - 1]
 
 SelectParser.select_to_array = (select) ->
@@ -318,7 +318,7 @@ class Chosen extends AbstractChosen
       @selected_item.attr "tabindex", @search_field.attr("tabindex")
       @search_field.attr "tabindex", -1
 
-    if @search_field.val() != @default_text 
+    if @search_field.val() != @default_text
       @form_field_jq.trigger('close', $('<div/>').text($.trim(@search_field.val())).html())
 
     @active_field = false
@@ -488,7 +488,7 @@ class Chosen extends AbstractChosen
   choice_build: (item) ->
     choice_id = @container_id + "_c_" + item.array_index
     @choices += 1
-    if item.style 
+    if item.style
       style = ' style="'+item.style+'"'
     else
       style = ''
@@ -592,16 +592,16 @@ class Chosen extends AbstractChosen
     a = searchText[0].toLowerCase()
     b = searchText[1].toLowerCase()
     c = searchText[2]
-    
+
     if c != undefined
       c = c.toLowerCase()
-      
+
     if root.SelectTree[a] == undefined or root.SelectTree[a][b] == undefined
       return this.no_results searchText
-      
+
     if c != undefined and root.SelectTree[a][b][c] == undefined
       return this.no_results searchText
-      
+
     if c != undefined
       search_data = root.SelectTree[a][b][c].data
     else
@@ -754,11 +754,9 @@ class Chosen extends AbstractChosen
       div.text @search_field.val()
       $('body').append div
 
-      w = div.width() + 25
       div.remove()
 
-      if( w > @f_width-10 )
-        w = @f_width - 10
+      w = @f_width - 10
 
       @search_field.css({'width': w + 'px'})
 

@@ -6,20 +6,18 @@ class Dynamic_Tag extends Dynamic_Abstract
 		'post', 'video', 'art'
 	);
 
-	protected $tag_limit = 5000;
-
 	protected $empty_reply = array();
 
 	public function get_all () {
 		$where = query::$get['where'];
 
-		if (!in_array($where, $this->tag_areas)) {
+		if (!is_numeric(query::$get['count']) || !in_array($where, $this->tag_areas)) {
 			$this->reply($this->empty_reply);
 		}
 
 		$min = $this->tag_areas[$where];
 
-		$tags = Database::set_order($where.'_main')->set_limit($this->tag_limit)
+		$tags = Database::set_order($where.'_main')->set_limit(query::$get['count'])
 			->get_vector('tag', 'name', $where.'_main > 0');
 
 		$tags = array_values((array) $tags);
