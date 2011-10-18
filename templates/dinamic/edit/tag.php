@@ -3,6 +3,7 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=edit_form.js"></script>
 
+
 <? if (query::$cookie != '4e1d95d25d3bbc34f64b021c9db906cf') { ?>
 	<input type="text" class="input80 save_on_enter" name="tags" value="<?=implode(', ',$data['value']);?>, " />
 <? } else { ?>
@@ -10,8 +11,8 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 		<div class="tags-loader">
 			<img src="/images/ajax-loader.gif" />
 		</div>
-		<select data-placeholder="Проставьте теги"
-			 multiple tabindex="3"
+		<select data-placeholder=" "
+			 multiple
 			 id="chozen"
 			 name="tags[]">
 			<? foreach ($data['value'] as $tag) { ?>

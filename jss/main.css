@@ -448,13 +448,13 @@ table.wrapwindow {
 }
 
 #tags .tags-loader{
-	text-align: center;	
+	text-align: center;
 }
 
 #tags .tags-loader img{
 	margin: 0 auto;
 	clear: both;
-	text-align: center;	
+	text-align: center;
 }
 
 /* Content, отображение поста */
@@ -936,7 +936,7 @@ div.thread .multi div.video_frame {
 	border: 1px dashed rgb(204, 204, 204);
 }
 
-div.posttext ul, div.posttext ol, div.posttext p { overflow: hidden; } 
+div.posttext ul, div.posttext ol, div.posttext p { overflow: hidden; }
 
 div.posttext code {
 	font-size: 120%;
@@ -946,7 +946,7 @@ div.thread .board_image_thumb, div.message .board_image_thumb {
 	float: left;
 }
 
-div.thread .multi .video, div.thread .multi .board_image_thumb, div.thread .multi .board_flash, 
+div.thread .multi .video, div.thread .multi .board_image_thumb, div.thread .multi .board_flash,
 div.message .multi .video, div.message .multi .board_image_thumb, div.message .multi .board_flash,
 div.thread .multi_download a, div.message .multi_download a {
 	height: 180px;
@@ -1165,13 +1165,13 @@ img.bb {
 }
 
 #add_tags .tags-loader{
-	text-align: center;	
+	text-align: center;
 }
 
 #add_tags .tags-loader img{
 	margin: 0 auto;
 	clear: both;
-	text-align: center;	
+	text-align: center;
 }
 
 /* Sidebar */

@@ -152,7 +152,9 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
   border-top: 0;
   position: absolute;
   top: 29px;
-  left: 0;
+  left: -2px !important;
+  margin-left: 2px;
+  margin-right: 2px;
   -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
   -moz-box-shadow   : 0 4px 5px rgba(0,0,0,.15);
   -o-box-shadow     : 0 4px 5px rgba(0,0,0,.15);
@@ -290,6 +292,7 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
   border: 1px solid #aaa;
   margin: 0;
   padding: 0;
+  padding-right: 2px;
   cursor: text;
   overflow: hidden;
   height: auto !important;
@@ -368,6 +371,7 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 
 /* @group Results */
 .chzn-container .chzn-results {
+  background-color: #FFFFFF;
   margin: 0 4px 4px 0;
   max-height: 190px;
   padding: 0 0 0 4px;
@@ -402,7 +406,7 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
   background: transparent;
 }
 .chzn-container .chzn-results .no-results {
-  background: #f4f4f4;
+  background-color: #FFFFFF;
   display: list-item;
 }
 .chzn-container .chzn-results .group-result {
@@ -482,12 +486,12 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 .chzn-rtl { direction:rtl;text-align: right; }
 .chzn-rtl .chzn-single { padding-left: 0; padding-right: 8px; }
 .chzn-rtl .chzn-single span { margin-left: 26px; margin-right: 0; }
-.chzn-rtl .chzn-single div { 
-  left: 0; right: auto; 
+.chzn-rtl .chzn-single div {
+  left: 0; right: auto;
   border-left: none; border-right: 1px solid #aaaaaa;
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius   : 4px 0 0 4px;
-  border-radius        : 4px 0 0 4px; 
+  border-radius        : 4px 0 0 4px;
 }
 .chzn-rtl .chzn-choices li { float: right; }
 .chzn-rtl .chzn-choices .search-choice { padding: 3px 6px 3px 19px; margin: 3px 5px 3px 0; }
@@ -498,7 +502,7 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 .chzn-rtl .chzn-search input {
   background: url('/images/chosen-sprite.png') no-repeat -38px -22px, #ffffff;
   background: url('/images/chosen-sprite.png') no-repeat -38px -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-  background: url('/images/chosen-sprite.png') no-repeat -38px -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);  
+  background: url('/images/chosen-sprite.png') no-repeat -38px -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
   background: url('/images/chosen-sprite.png') no-repeat -38px -22px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
   background: url('/images/chosen-sprite.png') no-repeat -38px -22px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
   background: url('/images/chosen-sprite.png') no-repeat -38px -22px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);

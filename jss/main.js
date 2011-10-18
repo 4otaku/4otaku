@@ -8,9 +8,9 @@ $.each(tag_areas, function (index, area) {
 		return;
 	}
 
-	if (tags_updated < (new Date().getTime() - 86400000).toString()) {
+	if (parseInt(tags_updated) < new Date().getTime() - 86400000) {
 		$.post(
-			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area,
+			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area+"&count=5000",
 			function(result) {
 				result = $.parseJSON(result);
 				$.Storage.set("tags_"+area, JSON.stringify(result.data));
@@ -71,7 +71,7 @@ function add_chozen_tag (value) {
 	if (value.length == 0) {
 		return;
 	}
-	
+
 	var colors = {
 		character: '00AA00',
 		персонаж: '00AA00',
@@ -92,30 +92,30 @@ function add_chozen_tag (value) {
 		мангака: 'AA0000',
 		mangaka: 'AA0000',
 		special: '0000FF',
-		служебный: '0000FF'	
+		служебный: '0000FF'
 	}
-	
+
 	var tag_color = "333";
 	var text = value;
-	
+
 	var matches = value.match(/&lt;.*?&gt;/g);
 	for (var key in matches) {
 		var match = matches[key].substr(4, matches[key].length - 8);
-		
+
 		if (colors[match] != undefined) {
 			text = value.replace(matches[key], "");
 			tag_color = colors[match];
 			break;
 		}
 	}
-	
+
 	var box = $("#chozen");
 	box.trigger('liszt:added', {
 		text: text,
 		color: tag_color,
 		html: '<input type="hidden" name="tags[]" value="'+
 			value.replace('"', '&quot;')+'" />'
-	});	
+	});
 }
 
 function generate_selectbox(tags) {
@@ -142,12 +142,14 @@ function get_tags(area) {
 	} else {
 
 		$.post(
-			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area,
+			window.config.site_dir+"/ajax.php?m=tag&f=get_all&where="+area+"&count=500",
 			function(result) {
 				result = $.parseJSON(result);
 
+				var update_time = new Date().getTime() - 85500000;
+
 				$.Storage.set("tags_"+area, JSON.stringify(result.data));
-				$.Storage.set("tags_updated_"+area, new Date().getTime().toString());
+				$.Storage.set("tags_updated_"+area, update_time.toString());
 
 				generate_selectbox(result.data);
 			}

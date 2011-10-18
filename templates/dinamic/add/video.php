@@ -92,8 +92,13 @@
 							<div class="tags-loader">
 								<img src="/images/ajax-loader.gif" />
 							</div>
+<<<<<<< HEAD
 							<select data-placeholder="Проставьте теги"
 								 multiple tabindex="3"
+=======
+							<select data-placeholder=" "
+								 multiple
+>>>>>>> f41a72cee016a8d55d042e2fe3df09d2f31ef9dd
 								 id="chozen"
 								 name="tags[]">
 							</select>
