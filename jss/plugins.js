@@ -957,11 +957,6 @@ Chosen = (function() {
     this.search_field.val("");
     lis = this.search_results.find("li");
     _results = [];
-    for (_i = 0, _len = lis.length; _i < _len; _i++) {
-      li = lis[_i];
-      li = $(li);
-      _results.push(li.hasClass("group-result") ? li.show() : !this.is_multiple || !li.hasClass("result-selected") ? this.result_activate(li) : void 0);
-    }
     return _results;
   };
   Chosen.prototype.winnow_results_set_highlight = function() {
@@ -1064,23 +1059,12 @@ Chosen = (function() {
       w = 0;
       style_block = "position:absolute; left: -1000px; top: -1000px; display:none;";
       styles = ['font-size', 'font-style', 'font-weight', 'font-family', 'line-height', 'text-transform', 'letter-spacing'];
-      for (_i = 0, _len = styles.length; _i < _len; _i++) {
-        style = styles[_i];
-        style_block += style + ":" + this.search_field.css(style) + ";";
-      }
       div = $('<div />', {
         'style': style_block
       });
       div.text(this.search_field.val());
       $('body').append(div);
       div.remove();
-      this.search_field.css({
-        'width': '89%'
-      });
-      dd_top = this.container.height();
-      return this.dropdown.css({
-        "top": dd_top + "px"
-      });
     }
   };
   Chosen.prototype.generate_random_id = function() {
