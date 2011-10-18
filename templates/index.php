@@ -3,7 +3,7 @@
 ?>
 <body class="wrapwindow">
 	<? include_once('side'.SL.'header.php'); ?>		
-	<div class="branding margin20"> 
+	<div class="branding"> 
 		<a href="http://4otaku.ru" class="logo">
 			<img src="/images/4otakulogo_t.png" alt="4отаку" />
 		</a> 

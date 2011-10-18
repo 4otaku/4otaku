@@ -252,7 +252,7 @@
 /* Часть для главной страницы. TODO: отдельный css для главной */
 
 .branding {
-	height: 65px;
+	height: 130px;
 	padding: 10px;
 	background: #fff url(/images/brand.png) repeat-x;
 	overflow: hidden;
@@ -260,7 +260,7 @@
 
 .logo {
 	float: left;
-	margin-top: -5px;
+	margin-top: 15px;
 }
 
 .branding img.yukari {
@@ -269,7 +269,7 @@
 }
 
 .mainsearch {
-	margin: 10px auto;
+	margin: 30px auto 10px auto;
 	overflow: hidden;
 	text-align: center;
 }
