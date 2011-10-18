@@ -3,7 +3,7 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=edit_form.js"></script>
 
-<? if (false) { ?>
+<? if (!sets::edit('newtags')) { ?>
 	<input type="text" class="input80 save_on_enter" name="tags" value="<?=implode(', ',$data['value']);?>, " />
 <? } else { ?>
 	<div id="tags">

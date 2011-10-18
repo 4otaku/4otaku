@@ -74,4 +74,8 @@ class sets
 	static function dir($key) {
 		return self::get('dir',$key);
 	}
+
+	static function edit($key) {
+		return self::get('edit',$key);
+	}
 }

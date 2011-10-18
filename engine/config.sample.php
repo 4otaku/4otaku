@@ -130,6 +130,8 @@ $sets['user']['name'] = 'Анонимно';
 $sets['user']['trip'] = '';
 $sets['user']['mail'] = 'default@avatar.mail';
 
+$sets['edit']['newtags'] = 1;
+
 // Presets - fight the notices
 
 $sets['visit']['post'] = 0;

@@ -85,7 +85,7 @@
 					Теги
 				</td>
 				<td class="inputdata">
-					<? if (true) { ?>
+					<? if (!sets::edit('newtags')) { ?>
 						<input size="65%" name="tags" value="" type="text">
 					<? } else { ?>
 						<div id="add_tags">
