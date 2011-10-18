@@ -135,7 +135,7 @@ function generate_selectbox(tags) {
 
 	box.chosen();
 	box.bind('close', function(event, data) {
-		add_chozen_tag(data);
+		add_chozen_tag(data.split(/[,\s+]/));
 	});
 	$(".tags-loader").hide();
 }
