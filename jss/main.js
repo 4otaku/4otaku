@@ -53,9 +53,7 @@ $(".chzn-choices").live('keyup', function(e) {
 		var tags = $("#chozen_chzn li.no-results span").html() || '';
 		tags = tags.split(/[,\s+]/);
 
-		$.each(tags, function(index, tag) {
-			add_chozen_tag(tag);
-		});
+		add_chozen_tag(tags);
 
 		this.ctrlPressed = false;
 	} else if (e.ctrlKey == true && e.which == 17) {
@@ -67,11 +65,11 @@ $(".chzn-choices").live('keyup', function(e) {
 	}
 });
 
-function add_chozen_tag (value) {
-	if (value.length == 0) {
-		return;
-	}
-
+function add_chozen_tag (values) {
+	if (typeof values == "string") {
+		values = [values];
+	}	
+	
 	var colors = {
 		character: '00AA00',
 		персонаж: '00AA00',
@@ -94,28 +92,38 @@ function add_chozen_tag (value) {
 		special: '0000FF',
 		служебный: '0000FF'
 	}
-
-	var tag_color = "333";
-	var text = value;
-
-	var matches = value.match(/&lt;.*?&gt;/g);
-	for (var key in matches) {
-		var match = matches[key].substr(4, matches[key].length - 8);
-
-		if (colors[match] != undefined) {
-			text = value.replace(matches[key], "");
-			tag_color = colors[match];
-			break;
+	
+	var send = [];
+	$.each(values, function(key, value) {
+		if (value.length == 0) {
+			return;
 		}
-	}
+
+
+		var tag_color = "333";
+		var text = value;
+
+		var matches = value.match(/&lt;.*?&gt;/g);
+		for (var key in matches) {
+			var match = matches[key].substr(4, matches[key].length - 8);
+
+			if (colors[match] != undefined && match.length > 0) {
+				text = value.replace(matches[key], "");
+				tag_color = colors[match];
+				break;
+			}
+		}
+		
+		send.push({
+			text: text,
+			color: tag_color,
+			html: '<input type="hidden" name="tags[]" value="'+
+				value.replace('"', '&quot;')+'" />'		
+		});
+	});
 
 	var box = $("#chozen");
-	box.trigger('liszt:added', {
-		text: text,
-		color: tag_color,
-		html: '<input type="hidden" name="tags[]" value="'+
-			value.replace('"', '&quot;')+'" />'
-	});
+	box.trigger('liszt:added', send);
 }
 
 function generate_selectbox(tags) {

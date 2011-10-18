@@ -469,7 +469,7 @@ Chosen = (function() {
       style: 'width: 90%;'
     });
     if (this.is_multiple) {
-      container_div.html('<ul class="chzn-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chzn-drop" style="left:-9000px;"><ul class="chzn-results"></ul></div>');
+      container_div.html('<ul class="chzn-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" /></li></ul><div class="chzn-drop" style="left:-9000px;"><ul class="chzn-results"></ul></div>');
     } else {
       container_div.html('<a href="javascript:void(0)" class="chzn-single"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chzn-drop" style="left:-9000px;"><div class="chzn-search"><input type="text" autocomplete="off" /></div><ul class="chzn-results"></ul></div>');
     }
@@ -526,8 +526,8 @@ Chosen = (function() {
     this.form_field_jq.bind("liszt:updated", __bind(function(evt) {
       return this.results_update_field(evt);
     }, this));
-    this.form_field_jq.bind("liszt:added", __bind(function(evt, tag) {
-      return this.results_add(tag);
+    this.form_field_jq.bind("liszt:added", __bind(function(evt) {
+      return this.results_add(arguments);
     }, this));
     this.search_field.blur(__bind(function(evt) {
       return this.input_blur(evt);
@@ -660,22 +660,30 @@ Chosen = (function() {
     this.search_results.html(content);
     return this.parsing = false;
   };
-  Chosen.prototype.results_add = function(option) {
-    var data;
-    data = {};
-    data.array_index = this.results_data.length;
-    data.options_index = this.results_data.length;
-    data.value = option.text;
-    data.text = option.text;
-    data.html = option.text + option.html;
-    data.selected = true;
-    data.disabled = false;
-    data.group_array_index = 0;
-    data.classes = "";
-    data.style = "color: #" + option.color + ";";
-    this.choice_build(data);
+  Chosen.prototype.results_add = function(options) {
+    var data; 
+	me = this;
+	$.each(options, function(key, option) {
+	  if (option.text == undefined) {
+		  return;
+	  }	
+		
+      data = {};
+      data.array_index = me.results_data.length;
+      data.options_index = me.results_data.length;
+      data.value = option.text;
+      data.text = option.text;
+      data.html = option.text + option.html;
+      data.selected = true;
+      data.disabled = false;
+      data.group_array_index = 0;
+      data.classes = "";
+      data.style = "color: #" + option.color + ";";
+      me.choice_build(data);
+    });
     $(".active-result").removeClass("active-result");
-    return this.winnow_results_clear();
+    this.winnow_results_clear();
+    this.search_field_scale();
   };
   Chosen.prototype.result_add_group = function(group) {
     if (!group.disabled) {
@@ -956,6 +964,8 @@ Chosen = (function() {
     var li, lis, _i, _len, _results;
     this.search_field.val("");
     lis = this.search_results.find("li");
+    $("li.no-results").remove();
+    this.search_results.append('<li class="no-results">Подсказки начинаются от 2 символов<span class="hidden"></span></li>');
     _results = [];
     return _results;
   };
@@ -1065,6 +1075,10 @@ Chosen = (function() {
       div.text(this.search_field.val());
       $('body').append(div);
       div.remove();
+      dd_top = this.container.height();
+      return this.dropdown.css({
+        "top": dd_top + "px"
+      });      
     }
   };
   Chosen.prototype.generate_random_id = function() {
