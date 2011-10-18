@@ -1,3 +1,10 @@
+<? if (sets::edit('newtags')) { ?>
+	<div class="left">
+		<input type="submit" value="Сохранить" name="save" rel="<?=(is_numeric($get['num']) ? 1 : 0);?>" class="disabled save_changes" />
+		<input type="submit" value="Не сохранять" name="nosave" class="disabled drop_changes second_button" />
+	</div>
+<? } ?>		
+		
 <?
 include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
@@ -32,6 +39,12 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 	</script>
 <? } ?>
 
-<?
-include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'bottom.php');
-?>
+	</form>
+	<? if (!sets::edit('newtags')) { ?>
+		<div class="left">
+			<input type="submit" value="Сохранить" name="save" rel="<?=(is_numeric($get['num']) ? 1 : 0);?>" class="disabled save_changes" />
+			<input type="submit" value="Не сохранять" name="nosave" class="disabled drop_changes second_button" />
+		</div>
+	<? } ?>
+	<div class="clear"></div>
+</div>
