@@ -3,8 +3,9 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 ?>
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=edit_form.js"></script>
 
-
-<? if (query::$cookie != '4e1d95d25d3bbc34f64b021c9db906cf') { ?>
+<? if (query::$cookie != '4e1d95d25d3bbc34f64b021c9db906cf' &&
+	$_SERVER['REMOTE_ADDR'] != '83.69.227.104' &&
+	$_SERVER['REMOTE_ADDR'] != '80.252.16.11') { ?>
 	<input type="text" class="input80 save_on_enter" name="tags" value="<?=implode(', ',$data['value']);?>, " />
 <? } else { ?>
 	<div id="tags">
