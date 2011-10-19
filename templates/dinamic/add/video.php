@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=add/common.js,add/text.js"></script>
+<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=add/common.js,add/video.js,add/text.js"></script>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<div class="fields">
 		<span>
