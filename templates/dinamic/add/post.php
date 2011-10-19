@@ -163,13 +163,14 @@
 				</td>
 				<td class="inputdata">
 					<? if (!sets::edit('newtags')) { ?>
-						<input size="65%" name="tags" value="" type="text">
+						<input size="65%" name="tags" value="" type="text" />
 					<? } else { ?>
 						<div id="add_tags">
 							<div class="tags-loader">
 								<img src="/images/ajax-loader.gif" />
 							</div>
 							<select data-placeholder=" "
+								 multiple
 								 id="chozen"
 								 name="tags[]">
 							</select>

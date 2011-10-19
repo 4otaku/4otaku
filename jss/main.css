@@ -350,6 +350,10 @@ div.addborder > a {
 	margin: 0 20px 20px 20px;
 }
 
+.input_tags {
+	width: 80%;
+}
+
 /* Content, главная страница */
 
 p.head {
@@ -1066,7 +1070,7 @@ input.sign {
 	margin-left: 10px;
 }
 
-#addform div {
+#addform > div {
     height: auto;
     min-height: 100%;
 	vertical-align: middle;

@@ -49,7 +49,7 @@
 				<td class="input field_name">
 					Теги
 				</td>
-				<td class="inputdata">
+				<td class="inputdata input_tags">
 					<? if (!sets::edit('newtags')) { ?>
 						<input size="65%" name="tags" value="" type="text">
 					<? } else { ?>
