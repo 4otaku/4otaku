@@ -255,7 +255,6 @@
 	height: 130px;
 	padding: 10px;
 	background: #fff url(/images/brand_new.png) repeat-x;
-	overflow: hidden;
 }
 
 .logo {
@@ -270,8 +269,13 @@
 
 .mainsearch {
 	margin: 30px auto 10px auto;
-	overflow: hidden;
 	text-align: center;
+}
+
+.mainsearch_field {
+	width: 685px;	
+	padding-left: 65px;
+	position: relative;
 }
 
 .mainsearch label {

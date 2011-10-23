@@ -9,8 +9,11 @@
 		</a> 
 		<img class="right yukari" src="/images/yukari120.gif" alt="Юкарин" /> 
 		<div class="mainsearch"> 
-			<div class="center margin10"><input class="search" type="text"> <input value="искать" class="searchb" type="button"></div> 
-			<div id="search-tip" class="search-main" rel="0"></div> 
+			<div class="margin10 mainsearch_field center">
+				<input class="search" type="text">
+				 <input value="искать" class="searchb" type="button">
+				 <div id="search-tip" class="search-main" rel="0"></div>
+			</div> 			 
 			<div class="center margin10"> 
 				<input id="search_p" checked="checked" value="p" class="searcharea" type="checkbox"><label for="search_p">В записях</label> 
 				<input id="search_v" checked="checked" value="v" class="searcharea" type="checkbox"><label for="search_v">В видео</label> 
