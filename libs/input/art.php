@@ -49,6 +49,7 @@ class input__art extends input__common
 							}
 							
 							$add_to_groups[$image['id_group']][$image['id_in_group']] = $image;
+							continue;
 						}
 						
 						$local_tags = empty($image['tags']) ? $tags :
@@ -106,9 +107,10 @@ class input__art extends input__common
 						foreach ($add as $variant) {
 							$insert = array($insert_id, $variant['md5'],
 								$variant['thumb'], $variant['extension'],
-								!empty($variant['resized']), $order_next++, $variant['extension']);
+								!empty($variant['resized']), $order_next++, $variant['animated']);
 
 							obj::db()->insert('art_variation', $insert);
+							obj::db()->debug();
 						}
 					}
 				}
@@ -121,7 +123,7 @@ class input__art extends input__common
 					foreach ($similar as $variant) {
 						$insert = array($id, $variant['md5'],
 							$variant['thumb'], $variant['extension'],
-							!empty($variant['resized']), $order_next++, $variant['extension']);
+							!empty($variant['resized']), $order_next++, $variant['animated']);
 
 						obj::db()->insert('art_variation', $insert);
 					}
