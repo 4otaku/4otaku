@@ -28,6 +28,7 @@ class input__art extends input__common
 
 				$add_to_groups = array();
 				$groups = array();
+				$art_ids = array();
 				foreach (query::$post['images'] as $image) {					
 					$thumb = $image['thumb'];
 					$md5 = $image['md5'];
@@ -69,8 +70,9 @@ class input__art extends input__common
 						);	
 
 						Database::insert('art', $insert_data);
-						obj::db()->insert('versions',array('art',$id = obj::db()->sql('select @@identity from art',2),
-											base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+						obj::db()->insert('versions',array('art',$id = Database::last_id(),
+											base64_encode(serialize($insert_data)),
+											$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 
 						if (function_exists('puzzle_fill_cvec_from_file') && function_exists('puzzle_compress_cvec')) {
 							$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$name[1].'.jpg';
@@ -85,6 +87,7 @@ class input__art extends input__common
 							$groups[$image['id_group']] = $id;
 						}						
 
+						$art_ids[] = $id;
 						$i++;
 					}
 				}
@@ -125,11 +128,13 @@ class input__art extends input__common
 				}
 
 				if (!empty(query::$post['transfer_to']) && $sets['user']['rights']) {
-					$_post = array('sure' => 1, 'do' => array('art','transfer'), 'where' => query::$post['transfer_to']);
-					if (!$id) $id = obj::db()->sql('select @@identity from art',2);
-					$j = $i;
-					while ($j > 0) {
-						$_post['id'] = ($id - --$j);
+					$_post = array('sure' => 1, 
+						'do' => array('art','transfer'), 
+						'where' => query::$post['transfer_to']);
+
+					foreach ($art_ids as $art_id) {
+						var_dump($art_id);
+						$_post['id'] = $art_id;
 						input__common::transfer($_post);
 					}
 				} else {
