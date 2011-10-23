@@ -580,9 +580,6 @@ Chosen = (function() {
       }
       if (!this.pending_destroy_click && !target_closelink) {
         if (!this.active_field) {
-          if (this.is_multiple) {
-            this.search_field.val("");
-          }
           $(document).click(this.click_test_action);
           this.results_show();
         } else if (!this.is_multiple && evt && ($(evt.target) === this.selected_item || $(evt.target).parents("a.chzn-single").length)) {
@@ -601,7 +598,11 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.blur_test = function(evt) {
-    if (!this.active_field && this.container.hasClass("chzn-container-active")) {
+    if (
+		!this.active_field && 
+		this.container.hasClass("chzn-container-active") && 
+		document.body.status != 'blurred'
+	) {
       return this.close_field();
     }
   };
@@ -719,7 +720,6 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.result_clear_highlight = function() {
-	  console.log(this.result_highlight);
     if (this.result_highlight) {
       this.result_highlight.removeClass("highlighted");
     }
@@ -911,6 +911,13 @@ Chosen = (function() {
       this.search_results.append(no_search_html);
       return "";
     }
+    if (this.result_highlight != undefined) {
+		var highlighted = this.result_highlight.text();
+		if (highlighted.toLowerCase().indexOf(searchText.toLowerCase()) == -1) {
+			this.result_clear_highlight();
+		}
+	}
+    
     a = searchText[0].toLowerCase();
     b = searchText[1].toLowerCase();
     c = searchText[2];
@@ -964,7 +971,7 @@ Chosen = (function() {
             this.result_deactivate($("#" + result_id));
           }
         }
-      }
+      }      
     }
     if (results < 1 && searchText.length) {
       return this.no_results(searchText);

@@ -1,3 +1,18 @@
+function onBlur() {
+	document.body.status = 'blurred';
+};
+function onFocus(){
+	document.body.status = 'focused';
+};
+
+if (/*@cc_on!@*/false) { // check for Internet Explorer
+	document.onfocusin = onFocus;
+	document.onfocusout = onBlur;
+} else {
+	window.onfocus = onFocus;
+	window.onblur = onBlur;
+}
+
 var tag_areas = ["post", "video", "art"];
 
 $.each(tag_areas, function (index, area) {
@@ -17,6 +32,12 @@ $.each(tag_areas, function (index, area) {
 				$.Storage.set("tags_updated_"+area, new Date().getTime().toString());
 			}
 		);
+	}
+});
+
+$(".search-choice-close").live('click', function(e){
+	if (is_left_click(e)) {
+		$(this).parents('.search-choice').remove();
 	}
 });
 
