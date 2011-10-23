@@ -166,7 +166,8 @@ class input__board extends input__common
 				$text,
 				date('j.n.y - G:i'),
 				$time,
-				$cookie->get()
+				$cookie->get(),
+				$_SERVER['REMOTE_ADDR']
 			);
 			
 			obj::db()->insert('board',$insert_data);

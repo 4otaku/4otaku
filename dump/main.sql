@@ -409,6 +409,7 @@ CREATE TABLE IF NOT EXISTS `board` (
   `pretty_date` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `sortdate` bigint(16) NOT NULL,
   `cookie` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `ip` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `selector` (`type`,`sortdate`),
   KEY `child_posts` (`thread`,`type`,`sortdate`)
