@@ -739,9 +739,6 @@ Chosen = (function() {
     return this.winnow_results();
   };
   Chosen.prototype.results_hide = function() {
-    if (!this.is_multiple) {
-      this.selected_item.removeClass("chzn-single-with-drop");
-    }
     this.result_clear_highlight();
     this.dropdown.css({
       "left": "-9000px"
@@ -975,8 +972,7 @@ Chosen = (function() {
     this.search_field.val("");
     lis = this.search_results.find("li");
     $("li.no-results").remove();
-    this.search_results.append('<li class="no-results">Подсказки начинаются от 2 символов<span class="hidden"></span></li>');
-    _results = [];
+   _results = [];
     return _results;
   };
   Chosen.prototype.winnow_results_set_highlight = function() {

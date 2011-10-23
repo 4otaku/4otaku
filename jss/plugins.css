@@ -290,9 +290,11 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
   background-image: linear-gradient(top, #ffffff 85%,#eeeeee 99%);
   border: 1px solid #aaa;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   padding-right: 2px;
+  padding-left: 0px !important;
   cursor: text;
   overflow: hidden;
   height: auto !important;
