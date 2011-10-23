@@ -76,8 +76,8 @@ class input__art extends input__common
 											$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 
 						if (function_exists('puzzle_fill_cvec_from_file') && function_exists('puzzle_compress_cvec')) {
-							$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$name[1].'.jpg';
-							$vector = puzzle_fill_cvec_from_file($image);
+							$imagelink = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$name[1].'.jpg';
+							$vector = puzzle_fill_cvec_from_file($imagelink);
 							$vector = base64_encode(puzzle_compress_cvec($vector));
 
 							obj::db()->insert('art_similar',array($id, $vector, 0, '|'),false);
@@ -110,7 +110,6 @@ class input__art extends input__common
 								!empty($variant['resized']), $order_next++, $variant['animated']);
 
 							obj::db()->insert('art_variation', $insert);
-							obj::db()->debug();
 						}
 					}
 				}
