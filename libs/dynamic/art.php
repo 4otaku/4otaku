@@ -3,7 +3,7 @@
 class dynamic__art extends engine
 {
 	function slideshow() {
-		 global $check; global $def; global $sets; global $url;
+		global $check; global $def; global $sets; global $url;
 		$types = array ('tag','author','category','mixed','date','pool');
 		if (in_array(query::$get['type'],$types) && $check->num(query::$get['id'])) {
 			$limit = ' order by sortdate desc limit '.(query::$get['id'] - 1).', 5'; $area_prefix = 'area="'.$def['area'][0].'" and ';

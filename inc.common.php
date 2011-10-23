@@ -1,5 +1,7 @@
 <?
-
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
+ 
 ini_set('memory_limit', '128M');
 define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11');
 

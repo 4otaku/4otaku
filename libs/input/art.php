@@ -5,7 +5,7 @@ class input__art extends input__common
 	function add() {
 		global $check; global $def; global $url; global $sets; global $cookie;
 		if (!$cookie) $cookie = new dynamic__cookie();
-
+		
 		if (is_array(query::$post['images'])) {
 			if ($url[2] == 'pool' && is_numeric($url[3])) {
 				$pool_password = Database::get_field('art_pool', 'password', $url[3]);
@@ -14,32 +14,63 @@ class input__art extends input__common
 				$tags = obj::transform('meta')->add_tags(obj::transform('meta')->parse_array(query::$post['tags']));
 				$category = obj::transform('meta')->category(query::$post['category']);
 				$author = obj::transform('meta')->author(obj::transform('meta')->parse(query::$post['author'],$def['user']['author']));
-//				query::$post['images'] = array_reverse(query::$post['images']);
 
 				$similar = array();
 
 				if (!empty(query::$post['dublicates'])) {
 					foreach (query::$post['images'] as $image_key => $image) {
 						if (query::$post['dublicates'] != $image_key + 1) {
-							$name = explode('#',$image);
-							$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
 							unset(query::$post['images'][$image_key]);
-							$similar[] = $name;
+							$similar[] = $image;
 						}
 					}
 				}
 
-				foreach (query::$post['images'] as $image) {
-					$name = explode('#',$image);
-					$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
+				$add_to_groups = array();
+				$groups = array();
+				foreach (query::$post['images'] as $image) {					
+					$thumb = $image['thumb'];
+					$md5 = $image['md5'];
+					$extension = $image['extension'];
+					$resized = $image['resized'];
+					$animated = $image['animated'];
+					
+					$thumb = $check->hash($thumb); 
+					$md5 = $check->hash($md5);
 					if (
-						$name[0] && $name[1] && $name[2] &&
-						!obj::db()->sql('select id from art where md5="'.$name[0].'"',2)
+						$md5 && $thumb && $extension &&
+						!Database::get_count('art', 'md5 = ?', $md5)
 					) {
-						obj::db()->insert('art',$insert_data = array($name[0],$name[1],$name[2],$name[3],(int) $name[4],$author,$category,$tags,0,"",
-												query::$post['source'],0,0,obj::transform('text')->rudate(),$time = ceil(microtime(true)*1000),$def['area'][1]));
+						if (!empty($image['id_in_group']) && $image['id_in_group'] > 1) {
+							
+							if (!isset($add_to_groups[$image['id_group']])) {
+								$add_to_groups[$image['id_group']] = array();
+							}
+							
+							$add_to_groups[$image['id_group']][$image['id_in_group']] = $image;
+						}
+						
+						$local_tags = empty($image['tags']) ? $tags :
+							obj::transform('meta')->add_tags(obj::transform('meta')->parse_array($image['tags']));
+					
+						$insert_data = array(
+							'md5' => $md5,
+							'thumb' => $thumb,
+							'extension' => $extension,
+							'resized' => $resized,
+							'animated' => (int) $animated,
+							'author' => $author,
+							'category' => $category,
+							'tag' => $local_tags,
+							'source' => query::$post['source'],
+							'pretty_date' => obj::transform('text')->rudate(),
+							'sortdate' => $time = ceil(microtime(true)*1000),
+							'area' => $def['area'][1]
+						);	
+
+						Database::insert('art', $insert_data);
 						obj::db()->insert('versions',array('art',$id = obj::db()->sql('select @@identity from art',2),
-														base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
+											base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 
 						if (function_exists('puzzle_fill_cvec_from_file') && function_exists('puzzle_compress_cvec')) {
 							$image = ROOT_DIR.SL.'images'.SL.'booru'.SL.'thumbs'.SL.'large_'.$name[1].'.jpg';
@@ -48,18 +79,46 @@ class input__art extends input__common
 
 							obj::db()->insert('art_similar',array($id, $vector, 0, '|'),false);
 						}
+						
+						if (!empty($image['id_group'])) {
+							
+							$groups[$image['id_group']] = $id;
+						}						
 
 						$i++;
 					}
 				}
 
+				if (!empty($add_to_groups)) {
+					foreach ($add_to_groups as $id_group => $add) {
+
+						if (empty($groups[$id_group])) {
+							continue;
+						}
+						$insert_id = $groups[$id_group];
+												
+						ksort($add);
+						$order_next = 0;
+						
+						foreach ($add as $variant) {
+							$insert = array($insert_id, $variant['md5'],
+								$variant['thumb'], $variant['extension'],
+								!empty($variant['resized']), $order_next++, $variant['extension']);
+
+							obj::db()->insert('art_variation', $insert);
+						}
+					}
+				}
+
 				if (!empty($similar)) {
-					if (!$id) $id = obj::db()->sql('select @@identity from art',2);
+					if (!$id) {
+						$id = obj::db()->sql('select @@identity from art',2);
+					}
 					$order_next = 0;
 					foreach ($similar as $variant) {
-						$insert = array($id, $variant[0],
-							$variant[1], $variant[2],
-							!empty($variant[3]), $order_next++, $variant[4]);
+						$insert = array($id, $variant['md5'],
+							$variant['thumb'], $variant['extension'],
+							!empty($variant['resized']), $order_next++, $variant['extension']);
 
 						obj::db()->insert('art_variation', $insert);
 					}
@@ -93,10 +152,12 @@ class input__art extends input__common
 						));
 					}
 				}
+			} else {
+				$this->add_res('Неправильный пароль от группы.', true);
 			}
-			else $this->add_res('Неправильный пароль от группы.', true);
+		} else {
+			$this->add_res('Не все обязательные поля заполнены.', true);
 		}
-		else $this->add_res('Не все обязательные поля заполнены.', true);
 	}
 
 	function addpool() {

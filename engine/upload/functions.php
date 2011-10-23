@@ -144,3 +144,26 @@ function scale_animated ($new_size, $target) {
 	$imagick = new $image_class($path = $target);
 	return true;
 }
+
+function get_file_meta ($filename) {
+
+	if (stripos($filename, 'auto_tag=') !== 0) {
+		return array();
+	}
+	
+	$filename = str_ireplace('auto_tag=', '', $filename);
+	
+	$filename = explode('=', $filename);
+	
+	if (count($filename) != 3 || !is_numeric($filename[0]) || !is_numeric($filename[1])) {
+		return array();
+	}	
+
+	$tags = preg_split('/[\+\s]+/u', $filename[2]);
+	
+	return array(
+		'tags' => $tags, 
+		'id_group' => $filename[0],
+		'id_in_group' => $filename[1],
+	);
+}

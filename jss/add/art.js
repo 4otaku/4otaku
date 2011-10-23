@@ -1,9 +1,26 @@
+window.enable_duplicates_check = true;
+
 function check_similar() {
-	var artValues = [];
-	$('.art_images input').each(function() {
-		artValues.push($(this).val().split("#")[1]);
-	});
-	$("#is_dublicates").load(window.config.site_dir+"/ajax.php?m=art&f=is_dublicates&data="+artValues.join(","));
+	if (window.enable_duplicates_check) {
+		var artValues = [];
+		$('.art_images div').each(function() {
+			artValues.push($(this).attr('rel'));
+		});
+		$("#is_dublicates").load(window.config.site_dir+
+			"/ajax.php?m=art&f=is_dublicates&data="+artValues.join(","));
+	}
+}
+
+function uid() {
+	var S4 = function() {
+		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	};
+	return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
+function add_hidden_input(name, val, owner) {
+	$('<input/>').attr('type', 'hidden').
+		attr('name', 'images'+name).val(val).appendTo(owner);
 }
 
 $("#transparent td img.cancel").die("click").live("click", function(){  
@@ -43,14 +60,38 @@ $(document).ready(function(){
 				$('#error').html('<b>Ошибка! Выбранный вами файл уже есть в базе.</b>');
 			}
 			else {
-				if ($("input."+response['md5']).length < 1) {
-					if ($("#art-image").attr('rel') == 'single') 
+				if ($(".art_images[rel="+response.md5+"]").length < 1) {
+					if ($("#art-image").attr('rel') == 'single') {
 						$('#transparent td').html('');
-						
-					$('#transparent td').append('<div style="background-image: url('
-						+response['image']+');"><img class="cancel" src="'
-						+window.config.image_dir+'/cancel.png"><input type="hidden" name="images[]" value="'
-						+response['data']+'" class="'+response['md5']+'"></div>');
+					}
+					
+					var art = $('<div/>');
+					art.css('background-image', 'url('+response.image+')');
+					art.attr('rel', response.md5);
+					art.append('<img class="cancel" src="'+window.config.image_dir+'/cancel.png">');
+					
+					var id = uid();
+					
+					add_hidden_input('['+id+'][animated]', response.animated, art);
+					add_hidden_input('['+id+'][extension]', response.extension, art);
+					add_hidden_input('['+id+'][md5]', response.md5, art);
+					add_hidden_input('['+id+'][resized]', response.resized, art);
+					add_hidden_input('['+id+'][thumb]', response.thumb, art);
+					
+					if (response.meta.id_group != undefined) {
+						window.enable_duplicates_check = false;
+						add_hidden_input('['+id+'][id_group]', response.meta.id_group, art);
+					}
+					if (response.meta.id_in_group != undefined) {
+						add_hidden_input('['+id+'][id_in_group]', response.meta.id_in_group, art);
+					}
+					if (response.meta.tags != undefined) {
+						$.each(response.meta.tags, function(key, tag) {
+							add_hidden_input('['+id+'][tags][]', tag, art);
+						});
+					}
+					
+					art.appendTo('.art_images td');
 
 					check_similar();
 				}

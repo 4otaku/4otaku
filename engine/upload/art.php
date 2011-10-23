@@ -11,7 +11,8 @@
 			) {
 
 				$extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-				$thumb=md5(microtime(true));
+				$meta = get_file_meta(pathinfo($file, PATHINFO_FILENAME));
+				$thumb = md5(microtime(true));
 				$newname = $md5.'.'.$extension;
 				$newfile = IMAGES.SL.'booru'.SL.'full'.SL.$newname;
 				$newresized = IMAGES.SL.'booru'.SL.'resized'.SL.$md5.'.jpg';
@@ -55,7 +56,11 @@
 					'success' => true,
 					'image' => '/images/booru/thumbs/'.$thumb.'.jpg',
 					'md5' => $md5,
-					'data' => $md5.'#'.$thumb.'#'.$extension.'#'.$resized.'#'.$animated,
+					'thumb' => $thumb,
+					'extension' => $extension,
+					'resized' => $resized,
+					'animated' => $animated,
+					'meta' => $meta
 				);
 			} else {
 				$result = array('error' => 'already-have');
