@@ -1211,6 +1211,8 @@ div.cats {
 	width: 600px;
 	background-color: #FFFFFF;
 	position: absolute;
+    left: 50%;
+    margin-left: -300px;	
 	opacity: 0.85;
 }
 
