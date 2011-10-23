@@ -381,6 +381,7 @@ SelectParser = (function() {
           empty: true
         });
       }
+      $(option).attr('id', 'chozen_chzn_b_' + this.options_index);
       return this.options_index += 1;
     }
   };
@@ -568,6 +569,9 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.container_mousedown = function(evt) {
+	if (evt != undefined && evt.target != undefined && evt.target.nodeName == "SPAN") {
+		return;
+	}	  
     var target_closelink;
     if (!this.is_disabled) {
       target_closelink = evt != null ? ($(evt.target)).hasClass("search-choice-close") : false;
@@ -715,6 +719,7 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.result_clear_highlight = function() {
+	  console.log(this.result_highlight);
     if (this.result_highlight) {
       this.result_highlight.removeClass("highlighted");
     }

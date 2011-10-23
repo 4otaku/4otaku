@@ -20,7 +20,17 @@ $.each(tag_areas, function (index, area) {
 	}
 });
 
+$(".chzn-choices").live('click', function(e) {
+	
+	if (e.target && e.target.nodeName != "SPAN") {
+	
+		$(".search-color-tips").remove();
+	}
+});
+
 $(".chzn-choices").live('keydown', function(e) {
+	
+	$(".search-color-tips").remove();
 
 	if (e.which == 13 && $(".active-result.highlighted").length > 0) {
 		
@@ -67,8 +77,54 @@ $(".chzn-choices").live('keyup', function(e) {
 	}
 });
 
-$(".clear_tags").live('click', function(){
-	$(".search-choice-close").each(function(){$(this).click();});
+$(".clear_tags").live('click', function() {
+	$(".search-choice-close").each(function(){
+		$(this).click();
+	});
+});
+
+$(".search-choice span").live('click', function() {
+	
+	var position = $(this).offset();
+	
+	$(".highlighted").removeClass("highlighted");
+	$(".active-result").removeClass("active-result");
+	$(".no-results").remove();
+	
+	position.top += 20;
+	position.left = position.left - 8;
+	
+	var div = $("<div class='search-color-tips'></div>");
+	div.append("<div class='search-color-tip' rel='' style='color:#333;'>Без подсветки</div>");
+	div.append("<div class='search-color-tip' rel='author' style='color:#AA0000;'>Автор</div>");
+	div.append("<div class='search-color-tip' rel='series' style='color:#AA00AA;'>Произведение</div>");
+	div.append("<div class='search-color-tip' rel='character' style='color:#00AA00;'>Персонаж</div>");
+	div.css(position);
+	div.appendTo('body');
+	
+	div[0].owner_span = $(this);
+});
+
+$(".search-color-tip").live('click', function() {
+	var type = $(this).attr('rel'),
+		color = $(this).css('color');
+		
+	var span = $(this).parent()[0].owner_span,
+		li = span.parent(),
+		id = li.attr('id').replace('_c_', '_b_');
+		
+	if ($("#"+id).length == 1) {
+		$("#"+id).val($("#"+id).html() + "<" + type + ">");
+	} else {
+		var value = span.children('input').val();
+		
+		value = value.replace(/\<[^\s]+\>/, '');
+		span.children('input').val(value + "<" + type + ">");
+	}
+	
+	span.css('color', color);
+	
+	$(this).parent().remove();
 });
 
 function add_chozen_tag (values) {

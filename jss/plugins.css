@@ -347,9 +347,37 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
   margin: 3px 0 3px 5px;
   position: relative;
 }
+
 .chzn-container-multi .chzn-choices .search-choice span {
-  cursor: default;
+  cursor: pointer;
 }
+
+.search-color-tips {
+  position: absolute;
+  z-index: 15;
+  opacity: 0.85;
+  -webkit-border-radius: 6px;
+  -moz-border-radius   : 6px;
+  border-radius        : 6px;  
+  background-color: #e4e4e4;
+  border: 1px solid #b4b4b4;
+  line-height: 13px;
+  padding: 3px 19px 3px 6px;
+}
+
+.search-color-tips .search-color-tip {
+	margin-top: 7px;
+	cursor: pointer;
+}
+
+.search-color-tips .search-color-tip:hover {
+	text-decoration: underline;
+}
+
+.chzn-container-multi .chzn-choices .search-choice span:hover {
+  text-decoration: underline;
+}
+
 .chzn-container-multi .chzn-choices .search-choice-focus {
   background: #d4d4d4;
 }
