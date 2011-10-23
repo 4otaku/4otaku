@@ -67,6 +67,10 @@ $(".chzn-choices").live('keyup', function(e) {
 	}
 });
 
+$(".clear_tags").live('click', function(){
+	$(".search-choice-close").each(function(){$(this).click();});
+});
+
 function add_chozen_tag (values) {
 	if (typeof values == "string") {
 		values = [values];
