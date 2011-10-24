@@ -27,14 +27,14 @@ $("#transparent td img.cancel").die("click").live("click", function(){
 	$(this).parent().remove();
 	check_similar();
 });
-
+	
 $(document).ready(function(){
 	
 	get_tags('art');
 
 	window.processing_art = 0;
 	
-	art_upload = new qq.FileUploader({
+	var art_upload = new qq.FileUploader({
 		element: document.getElementById('art-image'),
 		action: window.config.site_dir+'/ajax.php?upload=art',
 		multiple: true,
@@ -47,6 +47,7 @@ $(document).ready(function(){
 			},
 		onComplete: 
 		function(id, file, response) {
+			return;
 			window.processing_art = window.processing_art - 1;
 			if (window.processing_art == 0) 
 				$(".processing").hide(); 
@@ -98,13 +99,5 @@ $(document).ready(function(){
 			} 
 		}
 	});
-	
-	$(".art_upload_stop").click(
-		function(){
-			art_upload.cancel();
-			window.processing_art = 0;
-			$(".processing").hide(); 
-			$('#error').html('');
-		});
 	
 }); 

@@ -52,13 +52,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	$(".board_upload_stop").click(function(){
-		board_upload.cancel();
-		window.processing_board = 0;
-		$(".processing").hide(); 
-		$('#error').html('');
-	})
-	
 	if (document.location.hash.indexOf("#reply-") == 0) {
 		var id = parseInt(document.location.hash.replace("#reply-",""));
 		$("#textfield").html(">>"+id+"\n");

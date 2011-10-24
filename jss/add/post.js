@@ -59,13 +59,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	$(".image_upload_stop").click(function(){
-		image_upload.cancel();
-		window.processing_art = 0;
-		$(".processing").hide(); 
-		$('#error').html('');
-	});
-	
 	$("#transparent td img.cancel").click(function(){  
 		$(this).parent().remove();
 	}); 		
@@ -94,13 +87,6 @@ $(document).ready(function(){
 				$('.link_file').children("tr.link:last").attr('rel', num);
 			}
 		}
-	});
-	
-	$(".file_upload_stop").click(function(){
-		file_upload.cancel();
-		window.processing_art = 0;
-		$(".processing-file").hide(); 
-		$('#error').html('');
 	});
 	
 }); 

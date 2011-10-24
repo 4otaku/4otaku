@@ -67,9 +67,6 @@
 							<td>
 								<span class="processing-image">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
 							</td>
-							<td class="cancel-holder">
-								<span class="processing-image">Отменить <img class="image_upload_stop right" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
-							</td>
 						</tr>
 					</table>
 				</td>
@@ -127,9 +124,6 @@
 							</td>
 							<td>
 								<span class="processing-file">Файл загружается. (Вы можете загружать несколько файлов одновременно.)</span>
-							</td>
-							<td class="cancel-holder">
-								<span class="processing-file">Отменить <img class="file_upload_stop right" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
 							</td>
 						</tr>
 					</table>

@@ -79,9 +79,6 @@
 							<td>
 								<span class="processing">Изображение/flash загружается.</span>
 							</td>
-							<td class="cancel-holder">
-								<span class="processing">Отменить <img class="board_upload_stop" src="<?=$def['site']['dir']?>/images/cancel.png"></span>
-							</td>
 						</tr>
 					</table>
 				</td>
