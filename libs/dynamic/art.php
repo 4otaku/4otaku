@@ -82,7 +82,9 @@ class dynamic__art extends engine
 	function masstag() {
 		global $check; global $sets;
 		if (is_numeric(query::$get['id'])) {
-			if ($check->lat($function = query::$get['sign']) && $check->rights()) $this->$function(urldecode(query::$get['data']),query::$get['id']);
+			if ($check->lat($function = query::$get['sign'])) {
+				$this->$function(urldecode(query::$get['data']),query::$get['id']);
+			}
 			$return = obj::db()->sql('select * from art where id='.query::$get['id'].' limit 1',1);
 			obj::db()->insert('versions',array('art',query::$get['id'],base64_encode(serialize($return)),ceil(microtime(true)*1000),$sets['user']['name'],$_SERVER['REMOTE_ADDR']));
 			$return['meta'] = $this->get_meta(array($return),array('category','author','tag'));
@@ -104,6 +106,8 @@ class dynamic__art extends engine
 
 	function danbooru($section, $id)
 	{
+		Check::rights();
+		
 		if ($section == 'danbtag')
 		{
 			$dmd5 = obj::db()->sql('select md5 from art where id='.$id,2);
@@ -216,6 +220,8 @@ class dynamic__art extends engine
 
 	static function substract_tag($tags,$id) {
 		global $def;
+		
+		Check::rights();
 
 		$info = obj::db()->sql('select area, tag from art where id='.$id,1);
 		$old_tags = array_unique(array_filter(explode('|',$info['tag'])));
@@ -241,6 +247,9 @@ class dynamic__art extends engine
 	}
 
 	function substract_category($category,$id) {
+		
+		Check::rights();
+		
 		$categories = explode('|',trim(obj::db()->sql('select category from art where id='.$id,2),'|'));
 		$categories = array_diff($categories,array($category));
 		if (empty($categories)) $categories = array('none');
@@ -250,6 +259,8 @@ class dynamic__art extends engine
 
 	function transfer($area,$id) {
 		global $add_res;
+		
+		Check::rights();
 
 		query::$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
 		include_once('libs/input/common.php');
