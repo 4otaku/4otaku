@@ -47,7 +47,6 @@ $(document).ready(function(){
 			},
 		onComplete: 
 		function(id, file, response) {
-			return;
 			window.processing_art = window.processing_art - 1;
 			if (window.processing_art == 0) 
 				$(".processing").hide(); 
