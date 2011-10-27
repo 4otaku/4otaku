@@ -74,7 +74,7 @@ class input__admin extends engine
 		}
 	}
 
-	private function delete_art($id, $move_to) {
+	private function delete_art($id, $move_to, $hard = false) {
 		global $def;
 
 		$data = obj::db()->sql('select area, tag from art where id='.$id,1);
@@ -84,7 +84,11 @@ class input__admin extends engine
 
 		$this->move_art_comments($id, $move_to);
 
-		obj::db()->sql('update art set area="deleted" where id='.$id,0);
+		if ($hard) {
+			obj::db()->sql('delete from art where id='.$id,0);
+		} else {
+			obj::db()->sql('update art set area="deleted" where id='.$id,0);
+		}
 		obj::db()->sql('delete from art_similar where id='.$id,0);
 		obj::db()->sql('update art_similar set similar=replace(similar,"|'.$id.'|","|") where id='.$move_to,0);
 	}
@@ -121,7 +125,7 @@ class input__admin extends engine
 
 		obj::db()->insert('art_variation', $insert);
 
-		$this->delete_art($erase, $update);
+		$this->delete_art($erase, $update, true);
 	}
 
 	private function nondublicates($first, $second) {

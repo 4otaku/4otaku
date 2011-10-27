@@ -301,7 +301,7 @@ class input__art extends input__common
 				'animated' => $main_image[4],
 			);
 
-			obj::db()->update('art',array_keys($update),array_values($update),$id);
+			obj::db()->update('art', array_keys($update), array_values($update), $id);
 
 			obj::db()->sql('delete from art_variation where art_id='.$id,0);
 			$order_next = 0;
