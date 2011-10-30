@@ -12,11 +12,11 @@ abstract class Model_Abstract
 		'id'
 	);
 
-	// Данные записи
-	private $data = array();
-
 	// Название таблицы
 	private $table;
+
+	// Данные записи
+	private $data = array();
 
 	// Знак того, что записи нет в базе
 	private $is_phantom = false;
@@ -62,8 +62,18 @@ abstract class Model_Abstract
 	}
 
 	public function get($key) {
-		return array_key_exists($key, $this->data) ?
-			$this->data[$key] : null;
+		if (array_key_exists($key, $this->data)) {
+			return $this->data[$key];
+		}
+		
+		if (in_array($key, $this->fields)) {
+			
+			$this->load();
+			
+			return $this->data[$key];
+		}
+		
+		return null;
 	}
 
 	public function get_id() {
@@ -108,6 +118,10 @@ abstract class Model_Abstract
 	}
 
 	public function get_data() {
+		if (count($this->data) < count($this->fields)) {
+			$this->load();
+		}
+		
 		return $this->data;
 	}
 

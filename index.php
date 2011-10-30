@@ -31,9 +31,9 @@ if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 	$redirect = 'http://'.def::site('domain').'/'.(empty($url[3]) ? 'news/' : $url[3].'/'.$url[4].'/'.$url[5]);
 	engine::redirect($redirect);
 }
-
+			
 if (isset(query::$post['do'])) {
-	query::$post['do'] = explode('.',query::$post['do']);
+	query::$post['do'] = explode('.', query::$post['do']);
 	if (count(query::$post['do']) == 2) {
 		$input_class = 'input__'.query::$post['do'][0];
 		$input = new $input_class;
@@ -41,6 +41,20 @@ if (isset(query::$post['do'])) {
 		$input->$input_function(query::$post);
 	}
 	$redirect = 'http://'.def::site('domain').(empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
+	engine::redirect($redirect);
+} elseif (isset(query::$post['action']) && 
+	in_array(query::$post['action'], array('Create', 'Update', 'Delete'))) {
+		
+	$class = query::$post['action'] . '_' . ucfirst($url[1]);
+
+	if (class_exists($class)) {
+		
+		$function = empty(query::$post['function']) ? 
+			'main' : query::$post['function'];
+		$class::$function();
+	}
+	$redirect = 'http://'.def::site('domain').
+		(empty($class::$redirect) ? $_SERVER["REQUEST_URI"] : $class::$redirect);
 	engine::redirect($redirect);
 } else {
 
