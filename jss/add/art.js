@@ -1,5 +1,6 @@
 window.enable_duplicates_check = true;
 
+// TODO: вот где собака порылась. Заменить на установку индивидуальной галочки "главная пикча"
 function check_similar() {
 	if (window.enable_duplicates_check) {
 		var artValues = [];

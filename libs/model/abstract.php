@@ -22,8 +22,12 @@ abstract class Model_Abstract
 	private $is_phantom = false;
 	   
 	public function __construct($data) {
-
-		$this->set_array($data);
+		
+		if (is_numeric($data) && $this->primary == array('id')) {
+			$this->set('id', $data);
+		} else {
+			$this->set_array($data);
+		}
 	}
 	
 	protected function build_condition() {

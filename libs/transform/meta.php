@@ -1,6 +1,6 @@
 <?
 
-class transform__meta
+class Transform_Meta
 {
 	private $tag_types = array(
 		'character' => '00AA00',
@@ -168,3 +168,5 @@ class transform__meta
 		return strtr($st, $tbl);
 	}
 }
+
+class transform__meta extends Transform_Meta {}

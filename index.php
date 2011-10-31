@@ -14,6 +14,7 @@ if (isset($url[0])) {
 if (empty($url[1])) {
 	$url[1] = 'index';
 }
+query::$url = $url;
 
 include_once ROOT_DIR.SL.'engine'.SL.'handle_old_urls.php';
 
@@ -49,13 +50,17 @@ if (isset(query::$post['do'])) {
 
 	if (class_exists($class)) {
 		
+		$worker = new $class();
+		
 		$function = empty(query::$post['function']) ? 
 			'main' : query::$post['function'];
-		$class::$function();
+		
+		if ($worker->check_access($function, query::$post)) {			
+			$worker->$function();
+		}
+		
+		$worker->check_redirect();
 	}
-	$redirect = 'http://'.def::site('domain').
-		(empty($class::$redirect) ? $_SERVER["REQUEST_URI"] : $class::$redirect);
-	engine::redirect($redirect);
 } else {
 
 	$data = array();

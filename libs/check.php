@@ -25,6 +25,10 @@ class Check
 		return (preg_match('/[^0-9a-f]/i', $str)) ? $default : $str;
 	}
 
+	public static function is_hash($str) {
+		return (bool) preg_match('/^[0-9a-f]{32}$/ui', $str);
+	}
+
 	public static function email($str, $default = true) {
 		global $def;
 		if ($default === true) $default = $def['user']['mail'];
