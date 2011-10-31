@@ -173,15 +173,29 @@ class input__admin extends engine
 	}
 
 	public function pack_join () {
-		global $check;
-		if ($check->rights()) {
-			$parent = (int) query::$post['parent'];
-			$child = (int) query::$post['child'];
 
-			obj::db()->update('art_pack','weight',0,$parent);
-			obj::db()->sql('delete from art_pack where id='.$child,0);
-			obj::db()->update('art_in_pack','pack_id',$parent,$child,'pack_id');
+		Check::rights();
+
+		$parent = (int) query::$post['parent'];
+		$child = (int) query::$post['child'];
+
+		Database::update('art_pack', array('weight' => 0), $parent);
+
+		$child_arts = Database::get_full_table('art_in_pack', 'pack_id = ?', $child);
+		$parent_order = Database::get_field('art_in_pack', 'max(`order`)', 'pack_id = ?', $parent);
+
+		foreach ($child_arts as $child_art) {
+			Database::update('art_in_pack',
+				array(
+					'order' => $child_art['order'] + $parent_order + 1,
+					'pack_id' => $parent
+				),
+				'pack_id = ? and art_id = ?',
+				array($child_art['pack_id'], $child_art['art_id'])
+			);
 		}
+
+		Database::delete('art_pack', $child);
 	}
 
 	public function pack_sort () {
