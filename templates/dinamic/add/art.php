@@ -12,7 +12,7 @@
 					Загрузить изображения
 				</td>
 				<td class="inputdata">
-					<table>
+					<table width="100%">
 						<tr>
 							<td>
 								<div id="art-image"></div>
@@ -23,8 +23,13 @@
 							<td>
 								<span class="processing">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
 							</td>
+							<td>
+								<div class="hidden as_variations right">
+									<input type="submit" class="disabled" value="Объединить" />
+								</div>
+							</td>
 						</tr>
-					</table>
+					</table>					
 				</td>
 			</tr>
 			<tr>
