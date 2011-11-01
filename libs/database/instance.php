@@ -163,12 +163,10 @@ class Database_Instance extends Database_Abstract
 		}
 
 		if (empty($this->limit)) {
-			$append = " LIMIT 1";
-		} else {
-			$append = "";
+			$this->set_limit(1);
 		}
 
-		$data = $this->get_common($table, $values, $condition.$append, $params);
+		$data = $this->get_common($table, $values, $condition, $params);
 
 		return current($data);
 	}
@@ -183,12 +181,10 @@ class Database_Instance extends Database_Abstract
 		}
 
 		if (empty($this->limit)) {
-			$append = " LIMIT 1";
-		} else {
-			$append = "";
+			$this->set_limit(1);
 		}
 
-		$data = $this->get_common($table, $value, $condition.$append, $params);
+		$data = $this->get_common($table, $value, $condition, $params);
 
 		$data = current($data);
 		return is_array($data) ? reset($data) : $data;

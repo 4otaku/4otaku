@@ -1,6 +1,6 @@
 <?php
 
-class Model_Art_Pool extends class Model_Abstract
+class Model_Art_Pool extends Model_Abstract
 {
 	// Поля таблицы
 	protected $fields = array(
@@ -14,7 +14,12 @@ class Model_Art_Pool extends class Model_Abstract
 	);
 
 	// Название таблицы
-	private $table = 'art_pool';
+	protected $table = 'art_pool';
+
+	// Последний порядковый номер пикчи
+	protected $last_order = null;
+	// Отметка о том, брали ли мы его уже из базы
+	protected $last_order_known = false;	
 	
 	public function set_password($data) {
 		$data = $this->encode_password($data);
@@ -34,5 +39,20 @@ class Model_Art_Pool extends class Model_Abstract
 		}
 		
 		return empty($correct_hash) || $string == $correct_hash;
-	}	
+	}
+	
+	public function add_art($art) {
+		if (!$this->last_order_known) {
+			$this->last_order = (int) Database::set_order('order')->
+				get_field('art_in_pool', 'order', 'pool_id = ?', $this->get_id());
+				
+			$this->last_order_known = true;
+		}
+
+		Database::insert('art_in_pool', array(
+			'art_id' => $art->get_id(),
+			'pool_id' => $this->get_id(),
+			'order' => ++$this->last_order
+		));
+	}
 }

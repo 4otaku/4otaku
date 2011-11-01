@@ -55,7 +55,8 @@ if (isset(query::$post['do'])) {
 		$function = empty(query::$post['function']) ? 
 			'main' : query::$post['function'];
 		
-		if ($worker->check_access($function, query::$post)) {			
+		if ($worker->check_access($function, query::$post)) {
+
 			$worker->$function();
 		}
 		

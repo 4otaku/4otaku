@@ -13,7 +13,7 @@ abstract class Model_Abstract
 	);
 
 	// Название таблицы
-	private $table;
+	protected $table;
 
 	// Данные записи
 	private $data = array();
@@ -21,24 +21,34 @@ abstract class Model_Abstract
 	// Знак того, что записи нет в базе
 	private $is_phantom = false;
 	   
-	public function __construct($data) {
-		
+	public function __construct($data = array()) {
+
 		if (is_numeric($data) && $this->primary == array('id')) {
 			$this->set('id', $data);
 		} else {
+			$data = (array) $data;
+			
 			$this->set_array($data);
+			
+			foreach ($this->primary as $key) {
+
+				if (empty($data[$key])) {
+					$this->set_phantom();
+					break;
+				}
+			}
 		}
 	}
 	
 	protected function build_condition() {
 		$condition = array();
 		$params = array();
-		
-		foreach ($primary as $key) {
-			$param = $this->get($key);
+
+		foreach ($this->primary as $key) {
+			$param = $this->get($key, true);
 			
 			if (empty($param)) {
-				return '';
+				return array(false, false);
 			}
 			
 			$condition[] = $key.' = ?';			
@@ -59,18 +69,21 @@ abstract class Model_Abstract
 		list($condition, $params) = $this->build_condition();
 
 		if (!empty($condition)) {
-			$data = Database::get_row($this->table, $condition, $params);
-		
-			$this->set_array($data);
+			$data = Database::get_full_row($this->table, 
+				$condition, $params);
+
+			if (is_array($data)) {
+				$this->set_array($data);
+			}
 		}
 	}
 
-	public function get($key) {
+	public function get($key, $silent = false) {
 		if (array_key_exists($key, $this->data)) {
 			return $this->data[$key];
 		}
 		
-		if (in_array($key, $this->fields)) {
+		if (!$silent && in_array($key, $this->fields)) {
 			
 			$this->load();
 			
@@ -84,7 +97,7 @@ abstract class Model_Abstract
 		$return = array();
 
 		foreach ($this->primary as $key) {
-			$value = $this->get($key);
+			$value = $this->get($key, true);
 
 			if (empty($value)) {
 				$return = array();
@@ -94,7 +107,7 @@ abstract class Model_Abstract
 			$return[$key] = $this->get($key);
 		}
 		
-		if (count($return) == 1) {
+		if (count($this->primary) == 1) {
 			$return = reset($return);
 		}
 
@@ -104,7 +117,7 @@ abstract class Model_Abstract
 	public function set_array(array $data) {
 
 		foreach($data as $key => $value) {
-			if (array_key_exists($key, $this->fields)) {
+			if (in_array($key, $this->fields)) {
 				$this->data[$key] = $value;
 			}
 		}
@@ -130,7 +143,7 @@ abstract class Model_Abstract
 	}
 
 	public function insert() {
-		
+
 		if ($this->is_phantom) {
 			Database::insert($this->table, $this->data);
 			$id = Database::last_id();

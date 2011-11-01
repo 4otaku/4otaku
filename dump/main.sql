@@ -304,7 +304,7 @@ DELIMITER ;
 CREATE TABLE IF NOT EXISTS `art_similar` (
   `id` int(11) NOT NULL,
   `vector` varchar(2048) NOT NULL,
-  `checked` tinyint(1) NOT NULL,
+  `checked` tinyint(1) NOT NULL DEFAULT '0',
   `similar` varchar(4096) NOT NULL DEFAULT '|',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
