@@ -10,7 +10,7 @@ function add_hidden_input(name, val, owner) {
 		attr('name', 'images'+name).val(val).appendTo(owner);
 }
 
-$("#transparent td img.cancel").die("click").live("click", function(){  
+$("#transparent td img.cancel").die("click").live("click", function() {  
 	$(this).parent().remove();
 
 	if ($('.image_holder').length > 1) {
@@ -21,12 +21,8 @@ $("#transparent td img.cancel").die("click").live("click", function(){
 	}
 });
 
-$(".as_variations").die("click").live("click", function(){
-	if (this.variationMode == undefined) {
-		this.variationMode = false;
-	}
-	
-	if (this.variationMode) {
+$(".as_variations input").die("click").live("click", function(e) {	
+	if ($(this).val() != "Объединить") {
 		not_variations();
 	} else {
 		choose_variations();
@@ -34,27 +30,42 @@ $(".as_variations").die("click").live("click", function(){
 });
 
 function not_variations() {
+	remove_mask();
+	
 	$(".as_variations input").val("Объединить");
 	$(".master_image").remove();
-	$(".as_variations")[0].variationMode = false;
+}
+
+function remove_mask() {
+	$("body").css('cursor', 'auto');
+	$("body").unbind('click');
+	$(".choose_mask").remove();
+	$(".as_variations, .image_holder").css('z-index', 'auto');
 }
 
 function choose_variations() {
 	$(".as_variations input").val("Не объединять");
 	$(".master_image").remove();
 	
-	$("body").css('cursor', 'url(/images/crown.png),auto');
-	$("body").click(select_main_art);
+	$("body").css('cursor', 'url(/images/crown.png),crosshair');
+	
+	$(".as_variations, .image_holder").css('z-index', 6000);
+	$("body").append('<div class="choose_mask" style="height:'+$(document).height()+'px;"></div>');
+	
+	$("body").bind('click', select_main_art);
 }
 
 function select_main_art(e) {
-	$("body").css('cursor', 'auto');
-	$("body").unbind('click');
 	
 	var target = $(e.target);
 	
+	if (target.is(".as_variations input")) {
+		return;
+	}
+	
 	if (target.is('.image_holder')) {
-		$(".as_variations")[0].variationMode = true;
+		
+		remove_mask();
 		
 		target.append('<img src="/images/crown.png" class="master_image" />');
 		target.append('<input type="hidden" class="master_image"'+

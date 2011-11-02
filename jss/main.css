@@ -347,6 +347,21 @@ div.addborder > a {
 	width: 80%;
 }
 
+.as_variations {
+	position: relative;
+}
+
+.choose_mask {
+	position: absolute; 
+	top: 0px; 
+	left: 0px; 
+	z-index: 1000; 
+	background-color: #000000; 
+	display: block; 
+	opacity: 0.6; 
+	width: 100%;
+}
+
 /* Content, главная страница */
 
 p.head {
