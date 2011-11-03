@@ -80,22 +80,13 @@ $(".chzn-choices").live('keydown', function(e) {
 	}
 });
 
-$(".chzn-choices").live('keyup', function(e) {
-
-	if ((e.ctrlKey == true || this.ctrlPressed) && e.which == 86) {
+$(".chzn-choices").live('paste', function(e) {
+	setTimeout(function() {
 		var tags = $("#chozen_chzn li.no-results span").html() || '';
 		tags = tags.split(/[,\s+]/);
 
-		add_chozen_tag(tags);
-
-		this.ctrlPressed = false;
-	} else if (e.ctrlKey == true && e.which == 17) {
-
-		this.ctrlPressed = true;
-	} else {
-
-		this.ctrlPressed = false;
-	}
+		add_chozen_tag(tags);		
+	}, 100);
 });
 
 $(".clear_tags").live('click', function() {
