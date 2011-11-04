@@ -1140,16 +1140,22 @@ img.master_image {
 .post_images div {
 	width: 200px;
 	height: 150px !important;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 .art_images div {
 	width: 150px;
 	height: 150px !important;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 .board_images div {
 	width: 240px;
 	height: 180px !important;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 .processing {
