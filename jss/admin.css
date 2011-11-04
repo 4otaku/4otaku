@@ -44,3 +44,23 @@
 .closed {
 	display: none;
 }
+
+/* /admin/menu */
+.edit_head_menu .tab {
+	background: #fff url(/images/top.png) 0px 0px repeat-x;
+	display: block;
+	height: 28px;
+	width: 300px;
+	padding: 5px 10px;
+	text-shadow: 0px 0px 1px white;
+	text-decoration: none;
+	color: #444;
+}
+.edit_head_menu .tab:hover {
+	background: #efefef;
+	background: url(/images/top.png) 0px -84px repeat-x;
+	text-decoration: underline;
+}
+.edit_head_menu .shell, .edit_head_menu .mini-shell {
+	margin-bottom: 10px;
+}

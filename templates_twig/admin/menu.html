@@ -1,84 +1,89 @@
-<b>Редактирование верхнего меню.</b>
-<br /><br />
-<div class="shell">
-	<form enctype="multipart/form-data" method="post">
-		<input type="hidden" name="do" value="admin.add_menu_item">
-		Заголовок: <input type="text" name="name" style="width:300px;" /><br />
-		Адрес: <input type="text" name="url" style="width:300px;" /><br />
-		Родитель:
-			<select name="parent">
-				<option value="0">Отсутствует</option>
-				{% for id, name in main.select %}
-					<option value="{{id}}">
-						{{name}}
-					</option>
-				{% endfor %}
-			</select><br />
-		<input type="submit" value="Добавить" />
-	</form>
-</div>
-{% for id, menu in header.menu %}
+<p><b>Редактирование верхнего меню.</b></p>
+
+<div class="edit_head_menu">
 	<div class="shell">
-		<form enctype="multipart/form-data" method="post" class="right">
-			<input type="hidden" name="do" value="admin.delete_menu_item" />
-			<input type="checkbox" name="sure" />
-			<input type="hidden" name="id" value="{{id}}" />
-			<input type="submit" value="Удалить" class="submit" />
-		</form>
 		<form enctype="multipart/form-data" method="post">
-			<input type="hidden" name="do" value="admin.edit_menu_item">
-			<input type="hidden" name="id" value="{{id}}">
-			Заголовок: <input type="text" name="name" style="width:300px;" value="{{menu.name}}" /><br />
-			Адрес: <input type="text" name="url" style="width:300px;" value="{{menu.url}}" /><br />
+			<input type="hidden" name="do" value="admin.add_menu_item">
+			Заголовок: <input type="text" name="name" style="width:300px;" /><br />
+			Адрес: <input type="text" name="url" style="width:300px;" /><br />
 			Родитель:
 				<select name="parent">
-					<option value="0"{% if menu.parent == 0 %} class="selected"{% endif %}>
-						Отсутствует
-					</option>
-					{% for select_id, name in main.select %}
-						{% if id != select_id %}
-							<option value="{{select_id}}"{% if menu.parent == select_id %} class="selected"{% endif %}>
-								{{name}}
-							</option>
-						{% endif %}
+					<option value="0">Отсутствует</option>
+					{% for id, name in main.select %}
+						<option value="{{id}}">
+							{{name}}
+						</option>
 					{% endfor %}
 				</select><br />
-			Порядок: <input type="text" name="order" style="width:40px;" value="{{menu.order}}" /><br />
-			<input type="submit" value="Редактировать" />
+			<input type="submit" value="Добавить" />
 		</form>
-		{% if menu.items %}
-			<br />
-			<div style="margin-left: 30px">
-				{% for child_id, child_menu in menu.items %}
-					<div class="mini-shell">
-						<form enctype="multipart/form-data" method="post" class="right">
-							<input type="hidden" name="do" value="admin.delete_menu_item" />
-							<input type="checkbox" name="sure" />
-							<input type="hidden" name="id" value="{{child_id}}" />
-							<input type="submit" value="Удалить" class="submit" />
-						</form>
-						<form enctype="multipart/form-data" method="post">
-							<input type="hidden" name="do" value="admin.edit_menu_item">
-							<input type="hidden" name="id" value="{{child_id}}">
-							Заголовок: <input type="text" name="name" style="width:300px;" value="{{child_menu.name}}" /><br />
-							Адрес: <input type="text" name="url" style="width:300px;" value="{{child_menu.url}}" /><br />
-							Родитель:
-								<select name="parent">
-									<option value="0"{% if child_menu.parent == 0 %} class="selected"{% endif %}>
-										Отсутствует
-									</option>
-									{% for select_id, name in main.select %}
-										<option value="{{select_id}}"{% if child_menu.parent == select_id %} class="selected"{% endif %}>
-											{{name}}
-										</option>
-									{% endfor %}
-								</select><br />
-							Порядок: <input type="text" name="order" style="width:40px;" value="{{child_menu.order}}" /><br />
-							<input type="submit" value="Редактировать" />
-						</form>
-					</div>
-				{% endfor %}
-			</div>
-		{% endif %}
 	</div>
-{% endfor %}
+	<p>Нажмите на нужную ссылку для редактирования. <a href="#" class="expand-all">Развернуть все</a></p>
+	{% for id, menu in header.menu %}
+		<a href="#" class="tab toggle-edit" title="Показать форму редактирования этого пункта меню">{{menu.name}}</a>
+		<div class="shell closed">
+			<form enctype="multipart/form-data" method="post" class="right">
+				<input type="hidden" name="do" value="admin.delete_menu_item" />
+				<input type="checkbox" name="sure" />
+				<input type="hidden" name="id" value="{{id}}" />
+				<input type="submit" value="Удалить" class="submit" />
+			</form>
+			<form enctype="multipart/form-data" method="post">
+				<input type="hidden" name="do" value="admin.edit_menu_item">
+				<input type="hidden" name="id" value="{{id}}">
+				Заголовок: <input type="text" name="name" style="width:300px;" value="{{menu.name}}" /><br />
+				Адрес: <input type="text" name="url" style="width:300px;" value="{{menu.url}}" /><br />
+				Родитель:
+					<select name="parent">
+						<option value="0"{% if menu.parent == 0 %} class="selected"{% endif %}>
+							Отсутствует
+						</option>
+						{% for select_id, name in main.select %}
+							{% if id != select_id %}
+								<option value="{{select_id}}"{% if menu.parent == select_id %} class="selected"{% endif %}>
+									{{name}}
+								</option>
+							{% endif %}
+						{% endfor %}
+					</select><br />
+				Порядок: <input type="text" name="order" style="width:40px;" value="{{menu.order}}" /><br />
+				<input type="submit" value="Редактировать" />
+			</form>
+			{% if menu.items %}
+				<br />
+				<div style="margin-left: 30px">
+					{% for child_id, child_menu in menu.items %}
+						<a href="#" class="tab toggle-edit-mini" title="Показать форму редактирования этого пункта меню">{{child_menu.name}}</a>
+						<div class="mini-shell closed">
+							<form enctype="multipart/form-data" method="post" class="right">
+								<input type="hidden" name="do" value="admin.delete_menu_item" />
+								<input type="checkbox" name="sure" />
+								<input type="hidden" name="id" value="{{child_id}}" />
+								<input type="submit" value="Удалить" class="submit" />
+							</form>
+							<form enctype="multipart/form-data" method="post">
+								<input type="hidden" name="do" value="admin.edit_menu_item">
+								<input type="hidden" name="id" value="{{child_id}}">
+								Заголовок: <input type="text" name="name" style="width:300px;" value="{{child_menu.name}}" /><br />
+								Адрес: <input type="text" name="url" style="width:300px;" value="{{child_menu.url}}" /><br />
+								Родитель:
+									<select name="parent">
+										<option value="0"{% if child_menu.parent == 0 %} class="selected"{% endif %}>
+											Отсутствует
+										</option>
+										{% for select_id, name in main.select %}
+											<option value="{{select_id}}"{% if child_menu.parent == select_id %} class="selected"{% endif %}>
+												{{name}}
+											</option>
+										{% endfor %}
+									</select><br />
+								Порядок: <input type="text" name="order" style="width:40px;" value="{{child_menu.order}}" /><br />
+								<input type="submit" value="Редактировать" />
+							</form>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+</div>

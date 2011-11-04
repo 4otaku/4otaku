@@ -130,4 +130,24 @@ $(document).ready(function(){
 
 		return false;
 	});
+
+	/* /admin/menu */
+	$('.toggle-edit-mini').click(function () {
+		toggleMenuEdit(this, '.edit_head_menu .toggle-edit-mini', '.edit_head_menu .mini-shell');
+		return false;
+	});
+
+	$('.toggle-edit').click(function () {
+		toggleMenuEdit(this, '.edit_head_menu .toggle-edit', '.edit_head_menu .shell');
+		return false;
+	});
+
+	$('.expand-all').click(function () {
+		$('.edit_head_menu .shell').slideDown();
+		return false;
+	});
+
+	function toggleMenuEdit(el, link_el, form_el) {
+		$(form_el).eq($(link_el).index(el)+1).slideToggle();
+	}
 });
