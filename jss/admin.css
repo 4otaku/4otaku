@@ -1,6 +1,6 @@
 
 /* /admin/overview */
-.post table {
+.overview table {
 	border-top: 1px solid #D8D8D8;
 	border-left: 1px solid #D8D8D8;
 	border-right: 1px solid #D8D8D8;
@@ -10,17 +10,17 @@
 	margin-bottom: 1em;
 	border-radius: 3px;
 }
-.post tr {
+.overview tr {
 	border-color: inherit;
 }
-.post th {
+.overview th {
 	text-align: left;
 	background-color: #EAEAEA;
 	color: #999;
 	padding: .5em .3em;
 	border-bottom: 1px solid #D8D8D8;
 }
-.post td {
+.overview td {
 	background: #F8F8F8;
 	padding: .5em .3em;
 	color: #484848;
