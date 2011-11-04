@@ -13,16 +13,6 @@ class input__art extends input__common
 		else $add_res = array('error' => true, 'text' => 'Не все обязательные поля заполнены.');
 	}
 
-	function edit_art_image() {
-		global $check;
-		if ($check->num(query::$post['id']) && query::$post['type'] == 'art') {
-			$name = explode('#',end(query::$post['images']));
-			$name[0] = $check->hash($name[0]); $name[1] = $check->hash($name[1]);
-			obj::db()->update('art',array('md5','thumb','extension','resized','animated'),$name,query::$post['id']);
-			obj::db()->update('art_similar',array('checked','similar'),array(0,'|'),query::$post['id']);
-		}
-	}
-
 	function edit_art_source() {
 		global $check;
 		if ($check->num(query::$post['id']) && query::$post['type'] == 'art') {
