@@ -1,9 +1,9 @@
 <div id="admin_tags">
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
 	 <a href="<?=$def['site']['dir']?>/admin/tags/problem">Проблемные теги</a>.
-	<div class="right"> 
-	 <input type="submit" value="Сохранить все" class="disabled save_all"><br />	 
-	Тегов: 
+	<div class="right">
+	 <input type="submit" value="Сохранить все" class="disabled save_all"><br />
+	Тегов:
 	<select class="settings" rel="pp.tags_admin">
 		<option value="10"<?=($sets['pp']['tags_admin'] == 10 ? ' selected="yes"' : '');?>>10</option>
 		<option value="20"<?=($sets['pp']['tags_admin'] == 20 ? ' selected="yes"' : '');?>>20</option>
@@ -34,7 +34,7 @@
 			<th width="300px">
 				Опции:
 			</th>
-		</tr>	
+		</tr>
 	<?	$area_types = array('post_main' => 'записи','post_flea_market' => 'записи, б.','video_main' => 'видео','video_flea_market' => 'видео, б','art_main' => 'арт','art_flea_market' => 'арт, б');
 		if (is_array($data['main']['tags'])) foreach ($data['main']['tags'] as $id => $item) {
 			?>
@@ -50,7 +50,7 @@
 							<input type="text" value="<?=$item['name'];?>" name="name" style="width: 95%">
 						</td>
 						<td>
-							<input type="text" value="<?=str_replace('|',', ',trim($item['variants'],'|'));?>" name="variants" style="width: 95%">
+							<textarea name="variants" style="width: 95%"><?=str_replace('|',', ',trim($item['variants'],'|'));?></textarea>
 						</td>
 						<td>
 							<select name="color">
@@ -60,21 +60,21 @@
 								<option value="AA00AA" <?=($item['color'] == 'AA00AA' ? 'selected="selected" class="selected"' : '');?>>Произведение</option>
 								<option value="0000FF" <?=($item['color'] == '0000FF' ? 'selected="selected" class="selected"' : '');?>>Служебный</option>
 							</select>
-						</td>	
+						</td>
 						<td>
 							<nobr>
 							<? foreach ($area_types as $key => $area_type) { ?>
 								<? if ($item[$key]) { ?>
 									<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 										<?=$area_type;?>
-									</a> 
+									</a>
 								<? } ?>
 							<? } ?>
 							</nobr>
-						</td>		
+						</td>
 						<td>
 							<input type="submit" value="Сохранить">
-							<a href="<?=$def['site']['dir']?>/admin/tags/merge/<?=$item['alias'];?>" class="plaintext"> 
+							<a href="<?=$def['site']['dir']?>/admin/tags/merge/<?=$item['alias'];?>" class="plaintext">
 								<input type="button" value="Объединить">
 							</a>
 							<input type="submit" value="Удалить" class="delete_tag disabled" rel="<?=$id;?>|<?=$item['alias'];?>">
