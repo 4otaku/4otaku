@@ -997,8 +997,7 @@ span.board_spoiler:hover {
 	background: none repeat scroll 0 0 #DDDDDD; 
 	color: #000000; 
 }
-span.board_quote {	
-	margin-left: 20px;
+span.board_quote {
 	padding: 0 10px 0 10px; 
 	border-left: 1px solid #ddd;
 	color: #789922;
