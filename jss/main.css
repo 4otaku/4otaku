@@ -983,13 +983,15 @@ span.board_spoiler {
 	display: inline !important;
 	padding: 0 !important;
 }
-span.board_spoiler:hover { background: none repeat scroll 0 0 #DDDDDD; color: #000000; }
+span.board_spoiler:hover { 
+	background: none repeat scroll 0 0 #DDDDDD; 
+	color: #000000; 
+}
 span.board_quote {
 	margin-left: 20px;
 	display: inline;
 	padding: 0;
 	color: #789922;
-	float: none !important;
 }
 
 div.skipped { padding: 5px; margin: 0 0 5px 0; border: 1px solid #C7C500; background: #E8E7B7;  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
