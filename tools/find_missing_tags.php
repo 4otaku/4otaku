@@ -2,11 +2,11 @@
 
 include '../inc.common.php';
 
-$arts = Database::get_vector('art', array('id', 'tag'));
+$db_arts = Database::get_vector('art', array('id', 'tag'));
 
 $all_tags = Database::get_vector('tag', array('alias', 'id'));
 
-foreach ($arts as $id => $tags) {	
+foreach ($db_arts as $id => $tags) {	
 	$tags = array_unique(array_filter(explode('|', $tags)));
 	
 	foreach ($tags as $tag) {
@@ -33,4 +33,13 @@ foreach ($arts as $art => $tags) {
 		<a href="/art/<?=$art;?>">Арт №<?=$art;?></a>, теги
 		 <?=implode(', ', $tags);?> <br />
 	<?php
+	
+	if (query::$get['fix'] == 1) {
+		query::$post['id'] = $art;
+		query::$post['type'] = 'art';
+		query::$post['tags'] = str_replace('|', ' ', $db_arts[$art]);
+		$check = new Check();
+		$worker = new input__common();
+		$worker->edit_tag();
+	}
 }
