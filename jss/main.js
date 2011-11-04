@@ -264,8 +264,9 @@ function show_updates(id) {
 }
 
 function add_text(text) {
+	
 	if ($("#textfield").length == 1) {
-		$("#textfield").append(text);
+		$("#textfield").val($("#textfield").val() + text);
 		scrollTo(0,0);
 	} else {
 		var id = parseInt(text.replace(">>",""));
