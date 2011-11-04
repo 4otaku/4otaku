@@ -28,7 +28,11 @@
 				$animated = 0;
 
 				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
-				if ($imagick->getImageWidth() > def::art('resizewidth')*def::art('resizestep')) {
+				$resize_width = def::art('resizewidth') * def::art('resizestep');
+				if (
+					$imagick->getImageWidth() > $resize_width || 
+					$check[0] > $resize_width
+				) {
 					if (scale(def::art('resizewidth'), $newresized, 95, false)) {
 						$resized = $sizes;
 					}
