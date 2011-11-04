@@ -3,68 +3,11 @@
 <? } ?>
 
 <style>
-	.post table {
-		border-top: 1px solid #D8D8D8;
-		border-left: 1px solid #D8D8D8;
-		border-right: 1px solid #D8D8D8;
-		width: 100%;
-		font-size: 13px;
-		margin: 0;
-		margin-bottom: 1em;
-		border-radius: 3px;
-	}
-	.post tr {
-		border-color: inherit;
-	}
-	.post th {
-		text-align: left;
-		background-color: #EAEAEA;
-		color: #999;
-		padding: .5em .3em;
-		border-bottom: 1px solid #D8D8D8;
-	}
-	.post td {
-		background: #F8F8F8;
-		padding: .5em .3em;
-		color: #484848;
-		border-bottom: 1px solid #E1E1E1;
-	}
 	.slide {
-		padding-left: 10px;
-		display: inline-block;
-		margin-bottom: 4px;
-		text-decoration: none;
-		border-bottom: dashed 1px;
 		background: url('<?=$def['site']['dir']?>/images/tb2.gif') no-repeat 0 2px;
-	}
-	.slide:hover {
-		border: none;
-		margin-bottom: 5px;
-	}
-	.closed {
-		display: none;
 	}
 </style>
 <? $variations = array('Свернуть ↑', 'Развернуть ↓'); ?>
-<script type="text/javascript">
-	$(function() {
-		$('.slide').click(function (){
-			var value = 0;
-			if ($(this).next('div:hidden').length == 0) {
-				$(this).text('<?=$variations[1]?>');
-				value = 1;
-			} else {
-				$(this).text('<?=$variations[0]?>');
-				value = 0;
-			}
-			$(this).next('div').slideToggle();
-			var id = $(this).attr('id');
-			$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=user."+ id +"&val=" + value);
-
-			return false;
-		});
-	});
-</script>
 
 <h3>
 	<a href="<?=$def['site']['dir']?>/post/workshop/">Мастерская</a> (<?=count($data['main']['post']);?>)
