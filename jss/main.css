@@ -1142,6 +1142,7 @@ img.master_image {
 	height: 150px !important;
 	background-repeat: no-repeat;
 	background-position: center center;
+	position: relative;
 }
 
 .art_images div {
@@ -1149,6 +1150,7 @@ img.master_image {
 	height: 150px !important;
 	background-repeat: no-repeat;
 	background-position: center center;
+	position: relative;
 }
 
 .board_images div {
@@ -1156,6 +1158,7 @@ img.master_image {
 	height: 180px !important;
 	background-repeat: no-repeat;
 	background-position: center center;
+	position: relative;
 }
 
 .processing {
