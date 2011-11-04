@@ -32,25 +32,29 @@
 	.slide {
 		padding-left: 10px;
 		display: inline-block;
-		margin-bottom: 5px;
+		margin-bottom: 4px;
+		text-decoration: none;
+		border-bottom: dashed 1px;
 		background: url('<?=$def['site']['dir']?>/images/tb2.gif') no-repeat 0 2px;
 	}
 	.slide:hover {
-		text-decoration: none;
+		border: none;
+		margin-bottom: 5px;
 	}
 	.closed {
 		display: none;
 	}
 </style>
+<? $variations = array('Свернуть ↑', 'Развернуть ↓'); ?>
 <script type="text/javascript">
 	$(function() {
 		$('.slide').click(function (){
 			var value = 0;
 			if ($(this).next('div:hidden').length == 0) {
-				$(this).text("Развернуть");
+				$(this).text('<?=$variations[1]?>');
 				value = 1;
 			} else {
-				$(this).text("Свернуть");
+				$(this).text('<?=$variations[0]?>');
 				value = 0;
 			}
 			$(this).next('div').slideToggle();
@@ -67,7 +71,7 @@
 </h3>
 
 <a id="overview_workshop" class="slide" href="#">
-	<?=(sets::user('overview_workshop') ? 'Развернуть' : 'Свернуть');?>
+	<?=$variations[sets::user('overview_workshop')];?>
 </a>
 <div class="<?=(sets::user('overview_workshop') ? 'closed' : '');?>">
 	<table class="car-monthlisting car-post" cellspacing="0" cellpadding="0">
@@ -105,7 +109,7 @@
 </h3>
 
 <a id="overview_video" class="slide" href="#">
-	<?=(sets::user('overview_video') ? 'Развернуть' : 'Свернуть');?>
+	<?=$variations[sets::user('overview_video')];?>
 </a>
 <div class="<?=(sets::user('overview_video')) ? 'closed' : ''?>">
 	<table cellspacing="0" cellpadding="0">
@@ -172,7 +176,7 @@
 </h3>
 
 <a id="overview_orders" class="slide" href="#">
-	<?=(sets::user('overview_orders') ? 'Развернуть' : 'Свернуть');?>
+	<?=$variations[sets::user('overview_orders')];?>
 </a>
 <div class="<?=(sets::user('overview_orders')) ? 'closed' : ''?>">
 	<table cellspacing="0" cellpadding="0">
@@ -207,7 +211,7 @@
 <h3 title="За сутки">Новые комментарии (<?=count($data['main']['comment']);?>)</h3>
 
 <a id="overview_comments" class="slide" href="#">
-	<?=(sets::user('overview_comments') ? 'Развернуть' : 'Свернуть');?>
+	<?=$variations[sets::user('overview_comments')];?>
 </a>
 <div class="<?=(sets::user('overview_comments')) ? 'closed' : ''?>">
 	<table cellspacing="0" cellpadding="0">
