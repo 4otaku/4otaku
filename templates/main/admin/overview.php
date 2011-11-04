@@ -45,12 +45,18 @@
 <script type="text/javascript">
 	$(function() {
 		$('.slide').click(function (){
+			var value = 0;
 			if ($(this).next('div:hidden').length == 0) {
 				$(this).text("Развернуть");
+				value = 1;
 			} else {
 				$(this).text("Свернуть");
+				value = 0;
 			}
 			$(this).next('div').slideToggle();
+			var id = $(this).attr('id');
+			$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=user."+ id +"&val=" + value);
+
 			return false;
 		});
 	});
@@ -60,11 +66,10 @@
 	<a href="<?=$def['site']['dir']?>/post/workshop/">Мастерская</a> (<?=count($data['main']['post']);?>)
 </h3>
 
-<a class="car-yearmonth car-post slide" href="#">
-	Свернуть
+<a id="overview_workshop" class="slide" href="#">
+	<?=(sets::user('overview_workshop') ? 'Развернуть' : 'Свернуть');?>
 </a>
-
-<div>
+<div class="<?=(sets::user('overview_workshop') ? 'closed' : '');?>">
 	<table class="car-monthlisting car-post" cellspacing="0" cellpadding="0">
 		<tr>
 			<th></th>
@@ -99,11 +104,11 @@
 	<a href="<?=$def['site']['dir']?>/video/workshop/">Видео</a> (<?=count($data['main']['video']);?>)
 </h3>
 
-<a class="car-yearmonth car-video slide" href="#">
-	Свернуть
+<a id="overview_video" class="slide" href="#">
+	<?=(sets::user('overview_video') ? 'Развернуть' : 'Свернуть');?>
 </a>
-<div>
-	<table class="car-monthlisting car-video" cellspacing="0" cellpadding="0">
+<div class="<?=(sets::user('overview_video')) ? 'closed' : ''?>">
+	<table cellspacing="0" cellpadding="0">
 		<tr>
 			<th></th>
 			<th>Запись</th>
@@ -135,7 +140,6 @@
 <h3>
 	<a href="<?=$def['site']['dir']?>/art/workshop/">Арт</a> (<?=($data['main']['art']);?>)
 </h3>
-
 Предлагаемые теги:
 <ul class="car-monthlisting">
 	<?
@@ -167,12 +171,11 @@
 	<a href="<?=$def['site']['dir']?>/order/">Заказы</a> (<?=count($data['main']['order']);?>)
 </h3>
 
-<a class="car-yearmonth car-order slide" href="#">
-	Развернуть
+<a id="overview_orders" class="slide" href="#">
+	<?=(sets::user('overview_orders') ? 'Развернуть' : 'Свернуть');?>
 </a>
-
-<div class="closed">
-	<table class="car-monthlisting car-order" cellspacing="0" cellpadding="0">
+<div class="<?=(sets::user('overview_orders')) ? 'closed' : ''?>">
+	<table cellspacing="0" cellpadding="0">
 		<tr>
 			<th></th>
 			<th>Запись</th>
@@ -203,12 +206,11 @@
 
 <h3 title="За сутки">Новые комментарии (<?=count($data['main']['comment']);?>)</h3>
 
-<a class="car-yearmonth car-order slide" href="#">
-	Развернуть
+<a id="overview_comments" class="slide" href="#">
+	<?=(sets::user('overview_comments') ? 'Развернуть' : 'Свернуть');?>
 </a>
-
-<div class="closed">
-	<table class="car-monthlisting car-order" cellspacing="0" cellpadding="0">
+<div class="<?=(sets::user('overview_comments')) ? 'closed' : ''?>">
+	<table cellspacing="0" cellpadding="0">
 		<tr>
 			<th>Автор</th>
 			<th>Текст комментария</th>
