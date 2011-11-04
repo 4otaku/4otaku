@@ -1,3 +1,6 @@
+<? if (is_array($data['main']['tags']))
+		include_once('templates'.SL.'main'.SL.'navi.php');
+?>
 <div id="admin_tags">
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
 	 <a href="<?=$def['site']['dir']?>/admin/tags/problem">Проблемные теги</a>.
@@ -67,7 +70,7 @@
 								<? if ($item[$key]) { ?>
 									<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 										<?=$area_type;?>
-									</a>
+									</a>,
 								<? } ?>
 							<? } ?>
 							</nobr>

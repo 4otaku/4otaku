@@ -1,10 +1,10 @@
 <div id="admin_tags">
 	Искать теги: <input type="text" value="<?=($url[3] == 'search' ? urldecode($url[4]) : '');?>" name="searchtags" class="searchtags" size="17"> <input type="submit" value="Искать" class="disabled search_tags">
-	<br /> 
-	<a href="<?=$def['site']['dir']?>/admin/tags/problem/alias/">Проблемные теги - алиас</a>. <a href="<?=$def['site']['dir']?>/admin/tags/problem/match/">Проблемные теги - совпадения</a>. <a href="<?=$def['site']['dir']?>/admin/tags/problem/empty/">Проблемные теги - пустые</a>. 
-	<div class="right"> 
+	<br />
+	<a href="<?=$def['site']['dir']?>/admin/tags/problem/alias/">Проблемные теги - алиас</a>. <a href="<?=$def['site']['dir']?>/admin/tags/problem/match/">Проблемные теги - совпадения</a>. <a href="<?=$def['site']['dir']?>/admin/tags/problem/empty/">Проблемные теги - пустые</a>.
+	<div class="right">
 	 <input type="submit" value="Сохранить все" class="disabled save_all">
-	</div>	
+	</div>
 	 <br /><br />
 	 <? if ($url[4] != 'match') { ?>
 		<? if ($url[4] != 'empty') { ?>
@@ -12,7 +12,7 @@
 		<? } else { ?>
 			<h2><span class="href">Нигде не использующиеся теги:</span></h2>
 		<? } ?>
-		<table>
+		<table width="100%">
 			<tr>
 				<th>
 					Алиас:
@@ -29,7 +29,7 @@
 				<th>
 					Перейти
 				</th>
-			</tr>	
+			</tr>
 		<?	$area_types = array('post_main' => 'записи','post_flea_market' => 'записи, б.','video_main' => 'видео','video_flea_market' => 'видео, б','art_main' => 'арт','art_flea_market' => 'арт, б');
 			if (is_array($data['main']['tags'])) foreach ($data['main']['tags'] as $id => $item) {
 				?>
@@ -37,7 +37,7 @@
 						<form enctype="multipart/form-data" method="post">
 							<input type="hidden" name="do" value="admin.edittag">
 							<input type="hidden" name="id" value="<?=$id;?>">
-							<input type="hidden" name="old_alias" value="<?=$item['alias'];?>">						
+							<input type="hidden" name="old_alias" value="<?=$item['alias'];?>">
 							<td>
 								<input type="text" value="<?=$item['alias'];?>" name="alias" size="17">
 							</td>
@@ -45,7 +45,7 @@
 								<input type="text" value="<?=$item['name'];?>" name="name" size="17">
 							</td>
 							<td>
-								<input type="text" value="<?=str_replace('|',', ',trim($item['variants'],'|'));?>" name="variants" size="17">
+								<textarea style="width: 95%" name="variants" ><?=str_replace('|',', ',trim($item['variants'],'|'));?></textarea>
 							</td>
 							<td>
 								<select name="color">
@@ -54,16 +54,16 @@
 									<option value="00AA00">Персонаж</option>
 									<option value="AA00AA">Произведение</option>
 								</select>
-							</td>	
+							</td>
 							<td>
 								<? foreach ($area_types as $key => $area_type) { ?>
 									<? if ($item[$key]) { ?>
 										<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 											<?=$area_type;?>
-										</a> 
+										</a>,
 									<? } ?>
 								<? } ?>
-							</td>		
+							</td>
 							<td>
 								<input type="submit" value="Сохранить">
 							<input type="submit" value="Удалить" class="delete_tag disabled" rel="<?=$id;?>|<?=$item['alias'];?>">
@@ -76,7 +76,7 @@
 		</table>
 	<? } else { ?>
 		<h2><span class="href">Пары пересекающихся тегов:</span></h2>
-		<table>
+		<table width="100%">
 			<tr>
 				<th>
 					Алиас:
@@ -93,7 +93,7 @@
 				<th>
 					Перейти
 				</th>
-			</tr>	
+			</tr>
 		<?	$area_types = array('post_main' => 'записи','post_flea_market' => 'записи, б.','video_main' => 'видео','video_flea_market' => 'видео, б','art_main' => 'арт','art_flea_market' => 'арт, б');
 			if (is_array($data['main']['tags'])) foreach ($data['main']['tags'] as $_item) {
 				foreach ($_item as $id => $item) { ?>
@@ -101,7 +101,7 @@
 						<form enctype="multipart/form-data" method="post">
 							<input type="hidden" name="do" value="admin.edittag">
 							<input type="hidden" name="id" value="<?=$id;?>">
-							<input type="hidden" name="old_alias" value="<?=$item['alias'];?>">						
+							<input type="hidden" name="old_alias" value="<?=$item['alias'];?>">
 							<td>
 								<input type="text" value="<?=$item['alias'];?>" name="alias" size="17">
 							</td>
@@ -109,7 +109,7 @@
 								<input type="text" value="<?=$item['name'];?>" name="name" size="17">
 							</td>
 							<td>
-								<input type="text" value="<?=str_replace('|',', ',trim($item['variants'],'|'));?>" name="variants" size="17">
+								<textarea style="width: 95%" name="variants" ><?=str_replace('|',', ',trim($item['variants'],'|'));?></textarea>
 							</td>
 							<td>
 								<select name="color">
@@ -118,16 +118,16 @@
 									<option value="00AA00">Персонаж</option>
 									<option value="AA00AA">Произведение</option>
 								</select>
-							</td>	
+							</td>
 							<td>
 								<? foreach ($area_types as $key => $area_type) { ?>
 									<? if ($item[$key]) { ?>
 										<a href="<?=$def['site']['dir']?>/<?=substr($key,0,strpos($key,'_')).(substr($key,strpos($key,'_')+1) != 'main' ? '/'.substr($key,strpos($key,'_')+1) : '').'/tag/'.$item['alias'];?>/" target="_blank">
 											<?=$area_type;?>
-										</a> 
+										</a>,
 									<? } ?>
 								<? } ?>
-							</td>		
+							</td>
 							<td>
 								<input type="submit" value="Сохранить">
 							<input type="submit" value="Удалить" class="delete_tag disabled" rel="<?=$id;?>|<?=$item['alias'];?>">
@@ -144,6 +144,6 @@
 				<?
 			}
 		?>
-		</table>	
+		</table>
 	<? } ?>
 </div>
