@@ -915,7 +915,12 @@ span.inactive_question a:hover {
 /* Content, борда */
 
 div.thread { display: block; padding: 5px 0 10px 0; clear: both; border-top: 1px solid #ddd; margin-top: 15px; }
-div.thread span { float: left; display: block; padding: 0 10px 0 10px; border-left: 1px solid #ddd;  }
+div.thread > span { 
+	float: left; 
+	display: block; 
+	padding: 0 10px 0 10px; 
+	border-left: 1px solid #ddd;
+}
 div.thread span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
 div.thread span.number, div.thread span.number a { color: #bbb; text-decoration: none; }
 div.message span.number a.number_link:hover { color: #42A3B9; }
@@ -931,7 +936,12 @@ div.thread .download_thread .variants { display: none; position: absolute; right
 div.thread .download_thread:hover .variants { display: block; line-height: 180%;  border: 1px solid #C7C500; background: #E8E7B7; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 
 div.message { display: block; padding: 5px; margin: 0 0 5px 0; border: 1px solid #ddd; background: #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
-div.message span { float: left; display: block; padding: 0 10px 0 10px; border-left: 1px solid #ddd;  }
+div.message > span { 
+	float: left; 
+	display: block;
+	padding: 0 10px 0 10px; 
+	border-left: 1px solid #ddd;  
+}
 div.message span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
 div.message span.number, div.message span.number a { color: #bbb; text-decoration: none; }
 div.message span.number a.number_link:hover { color: #42A3B9; }
@@ -987,9 +997,10 @@ span.board_spoiler:hover {
 	background: none repeat scroll 0 0 #DDDDDD; 
 	color: #000000; 
 }
-span.board_quote {
-	display: inline;
-	padding: 0;
+span.board_quote {	
+	margin-left: 20px;
+	padding: 0 10px 0 10px; 
+	border-left: 1px solid #ddd;
 	color: #789922;
 }
 
