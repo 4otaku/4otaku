@@ -68,11 +68,9 @@
 										Отсутствует
 									</option>
 									{% for select_id, name in main.select %}
-										{% if id != select_id %}
-											<option value="{{select_id}}"{% if child_menu.parent == select_id %} class="selected"{% endif %}>
-												{{name}}
-											</option>
-										{% endif %}
+										<option value="{{select_id}}"{% if child_menu.parent == select_id %} class="selected"{% endif %}>
+											{{name}}
+										</option>
 									{% endfor %}
 								</select><br />
 							Порядок: <input type="text" name="order" style="width:40px;" value="{{child_menu.order}}" /><br />
