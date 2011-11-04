@@ -1,0 +1,46 @@
+
+/* /admin/overview */
+.overview table {
+	border-top: 1px solid #D8D8D8;
+	border-left: 1px solid #D8D8D8;
+	border-right: 1px solid #D8D8D8;
+	width: 100%;
+	font-size: 13px;
+	margin: 0;
+	margin-bottom: 1em;
+	border-radius: 3px;
+}
+.overview tr {
+	border-color: inherit;
+}
+.overview th {
+	text-align: left;
+	background-color: #EAEAEA;
+	color: #999;
+	padding: .5em .3em;
+	border-bottom: 1px solid #D8D8D8;
+}
+.overview td {
+	background: #F8F8F8;
+	padding: .5em .3em;
+	color: #484848;
+	border-bottom: 1px solid #E1E1E1;
+}
+.overview h3 {
+	font-weight: normal;
+}
+.slide {
+	padding-left: 10px;
+	display: inline-block;
+	margin-bottom: 4px;
+	text-decoration: none;
+	border-bottom: dashed 1px;
+	background: url('/images/tb2.gif') no-repeat 0 2px;
+}
+.slide:hover {
+	border: none;
+	margin-bottom: 5px;
+}
+.closed {
+	display: none;
+}
