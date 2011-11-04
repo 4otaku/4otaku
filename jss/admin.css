@@ -26,13 +26,16 @@
 	color: #484848;
 	border-bottom: 1px solid #E1E1E1;
 }
+.overview h3 {
+	font-weight: normal;
+}
 .slide {
 	padding-left: 10px;
 	display: inline-block;
 	margin-bottom: 4px;
 	text-decoration: none;
 	border-bottom: dashed 1px;
-	/*background: url('<?=$def['site']['dir']?>/images/tb2.gif') no-repeat 0 2px;*/
+	background: url('/images/tb2.gif') no-repeat 0 2px;
 }
 .slide:hover {
 	border: none;

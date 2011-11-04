@@ -1,13 +1,8 @@
 <? if (!class_exists('Imagick', false)) { ?>
-<h2>Imagick не установлен! Юзаю GD!</h2>
+	<h2>Imagick не установлен! Юзаю GD!</h2>
 <? } ?>
 
-<style>
-	.slide {
-		background: url('<?=$def['site']['dir']?>/images/tb2.gif') no-repeat 0 2px;
-	}
-</style>
-<? $variations = array('Свернуть ↑', 'Развернуть ↓'); ?>
+<? $variations = array('Свернуть ↑', 'Развернуть ↓', '' => 'Свернуть ↑'); ?>
 
 <div class="overview">
 	<h3>
