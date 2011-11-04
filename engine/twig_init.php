@@ -4,8 +4,12 @@
 
 	spl_autoload_register(array(new Twig_Autoloader, 'autoload'), true, true);
 
-	function twig_load_template($template, $params) {
+	function twig_load_template($template, $params) {		
 		$twig = get_twig();
+		
+		$params['data'] = $params;
+		$params['_get'] = query::$get;
+		$params['_post'] = query::$post;
 
 		$template = $twig->loadTemplate($template.'.html');
 

@@ -77,45 +77,5 @@ class input__post extends input__common
 			if ($area != $def['area'][1]) $check->rights();
 			obj::db()->update(query::$post['type'],'file',serialize(query::$post['file']),query::$post['id']);
 		}		
-	}		
-	
-	function update() {
-		global $check; global $def; global $cookie;
-		if (!$cookie) $cookie = new dynamic__cookie();
-		
-		if (!$check->rights(true)) {
-			$this->add_res('Недостаточно прав чтобы обновить запись', true);
-			return;
-		}
-		
-		$author = trim(strip_tags(query::$post['author']));
-		if (empty($author)) {
-			$this->add_res('Вы забыли указать автора обновления', true);
-			return;			
-		}
-		
-		$text = obj::transform('text')->format(query::$post['text']);
-		if (!trim(strip_tags($text))) {
-			$this->add_res('Вы забыли добавить описание обновления', true);
-			return;			
-		}		
-		
-		$links = obj::transform('link')->similar(obj::transform('link')->parse(query::$post['link']));
-		foreach ($links as $link) {
-			if (count(array_filter($link['url'])) > 0) {
-				$links_found = true;
-				break;
-			}
-		}
-		if (empty($links_found)) {
-			$this->add_res('Проверьте ссылки, с ними была какая-то проблема', true);
-			return;			
-		}
-		
-		obj::db()->insert('updates',array(query::$post['id'],$author,$text,undo_safety(query::$post['text']),serialize($links),obj::transform('text')->rudate(),ceil(microtime(true)*1000),$def['area'][0]));
-		obj::db()->sql('update post set update_count = update_count + 1 where id='.query::$post['id'],0);
-		obj::db()->update('misc',array('data1','data2','data3','data4'),array(query::$post['id'],obj::db()->sql('select title from post where id='.query::$post['id'],2),query::$post['author'],$text),'latest_update','type');
-		
-		$this->add_res('Запись успешно обновлена');
-	}		
+	}	
 }

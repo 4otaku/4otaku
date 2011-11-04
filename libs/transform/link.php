@@ -2,7 +2,7 @@
 
 class transform__link
 {
-	function parse($links) {
+	public static function parse($links) {
 		$alias = obj::db()->sql('select data1, data2 from misc where type="site_alias"','data1');
 		foreach ($links as $key => $link) {
 			$type = 'alias';
@@ -20,7 +20,7 @@ class transform__link
 		return $links;
 	}
 	
-	function similar($links){
+	public static function similar($links) {
 		$newlinks = array();		
 		foreach ($links as $link) {
 			$found = false;
@@ -37,3 +37,6 @@ class transform__link
 		return $newlinks;
 	}	
 }
+
+// Новое имя. Заменить им старое, после завершения всех замен.
+class Transform_Link extends transform__link {}

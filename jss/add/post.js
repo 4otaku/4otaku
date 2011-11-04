@@ -32,6 +32,11 @@ $(document).ready(function(){
 				$(this).val("");
 			});
 		}
+		if ($('.link_'+$(this).attr('rel')).children("tr.link:last :checkbox").length) {
+			$('.link_'+$(this).attr('rel')).children("tr.link:last :checkbox").each(function(){
+				$(this).attr('checked', true);
+			});
+		}		
 		$(".arrow-down:hidden").show();
 		$(".arrow-down:visible:last").hide();
 	});	

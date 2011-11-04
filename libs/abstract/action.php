@@ -8,9 +8,17 @@ abstract class Abstract_Action
 	protected $minimal_rights = 0;
 	
 	protected $field_rights = array();
+	protected $function_rights = array();
 	
 	public function check_access($function, $data) {
 		if (sets::user('rights') < $this->minimal_rights) {
+			return false;
+		}
+		
+		if (
+			array_key_exists($function, $this->function_rights) &&
+			sets::user('rights') < $this->function_rights[$function]
+		) {
 			return false;
 		}
 		

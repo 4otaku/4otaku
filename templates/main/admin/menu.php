@@ -1,1 +1,2 @@
-<? twig_load_template('admin/menu', $data); ?>
+<?php 
+	twig_load_template('admin/menu', $data);
