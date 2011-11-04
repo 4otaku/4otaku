@@ -1143,6 +1143,7 @@ img.master_image {
 	background-repeat: no-repeat;
 	background-position: center center;
 	position: relative;
+	border: 2px dashed #B6B6B6;
 }
 
 .art_images div {
@@ -1159,6 +1160,9 @@ img.master_image {
 	background-repeat: no-repeat;
 	background-position: center center;
 	position: relative;
+	float: left;
+	margin: 5px 10px;
+	border: 2px dashed #B6B6B6;
 }
 
 .processing {
