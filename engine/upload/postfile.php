@@ -4,14 +4,18 @@
 	
 	if ($sizefile<$def['post']['filesize']) {
 		
-		$time = str_replace('.','',microtime(true));
+		$time = str_replace('.', '', microtime(true));
 		$extension =  pathinfo($file, PATHINFO_EXTENSION);
-		$filename = substr(obj::transform('meta')->make_alias(pathinfo($file,PATHINFO_FILENAME)),0,200);
+		if ($extension != 'mp3') {
+			$filename = substr(obj::transform('meta')->make_alias(pathinfo($file, PATHINFO_FILENAME)),0,200);
+		} else {
+			$filename = 'audiotrack';
+		}
 		
 		if ($sizefile > 1048576) {
 			$sizefile = str_replace('.',',',round(($sizefile / 1048576), 1)).' мб';
-		} elseif {
-			($sizefile > 1024) $sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
+		} elseif ($sizefile > 1024) {
+			$sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
 		} else {
 			$sizefile .= ' байт';	
 		}
