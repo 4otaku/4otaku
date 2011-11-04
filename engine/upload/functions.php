@@ -41,9 +41,9 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	$format = $imagick->getImageFormat();
 	if (strtolower($format) == 'gif') {
 		$imagick = $imagick->coalesceImages();
-
-		$animated = 1;
+		
 		if (is_animated($path) or $imagick->hasNextImage()) {
+			$animated = 1;
 			if (!$thumbnail && ($imagick instanceOf Imagick)) {
 				return scale_animated($new_size,$target);
 			}
