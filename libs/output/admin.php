@@ -221,7 +221,7 @@ class output__admin extends engine
 	}
 
 	static function search_tags($query, $current, $step) {
-		$locate = redo_safety(urldecode($query));
+		$locate = redo_safety(urldecode($query));		
 		$tags = obj::db()->sql('select * from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name) order by id desc limit '.(($current-1)*$step).', '.$step,'id');
 		$page_count = ceil(obj::db()->sql('select count(id) from tag where locate("'.$locate.'",alias) or locate("'.$locate.'",variants) or locate("'.$locate.'",name)',2)/$step);
 		return array($tags, $page_count);

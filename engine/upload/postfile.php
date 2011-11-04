@@ -3,16 +3,25 @@
 	include_once 'common.php';
 	
 	if ($sizefile<$def['post']['filesize']) {
+		
 		$time = str_replace('.','',microtime(true));
 		$extension =  pathinfo($file, PATHINFO_EXTENSION);
 		$filename = substr(obj::transform('meta')->make_alias(pathinfo($file,PATHINFO_FILENAME)),0,200);
-		if ($sizefile > 1048576) $sizefile = str_replace('.',',',round(($sizefile / 1048576), 1)).' мб';
-		elseif ($sizefile > 1024) $sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
-		else $sizefile .= ' байт';				
+		
+		if ($sizefile > 1048576) {
+			$sizefile = str_replace('.',',',round(($sizefile / 1048576), 1)).' мб';
+		} elseif {
+			($sizefile > 1024) $sizefile = str_replace('.',',',round(($sizefile / 1024), 1)).' кб';
+		} else {
+			$sizefile .= ' байт';	
+		}
+					
 		mkdir(ROOT_DIR.SL.'files'.SL.'post'.SL.$time, 0755);
 		$newfile = ROOT_DIR.SL.'files'.SL.'post'.SL.$time.SL.$filename.'.'.$extension;		
 		chmod($temp, 0755);
-		if (!move_uploaded_file($temp, $newfile)) file_put_contents($newfile, file_get_contents($temp));
+		if (!move_uploaded_file($temp, $newfile)) {
+			file_put_contents($newfile, file_get_contents($temp));
+		}
 				
 		$return_data = '';
 		
