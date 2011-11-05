@@ -142,7 +142,7 @@ class Process_Pack
 						'animated' => $animated,
 						'author' => '|',
 						'category' => '|nsfw|game_cg|',
-						'tag' => '|tagme|',
+						'tag' => '|prostavte_tegi|',
 						'pretty_date' => Transform_Time::ru_date(),
 						'sortdate' => ceil(microtime(true)*1000),
 						'area' => 'cg'

@@ -2,6 +2,26 @@
 
 class Model_Art extends Model_Abstract
 {
+	const 
+		TAGME = 'prostavte_tegi',
+		LOW_WIDTH = 800,
+		LOW_HEIGHT = 600,
+		LOW_RES = 'lowres',
+		HIGH_WIDTH = 1920,
+		HIGH_HEIGHT = 1080,
+		HIGH_RES = 'highres',
+		WALLPAPER = 'wallpaper';		
+	
+	protected static $wallpaper_sizes = array(
+		array(1152,864), array(1280,960),
+		array(1400,1050), array(2048,1536),
+		array(1024,768), array(1280,1024),
+		array(1600,1200), array(1024,768),
+		array(1280,1024), array(1600,1200),
+		array(1280,800), array(1680,1050),
+		array(1600,1200),		
+	);
+	
 	// Поля таблицы
 	protected $fields = array(
 		'id',
@@ -46,6 +66,8 @@ class Model_Art extends Model_Abstract
 		$this->set('sortdate', ceil(microtime(true)*1000));
 		$this->set('area', def::area(1));
 		
+		$this->correct_tags();
+		
 		parent::insert();
 
 		Database::insert('versions', array(
@@ -76,7 +98,37 @@ class Model_Art extends Model_Abstract
 		return $this;
 	}
 	
-	function add_similar($data) {
+	protected function correct_tags() {
+		$tags = $this->get('tag');
+		$tags = explode('|', $tags);
+		
+		$tags = array_filter(array_unique($tags));
+		
+		if (empty($tags)) {
+			$tags[] = self::TAGME;
+		}
+		
+		$file = IMAGES.SL.'booru'.SL.'full'.SL.
+			$this->get('md5').'.'.$this->get('extension');
+			
+		$sizes = getimagesize($file);
+		$width = $sizes[0];
+		$height = $sizes[1];
+		
+		if ($width < self::LOW_WIDTH && $height < self::LOW_HEIGHT) {
+			$tags[] = self::LOW_RES;
+		}
+		if ($width >= self::HIGH_WIDTH && $height >= self::HIGH_HEIGHT) {
+			$tags[] = self::HIGH_RES;
+		}
+		if (in_array(array($width, $height), self::$wallpaper_sizes)) {
+			$tags[] = self::WALLPAPER;
+		}
+		
+		$this->set('tag', '|' . implode('|', $tags) . '|');
+	}
+	
+	public function add_similar($data) {
 		if (!$this->last_order_known) {
 			$this->last_order = Database::get_field('art_variation', 
 				'max(`order`)', 'art_id = ?', $this->get_id());

@@ -15,7 +15,7 @@ if (!empty($_FILES)) {
 
 	$sizefile = $file['size'];
 	$temp = $file['tmp_name'];
-	$check = getImageSize($temp);
+	$check = getimagesize($temp);
 	$file = $file['name'];
 } else {
 	$temp = ROOT_DIR.SL.'files'.SL.'tmp'.SL.microtime().'_'.$_GET['qqfile'];
@@ -24,7 +24,7 @@ if (!empty($_FILES)) {
 	fwrite($handle, file_get_contents('php://input'));
 	fclose($handle);
 
-	$check = getImageSize($temp);
+	$check = getimagesize($temp);
 	$sizefile = filesize($temp);
 	$file = urldecode($_GET['qqfile']);
 }
