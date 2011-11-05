@@ -18,3 +18,6 @@
 * [phpMorphy](http://sourceforge.net/projects/phpmorphy/files/)
 * [Thickbox](http://jquery.com/demo/thickbox/)
 * [Flash mp3 Player](http://flash-mp3-player.net/)
+* [getID3](http://getid3.sourceforge.net/)
+* [Twig](http://twig.sensiolabs.org/)
+* [multirequest](http://code.google.com/p/multirequest/)
