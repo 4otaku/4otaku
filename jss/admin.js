@@ -133,12 +133,12 @@ $(document).ready(function(){
 
 	/* /admin/menu */
 	$('.toggle-edit-mini').click(function () {
-		toggleMenuEdit(this, '.edit_head_menu .toggle-edit-mini', '.edit_head_menu .mini-shell');
+		toggleMenuEdit(this, '.edit_head_menu .toggle-edit-mini', '.edit_head_menu .mini-shell', 0);
 		return false;
 	});
 
 	$('.toggle-edit').click(function () {
-		toggleMenuEdit(this, '.edit_head_menu .toggle-edit', '.edit_head_menu .shell');
+		toggleMenuEdit(this, '.edit_head_menu .toggle-edit', '.edit_head_menu .shell', 1);
 		return false;
 	});
 
@@ -147,7 +147,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	function toggleMenuEdit(el, link_el, form_el) {
-		$(form_el).eq($(link_el).index(el)+1).slideToggle();
+	function toggleMenuEdit(el, link_el, form_el, offset) {
+		$(form_el).eq($(link_el).index(el) + offset).slideToggle();
 	}
 });
