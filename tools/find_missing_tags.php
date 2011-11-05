@@ -37,7 +37,7 @@ foreach ($arts as $art => $tags) {
 	if (query::$get['fix'] == 1) {
 		query::$post['id'] = $art;
 		query::$post['type'] = 'art';
-		query::$post['tags'] = str_replace('|', ' ', $db_arts[$art]);
+		query::$post['tags'] = urldecode(str_replace('|', ' ', $db_arts[$art]));
 		$check = new Check();
 		$worker = new input__common();
 		$worker->edit_tag();

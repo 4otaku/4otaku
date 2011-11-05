@@ -671,6 +671,8 @@ Chosen = (function() {
   Chosen.prototype.results_add = function(options) {
     var data; 
 	me = this;
+	var done = false;
+	
 	$.each(options, function(key, option) {
 	  if (option.text == undefined) {
 		  return;
@@ -688,10 +690,14 @@ Chosen = (function() {
       data.classes = "";
       data.style = "color: #" + option.color + ";";
       me.choice_build(data);
+      
+      done = true;
     });
-    $(".active-result").removeClass("active-result");
-    this.winnow_results_clear();
-    this.search_field_scale();
+    if (done) {
+		$(".active-result").removeClass("active-result");
+		this.winnow_results_clear();
+		this.search_field_scale();
+	}
   };
   Chosen.prototype.result_add_group = function(group) {
     if (!group.disabled) {
@@ -980,7 +986,7 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.winnow_results_clear = function() {
-    var li, lis, _i, _len, _results;
+    var li, lis, _i, _len, _results;    
     this.search_field.val("");
     lis = this.search_results.find("li");
     $("li.no-results").remove();

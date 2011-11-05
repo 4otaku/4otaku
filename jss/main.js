@@ -37,7 +37,7 @@ $.each(tag_areas, function (index, area) {
 
 $(".search-choice-close").live('click', function(e){
 	if (is_left_click(e)) {
-		$(this).parents('.search-choice').remove();
+		$(this).parent().remove();
 	}
 });
 
@@ -50,7 +50,7 @@ $(".chzn-choices").live('click', function(e) {
 });
 
 $(".chzn-choices").live('keydown', function(e) {
-	
+
 	$(".search-color-tips").remove();
 
 	if (e.which == 13 && $(".active-result.highlighted").length > 0) {
@@ -81,12 +81,13 @@ $(".chzn-choices").live('keydown', function(e) {
 });
 
 $(".chzn-choices").live('paste', function(e) {
+
 	setTimeout(function() {
 		var tags = $("#chozen_chzn li.no-results span").html() || '';
 		tags = tags.split(/[,\s+]/);
 
 		add_chozen_tag(tags);		
-	}, 100);
+	}, 350);
 });
 
 $(".clear_tags").live('click', function() {
