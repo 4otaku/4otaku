@@ -39,25 +39,39 @@
 				'<input type="hidden" name="file[0][height]" value="'.($imagick->getImageHeight()).'" />'."\n";
 		}
 		elseif ($extension == 'mp3') {
-			$type = 'audio';
-			$name = 'Сэмпл';
-			if (function_exists('id3_get_tag')) {
-						
-				$version = id3_get_version($newfile);
+			$type = 'audio';		
+
+			include_once(ENGINE.SL.'external'.SL.'getid3'.SL.'getid3.php');
 				
-				$tags = array();
-				if ($version & ID3_V1_0) {
-					$tags = id3_get_tag($newfile, ID3_V1_0);
-				} elseif ($version & ID3_BEST) {
-					$tags = id3_get_tag($newfile, ID3_BEST);
-				}			
+			$getid3 = new getID3();
+			$getid3->encoding = 'UTF-8';
+			$getid3->Analyze($newfile);
+			if (
+				empty($getid3->info['tags']) || 
+				!is_array($getid3->info['tags'])) {
 				
-				if ($tags['artist']) $tags['artist'] = convert_to($tags['artist'],'UTF-8');
-				if ($tags['title']) $tags['title'] = convert_to($tags['title'],'UTF-8');
-				if ($tags['title'] || $tags['artist']) {
-					$name = ($tags['artist'] ? $tags['artist'] : 'Неизвестный исполнитель').' - '.($tags['title'] ? $tags['title'] : 'неизвестная композиция');
+				$name = 'Сэмпл';
+			} else {
+				$tags = current($getid3->info['tags']);
+				
+				if (is_array($tags['artist'])) {
+					$tags['artist'] = reset($tags['artist']);
 				}
-			}
+				
+				if (is_array($tags['title'])) {
+					$tags['title'] = reset($tags['title']);
+				}
+				
+				if (empty($tags['artist'])) {
+					$tags['artist'] = 'Неизвестный исполнитель';
+				}
+				
+				if (empty($tags['title'])) {
+					$tags['title'] = 'неизвестная композиция';
+				}	
+				
+				$name = $tags['artist'] . ' - '. $tags['title'];
+			}		
 		}
 		else {
 			$type = 'plain';
