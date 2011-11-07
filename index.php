@@ -14,6 +14,13 @@ if (isset($url[0])) {
 if (empty($url[1])) {
 	$url[1] = 'index';
 }
+
+if (preg_match('/[^a-z\d_]/ui', $url[1])) {
+	include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
+	ob_end_flush();
+	exit();
+}
+
 query::$url = $url;
 
 include_once ROOT_DIR.SL.'engine'.SL.'handle_old_urls.php';
@@ -43,23 +50,23 @@ if (isset(query::$post['do'])) {
 	}
 	$redirect = 'http://'.def::site('domain').(empty($input->redirect) ? $_SERVER["REQUEST_URI"] : $input->redirect);
 	engine::redirect($redirect);
-} elseif (isset(query::$post['action']) && 
+} elseif (isset(query::$post['action']) &&
 	in_array(query::$post['action'], array('Create', 'Update', 'Delete'))) {
-		
+
 	$class = query::$post['action'] . '_' . ucfirst($url[1]);
 
 	if (class_exists($class)) {
-		
+
 		$worker = new $class();
-		
-		$function = empty(query::$post['function']) ? 
+
+		$function = empty(query::$post['function']) ?
 			'main' : query::$post['function'];
-		
+
 		if ($worker->check_access($function, query::$post)) {
 
 			$worker->$function();
 		}
-		
+
 		$worker->check_redirect();
 	}
 } else {
@@ -70,12 +77,14 @@ if (isset(query::$post['do'])) {
 	$output = new $output_class;
 
 	$output->check_404($output->allowed_url);
-	if (!$error)
+	if (!$error) {
 		$data['main'] = $output->get_data();
+	}
 
 	$data = array_merge($data, $output->get_side_data($output->side_modules));
-	if ($error)
+	if ($error) {
 		$output->make_404($output->error_template);
+	}
 
 	include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';
 	ob_end_flush();
