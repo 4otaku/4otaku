@@ -277,13 +277,24 @@ class dynamic__edit extends engine
 	}
 
 	public function art_variation_list () {
-		global $check;
-		if ($check->num(query::$get['id']) && query::$get['type'] == 'art') {
-			$return = (array) obj::db()->sql('select * from art_variation where art_id = '.query::$get['id'].' order by `order`');
-			$image = obj::db()->sql('select * from art where id = '.query::$get['id'], 1);
-			array_unshift($return, $image);
-			return $return;
+		if (!Check::num(query::$get['id']) || query::$get['type'] != 'art') {
+			return false();
 		}
+		
+		$return = (array) Database::set_order('order', 'ASC')
+			->get_full_table('art_variation', 'art_id = ?', query::$get['id']);
+			
+		foreach ($return as &$image) {
+			if (isset($image['is_resized'])) {
+				$image['resized'] = $image['is_resized'];
+			}
+		}
+			
+		$image = Database::get_full_row('art', query::$get['id']);
+		
+		array_unshift($return, $image);
+		
+		return $return;		
 	}
 
 	public function art_translations () {

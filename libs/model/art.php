@@ -154,4 +154,31 @@ class Model_Art extends Model_Abstract
 		
 		$this->last_order = $insert_order;
 	}
+	
+	public function clear_similar() {
+		Database::delete('art_variation', 'art_id = ?', $this->get_id());
+
+		$this->last_order_known = true;
+		$this->last_order = false;
+	}
+	
+	public function calculate_resize() {
+		$file = IMAGES.SL.'booru'.SL.'full'.SL.
+			$this->get('md5').'.'.$this->get('extension');
+			
+		$sizes = getimagesize($file);
+		$width = $sizes[0];
+		$height = $sizes[1];
+		$weight = filesize($file);
+
+		if ($weight > 1024*1024) {
+			$weight = round($weight/(1024*1024),1).' мб';
+		} elseif ($weight > 1024) {
+			$weight = round($weight/1024,1).' кб';
+		} else {
+			$weight = $weight.' б';
+		}
+		
+		$this->set('resized', $width.'x'.$height.'px; '.$weight);
+	}
 }

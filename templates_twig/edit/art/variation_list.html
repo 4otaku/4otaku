@@ -1,0 +1,52 @@
+{% include "/edit/top.html" %}
+
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,edit/sort.js,fileupload.js,add/art.js"></script>
+<script type="text/javascript">
+	window.art_input_base_name = 'image_variation';
+</script>
+<table width="100%">		
+	<tr>
+		<td width="20%">
+			Загрузить картинку
+		</td>
+		<td>
+			<table>
+				<tr>
+					<td>
+						<div id="art-image"></div>
+					</td>
+					<td>
+						<img class="processing hidden" src="/images/ajax-processing.gif" />
+					</td>
+					<td>
+						<span class="processing hidden">Изображение загружается.</span>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>			
+	<tr>
+		<td colspan="2" id="error">
+		
+		</td>
+	</tr>			
+	<tr id="transparent" class="art_images">
+		<td colspan="2" id="sortable">
+			{% for key, image in data %}
+				<div class="image_holder" 
+					 style="background-image: url(/images/booru/thumbs/{{image.thumb}}.jpg);" 
+					 rel="{{key}}"
+				>
+					<img src="/images/cancel.png" class="cancel">
+					<input type="hidden" name="image_variation[{{key}}][animated]" value="{{image.animated}}">
+					<input type="hidden" name="image_variation[{{key}}][extension]" value="{{image.extension}}">
+					<input type="hidden" name="image_variation[{{key}}][md5]" value="{{image.md5}}">
+					<input type="hidden" name="image_variation[{{key}}][resized]" value="{{image.resized}}">
+					<input type="hidden" name="image_variation[{{key}}][thumb]" value="{{image.thumb}}">
+				</div>
+			{% endfor %}
+		</td>
+	</tr>
+</table>
+
+{% include "/edit/bottom.html" %}

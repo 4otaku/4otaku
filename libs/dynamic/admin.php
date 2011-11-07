@@ -71,6 +71,7 @@ class dynamic__admin extends engine
 				'|'.$slave['alias'].'|',
 				'|'.$master['alias'].'|',
 			);
+var_dump($params);
 
 			Database::sql('update post set tag = if (tag like ?,
 				replace(tag, ?, "|"), replace(tag, ?, ?))', $params);

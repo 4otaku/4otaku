@@ -1,3 +1,5 @@
+window.art_input_base_name = 'images';
+
 function uid() {
 	var S4 = function() {
 		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -5,9 +7,9 @@ function uid() {
 	return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
-function add_hidden_input(name, val, owner) {
+function add_hidden_input(name, val, owner) {	
 	$('<input/>').attr('type', 'hidden').
-		attr('name', 'images'+name).val(val).appendTo(owner);
+		attr('name', window.art_input_base_name + name).val(val).appendTo(owner);
 }
 
 $("#transparent td img.cancel").die("click").live("click", function() {  

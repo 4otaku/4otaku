@@ -23,16 +23,33 @@ class input__admin extends engine
 	}
 
 	function edittag() {
-		global $check;
-		$check->rights();
+
+		Check::rights();
+		
 		if (query::$post['old_alias'] != query::$post['alias']) {
-			obj::db()->sql('update post set tag = replace(tag,"|'.query::$post['old_alias'].'|","|'.query::$post['alias'].'|")',0);
-			obj::db()->sql('update video set tag = replace(tag,"|'.query::$post['old_alias'].'|","|'.query::$post['alias'].'|")',0);
-			obj::db()->sql('update art set tag = replace(tag,"|'.query::$post['old_alias'].'|","|'.query::$post['alias'].'|")',0);
+			$params = array(
+				'|'.query::$post['old_alias'].'|',
+				'|'.query::$post['alias'].'|',
+			);
+			
+			Database::sql('update post set tag = replace(tag,?,?)', $params);
+			Database::sql('update video set tag = replace(tag,?,?)', $params);
+			Database::sql('update art set tag = replace(tag,?,?)', $params);
 		}
-		$variants = array_unique(array_filter(explode(' ',str_replace(',',' ',query::$post['variants']))));
-		if (!empty($variants)) $variants = '|'.implode('|',$variants).'|'; else $variants = '|';
-		obj::db()->update('tag',array('alias','name','variants','color'),array(query::$post['alias'],query::$post['name'],$variants,query::$post['color']),query::$post['id']);
+		
+		$variants = array_unique(array_filter(explode(' ',str_replace(',', ' ' query::$post['variants']))));
+		if (!empty($variants)) {
+			$variants = '|'.implode('|',$variants).'|'; 
+		} else {
+			$variants = '|';
+		}
+		
+		Database::update('tag', array(
+			'alias' => query::$post['alias'],
+			'name' => query::$post['name'],
+			'variants' => $variants,
+			'color' => query::$post['color']
+		), query::$post['id']);
 	}
 
 	function edit_update() {
