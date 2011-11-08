@@ -42,7 +42,7 @@ class Update_Art extends Update_Abstract
 			'thumb' => $main_image['thumb'],
 		));
 		
-		if ($main_image['resized'] === 1) {
+		if ($main_image['resized'] == 1) {
 			$art->calculate_resize();
 		}		
 		
