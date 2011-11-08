@@ -13,6 +13,9 @@
 .overview tr {
 	border-color: inherit;
 }
+.overview tr:hover td {
+	background: #CCD9DB;
+}
 .overview th {
 	text-align: left;
 	background-color: #EAEAEA;

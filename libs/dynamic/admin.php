@@ -7,6 +7,29 @@ class dynamic__admin extends engine
 		Check::rights();
 	}
 
+	public function tag_form () {
+		$id = (int) query::$get['id'];
+		$return = Database::get_full_row('tag', $id);
+
+		return $return;
+	}
+
+/*
+	public function edittag () {
+		if (query::$get['old_alias'] != query::$get['alias']) {
+			obj::db()->sql('update post set tag = replace(tag,"|'.query::$get['old_alias'].'|","|'.query::$get['alias'].'|")',0);
+			obj::db()->sql('update video set tag = replace(tag,"|'.query::$get['old_alias'].'|","|'.query::$get['alias'].'|")',0);
+			obj::db()->sql('update art set tag = replace(tag,"|'.query::$get['old_alias'].'|","|'.query::$get['alias'].'|")',0);
+		}
+		$variants = array_unique(array_filter(explode(' ',str_replace(',',' ',query::$get['variants']))));
+		if (!empty($variants))
+			$variants = '|'.implode('|',$variants).'|'; else $variants = '|';
+		obj::db()->update('tag',array('alias','name','variants','color'),array(query::$get['alias'],query::$get['name'],$variants,query::$get['color']),query::$get['id']);
+
+		return 'Сохранено!';
+	}
+*/
+
 	public function delete_tag () {
 		if (empty(query::$get['id']) || !is_numeric(query::$get['id'])) {
 			return;

@@ -2,7 +2,8 @@
 	<code>
 		<ul>
 			<li class="page_info">
-				<? 
+				<?
+					$data_main_navi_start = $data['main']['navi']['start'];
 					if (is_numeric($data['main']['navi']['curr'])) {
 						?>
 						<?=($data['main']['navi']['name'] ? $data['main']['navi']['name'] : 'Страница');?> <?=$data['main']['navi']['curr'];?> из <?=$data['main']['navi']['last'];?>
@@ -40,7 +41,7 @@
 							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
 								1
 							</a>
-						</li>						
+						</li>
 					<?
 				}
 				else {
@@ -49,7 +50,7 @@
 							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>">
 								1
 							</a>
-						</li>	
+						</li>
 					<?
 				}
 				if ($data['main']['navi']['curr']>7) {
@@ -59,26 +60,26 @@
 						</li>
 					<?
 				}
-				while ($data['main']['navi']['start'] < $data['main']['navi']['curr'] + 6 && $data['main']['navi']['start'] < $data['main']['navi']['last']) {
-					if ($data['main']['navi']['start'] == $data['main']['navi']['curr']) {
+				while ($data_main_navi_start < $data['main']['navi']['curr'] + 6 && $data_main_navi_start < $data['main']['navi']['last']) {
+					if ($data_main_navi_start == $data['main']['navi']['curr']) {
 						?>
 							<li class="active_page">
-								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['start'];?>/">
-									<?=$data['main']['navi']['start'];?>
-								</a>
-							</li>
-						<?					
-					}
-					else {
-						?>
-							<li>
-								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data['main']['navi']['start'];?>/">
-									<?=$data['main']['navi']['start'];?>
+								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data_main_navi_start;?>/">
+									<?=$data_main_navi_start;?>
 								</a>
 							</li>
 						<?
 					}
-					$data['main']['navi']['start']++; 
+					else {
+						?>
+							<li>
+								<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>page/<?=$data_main_navi_start;?>/">
+									<?=$data_main_navi_start;?>
+								</a>
+							</li>
+						<?
+					}
+					$data_main_navi_start++;
 				}
 				if ($data['main']['navi']['curr'] < $data['main']['navi']['last'] - 6) {
 					?>
@@ -120,13 +121,13 @@
 				if ($data['main']['navi']['all']) {
 					?>
 						<li class="space">
-							
+
 						</li>
 						<li<?=($data['main']['navi']['curr'] == 'all' ? ' class="active_page"' : "");?>>
 							<a href="<?=$data['main']['navi']['base'].$data['main']['navi']['meta'];?>all/">
 								Показать все
 							</a>
-						</li>											
+						</li>
 					<?
 				}
 			?>
