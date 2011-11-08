@@ -37,7 +37,7 @@ class input__admin extends engine
 			Database::sql('update art set tag = replace(tag,?,?)', $params);
 		}
 		
-		$variants = array_unique(array_filter(explode(' ',str_replace(',', ' ' query::$post['variants']))));
+		$variants = array_unique(array_filter(explode(' ',str_replace(',', ' ', query::$post['variants']))));
 		if (!empty($variants)) {
 			$variants = '|'.implode('|',$variants).'|'; 
 		} else {
