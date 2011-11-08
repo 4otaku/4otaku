@@ -289,6 +289,7 @@ class dynamic__edit extends engine
 				$image['resized'] = $image['is_resized'];
 			}
 		}
+		unset($image);
 			
 		$image = Database::get_full_row('art', query::$get['id']);
 		
