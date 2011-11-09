@@ -623,13 +623,18 @@ $(document).ready(function(){
 			var img_size = $(".booru_img").attr('rel');
 
 			if (img_size == 'resized' && $(this).children(".variant_resized_link").length > 0) {
-				var img_file = $(this).children(".variant_resized_link").html();
-				$(".resize-bar").find(".resize-info").html($(this).children(".variant_resized_info").html());
+				var img_file = $(this).children(".variant_resized_link").html();				
 				img_size = 'resized';
-				$(".resize-bar").show();
 			} else {
 				var img_file = $(this).children(".variant_link").html();
 				img_size = 'full';
+				
+			}
+
+			if ($(this).children(".variant_resized_link").length > 0) {
+				$(".resize-bar").find(".resize-info").html($(this).children(".variant_resized_info").html());
+				$(".resize-bar").show();
+			} else {	
 				$(".resize-bar").hide();
 			}
 
