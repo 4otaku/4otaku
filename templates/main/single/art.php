@@ -76,6 +76,9 @@
 										<span class="hidden variant_resized_link">
 											<?=$item['md5'].'.'.($item['animated'] ? 'gif' : 'jpg');?>
 										</span>
+										<span class="hidden variant_resized_info">
+											(<?=$item['resized'];?>)
+										</span>										
 									<? } ?>
 									<span rel="-35">
 										<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
@@ -92,6 +95,9 @@
 											<span class="hidden variant_resized_link">
 												<?=$similar['md5'].'.'.($similar['animated'] ? 'gif' : 'jpg');?>
 											</span>
+											<span class="hidden variant_resized_info">
+												(<?=$similar['resized'];?>)
+											</span>	
 										<? } ?>
 										<span rel="-35">
 											<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$similar['thumb'];?>.jpg" />
@@ -166,34 +172,22 @@
 								<br /><a href="#" class="show_art disabled">Показать эту картинку.</a>
 							</div>
 						<? }
-						if ($url[1] != 'search') {
-							if ($item['resized'] && $sets['art']['resized']) { ?>
-								<div<?=(!empty($reason) ? ' class="hidden hidden_art"' : "");?>>
-									<div class="clear margin20 mini-shell art-bar">
-										<a href="#" class="disabled <?=($item['animated'] ? 'animated ' : '');?>booru_show_toggle" rel="<?=$item['extension'];?>">
-											Показать в полном размере
-										</a><?=($item['resized'] !== 1 ? ' ('.$item['resized'].')' : '');?>.
-										 <a href="#" class="disabled booru_show_full_always">
-											 Всегда показывать в полном размере
-										</a>.
-										 <a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
-											 Скачать
-										</a>.
-									</div>
-									<div class="booru_img image booru_translation_toggle" rel="resized">
-										<img src="<?=$def['site']['dir']?>/images/booru/resized/<?=$item['md5'];?>.<?=($item['animated'] ? 'gif' : 'jpg');?>">
-										<?
-											if (is_array($item['translations']['resized'])) foreach ($item['translations']['resized'] as $translation) {
-												?>
-													<div class="art_translation<?=($sets['show']['translation'] ? '' : ' hidden');?>" title="<?=$translation['text'];?>" style="width:<?=$translation['x2'];?>px;height:<?=$translation['y2'];?>px;top:<?=$translation['y1'];?>px;left:<?=$translation['x1'];?>px;"></div>
-												<?
-											}
-										?>
-									</div>
+						if ($url[1] != 'search') { ?>
+							<div<?=(!empty($reason) ? ' class="hidden hidden_art"' : "");?>>
+																
+								<div class="clear margin20 mini-shell art-bar resize-bar<?=(!$item['resized'] || !$sets['art']['resized'] ? ' hidden' : '');?>">
+									<a href="#" class="disabled <?=($item['animated'] ? 'animated ' : '');?>booru_show_toggle" rel="<?=$item['extension'];?>">
+										Показать в полном размере
+									</a><span class="resize-info"><?=($item['resized'] !== 1 ? ' ('.$item['resized'].')' : '');?></span>.
+									 <a href="#" class="disabled booru_show_full_always">
+										 Всегда показывать в полном размере
+									</a>.
+									 <a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
+										 Скачать
+									</a>.
 								</div>
-							<? }
-							else { ?>
-								<div<?=(!empty($reason) ? ' class="hidden hidden_art"' : "");?>>
+								
+								<? if ($item['resized'] && $sets['art']['resized']) { ?>
 									<div class="image booru_translation_toggle">
 										<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
 										<?
@@ -204,8 +198,19 @@
 											}
 										?>
 									</div>
-								</div>
-							<? }
+								<? } else { ?>
+									<div class="booru_img image booru_translation_toggle" rel="resized">
+										<img src="<?=$def['site']['dir']?>/images/booru/resized/<?=$item['md5'];?>.<?=($item['animated'] ? 'gif' : 'jpg');?>">
+										<?
+											if (is_array($item['translations']['resized'])) foreach ($item['translations']['resized'] as $translation) {
+												?>
+													<div class="art_translation<?=($sets['show']['translation'] ? '' : ' hidden');?>" title="<?=$translation['text'];?>" style="width:<?=$translation['x2'];?>px;height:<?=$translation['y2'];?>px;top:<?=$translation['y1'];?>px;left:<?=$translation['x1'];?>px;"></div>
+												<?
+											}
+										?>
+									</div>						
+								<? }
+							</div>
 						}
 						else { ?>
 							<a href="<?=$def['site']['dir']?>/art/<?=$item['id'];?>/">
