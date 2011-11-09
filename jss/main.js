@@ -625,6 +625,7 @@ $(document).ready(function(){
 			if (img_size == 'resized' && $(this).children(".variant_resized_link").length > 0) {
 				var img_file = $(this).children(".variant_resized_link").html();
 				$(".resize-bar").find(".resize-info").html($(this).children(".variant_resized_info").html());
+				img_size = 'resized';
 				$(".resize-bar").show();
 			} else {
 				var img_file = $(this).children(".variant_link").html();

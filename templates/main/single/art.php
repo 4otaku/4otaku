@@ -77,7 +77,7 @@
 											<?=$item['md5'].'.'.($item['animated'] ? 'gif' : 'jpg');?>
 										</span>
 										<span class="hidden variant_resized_info">
-											(<?=$item['resized'];?>)
+											 (<?=$item['resized'];?>)
 										</span>										
 									<? } ?>
 									<span rel="-35">
@@ -96,7 +96,7 @@
 												<?=$similar['md5'].'.'.($similar['animated'] ? 'gif' : 'jpg');?>
 											</span>
 											<span class="hidden variant_resized_info">
-												(<?=$similar['resized'];?>)
+												 (<?=$similar['resized'];?>)
 											</span>	
 										<? } ?>
 										<span rel="-35">
