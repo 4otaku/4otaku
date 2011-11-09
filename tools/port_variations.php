@@ -2,18 +2,27 @@
 die;
 include '../inc.common.php';
 
-$arts = obj::db()->sql('select * from art where variation != "|"');
+$arts = Database::get_full_table('art_variation');
 
 foreach ($arts as $art) {
-	$variations = array_filter(explode('|', $art['variation']));
-	$i = 0;
+	if ($art['resized']) {
+		$file = IMAGES.SL.'booru'.SL.'full'.SL.
+			$art['md5'].'.'.$art['extension'];
+			
+		$sizes = getimagesize($file);
+		$width = $sizes[0];
+		$height = $sizes[1];
+		$weight = filesize($file);
 
-	foreach ($variations as $variation) {
-		$data = explode('.', $variation);
-		$resized = (int) file_exists(ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$data[1].'.jpg');
+		if ($weight > 1024*1024) {
+			$weight = round($weight/(1024*1024),1).' мб';
+		} elseif ($weight > 1024) {
+			$weight = round($weight/1024,1).' кб';
+		} else {
+			$weight = $weight.' б';
+		}
 		
-		$insert = array($art['id'], $data[1], $data[0], $data[2], $resized, $i++);
-		
-		obj::db()->insert('art_variation', $insert);		
+		Database::update('art_variation', 
+			array('resized' => $width.'x'.$height.'px; '.$weight), $art['id']);
 	}
 }

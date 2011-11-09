@@ -284,13 +284,6 @@ class dynamic__edit extends engine
 		$return = (array) Database::set_order('order', 'ASC')
 			->get_full_table('art_variation', 'art_id = ?', query::$get['id']);
 			
-		foreach ($return as &$image) {
-			if (isset($image['is_resized'])) {
-				$image['resized'] = $image['is_resized'];
-			}
-		}
-		unset($image);
-			
 		$image = Database::get_full_row('art', query::$get['id']);
 		
 		array_unshift($return, $image);

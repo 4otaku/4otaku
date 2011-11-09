@@ -349,12 +349,12 @@ CREATE TABLE IF NOT EXISTS `art_variation` (
   `md5` varchar(32) NOT NULL,
   `thumb` varchar(32) NOT NULL,
   `extension` varchar(4) NOT NULL,
-  `is_resized` tinyint(3) unsigned NOT NULL,
+  `resized` varchar(64) NOT NULL,
   `order` smallint(5) unsigned NOT NULL,
   `animated` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`art_id`,`order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Дамп данных таблицы `art_variation`

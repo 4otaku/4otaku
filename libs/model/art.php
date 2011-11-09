@@ -147,7 +147,7 @@ class Model_Art extends Model_Abstract
 			'md5' => $data['md5'],
 			'thumb' => $data['thumb'],
 			'extension' => $data['extension'],
-			'is_resized' => !empty($data['resized']),
+			'resized' => $data['resized'],
 			'order' => $insert_order,
 			'animated' => $data['animated'],
 		));

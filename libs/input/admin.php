@@ -136,7 +136,7 @@ class input__admin extends engine
 		$next_order = (!is_numeric($current_order)) ? 0 : $current_order + 1;
 		$insert = array(
 			$update, $image['md5'], $image['thumb'],
-			$image['extension'], !empty($image['resized']),
+			$image['extension'], $image['resized'],
 			$next_order, $image['animated']
 		);
 
