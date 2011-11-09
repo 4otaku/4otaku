@@ -623,13 +623,13 @@ $(document).ready(function(){
 			var img_size = $(".booru_img").attr('rel');
 
 			if (img_size == 'resized' && $(this).children(".variant_resized_link").length > 0) {
-				var img_file = $(this).children(".variant_resized_link").html();
-				$(".resize-bar").find(".resize-info").html($(this).children(".variant_resized_info"));
-				$(".resize-bar").show();
+				var img_file = $(this).children(".variant_resized_link").html();				
+				$(".resize-bar").hide();
 			} else {
 				var img_file = $(this).children(".variant_link").html();
 				img_size = 'full';
-				$(".resize-bar").hide();
+				$(".resize-bar").find(".resize-info").html($(this).children(".variant_resized_info"));
+				$(".resize-bar").show();
 			}
 
 			$(".similar_navi").removeClass('plaintext');
