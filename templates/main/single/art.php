@@ -88,7 +88,7 @@
 										<span class="hidden variant_link">
 											<?=$similar['md5'].'.'.$similar['extension'];?>
 										</span>
-										<? if (!empty($similar['is_resized'])) { ?>
+										<? if (!empty($similar['resized'])) { ?>
 											<span class="hidden variant_resized_link">
 												<?=$similar['md5'].'.'.($similar['animated'] ? 'gif' : 'jpg');?>
 											</span>
