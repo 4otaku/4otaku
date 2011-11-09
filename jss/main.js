@@ -628,7 +628,8 @@ $(document).ready(function(){
 				$(".resize-bar").show();
 			} else {
 				var img_file = $(this).children(".variant_link").html();
-				$(".booru_img").attr('rel', 'full');
+				$(".booru_img").attr('rel', 'full');				
+				img_size = 'full';
 				$(".resize-bar").hide();
 			}
 
