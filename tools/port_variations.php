@@ -1,5 +1,5 @@
-<?
-die;
+<?php
+
 include '../inc.common.php';
 
 $arts = Database::get_full_table('art_variation');
