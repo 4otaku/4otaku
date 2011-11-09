@@ -187,8 +187,8 @@
 									</a>.
 								</div>
 								
-								<? if ($item['resized'] && $sets['art']['resized']) { ?>
-									<div class="image booru_translation_toggle">
+								<? if (!$item['resized'] || !$sets['art']['resized']) { ?>
+									<div class="booru_img image booru_translation_toggle" rel="full">
 										<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
 										<?
 											if (is_array($item['translations']['full'])) foreach ($item['translations']['full'] as $translation) {
