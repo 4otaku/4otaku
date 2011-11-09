@@ -211,8 +211,7 @@
 									</div>						
 								<? } ?>
 							</div>
-						}
-						else { ?>
+						<? } else { ?>
 							<a href="<?=$def['site']['dir']?>/art/<?=$item['id'];?>/">
 								<img src="<?=$def['site']['dir']?>/images/booru/thumbs/large_<?=$item['thumb'];?>.jpg">
 							</a>
