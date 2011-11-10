@@ -30,89 +30,73 @@
 				</tr>
 			</table>
 			<table cellspacing="0" cellpadding="0" width="100%">
-				<? 
-					if(!$sets['show']['nsfw'] && !$data['feed']['domain'] && array_key_exists('nsfw',$item['meta']['category'])) {
-						?>
-							<tr>
-								<td align="center">
-									У вас отключен показ материалов для взрослых. 
-									<a href="#" class="disabled show_nsfw">
-										Показать эту запись.
-									</a> 
-									<a href="#" class="disabled always_show_nsfw">
-										Всегда показывать такие материалы.
-									</a>										
-								</td>
-							</tr>
-							<tr class="hidden">
-						<?
-					}
-					else {
-						?>
-							<tr>							
-						<?
-					}	
-				?>
-					<?
-						if (is_array($item['image'])) {
-							?>
-								<td class="imageholder"<?=($data['feed'] ? ' valign="top"' : '');?>>
-									<?	
-										foreach ($item['image'] as $key => $image) {
-											?>
-												<div class="image-<?=$key;?>"<?=($data['feed'] ? ($key ? ' style="margin: 10px 10px 0 0;"' : ' style="margin: 0 10px 0 0;"') : '');?>>
-													<a href="<?=$data['feed']['domain'];?>/images/full/<?=$image;?>" target="_blank">
-														<img src="<?=$data['feed']['domain'];?>/images/thumbs/<?=$image;?>" />
-													</a>													
-												</div>
-											<?
-										}									 
-									?>
-								</td>
-							<?
-						}
-					?>						
+				<? if(
+					!$sets['show']['nsfw'] && 
+					!$data['feed']['domain'] && 
+					array_key_exists('nsfw',$item['meta']['category'])
+				) { ?>
+					<tr>
+						<td align="center">
+							У вас отключен показ материалов для взрослых. 
+							<a href="#" class="disabled show_nsfw">
+								Показать эту запись.
+							</a> 
+							<a href="#" class="disabled always_show_nsfw">
+								Всегда показывать такие материалы.
+							</a>										
+						</td>
+					</tr>
+					<tr class="hidden">
+				<? } else { ?>
+					<tr>							
+				<? } ?>
+					<? if (is_array($item['image'])) { ?>
+						<td class="imageholder"<?=($data['feed'] ? ' valign="top"' : '');?>>
+							<? foreach ($item['image'] as $key => $image) { ?>
+								<div class="image-<?=$key;?>"<?=($data['feed'] ? ($key ? ' style="margin: 10px 10px 0 0;"' : ' style="margin: 0 10px 0 0;"') : '');?>>
+									<a href="<?=$data['feed']['domain'];?>/images/full/<?=$image;?>" target="_blank">
+										<img src="<?=$data['feed']['domain'];?>/images/thumbs/<?=preg_replace('/\.[a-z]+$/ui', '.jpg', $image);?>" />
+									</a>
+								</div>
+							<? } ?>
+						</td>
+					<? } ?>						
 					<td valign="top">
 						<div class="posttext">
 							<?=$item['text'];?>
 						</div>
-						<?  
-							if (is_array($item['links'])) {
-								?>
-									<p>
+						<? if (is_array($item['links'])) { ?>
+							<p>
+								<? foreach ($item['links'] as $key => $link) { 
+									if ($nonfirst) { ?>
+										<br />
+									<? } else {
+										$nonfirst = true;
+									} ?>
+									<?=$link['name'];?>: 
+									<? if (is_array($link['url'])) {
+										foreach ($link['url'] as $key2 => $linkurl) {
+											if ($nonfirst2) { ?>
+												 | 
+											<? } else {
+												$nonfirst2 = true;
+											} ?>
+											<a href="<?=($data['feed']['domain'] ? 
+												$linkurl : 
+												str_replace('&apos;', "'", html_entity_decode($linkurl,ENT_QUOTES,'UTF-8')));?>"
+											 target="_blank">
+												<?=$link['alias'][$key2];?>
+											</a>
+											
+										<? }
+										unset($nonfirst2); ?>
+										 (~<?=$link['size'];?> <?=$link['sizetype'];?>)
 										<?
-											foreach ($item['links'] as $key => $link) { 
-												if ($nonfirst) {
-													?>
-														<br />
-													<?													
-												}	else $nonfirst = true;
-												?>
-													<?=$link['name'];?>: 
-													<?
-														if (is_array($link['url'])) foreach ($link['url'] as $key2 => $linkurl) {
-																?>
-																	<?
-																			if ($nonfirst2) {
-																					?>
-																								 | 
-																					<?
-																			}	else $nonfirst2 = true;
-																	?>
-																	<a href="<?=($data['feed']['domain'] ? $linkurl : '/go?'.urlencode(str_replace('&apos;',"'",html_entity_decode($linkurl,ENT_QUOTES,'UTF-8'))));?>" target="_blank">
-																		<?=$link['alias'][$key2];?>
-																	</a>
-																<?
-														}	unset($nonfirst2);
-													?>
-													 (~<?=$link['size'];?> <?=$link['sizetype'];?>)
-												<?
-											}	unset($nonfirst);
-										?>
-									</p>
-								<?
-							}
-						?>							
+									}
+									unset($nonfirst);
+								?>
+							</p>
+						<? } ?>							
 						<? if (is_array($item['files'])) { ?>
 							<p class="post-files">
 								<? foreach ($item['files'] as $key => $file) { 
