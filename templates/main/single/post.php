@@ -92,9 +92,9 @@
 										unset($nonfirst2); ?>
 										 (~<?=$link['size'];?> <?=$link['sizetype'];?>)
 										<?
-									}
-									unset($nonfirst);
-								} ?>	
+									}									
+								} 
+								unset($nonfirst); ?>	
 							</p>
 						<? } ?>							
 						<? if (is_array($item['files'])) { ?>
