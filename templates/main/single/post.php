@@ -94,7 +94,7 @@
 										<?
 									}
 									unset($nonfirst);
-								?>
+								} ?>	
 							</p>
 						<? } ?>							
 						<? if (is_array($item['files'])) { ?>
