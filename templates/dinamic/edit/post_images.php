@@ -33,7 +33,7 @@ include_once('templates'.SL.'dinamic'.SL.'edit'.SL.'top.php');
 			<?
 				foreach ($data['value'] as $image) {
 					?>
-						<div style="background-image: url(/images/thumbs/<?=$image;?>);"><img class="cancel" src="<?=$def['site']['dir']?>/images/cancel.png"><input type="hidden" name="images[]" value="<?=$image;?>"></div>
+						<div style="background-image: url(/images/thumbs/<?=preg_replace('/\.[a-z]+$/ui', '.jpg', $image);?>);"><img class="cancel" src="<?=$def['site']['dir']?>/images/cancel.png"><input type="hidden" name="images[]" value="<?=$image;?>"></div>
 					<?
 				}
 			?>
