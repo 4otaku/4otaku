@@ -184,27 +184,52 @@ class transform__text extends Transform_Time
 	}
 
 	public static function bb2html($string) {
-        while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]/is', $string, $matches)) {
+        while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]\n?/is', $string, $matches)) {
 			foreach ($matches[0] as $key => $match) {
 				list($tag, $param, $innertext) = array($matches[1][$key], $matches[2][$key], $matches[3][$key]);
 				switch ($tag) {
-					case 'b': $replacement = "<strong>$innertext</strong>"; break;
-					case 'i': $replacement = "<em>$innertext</em>"; break;
-					case 's': $replacement = "<s>$innertext</s>"; break;
+					case 'b':
+						$match = rtrim($match, "\r\n");
+						$replacement = "<strong>$innertext</strong>"; 
+						break;
+					case 'i': 
+						$match = rtrim($match, "\r\n");
+						$replacement = "<em>$innertext</em>"; 
+						break;
+					case 's': 
+						$match = rtrim($match, "\r\n");
+						$replacement = "<s>$innertext</s>"; 
+						break;
 					case 'size':
-						if ($param{0} != '+' && $param{0} != '-') $param = '+'.$param;
+						if ($param{0} != '+' && $param{0} != '-') {
+							$param = '+'.$param;
+						}
+						$match = rtrim($match, "\r\n");
 						$replacement = "<font size=\"$param;\">$innertext</font>";
 						break;
-					case 'color': $replacement = "<span style=\"color: $param;\">$innertext</span>"; break;
-					case 'url': $replacement = '<a href="/go?' . str_replace('http','⟯',($param? $param : $innertext)) . "\">".str_replace('http','⟯',$innertext)."</a>"; break;
+					case 'color': 
+						$match = rtrim($match, "\r\n");
+						$replacement = "<span style=\"color: $param;\">$innertext</span>"; 
+						break;
+					case 'url': 
+						$match = rtrim($match, "\r\n");
+						$replacement = '<a href="/go?' . 
+							str_replace('http','⟯',($param? $param : $innertext)) . '">'. 
+							str_replace('http','⟯',$innertext) . '</a>'; 
+						break;
 					case 'img':
 						$param = explode('x', strtolower($param));
-						$replacement = "<img src=\"".str_replace('http','⟯',$innertext)."\" " . (is_numeric($param[0])? "width=\"".$param[0]."\" " : '') . (is_numeric($param[1])? "height=\"".$param[1]."\" " : '') . '/><br />';
+						$replacement = '<img src="' . 
+							str_replace('http','⟯',$innertext) . '" ' . 
+							(is_numeric($param[0]) ? 'width="' . $param[0] . '" ' : '') . 
+							(is_numeric($param[1]) ? 'height="' . $param[1] . '" ' : '') . 
+							'/><br />';
 						break;
 			        case 'spoiler':
-						$replacement = "<div class=\"mini-shell\"><div class=\"handler\" width=\"100%\">".
-							"<span class=\"sign\">↓</span> <a href=\"#\" class=\"disabled\">".str_replace(array('[',']'),array('',''),$param)."</a></div>".
-							"<div class=\"text hidden\">".ltrim($innertext)."</div></div>";
+						$replacement = '<div class="mini-shell"><div class="handler" width="100%">' .
+							'<span class="sign">↓</span> <a href="#" class="disabled">' . 
+							str_replace(array('[', ']'), array('', ''), $param) . '</a></div>' .
+							'<div class="text hidden">' . ltrim($innertext) . '</div></div>';
 						break;
 				}
 				$string = str_replace($match, $replacement, $string);
