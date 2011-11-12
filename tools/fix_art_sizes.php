@@ -1,5 +1,5 @@
 <?
-
+die;
 $where = "";
 $params = array();
 
