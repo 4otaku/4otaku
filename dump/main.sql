@@ -982,6 +982,7 @@ INSERT INTO `post` (`id`, `title`, `text`, `pretty_text`, `image`, `link`, `info
 -- Структура таблицы `post_extra`
 --
 
+
 CREATE TABLE IF NOT EXISTS `post_extra` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(10) unsigned NOT NULL,
@@ -991,7 +992,7 @@ CREATE TABLE IF NOT EXISTS `post_extra` (
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`post_id`,`order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1006,12 +1007,12 @@ CREATE TABLE IF NOT EXISTS `post_file` (
   `name` varchar(255) NOT NULL,
   `folder` varchar(255) NOT NULL,
   `file` varchar(255) NOT NULL,
-  `size` decimal(10,0) unsigned NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
   `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`post_id`,`order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1023,12 +1024,12 @@ CREATE TABLE IF NOT EXISTS `post_link` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(10) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
-  `size` decimal(10,0) unsigned NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
   `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`post_id`,`order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1047,7 +1048,7 @@ CREATE TABLE IF NOT EXISTS `post_link_url` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`link_id`,`order`),
   KEY `lastcheck` (`lastcheck`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Структура таблицы `raw_logs`

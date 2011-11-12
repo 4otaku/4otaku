@@ -27,7 +27,7 @@ foreach ($posts as $id => $post) {
 		Database::insert('post_link', array(
 			'post_id' => $id,
 			'name' => $link['name'],
-			'size' => (float) $link['size'],
+			'size' => str_replace(',', '.', $link['size']),
 			'sizetype' => $type,
 			'order' => $i,
 		));
@@ -93,7 +93,7 @@ foreach ($posts as $id => $post) {
 			'name' => $file['name'],
 			'folder' => $file['folder'],
 			'file' => $file['filename'],
-			'size' => (float) $size[0],
+			'size' => str_replace(',', '.', $size[0]),
 			'sizetype' => $sizetype,	
 			'order' => $i,
 		));
