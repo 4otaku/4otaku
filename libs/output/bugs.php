@@ -38,7 +38,7 @@ class output__bugs extends engine
 			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC) ;
 			curl_setopt($curl, CURLOPT_USERPWD, "{$def['db']['github_user']}:{$def['db']['github_pass']}");
 		}
-		curl_setopt($curl, CURLOPT_URL, "https://api.github.com/repos/{$def['db']['github_repo']}/{$call}");
+		curl_setopt($curl, CURLOPT_URL, "https://api.github.com/repos/{$def['db']['github_repo']}/{$call}?page=1&per_page=10000");
 		if(count($post)) {
 			$post = json_encode($post);
 			curl_setopt($curl, CURLOPT_POST, true);
