@@ -1,6 +1,6 @@
 <?
 
-class side__header
+class Side_Header
 {
 	function menu () {
 

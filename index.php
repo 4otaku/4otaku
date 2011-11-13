@@ -71,21 +71,32 @@ if (isset(query::$post['do'])) {
 	}
 } else {
 
-	$data = array();
+	$class = 'Read_' . ucfirst($url[1]);
 
-	$output_class = 'output__'.$url[1];
-	$output = new $output_class;
+	if (class_exists($class)) {
 
-	$output->check_404($output->allowed_url);
-	if (!$error) {
-		$data['main'] = $output->get_data();
+		$worker = new $class();
+
+		$worker->process(query::$url);
+	} else {
+
+		$data = array();
+		
+		$output_class = 'output__'.$url[1];
+		$output = new $output_class;
+
+		$output->check_404($output->allowed_url);
+		if (!$error) {
+			$data['main'] = $output->get_data();
+		}
+
+		$data = array_merge($data, $output->get_side_data($output->side_modules));
+		if ($error) {
+			$output->make_404($output->error_template);
+		}
+
+		include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';
 	}
-
-	$data = array_merge($data, $output->get_side_data($output->side_modules));
-	if ($error) {
-		$output->make_404($output->error_template);
-	}
-
-	include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';
+	
 	ob_end_flush();
 }

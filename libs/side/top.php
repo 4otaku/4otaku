@@ -1,6 +1,6 @@
 <?
 
-class side__top
+class Side_Top
 {
 	function __construct() {
 		global $sets; global $cookie; global $add_res;

@@ -1,7 +1,5 @@
-<?
+<?php
 
-class side__footer
+class Side_footer
 {
-	
-
 }
