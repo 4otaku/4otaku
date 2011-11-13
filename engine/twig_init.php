@@ -10,6 +10,8 @@
 		$params['data'] = $params;
 		$params['_get'] = query::$get;
 		$params['_post'] = query::$post;
+		$params['_sets'] = sets::$data;
+		$params['_def'] = def::$data;
 
 		$template = $twig->loadTemplate($template.'.html');
 

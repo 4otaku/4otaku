@@ -10,7 +10,7 @@ class Read_Post extends Read_Abstract
 		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
 		'sidebar' => array('comments','update','orders','tags'),
-		'footer' => array()
+		'footer' => array('year')
 	);	
 	
 	protected function index($url) {

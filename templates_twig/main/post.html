@@ -1,5 +1,17 @@
 {% extends "main/base.html" %}
 
 {% block content %}
+<td>
+	{% if sub.top %}
+		<tr>
+			<td colspan="2">
+				{% include 'side/top.html' %}
+			</td>
+		</tr>
+	{% endif %}	
 	:3
+</td>
+<td>
+	{% include 'side/sidebar.html' %}
+</td>			
 {% endblock %}

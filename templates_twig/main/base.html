@@ -16,7 +16,11 @@
 				{% block content %}{% endblock %}
 			</tr>
 			{% if sub.footer %}
-				{% include 'side/footer.html' %}
+				<tr>
+					<td colspan="2">
+						{% include 'side/footer.html' %}
+					</td>
+				</tr>
 			{% endif %}
 		</table>
 	</body>

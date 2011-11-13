@@ -168,11 +168,15 @@ function autoload_old ($class_name) {
 		return true;
 	}
 
-	if (_INDEX_) {
-		include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
-		ob_end_flush();
+	if (!preg_match('/^Read_/i', $class_name)) {
+		if (_INDEX_) {
+			include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
+			ob_end_flush();
+		}
+		exit();
 	}
-	exit();
+	
+	return false;
 }
 
 spl_autoload_register('autoload_old', false);
