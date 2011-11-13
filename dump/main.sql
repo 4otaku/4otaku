@@ -978,10 +978,10 @@ INSERT INTO `post` (`id`, `title`, `text`, `pretty_text`, `image`, `link`, `info
 
 -- --------------------------------------------------------
 
+
 --
 -- Структура таблицы `post_extra`
 --
-
 
 CREATE TABLE IF NOT EXISTS `post_extra` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1017,6 +1017,24 @@ CREATE TABLE IF NOT EXISTS `post_file` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `post_image`
+--
+
+CREATE TABLE IF NOT EXISTS `post_image` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `extension` varchar(6) NOT NULL,
+  `width` smallint(5) unsigned NOT NULL,
+  `height` smallint(5) unsigned NOT NULL,
+  `weight` int(10) unsigned NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `post_link`
 --
 
@@ -1038,18 +1056,81 @@ CREATE TABLE IF NOT EXISTS `post_link` (
 --
 
 CREATE TABLE IF NOT EXISTS `post_link_url` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url_id` int(10) unsigned NOT NULL,
   `link_id` int(10) unsigned NOT NULL,
   `alias` varchar(255) NOT NULL,
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_icelandic_ci NOT NULL,
   `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`url_id`,`link_id`),
+  UNIQUE KEY `selector` (`url_id`,`link_id`,`order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_update`
+--
+
+CREATE TABLE IF NOT EXISTS `post_update` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `username` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_date` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `sortdate` bigint(16) NOT NULL,
+  `area` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'main',
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`,`sortdate`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_update_link`
+--
+
+CREATE TABLE IF NOT EXISTS `post_update_link` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `update_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
+  `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`update_id`,`order`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_update_link_url`
+--
+
+CREATE TABLE IF NOT EXISTS `post_update_link_url` (
+  `url_id` int(10) unsigned NOT NULL,
+  `link_id` int(10) unsigned NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`url_id`,`link_id`),
+  UNIQUE KEY `selector` (`url_id`,`link_id`,`order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_url`
+--
+
+CREATE TABLE IF NOT EXISTS `post_url` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url` text NOT NULL,
   `status` tinyint(3) unsigned NOT NULL COMMENT '0 - не проверено, 1 - работает, 2 - не удалось понять, 3 - сломано',
   `lastcheck` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `selector` (`link_id`,`order`),
-  KEY `lastcheck` (`lastcheck`)
+  UNIQUE KEY `url` (`url`(255)),
+  KEY `lastcheck` (`lastcheck`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
 --
 -- Структура таблицы `raw_logs`
 --

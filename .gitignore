@@ -23,6 +23,10 @@ images/full/*
 !images/full/index.php
 images/thumbs/*
 !images/thumbs/index.php
+images/post/full/*
+!images/post/full/index.php
+images/post/thumb/*
+!images/post/thumb/index.php
 images/booru/full/*
 !images/booru/full/index.php
 images/booru/thumbs/*
