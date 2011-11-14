@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `art_similar` (
 CREATE TABLE IF NOT EXISTS `art_translation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `art_id` int(11) NOT NULL,
-  `data` text COLLATE utf8_unicode_ci NOT NULL,
+  `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   `author` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `pretty_date` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `sortdate` bigint(16) NOT NULL,
