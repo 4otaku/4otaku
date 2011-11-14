@@ -197,8 +197,8 @@ class output__admin extends engine
 			}
 		} else {
 			if ($url[3] == 'merge') {
-				$return['display'][] = 'admin_mergetags';
-				$return['tag'] = obj::db()->sql('select * from tag where alias = "'.$url[4].'"',1);
+				$return['display'][] = 'admin_mergetags';				
+				$return['tag'] = obj::db()->sql('select * from tag where alias = "'.urlencode($url[4]).'"',1);
 			} else {
 				unset ($this->side_modules['sidebar']);
 				$return['display'][] = 'admin_tags';
