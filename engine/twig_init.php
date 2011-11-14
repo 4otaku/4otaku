@@ -4,7 +4,9 @@
 
 	spl_autoload_register(array(new Twig_Autoloader, 'autoload'), true, true);
 
-	function twig_load_template($template, $params) {		
+	function twig_load_template($template, $params) {
+		global $add_res;
+			
 		$twig = get_twig();
 		
 		$params['data'] = $params;
@@ -12,6 +14,8 @@
 		$params['_post'] = query::$post;
 		$params['_sets'] = sets::$data;
 		$params['_def'] = def::$data;
+		$params['_url'] = query::$url;
+		$params['_res'] = $add_res;
 
 		$template = $twig->loadTemplate($template.'.html');
 

@@ -1,17 +1,15 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<td>
-	{% if sub.top %}
-		<tr>
-			<td colspan="2">
-				{% include 'side/top.html' %}
-			</td>
-		</tr>
-	{% endif %}	
-	:3
+<td valign="top" id="content">
+	<div class="post">
+		{% if sub.top %}
+			{% include 'side/top.html' %}
+		{% endif %}	
+		:3
+	</div>
 </td>
-<td>
+<td valign="top" id="sidebar">
 	{% include 'side/sidebar.html' %}
 </td>			
 {% endblock %}
