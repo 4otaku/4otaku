@@ -98,43 +98,12 @@
 {% endif %}
 
 {% include "side/navi/"~side_url~".html" ignore missing %}
+{% include "side/settings/"~side_url~".html" ignore missing %}
 
-	
+{% for key, part in sub.sidebar %}
+	{% include "side/parts/"~key~".html" ignore missing %}
+{% endfor %}
 
-	if (file_exists('templates'.SL.'side'.SL.'settings'.SL.$side_url.'.php')) {
-		?>
-			<div class="cats">	
-				<h2>
-					<a href="#" class="bar_arrow" rel="settings">
-						Настройки
-					</a> 
-					<a href="#" class="bar_arrow" rel="settings">
-						<?
-							if (!empty($sets['dir']['settings'])) {
-								?>
-									<img src="<?=$def['site']['dir']?>/images/text2391.png">
-								<?
-							}
-							else {
-								?>
-									<img src="<?=$def['site']['dir']?>/images/text2387.png">
-								<?				
-							}
-						?>
-					</a>
-				</h2>
-				<div id="settings_bar"<?=($sets['dir']['settings'] ? '' : ' style="display:none;"');?>>
-					<?
-						include ('templates'.SL.'side'.SL.'settings'.SL.$side_url.'.php');
-					?>
-				</div>
-			</div>		
-		<?
-	}
-?>
-<?
-	if (is_array($data['sidebar'])) foreach ($data['sidebar'] as $key => $part)	include ('parts'.SL.$key.'.php');
-?>
 <div class="cats">
 	&nbsp;
 </div>
