@@ -1,6 +1,6 @@
 <?php
 
-class Read_Post extends Read_Abstract
+class Read_Post extends Read_Main
 {
 	protected $template = 'main/post';	
 	protected $error_template = 'error/post';
@@ -15,5 +15,7 @@ class Read_Post extends Read_Abstract
 	
 	protected function index($url) {
 		
-	}	
+		$this->data['items'] = $this->get_items();		
+		$this->get_navigation();
+	}
 }
