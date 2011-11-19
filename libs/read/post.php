@@ -48,12 +48,28 @@ class Read_Post extends Read_Main
 	}
 	
 	protected function page($url) {
-		$page = (int) $url[2];
 		
-		if (!empty($page)) {
-			$this->page = $page;
+		if (!empty($url[3]) && $url[3] > 0) {
+		
+			$this->page = (int) $url[3];
 		}
 		
 		$this->get_items();
+	}
+	
+	protected function tag($url) {
+		$this->meta('tag', $url);
+	}
+	
+	protected function author($url) {
+		$this->meta('author', $url);
+	}
+	
+	protected function category($url) {
+		$this->meta('category', $url);
+	}
+	
+	protected function language($url) {
+		$this->meta('language', $url);
 	}
 }

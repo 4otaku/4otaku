@@ -6,8 +6,10 @@ abstract class Read_Main extends Read_Abstract
 {
 	protected $count = 0;
 	protected $page = 1;
-	protected $per_page = 1;
+	protected $per_page = 1;	
 	protected $area = 'main';
+	protected $meta = array();
+	
 	protected $possible_areas = array(
 		'main', 'workshop', 'flea_market'
 	);
@@ -17,12 +19,14 @@ abstract class Read_Main extends Read_Abstract
 	abstract protected function get_navigation();
 	
 	public function process($url) {
-		if (in_array($url[2], $this->possible_areas)) {
+		if (isset($url[2]) && in_array($url[2], $this->possible_areas)) {
+			
 			$this->area = $url[2];
+			query::$url['area'] = $url[2];
 			
 			array_splice($url, 1, 1);
 		}
-		
+
 		parent::process($url);
 	}
 	
@@ -33,10 +37,17 @@ abstract class Read_Main extends Read_Abstract
 		$condition = 'area = ?';
 		$params = array($this->area);
 		
+		foreach ($this->meta as $type => $values) {
+			foreach ($values as $value) {
+				$condition .= ' and locate(?, ' . $type . ')';
+				$params[] = '|' . $value . '|';
+			}
+		}
+		
 		$return = Database::set_counter()->set_order('sortdate')
 			->set_limit($this->per_page, $start)
 			->get_full_vector($table, $condition, $params);
-			
+	
 		$this->count = Database::get_counter();
 			
 		foreach ($return as &$item) {
@@ -50,6 +61,31 @@ abstract class Read_Main extends Read_Abstract
 		$data['navigation'] = $this->get_navigation();
 		
 		parent::do_output($template, $data);
+	}
+	
+	protected function meta($type, $url) {
+		if (!empty($url[5]) && $url[5] > 0) {
+		
+			$this->page = (int) $url[5];
+		}
+		
+		if (!empty($url[3])) {
+			$this->add_meta($type, $url[3]);
+		}
+		
+		$this->get_items();		
+	}
+	
+	protected function add_meta($type, $value) {
+		if (!ctype_alnum($type)) {
+			return;
+		}
+		
+		if (empty($this->meta[$type])) {
+			$this->meta[$type] = array();
+		}
+		
+		$this->meta[$type][] = $value;
 	}
 	
 	protected function get_navi_category($type) {
@@ -85,7 +121,15 @@ abstract class Read_Main extends Read_Abstract
 		
 		$return['start'] = max($return['curr'] - 5, 2);
 		$return['end'] = min($return['curr'] + 6, $return['last'] - 1);
-		$return['meta'] = '';		
+
+		if (count($this->meta, COUNT_RECURSIVE) == 2) {
+			
+			reset($this->meta);			
+			$return['meta'] = key($this->meta) . '/' . 
+				reset(current($this->meta)) .'/';
+		} else {
+			$return['meta'] = '';
+		}
 
 		$area = $this->area != def::area(0) ? '/' . $this->area : '';
 		$return['base'] = '/post' . $area . '/';

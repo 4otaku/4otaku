@@ -18,7 +18,7 @@ abstract class Read_Abstract
 		if (!$this->check_access($url)) {
 			$this->do_output($this->error_template);
 		}
-		
+
 		$function = $this->get_function($url);
 
 		if (method_exists($this, $function)) {
@@ -35,11 +35,11 @@ abstract class Read_Abstract
 			return false;
 		}
 		
-		$test_url = $this->get_function($url);
+		$function = $this->get_function($url);
 		
 		if (
-			array_key_exists($test_url, $this->url_rights) &&
-			sets::user('rights') < $this->function_rights[$test_url]
+			array_key_exists($function, $this->url_rights) &&
+			sets::user('rights') < $this->function_rights[$function]
 		) {
 			return false;
 		}
@@ -49,15 +49,15 @@ abstract class Read_Abstract
 	
 	protected function get_function($url) {
 		
-		if (empty($url[1])) {
+		if (empty($url[2])) {
 			return 'index';
 		}
 		
-		if (is_numeric($url[1])) {
+		if (is_numeric($url[2])) {
 			return 'single_item';
 		}
 		
-		return $url[1];
+		return $url[2];
 	}
 	
 	protected function get_side_data ($input) {
