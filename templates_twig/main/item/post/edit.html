@@ -1,0 +1,50 @@
+<table width="100%">
+	<tr>
+		<td>
+			<select name="edit_type" id="edit_type-{{id}}">
+				<option value="title">Заголовок</option>
+				<option value="post_images">Изображения</option>
+				<option value="text">Текст</option>
+				<option value="post_links">Ссылки</option>
+				<option value="post_bonus_links">Дополнительные ссылки</option>
+				<option value="post_files">Прикрепленные файлы</option>
+				{% if _sets.user.rights %}
+					<option value="author">Автора</option>	
+				{% endif %}
+				<option value="category">Категории</option>
+				<option value="language">Языки</option>
+				<option value="tag">Теги</option>
+			</select> 
+			<input type="submit" value="Редактировать" class="edit" rel="{{id}}" />
+			{% if _sets.user.rights %}
+				<td align="right">
+					<div class="right">
+						<form method="post" enctype="multipart/form-data">
+							<input type="hidden" name="do" value="post.transfer" />
+							<input type="checkbox" name="sure" />
+							<input type="hidden" name="id" value="{{id}}" />
+							<input type="submit" value="Утащить" class="submit" />
+							 &nbsp; 
+							<select name="where">
+								{% if post.area != 'main' %}
+									<option value="main"> на главную</option>
+								{% endif %}
+								{% if post.area != 'workshop' %}
+									<option value="workshop"> в мастерскую</option>
+								{% endif %}
+								{% if post.area != 'flea_market' %}
+									<option value="flea_market"> в барахолку</option>
+								{% endif %}
+								<option value="deleted"> в печь</option>
+							</select>
+						</form>
+					</div>
+				</td>
+			{% endif %}
+		</td>	
+	</tr>	
+</table>
+<div id="loader-{{id}}" class="hidden center loader">
+	<img src="/images/ajax-loader.gif">
+</div>
+<div id="edit-{{id}}" rel="post" class="edit_field hidden"></div>

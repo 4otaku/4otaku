@@ -1,0 +1,16 @@
+<img src="/images/file-audio.png" class="post-image"> 
+<span>{{file.name}}: </span>
+	<br />
+	<span class="player_margin">				
+	<object 
+		type="application/x-shockwave-flash" 
+		align="bottom" 
+		data="/jss/musicplayer/player_mp3_maxi.swf" 
+		width="380" 
+		height="16" 
+	>
+		<param name="movie" value="/jss/musicplayer/player_mp3_maxi.swf" />
+		<param name="bgcolor" value="#ffffff" />
+		<param name="FlashVars" value="mp3=/files/post/{{file.folder}}/{{file.file|url_encode()}}&amp;width=380&amp;height=16&amp;showstop=1&amp;showvolume=1&amp;buttonwidth=20&amp;sliderwidth=15&amp;volumewidth=40" />
+	</object>
+</span>

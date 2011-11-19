@@ -5,8 +5,10 @@
 	<div class="post">
 		{% if sub.top %}
 			{% include 'side/top.html' %}
-		{% endif %}	
-		:3
+		{% endif %}
+		{% for id, post in items %}
+			{% include 'main/item/post.html' %}
+		{% endfor %}
 	</div>
 </td>
 <td valign="top" id="sidebar">
