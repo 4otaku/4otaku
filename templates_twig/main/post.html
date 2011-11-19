@@ -2,14 +2,15 @@
 
 {% block content %}
 <td valign="top" id="content">
-	<div class="post">
-		{% if sub.top %}
-			{% include 'side/top.html' %}
-		{% endif %}
-		{% for id, post in items %}
-			{% include 'main/item/post.html' %}
-		{% endfor %}
-	</div>
+	{% if sub.top %}
+		{% include 'side/top.html' %}
+	{% endif %}
+	{% for id, post in items %}
+		{% include 'main/item/post.html' %}
+	{% endfor %}
+	{% if navi %}
+		{% include 'common/navi.html' %}
+	{% endif %}	
 </td>
 <td valign="top" id="sidebar">
 	{% include 'side/sidebar.html' %}

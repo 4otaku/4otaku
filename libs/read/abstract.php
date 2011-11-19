@@ -12,6 +12,8 @@ abstract class Read_Abstract
 	
 	protected $data = array();
 	
+	public function __construct() {}
+	
 	public function process($url) {
 		if (!$this->check_access($url)) {
 			$this->do_output($this->error_template);
@@ -46,15 +48,16 @@ abstract class Read_Abstract
 	}
 	
 	protected function get_function($url) {
-		if (empty($url[2])) {
+		
+		if (empty($url[1])) {
 			return 'index';
 		}
 		
-		if (is_numeric($url[2])) {
+		if (is_numeric($url[1])) {
 			return 'single_item';
 		}
 		
-		return $url[2];
+		return $url[1];
 	}
 	
 	protected function get_side_data ($input) {

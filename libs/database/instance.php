@@ -326,7 +326,7 @@ class Database_Instance extends Database_Abstract
 	}
 
 	public function set_order ($field, $type = 'desc') {
-		if (ctype_alnum($field) && ctype_alnum($type)) {
+		if (!preg_match('/[^a-z_\d]/ui', $field) && ctype_alnum($type)) {
 			$this->order = $field;
 			$this->order_type = $type;
 		}
