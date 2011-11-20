@@ -109,6 +109,53 @@ abstract class Read_Main extends Read_Abstract
 		}
 	}
 	
+	protected function load_meta($models) {
+		if (is_object($models)) {
+			$models = array($models);
+		}
+		
+		$meta = array();
+		foreach ($models as $model) {
+			$meta = array_replace_recursive($meta, $model->get('meta'));
+		}
+		
+		foreach ($meta as $table => $data) {
+			$aliases = array_keys($data);
+			if ($table != 'tag') {
+
+				$meta[$table] = Database::get_vector($table,
+					array('alias', 'name',  'id'),
+					Database::array_in('alias', $aliases),
+					$aliases
+				);
+			} else {
+
+				$meta[$table] = Database::get_vector($table,
+					array('alias', 'name', 'color', 'variants', 'have_description'),
+					Database::array_in('alias', $aliases),
+					$aliases
+				);
+				if (!empty($meta[$table])) {
+					foreach ($meta[$table] as &$one) {
+						$one['variants'] = array_filter(explode('|',trim($one['variants'],'|')));
+					}
+				}
+			}
+		}
+		
+		foreach ($models as $model) {
+			$model_meta = $model->get('meta');
+			foreach ($model_meta as $type => &$data) {
+				foreach ($data as $alias => $item) {
+					if (!empty($meta[$type][$alias])) {
+						$data[$alias] = $meta[$type][$alias];
+					}
+				}
+			}
+			$model->set('meta', $model_meta);
+		}
+	}
+	
 	protected function get_navi_category($type) {
 
 		return Database::set_order('id', 'asc')->get_vector('category', 

@@ -1,6 +1,6 @@
 <?php
 
-abstract class Model_Abstract
+abstract class Model_Abstract implements ArrayAccess
 {      
 	// Поля таблицы
 	protected $fields = array(
@@ -17,6 +17,9 @@ abstract class Model_Abstract
 
 	// Данные записи
 	private $data = array();
+	
+	// Дополнительные данные
+	private $additional_data = array();
 
 	// Знак того, что записи нет в базе
 	private $is_phantom = false;
@@ -82,6 +85,10 @@ abstract class Model_Abstract
 		if (array_key_exists($key, $this->data)) {
 			return $this->data[$key];
 		}
+	
+		if (array_key_exists($key, $this->additional_data)) {
+			return $this->additional_data[$key];
+		}		
 		
 		if (!$silent && in_array($key, $this->fields)) {
 			
@@ -117,8 +124,21 @@ abstract class Model_Abstract
 	public function set_array(array $data) {
 
 		foreach($data as $key => $value) {
+			
 			if (in_array($key, $this->fields)) {
-				$this->data[$key] = $value;
+				
+				if ($value !== null) {
+					$this->data[$key] = $value;
+				} else {
+					unset($this->data[$key]);
+				}
+			} else {
+
+				if ($value !== null) {
+					$this->additional_data[$key] = $value;
+				} else {
+					unset($this->additional_data[$key]);
+				}					
 			}
 		}
 		
@@ -187,5 +207,26 @@ abstract class Model_Abstract
 
 		return $this;
 	}
+	
+	/* Реализация ArrayAccess */
+	
+	public function offsetSet($offset, $value) {		
+		if (!is_null($offset)) {
+			$this->set($offset, $value);
+		}
+	}
+
+	public function offsetUnset($offset) {
+		$this->set($offset, null);
+	}
+
+	public function offsetExists($offset) {		
+		return isset($this->data[$offset]) || 
+			isset($this->additional_data[$offset]);
+	}
+
+	public function offsetGet($offset) {
+		return $this->get($offset);
+	}	
 }
 

@@ -4,9 +4,9 @@
 {% else %}
 	Опубликовал: 
 {% endif %}
-{% for author in item.meta.author %}
+{% for alias, author in item.meta.author %}
 	{% if not loop.first %}, {% endif %}
-	{% if not item.in_batch %}
+	{% if item.in_batch %}
 		<a href="{{navi.base}}{{author.mixed_add}}">
 			+
 		</a> 
@@ -14,7 +14,7 @@
 			-
 		</a> 
 	{% endif %}																						
-	<a href="{{navi.base}}author/{{author.alias}}/">
+	<a href="{{navi.base}}author/{{alias}}/">
 		{{author.name}}
 	</a>
 {% endfor %}
@@ -24,9 +24,9 @@
 {% else %}
 	Категория: 
 {% endif %}
-{% for category in item.meta.category %}
+{% for alias, category in item.meta.category %}
 	{% if not loop.first %}, {% endif %}
-	{% if not item.in_batch %}
+	{% if item.in_batch %}
 		<a href="{{navi.base}}{{category.mixed_add}}">
 			+
 		</a> 
@@ -34,7 +34,7 @@
 			-
 		</a> 
 	{% endif %}																						
-	<a href="{{navi.base}}author/{{category.alias}}/">
+	<a href="{{navi.base}}category/{{alias}}/">
 		{{category.name}}
 	</a>
 {% endfor %}
@@ -44,9 +44,9 @@
 {% else %}
 	Язык: 
 {% endif %}
-{% for language in item.meta.language %}
+{% for alias, language in item.meta.language %}
 	{% if not loop.first %}, {% endif %}
-	{% if not item.in_batch %}
+	{% if item.in_batch %}
 		<a href="{{navi.base}}{{language.mixed_add}}">
 			+
 		</a> 
@@ -54,7 +54,7 @@
 			-
 		</a> 
 	{% endif %}																						
-	<a href="{{navi.base}}author/{{language.alias}}/">
+	<a href="{{navi.base}}language/{{alias}}/">
 		{{language.name}}
 	</a>
 {% endfor %}

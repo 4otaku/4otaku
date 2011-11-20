@@ -12,8 +12,8 @@
 	</span>
 {% endif %}
 
-{% for tag in item.meta.tag %}
-	{% if not item.in_batch %}
+{% for alias, tag in item.meta.tag %}
+	{% if item.in_batch %}
 		<a href="{{navi.base}}{{tag.mixed_add}}">
 			+
 		</a> 
@@ -21,7 +21,7 @@
 			-
 		</a> 
 	{% endif %}
-	<a href="{{navi.base}}author/{{tag.alias}}/">
+	<a href="{{navi.base}}tag/{{alias}}/">
 		{{tag.name}}
 	</a>
 	{% if not loop.last or tag.variant %}, {% endif %}

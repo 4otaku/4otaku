@@ -1,6 +1,6 @@
 <?php
 
-class Model_Post extends Model_Abstract
+class Model_Post extends Model_Abstract_Meta
 {
 	// Поля таблицы
 	protected $fields = array(
@@ -16,6 +16,8 @@ class Model_Post extends Model_Abstract
 		'category',
 		'language',
 		'tag',
+		'comment_count',
+		'last_comment',
 		'update_count',
 		'pretty_date',
 		'sortdate',
@@ -24,4 +26,7 @@ class Model_Post extends Model_Abstract
 
 	// Название таблицы
 	protected $table = 'post';
+	
+	protected $meta_fields= array('tag', 
+		'category', 'author', 'language');
 }

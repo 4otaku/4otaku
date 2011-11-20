@@ -29,8 +29,16 @@ class Read_Post extends Read_Main
 	protected function get_items() {
 		
 		$items = $this->load_batch('post');
-				
-		$this->data['items'] = $items;	
+		$keys = array_keys($items);
+		
+		foreach ($items as $id => &$item) {
+			$item['id'] = $id;
+			$item = new Model_Post($item);
+		}
+		
+		$this->load_meta($items);
+
+		$this->data['items'] = $items;
 		$this->data['navi'] = $this->get_bottom_navi();	
 	}
 	
