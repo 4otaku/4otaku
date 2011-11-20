@@ -50,14 +50,14 @@ abstract class Read_Abstract
 	protected function get_function($url) {
 		
 		if (empty($url[2])) {
-			return 'index';
+			return 'display_index';
 		}
 		
 		if (is_numeric($url[2])) {
-			return 'single_item';
+			return 'display_single_item';
 		}
 		
-		return $url[2];
+		return 'display_' . $url[2];
 	}
 	
 	protected function get_side_data ($input) {

@@ -42,34 +42,64 @@ class Read_Post extends Read_Main
 		);
 	}
 	
-	protected function index($url) {
+	protected function display_index($url) {
 		
 		$this->get_items();
 	}
 	
-	protected function page($url) {
+	protected function display_single_item($url) {
 		
-		if (!empty($url[3]) && $url[3] > 0) {
+		$this->get_item($url[2]);
+	}
+	
+	protected function display_page($url) {
 		
-			$this->page = (int) $url[3];
-		}
-		
+		$this->get_page($url, 3);		
 		$this->get_items();
 	}
 	
-	protected function tag($url) {
-		$this->meta('tag', $url);
+	protected function display_tag($url) {
+		
+		$this->get_page($url, 5);		
+		$this->get_meta($url, 3, 'tag');
+		$this->get_items();
 	}
 	
-	protected function author($url) {
-		$this->meta('author', $url);
+	protected function display_author($url) {
+		
+		$this->get_page($url, 5);		
+		$this->get_meta($url, 3, 'author');
+		$this->get_items();		
 	}
 	
-	protected function category($url) {
-		$this->meta('category', $url);
+	protected function display_category($url) {
+		
+		$this->get_page($url, 5);		
+		$this->get_meta($url, 3, 'category');
+		$this->get_items();		
 	}
 	
-	protected function language($url) {
-		$this->meta('language', $url);
+	protected function display_language($url) {
+		
+		$this->get_page($url, 5);		
+		$this->get_meta($url, 3, 'language');
+		$this->get_items();		
+	}
+	
+	protected function display_mixed($url) {
+		
+		$this->get_page($url, 5);		
+		$this->get_mixed($url, 3);
+		$this->get_items();		
+	}
+	
+	protected function display_updates($url) {
+		
+		die("derp");
+	}
+	
+	protected function display_gouf($url) {
+		
+		die("derp");
 	}
 }

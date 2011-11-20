@@ -22,10 +22,11 @@ abstract class Read_Main extends Read_Abstract
 		if (isset($url[2]) && in_array($url[2], $this->possible_areas)) {
 			
 			$this->area = $url[2];
-			query::$url['area'] = $url[2];
 			
 			array_splice($url, 1, 1);
 		}
+		
+		query::$url['area'] = $this->area;
 
 		parent::process($url);
 	}
@@ -37,17 +38,16 @@ abstract class Read_Main extends Read_Abstract
 		$condition = 'area = ?';
 		$params = array($this->area);
 		
-		foreach ($this->meta as $type => $values) {
-			foreach ($values as $value) {
-				$condition .= ' and locate(?, ' . $type . ')';
-				$params[] = '|' . $value . '|';
-			}
+		foreach ($this->meta as $meta) {
+
+			$condition .= $meta->get_condition();
+			$params = array_merge($params, $meta->get_params());
 		}
 		
 		$return = Database::set_counter()->set_order('sortdate')
 			->set_limit($this->per_page, $start)
 			->get_full_vector($table, $condition, $params);
-	
+
 		$this->count = Database::get_counter();
 			
 		foreach ($return as &$item) {
@@ -63,29 +63,50 @@ abstract class Read_Main extends Read_Abstract
 		parent::do_output($template, $data);
 	}
 	
-	protected function meta($type, $url) {
-		if (!empty($url[5]) && $url[5] > 0) {
+	protected function get_page($url, $index) {
+		if (!empty($url[$index]) && $url[$index] > 0) {
 		
-			$this->page = (int) $url[5];
+			$this->page = (int) $url[$index];
 		}
-		
-		if (!empty($url[3])) {
-			$this->add_meta($type, $url[3]);
-		}
-		
-		$this->get_items();		
 	}
 	
-	protected function add_meta($type, $value) {
-		if (!ctype_alnum($type)) {
+	protected function get_meta($url, $index, $type) {
+		if (!ctype_alnum($type) || empty($url[$index])) {
 			return;
 		}
 		
-		if (empty($this->meta[$type])) {
-			$this->meta[$type] = array();
+		$this->meta[] = new Query_Meta($url[$index], $type);
+	}
+	
+	protected function get_mixed($url, $index) {
+		if (empty($url[$index])) {
+			return;
+		}		
+
+		$temp_params = explode('&', $url[$index]);
+		$params = array();
+		foreach ($temp_params as $param) {
+			$param_part = explode('=', $param);
+			$params[$param_part[0]] = $param_part[1];
 		}
-		
-		$this->meta[$type][] = $value;
+
+		$mixed = array();
+		foreach ($params as $key => $param) {
+
+			$value = ''; $sign = "+";
+			for ($i = 0; $i <= strlen($param); $i++) {
+				if ($param{$i} == "+" || $param{$i} == "-" || $i == strlen($param)) {
+
+					if (!empty($value)) {
+						$data = explode(',', urldecode($value));
+						$this->meta[] = new Query_Meta($data, $key, $sign);
+					}
+					$sign = $param{$i}; $value = '';
+				} else {
+					$value .= $param{$i};
+				}
+			}
+		}
 	}
 	
 	protected function get_navi_category($type) {
@@ -122,11 +143,8 @@ abstract class Read_Main extends Read_Abstract
 		$return['start'] = max($return['curr'] - 5, 2);
 		$return['end'] = min($return['curr'] + 6, $return['last'] - 1);
 
-		if (count($this->meta, COUNT_RECURSIVE) == 2) {
-			
-			reset($this->meta);			
-			$return['meta'] = key($this->meta) . '/' . 
-				reset(current($this->meta)) .'/';
+		if (count($this->meta)) {			
+			$return['meta'] = $this->make_meta_url($this->meta);
 		} else {
 			$return['meta'] = '';
 		}
@@ -134,6 +152,36 @@ abstract class Read_Main extends Read_Abstract
 		$area = $this->area != def::area(0) ? '/' . $this->area : '';
 		$return['base'] = '/post' . $area . '/';
 		
-		return $return;		
+		return $return;
+	}
+	
+	protected function make_meta_url($meta) {
+		if (count($meta) == 1) {
+			$item = reset($meta);
+			if ($item->is_simple()) {
+				return $item->get_type() . '/' . 
+					$item->get_meta() . '/';
+			}
+		}
+		
+		$return = 'mixed/';
+		
+		$parts = array();
+		foreach ($meta as $item) {
+			
+			$type = $item->get_type();
+			if (!isset($parts[$type])) {
+				$parts[$type] = array();
+			}
+			
+			$parts[$type][] = $item->get_sign() . $item->get_meta();
+		}
+		
+		foreach ($parts as $type => $part) {
+			$parts[$type] = $type . '=' . ltrim(implode($part), '+');
+		}
+		
+		$return .= implode('&', $parts) . '/';
+		return $return;
 	}
 }
