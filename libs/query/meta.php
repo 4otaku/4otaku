@@ -78,4 +78,8 @@ class Query_Meta
 	public function get_meta() {
 		return implode(',', $this->meta);
 	}
+	
+	public function have_meta($meta) {
+		return in_array($meta, $this->meta);
+	}
 }

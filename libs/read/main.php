@@ -83,7 +83,7 @@ abstract class Read_Main extends Read_Abstract
 			return;
 		}		
 
-		$temp_params = explode('&', $url[$index]);
+		$temp_params = explode('&', str_replace(' ', '+', $url[$index]));
 		$params = array();
 		foreach ($temp_params as $param) {
 			$param_part = explode('=', $param);
@@ -142,6 +142,28 @@ abstract class Read_Main extends Read_Abstract
 				}
 			}
 		}
+		
+		foreach ($meta as $table => $data) {
+			foreach ($data as $alias => $item) {
+				
+				$url_meta = $this->meta;
+				foreach ($url_meta as $key => $object) {
+					if ($object->get_type() == $table && $object->have_meta($alias)) {
+						unset($url_meta[$key]);
+					}
+				}
+				$url_meta_add = $url_meta;
+				$url_meta_remove = $url_meta;
+				$url_meta_add[] = new Query_Meta($alias, $table);
+				$url_meta_remove[] = new Query_Meta($alias, $table, '-');
+				
+				$meta[$table][$alias]['mixed_add'] = 
+					$this->make_meta_url($url_meta_add);
+				$meta[$table][$alias]['mixed_remove'] = 
+					$this->make_meta_url($url_meta_remove);					
+			}
+		}	
+						
 		
 		foreach ($models as $model) {
 			$model_meta = $model->get('meta');
