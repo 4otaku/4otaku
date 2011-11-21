@@ -33,8 +33,8 @@ class dynamic__board extends engine
 		$post_id = (int) $id[0];
 		$order = (int) $id[1];
 
-		$data = Database::set_order('order', 'asc')->
-			set_limit(1, $order)->get_field('board_attachment',
+		$data = Database::order('order', 'asc')->
+			limit(1, $order)->get_field('board_attachment',
 			'data', 'post_id = ? and type="video"', $post_id);
 
 		$data = unserialize(base64_decode($data));
@@ -91,7 +91,7 @@ class dynamic__board extends engine
 		}
 
 		if (!empty($data)) {
-			$attachments = Database::set_order('order', 'asc')->
+			$attachments = Database::order('order', 'asc')->
 				get_table('board_attachment', 'post_id, data',
 				'type = "image" and '.Database::array_in('post_id', $ids),
 				$ids);

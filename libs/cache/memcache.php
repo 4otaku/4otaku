@@ -13,7 +13,7 @@ class Cache_Memcache implements Cache_Interface_Single
 
 	public function __construct ($config) {
 
-		if (class_exists("Memcache")) {
+		if (class_exists("Memcache", false)) {
 			$this->memcache = new Memcache();
 
 			$this->memcache->connect("127.0.0.1");

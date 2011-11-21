@@ -9,10 +9,11 @@ class Database_Instance extends Database_Abstract
 	protected $counter_lock = false;
 	protected $counter_query = "SELECT FOUND_ROWS()";
 
-	protected $order = false;
-	protected $order_type = false;
+	protected $order = array();
+	protected $order_type = array();
 	protected $limit_from = false;
 	protected $limit = false;
+	protected $join = array();
 
 	public function __construct($worker, $prefix = "") {
 		$this->worker = $worker;
@@ -82,17 +83,23 @@ class Database_Instance extends Database_Abstract
 		if ($this->counter_lock) {
 			$query .= "SQL_CALC_FOUND_ROWS ";
 		}
-		$query .= "$values FROM `{$this->prefix}$table`";
+		$alias = preg_replace('/(?<!^|_)./ui', '', $table);
+		$query .= "$values FROM `{$this->prefix}$table` AS `$alias`";
+
+		foreach ($this->join as $join) {
+			$query .= " LEFT JOIN $join[table] AS `$join[alias]` ON $join[condition]";
+		}
 
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";
 		}
 
-		if (!empty($this->order)) {
-			$type = empty($this->order_type) ?
-				"DESC" : $this->order_type;
+		foreach ($this->order as $key => $order) {
+			$type = $this->order_type[$key];
 
-			$query .= " ORDER BY `$this->order` $type";
+			$query .= $key ? ", " : " ORDER BY ";
+			$order = str_replace(".", "`.`", $order);
+			$query .= "`$order` $type";
 		}
 
 		if (!empty($this->limit)) {
@@ -110,10 +117,11 @@ class Database_Instance extends Database_Abstract
 			$this->counter_lock = false;
 		}
 
-		$this->order = false;
-		$this->order_type = false;
+		$this->order = array();
+		$this->order_type = array();
 		$this->limit_from = false;
 		$this->limit = false;
+		$this->join = array();
 
 		return $data;
 	}
@@ -163,7 +171,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		if (empty($this->limit)) {
-			$this->set_limit(1);
+			$this->limit(1);
 		}
 
 		$data = $this->get_common($table, $values, $condition, $params);
@@ -181,7 +189,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		if (empty($this->limit)) {
-			$this->set_limit(1);
+			$this->limit(1);
 		}
 
 		$data = $this->get_common($table, $value, $condition, $params);
@@ -325,21 +333,31 @@ class Database_Instance extends Database_Abstract
 		return $this->last_query->rowCount();
 	}
 
-	public function set_order ($field, $type = 'desc') {
-		if (!preg_match('/[^a-z_\d]/ui', $field) && ctype_alnum($type)) {
-			$this->order = $field;
-			$this->order_type = $type;
+	public function order ($field, $type = 'desc') {
+		if (!preg_match('/[^a-z_\d\.]/ui', $field) && ctype_alnum($type)) {
+			$this->order[] = $field;
+			$this->order_type[] = $type;
 		}
 
 		return $this;
 	}
 
-	public function set_limit ($limit, $limit_from = false) {
+	public function limit ($limit, $limit_from = false) {
 		$this->limit = (int) $limit;
 
 		if (!empty($limit_from)) {
 			$this->limit_from = (int) $limit_from;
 		}
+
+		return $this;
+	}
+
+	public function join ($table, $condition) {
+		$this->join[] = array(
+			'table' => $table,
+			'alias' => preg_replace('/(?<!^|_)./ui', '', $table),
+			'condition' => $condition,
+		);
 
 		return $this;
 	}

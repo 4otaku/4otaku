@@ -44,8 +44,8 @@ abstract class Read_Main extends Read_Abstract
 			$params = array_merge($params, $meta->get_params());
 		}
 		
-		$return = Database::set_counter()->set_order('sortdate')
-			->set_limit($this->per_page, $start)
+		$return = Database::set_counter()->order('sortdate')
+			->limit($this->per_page, $start)
 			->get_full_vector($table, $condition, $params);
 
 		$this->count = Database::get_counter();
@@ -180,13 +180,13 @@ abstract class Read_Main extends Read_Abstract
 	
 	protected function get_navi_category($type) {
 
-		return Database::set_order('id', 'asc')->get_vector('category', 
+		return Database::order('id', 'asc')->get_vector('category', 
 			array('alias', 'name'), 'locate(?, area)', $type);
 	}
 	
 	protected function get_navi_language() {
 
-		return Database::set_order('id', 'asc')->
+		return Database::order('id', 'asc')->
 			get_vector('language', array('alias', 'name'));
 	}
 	
@@ -198,7 +198,7 @@ abstract class Read_Main extends Read_Abstract
 			$area = $type.'_'.def::area(2);
 		}
 
-		return Database::set_order($area)->set_limit(70)
+		return Database::order($area)->limit(70)
 			->get_vector('tag', array('alias', 'name'));
 	}
 	

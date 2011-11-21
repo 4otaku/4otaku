@@ -100,13 +100,13 @@ class output__art extends engine
 						}
 
 						$return['pool'] = Database::get_full_row('art_pool', $url[3]);
-						$query = Database::set_counter()->set_order('order', 'asc');
+						$query = Database::set_counter()->order('order', 'asc');
 
 						if ($url[4] != 'sort') {
 							$return['navi']['curr'] = max(1,$url[5]);
 							$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
 							$return['navi']['start'] = max($return['navi']['curr']-5,2);
-							$query->set_limit(sets::pp('art'), ($return['navi']['curr']-1)*sets::pp('art'));
+							$query->limit(sets::pp('art'), ($return['navi']['curr']-1)*sets::pp('art'));
 						}
 
 						$pool = $query->get_vector('art_in_pool', 'art_id', 'pool_id = ?', $url[3]);

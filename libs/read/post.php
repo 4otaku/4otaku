@@ -37,6 +37,36 @@ class Read_Post extends Read_Main
 		}
 		
 		$this->load_meta($items);
+		
+		$images = Database::order('order', 'asc')->get_full_table('post_image', 
+				Database::array_in('post_id', $keys), $keys);
+				
+		foreach ($images as $image) {
+			$items[$image['post_id']]->add_image($image);
+		}
+		
+		$links = Database::join('post_link_url', 'plu.link_id = pl.id')
+			->join('post_url', 'plu.url_id = pu.id')->order('pl.order', 'asc')
+			->order('plu.order', 'asc')->get_full_vector('post_link', 
+				Database::array_in('pl.post_id', $keys), $keys);
+			
+		foreach ($links as $link) {
+			$items[$link['post_id']]->add_link($link);
+		}
+		
+		$files = Database::order('order', 'asc')->get_full_table('post_file', 
+				Database::array_in('post_id', $keys), $keys);
+
+		foreach ($files as $file) {
+			$items[$file['post_id']]->add_file($file);
+		}
+		
+		$extras = Database::order('order', 'asc')->get_full_table('post_extra', 
+				Database::array_in('post_id', $keys), $keys);
+				
+		foreach ($extras as $extra) {
+			$items[$extra['post_id']]->add_extra($extra);
+		}				
 
 		$this->data['items'] = $items;
 		$this->data['navi'] = $this->get_bottom_navi();	

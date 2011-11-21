@@ -17,7 +17,7 @@ class Dynamic_Tag extends Dynamic_Abstract
 
 		$min = $this->tag_areas[$where];
 
-		$tags = Database::set_order($where.'_main')->set_limit(query::$get['count'])
+		$tags = Database::order($where.'_main')->limit(query::$get['count'])
 			->get_vector('tag', 'name', $where.'_main > 0');
 
 		$tags = array_values((array) $tags);

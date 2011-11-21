@@ -7,17 +7,13 @@ class Cache_Memcached implements Cache_Interface_Single, Cache_Interface_Array
 	// Для хранения объекта Memcached
 	protected $memcached;
 
-	public function __construct ($config) {
+	public function __construct () {
 
-		if (class_exists("Memcached")) {
+		if (class_exists("Memcached", false)) {
 			$this->memcached = new Memcached("default_fateline");
 			$this->memcached->addServer("localhost", 11211);
 
-			if (isset($config["serialize"]) && $config["serialize"] == "igbinary") {
-				$serializer = Memcached::SERIALIZER_IGBINARY;
-			} else {
-				$serializer = Memcached::SERIALIZER_PHP;
-			}
+			$serializer = Memcached::SERIALIZER_PHP;
 
 			$this->memcached->setOption(Memcached::OPT_SERIALIZER, $serializer);
 		} else {
@@ -26,7 +22,7 @@ class Cache_Memcached implements Cache_Interface_Single, Cache_Interface_Array
 	}
 
 	public function set ($key, $value, $expire = null) {
-		$this->memcached->set($key, $value, $expire);
+		$this->memcached->set($key, $value, (int) $expire);
 	}
 
 	public function set_array ($keys, $values, $expire = null) {

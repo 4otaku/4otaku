@@ -281,7 +281,7 @@ class dynamic__edit extends engine
 			return false();
 		}
 		
-		$return = (array) Database::set_order('order', 'ASC')
+		$return = (array) Database::order('order', 'ASC')
 			->get_full_table('art_variation', 'art_id = ?', query::$get['id']);
 			
 		$image = Database::get_full_row('art', query::$get['id']);

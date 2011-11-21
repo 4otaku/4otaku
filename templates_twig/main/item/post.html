@@ -51,7 +51,7 @@
 							{% for key, image in post.image %}
 								<div class="image-{{key}}">
 									<a href="/images/post/full/{{image.file}}.{{image.extension}}" target="_blank">
-										<img src="/images/post/thumbs/{{image.file}}.jpg" />
+										<img src="/images/post/thumb/{{image.file}}.jpg" />
 									</a>
 								</div>
 							{% endfor %}
@@ -75,8 +75,8 @@
 										<a href="{{url}}" target="_blank">
 											{{alias}}
 										</a>
-										 (~{{link.size}} {{link.sizetype}})
-									{% endfor %}
+									{% endfor %}	
+										 (~{{link.size}} {{link.sizetype}})									
 								{% endfor %}
 							</p>
 						{% endif %}							
