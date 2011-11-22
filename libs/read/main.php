@@ -14,6 +14,15 @@ abstract class Read_Main extends Read_Abstract
 		'main', 'workshop', 'flea_market'
 	);
 	
+	protected $rss_name = array(
+		'tag' => 'тега',
+		'author' => 'автора',
+		'language' => 'языка',
+		'category' => 'категории',
+		'pool' => 'группы'
+	);
+	
+	
 	abstract protected function get_item($id);
 	abstract protected function get_items();
 	abstract protected function get_navigation();
@@ -59,7 +68,6 @@ abstract class Read_Main extends Read_Abstract
 	
 	protected function do_output($template, $data = array()) {		
 		$data['navigation'] = $this->get_navigation();
-		
 		parent::do_output($template, $data);
 	}
 	
@@ -200,6 +208,31 @@ abstract class Read_Main extends Read_Abstract
 
 		return Database::order($area)->limit(70)
 			->get_vector('tag', array('alias', 'name'));
+	}
+	
+	protected function get_navi_rss($area) {
+
+		$return = array();
+		
+		if (count($this->meta) == 1 && ($item = reset($this->meta)) &&
+			$item->is_simple()) {
+				
+			$type = $item->get_type();
+			$value = $item->get_meta();
+			$return['metaname'] = Database::get_field($type, 
+				'name', 'alias = ?', $value);
+			$return['typename'] = $this->rss_name[$return['type']];
+		} else {
+			$type = 'mixed';
+			$value = $this->make_meta_url($this->meta);
+			$value = substr($value, 6);
+			$return['metaname'] = false;
+			$return['typename'] = false;
+		}
+		
+		$return['link'] = _base64_encode("$area|$type|$value");
+
+		return $return;
 	}
 	
 	protected function get_bottom_navi() {

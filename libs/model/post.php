@@ -71,6 +71,8 @@ class Model_Post extends Model_Abstract_Meta
 		}
 
 		$file['type'] = $this->filetypes[$file['type']];	
+		$file['size'] = round($file['size'], 2);
+		$file['sizetype'] = $this->sizetypes[$file['sizetype']];
 		
 		$files = (array) $this->get('file');		
 		$files[] = $file;		

@@ -62,10 +62,10 @@
 		<br />
 	</span>
 
-	{% if rss %}
+	{% if navigation.rss %}
 		<br />
-		<a href="/rss/{{rss.link}}" target="_blank">
-			Подписаться на rss {{rss.type-name}} {{rss.meta-name}}
+		<a href="/rss/{{navigation.rss.link}}" target="_blank">
+			Подписаться на rss {{navigation.rss.typename}} {{navigation.rss.metaname}}
 		</a>
 	{% endif %}
 {% endblock %}

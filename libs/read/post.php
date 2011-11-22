@@ -76,7 +76,8 @@ class Read_Post extends Read_Main
 		return array(
 			'tag' => $this->get_navi_tag('post'),
 			'category' => $this->get_navi_category('post'),
-			'language' => $this->get_navi_language()
+			'language' => $this->get_navi_language(),
+			'rss' => $this->get_navi_rss('post')
 		);
 	}
 	
