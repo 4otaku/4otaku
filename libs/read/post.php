@@ -22,14 +22,19 @@ class Read_Post extends Read_Main
 		$this->per_page = sets::pp('post');
 	}	
 	
-	protected function get_item($id) {
+	// @TODO: public - хак для поиска и RSS, заменить на protected при возможности
+	public function get_item($id) {
+		$item = new Model_Post($id);
+		$this->load_meta($item);
 		
+		$this->get_post_data($item);
+		
+		$this->data['items'] = array($item);
 	}
 	
 	protected function get_items() {
 		
 		$items = $this->load_batch('post');
-		$keys = array_keys($items);
 		
 		foreach ($items as $id => &$item) {
 			$item['id'] = $id;
@@ -38,8 +43,21 @@ class Read_Post extends Read_Main
 		
 		$this->load_meta($items);
 		
+		$this->get_post_data($items);
+
+		$this->data['items'] = $items;
+		$this->data['navi'] = $this->get_bottom_navi();	
+	}
+	
+	protected function get_post_data($items) {
+		if (is_object($items)) {
+			$items = array($items['id'] => $items);
+		}
+		
+		$keys = array_keys($items);
+		
 		$images = Database::order('order', 'asc')->get_full_table('post_image', 
-				Database::array_in('post_id', $keys), $keys);
+		Database::array_in('post_id', $keys), $keys);
 				
 		foreach ($images as $image) {
 			$items[$image['post_id']]->add_image($image);
@@ -66,10 +84,7 @@ class Read_Post extends Read_Main
 				
 		foreach ($extras as $extra) {
 			$items[$extra['post_id']]->add_extra($extra);
-		}				
-
-		$this->data['items'] = $items;
-		$this->data['navi'] = $this->get_bottom_navi();	
+		}
 	}
 	
 	protected function get_navigation() {

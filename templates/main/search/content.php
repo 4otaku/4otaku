@@ -9,7 +9,11 @@ $tmp = $data['main']['navi']['base'];
 if (!empty($data['main']['data']) && is_array($data['main']['data'])) {
 	foreach ($data['main']['data'] as $item) {
 		$data['main']['navi']['base'] = $item['navi'];
-		include 'templates'.SL.'main'.SL.'single'.SL.$item['template'].'.php';
+		if ($item['template'] == 'post') {
+			twig_load_template('main/item/' . $item['template'], array($item['template'] => $item));
+		} else {
+			include 'templates'.SL.'main'.SL.'single'.SL.$item['template'].'.php';
+		}
 	}
 }
 $data['main']['navi']['base'] = $tmp;

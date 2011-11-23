@@ -72,12 +72,22 @@ abstract class Read_Abstract
 		}
 		
 		return $return;
-	}	
+	}
 	
 	protected function do_output($template, $data = array()) {
 		
 		$data['sub'] = $this->get_side_data($this->side_modules);		
 		
 		twig_load_template($template, $data);
+	}
+	
+	// @TODO: хак для поиска и RSS, удалить при возможности
+	public function get_data($part = false) {
+		
+		if (empty($part)) {
+			return $this->data;
+		}
+		
+		return $this->data[$part];
 	}
 }

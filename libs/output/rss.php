@@ -66,11 +66,13 @@ class output__rss extends engine
 	}
 
 	function convert_post($item) {
-		if (trim($item['image'])) $item['image'] = explode('|',$item['image']);
-		if ($item['area'] == 'workshop') $item['title'] = '(Очередь премодерации)' . $item['title'];
-		$item['links'] = unserialize($item['link']);
-		$item['files'] = unserialize($item['file']);
-		$item['info'] = unserialize($item['info']);
+		$worker = new Read_Post($item['id']);
+		$worker->get_item($item['id']);
+		$post = $worker->get_data('items');
+		$item = current($post);
+		$item['type'] = 'post';
+		
+		$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['id'].'/';
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);

@@ -225,7 +225,11 @@ abstract class Read_Main extends Read_Abstract
 		} else {
 			$type = 'mixed';
 			$value = $this->make_meta_url($this->meta);
-			$value = substr($value, 6);
+			if (strlen($value) < 8) {
+				return $return;
+			}
+			
+			$value = substr($value, 6);			
 			$return['metaname'] = false;
 			$return['typename'] = false;
 		}
