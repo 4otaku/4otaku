@@ -1,0 +1,40 @@
+<div class="shell">
+	<div class="entry">
+		<h2>
+			<a href="/post/{{update.post_id}}/show_updates/" title="{{update.title}}">
+				{{update.title}}
+			</a>
+		</h2>
+		<p>
+			Обновил: 
+			<b>
+				{{update.username}}
+			</b>; 
+			Дата обновления: {{update.pretty_date}}
+		</p>
+		<p>
+			{{update.text}}
+		</p>
+		<p>
+			{% if update.link %}
+				<p>
+					{% for key, link in update.link %}
+						{% if not loop.first %}
+							<br />
+						{% endif %}
+						{{link.name}}: 
+						{% for url, alias in link.url %}
+							{% if not loop.first %}
+								 | 
+							{% endif %}
+							<a href="{{url}}" target="_blank">
+								{{alias}}
+							</a>
+						{% endfor %}	
+							 (~{{link.size}} {{link.sizetype}})									
+					{% endfor %}
+				</p>
+			{% endif %}	
+		</p>
+	</div>
+</div>

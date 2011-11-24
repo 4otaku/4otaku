@@ -4,9 +4,6 @@
 
 abstract class Read_Main extends Read_Abstract
 {
-	protected $count = 0;
-	protected $page = 1;
-	protected $per_page = 1;	
 	protected $area = 'main';
 	protected $meta = array();
 	
@@ -28,9 +25,9 @@ abstract class Read_Main extends Read_Abstract
 	abstract protected function get_navigation();
 	
 	public function process($url) {
-		if (isset($url[2]) && in_array($url[2], $this->possible_areas)) {
+		if (isset($url[1]) && in_array($url[1], $this->possible_areas)) {
 			
-			$this->area = $url[2];
+			$this->area = $url[1];
 			
 			array_splice($url, 1, 1);
 		}
@@ -69,13 +66,6 @@ abstract class Read_Main extends Read_Abstract
 	protected function do_output($template, $data = array()) {		
 		$data['navigation'] = $this->get_navigation();
 		parent::do_output($template, $data);
-	}
-	
-	protected function get_page($url, $index) {
-		if (!empty($url[$index]) && $url[$index] > 0) {
-		
-			$this->page = (int) $url[$index];
-		}
 	}
 	
 	protected function get_meta($url, $index, $type) {

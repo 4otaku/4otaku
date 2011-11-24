@@ -258,7 +258,7 @@ function urlencode(str) {
 
 function show_updates(id) {
 	$("div#updates_field_loader img").show();
-	$("div#updates_field").load(window.config.site_dir+"/ajax.php?m=post&f=show_updates&id="+id, function(){
+	$("div#updates_field").load(window.config.site_dir+"/post/updates/"+id, function(){
 		$("div#updates_field_loader img").hide();
 		$("div#updates_field").slideDown();
 	});
@@ -548,7 +548,9 @@ $(document).ready(function(){
 
 	/* Post section start */
 
-	if (window.location.pathname.search('/show_updates/') != -1) show_updates($(".show_updates").attr('rel'));
+	if (window.location.pathname.search('/show_updates/') != -1) {
+		show_updates($(".show_updates").attr('rel'));
+	}
 
 	$("div div.handler a").live('click', function(event){
 		if ($(this).parent().children("span").html() == "↓") {

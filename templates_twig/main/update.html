@@ -1,0 +1,18 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<td valign="top" id="content">
+	{% if sub.top %}
+		{% include 'side/top.html' %}
+	{% endif %}
+	{% for id, update in items %}
+		{% include 'main/item/update.html' %}
+	{% endfor %}
+	{% if navi %}
+		{% include 'common/navi.html' %}
+	{% endif %}	
+</td>
+<td valign="top" id="sidebar">
+	{% include 'side/sidebar.html' %}
+</td>			
+{% endblock %}

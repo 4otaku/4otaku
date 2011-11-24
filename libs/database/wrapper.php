@@ -78,6 +78,10 @@ class Database
 		return self::db()->delete($table, $condition, $params);
 	}
 
+	public function group ($field) {
+		return self::db()->group($field);
+	}
+
 	public function order ($field, $type = 'desc') {
 		return self::db()->order($field, $type);
 	}

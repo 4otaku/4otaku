@@ -12,6 +12,10 @@ abstract class Read_Abstract
 	
 	protected $data = array();
 	
+	protected $page = 1;
+	protected $per_page = 1;	
+	protected $count = 0;
+	
 	public function __construct() {}
 	
 	public function process($url) {
@@ -48,16 +52,16 @@ abstract class Read_Abstract
 	}
 	
 	protected function get_function($url) {
-		
-		if (empty($url[2])) {
+
+		if (empty($url[1])) {
 			return 'display_index';
 		}
 		
-		if (is_numeric($url[2])) {
+		if (is_numeric($url[1])) {
 			return 'display_single_item';
 		}
 		
-		return 'display_' . $url[2];
+		return 'display_' . $url[1];
 	}
 	
 	protected function get_side_data ($input) {
@@ -74,11 +78,19 @@ abstract class Read_Abstract
 		return $return;
 	}
 	
+	protected function get_page($url, $index) {
+		if (!empty($url[$index]) && $url[$index] > 0) {
+		
+			$this->page = (int) $url[$index];
+		}
+	}
+	
 	protected function do_output($template, $data = array()) {
 		
 		$data['sub'] = $this->get_side_data($this->side_modules);		
 		
 		twig_load_template($template, $data);
+		exit();
 	}
 	
 	// @TODO: хак для поиска и RSS, удалить при возможности

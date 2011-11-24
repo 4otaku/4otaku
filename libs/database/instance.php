@@ -9,6 +9,7 @@ class Database_Instance extends Database_Abstract
 	protected $counter_lock = false;
 	protected $counter_query = "SELECT FOUND_ROWS()";
 
+	protected $group = array();
 	protected $order = array();
 	protected $order_type = array();
 	protected $limit_from = false;
@@ -72,6 +73,7 @@ class Database_Instance extends Database_Abstract
 		foreach ($values as &$value) {
 			if (
 				strpos($value, "*") === false &&
+				strpos($value, ".") === false &&
 				strpos($value, "`") === false
 			) {
 				$value = "`$value`";
@@ -87,11 +89,17 @@ class Database_Instance extends Database_Abstract
 		$query .= "$values FROM `{$this->prefix}$table` AS `$alias`";
 
 		foreach ($this->join as $join) {
-			$query .= " LEFT JOIN $join[table] AS `$join[alias]` ON $join[condition]";
+			$query .= " LEFT JOIN `$join[table]` AS `$join[alias]` ON $join[condition]";
 		}
 
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";
+		}
+
+		foreach ($this->group as $key => $group) {
+			$query .= $key ? ", " : " GROUP BY ";
+			$group = str_replace(".", "`.`", $group);
+			$query .= "`$group`";
 		}
 
 		foreach ($this->order as $key => $order) {
@@ -119,6 +127,7 @@ class Database_Instance extends Database_Abstract
 
 		$this->order = array();
 		$this->order_type = array();
+		$this->group = array();
 		$this->limit_from = false;
 		$this->limit = false;
 		$this->join = array();
@@ -331,6 +340,14 @@ class Database_Instance extends Database_Abstract
 		$this->query($query, $params);
 
 		return $this->last_query->rowCount();
+	}
+
+	public function group ($field) {
+		if (!preg_match('/[^a-z_\d\.]/ui', $field)) {
+			$this->group[] = $field;
+		}
+
+		return $this;
 	}
 
 	public function order ($field, $type = 'desc') {

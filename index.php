@@ -76,8 +76,9 @@ if (isset(query::$post['do'])) {
 	if (class_exists($class)) {
 
 		$worker = new $class();
+		$process_url = array_values(query::$url);
 
-		$worker->process(query::$url);
+		$worker->process($process_url);
 	} else {
 
 		$data = array();
