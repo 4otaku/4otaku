@@ -8,10 +8,6 @@ class Model_Post extends Model_Abstract_Meta
 		'title',
 		'text',
 		'pretty_text',
-		'image',
-		'link',
-		'info',
-		'file',
 		'author',
 		'category',
 		'language',
@@ -33,6 +29,7 @@ class Model_Post extends Model_Abstract_Meta
 	protected $sizetypes = array('кб', 'мб', 'гб');
 	protected $filetypes = array('plain', 'image', 'audio');
 		
+	// @TODO: вынести в trait, как они появятся
 	public function add_link($link) {
 
 		$links = (array) $this->get('link');
@@ -51,6 +48,7 @@ class Model_Post extends Model_Abstract_Meta
 		$this->set('link', $links);
 	}
 	
+	// @TODO: вынести в trait, как они появятся
 	public function add_image($image) {
 		
 		$images = (array) $this->get('image');		

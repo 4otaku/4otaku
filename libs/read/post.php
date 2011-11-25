@@ -160,6 +160,9 @@ class Read_Post extends Read_Main
 	
 	protected function display_gouf($url) {
 		
-		die("derp");
+		array_shift($url);
+		$worker = new Read_Post_Gouf();
+
+		$worker->process($url);
 	}
 }

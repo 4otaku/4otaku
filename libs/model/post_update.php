@@ -9,7 +9,6 @@ class Model_Post_Update extends Model_Abstract
 		'username',
 		'text',
 		'pretty_text',
-		'link',
 		'pretty_date',
 		'sortdate',
 		'area',
@@ -17,6 +16,8 @@ class Model_Post_Update extends Model_Abstract
 
 	// Название таблицы
 	protected $table = 'updates';
+		
+	protected $sizetypes = array('кб', 'мб', 'гб');
 	
 	public function insert() {
 		
@@ -31,5 +32,32 @@ class Model_Post_Update extends Model_Abstract
 			$this->get('post_id'));
 				
 		return $this;
-	}	
+	}		
+	
+	// @TODO: вынести в trait, как они появятся
+	public function add_link($link) {
+
+		$links = (array) $this->get('link');
+
+		if (empty($links[$link['link_id']])) {
+			$links[$link['link_id']] = array(
+				'name' => $link['name'],
+				'url' => array($link['url'] => $link['alias']),
+				'size' => round($link['size'], 2), 
+				'sizetype' => $this->sizetypes[$link['sizetype']]
+			);
+		} else {
+			$links[$link['link_id']]['url'][$link['url']] = $link['alias'];
+		}
+		
+		$this->set('link', $links);
+	}
+	
+	// @TODO: вынести в trait, как они появятся
+	public function add_image($image) {
+		
+		$images = (array) $this->get('image');		
+		$images[] = $image;		
+		$this->set('image', $images);
+	}
 }
