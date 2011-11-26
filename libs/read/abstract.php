@@ -78,10 +78,17 @@ abstract class Read_Abstract
 		return $return;
 	}
 	
-	protected function get_page($url, $index) {
-		if (!empty($url[$index]) && $url[$index] > 0) {
+	protected function set_page($url, $index) {
+		if (empty($url[$index])) {
+			return;
+		} 
+		
+		if ($url[$index] > 0) {
 		
 			$this->page = (int) $url[$index];
+		} elseif ($url[$index] == 'all') {
+		
+			$this->page = $url[$index];
 		}
 	}
 	

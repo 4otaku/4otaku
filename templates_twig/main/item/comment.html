@@ -1,0 +1,48 @@
+<!--
+		$where = array('main' => 'оставлен на главной','workshop' => 'оставлен в мастерской', 'flea_market' => 'оставлен в барахолке');
+		if (!$comment['area']) $comment['area'] = 'main';
+		($url[1] != 'news' && $url[1] != 'order' && $comment['area'] != $url['area'] && array_key_exists($comment['area'],$where) ? ' ('.$where[$comment['area']].')' : '');?>
+		 -->
+
+<div class="comment" id="comment-{{item.id}}">
+	<div class="comment-top">
+		<b>{{number}}) {{item.username}}</b>
+		<span class="datetime">
+			 {{item.pretty_date}}
+		</span>
+		<span class="commentmetadata"><a href="#comment-{{item.id}}" title="">#</a></span>
+		{% if item.comment_rights or item.edit_date %}					
+			<div class="right">
+				{% if item.edit_date %}
+					<span class="datetime">
+						Дата редактирования: {{item.edit_date}}
+					</span>
+				{% endif %}
+				{% if item.comment_rights %}
+					<img src="/images/comment_edit.png" alt="редактировать" rel="{{item.id}}>" class="edit_comment">
+					{% if item.delete_rights %}
+						&nbsp;&nbsp;&nbsp;
+						<img src="/images/comment_delete.png" alt="удалить" rel="{{item.id}}" class="delete_comment">
+					{% endif %}
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
+	<div class="comment-content">
+		<div class="avatar-n">
+			<img src="http://www.gravatar.com/avatar/{{item.avatar}}?s=50&d=identicon&r=G" />
+		</div>
+		<div class="comment-text">
+		<span>{{item.text}}</span>
+		<br /><br />
+		<a href="#" rel="{{item.id}}" class="disabled reply">Ответить</a>
+		<div id="reply-{{item.id}}"></div>
+		<div class="edit-{{item.id}}"></div>					
+		<div class="c-wrap"></div>
+		</div>
+	</div>
+	<br />
+	{% for child in item.children %}
+		{% include 'main/item/comment.html' with {'item': child} %}
+	{% endfor %}
+</div>

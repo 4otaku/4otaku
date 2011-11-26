@@ -68,7 +68,7 @@ abstract class Read_Main extends Read_Abstract
 		parent::do_output($template, $data);
 	}
 	
-	protected function get_meta($url, $index, $type) {
+	protected function set_meta($url, $index, $type) {
 		if (!ctype_alnum($type) || empty($url[$index])) {
 			return;
 		}
@@ -76,7 +76,7 @@ abstract class Read_Main extends Read_Abstract
 		$this->meta[] = new Query_Meta($url[$index], $type);
 	}
 	
-	protected function get_mixed($url, $index) {
+	protected function set_mixed($url, $index) {
 		if (empty($url[$index])) {
 			return;
 		}		
@@ -279,5 +279,52 @@ abstract class Read_Main extends Read_Abstract
 		
 		$return .= implode('&', $parts) . '/';
 		return $return;
+	}
+	
+	protected function get_comments($place, $id) {
+		
+		$query = Database::set_counter();
+		
+		if (is_numeric($this->page)) {
+			$per_page = sets::pp('comment_in_post');		
+			$start = ($this->page - 1) * $per_page;
+			
+			$query->limit($per_page, $start);
+		}
+		
+		if (sets::dir('comments_tree')) {
+			$query->order('sortdate');
+		} else {
+			$query->order('sortdate', 'asc');
+		}
+		
+		$condition = 'place = ? and post_id= ? and rootparent = ? and area != ?';
+		$params = array($place, $id, 0, 'deleted');
+		 
+		$comments = $query->get_full_vector('comment', $condition, $params);
+		$this->count = $query->get_counter();
+		
+		foreach ($comments as $id => &$comment) {
+			$comment['id'] = $id;
+			$comment = new Model_Comment($comment);
+		}		
+		
+		$params = array_keys($comments);
+		$condition = Database::array_in('rootparent', $params).' and area != ?';
+		array_push($params, "deleted");
+		
+		if (sets::dir('comments_tree')) {
+			$query = Database::order('sortdate');
+		} else {
+			$query = Database::order('sortdate', 'asc');
+		}		
+		
+		$children = $query->get_full_table('comment', $condition, $params);
+		
+		foreach ($children as $child) {
+			$comments[$child['rootparent']]->add_child($child);
+		}
+		
+		return $comments;
 	}
 }

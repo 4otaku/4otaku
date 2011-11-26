@@ -8,7 +8,9 @@
 	{% for id, post in items %}
 		{% include 'main/item/post.html' %}
 	{% endfor %}
-	{% if navi %}
+	{% if single %}
+		{% include 'common/comments.html' %}
+	{% elseif navi %}
 		{% include 'common/navi.html' %}
 	{% endif %}	
 </td>

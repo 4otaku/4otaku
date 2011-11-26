@@ -1,0 +1,16 @@
+<div id="comments">
+
+	{% for item in comment %}
+		{% include 'main/item/comment.html' %}
+	{% endfor %}		
+		
+	{% if navi %}
+		{% include 'common/navi.html' %}
+	{% endif %}	
+		
+	<div id="comments-field">
+		<noscript>
+			Для возможности комментировать, включите пожалуйста javascript;
+		</noscript>
+	</div>
+</div>

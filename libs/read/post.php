@@ -107,46 +107,50 @@ class Read_Post extends Read_Main
 	protected function display_single_item($url) {
 		
 		$this->get_item($url[1]);
+		
+		$this->set_page($url, 4);
+		$this->data['comment'] = $this->get_comments('post', $url[1]);
+		$this->data['single'] = true;
 	}
 	
 	protected function display_page($url) {
 		
-		$this->get_page($url, 2);		
+		$this->set_page($url, 2);		
 		$this->get_items();
 	}
 	
 	protected function display_tag($url) {
 		
-		$this->get_page($url, 4);		
-		$this->get_meta($url, 2, 'tag');
+		$this->set_page($url, 4);		
+		$this->set_meta($url, 2, 'tag');
 		$this->get_items();
 	}
 	
 	protected function display_author($url) {
 		
-		$this->get_page($url, 4);		
-		$this->get_meta($url, 2, 'author');
+		$this->set_page($url, 4);		
+		$this->set_meta($url, 2, 'author');
 		$this->get_items();		
 	}
 	
 	protected function display_category($url) {
 		
-		$this->get_page($url, 4);		
-		$this->get_meta($url, 2, 'category');
+		$this->set_page($url, 4);		
+		$this->set_meta($url, 2, 'category');
 		$this->get_items();		
 	}
 	
 	protected function display_language($url) {
 		
-		$this->get_page($url, 4);		
-		$this->get_meta($url, 2, 'language');
+		$this->set_page($url, 4);		
+		$this->set_meta($url, 2, 'language');
 		$this->get_items();		
 	}
 	
 	protected function display_mixed($url) {
 		
-		$this->get_page($url, 4);		
-		$this->get_mixed($url, 2);
+		$this->set_page($url, 4);
+		$this->set_mixed($url, 2);
 		$this->get_items();		
 	}
 	

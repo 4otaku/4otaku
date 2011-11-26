@@ -630,11 +630,17 @@ a.comments {
 	border: 1px solid Black;
 	margin-right: 10px;
 }
+
 .comment-search-text {
 	margin-left: 15px;
 }
+
 .comment-text {
 	margin-left: 75px;
+}
+
+.comment .comment {
+	margin-left: 50px;
 }
 
 /* Content, навигация по страницам внизу */
