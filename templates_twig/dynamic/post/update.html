@@ -1,40 +1,53 @@
-<div class="shell">
-	<div class="entry">
-		<h2>
-			<a href="/post/{{update.post_id}}/show_updates/" title="{{update.title}}">
-				{{update.title}}
-			</a>
-		</h2>
-		<p>
+{% for update in items %}
+	<div class="shell">
+		<div class="right">
+			<b>
+				Дата обновления: {{update.pretty_date}}
+			</b>
+		</div>
+		<div class="left">
 			Обновил: 
 			<b>
 				{{update.username}}
 			</b>; 
-			Дата обновления: {{update.pretty_date}}
-		</p>
-		<p>
-			{{update.text}}
-		</p>
-		<p>
-			{% if update.link %}
-				<p>
-					{% for key, link in update.link %}
-						{% if not loop.first %}
-							<br />
-						{% endif %}
-						{{link.name}}: 
-						{% for url, alias in link.url %}
+		</div>
+		<div class="clear"></div>
+		<div class="entry">
+			<p>
+				{{update.text}}
+			</p>
+			<p>
+				{% if update.link %}
+					<p>
+						{% for key, link in update.link %}
 							{% if not loop.first %}
-								 | 
+								<br />
 							{% endif %}
-							<a href="{{url}}" target="_blank">
-								{{alias}}
-							</a>
-						{% endfor %}	
-							 (~{{link.size}} {{link.sizetype}})									
-					{% endfor %}
-				</p>
-			{% endif %}	
-		</p>
+							{{link.name}}: 
+							{% for url, alias in link.url %}
+								{% if not loop.first %}
+									 | 
+								{% endif %}
+								<a href="{{url}}" target="_blank">
+									{{alias}}
+								</a>
+							{% endfor %}	
+								 (~{{link.size}} {{link.sizetype}})									
+						{% endfor %}
+					</p>
+				{% endif %}	
+			</p>
+		</div>
 	</div>
-</div>
+{% endfor %}
+
+<script type="text/javascript">
+	$("input.disabled").click(function(event){  
+		event.preventDefault();
+	});
+
+	$("input.hide_updates").click(function(){  	
+		$("#updates_field").hide();
+		$("#updates_field").html('&nbsp;');
+	});	
+</script>

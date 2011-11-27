@@ -20,6 +20,7 @@ abstract class Read_Abstract
 	
 	public function process($url) {
 		if (!$this->check_access($url)) {
+			$this->error_headers();
 			$this->do_output($this->error_template);
 		}
 
@@ -28,6 +29,7 @@ abstract class Read_Abstract
 		if (method_exists($this, $function)) {
 			$this->$function($url);
 		} else {
+			$this->error_headers();
 			$this->do_output($this->error_template);
 		}
 		
@@ -97,6 +99,17 @@ abstract class Read_Abstract
 		
 		twig_load_template($template, $data);
 		exit();
+	}
+	
+	protected function error_headers() {
+		
+		$date = gmdate("D, d M Y H:i:s");
+
+		header("Expires: $date GMT");
+		header("Last-Modified: $date GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Pragma: no-cache");
+		header("HTTP/1.x 404 Not Found");
 	}
 	
 	// @TODO: хак для поиска и RSS, удалить при возможности
