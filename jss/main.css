@@ -639,8 +639,29 @@ a.comments {
 	margin-left: 75px;
 }
 
-.comment .comment {
+.comment-depth-2 .comment, .comment-depth-3 .comment,
+.comment-depth-4 .comment, .comment-depth-5 .comment,
+.comment-depth-6 .comment, .comment-depth-7 .comment {
 	margin-left: 50px;
+}
+
+.comment-depth-8 .comment, .comment-depth-9 .comment {
+	margin-left: 40px;
+}
+
+.comment-depth-10 .comment, .comment-depth-11 .comment {
+	margin-left: 30px;
+}
+
+.comment-depth-12 .comment, .comment-depth-13 .comment {
+	margin-left: 25px;
+}
+
+.comment-depth-14 .comment, .comment-depth-15 .comment,
+.comment-depth-16 .comment, .comment-depth-17 .comment,
+.comment-depth-18 .comment, .comment-depth-19 .comment,
+.comment-depth-20 .comment, .comment-depth-21 .comment{
+	margin-left: 20px;
 }
 
 /* Content, навигация по страницам внизу */

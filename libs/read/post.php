@@ -32,7 +32,7 @@ class Read_Post extends Read_Main
 		$item['update_count'] = Database::get_field('post_update', 
 			'count(*)', 'post_id = ?', $id);
 		
-		$this->data['items'] = array($id => $item);
+		$this->data['items'] = array($id => $item);	
 	}
 	
 	protected function get_items() {
@@ -49,7 +49,9 @@ class Read_Post extends Read_Main
 		$this->get_post_data($items);
 
 		$this->data['items'] = $items;
-		$this->data['navi'] = $this->get_bottom_navi();	
+		if ($this->count > $this->per_page) {
+			$this->data['navi'] = $this->get_bottom_navi();	
+		}
 	}
 	
 	protected function get_post_data($items) {
@@ -106,10 +108,15 @@ class Read_Post extends Read_Main
 	
 	protected function display_single_item($url) {
 		
-		$this->get_item($url[1]);
-		
 		$this->set_page($url, 4);
+		
+		$this->get_item($url[1]);
 		$this->data['comment'] = $this->get_comments('post', $url[1]);
+		
+		if ($this->count > $this->per_page) {
+			$this->data['navi'] = $this->get_comment_navi($url[1]);		
+		}
+		
 		$this->data['single'] = true;
 	}
 	

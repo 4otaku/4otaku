@@ -284,12 +284,14 @@ abstract class Read_Main extends Read_Abstract
 	protected function get_comments($place, $id) {
 		
 		$query = Database::set_counter();
-		
-		if (is_numeric($this->page)) {
-			$per_page = sets::pp('comment_in_post');		
-			$start = ($this->page - 1) * $per_page;
+
+		$this->per_page = sets::pp('comment_in_post');	
+		if (is_numeric($this->page)) {				
+			$start = ($this->page - 1) * $this->per_page;
 			
-			$query->limit($per_page, $start);
+			$query->limit($this->per_page, $start);
+		} else {
+			$start = 0;
 		}
 		
 		if (sets::dir('comments_tree')) {
@@ -304,10 +306,23 @@ abstract class Read_Main extends Read_Abstract
 		$comments = $query->get_full_vector('comment', $condition, $params);
 		$this->count = $query->get_counter();
 		
+		if (sets::dir('comments_tree')) {
+			$label = $this->count - $start + 1;
+		} else {
+			$label = $start;
+		}		
+		
 		foreach ($comments as $id => &$comment) {
 			$comment['id'] = $id;
 			$comment = new Model_Comment($comment);
-		}		
+			
+			if (sets::dir('comments_tree')) {
+				$comment['label'] = --$label;
+			} else {
+				$comment['label'] = ++$label;
+			}
+		}
+		unset($comment);
 		
 		$params = array_keys($comments);
 		$condition = Database::array_in('rootparent', $params).' and area != ?';
@@ -325,6 +340,30 @@ abstract class Read_Main extends Read_Abstract
 			$comments[$child['rootparent']]->add_child($child);
 		}
 		
+		foreach ($comments as $comment) {
+			$comment['depth'] = $comment->count_depth();
+		}		
+		
 		return $comments;
+	}
+	
+	protected function get_comment_navi($item_id) {
+		$return = array();		
+		
+		$return['curr'] = $this->page;
+
+		$return['last'] = ceil($this->count / $this->per_page);
+		
+		$return['start'] = max($return['curr'] - 5, 2);
+		$return['end'] = min($return['curr'] + 6, $return['last'] - 1);
+
+		$return['anchor'] = '#comments';
+		$return['have_all'] = true;
+		$return['all'] = $this->page == 'all';
+		$return['name'] = 'Страница комментариев';
+
+		$return['base'] = '/post/'.$item_id.'/comments/';
+		
+		return $return;
 	}
 }

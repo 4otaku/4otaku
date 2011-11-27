@@ -11,26 +11,26 @@
 			</li>
 			{% if navi.curr == 2 %}
 				<li>
-					<a href="{{navi.base}}{{navi.meta}}">
+					<a href="{{navi.base}}{{navi.meta}}{{navi.anchor}}">
 						&lt;
 					</a>
 				</li>
 			{% elseif navi.curr > 2 %}
 				<li>
-					<a href="{{navi.base}}{{navi.meta}}page/{{navi.curr - 1}}/">
+					<a href="{{navi.base}}{{navi.meta}}page/{{navi.curr - 1}}/{{navi.anchor}}">
 						&lt;
 					</a>
 				</li>
 			{% endif %}
 			{% if navi.curr == 1 %}
 				<li class="active_page">
-					<a href="{{navi.base}}{{navi.meta}}">
+					<a href="{{navi.base}}{{navi.meta}}{{navi.anchor}}">
 						1
 					</a>
 				</li>
 			{% else %}
 				<li class="first_last_page">
-					<a href="{{navi.base}}{{navi.meta}}">
+					<a href="{{navi.base}}{{navi.meta}}{{navi.anchor}}">
 						1
 					</a>
 				</li>
@@ -44,13 +44,13 @@
 				{% for i in navi.start..navi.end %}
 					{% if i == navi.curr %}
 						<li class="active_page">
-							<a href="{{navi.base}}{{navi.meta}}page/{{i}}/">
+							<a href="{{navi.base}}{{navi.meta}}page/{{i}}/{{navi.anchor}}">
 								{{i}}
 							</a>
 						</li>
 					{% else %}
 						<li>
-							<a href="{{navi.base}}{{navi.meta}}page/{{i}}/">
+							<a href="{{navi.base}}{{navi.meta}}page/{{i}}/{{navi.anchor}}">
 								{{i}}
 							</a>
 						</li>
@@ -65,19 +65,19 @@
 			{% if navi.last > 1 %}
 				{% if navi.last == navi.curr %}
 					<li class="active_page">
-						<a href="{{navi.base}}{{navi.meta}}page/{{navi.last}}/">
+						<a href="{{navi.base}}{{navi.meta}}page/{{navi.last}}/{{navi.anchor}}">
 							{{navi.last}}
 						</a>
 					</li>
 				{% else %}
 					<li class="first_last_page">
-						<a href="{{navi.base}}{{navi.meta}}page/{{navi.last}}/">
+						<a href="{{navi.base}}{{navi.meta}}page/{{navi.last}}/{{navi.anchor}}">
 							{{navi.last}}
 						</a>
 					</li>
 					{% if not navi.all %}
 						<li>
-							<a href="{{navi.base}}{{navi.meta}}page/{{navi.curr + 1}}/">
+							<a href="{{navi.base}}{{navi.meta}}page/{{navi.curr + 1}}/{{navi.anchor}}">
 								&gt;
 							</a>
 						</li>
@@ -88,7 +88,7 @@
 
 					</li>
 					<li{% if navi.all %} class="active_page"{% endif %}>
-						<a href="{{navi.base}}{{navi.meta}}all/">
+						<a href="{{navi.base}}{{navi.meta}}page/all/{{navi.anchor}}">
 							Показать все
 						</a>
 					</li>

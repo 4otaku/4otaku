@@ -3,10 +3,10 @@
 		if (!$comment['area']) $comment['area'] = 'main';
 		($url[1] != 'news' && $url[1] != 'order' && $comment['area'] != $url['area'] && array_key_exists($comment['area'],$where) ? ' ('.$where[$comment['area']].')' : '');?>
 		 -->
-
-<div class="comment" id="comment-{{item.id}}">
+<div class="comment{% if item.depth %} comment-depth-{{item.depth}}{% endif %}" 
+	 id="comment-{{item.id}}">
 	<div class="comment-top">
-		<b>{{number}}) {{item.username}}</b>
+		<b>{{label}}) {{item.username}}</b>
 		<span class="datetime">
 			 {{item.pretty_date}}
 		</span>
@@ -34,15 +34,22 @@
 		</div>
 		<div class="comment-text">
 		<span>{{item.text}}</span>
-		<br /><br />
-		<a href="#" rel="{{item.id}}" class="disabled reply">Ответить</a>
-		<div id="reply-{{item.id}}"></div>
+		{% if level < 16 %}
+			<br /><br />
+			<a href="#" rel="{{item.id}}" class="disabled reply">Ответить</a>
+			<div id="reply-{{item.id}}"></div>
+		{% endif %}
 		<div class="edit-{{item.id}}"></div>					
 		<div class="c-wrap"></div>
 		</div>
 	</div>
 	<br />
 	{% for child in item.children %}
-		{% include 'main/item/comment.html' with {'item': child} %}
+		{% if _sets.dir.comments_tree %}
+			{% set child_label = label~'.'~loop.revindex %}
+		{% else %}
+			{% set child_label = label~'.'~loop.index %}
+		{% endif %}
+		{% include 'main/item/comment.html' with {'item': child, 'label': child_label, 'level': level + 1} %}
 	{% endfor %}
 </div>

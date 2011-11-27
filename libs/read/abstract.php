@@ -82,7 +82,6 @@ abstract class Read_Abstract
 		if (empty($url[$index])) {
 			return;
 		} 
-		
 		if ($url[$index] > 0) {
 		
 			$this->page = (int) $url[$index];

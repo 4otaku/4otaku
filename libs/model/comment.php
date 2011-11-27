@@ -29,23 +29,37 @@ class Model_Comment extends Model_Abstract
 			
 		$this->set('delete_rights', sets::user('rights'));
 		$this->set('avatar', md5(strtolower($this->get('email'))));
-	}
-	
+	}	
 	
 	public function add_child($child) {
 		$children = (array) $this->get('children');
 		$orphans = (array) $this->get('orphans');
 		
-		if ($child['parent'] != $this->get('id')) {
-			$orphans[$child['id']] = new Model_Comment($child);
+		if (!is_object($child)) {
+			$child = new Model_Comment($child);
+		}
+		
+		if ($child->get('parent') != $this->get_id()) {
+			$orphans[$child->get_id()] = $child;
 		} else {
-			$children[$child['id']] = new Model_Comment($child);
+			$children[$child->get_id()] = $child;
 		}
 		
 		$this->search_parents($children, $orphans);
 		
 		$this->set('children', $children);
 		$this->set('orphans', $orphans);		
+	}
+	
+	public function count_depth() {
+		$children = (array) $this->get('children');
+		
+		$depth = 0;
+		foreach ($children as $child) {
+			$depth = max($depth, $child->count_depth());
+		}
+		
+		return $depth + 1;
 	}
 	
 	protected function search_parents($children, $orphans) {
