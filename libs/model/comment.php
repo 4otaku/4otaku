@@ -21,6 +21,12 @@ class Model_Comment extends Model_Abstract
 		'area',
 	);	
 	
+	protected $place_notify = array(
+		'main' => 'оставлен на главной',
+		'workshop' => 'оставлен в мастерской', 
+		'flea_market' => 'оставлен в барахолке'
+	);	
+	
 	public function __construct($data = array()) {
 		parent::__construct($data);
 		
@@ -34,10 +40,6 @@ class Model_Comment extends Model_Abstract
 	public function add_child($child) {
 		$children = (array) $this->get('children');
 		$orphans = (array) $this->get('orphans');
-		
-		if (!is_object($child)) {
-			$child = new Model_Comment($child);
-		}
 		
 		if ($child->get('parent') != $this->get_id()) {
 			$orphans[$child->get_id()] = $child;
@@ -60,6 +62,19 @@ class Model_Comment extends Model_Abstract
 		}
 		
 		return $depth + 1;
+	}
+	
+	public function get_notify($area) {
+		$comment_area = $this->get('area');
+		
+		if (
+			$comment_area != $area && 
+			array_key_exists($comment_area, $this->place_notify)
+		) {
+			return $this->place_notify[$comment_area];
+		}
+
+		return '';
 	}
 	
 	protected function search_parents($children, $orphans) {

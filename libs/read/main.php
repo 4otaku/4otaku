@@ -337,11 +337,14 @@ abstract class Read_Main extends Read_Abstract
 		$children = $query->get_full_table('comment', $condition, $params);
 		
 		foreach ($children as $child) {
+			$child = new Model_Comment($child);
+			$child['place_notify'] = $child->get_notify($this->area);
 			$comments[$child['rootparent']]->add_child($child);
 		}
 		
 		foreach ($comments as $comment) {
 			$comment['depth'] = $comment->count_depth();
+			$comment['place_notify'] = $comment->get_notify($this->area);
 		}		
 		
 		return $comments;
