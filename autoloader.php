@@ -169,8 +169,6 @@ function autoload_old ($class_name) {
 	}
 
 	if (!preg_match('/^Read_/i', $class_name)) {
-		ob_end_flush();
-		var_dump(debug_backtrace()); die;
 		if (_INDEX_) {
 			include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
 			ob_end_flush();
