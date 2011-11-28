@@ -427,36 +427,51 @@ $(document).ready(function(){
 	/* For calling out adding and editing fields */
 
 	$("div#downscroller a.disabled").click(function(){
-		if (!($(this).attr('rel')=='on')) {
-			if ($("div#downscroller input.password").length == 1) {
-				$.post(window.config.site_dir+"/ajax.php?m=add&f=checkpassword&val="+$("div#downscroller input.password").val()+"&id="+$("div#downscroller input.password").attr('rel'), function(data) {
+		var parent = $(this).parents("div#downscroller");
+		var form = parent.find("div#add_form");
+		var password = parent.find("input.password");
+		
+		if (!($(this).attr('rel')=='on')) {			
+			if (password.length == 1) {
+				$.post(window.config.site_dir+"/ajax.php?m=add&f=checkpassword&val="+
+					password.val()+"&id="+password.attr('rel'), function(data) {
+						
 					if (data == 'success') {
-						$("div#add_loader img").show();
-						$("div.edit_field").html(''); $("div.edit_field").hide();
-						vars = $("div#downscroller a.disabled").parent().parent().attr('rel').split('#');
-						$("div#add_form").load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]);
+						parent.find("div#add_loader img").show();
+						$("div.edit_field").html(''); 
+						$("div.edit_field").hide();
+						vars = parent.attr('rel').split('#');
+						form.load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]);
+					} else {
+						$(".closed_group").slideDown();
 					}
-					else $(".closed_group").slideDown();
 				});
 			} else {
-				$("div#add_loader img").show();
-				$("div.edit_field").html(''); $("div.edit_field").hide();
-				if ($(this).attr("href") == "#scroll-draw") {
-					$("div#add_form").html("<iframe src='http://draw.4otaku.ru/form/' width='100%' height='300'>Ваш браузер не поддерживает Iframe</iframe>").show();
-					$("div#add_loader img").hide();
-				} else {
-					if ($("#add_form").attr('rel')) var id = "&id=" + $("#add_form").attr('rel'); else var id = "";
-					vars = $(this).parent().parent().attr('rel').split('#');
-					$("div#add_form").load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id);
-				}
+				parent.find("div#add_loader img").show();
+				$("div.edit_field").html(''); 
+				$("div.edit_field").hide();
+//				if ($(this).attr("href") == "#scroll-draw") {
+//					$("div#add_form").html("<iframe src='http://draw.4otaku.ru/form/' width='100%' height='300'>Ваш браузер не поддерживает Iframe</iframe>").show();
+//					$("div#add_loader img").hide();
+//				} else {
+					if (form.attr('rel')) {
+						var id = "&id=" + form.attr('rel'); 
+					} else {
+						var id = "";
+					}
+					vars = parent.attr('rel').split('#');
+					form.load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id);
+//				}
 			}
 		} else {
-			if ($("#addform input.password").length == 1) $("#addform input.password").parent().prependTo("div#downscroller");
-			$("div#downscroller a.disabled").attr('rel','off');
-			$("#add_form").hide();
+			if (password.length == 1) {
+				password.parent().prependTo("div#downscroller");
+			}
+			$(this).attr('rel','off');
+			form.hide();
 			window.onbeforeunload = null;
-			$("#add_form").html('');
-			$("div#downscroller span.arrow").html(' ↓');
+			form.html('');
+			parent.find("span.arrow").html(' ↓');
 		}
 	});
 

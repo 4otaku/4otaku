@@ -19,23 +19,6 @@ class transform__link
 		}
 		return $links;
 	}
-	
-	public static function similar($links) {
-		$newlinks = array();		
-		foreach ($links as $link) {
-			$found = false;
-			foreach ($newlinks as &$newlink)
-				if ($newlink['name'] == $link['name'] && $newlink['size'] == $link['size'] && $newlink['sizetype'] == $link['sizetype']) {
-					$newlink['url'][] = $link['url']; $newlink['alias'][] = $link['alias']; $found = true;
-				}
-			if (!$found) {
-				$link['url'] = array($link['url']);
-				$link['alias'] = array($link['alias']);
-				$newlinks[] = $link;
-			}
-		}
-		return $newlinks;
-	}	
 }
 
 // Новое имя. Заменить им старое, после завершения всех замен.

@@ -225,7 +225,7 @@
 			<tr>
 	            <td class="input field_name">
 					<input class="submit" value="Добавить" type="submit">
-					<input type="hidden" name="do" value="post.add" />
+					<input type="hidden" name="action" value="Create" />
 					<input type="hidden" name="remember" value="true" />
 				</td>
 				<td class="inputdata">

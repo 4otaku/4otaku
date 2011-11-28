@@ -11,10 +11,12 @@ abstract class Model_Abstract_Meta extends Model_Abstract
 		$meta = array();
 		foreach ($this->meta_fields as $field) {
 			$data = $this->get($field);
-			$data = array_unique(array_filter(explode('|', $data)));
+			if (is_string($data)) {
+				$data = array_unique(array_filter(explode('|', $data)));
+			}
 			
 			$meta[$field] = array();
-			foreach ($data as $item) {
+			foreach ((array) $data as $item) {
 				$meta[$field][$item] = array();
 			}
 		}

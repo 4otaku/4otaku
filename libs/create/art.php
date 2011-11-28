@@ -86,7 +86,7 @@ class Create_Art extends Create_Abstract
 		} else {
 			engine::add_res('Ваше изображение успешно добавлено, и доступно по адресу '.
 				'<a href="/art/'.$art->get_id().'/">http://4otaku.ru/art/'.$art->get_id().'/</a> или в '.
-				'<a href="/art/'.$def['area'][1].'/">очереди на премодерацию</a>.');
+				'<a href="/art/'.def::area(1).'/">очереди на премодерацию</a>.');
 		}
 	}
 	
