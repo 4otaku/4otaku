@@ -81,24 +81,28 @@ class Model_Comment extends Model_Abstract
 		$found = false;
 		
 		foreach ($orphans as $orphan_id => $orphan) {
-			$parent = $orphan->get('parent');
+			if ($orphan->get('found')) {
+				continue;
+			}
+			
+			$parent = $orphan->get('parent');			
+			
+			foreach ($orphans as $search_orphan_id => $search_orphan) {	
+				if ($search_orphan_id == $parent) {
+					$search_orphan->add_child($orphan);
+					$orphan->set('found', true);
+					$found = true;
+					continue;
+				}				
+			}
 			
 			foreach ($children as $child_id => $child) {
 				if ($child_id == $parent) {
 					$child->add_child($orphan);
-					unset($orphans[$orphan_id]);
+					$orphan->set('found', true);
 					$found = true;
 					continue;
 				}
-			}
-			
-			foreach ($orphans as $search_orphan_id => $search_orphan) {
-				if ($search_orphan_id == $parent) {
-					$search_orphan->add_child($orphan);
-					unset($orphans[$orphan_id]);
-					$found = true;
-					continue;
-				}				
 			}
 		}
 		

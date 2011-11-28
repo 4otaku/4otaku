@@ -29,6 +29,10 @@ class Read_Post extends Read_Main
 		
 		$this->get_post_data($item);
 		
+		if ($item['area'] == 'workshop' || sets::user('rights')) {
+			$item['is_editable'] = true;
+		}
+		
 		$item['update_count'] = Database::get_field('post_update', 
 			'count(*)', 'post_id = ?', $id);
 		
@@ -42,6 +46,10 @@ class Read_Post extends Read_Main
 		foreach ($items as $id => &$item) {
 			$item['id'] = $id;
 			$item = new Model_Post($item);
+			
+			if ($this->area == 'workshop' || sets::user('rights')) {
+				$item['is_editable'] = true;
+			}
 		}
 		
 		$this->load_meta($items);
