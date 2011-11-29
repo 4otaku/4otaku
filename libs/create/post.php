@@ -49,8 +49,6 @@ class Create_Post extends Create_Abstract
 			'language' => $language,
 			'tag' => $tags
 		));
-			
-		$item->insert();
 		
 		foreach($post['images'] as $image) {
 			$image = explode('.', $image);
@@ -74,9 +72,9 @@ class Create_Post extends Create_Abstract
 		foreach($post['file'] as $file) {
 			$file = new Model_Post_File($file);
 			$item->add_file($file);
-		}
-		
-		$item->save_additional_data();
+		}	
+			
+		$item->insert();
 				
 		// TODO: перемести input__common::transfer в Model_Common
 		if (!empty($post['transfer_to'])) {
@@ -122,14 +120,8 @@ class Create_Post extends Create_Abstract
 			}
 		}
 		
-		$links = Transform_Link::similar(Transform_Link::parse($links));
-		foreach ($links as $link) {
-			if (count(array_filter($link['url'])) > 0) {
-				$links_found = true;
-				break;
-			}
-		}
-		if (empty($links_found)) {
+		$links = Transform_Link::parse($links);
+		if (empty($links)) {
 			engine::add_res('Проверьте ссылки, с ними была какая-то проблема', true);
 			return;			
 		}
@@ -138,10 +130,15 @@ class Create_Post extends Create_Abstract
 			'post_id' => query::$post['id'],
 			'username' => $author,
 			'text' => $text,
-			'pretty_text' => undo_safety(query::$post['text']),
-			'link' => serialize($links)
+			'pretty_text' => undo_safety(query::$post['text'])
 		));
-		$update->insert();
+		
+		foreach ($links as $link) {
+			$link = new Model_Post_Update_Link($link);
+			$update->add_link($link);
+		}
+		
+		$update->insert();	
 	
 		engine::add_res('Запись успешно обновлена');
 	}

@@ -37,7 +37,7 @@ class Model_Comment extends Model_Abstract
 		$this->set('avatar', md5(strtolower($this->get('email'))));
 	}	
 	
-	public function add_child($child) {
+	public function add_child(Model_Comment $child) {
 		$children = (array) $this->get('children');
 		$orphans = (array) $this->get('orphans');
 		

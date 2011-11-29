@@ -73,6 +73,7 @@ class Read_Post extends Read_Main
 		Database::array_in('post_id', $keys), $keys);
 				
 		foreach ($images as $image) {
+			$image = new Model_Post_Image($image);
 			$items[$image['post_id']]->add_image($image);
 		}
 		
@@ -82,6 +83,7 @@ class Read_Post extends Read_Main
 				Database::array_in('pl.post_id', $keys), $keys);
 			
 		foreach ($links as $link) {
+			$link = new Model_Post_Link($link);
 			$items[$link['post_id']]->add_link($link);
 		}
 		
@@ -89,6 +91,7 @@ class Read_Post extends Read_Main
 				Database::array_in('post_id', $keys), $keys);
 
 		foreach ($files as $file) {
+			$file = new Model_Post_File($file);
 			$items[$file['post_id']]->add_file($file);
 		}
 		
@@ -96,6 +99,7 @@ class Read_Post extends Read_Main
 				Database::array_in('post_id', $keys), $keys);
 				
 		foreach ($extras as $extra) {
+			$extra = new Model_Post_Extra($extra);
 			$items[$extra['post_id']]->add_extra($extra);
 		}
 	}

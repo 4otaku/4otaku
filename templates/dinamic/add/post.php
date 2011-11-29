@@ -24,9 +24,9 @@
 					<input size="36%" type="text" name="link[0][link]" value="http://" />
 					~(<input size="2%" type="text" name="link[0][size]" value="" />
 					<select name="link[0][sizetype]">
-						<option value="кб">кб</option>
-						<option value="мб" selected>мб</option>
-						<option value="гб">гб</option>
+						<option value="0">кб</option>
+						<option value="1" selected>мб</option>
+						<option value="2">гб</option>
 					</select>
 					)
 					<input type="submit" class="disabled sign remove_link" rel="main" value="-" />

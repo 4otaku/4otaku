@@ -460,7 +460,9 @@ $(document).ready(function(){
 						var id = "";
 					}
 					vars = parent.attr('rel').split('#');
-					form.load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id);
+					form.load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id, function() {
+						finish_loading(parent);
+					});
 //				}
 			}
 		} else {

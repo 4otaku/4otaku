@@ -7,6 +7,18 @@ if (!window.halt_onbeforeunload) {
 	}
 }
 
+function finish_loading(el) {
+	
+	el.find("div#add_loader img").hide();
+	el.find("div#add_form").slideDown();
+	el.find("a.disabled").attr('rel','on');
+	el.find("span.arrow").html(' ↑');
+	if (el.find("input.password").length == 1) {
+		el.find("input.password").parent().prependTo(el.find("div#add_form"));
+	}
+	
+}
+
 $(document).ready(function(){  	
 
 	$(".disabled").live('click', function(event){  
@@ -26,11 +38,5 @@ $(document).ready(function(){
 		$(this).parent().children("select:last").remove();
 		if ($(this).parent().children("select").length < 2) $(this).hide();
 	});
-	
-	$("div#add_loader img").hide();
-	$("div#add_form").slideDown();
-	$("div#downscroller a.disabled").attr('rel','on');
-	$("div#downscroller span.arrow").html(' ↑');
-	if ($("div#downscroller input.password").length == 1) $("div#downscroller input.password").parent().prependTo("#addform");
 
 }); 

@@ -98,6 +98,7 @@ class Read_Post_Update extends Read_Abstract
 				Database::array_in('pul.update_id', $keys), $keys);
 
 		foreach ($links as $link) {
+			$link = new Model_Post_Update_Link($link);
 			$items[$link['update_id']]->add_link($link);
 		}		
 	}
@@ -108,6 +109,7 @@ class Read_Post_Update extends Read_Abstract
 			->get_full_table('post_image', Database::array_in('post_id', $keys), $keys);
 				
 		foreach ($images as $image) {
+			$image = new Model_Post_Image($image);
 			$items[$image['post_id']]->add_image($image);
 		}		
 	}

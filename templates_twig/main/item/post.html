@@ -76,7 +76,7 @@
 											{{alias}}
 										</a>
 									{% endfor %}	
-										 (~{{link.size}} {{link.sizetype}})									
+										 (~{{link.display_size}} {{link.display_sizetype}})									
 								{% endfor %}
 							</p>
 						{% endif %}							
@@ -86,7 +86,7 @@
 									{% if not loop.first %}
 										<br />
 									{% endif %}
-									{% include 'main/item/post/file_'~file.type~'.html' ignore missing %}
+									{% include 'main/item/post/file_'~file.display_type~'.html' ignore missing %}
 								{% endfor %}
 							</p>
 						{% endif %}
