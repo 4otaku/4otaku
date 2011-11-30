@@ -21,6 +21,17 @@ class Read_Post_Update extends Read_Abstract
 		$this->per_page = sets::pp('updates_in_line');
 	}
 	
+	public function get_item($id) {
+		
+		$item = Database::get_full_row('post_update', $id);
+			
+		$item = new Model_Post_Update($item);
+		
+		$this->get_update_links(array($id => $item));
+		
+		return $item;
+	}
+	
 	protected function display_single_item($url) {
 		
 		$items = Database::order('sortdate', 'asc')

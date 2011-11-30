@@ -92,9 +92,10 @@ foreach ($posts as $id => $post) {
 		$size = explode(' ', $file['size']);
 		
 		switch ($size[1]) {
-			case 'гб': $sizetype = 2; break;
-			case 'мб': $sizetype = 1; break;
-			case 'кб': $sizetype = 0; break;
+			case 'гб': $sizetype = 3; break;
+			case 'мб': $sizetype = 2; break;
+			case 'кб': $sizetype = 1; break;
+			case 'байт': $sizetype = 0; break;
 			default: $sizetype = 0;	break;
 		}				
 		

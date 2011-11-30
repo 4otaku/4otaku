@@ -17,7 +17,7 @@ class output__rss extends engine
 	function get_data() {
 		global $url; global $data; global $error; global $check; global $sets;
 		if (substr($url[2],0,1) == '=') {
-			$alias = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'c' => 'comment', 'o' => 'orders', 'u' => 'updates', 'n' => 'news');
+			$alias = array('p' => 'post', 'v' => 'video', 'a' => 'art', 'c' => 'comment', 'o' => 'orders', 'u' => 'post_update', 'n' => 'news');
 			$types = array_filter(array_unique(str_split(substr($url[2],1))));
 			$data = array();
 			foreach ($types as $type) {
@@ -66,7 +66,7 @@ class output__rss extends engine
 	}
 
 	function convert_post($item) {
-		$worker = new Read_Post($item['id']);
+		$worker = new Read_Post();
 		$worker->get_item($item['id']);
 		$post = $worker->get_data('items');
 		$item = current($post);
@@ -126,10 +126,12 @@ class output__rss extends engine
 		return $item;
 	}
 
-	function convert_updates($item) {
-		$item['title'] = 'Обновление записи '.obj::db()->sql('select title from post where id='.$item['post_id'],2);
+	function convert_post_update($item) {
+		$worker = new Read_Post_Update();
+		$item = $worker->get_item($item['id']);
+		
+		$item['type'] = 'update';		
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/show_updates/';
-		$item['link'] = unserialize($item['link']);
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);
 		$item['comments_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/comments/all/';

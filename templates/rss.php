@@ -50,7 +50,7 @@
 							</pubDate>
 							<description>
 								<![CDATA[<? 
-									if ($item['type'] == 'post') {
+									if ($item['type'] == 'post' || $item['type'] == 'update') {
 										twig_load_template('main/rss/' . $item['type'], array($item['type'] => $item));
 									} else {
 										include 'templates'.SL.'main'.SL.'single'.SL.$item['type'].'.php';

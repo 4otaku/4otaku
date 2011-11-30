@@ -8,6 +8,7 @@ class Model_Post_Extra extends Model_Abstract
 		'post_id',
 		'name',
 		'alias',
+		'url',
 		'order',
 	);
 
