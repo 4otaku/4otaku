@@ -119,7 +119,7 @@
 					Ваш ник
 				</td>
 				<td class="inputdata">
-					<input size="35%" name="author" value="<?=$sets['user']['name'];?>" type="text" class="username">
+					<input size="35%" name="author" value="<?=str_replace(' ', '_', $sets['user']['name']);?>" type="text" class="username">
 				</td>
 			</tr>
 			<tr>
