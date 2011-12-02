@@ -15,7 +15,7 @@ if (empty($url[1])) {
 	$url[1] = 'index';
 }
 
-if (preg_match('/[^a-z\d_]/ui', $url[1])) {
+if (preg_match('/[^a-z\d_\_]/ui', $url[1])) {
 	include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
 	ob_end_flush();
 	exit();
@@ -71,7 +71,7 @@ if (isset(query::$post['do'])) {
 	}
 } else {
 
-	$class = 'Read_' . ucfirst($url[1]);
+	$class = 'Read_' . implode('_', array_map('ucfirst', explode('_', $url[1])));
 
 	if (class_exists($class)) {
 

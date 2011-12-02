@@ -289,6 +289,17 @@ function is_left_click(event) {
 	return false;
 }
 
+function close_edit_fields() {
+	$("div.edit_field").html(''); 
+	$("div.edit_field").hide();
+	$("div#downscroller a.disabled").attr('rel','off');
+	$('.booru_main img').unbind('mousemove');
+	$("#add_form").hide();
+	window.onbeforeunload = null;
+	$("#add_form").html('');
+	$("div#downscroller span.arrow").html(' ↓');		
+}
+
 $(document).ready(function(){
 
 	/* Shared settings */
@@ -487,17 +498,19 @@ $(document).ready(function(){
 	}
 
 	$("input.edit").click(function(event){
-		$("div.edit_field").html(''); $("div.edit_field").hide();
-		$("div#downscroller a.disabled").attr('rel','off');
-		$('.booru_main img').unbind('mousemove');
-		$("#add_form").hide();
-		window.onbeforeunload = null;
-		$("#add_form").html('');
-		$("div#downscroller span.arrow").html(' ↓');
+		close_edit_fields();
 		var rel = $(this).attr("rel");
 		var numeric = window.location.pathname.split('/')[2];
 		$("div#loader-"+rel).show();
 		$("div#edit-"+rel).load(window.config.site_dir+"/ajax.php?m=edit&f="+$("#edit_type-"+rel+" option:selected").val()+"&id="+rel+"&type="+$("div#edit-"+rel).attr("rel")+"&num="+numeric);
+	});
+	
+	$("input.load_edit_field").click(function(event) {	
+		close_edit_fields();
+		var id = $(this).attr("rel");
+		var type = $("#edit_type-"+id+" option:selected").val();
+		$("div#loader-"+id).show();
+		$("div#edit-"+id).load('/edit_post/'+type+'/'+id);
 	});
 
 	$("input.full_reload").click(function(event){

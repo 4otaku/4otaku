@@ -11,12 +11,6 @@ if (is_numeric($url[1]) || in_array($url[1], $redirect)) {
 	$url[1] = 'order';
 	$link = '/'.implode('/',$url);
 } elseif (
-	$url[1] != 'post' &&
-	!class_exists('output__'.$url[1]) &&
-	Database::get_count('news', 'url = ?', $url[1])
-) {
-	$link = '/news/'.implode('/',$url);
-} elseif (
 	$url[1] == 'search' &&
 	(empty($url[3]) || $url[3] == 'page')
 ) {

@@ -8,6 +8,12 @@ class Check
 		if ($min !== false && $num < $min) return $default;
 		return $num;
 	}
+	
+	public static function id(&$num) {
+		$num = (int) $num;
+		
+		return $num > 0;
+	}
 
 	public static function link($str, $default = '') {
 		return (!preg_match('/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i', $str)) ? $default : $str;

@@ -2,7 +2,7 @@
 
 class Read_Post extends Read_Main
 {
-	protected $template = 'main/post';	
+	protected $template = 'main/post';
 	protected $error_template = 'error/post';
 	
 	protected $side_modules = array(

@@ -3,11 +3,11 @@
 		<td>
 			<select name="edit_type" id="edit_type-{{id}}">
 				<option value="title">Заголовок</option>
-				<option value="post_images">Изображения</option>
+				<option value="image">Изображения</option>
 				<option value="text">Текст</option>
-				<option value="post_links">Ссылки</option>
-				<option value="post_bonus_links">Дополнительные ссылки</option>
-				<option value="post_files">Прикрепленные файлы</option>
+				<option value="link">Ссылки</option>
+				<option value="extra">Дополнительные ссылки</option>
+				<option value="file">Прикрепленные файлы</option>
 				{% if _sets.user.rights %}
 					<option value="author">Автора</option>	
 				{% endif %}
@@ -15,7 +15,7 @@
 				<option value="language">Языки</option>
 				<option value="tag">Теги</option>
 			</select> 
-			<input type="submit" value="Редактировать" class="edit" rel="{{id}}" />
+			<input type="submit" value="Редактировать" class="load_edit_field" rel="{{id}}" />
 			{% if _sets.user.rights %}
 				<td align="right">
 					<div class="right">
