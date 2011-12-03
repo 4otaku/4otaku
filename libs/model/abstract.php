@@ -21,6 +21,9 @@ abstract class Model_Abstract implements ArrayAccess
 	// Дополнительные данные
 	private $additional_data = array();
 
+	// Данные, которые сейчас в БД
+	private $unchanged_data = array();
+
 	// Знак того, что записи нет в базе
 	private $is_phantom = false;
 	   
@@ -32,6 +35,7 @@ abstract class Model_Abstract implements ArrayAccess
 			$data = (array) $data;
 			
 			$this->set_array($data);
+			$this->unchanged_data = $data;
 			
 			foreach ($this->primary as $key) {
 
@@ -81,6 +85,7 @@ abstract class Model_Abstract implements ArrayAccess
 
 			if (is_array($data)) {
 				$this->set_array($data);
+				$this->unchanged_data = $data;
 			} else {
 				$this->set_phantom();
 			}
@@ -202,15 +207,27 @@ abstract class Model_Abstract implements ArrayAccess
 	public function commit() {
 		
 		if ($this->is_phantom) {
-			$this->insert();
-		} else {
-			list($condition, $params) = $this->build_condition();
+			return $this->insert();
+		}
+		
+		list($condition, $params) = $this->build_condition();
 
-			if (!empty($condition)) {
-				Database::update($this->table, 
-					$this->data, $condition, $params);
-			}			
-		}		
+		if (empty($condition)) {
+			return $this;
+		}
+		
+		if (empty($this->unchanged_data)) {
+			$update = $this->data;
+		} else {		
+			$update = array();
+			foreach ($this->data as $key => $value) {
+				if ($this->unchanged_data[$key] != $value) {
+					$update[$key] = $value;
+				}
+			}
+		}
+
+		Database::update($this->table, $update, $condition, $params);			
 
 		return $this;
 	}
