@@ -1,0 +1,21 @@
+{% include "/edit/top.html" %}
+
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js"></script>
+
+<div>
+	{% for category in data.category %}
+		<select name="category[]" class="left">
+			{% for alias, name in data.option %}
+				<option value="{{alias}}"{% if category == alias %} selected{% endif %}>
+					{{name}}
+				</option>
+			{% endfor %}
+		</select>
+	{% endfor %}
+	<input type="submit" class="disabled sign add_meta" value="+" />
+	<input type="submit" class="disabled
+		{% if data.category|length < 2 %} hidden{% endif %} 
+		 sign remove_meta" value="-" />
+</div>
+
+{% include "/edit/bottom.html" %}

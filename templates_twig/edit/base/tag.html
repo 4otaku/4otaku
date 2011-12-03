@@ -1,0 +1,49 @@
+{% if _sets.edit.newtags %}
+	<div class="left">
+		<input type="submit" value="Сохранить" name="save" class="disabled save_changes" />
+		<input type="submit" value="Не сохранять" name="nosave" class="disabled drop_changes second_button" />
+		<input type="submit" value="Очистить" class="disabled clear_tags second_button" />
+	</div>
+{% endif %}
+		
+{% include "/edit/top.html" %}
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js"></script>
+
+
+{% if not _sets.edit.newtags %}
+	<input type="text" class="input80 save_on_enter" name="tags" value="{% for tag in data.tag %}{{tag.name}}, {% endfor %}" />
+{% else %}
+	<div id="tags">
+		<div class="tags-loader">
+			<img src="/images/ajax-loader.gif" />
+		</div>
+		<select data-placeholder=" "
+			 multiple
+			 id="chozen"
+			 name="tags[]">
+			{% for tag in data.tag %}
+				<option value="{{tag.name}}" selected="selected"
+					{% if tag.color %}
+						 style="color: #{{tag.color}};"
+					{% endif %}
+				>
+					{{tag.name}}
+				</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<script type="text/javascript">
+		get_tags("{{data.area}}");
+	</script>
+{% endif %}
+
+	</form>
+	{% if not _sets.edit.newtags %}
+		<div class="left">
+			<input type="submit" value="Сохранить" name="save" class="disabled save_changes" />
+			<input type="submit" value="Не сохранять" name="nosave" class="disabled drop_changes second_button" />
+		</div>
+	{% endif %}
+	<div class="clear"></div>
+</div>

@@ -4,24 +4,26 @@ abstract class Model_Abstract_Meta extends Model_Abstract
 {      
 	protected $meta_fields= array();
 	
-	public function __construct($data = array()) {
+	public function set($key, $value = null) {
 
-		parent::__construct($data);
+		parent::set($key, $value);
 		
-		$meta = array();
-		foreach ($this->meta_fields as $field) {
-			$data = $this->get($field);
-			if (is_string($data)) {
-				$data = array_unique(array_filter(explode('|', $data)));
+		$meta = (array) $this->get('meta');
+		
+		if (in_array($key, $this->meta_fields)) {
+			if (is_string($value)) {
+				$value = array_unique(array_filter(explode('|', $value)));
 			}
 			
-			$meta[$field] = array();
-			foreach ((array) $data as $item) {
-				$meta[$field][$item] = array();
+			$meta[$key] = array();
+			foreach ((array) $value as $item) {
+				$meta[$key][$item] = array();
 			}
 		}
 		
-		$this->set('meta', $meta);
+		parent::set('meta', $meta);
+
+		return $this;
 	}
 }
 

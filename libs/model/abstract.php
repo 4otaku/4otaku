@@ -68,7 +68,7 @@ abstract class Model_Abstract implements ArrayAccess
 		$this->is_phantom = true;
 	}
 
-	protected function load() {
+	public function load() {
 		list($condition, $params) = $this->build_condition();
 
 		if (!empty($condition)) {
@@ -124,30 +124,31 @@ abstract class Model_Abstract implements ArrayAccess
 	public function set_array(array $data) {
 
 		foreach($data as $key => $value) {
-			
-			if (in_array($key, $this->fields)) {
-				
-				if ($value !== null) {
-					$this->data[$key] = $value;
-				} else {
-					unset($this->data[$key]);
-				}
-			} else {
-
-				if ($value !== null) {
-					$this->additional_data[$key] = $value;
-				} else {
-					unset($this->additional_data[$key]);
-				}					
-			}
+			$this->set($key, $value);
 		}
 		
 		return $this;
 	}
 
 	public function set($key, $value = null) {
-		$data = array($key => $value);
-		return $this->set_array($data);
+		
+		if (in_array($key, $this->fields)) {
+			
+			if ($value !== null) {
+				$this->data[$key] = $value;
+			} else {
+				unset($this->data[$key]);
+			}
+		} else {
+
+			if ($value !== null) {
+				$this->additional_data[$key] = $value;
+			} else {
+				unset($this->additional_data[$key]);
+			}
+		}
+			
+		return $this;
 	}
 
 	public function clear($key)	{

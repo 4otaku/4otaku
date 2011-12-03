@@ -1,0 +1,42 @@
+{% include "/edit/top.html" %}
+
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,fileupload.js,add/post.js"></script>
+<table width="100%">		
+	<tr>
+		<td width="20%">
+			Загрузить картинку
+		</td>
+		<td>
+			<table>
+				<tr>
+					<td>
+						<div id="post-image"></div>
+					</td>
+					<td>
+						<img class="processing-image hidden" src="/images/ajax-processing.gif" />
+					</td>
+					<td>
+						<span class="processing-image hidden">Изображение загружается. (Вы можете загружать несколько изображений одновременно.)</span>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>			
+	<tr>
+		<td colspan="2" id="error">
+		
+		</td>
+	</tr>			
+	<tr id="transparent" class="post_images">
+		<td colspan="2">
+			{% for image in data.image %}
+				<div style="background-image: url(/images/post/thumb/{{image.file}}.jpg);">
+					<img class="cancel" src="/images/cancel.png">
+					<input type="hidden" name="images[]" value="{{image.file}}.{{image.extension}}">
+				</div>
+			{% endfor %}
+		</td>
+	</tr>
+</table>
+
+{% include "/edit/bottom.html" %}

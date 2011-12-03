@@ -5,6 +5,9 @@ abstract class Read_Edit_Abstract extends Read_Abstract
 	protected $error_template = 'error/edit';
 	
 	protected function get_function($url) {
+		if (empty($url[2]) || !Check::id($url[2])) {
+			throw new Error_Read_Edit();
+		}
 
 		$this->template = 'edit/' . $this->get_type() . '/' . $url[1];
 		

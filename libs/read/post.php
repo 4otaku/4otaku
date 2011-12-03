@@ -70,7 +70,7 @@ class Read_Post extends Read_Main
 		$keys = array_keys($items);
 
 		$images = Database::order('order', 'asc')->get_full_table('post_image', 
-		Database::array_in('post_id', $keys), $keys);
+			Database::array_in('post_id', $keys), $keys);
 				
 		foreach ($images as $image) {
 			$image = new Model_Post_Image($image);
