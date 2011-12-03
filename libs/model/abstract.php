@@ -67,6 +67,10 @@ abstract class Model_Abstract implements ArrayAccess
 	public function set_phantom() {
 		$this->is_phantom = true;
 	}
+	
+	public function is_phantom() {
+		return $this->is_phantom;
+	}
 
 	public function load() {
 		list($condition, $params) = $this->build_condition();
@@ -77,6 +81,8 @@ abstract class Model_Abstract implements ArrayAccess
 
 			if (is_array($data)) {
 				$this->set_array($data);
+			} else {
+				$this->set_phantom();
 			}
 		}
 	}

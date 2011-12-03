@@ -57,7 +57,7 @@ if (isset(query::$post['do'])) {
 
 	if (class_exists($class)) {
 
-		$worker = new $class();
+		$worker = new $class(query::$post);
 
 		$function = empty(query::$post['function']) ?
 			'main' : query::$post['function'];

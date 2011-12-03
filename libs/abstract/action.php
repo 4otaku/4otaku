@@ -10,6 +10,8 @@ abstract class Abstract_Action
 	protected $field_rights = array();
 	protected $function_rights = array();
 	
+	public function __construct() {}
+	
 	public function check_access($function, $data) {
 		if (sets::user('rights') < $this->minimal_rights) {
 			return false;

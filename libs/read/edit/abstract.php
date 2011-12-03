@@ -8,8 +8,11 @@ abstract class Read_Edit_Abstract extends Read_Abstract
 		if (empty($url[2]) || !Check::id($url[2])) {
 			throw new Error_Read_Edit();
 		}
+		
+		$this->data['id'] = $url[2];
+		$this->data['type'] = $this->get_type();
 
-		$this->template = 'edit/' . $this->get_type() . '/' . $url[1];
+		$this->template = 'edit/' . $this->data['type'] . '/' . $url[1];
 		
 		return $url[1];
 	}
