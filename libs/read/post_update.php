@@ -45,7 +45,7 @@ class Read_Post_Update extends Read_Abstract
 		
 		$this->get_update_links($items);
 		
-		$this->template = $this->single_post_template;			
+		$this->template = $this->single_post_template;
 		$this->data['items'] = $items;
 	}
 	

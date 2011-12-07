@@ -227,7 +227,7 @@ abstract class Model_Abstract implements ArrayAccess
 			}
 		}
 
-		Database::update($this->table, $update, $condition, $params);			
+		Database::update($this->table, $update, $condition, $params);
 
 		return $this;
 	}

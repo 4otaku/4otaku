@@ -7,6 +7,9 @@ class Update_Art extends Update_Abstract
 		'image_variation' => 1
 	);
 	
+	// @TODO: перенести сюда коммит модели, как в Update_Post
+	protected function save_changes() {}
+	
 	protected function image($data) {
 		if (!is_numeric($data['id'])) {
 			return;

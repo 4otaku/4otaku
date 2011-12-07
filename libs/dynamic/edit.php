@@ -21,11 +21,6 @@ class dynamic__edit extends engine
 		$data = array('main' => array());
 
 		switch (query::$get['type']) {
-			case 'post':
-				$data['main']['post'] =
-					$output->get_post(1, 'id='.query::$get['id']);
-				$this->template = 'templates/main/post.php';
-				break;
 			case 'video':
 				if (query::$get['num']) {
 					$size = sets::video('full');

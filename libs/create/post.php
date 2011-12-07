@@ -16,7 +16,7 @@ class Create_Post extends Create_Abstract
 		$post = $this->correct_main_data(query::$post);		
 		
 		if (!$post['title'] || !$post['link']) {		
-			engine::add_res('Не все обязательные поля заполнены.', true);
+			$this->add_res('Не все обязательные поля заполнены.', true);
 			return;
 		}		
 		
@@ -86,7 +86,7 @@ class Create_Post extends Create_Abstract
 			));
 		}
 
-		engine::add_res('Ваша запись успешно добавлена, и доступна по адресу '.
+		$this->add_res('Ваша запись успешно добавлена, и доступна по адресу '.
 			'<a href="/post/'.$item->get_id().'/">http://4otaku.ru/post/'.$item->get_id().'/</a> или в '.
 			'<a href="/post/'.def::area(1).'/">мастерской</a>.');			
 	}
@@ -96,19 +96,19 @@ class Create_Post extends Create_Abstract
 		$this->set_redirect();
 		
 		if (!is_numeric(query::$post['id'])) {
-			engine::add_res('Что-то странное с формой обновления, сообщите администрации', true);
+			$this->add_res('Что-то странное с формой обновления, сообщите администрации', true);
 			return;			
 		}
 		
 		$author = trim(strip_tags(query::$post['author']));
 		if (empty($author)) {
-			engine::add_res('Вы забыли указать автора обновления', true);
+			$this->add_res('Вы забыли указать автора обновления', true);
 			return;
 		}
 		
 		$text = Transform_Text::format(query::$post['text']);
 		if (!trim(strip_tags($text))) {
-			engine::add_res('Вы забыли добавить описание обновления', true);
+			$this->add_res('Вы забыли добавить описание обновления', true);
 			return;			
 		}		
 		
@@ -122,7 +122,7 @@ class Create_Post extends Create_Abstract
 		
 		$links = Transform_Link::parse($links);
 		if (empty($links)) {
-			engine::add_res('Проверьте ссылки, с ними была какая-то проблема', true);
+			$this->add_res('Проверьте ссылки, с ними была какая-то проблема', true);
 			return;			
 		}
 		
@@ -140,7 +140,7 @@ class Create_Post extends Create_Abstract
 		
 		$update->insert();	
 	
-		engine::add_res('Запись успешно обновлена');
+		$this->add_res('Запись успешно обновлена');
 	}
 	
 	protected function correct_main_data($data) {

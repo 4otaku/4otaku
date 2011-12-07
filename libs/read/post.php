@@ -5,6 +5,8 @@ class Read_Post extends Read_Main
 	protected $template = 'main/post';
 	protected $error_template = 'error/post';
 	
+	protected $show_template = 'dynamic/post/show';
+	
 	protected $side_modules = array(
 		'head' => array('title', 'js', 'css'),
 		'header' => array('menu', 'personal'),
@@ -130,6 +132,18 @@ class Read_Post extends Read_Main
 		}
 		
 		$this->data['single'] = true;
+	}
+	
+	protected function display_show($url) {
+		$this->get_item($url[2]);
+		
+		if ($url[3] == 'batch') {
+			foreach ($this->data['items'] as $item) {
+				$item['in_batch'] = true;
+			}
+		}
+		
+		$this->template = $this->show_template;
 	}
 	
 	protected function display_page($url) {

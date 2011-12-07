@@ -66,9 +66,10 @@ class Transform_Meta
 		return $tags;
 	}
 
-	function erase_tags($erase, $erasearea){
-		foreach ($erase as $one)
+	function erase_tags($erase, $erasearea) {
+		foreach ($erase as $one) {
 			obj::db()->sql('update tag set '.$erasearea.' = '.$erasearea.' - 1 where alias="'.$one.'"',0);
+		}
 	}
 
 	function add_tags($tags, $update = false){

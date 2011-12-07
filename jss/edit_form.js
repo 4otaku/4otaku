@@ -47,6 +47,29 @@ function on_load(id, type) {
 	}
 }
 
+function on_load_new(id, type) {
+	
+	if (window.full_reload == true) {
+		document.location.reload();
+	} else {
+		var url_location = document.location.href.split('/')[4];
+		
+		if (typeof url_location == 'undefined' || !url_location.match(/^\d+$/)) {
+			var single = 'batch';
+		} else {
+			var single = 'single';
+		}
+		
+		$("#post-"+id).load("/post/show/"+id+"/"+single+"/" ,function(){ 
+			$("div.post").css({'height':'auto'}); 
+			$(".art_translation").easyTooltip();				
+		});
+		$("div.edit_field").html(''); 
+		$("div.edit_field").hide();
+		$('body').css('cursor','default');			
+	}
+}
+
 $(document).ready(function(){  
 
 	$("input.disabled").click(function(event){  
@@ -76,8 +99,7 @@ $(document).ready(function(){
 		var id = $("form#edit_form input[name='id']").val();
 		
 		set_loading(id);
-		$.post(window.config.site_dir+"/"+type,  
-			post, function(){ on_load(id, type);});
+		$.post("/"+type, post, function(){ on_load_new(id, type);});
 
 	});	
 	
