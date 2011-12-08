@@ -1,8 +1,7 @@
-<div id="navi_bottom">
+<div id="navi_bottom" rel="{{navi.base}}">
 	<code>
 		<ul>
 			<li class="page_info">
-			<!--	 /* $data_main_navi_start = $data['main']['navi']['start']; */ > -->
 				{% if not navi.all %}
 					{{navi.name|default('Страница')}} {{navi.curr}} из {{navi.last}}
 				{% else %}
@@ -100,3 +99,4 @@
 		</div>
 	</code>
 </div>
+

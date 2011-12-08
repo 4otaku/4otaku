@@ -60,9 +60,16 @@ function on_load_new(id, type) {
 			var single = 'single';
 		}
 		
-		$("#post-"+id).load("/post/show/"+id+"/"+single+"/" ,function(){ 
+		var item = $("#post-"+id);
+		item.load("/post/show/"+id+"/"+single+"/" ,function(){ 
 			$("div.post").css({'height':'auto'}); 
-			$(".art_translation").easyTooltip();				
+			$(".art_translation").easyTooltip();
+			if ($("#navi_bottom").length) {
+				var base = $("#navi_bottom").attr('rel');
+				item.find('p.meta a').each(function(key, link){
+					$(link).attr('href', base + $(link).attr('href'));
+				});
+			}
 		});
 		$("div.edit_field").html(''); 
 		$("div.edit_field").hide();

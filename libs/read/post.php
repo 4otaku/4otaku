@@ -34,6 +34,7 @@ class Read_Post extends Read_Main
 		if ($item['area'] == 'workshop' || sets::user('rights')) {
 			$item['is_editable'] = true;
 		}
+		$this->load_meta($item);
 		
 		$item['update_count'] = Database::get_field('post_update', 
 			'count(*)', 'post_id = ?', $id);
