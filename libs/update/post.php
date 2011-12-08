@@ -77,7 +77,7 @@ class Update_Post extends Update_Abstract
 		$tag = $worker->parse_array($data['tag']);
 		$tag = $worker->add_tags($tag, $area);
 		$this->model['tag'] = $tag;
-	}			
+	}
 
 	protected function author($data) {
 		
@@ -87,5 +87,25 @@ class Update_Post extends Update_Abstract
 		$author = $worker->author($author);
 
 		$this->model['author'] = $author;
+	}
+
+	protected function image($data) {
+		
+		var_dump($data); die;
+	}
+
+	protected function link($data) {
+		
+		var_dump($data); die;
+	}
+
+	protected function file($data) {
+		
+		var_dump($data); die;
+	}
+
+	protected function extra($data) {
+		
+		var_dump($data); die;
 	}
 }

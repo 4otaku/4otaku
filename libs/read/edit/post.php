@@ -40,7 +40,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 				'post_id = ?', $url[2]);
 			
 		foreach ($files as &$file) {
-			$file = new Model_Post_Extra($file);		
+			$file = new Model_Post_File($file);		
 		}
 		
 		$this->data['file'] = $files;

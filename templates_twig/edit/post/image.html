@@ -30,7 +30,9 @@
 	<tr id="transparent" class="post_images">
 		<td colspan="2">
 			{% for image in data.image %}
-				<div style="background-image: url(/images/post/thumb/{{image.file}}.jpg);">
+				<div 
+					 style="background-image: url(/images/post/thumb/{{image.file}}.jpg); margin-right:20px;" 
+					 class="left">
 					<img class="cancel" src="/images/cancel.png">
 					<input type="hidden" name="images[]" value="{{image.file}}.{{image.extension}}">
 				</div>
