@@ -16,7 +16,8 @@ class Http
 
 	protected $default_options = array(
 		CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12",
-		CURLOPT_FOLLOWLOCATION => false,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_RANGE => "1-1000000"
 	);
 
 	protected $response_header = array();
@@ -57,6 +58,13 @@ class Http
 
 	public function exec () {
 		$this->worker->start();
+
+		return $this;
+	}
+
+	public function flush () {
+		$this->response_header = array();
+		$this->response_data = array();
 
 		return $this;
 	}

@@ -105,7 +105,7 @@ class Read_Post_Update extends Read_Abstract
 		$keys = array_keys($items);
 		$links = Database::join('post_update_link_url', 'pulu.link_id = pul.id')
 			->join('post_url', 'pulu.url_id = pu.id')->order('pul.order', 'asc')
-			->order('pulu.order', 'asc')->get_full_vector('post_update_link', 
+			->order('pulu.order', 'asc')->get_full_table('post_update_link', 
 				Database::array_in('pul.update_id', $keys), $keys);
 
 		foreach ($links as $link) {

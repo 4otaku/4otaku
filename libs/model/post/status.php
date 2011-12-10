@@ -25,7 +25,11 @@ class Model_Post_Status extends Model_Abstract
 		COEFF_UNKNOWN = 5,
 		COEFF_UNCHECKED = 1;
 	
-	public function calculate($links) {
+	public function calculate($links = null) {
+		
+		if ($links === null) {
+			$links = $this->get_links();
+		}
 		
 		$total = 0;
 		$broken = 0;
@@ -90,6 +94,23 @@ class Model_Post_Status extends Model_Abstract
 			$uncheked * self::COEFF_UNCHECKED;
 			
 		return $overall / $total;
+	}
+	
+	protected function get_links() {
+		$id = $this->get_id();
+		
+		$post = new Model_Post($id);
+		
+		$links = Database::join('post_link_url', 'plu.link_id = pl.id')
+			->join('post_url', 'plu.url_id = pu.id')
+			->get_full_table('post_link', 'pl.post_id = ?', $id);
+
+		foreach ($links as $link) {
+			$link = new Model_Post_Link($link);
+			$post->add_link($link);
+		}
+		
+		return $post->get('link');
 	}
 	
 	protected function is_broken($urls) {

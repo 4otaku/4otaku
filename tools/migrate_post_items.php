@@ -219,3 +219,7 @@ foreach ($updates as $id => $update) {
 		}
 	}	
 }
+
+Database::delete('cron', 'function = ?', 'gouf_check');
+Database::delete('cron', 'function = ?', 'gouf_refresh_links');
+Database::insert('cron', array('function' => 'Post_Gouf::check', 'period' => '1m'));
