@@ -90,7 +90,7 @@ abstract class Model_Abstract implements ArrayAccess
 				$this->set_phantom();
 			}
 		}
-	}
+	}	
 
 	public function get($key, $silent = false) {
 		if (array_key_exists($key, $this->data)) {

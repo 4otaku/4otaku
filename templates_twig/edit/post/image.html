@@ -31,10 +31,10 @@
 		<td colspan="2">
 			{% for image in data.image %}
 				<div 
-					 style="background-image: url(/images/post/thumb/{{image.file}}.jpg); margin-right:20px;" 
-					 class="left">
+					 style="background-image: url(/images/post/thumb/{{image.file}}.jpg);" 
+					 class="left right20">
 					<img class="cancel" src="/images/cancel.png">
-					<input type="hidden" name="images[]" value="{{image.file}}.{{image.extension}}">
+					<input type="hidden" name="image[]" value="{{image.file}}.{{image.extension}}">
 				</div>
 			{% endfor %}
 		</td>

@@ -1,6 +1,6 @@
 <?php
 
-class Model_Post extends Model_Abstract_Meta
+class Model_Post extends Model_Abstract_Main
 {
 	// Поля таблицы
 	protected $fields = array(
@@ -14,7 +14,6 @@ class Model_Post extends Model_Abstract_Meta
 		'tag',
 		'comment_count',
 		'last_comment',
-		'update_count',
 		'pretty_date',
 		'sortdate',
 		'area',
@@ -34,53 +33,65 @@ class Model_Post extends Model_Abstract_Meta
 		
 		parent::insert();
 		
+		$this->add_children();		
+				
+		return $this;
+	}	
+	
+	public function commit() {
+		parent::commit();
+		
+		$this->add_children();
+		
+		return $this;
+	}
+	
+	protected function add_children() {
 		$order = 0;
 		$images = $this->get('image');
-		foreach ($images as $image) {
-			$image->set('post_id', $this->get_id());
-			$image->set('order', $order);
-			$image->insert();
-			$order++;
-		}		
+		if (!empty($images)) {	
+			foreach ($images as $image) {
+				$image->set('post_id', $this->get_id());
+				$image->set('order', $order);
+				$image->insert();
+				$order++;
+			}		
+		}
 
 		$order = 0;
 		$links = $this->get('link');
-		foreach ($links as $link) {
-			$link->set('post_id', $this->get_id());
-			$link->set('order', $order);
-			$link->insert();
-			$order++;
+		if (!empty($links)) {
+			foreach ($links as $link) {
+				$link->set('post_id', $this->get_id());
+				$link->set('order', $order);
+				$link->insert();
+				$order++;
+			}
 		}
 		
 		$order = 0;
 		$files = $this->get('file');
-		foreach ($files as $file) {
-			$file->set('post_id', $this->get_id());
-			$file->set('order', $order);
-			$file->insert();
-			$order++;
+		if (!empty($files)) {
+			foreach ($files as $file) {
+				$file->set('post_id', $this->get_id());
+				$file->set('order', $order);
+				$file->insert();
+				$order++;
+			}
 		}
 		
 		$order = 0;
 		$extras = $this->get('extra');
-		foreach ($extras as $extra) {
-			$extra->set('post_id', $this->get_id());
-			$extra->set('order', $order);
-			$extra->insert();
-			$order++;
-		}	
-
-		Database::insert('versions', array(
-			'type' => 'post',
-			'item_id' => $this->get_id(),
-			'data' => base64_encode(serialize($this->get_data())),
-			'time' => $this->get('sortdate'),
-			'author' => sets::user('name'),
-			'ip' => $_SERVER['REMOTE_ADDR']
-		));
-				
-		return $this;
+		if (!empty($extras)) {
+			foreach ($extras as $extra) {
+				$extra->set('post_id', $this->get_id());
+				$extra->set('order', $order);
+				$extra->insert();
+				$order++;
+			}	
+		}		
 	}	
+	
 	// @TODO: вынести в trait, как они появятся
 	public function add_link(Model_Post_Link $link) {
 
@@ -118,5 +129,5 @@ class Model_Post extends Model_Abstract_Meta
 		$items = (array) $this->get($type);
 		$items[] = $item;		
 		$this->set($type, $items);
-	}	
+	}
 }

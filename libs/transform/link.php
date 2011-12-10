@@ -3,7 +3,7 @@
 class transform__link
 {
 	public static function parse($links) {
-		$alias = obj::db()->sql('select data1, data2 from misc where type="site_alias"','data1');
+		$alias = Database::get_vector('misc', array('data1', 'data2'), 'type = ?', 'site_alias');
 		foreach ($links as $key => $link) {
 			$type = 'alias';
 			$parts = explode('&gt;',$link['link']);

@@ -6,8 +6,8 @@
 		{% for link in data.extra %}
 			<tr class="link" rel="{{loop.index}}">
 				<td>
-					<input size="20" name="link[{{loop.index}}][name]" value="{{link.name}}" type="text">: 
-					<input size="50" name="link[{{loop.index}}][link]" value="<{{link.alias}}>{{link.url}}" type="text">
+					<input size="20" name="extra[{{loop.index}}][name]" value="{{link.name}}" type="text">: 
+					<input size="50" name="extra[{{loop.index}}][link]" value="<{{link.alias}}>{{link.url}}" type="text">
 					<input type="submit" class="disabled remove_link second_button" rel="bonus" value="-"/>
 				</td>
 				<td class="handler">
@@ -18,8 +18,8 @@
 		{% endfor %}
 		<tr class="link hidden" rel="{{data.extra|length + 1}}">
 			<td>
-				<input size="20" name="link[{{data.extra|length + 1}}][name]" value="" type="text">: 
-				<input size="50" name="link[{{data.extra|length + 1}}][link]" value="" type="text">
+				<input size="20" name="extra[{{data.extra|length + 1}}][name]" value="" type="text">: 
+				<input size="50" name="extra[{{data.extra|length + 1}}][link]" value="" type="text">
 				<input type="submit" class="disabled remove_link second_button" rel="bonus" value="-"/>
 			</td>
 			<td class="handler">

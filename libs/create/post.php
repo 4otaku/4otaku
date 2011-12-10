@@ -50,7 +50,7 @@ class Create_Post extends Create_Abstract
 			'tag' => $tags
 		));
 		
-		foreach($post['images'] as $image) {
+		foreach($post['image'] as $image) {
 			$image = explode('.', $image);
 			$image = new Model_Post_Image(array(
 				'file' => $image[0], 
@@ -72,7 +72,7 @@ class Create_Post extends Create_Abstract
 		foreach($post['file'] as $file) {
 			$file = new Model_Post_File($file);
 			$item->add_file($file);
-		}	
+		}
 			
 		$item->insert();
 				

@@ -82,9 +82,9 @@ class Read_Post extends Read_Main
 		
 		$links = Database::join('post_link_url', 'plu.link_id = pl.id')
 			->join('post_url', 'plu.url_id = pu.id')->order('pl.order', 'asc')
-			->order('plu.order', 'asc')->get_full_vector('post_link', 
+			->order('plu.order', 'asc')->get_full_table('post_link', 
 				Database::array_in('pl.post_id', $keys), $keys);
-			
+		
 		foreach ($links as $link) {
 			$link = new Model_Post_Link($link);
 			$items[$link['post_id']]->add_link($link);

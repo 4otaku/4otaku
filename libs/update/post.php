@@ -91,21 +91,56 @@ class Update_Post extends Update_Abstract
 
 	protected function image($data) {
 		
-		var_dump($data); die;
+		Database::delete('post_image', 'post_id = ?', $this->model->get_id());
+		
+		foreach($data['image'] as $image) {
+			$image = explode('.', $image);
+			$image = new Model_Post_Image(array(
+				'file' => $image[0], 
+				'extension' => $image[1]
+			));
+			$this->model->add_image($image);
+		}
 	}
 
 	protected function link($data) {
 		
-		var_dump($data); die;
+		$link_ids = Database::get_table('post_link', 'id', 'post_id = ?', 
+			$this->model->get_id());
+		Database::delete('post_link_url', 
+			Database::array_in('link_id', $link_ids), $link_ids);
+		
+		Database::delete('post_link', 'post_id = ?', $this->model->get_id());
+		
+		$links = Check::link_array($data['link']);
+		$links = Transform_Link::parse($links);
+
+		foreach($links as $link) {
+			$link = new Model_Post_Link($link);
+			$this->model->add_link($link);
+		}
 	}
 
 	protected function file($data) {
 		
-		var_dump($data); die;
+		Database::delete('post_file', 'post_id = ?', $this->model->get_id());
+		
+		foreach($data['file'] as $file) {
+			$file = new Model_Post_File($file);
+			$this->model->add_file($file);
+		}
 	}
 
 	protected function extra($data) {
 		
-		var_dump($data); die;
+		Database::delete('post_extra', 'post_id = ?', $this->model->get_id());
+		
+		$extras = Check::link_array($data['extra']);
+		$extras = Transform_Link::parse($extras);
+		
+		foreach($extras as $extra) {
+			$extra = new Model_Post_Extra($extra);
+			$this->model->add_extra($extra);
+		}
 	}
 }
