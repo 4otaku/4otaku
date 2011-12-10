@@ -33,6 +33,8 @@ class Model_Comment extends Model_Abstract
 		$this->set('comment_rights', sets::user('rights') || 
 			$this->get('cookie') == query::$cookie);
 			
+		$this->set('text', Transform_Text::cut_long_words($this->get('text')));
+			
 		$this->set('delete_rights', sets::user('rights'));
 		$this->set('avatar', md5(strtolower($this->get('email'))));
 	}	

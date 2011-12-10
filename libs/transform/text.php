@@ -121,7 +121,7 @@ class transform__text extends Transform_Time
 		return $case2;
 	}
 
-	function cut_long_words($string, $length = false, $break = '<wbr />') {
+	public static function cut_long_words($string, $length = false, $break = '<wbr />') {
 		global $def;
 		if (empty($length)) $length = $def['text']['word_length'];
 
