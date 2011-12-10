@@ -27,7 +27,7 @@ class Model_Post_Link extends Model_Abstract
 		}
 		
 		if ($this->get('url')) {
-			$this->set('url', array($this->get('url') => $this->get('alias')));
+			$this->set('url', array($this->build_url_array()));
 		} else {
 			$this->set('url', array());
 		}
@@ -65,14 +65,14 @@ class Model_Post_Link extends Model_Abstract
 	protected function insert_link_urls($urls) {
 		$order = 0;
 		
-		foreach ($urls as $url => $alias) {
+		foreach ($urls as $link) {
 			
-			$url_id = $this->insert_url($url);
+			$url_id = $this->insert_url($link['url']);
 		
 			Database::insert('post_link_url', array(
 				'url_id' => $url_id,
 				'link_id' => $this->get_id(),
-				'alias' => $alias,
+				'alias' => $link['alias'],
 				'order' => $order,
 			));
 			$order++;
@@ -90,5 +90,14 @@ class Model_Post_Link extends Model_Abstract
 		}
 		
 		return $id;
+	}
+	
+	protected function build_url_array() {
+		return array(
+			'url' => $this->get('url'),
+			'alias' => $this->get('alias'),
+			'status' => $this->get('status'),
+			'lastcheck' => $this->get('lastcheck'),
+		);
 	}
 }

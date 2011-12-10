@@ -66,12 +66,12 @@
 								<br />
 							{% endif %}
 							{{link.name}}: 
-							{% for url, alias in link.url %}
+							{% for url in link.url %}
 								{% if not loop.first %}
 									 | 
 								{% endif %}
-								<a href="{{url}}" target="_blank">
-									{{alias}}
+								<a href="{{url.url}}" target="_blank">
+									{{url.alias}}
 								</a>
 							{% endfor %}	
 								 (~{{link.display_size}} {{link.display_sizetype}})									

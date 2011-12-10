@@ -90,6 +90,8 @@ abstract class Model_Abstract implements ArrayAccess
 				$this->set_phantom();
 			}
 		}
+		
+		return $this;
 	}	
 
 	public function get($key, $silent = false) {

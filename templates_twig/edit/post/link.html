@@ -7,7 +7,7 @@
 			<tr class="link" rel="{{loop.index}}">
 				<td>
 					<input size="20" name="link[{{loop.index}}][name]" value="{{link.name}}" type="text">: 						
-					<input size="50" name="link[{{loop.index}}][link]" value="<{{link.url[link.url|keys[0]]}}>{{link.url|keys[0]}}" type="text">
+					<input size="50" name="link[{{loop.index}}][link]" value="<{{link.url[0].alias}}>{{link.url[0].url}}" type="text">
 					~(<input size="2" name="link[{{loop.index}}][size]" value="{{link.display_size}}" type="text">
 					<select name="link[{{loop.index}}][sizetype]">
 						<option value="0"{% if link.sizetype == 0 %} selected{% endif %}>кб</option>

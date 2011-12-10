@@ -33,8 +33,8 @@ class Model_Post extends Model_Abstract_Main
 		
 		parent::insert();
 		
-		$this->add_children();		
-				
+		$this->add_children();
+		
 		return $this;
 	}	
 	
@@ -67,6 +67,9 @@ class Model_Post extends Model_Abstract_Main
 				$link->insert();
 				$order++;
 			}
+			
+			$status = new Model_Post_Status($this->get_id());
+			$status->load()->calculate($links)->commit();
 		}
 		
 		$order = 0;

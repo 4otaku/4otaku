@@ -1064,6 +1064,20 @@ CREATE TABLE IF NOT EXISTS `post_link_url` (
   UNIQUE KEY `selector` (`url_id`,`link_id`,`order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE IF NOT EXISTS `post_status` (
+  `id` int(10) unsigned NOT NULL,
+  `overall` float unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `broken` smallint(5) unsigned NOT NULL,
+  `partially_broken` smallint(5) unsigned NOT NULL,
+  `unmirorred` smallint(5) unsigned NOT NULL,
+  `unknown` smallint(5) unsigned NOT NULL,
+  `uncheked` smallint(5) unsigned NOT NULL,
+  `lastcheck` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 
 --
@@ -1125,7 +1139,7 @@ CREATE TABLE IF NOT EXISTS `post_url` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `url` text NOT NULL,
   `status` tinyint(3) unsigned NOT NULL COMMENT '0 - не проверено, 1 - работает, 2 - не удалось понять, 3 - сломано',
-  `lastcheck` timestamp NULL DEFAULT NULL,
+  `lastcheck` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `url` (`url`(255)),
   KEY `lastcheck` (`lastcheck`),
