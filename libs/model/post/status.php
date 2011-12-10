@@ -134,7 +134,16 @@ class Model_Post_Status extends Model_Abstract
 	}
 	
 	protected function is_unmirorred($urls) {
-		return count($urls) == 1;
+		$working = 0;
+		foreach ($urls as $url) {
+			if ($url['status'] != 3) {
+				$working++;
+			}
+			if ($working > 1) {
+				return false;
+			}
+		}
+		return (bool) $working;
 	}
 	
 	protected function is_unknown($urls) {

@@ -3,6 +3,7 @@
 class Cron_Post_Gouf extends Cron_Abstract 
 {
 	const LINKS_PER_CHECK = 50;
+	const MAX_DOWNLOAD_SIZE = 1000000;
 	
 	const 
 		STATUS_WORKS = 1,
@@ -42,7 +43,10 @@ class Cron_Post_Gouf extends Cron_Abstract
 			}
 		}
 		
-		$this->worker = new Http();
+		$this->worker = new Http(array(
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_RANGE => "1-" . self::MAX_DOWNLOAD_SIZE
+		));
 	}
 	
 	public function check() {
@@ -95,11 +99,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 	
 	protected function test_result($link) {
 		$domain = $this->get_domain($link);
-		
-		$headers = $this->worker->get_headers($link);
-		$headers = implode("\n", $headers);
-		$html = $this->worker->get($link);
-		$html = "$headers\n\n$html";
+		$html = $this->worker->get_full($link);
 		
 		if (empty($domain)) {
 			return self::STATUS_BROKEN;
@@ -140,9 +140,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 	
 	protected function create_unknown_file($link) {
 		$domain = $this->get_domain($link);
-		$html = $this->worker->get($link);
-		$headers = $this->worker->get_headers($link);
-		$headers = implode("\n", $headers);
+		$html = $this->worker->get_full($link);
 		
 		$directory = FILES . SL . 'gouf' . SL . $domain . SL;
 		if (!is_dir($directory)) {
@@ -151,9 +149,10 @@ class Cron_Post_Gouf extends Cron_Abstract
 		$file = $directory . time() . '_' . 
 			substr(md5(microtime()), 0, 6) . '.html';
 		
-		$data = "$domain\n\n$link\n\n$headers\n\n$html";
+		$data = "$domain\n\n$link\n\n$html";
 		
 		file_put_contents($file, $data);
+		chmod($file, 0777);
 	}
 	
 	protected function get_domain($link) {		
