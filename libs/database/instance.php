@@ -55,7 +55,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		$data = $this->query($query, $params);
-		var_dump($data);
+
 		if ($this->counter_lock) {
 			$count = $this->query($this->counter_query);
 			$this->counter = (int) current(current($count));
@@ -381,6 +381,10 @@ class Database_Instance extends Database_Abstract
 
 	public function last_id () {
 		return $this->worker->lastInsertId();
+	}
+	
+	public function count_affected() {
+		return $this->last_query->rowCount();
 	}
 
 	public function debug($print = true) {

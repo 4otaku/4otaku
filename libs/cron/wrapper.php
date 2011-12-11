@@ -15,7 +15,7 @@ class Cron
 				$this->workers[$class] = new $class();
 			}
 			
-			$this->workers[$class]->$function();
+			$this->workers[$class]->execute($function);
 		} else {
 		
 			$this->$function();

@@ -79,7 +79,7 @@ class output__index extends engine
 			$return['news']['sortdate'] = 0;
 		}
 
-		$return['links'] = obj::db()->sql('select count(id) from gouf_links where status = "error"',2);
+		$return['links'] = Database::get_count('post_url', 'status = ?', Cron_Post_Gouf::STATUS_BROKEN);
 
 		return $return;
 	}

@@ -98,6 +98,10 @@ class Database
 		return self::db()->last_id();
 	}
 
+	public static function count_affected () {
+		return self::db()->count_affected();
+	}
+
 	public static function debug ($print = true) {
 		return self::db()->debug($print);
 	}
