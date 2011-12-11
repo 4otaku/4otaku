@@ -72,9 +72,9 @@ class output__comments extends engine
 				switch ($one['place']) {
 					case $def['type'][0]:
 						$image = Database::order('order', 'asc')
-							->get_full_row('post_image', 'post_id = ?', $one['id']);
+							->get_field('post_image', 'file', 'post_id = ?', $one['id']);
 						
-						$one['image'] = '/images/post/thumb/'.$image['file'].'.'.$image['extension'];
+						$one['image'] = '/images/post/thumb/'.$image.'.jpg';
 						break;
 					case $def['type'][1]:
 						$one['image'] = 'http://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';
