@@ -21,25 +21,7 @@ class Read_Post_Gouf extends Read_Abstract
 	
 	protected function get_items() {
 		
-		$items = $this->load_batch('post');
-		
-		foreach ($items as $id => &$item) {
-			$item['id'] = $id;
-			$item = new Model_Post($item);
-			
-			if ($this->area == 'workshop' || sets::user('rights')) {
-				$item['is_editable'] = true;
-			}
-		}
-		
-		$this->load_meta($items);
-		
-		$this->get_post_data($items);
 
-		$this->data['items'] = $items;
-		if ($this->count > $this->per_page) {
-			$this->data['navi'] = $this->get_bottom_navi();	
-		}
 	}
 	
 	protected function display_index($url) {
