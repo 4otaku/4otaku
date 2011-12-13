@@ -11,7 +11,6 @@ class Database_Instance extends Database_Abstract
 
 	protected $group = array();
 	protected $order = array();
-	protected $order_type = array();
 	protected $limit_from = false;
 	protected $limit = false;
 	protected $join = array();
@@ -102,12 +101,14 @@ class Database_Instance extends Database_Abstract
 			$query .= "`$group`";
 		}
 
-		foreach ($this->order as $key => $order) {
-			$type = $this->order_type[$key];
+		foreach ($this->order as $order) {
+			if (!$order->is_valid()) {
+				continue;
+			}
 
-			$query .= $key ? ", " : " ORDER BY ";
-			$order = str_replace(".", "`.`", $order);
-			$query .= "`$order` $type";
+			$query .= !empty($ordered) ? ", " : " ORDER BY ";
+			$query .= $order->get_field() . " " . $order->get_direction();
+			$ordered = true;
 		}
 
 		if (!empty($this->limit)) {
@@ -350,11 +351,14 @@ class Database_Instance extends Database_Abstract
 		return $this;
 	}
 
-	public function order ($field, $type = 'desc') {
-		if (!preg_match('/[^a-z_\d\.]/ui', $field) && ctype_alnum($type)) {
-			$this->order[] = $field;
-			$this->order_type[] = $type;
+	public function order ($sorter, $type = 'desc') {
+		
+		// Backwards compatibility
+		if (!($sorter instanceOf Database_Sorter)) {
+			$sorter = new Database_Sorter($sorter, $type);				
 		}
+			
+		$this->order[] = $sorter;
 
 		return $this;
 	}

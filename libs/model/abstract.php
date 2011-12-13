@@ -45,6 +45,10 @@ abstract class Model_Abstract implements ArrayAccess
 				}
 			}
 		}
+		
+		$class = get_called_class();
+		$class = substr(strtolower($class), 6);
+		$this->set('model_type', $class);
 	}
 	
 	protected function build_condition() {

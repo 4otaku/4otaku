@@ -45,7 +45,7 @@ class Read_Post extends Read_Main
 	protected function get_items() {
 		
 		$items = $this->load_batch('post');
-		
+
 		foreach ($items as $id => &$item) {
 			$item['id'] = $id;
 			$item = new Model_Post($item);

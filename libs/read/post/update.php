@@ -122,6 +122,6 @@ class Read_Post_Update extends Read_Abstract
 		foreach ($images as $image) {
 			$image = new Model_Post_Image($image);
 			$items[$image['post_id']]->add_image($image);
-		}		
+		}
 	}
 }
