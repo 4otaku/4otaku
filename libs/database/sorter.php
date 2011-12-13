@@ -5,6 +5,7 @@ class Database_Sorter
 	protected $field;
 	protected $prefix = false;
 	protected $direction = 'DESC';
+	protected $operations = array();
 	
 	public function __construct($field, $direction = false) {
 		
@@ -29,6 +30,34 @@ class Database_Sorter
 		return $this;
 	}
 	
+	public function add_operation($type, $value = false) {
+		
+		$this->operations[] = array(
+			'type' => $type,
+			'value' => $value,
+		);
+		
+		return $this;
+	}
+	
+	public function apply_operation($string, $type, $value) {
+		
+		switch ($type) {
+			case 'divide':
+				$field = '`' . $value . '`';
+				
+				if (!empty($this->prefix)) {
+					$field = '`' . $this->prefix . '`.' . $field;
+				}
+				
+				$string .= '/' . $field;
+			default:
+				break;
+		}
+		
+		return $string;
+	}
+	
 	public function is_valid() {
 		
 		$direction = strtolower($this->direction);
@@ -44,6 +73,11 @@ class Database_Sorter
 		
 		if (!empty($this->prefix)) {
 			$return = '`' . $this->prefix . '`.' . $return;
+		}
+		
+		foreach ($this->operations as $operation) {
+			$return = $this->apply_operation($return, 
+				$operation['type'], $operation['value']);
 		}
 		
 		return $return;
