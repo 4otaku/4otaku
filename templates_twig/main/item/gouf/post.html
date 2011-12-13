@@ -1,19 +1,55 @@
 <div class="shell">
 	<div class="post" id="post-{{id}}">
-		{% include 'main/item/post/core.html' with {'post': item} %}
+			<table width="100%">
+				<tr>
+					<td align="left">
+						<h2>
+							<a href="/post/{{id}}" title="{{item.title}}">
+								{{item.title}}
+							</a>
+						</h2>
+					</td>
+				</tr>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+					{% if item.image %}
+						<td class="imageholder" valign="top">
+							{% for key, image in item.image %}
+								<div class="image-{{key}}">
+									<a href="/images/post/full/{{image.file}}.{{image.extension}}" target="_blank">
+										<img src="/images/post/thumb/{{image.file}}.jpg" />
+									</a>
+								</div>
+							{% endfor %}
+						</td>
+					{% endif %}
+					<td valign="top">
+						<div class="posttext">
+							{{item.text}}
+						</div>
+						{% if item.link %}
+							<p>
+								{% for key, link in item.link %}
+									{% if not loop.first %}
+										<br />
+									{% endif %}
+									{{link.name}}: 
+									{% for url in link.url %}
+										{% if not loop.first %}
+											 | 
+										{% endif %}
+										<a href="{{url.url}}" target="_blank">
+											{{url.alias}}
+										</a>
+									{% endfor %}	
+										 (~{{link.display_size}} {{link.display_sizetype}})									
+								{% endfor %}
+							</p>
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+
 	</div>
-	{% if item.update_count %}
-		<div class="center hidden" id="updates_field_loader">
-			<img src="/images/ajax-loader.gif">
-		</div>
-		<div id="updates_field" class="hidden">
-			&nbsp;
-		</div>
-	{% endif %}
-	{% if item.is_editable %}
-		{% include 'main/item/post/edit.html' %}
-		{% if not item.in_batch %}
-			{% include 'main/item/post/update_add.html' %}
-		{% endif %}		
-	{% endif %}
 </div>

@@ -16,6 +16,25 @@ class Read_Post_Gouf extends Read_Abstract
 		'footer' => array('year')
 	);
 	
+	protected $fields = array(
+		'o' => 'overall',
+		't' => 'total',
+		'b' => 'broken',
+		'pb' => 'partially_broken',
+		'um' => 'unmirorred',
+		'uk' => 'unknown',
+		'uc' => 'uncheked',
+		'l' => 'lastcheck',	
+	);
+	protected $types = array(
+		'n' => 'normal',
+		'p' => 'percent',
+	);
+	protected $dirs = array(
+		'a' => 'asc',
+		'd' => 'desc',
+	);
+	
 	public function __construct() {
 		parent::__construct();
 		
@@ -110,8 +129,8 @@ class Read_Post_Gouf extends Read_Abstract
 		
 		$keys = array_keys($data);
 
-		$images = Database::order('order', 'asc')->get_full_table('post_image', 
-			Database::array_in('post_id', $keys), $keys);
+		$images = Database::order('order', 'asc')->group('post_id')->
+			get_full_table('post_image', Database::array_in('post_id', $keys), $keys);
 				
 		foreach ($images as $image) {
 			$image = new Model_Post_Image($image);
@@ -129,7 +148,36 @@ class Read_Post_Gouf extends Read_Abstract
 		}
 		
 		return $data;
-	}		
+	}
+	
+	protected function set_sort($url, $index) {
+		if (empty($url[$index])) {
+			return;
+		} 
+		
+		$sorters = explode(',', $url[$index]);
+		
+		foreach ($sorters as &$sorter) {
+			$data = explode('.', $sorter);
+			
+			if (count($data) < 3 || 
+				empty($this->fields[$data[0]]) ||
+				empty($this->types[$data[1]]) || 
+				empty($this->dirs[$data[2]])) {
+				
+				continue;	
+			}
+			
+			$sorter = new Database_Sorter($this->fields[$data[0]], 
+				$this->dirs[$data[2]]);
+				
+			if ($this->types[$data[1]] == 'percent') {
+				$sorter->add_operation('divide', 'total');
+			}
+		}
+		
+		$this->sorters = $sorters;
+	}	
 	
 	protected function display_index($url) {
 		
