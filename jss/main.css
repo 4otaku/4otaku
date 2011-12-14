@@ -578,6 +578,11 @@ input.edit {
 	margin-left: 10px;
 }
 
+.sort-loader {
+	text-align: center;
+	width: 100%;
+}
+
 .gouf_image {
 	width: 200px;
 	height: 50px;

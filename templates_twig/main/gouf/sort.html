@@ -3,7 +3,7 @@
 		{% for sorter in sorters %}
 			<div class="sort-item">
 				Сортировка:
-				 <select>
+				 <select class="field">
 					<option value="overall"
 						{% if sorter.get_field == 'overall'%} class="selected"{% endif %}>
 							Общая ситуация
@@ -37,7 +37,7 @@
 							Последняя проверка
 					</option>
 				</select>
-				 <select>
+				 <select class="direction">
 					<option value="desc"
 						{% if sorter.get_direction == 'desc'%} class="selected"{% endif %}>
 							По убыванию
@@ -47,7 +47,7 @@
 							По возрастанию
 					</option>
 				</select>
-				 <select>
+				 <select class="operation">
 					<option value="normal"
 						{% if not sorter.have_operations %} class="selected"{% endif %}>
 							В абсолютном
@@ -63,7 +63,7 @@
 	</div>
 	<div class="sort-item hidden">
 		Сортировка:
-		 <select>
+		 <select class="field">
 			<option value="overall">
 				Общая ситуация
 			</option>
@@ -89,7 +89,7 @@
 				Последняя проверка
 			</option>
 		</select>
-		 <select>
+		 <select class="direction">
 			<option value="desc">
 				По убыванию
 			</option>
@@ -97,7 +97,7 @@
 				По возрастанию
 			</option>
 		</select>
-		 <select>
+		 <select class="operation">
 			<option value="normal">
 				В абсолютном
 			</option>
@@ -109,10 +109,18 @@
 	</div>
 	<br />
 	<div>
-		<input type="button" class="right disabled apply-sort" value="Применить сортировку" />
+		<input type="button" 
+		 class="right disabled apply-sort" 
+		 value="Применить сортировку" />
 	</div>
 	<div>
-		<input type="button" class="disabled add-sort" value="Добавить сортировку" />
+		<input type="button" 
+		 class="disabled add-sort" 
+		 value="Добавить сортировку" 
+		 rel="{% if mode == 'update' %}update{% endif %}" />
 	</div>
 	<div class="clear"></div>
+	<div class="sort-loader hidden">
+		<img src="/images/ajax-loader.gif">
+	</div>	
 </div>

@@ -55,7 +55,7 @@ class Read_Post_Gouf extends Read_Abstract
 	}
 	
 	protected function get_items() {		
-		
+
 		$start = ($this->page - 1) * $this->per_page;
 		
 		$query = Database::set_counter()->limit($this->per_page, $start);
@@ -125,7 +125,7 @@ class Read_Post_Gouf extends Read_Abstract
 			$sorter->set_prefix('ps');
 			$query->order($sorter);			
 		}
-		
+
 		$data = $query->join('post', 'p.id = ps.id')
 			->get_vector('post_status', 'p.*');
 
@@ -214,7 +214,7 @@ class Read_Post_Gouf extends Read_Abstract
 	}
 	
 	protected function display_sort($url) {
-		
+	
 		$this->set_sort($url, 2);
 		$this->set_page($url, 4);
 		$this->get_items();
@@ -226,5 +226,45 @@ class Read_Post_Gouf extends Read_Abstract
 			
 			$this->data['navi'] = $this->get_bottom_navi($base);	
 		}
+	}
+	
+	protected function display_format($url) {
+		
+		$return = '';
+		
+		if (empty(query::$post['data']) || !is_array(query::$post['data'])) {
+			die;
+		}
+		
+		foreach (query::$post['data'] as $data) {
+			if ($field = array_search($data['field'], $this->fields)) {
+				$return .= $field;
+			} else {
+				$return .= key($this->fields);
+			}
+			
+			$return .= '.';			
+			
+			if ($type = array_search($data['operation'], $this->types)) {
+				$return .= $type;
+			} else {
+				$return .= key($this->types);
+			}
+						
+			$return .= '.';
+			
+			if ($dir = array_search($data['direction'], $this->dirs)) {
+				$return .= $dir;
+			} else {
+				$return .= key($this->dirs);
+			}
+			
+			$return .= ',';
+		}
+		
+		$return = rtrim($return, ',');
+		echo($return);
+		
+		die;
 	}
 }

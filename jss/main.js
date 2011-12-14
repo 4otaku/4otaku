@@ -344,7 +344,29 @@ $(".remove_sort").live('click', function(){
 });
 
 $(".apply-sort").live('click', function(){
+	var parent = $(this).parents('.shell');
+	var data = [];
+	parent.find('.sort-visible .sort-item').each(function(){
+		data.push({
+			field: $(this).find('select.field').val(),
+			direction: $(this).find('select.direction').val(),
+			operation: $(this).find('select.operation').val()
+		});
+	});
 	
+	$(this).hide();
+	parent.find('.sort-loader').show();
+	
+	var base = '/post/gouf/';
+	var rel = $(this).attr('rel');
+	if (rel) {
+		base += rel + '/';
+	}
+	base += 'sort/';
+	
+	$.post('/post_gouf/format', {data: data}, function(url){
+		document.location.href = base + url + '/';		
+	});
 });
 
 $(document).ready(function(){
