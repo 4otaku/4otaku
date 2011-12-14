@@ -13,8 +13,8 @@
 		<a href="{{navi.base}}{{author.mixed_remove}}">
 			-
 		</a> 
-	{% endif %}																						
-	<a href="{{navi.base}}author/{{alias}}/">
+	{% endif %}
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}author/{{alias}}/">
 		{{author.name}}
 	</a>
 {% endfor %}
@@ -34,7 +34,7 @@
 			-
 		</a> 
 	{% endif %}																						
-	<a href="{{navi.base}}category/{{alias}}/">
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}category/{{alias}}/">
 		{{category.name}}
 	</a>
 {% endfor %}
@@ -54,7 +54,7 @@
 			-
 		</a> 
 	{% endif %}																						
-	<a href="{{navi.base}}language/{{alias}}/">
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}language/{{alias}}/">
 		{{language.name}}
 	</a>
 {% endfor %}

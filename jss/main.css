@@ -577,10 +577,23 @@ input.edit {
 .gouf_image {
 	width: 200px;
 	height: 50px;
+	text-align: center;
 }
 
 .gouf_links {	
 	padding-left: 10px;
+}
+
+.gouf_link_0 {
+	color: #BBBBBB;
+}
+
+.gouf_link_2 {
+	color: #EEAAFF;
+}
+
+.gouf_link_3, .broken_link {
+	color: #FF4433;
 }
 
 /* Content, вывод комментариев */

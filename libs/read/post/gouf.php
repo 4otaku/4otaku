@@ -222,7 +222,7 @@ class Read_Post_Gouf extends Read_Abstract
 		if ($this->count > $this->per_page) {
 			$base = '/post/gouf/' . 
 				($this->mode == 'update' ? 'update/' : '') . 
-				implode('/', array_slice($url, 1, 2)) . '/';
+				(!empty($url[2]) ? 'sort/' . $url[2] . '/' : '');
 			
 			$this->data['navi'] = $this->get_bottom_navi($base);	
 		}

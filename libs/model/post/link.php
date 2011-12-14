@@ -31,7 +31,7 @@ class Model_Post_Link extends Model_Abstract
 		} else {
 			$this->set('url', array());
 		}
-		
+
 		$this->set('display_size', round($this->get('size'), 2));
 		$this->set('display_sizetype', $this->sizetypes[$this->get('sizetype')]);
 	}
@@ -92,11 +92,14 @@ class Model_Post_Link extends Model_Abstract
 		return $id;
 	}
 	
-	protected function build_url_array() {
+	protected function build_url_array() {		
+		$time = strtotime($this->get('lastcheck'));
+		
 		return array(
 			'url' => $this->get('url'),
 			'alias' => $this->get('alias'),
 			'status' => $this->get('status'),
+			'check' => Transform_Time::rudate($time, true),
 			'lastcheck' => $this->get('lastcheck'),
 		);
 	}

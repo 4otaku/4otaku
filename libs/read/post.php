@@ -40,6 +40,7 @@ class Read_Post extends Read_Main
 			'count(*)', 'post_id = ?', $id);
 		
 		$this->data['items'] = array($id => $item);	
+		$this->data['base'] = '/post/';
 	}
 	
 	protected function get_items() {

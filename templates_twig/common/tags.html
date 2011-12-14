@@ -21,13 +21,13 @@
 			-
 		</a> 
 	{% endif %}
-	<a href="{{navi.base}}tag/{{alias}}/">
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}tag/{{alias}}/">
 		{{tag.name}}
 	</a>
 	{% if not loop.last or tag.variant %}, {% endif %}
 	<span class="hidden tag_synonims tag_synonims_{{id}}">
 		{% for variant in tag.variant %}
-			 <a href="{{navi.base}}tag/{{variant|url_encode()}}">
+			 <a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}tag/{{variant|url_encode()}}">
 				{{variant}}
 			</a>		
 			{% if not loop.last %}, {% endif %}

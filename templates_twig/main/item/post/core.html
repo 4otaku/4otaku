@@ -70,7 +70,12 @@
 								{% if not loop.first %}
 									 | 
 								{% endif %}
-								<a href="{{url.url}}" target="_blank">
+								<a href="{{url.url}}" 
+									 {% if url.status == 3 %}
+										class="broken_link with_help"
+										 title="Ссылка битая. Последняя проверка: {{url.check}}"
+									 {% endif %}
+									 target="_blank">
 									{{url.alias}}
 								</a>
 							{% endfor %}	
