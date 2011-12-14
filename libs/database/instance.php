@@ -107,7 +107,7 @@ class Database_Instance extends Database_Abstract
 			}
 
 			$query .= !empty($ordered) ? ", " : " ORDER BY ";
-			$query .= $order->get_field() . " " . $order->get_direction();
+			$query .= $order->get_sort() . " " . $order->get_direction();
 			$ordered = true;
 		}
 

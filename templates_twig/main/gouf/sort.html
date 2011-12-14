@@ -1,0 +1,118 @@
+<div class="shell">
+	<div class="sort-visible">
+		{% for sorter in sorters %}
+			<div class="sort-item">
+				Сортировка:
+				 <select>
+					<option value="overall"
+						{% if sorter.get_field == 'overall'%} class="selected"{% endif %}>
+							Общая ситуация
+					</option>
+					<option value="total"
+						{% if sorter.get_field == 'total'%} class="selected"{% endif %}>
+							Всего ссылок
+					</option>
+					<option value="broken"
+						{% if sorter.get_field == 'broken'%} class="selected"{% endif %}>
+							Количество мертвых ссылок
+					</option>
+					<option value="partially_broken"
+						{% if sorter.get_field == 'partially_broken'%} class="selected"{% endif %}>
+							Количество битых зеркал
+					</option>
+					<option value="unmirorred"
+						{% if sorter.get_field == 'unmirorred'%} class="selected"{% endif %}>
+							Количество неотзеркаленного
+					</option>
+					<option value="unknown"
+						{% if sorter.get_field == 'unknown'%} class="selected"{% endif %}>
+							Количество, которое не удалось проверить
+					</option>
+					<option value="uncheked"
+						{% if sorter.get_field == 'uncheked'%} class="selected"{% endif %}>
+							Количество, которое еще не проверено
+					</option>
+					<option value="lastcheck"
+						{% if sorter.get_field == 'lastcheck'%} class="selected"{% endif %}>
+							Последняя проверка
+					</option>
+				</select>
+				 <select>
+					<option value="desc"
+						{% if sorter.get_direction == 'desc'%} class="selected"{% endif %}>
+							По убыванию
+					</option>
+					<option value="asc"
+						{% if sorter.get_direction == 'asc'%} class="selected"{% endif %}>
+							По возрастанию
+					</option>
+				</select>
+				 <select>
+					<option value="normal"
+						{% if not sorter.have_operations %} class="selected"{% endif %}>
+							В абсолютном
+					</option>
+					<option value="percent"
+						{% if sorter.have_operations %} class="selected"{% endif %}>
+							В процентах
+					</option>
+				</select>
+				<input type="button" class="disabled remove_sort" value="-" />
+			</div>
+		{% endfor %}
+	</div>
+	<div class="sort-item hidden">
+		Сортировка:
+		 <select>
+			<option value="overall">
+				Общая ситуация
+			</option>
+			<option value="total">
+				Всего ссылок
+			</option>
+			<option value="broken">
+				Количество мертвых ссылок
+			</option>
+			<option value="partially_broken">
+				Количество битых зеркал
+			</option>
+			<option value="unmirorred">
+				Количество неотзеркаленного
+			</option>
+			<option value="unknown">
+				Количество, которое не удалось проверить
+			</option>
+			<option value="uncheked">
+				Количество, которое еще не проверено
+			</option>
+			<option value="lastcheck">
+				Последняя проверка
+			</option>
+		</select>
+		 <select>
+			<option value="desc">
+				По убыванию
+			</option>
+			<option value="asc">
+				По возрастанию
+			</option>
+		</select>
+		 <select>
+			<option value="normal">
+				В абсолютном
+			</option>
+			<option value="percent">
+				В процентах
+			</option>
+		</select>
+		<input type="button" class="disabled remove_sort" value="-" />
+	</div>
+	<br />
+	<div>
+		<input type="button" class="right disabled apply-sort" value="Применить сортировку" />
+	</div>
+	<div>
+		<input type="button" class="disabled add-sort" value="Добавить сортировку" />
+	</div>
+	<div class="clear"></div>
+</div>

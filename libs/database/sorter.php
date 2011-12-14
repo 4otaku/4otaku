@@ -67,7 +67,7 @@ class Database_Sorter
 			!preg_match('/[^a-z_\d\.]/ui', $this->field);
 	}
 	
-	public function get_field() {
+	public function get_sort() {
 		// Backwards compatibility
 		$return = '`' . str_replace('.', '`.`', $this->field) . '`';
 		
@@ -82,8 +82,16 @@ class Database_Sorter
 		
 		return $return;
 	}
-		
+
 	public function get_direction() {
 		return $this->direction;
-	}	
+	}
+
+	public function get_field() {
+		return $this->field;
+	}
+
+	public function have_operations() {
+		return count($this->operations) > 0;
+	}
 }

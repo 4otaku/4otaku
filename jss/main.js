@@ -324,6 +324,29 @@ $(".unfold").live('click', function(){
 	$(this).html(text);	
 });
 
+$(".add-sort").live('click', function(){
+	var parent = $(this).parents('.shell');
+	var sort = parent.find('.sort-item.hidden').clone();
+	sort.appendTo(parent.find('.sort-visible'));
+	sort.removeClass('hidden');
+	if (parent.find('.sort-visible .sort-item').length > 2) {
+		$(this).hide();
+	}
+});
+
+$(".remove_sort").live('click', function(){
+	var sort = $(this).parents('.sort-item');
+	var parent = sort.parents('.shell');
+	sort.remove();
+	if (parent.find('.sort-visible .sort-item').length < 3) {
+		parent.find(".add-sort").show();
+	}
+});
+
+$(".apply-sort").live('click', function(){
+	
+});
+
 $(document).ready(function(){
 
 	/* Shared settings */
