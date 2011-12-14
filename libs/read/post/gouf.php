@@ -5,7 +5,7 @@ class Read_Post_Gouf extends Read_Abstract
 	protected $template = 'main/gouf';	
 	protected $error_template = 'error/post';
 	
-	protected $mode = 'main';
+	protected $mode = 'post';
 	protected $sorters = array();
 	
 	protected $side_modules = array(
@@ -38,7 +38,7 @@ class Read_Post_Gouf extends Read_Abstract
 	public function __construct() {
 		parent::__construct();
 		
-		$this->per_page = sets::pp('post');
+		$this->per_page = sets::pp('post_gouf');
 		
 		$sorter = new Database_Sorter('overall');
 		$this->sorters[] = $sorter;
@@ -79,12 +79,16 @@ class Read_Post_Gouf extends Read_Abstract
 		}
 		
 		$data = $query->join('post_update', 'pu.id = pus.id')
-			->get_full_vector('post_update_status');
+			->join('post', 'p.id = pu.post_id')
+			->get_vector('post_update_status', 
+				array('pu.*', 'p.title', 'p.comment_count'));
 
 		$this->count = Database::get_counter();
 			
+		$image_keys = array();
 		foreach ($data as $key => $item) {
 			$item['id'] = $key;
+			$image_keys[] = $item['post_id'];
 			$data[$key] = new Model_Post_Update($item);
 		}		
 		$keys = array_keys($data);
@@ -100,11 +104,16 @@ class Read_Post_Gouf extends Read_Abstract
 		}
 
 		$images = Database::order('order', 'asc')->group('post_id')
-			->get_full_table('post_image', Database::array_in('post_id', $keys), $keys);
-				
+			->get_full_table('post_image', 
+				Database::array_in('post_id', $image_keys), $image_keys);
+
+		$insert_images = array();
 		foreach ($images as $image) {
-			$image = new Model_Post_Image($image);
-			$data[$image['post_id']]->add_image($image);
+			$insert_images[$image['post_id']] = new Model_Post_Image($image);
+		}
+		
+		foreach ($data as $key => $item) {
+			$item->add_image($insert_images[$item['post_id']]);
 		}		
 		
 		return $data;
@@ -118,7 +127,7 @@ class Read_Post_Gouf extends Read_Abstract
 		}
 		
 		$data = $query->join('post', 'p.id = ps.id')
-			->get_full_vector('post_status');
+			->get_vector('post_status', 'p.*');
 
 		$this->count = Database::get_counter();
 
@@ -182,12 +191,26 @@ class Read_Post_Gouf extends Read_Abstract
 	protected function display_index($url) {
 		
 		$this->get_items();
+
+		if ($this->count > $this->per_page) {
+			$base = '/post/gouf/' . 
+				($this->mode == 'update' ? 'update/' : '');
+			
+			$this->data['navi'] = $this->get_bottom_navi($base);	
+		}
 	}
 	
 	protected function display_page($url) {
 
 		$this->set_page($url, 2);
 		$this->get_items();
+
+		if ($this->count > $this->per_page) {
+			$base = '/post/gouf/' . 
+				($this->mode == 'update' ? 'update/' : '');
+			
+			$this->data['navi'] = $this->get_bottom_navi($base);	
+		}
 	}
 	
 	protected function display_sort($url) {
@@ -195,5 +218,13 @@ class Read_Post_Gouf extends Read_Abstract
 		$this->set_sort($url, 2);
 		$this->set_page($url, 4);
 		$this->get_items();
+
+		if ($this->count > $this->per_page) {
+			$base = '/post/gouf/' . 
+				($this->mode == 'update' ? 'update/' : '') . 
+				implode('/', array_slice($url, 1, 2)) . '/';
+			
+			$this->data['navi'] = $this->get_bottom_navi($base);	
+		}
 	}
 }

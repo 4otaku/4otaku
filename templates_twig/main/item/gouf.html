@@ -1,0 +1,50 @@
+<div class="shell">
+	<div class="post" id="post-{{id}}">
+		<table width="100%">
+			<tr>
+				<td align="left">
+					<h2>
+						{% if mode == 'update' %}
+							<a href="/post/{{item.post_id}}/show_updates/" title="{{item.title}}">
+								{{item.title}}
+							</a>
+						{% else %}
+							<a href="/post/{{id}}" title="{{item.title}}">
+								{{item.title}}
+							</a>
+						{% endif %}							
+					</h2>
+				</td>
+			</tr>
+		</table>
+		<table cellspacing="0" cellpadding="0" width="100%">
+			<tr>
+				{% for key, image in item.image %}
+					<td class="gouf_image" style="background:url(/images/post/thumb/{{image.file}}.jpg) no-repeat;">						
+					</td>
+				{% endfor %}
+				<td valign="top" class="gouf_links">
+					{% if item.link %}
+						<p>
+							{% for key, link in item.link %}
+								{% if not loop.first %}
+									<br />
+								{% endif %}
+								{{link.name}}: 
+								{% for url in link.url %}
+									{% if not loop.first %}
+										 | 
+									{% endif %}
+									<a href="{{url.url}}" target="_blank">
+										{{url.alias}}
+									</a>
+								{% endfor %}	
+									 (~{{link.display_size}} {{link.display_sizetype}})									
+							{% endfor %}
+						</p>
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

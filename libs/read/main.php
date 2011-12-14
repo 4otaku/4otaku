@@ -229,7 +229,7 @@ abstract class Read_Main extends Read_Abstract
 		return $return;
 	}
 	
-	protected function get_bottom_navi() {
+	protected function get_bottom_navi($type) {
 		$return = array();		
 		
 		$return['curr'] = $this->page;
@@ -246,7 +246,7 @@ abstract class Read_Main extends Read_Abstract
 		}
 
 		$area = $this->area != def::area(0) ? '/' . $this->area : '';
-		$return['base'] = '/post' . $area . '/';
+		$return['base'] = '/' . $type . $area . '/';
 		
 		return $return;
 	}

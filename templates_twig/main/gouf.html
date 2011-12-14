@@ -2,11 +2,10 @@
 
 {% block content %}
 <td valign="top" id="content">
-	{% if sub.top %}
-		{% include 'side/top.html' %}
-	{% endif %}
+	{% include 'main/gouf/gouf.html' %}
+	{% include 'main/gouf/sort.html' %}
 	{% for id, item in items %}
-		{% include 'main/item/gouf/'~item.model_type~'.html' %}
+		{% include 'main/item/gouf.html' %}
 	{% endfor %}
 	{% if navi %}
 		{% include 'common/navi.html' %}

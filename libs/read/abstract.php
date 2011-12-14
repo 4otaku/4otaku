@@ -121,4 +121,19 @@ abstract class Read_Abstract
 		
 		return $this->data[$part];
 	}
+	
+	protected function get_bottom_navi($base) {
+		$return = array();		
+		
+		$return['curr'] = $this->page;
+			
+		$return['last'] = ceil($this->count / $this->per_page);
+		
+		$return['start'] = max($return['curr'] - 5, 2);
+		$return['end'] = min($return['curr'] + 6, $return['last'] - 1);
+
+		$return['base'] = $base;
+		
+		return $return;
+	}
 }

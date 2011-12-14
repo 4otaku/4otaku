@@ -77,6 +77,7 @@ $sets['pp']['search'] = 5;
 $sets['pp']['comment_in_post'] = 7;
 $sets['pp']['comment_in_line'] = 5;
 $sets['pp']['updates_in_line'] = 5;
+$sets['pp']['post_gouf'] = 10;
 $sets['pp']['video'] = 5;
 $sets['pp']['art'] = 30;
 $sets['pp']['art_tags'] = 20;

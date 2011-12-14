@@ -61,7 +61,7 @@ class Read_Post extends Read_Main
 
 		$this->data['items'] = $items;
 		if ($this->count > $this->per_page) {
-			$this->data['navi'] = $this->get_bottom_navi();	
+			$this->data['navi'] = $this->get_bottom_navi('post');	
 		}
 	}
 	

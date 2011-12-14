@@ -300,6 +300,30 @@ function close_edit_fields() {
 	$("div#downscroller span.arrow").html(' ↓');		
 }
 
+$(".fold").live('click', function(){
+	var container = $(this).parents('.fold-container');
+	container.find('.fold-content').slideUp();
+	
+	var text = $(this).attr('rel');
+	
+	$(this).removeClass('fold');
+	$(this).addClass('unfold');
+	$(this).attr('rel', $(this).html());
+	$(this).html(text);
+});
+
+$(".unfold").live('click', function(){
+	var container = $(this).parents('.fold-container');
+	container.find('.fold-content').slideDown();
+	
+	var text = $(this).attr('rel');
+	
+	$(this).removeClass('unfold');
+	$(this).addClass('fold');
+	$(this).attr('rel', $(this).html());
+	$(this).html(text);	
+});
+
 $(document).ready(function(){
 
 	/* Shared settings */

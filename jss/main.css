@@ -574,6 +574,15 @@ input.edit {
 	margin-top: 15px;
 }
 
+.gouf_image {
+	width: 200px;
+	height: 50px;
+}
+
+.gouf_links {	
+	padding-left: 10px;
+}
+
 /* Content, вывод комментариев */
 
 #comments {
