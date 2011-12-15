@@ -24,12 +24,17 @@
 								<br />
 							{% endif %}
 							{{link.name}}: 
-							{% for url, alias in link.url %}
+							{% for url in link.url %}
 								{% if not loop.first %}
 									 | 
 								{% endif %}
-								<a href="{{url}}" target="_blank">
-									{{alias}}
+								<a href="{{url.url}}" 
+									 {% if url.status == 3 %}
+										class="broken_link with_help"
+										 title="Ссылка битая. Последняя проверка: {{url.check}}"
+									 {% endif %}
+									 target="_blank">
+									{{url.alias}}
 								</a>
 							{% endfor %}	
 								 (~{{link.display_size}} {{link.display_sizetype}})									

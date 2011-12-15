@@ -98,6 +98,7 @@ $sets['dir']['navi'] = 1;
 $sets['dir']['settings'] = 0;
 $sets['dir']['comment'] = 1;
 $sets['dir']['update'] = 1;
+$sets['dir']['gouf'] = 1;
 $sets['dir']['order'] = 1;
 $sets['dir']['quick'] = 1;
 $sets['dir']['tag'] = 1;

@@ -8,6 +8,12 @@ class Read_Post_Gouf extends Read_Abstract
 	protected $mode = 'post';
 	protected $sorters = array();
 	
+	protected $is_flea = false;
+	protected $area_condition = 'p.area = ? or p.area = ?';
+	protected $area_params = array('main', 'workshop');
+	
+	protected $active_menu_item = 0;
+	
 	protected $side_modules = array(
 		'head' => array('title', 'js', 'css'),
 		'header' => array('menu', 'personal'),
@@ -45,10 +51,22 @@ class Read_Post_Gouf extends Read_Abstract
 	}
 	
 	public function process($url) {
+		if ($url[1] == 'flea') {
+			
+			$this->area_condition = 'p.area = ?';
+			$this->area_params = 'flea_market';
+			$this->is_flea = true;
+			array_splice($url, 1, 1);
+			
+			$this->active_menu_item += 2;
+		}
+		
 		if ($url[1] == 'update') {
 			
 			$this->mode = 'update';			
 			array_splice($url, 1, 1);
+			
+			$this->active_menu_item += 1;
 		}
 		
 		parent::process($url);
@@ -69,6 +87,7 @@ class Read_Post_Gouf extends Read_Abstract
 		$this->data['items'] = $items;
 		$this->data['sorters'] = $this->sorters;
 		$this->data['mode'] = $this->mode;
+		$this->data['active_menu'] = $this->active_menu_item;
 	}
 	
 	protected function get_items_update(Database_Instance $query) {
@@ -81,7 +100,8 @@ class Read_Post_Gouf extends Read_Abstract
 		$data = $query->join('post_update', 'pu.id = pus.id')
 			->join('post', 'p.id = pu.post_id')
 			->get_vector('post_update_status', 
-				array('pu.*', 'p.title', 'p.comment_count'));
+				array('pu.*', 'p.title', 'p.comment_count'), 
+				$this->area_condition, $this->area_params);
 
 		$this->count = Database::get_counter();
 			
@@ -126,8 +146,8 @@ class Read_Post_Gouf extends Read_Abstract
 			$query->order($sorter);			
 		}
 
-		$data = $query->join('post', 'p.id = ps.id')
-			->get_vector('post_status', 'p.*');
+		$data = $query->join('post', 'p.id = ps.id')->get_vector('post_status', 
+			'p.*', $this->area_condition, $this->area_params);
 
 		$this->count = Database::get_counter();
 
@@ -194,6 +214,7 @@ class Read_Post_Gouf extends Read_Abstract
 
 		if ($this->count > $this->per_page) {
 			$base = '/post/gouf/' . 
+				($this->is_flea ? 'flea/' : '') . 
 				($this->mode == 'update' ? 'update/' : '');
 			
 			$this->data['navi'] = $this->get_bottom_navi($base);	
@@ -207,6 +228,7 @@ class Read_Post_Gouf extends Read_Abstract
 
 		if ($this->count > $this->per_page) {
 			$base = '/post/gouf/' . 
+				($this->is_flea ? 'flea/' : '') . 
 				($this->mode == 'update' ? 'update/' : '');
 			
 			$this->data['navi'] = $this->get_bottom_navi($base);	
@@ -221,6 +243,7 @@ class Read_Post_Gouf extends Read_Abstract
 
 		if ($this->count > $this->per_page) {
 			$base = '/post/gouf/' . 
+				($this->is_flea ? 'flea/' : '') . 
 				($this->mode == 'update' ? 'update/' : '') . 
 				(!empty($url[2]) ? 'sort/' . $url[2] . '/' : '');
 			

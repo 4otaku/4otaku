@@ -304,6 +304,7 @@ $(".fold").live('click', function(){
 	var container = $(this).parents('.fold-container');
 	container.find('.fold-content').slideUp();
 	
+	$.post("/ajax.php?m=cookie&f=set&field=dir."+container.attr('rel')+"&val=0");
 	var text = $(this).attr('rel');
 	
 	$(this).removeClass('fold');
@@ -316,6 +317,7 @@ $(".unfold").live('click', function(){
 	var container = $(this).parents('.fold-container');
 	container.find('.fold-content').slideDown();
 	
+	$.post("/ajax.php?m=cookie&f=set&field=dir."+container.attr('rel')+"&val=1");	
 	var text = $(this).attr('rel');
 	
 	$(this).removeClass('unfold');
@@ -331,6 +333,17 @@ $(".add-sort").live('click', function(){
 	sort.removeClass('hidden');
 	if (parent.find('.sort-visible .sort-item').length > 2) {
 		$(this).hide();
+	}
+});
+
+$('.sort-item .field').live('change', function(){
+	percent = $(this).parents('.sort-item').find('.operation');
+	
+	if ($(this).find('option:selected').attr('rel') != 'percent') {
+		percent.css('visibility', 'hidden').attr('disabled', 'disabled');
+		percent.val(percent.find("option:first").val());
+	} else {
+		percent.css('visibility', 'visible').removeAttr('disabled');
 	}
 });
 

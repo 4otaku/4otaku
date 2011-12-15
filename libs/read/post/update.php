@@ -66,7 +66,8 @@ class Read_Post_Update extends Read_Abstract
 		
 		$items = Database::set_counter()->order('pu.sortdate')
 			->join('post', 'p.id = pu.post_id')->limit($this->per_page, $start)
-			->get_table('post_update', array('pu.*', 'p.title', 'p.comment_count'));
+			->get_table('post_update', array('pu.*', 'p.title', 'p.comment_count'), 
+				'p.area != ?', 'deleted');
 
 		$this->count = Database::get_counter();
 

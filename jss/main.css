@@ -574,6 +574,63 @@ input.edit {
 	margin-top: 15px;
 }
 
+.gouf_text {
+	margin-bottom: 20px;
+}
+
+.gouf_color_schema {
+	width: 100%;
+	margin-bottom: 10px;
+	border: 1px solid rgb(204, 204, 204);
+}
+
+.gouf_color_schema td {
+	width: 50%;
+	height: 30px;
+	vertical-align: middle;
+	padding: 5px;
+}
+
+.gouf_color_wrapper {
+	position: relative;
+}
+	
+.gouf_color {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+}
+
+.gouf_color_0 {
+	background-color: #BBBBBB;
+}
+
+.gouf_color_1 {
+	background-color: #42A3B9;
+}
+
+.gouf_color_2 {
+	background-color: #EEAAFF;
+}
+
+.gouf_color_3 {
+	background-color: #FF4433;
+}
+
+.gouf_color_description {
+	margin-left: 30px;
+}
+
+.gouf_menu {
+    text-align: center;
+}
+
+.gouf_menu a {
+    width: 22%;
+    display: inline-block;
+    text-align: center;
+}
+
 .remove_sort {
 	margin-left: 10px;
 }

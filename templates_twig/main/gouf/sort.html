@@ -4,36 +4,36 @@
 			<div class="sort-item">
 				Сортировка:
 				 <select class="field">
-					<option value="overall"
-						{% if sorter.get_field == 'overall'%} class="selected"{% endif %}>
+					<option value="overall" rel="no_percent"
+						{% if sorter.get_field == 'overall' %} class="selected"{% endif %}>
 							Общая ситуация
 					</option>
-					<option value="total"
-						{% if sorter.get_field == 'total'%} class="selected"{% endif %}>
+					<option value="total" rel="no_percent"
+						{% if sorter.get_field == 'total' %} class="selected"{% endif %}>
 							Всего ссылок
 					</option>
-					<option value="broken"
-						{% if sorter.get_field == 'broken'%} class="selected"{% endif %}>
+					<option value="broken" rel="percent"
+						{% if sorter.get_field == 'broken' %} class="selected"{% endif %}>
 							Количество мертвых ссылок
 					</option>
-					<option value="partially_broken"
-						{% if sorter.get_field == 'partially_broken'%} class="selected"{% endif %}>
+					<option value="partially_broken" rel="percent"
+						{% if sorter.get_field == 'partially_broken' %} class="selected"{% endif %}>
 							Количество битых зеркал
 					</option>
-					<option value="unmirorred"
-						{% if sorter.get_field == 'unmirorred'%} class="selected"{% endif %}>
+					<option value="unmirorred" rel="percent"
+						{% if sorter.get_field == 'unmirorred' %} class="selected"{% endif %}>
 							Количество неотзеркаленного
 					</option>
-					<option value="unknown"
-						{% if sorter.get_field == 'unknown'%} class="selected"{% endif %}>
+					<option value="unknown" rel="percent"
+						{% if sorter.get_field == 'unknown' %} class="selected"{% endif %}>
 							Количество, которое не удалось проверить
 					</option>
-					<option value="uncheked"
-						{% if sorter.get_field == 'uncheked'%} class="selected"{% endif %}>
+					<option value="uncheked" rel="percent"
+						{% if sorter.get_field == 'uncheked' %} class="selected"{% endif %}>
 							Количество, которое еще не проверено
 					</option>
-					<option value="lastcheck"
-						{% if sorter.get_field == 'lastcheck'%} class="selected"{% endif %}>
+					<option value="lastcheck" rel="no_percent"
+						{% if sorter.get_field == 'lastcheck' %} class="selected"{% endif %}>
 							Последняя проверка
 					</option>
 				</select>
@@ -47,7 +47,11 @@
 							По возрастанию
 					</option>
 				</select>
-				 <select class="operation">
+				 <select class="operation"
+					{% if sorter.get_field == 'overall' or sorter.get_field == 'total' or sorter.get_field == 'lastcheck' %}
+						 style="visibility:hidden;" disabled="disabled"
+					{% endif %}
+				 >
 					<option value="normal"
 						{% if not sorter.have_operations %} class="selected"{% endif %}>
 							В абсолютном
@@ -64,28 +68,28 @@
 	<div class="sort-item hidden">
 		Сортировка:
 		 <select class="field">
-			<option value="overall">
+			<option value="overall" rel="no_percent">
 				Общая ситуация
 			</option>
-			<option value="total">
+			<option value="total" rel="no_percent">
 				Всего ссылок
 			</option>
-			<option value="broken">
+			<option value="broken" rel="percent">
 				Количество мертвых ссылок
 			</option>
-			<option value="partially_broken">
+			<option value="partially_broken" rel="percent">
 				Количество битых зеркал
 			</option>
-			<option value="unmirorred">
+			<option value="unmirorred" rel="percent">
 				Количество неотзеркаленного
 			</option>
-			<option value="unknown">
+			<option value="unknown" rel="percent">
 				Количество, которое не удалось проверить
 			</option>
-			<option value="uncheked">
+			<option value="uncheked" rel="percent">
 				Количество, которое еще не проверено
 			</option>
-			<option value="lastcheck">
+			<option value="lastcheck" rel="no_percent">
 				Последняя проверка
 			</option>
 		</select>
@@ -97,7 +101,7 @@
 				По возрастанию
 			</option>
 		</select>
-		 <select class="operation">
+		 <select class="operation" style="visibility:hidden;" disabled="disabled">
 			<option value="normal">
 				В абсолютном
 			</option>
