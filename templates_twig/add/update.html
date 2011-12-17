@@ -20,7 +20,7 @@
 				</td>
 			</tr>
 			{% for key, link in data %}
-				{% for url, alias in link.url %}
+				{% for url in link.url %}
 					<tr class="link" rel="{{key}}-{{key2}}">
 						<td class="input field_name">
 							Ссылка
@@ -31,7 +31,7 @@
 								value="{{link.name}}" />: 
 							<input size="36%" type="text" 
 								name="link[{{key}}][link]" 
-								value="<{{alias}}>{{url}}" />
+								value="<{{url.alias}}>{{url.url}}" />
 							~(<input size="2%" type="text" 
 								name="link[{{key}}][size]" 
 								value="{{link.display_size}}" /> 

@@ -43,6 +43,25 @@
 				{% endif %}	
 			</p>
 		</div>
+		{% if _sets.user.rights %}
+			<table width="100%">
+				<tr>
+					<td>
+						<select name="edit_type" id="edit_type-{{id}}">
+							<option value="title">Заголовок</option>
+							<option value="text">Текст</option>
+							<option value="link">Ссылки</option>
+							<option value="author">Автора</option>
+						</select> 
+						<input type="submit" value="Редактировать" class="load_edit_field" rel="{{id}}" />
+					</td>	
+				</tr>	
+			</table>
+			<div id="loader-update-{{update.id}}" class="hidden center loader">
+				<img src="/images/ajax-loader.gif">
+			</div>
+			<div id="edit-update-{{update.id}}" rel="update" class="edit_field hidden"></div>
+		{% endif %}		
 	</div>
 {% endfor %}
 
