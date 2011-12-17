@@ -1,69 +1,25 @@
 <div class="shell">
-	<div class="update post" id="post-update-{{update.id}}">
-		<table width="100%">
-			<tr>
-				<td align="left">
-					<h2>
-						<a href="/post/{{update.post_id}}/show_updates/" title="{{update.title}}">
-							{{update.title}}
-						</a>
-					</h2>
-				</td>
-				<td align="right" valign="top">
-					<a href="/post/{{update.post_id}}">
-						Комментировать
-					</a>
-					{% if update.comment_count %}
-						 ({{update.comment_count}})
-					{% endif %}	
-				</td>
-			</tr>
-		</table>
-		<table cellspacing="0" cellpadding="0" width="100%">
-			<tr>
-				{% if update.image %}
-					<td class="imageholder" valign="top">
-						{% for key, image in update.image %}
-							<div class="image-{{key}}">
-								<a href="/images/post/full/{{image.file}}.{{image.extension}}" target="_blank">
-									<img src="/images/post/thumb/{{image.file}}.jpg" />
-								</a>
-							</div>
-						{% endfor %}
-					</td>
-				{% endif %}		
-				<td valign="top">
-					<p>
-						Обновил: 
-						<b>
-							{{update.username}}
-						</b>; 
-						Дата обновления: {{update.pretty_date}}
-					</p>
-					<div class="posttext">
-						{{update.text}}
-					</div>
-					{% if update.link %}
-						<p>
-							{% for key, link in update.link %}
-								{% if not loop.first %}
-									<br />
-								{% endif %}
-								{{link.name}}: 
-								{% for url in link.url %}
-									{% if not loop.first %}
-										 | 
-									{% endif %}
-									<a href="{{url.url}}" target="_blank">
-										{{url.alias}}
-									</a>
-								{% endfor %}	
-									 (~{{link.display_size}} {{link.display_sizetype}})									
-							{% endfor %}
-						</p>
-					{% endif %}
-				</td>
-			</tr>
-		</table>
-	</div>	
+	<div class="update post" id="post_update-{{update.id}}">
+		{% include 'main/item/update/batch.html' %}
+	</div>
+	{% if _sets.user.rights %}
+		<div class="edit_wrapper" rel="post_update">
+			<table width="100%">
+				<tr>
+					<td>
+						<select name="edit_type" id="edit_type">
+							<option value="text">Текст</option>
+							<option value="link">Ссылки</option>
+							<option value="author">Автора</option>
+						</select> 
+						<input type="submit" value="Редактировать" class="load_edit_field" rel="{{update.id}}" />
+					</td>	
+				</tr>	
+			</table>
+			<div id="loader" class="hidden center loader">
+				<img src="/images/ajax-loader.gif">
+			</div>
+			<div id="edit" class="edit_field hidden"></div>
+		</div>
+	{% endif %}	
 </div>

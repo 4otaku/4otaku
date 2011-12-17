@@ -1,3 +1,7 @@
 {% for id, update in items %}
-	{% include 'dynamic/update/core.html' %}
+	{% if update.in_batch %}
+		{% include 'main/item/update/batch.html' %}
+	{% else %}
+		{% include 'main/item/update/single.html' %}
+	{% endif %}
 {% endfor %}

@@ -1,6 +1,6 @@
 {% for update in items %}
 	<div class="mini-shell" id="post_update-{{update.id}}">
-		{% include 'dynamic/update/core.html' %}	
+		{% include 'main/item/update/single.html' %}
 	</div>
 	{% if _sets.user.rights %}
 		<div class="edit_wrapper" rel="post_update">

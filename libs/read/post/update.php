@@ -25,7 +25,9 @@ class Read_Post_Update extends Read_Abstract
 	
 	public function get_item($id) {
 		
-		$item = Database::get_full_row('post_update', $id);
+		$item = Database::join('post', 'p.id = pu.post_id')->
+			get_row('post_update', array('pu.*', 'p.title', 'p.comment_count'), 
+				'pu.id = ?', $id);
 			
 		$item = new Model_Post_Update($item);
 		
@@ -63,7 +65,13 @@ class Read_Post_Update extends Read_Abstract
 	}
 	
 	protected function display_show($url) {
-		$item = $this->get_item($url[2]);
+		$item = $this->get_item($url[2]);		
+		
+		if ($url[3] == 'batch') {
+			$item['in_batch'] = true;
+			
+			$this->get_update_images(array($item['post_id'] => $item));
+		}
 		
 		$this->template = $this->show_template;
 		$this->data['items'] = array($item['id'] => $item);
