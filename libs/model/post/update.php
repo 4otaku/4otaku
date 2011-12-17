@@ -26,11 +26,25 @@ class Model_Post_Update extends Model_Abstract
 		$this->set('area', def::area(0));
 		
 		parent::insert();
-
+		
 		Database::update('post', 
 			array('update_count' => '++'), 
 			$this->get('post_id'));
-			
+		
+		$this->add_children();
+		
+		return $this;
+	}	
+	
+	public function commit() {
+		parent::commit();
+		
+		$this->add_children();
+		
+		return $this;
+	}
+
+	protected function add_children() {			
 		$order = 0;
 		$links = $this->get('link');
 		foreach ($links as $link) {

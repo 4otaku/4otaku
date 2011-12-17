@@ -1,69 +1,28 @@
 {% for update in items %}
-	<div class="shell">
-		<div class="right">
-			<b>
-				Дата обновления: {{update.pretty_date}}
-			</b>
-		</div>
-		<div class="left">
-			Обновил: 
-			<b>
-				{{update.username}}
-			</b>; 
-		</div>
-		<div class="clear"></div>
-		<div class="entry">
-			<p>
-				{{update.text}}
-			</p>
-			<p>
-				{% if update.link %}
-					<p>
-						{% for key, link in update.link %}
-							{% if not loop.first %}
-								<br />
-							{% endif %}
-							{{link.name}}: 
-							{% for url in link.url %}
-								{% if not loop.first %}
-									 | 
-								{% endif %}
-								<a href="{{url.url}}" 
-									 {% if url.status == 3 %}
-										class="broken_link with_help"
-										 title="Ссылка битая. Последняя проверка: {{url.check}}"
-									 {% endif %}
-									 target="_blank">
-									{{url.alias}}
-								</a>
-							{% endfor %}	
-								 (~{{link.display_size}} {{link.display_sizetype}})									
-						{% endfor %}
-					</p>
-				{% endif %}	
-			</p>
-		</div>
-		{% if _sets.user.rights %}
-			<div class="edit_wrapper" rel="post_update">
-				<table width="100%">
-					<tr>
-						<td>
-							<select name="edit_type" id="edit_type">
-								<option value="text">Текст</option>
-								<option value="link">Ссылки</option>
-								<option value="author">Автора</option>
-							</select> 
-							<input type="submit" value="Редактировать" class="load_edit_field" rel="{{update.id}}" />
-						</td>	
-					</tr>	
-				</table>
-				<div id="loader" class="hidden center loader">
-					<img src="/images/ajax-loader.gif">
-				</div>
-				<div id="edit" class="edit_field hidden"></div>
-			</div>
-		{% endif %}		
+	<div class="mini-shell" id="post_update-{{update.id}}">
+		{% include 'dynamic/update/core.html' %}	
 	</div>
+	{% if _sets.user.rights %}
+		<div class="edit_wrapper" rel="post_update">
+			<table width="100%">
+				<tr>
+					<td>
+						<select name="edit_type" id="edit_type">
+							<option value="text">Текст</option>
+							<option value="link">Ссылки</option>
+							<option value="author">Автора</option>
+						</select> 
+						<input type="submit" value="Редактировать" class="load_edit_field" rel="{{update.id}}" />
+					</td>	
+				</tr>	
+			</table>
+			<div id="loader" class="hidden center loader">
+				<img src="/images/ajax-loader.gif">
+			</div>
+			<div id="edit" class="edit_field hidden"></div>
+		</div>
+	{% endif %}
+	<div class="clear margin10"></div>
 {% endfor %}
 
 <script type="text/javascript">
@@ -76,3 +35,4 @@
 		$("#updates_field").html('&nbsp;');
 	});	
 </script>
+<div class="clear margin20"></div>

@@ -53,7 +53,7 @@ class Update_Post_Update extends Update_Abstract
 		$links = Transform_Link::parse($links);
 
 		foreach($links as $link) {
-			$link = new Model_Post_Link($link);
+			$link = new Model_Post_Update_Link($link);
 			$this->model->add_link($link);
 		}
 	}

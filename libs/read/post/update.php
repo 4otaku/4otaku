@@ -5,6 +5,8 @@ class Read_Post_Update extends Read_Abstract
 	protected $template = 'main/update';
 	protected $error_template = 'error/post';
 	
+	protected $show_template = 'dynamic/update/show';
+	
 	protected $single_post_template = 'dynamic/post/update';
 	
 	protected $side_modules = array(
@@ -58,6 +60,13 @@ class Read_Post_Update extends Read_Abstract
 	
 		$this->set_page($url, 2);		
 		$this->get_items();	
+	}
+	
+	protected function display_show($url) {
+		$item = $this->get_item($url[2]);
+		
+		$this->template = $this->show_template;
+		$this->data['items'] = array($item['id'] => $item);
 	}
 	
 	protected function get_items() {

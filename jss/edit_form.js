@@ -59,9 +59,9 @@ function on_load_new(id, type) {
 		} else {
 			var single = 'single';
 		}
-		
-		var item = $("#post-"+id);
-		item.load("/post/show/"+id+"/"+single+"/" ,function(){ 
+
+		var item = $("#"+type+"-"+id);
+		item.load("/"+type+"/show/"+id+"/"+single+"/" ,function(){ 
 			$("div.post").css({'height':'auto'}); 
 			$(".art_translation").easyTooltip();
 			if ($("#navi_bottom").length) {
