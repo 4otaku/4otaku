@@ -19,9 +19,9 @@ abstract class Read_Edit_Abstract extends Read_Abstract
 	
 	protected function get_type() {
 
-		$class = explode('_', get_called_class());
-		$type = array_pop($class);
+		$class = get_called_class();
+		$class = strtolower($class);
 		
-		return strtolower($type);
+		return substr($class, 10);
 	}
 }
