@@ -70,7 +70,8 @@ class Read_Post_Update extends Read_Abstract
 		if ($url[3] == 'batch') {
 			$item['in_batch'] = true;
 			
-			$this->get_update_images(array($item['post_id'] => $item));
+			$this->get_update_images(
+				array($item['post_id'] => array($item)));
 		}
 		
 		$this->template = $this->show_template;
@@ -93,7 +94,7 @@ class Read_Post_Update extends Read_Abstract
 		foreach ($items as &$item) {
 			$item = new Model_Post_Update($item);
 			$pointers[$item['id']] = $item;
-			$post_pointers[$item['post_id']] = $item;
+			$post_pointers[$item['post_id']][] = $item;
 		}
 		unset($item);			
 
@@ -139,7 +140,9 @@ class Read_Post_Update extends Read_Abstract
 				
 		foreach ($images as $image) {
 			$image = new Model_Post_Image($image);
-			$items[$image['post_id']]->add_image($image);
+			foreach ($items[$image['post_id']] as $item) {
+				$item->add_image($image);
+			}
 		}
 	}
 }
