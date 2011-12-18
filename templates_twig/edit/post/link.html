@@ -1,8 +1,8 @@
 {% include "/edit/top.html" %}
 
-<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,edit/links.js,add/post.js"></script>
-<table class="margin20">
-	<tbody class="link_main">
+<script type="text/javascript" src="/jss/m/?b=jss&f=ui/core.js,ui/sortable.js,edit_form.js,edit/links.js,add/post.js"></script>
+<table class="margin20 sortable-holder">
+	<tbody class="link_main sortable">
 		{% for link in data.link %}
 			<tr class="link" rel="{{loop.index}}">
 				<td>
@@ -18,8 +18,7 @@
 					<input type="submit" class="disabled remove_link second_button" rel="main" value="-"/>
 				</td>
 				<td class="handler">
-					<img src="/images/str1.png" class="arrow-up clickable" />
-					<img src="/images/str2.png" class="arrow-down clickable" />
+					<img src="/images/str.png" />
 				</td>
 			</tr>
 		{% endfor %}
