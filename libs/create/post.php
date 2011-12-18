@@ -11,7 +11,7 @@ class Create_Post extends Create_Abstract
 	);
 	
 	public function main() {
-		
+
 		$this->set_redirect();
 		$post = $this->correct_main_data(query::$post);		
 		
@@ -38,7 +38,7 @@ class Create_Post extends Create_Abstract
 		
 		$links = Transform_Link::parse($post['link']);
 		$extras = Transform_Link::parse($post['bonus_link']);
-			
+
 		$item = new Model_Post();
 		$item->set_array(array(
 			'title' => $post['title'],

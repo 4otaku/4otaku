@@ -21,8 +21,8 @@ $(document).ready(function(){
 	});
 	
 	$(".add_link").click(function(){  
-		var oldnum = parseInt($('.link_'+$(this).attr('rel')).children("tr.link:last").attr('rel'));
-		var num = oldnum + 1; 
+		var oldnum = $('.link_'+$(this).attr('rel')).children("tr.link:last").attr('rel');
+		var num = uid(); 
 		$('.link_'+$(this).attr('rel')).append('<tr class="link">'+$('.link_'+$(this).attr('rel')).children("tr.link:last").html().replaceall('['+oldnum+']','['+num+']')+'</tr>');
 		$('.link_'+$(this).attr('rel')).children("tr.link:last").attr('rel', num);
 		if ($(this).attr('rel') == 'main') 

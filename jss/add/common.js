@@ -19,6 +19,13 @@ function finish_loading(el) {
 	
 }
 
+function uid() {
+	var S4 = function() {
+		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	};
+	return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
 $(document).ready(function(){  	
 
 	$(".disabled").live('click', function(event){  
@@ -26,7 +33,7 @@ $(document).ready(function(){
 	});
 	
 	$('#addform').submit(function() {
-		  window.onbeforeunload = null;
+		window.onbeforeunload = null;
 	});
 
 	$(".add_meta").click(function(){  
