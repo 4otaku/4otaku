@@ -92,13 +92,32 @@ class Read_Post extends Read_Main
 		}
 		
 		$torrents = Database::order('order', 'asc')->get_full_table('post_torrent', 
-				Database::array_in('post_id', $keys), $keys);
+			Database::array_in('post_id', $keys), $keys);
 
+		$hashes = array();
+		foreach ($torrents as $torrent) {
+			$hashes[] = $torrent['hash'];
+		}
+		
+		if (!empty($hashes)) {
+			$torrents_data = (array) Database::db('tracker')->get_vector('xbt_files', 
+				array('info_hash', 'seeders', 'leechers'),
+				Database::array_in('info_hash', $hashes), $hashes);
+			foreach ($torrents as &$torrent) {
+				$hash = $torrent['hash'];
+				if (!empty($torrents_data[$hash])) {
+					$torrent['seeders'] = $torrents_data[$hash]['seeders'];
+					$torrent['leechers'] = $torrents_data[$hash]['leechers'];
+				}
+			}
+			unset($torrent);
+		}
+		
 		foreach ($torrents as $torrent) {
 			$torrent = new Model_Post_Torrent($torrent);
 			$items[$torrent['post_id']]->add_torrent($torrent);
 		}
-		
+
 		$files = Database::order('order', 'asc')->get_full_table('post_file', 
 				Database::array_in('post_id', $keys), $keys);
 

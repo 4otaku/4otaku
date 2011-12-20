@@ -94,6 +94,10 @@
 								{{torrent.display_file}}
 							</a>
 							 (~{{torrent.display_size}} {{torrent.display_sizetype}})
+							 <span class="torrent_info">
+								<span class="seeders">S: {{torrent.seeders}}</span>,
+								 <span class="leechers">L: {{torrent.leechers}}</span>
+							</span>
 						{% endfor %}
 					</p>
 				{% endif %}

@@ -71,7 +71,7 @@ class Model_Post_Torrent extends Model_Abstract
 		$this->set('size', $size);
 		$this->set('sizetype', $type);
 	}
-	
+
 	protected function get_display_filename() {
 		$file = $this->get('file');
 		if (strlen($file) <= self::MAX_DISPLAY_FILENAME + 4) {
