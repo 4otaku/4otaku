@@ -129,7 +129,7 @@ $(document).ready(function(){
 				if ($('#post-torrent').attr('rel') == 'add') {
 					$('.link_torrent').append('<tr class="link" rel="0"><td class="input field_name">Торрент</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
 				} else {
-					$('.link_torrent').append('<tr class="link" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
+					$('.link_torrent').append('<tr class="link" rel="0"><td>'+decoded.replaceall('[0]','['+num+']')+'</td><td class="handler"><img src="/images/str.png" /></td></tr>'); 
 				}
 
 				$('.link_torrent').children("tr.link:last").attr('rel', num);
