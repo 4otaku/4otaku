@@ -17,8 +17,10 @@ $(document).ready(function(){
 	window.processing_torrents = 0;
 
 	$(".remove_link").live('click', function(e){ 
-		if ($('.link_'+$(this).attr('rel')+' tr.link').length > 1 || $(this).attr('rel') == 'file') 
+		if ($('.link_'+$(this).attr('rel')+' tr.link').length > 1 || 
+			$(this).attr('rel') == 'file' || $(this).attr('rel') == 'torrent') { 
 			$(this).parents('tr.link').remove();
+		}
 	});
 	
 	$(".add_link").click(function(){  
@@ -118,19 +120,19 @@ $(document).ready(function(){
 			} else {
 				var decoded = $('<textarea/>').html(response['data']).val();
 				
-				if ($('.link_file').children("tr.torrent:last").length != 0) {
-					var num = parseInt($('.link_file').children("tr.torrent:last").attr('rel')) + 1;
+				if ($('.link_torrent').children("tr.link:last").length != 0) {
+					var num = parseInt($('.link_torrent').children("tr.link:last").attr('rel')) + 1;
 				} else {
 					num = 1;
 				}
 
 				if ($('#post-torrent').attr('rel') == 'add') {
-					$('.after-torrent').before('<tr class="torrent" rel="0"><td class="input field_name">Торрент</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
+					$('.link_torrent').append('<tr class="link" rel="0"><td class="input field_name">Торрент</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
 				} else {
-					$('.after-torrent').before('<tr class="torrent" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
+					$('.link_torrent').append('<tr class="link" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
 				}
 
-				$('.link_file').children("tr.torrent:last").attr('rel', num);
+				$('.link_torrent').children("tr.link:last").attr('rel', num);
 			}
 		}
 	});

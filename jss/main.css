@@ -1228,6 +1228,21 @@ input.sign {
 	padding: 5px;
 }
 
+#addform .inputdata td {
+	padding: 0px;
+}
+
+#addform .textarea {
+	margin: 0px;
+	width: 100%;
+}
+
+#addform .textarea textarea{
+	margin: 0 !important; 
+	padding: 0 !important; 
+	width: 100%;
+}
+
 #addform .uploadholder {
 	vertical-align: middle;
 }

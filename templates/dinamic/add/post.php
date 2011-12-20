@@ -6,7 +6,7 @@
 		</span>
 	</div>
 	<table width="100%">
-		<tbody class="link_main">
+		<thead class="link_main">
 			<tr>
 				<td class="input field_name">
 					Название
@@ -15,7 +15,7 @@
 					<input size="65%" name="title" value="" type="text">
 				</td>
 			</tr>
-			<tr class="link" rel="0">
+			<tr class="link hidden" rel="0">
 				<td class="input field_name">
 					Ссылка
 				</td>
@@ -32,19 +32,47 @@
 					<input type="submit" class="disabled sign remove_link" rel="main" value="-" />
 				</td>
 			</tr>
-        </tbody>
-        <tfoot>
+		</thead>
+		<tbody class="link_torrent">
 			<tr>
 				<td class="input field_name">
-					Добавить еще ссылку
+					Добавить ссылку
 				</td>
 				<td class="inputdata">
 					<input type="submit" class="disabled add_link" rel="main" value="+" />
 				</td>
 			</tr>
 			<tr>
+				<td class="input field_name">
+					Прикрепить торрент
+				</td>
+				<td class="inputdata">
+					<table>
+						<tr>
+							<td>
+								<div id="post-torrent" rel="add"></div>
+							</td>
+							<td>
+								<img
+									 class="processing-torrent hidden" 
+									 src="/images/ajax-processing.gif" />
+							</td>
+							<td>
+								<span
+									 class="processing-torrent hidden">
+									Торрент загружается. (Вы можете загружать несколько торрентов одновременно.)
+								</span>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
 				<td colspan="2">
-					<a href="http://wiki.4otaku.ru/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B8" target="_blank">
+					Для добавления записи нужна хотя бы одна ссылка или хотя бы один торрент.
+					 <a href="http://wiki.4otaku.ru/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B8" target="_blank">
 						Справка по добавлению записи</a>.
 				</td>
 			</tr>
@@ -92,50 +120,31 @@
 					Описание
 				</td>
 				<td class="inputdata">
-					<textarea name="text" cols="70" rows="8" id="textfield" class="left"></textarea>
-					<table cellspacing="3px" class="bbholder">
+					<table cellspacing="3px" class="bbholder" width="100%">
 						<tr>
-							<td><img src="<?=$def['site']['dir']?>/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
-						</tr>
-						<tr>
-							<td><img src="<?=$def['site']['dir']?>/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
-						</tr>
-						<tr>
-							<td><img src="<?=$def['site']['dir']?>/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
-						</tr>
-						<tr>
-							<td><img src="<?=$def['site']['dir']?>/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
-						</tr>
-						<tr>
-							<td><img src="<?=$def['site']['dir']?>/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
-						</tr>
-						<tr>
-							<td><img src="<?=$def['site']['dir']?>/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td class="input field_name">
-					Прикрепить торрент
-				</td>
-				<td class="inputdata">
-					<table>
-						<tr>
-							<td>
-								<div id="post-torrent" rel="add"></div>
+							<td rowspan="6" width="100%">
+								<div class="textarea">
+									<textarea name="text" rows="8" id="textfield" class="left"></textarea>
+								</div>
 							</td>
-							<td>
-								<img
-									 class="processing-torrent hidden" 
-									 src="/images/ajax-processing.gif" />
+							<td style="width:22px">
+								<img src="/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" />
 							</td>
-							<td>
-								<span
-									 class="processing-torrent hidden">
-									Торрент загружается. (Вы можете загружать несколько торрентов одновременно.)
-								</span>
-							</td>
+						</tr>
+						<tr>
+							<td><img src="/images/bb/italic.png" rel="i" class="bb" title="Выделить курсивом" /></td>
+						</tr>
+						<tr>
+							<td><img src="/images/bb/strike.png" rel="s" class="bb" title="Зачеркнутый текст" /></td>
+						</tr>
+						<tr>
+							<td><img src="/images/bb/spoiler.png" rel="spoiler" class="bb" title="Спойлер" /></td>
+						</tr>
+						<tr>
+							<td><img src="/images/bb/picture.png" rel="img" class="bb" title="Добавить картинку" /></td>
+						</tr>
+						<tr>
+							<td><img src="/images/bb/link.png" rel="url" class="bb" title="Добавить ссылку" /></td>
 						</tr>
 					</table>
 				</td>

@@ -36,7 +36,26 @@ class Transform_Torrent {
 			return false;
 		}
 		
-		return sha1($this->encode_internal($this->data['info']));
+		$encoded = $this->encode_internal($this->data['info']);
+		return substr(sha1($encoded), 0, 20);
+	}
+
+	public function get_size() {
+		$size = 0;
+
+		$info = $this->get('info');
+
+		if (!empty($info['length'])) {
+			$size += (int) $info['length'];
+		}
+
+		if (!empty($info['files'])) {
+			foreach ($info['files'] as $file) {
+				$size += (int) $file['length'];
+			}
+		}
+
+		return $size;
 	}
 
 	public function encode_internal($v) {

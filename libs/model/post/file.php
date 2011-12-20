@@ -54,7 +54,7 @@ class Model_Post_File extends Model_Abstract
 		$this->get_file_size();
 		
 		parent::insert();
-				
+
 		return $this;
 	}
 	

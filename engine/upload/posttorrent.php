@@ -21,21 +21,21 @@ if ($sizefile < $def['post']['filesize']) {
 			$filename = Transform_File::make_name($filename);
 			$filename = substr($filename, 0, 200) . '.torrent';
 
-			if (!is_dir(ROOT_DIR.SL.'files'.SL.'torrent'.SL.$hash)) {
-				mkdir(ROOT_DIR.SL.'files'.SL.'torrent'.SL.$hash, 0755);
+			if (!is_dir(FILES.SL.'torrent'.SL.$hash)) {
+				mkdir(FILES.SL.'torrent'.SL.$hash, 0755);
 			}
-			$newfile = ROOT_DIR.SL.'files'.SL.'torrent'.SL.$hash.SL.$filename;
+			$newfile = FILES.SL.'torrent'.SL.$hash.SL.$filename;
 			file_put_contents($newfile, $data);
 
-			$size = $torrent->get('info', 'length');
+			$size = $torrent->get_size();
 			$size = Transform_File::weight_short($size);
 
 			$return_data = 
-				'<input size="24%" type="text" name="file[0][name]" value="Скачать" />:'."\n".
-				'<input readonly size="24%" type="text" name="file[0][file]" value="'.$filename.'" />'."\n".
-				'<input type="hidden" name="file[0][hash]" value="'.$hash.'" />'."\n".
-				'<input readonly size="4%" type="text" name="file[0][size]" value="'.$size.'" />'."\n".
-				'<input type="submit" class="disabled sign remove_link" rel="file" value="-" />';
+				'<input size="24%" type="text" name="torrent[0][name]" value="Скачать" />:'."\n".
+				'<input readonly size="24%" type="text" name="torrent[0][file]" value="'.$filename.'" />'."\n".
+				'<input type="hidden" name="torrent[0][hash]" value="'.$hash.'" />'."\n".
+				'<input readonly size="4%" type="text" name="torrent[0][size]" value="'.$size.'" />'."\n".
+				'<input type="submit" class="disabled sign remove_link" rel="torrent" value="-" />';
 				
 			$result = array(
 				'success' => true, 

@@ -55,7 +55,7 @@ class Model_Post extends Model_Abstract_Main
 				$image->set('order', $order);
 				$image->insert();
 				$order++;
-			}		
+			}
 		}
 
 		$order = 0;
@@ -71,7 +71,18 @@ class Model_Post extends Model_Abstract_Main
 			$status = new Model_Post_Status($this->get_id());
 			$status->load()->calculate($links)->commit();
 		}
-		
+
+		$order = 0;
+		$torrents = $this->get('torrent');
+		if (!empty($torrents)) {
+			foreach ($torrents as $torrent) {
+				$torrent->set('post_id', $this->get_id());
+				$torrent->set('order', $order);
+				$torrent->insert();
+				$order++;
+			}
+		}
+
 		$order = 0;
 		$files = $this->get('file');
 		if (!empty($files)) {
@@ -113,10 +124,15 @@ class Model_Post extends Model_Abstract_Main
 		}
 	}
 	
-	public function add_image(Model_Post_Image $image) {		
+	public function add_torrent(Model_Post_Torrent $torrent) {
+
+		$this->add_common('torrent', $torrent);
+	}
+	
+	public function add_image(Model_Post_Image $image) {
 
 		$this->add_common('image', $image);
-	}	
+	}
 	
 	public function add_file(Model_Post_File $file) {
 		
@@ -130,7 +146,7 @@ class Model_Post extends Model_Abstract_Main
 	
 	protected function add_common($type, $item) {
 		$items = (array) $this->get($type);
-		$items[] = $item;		
+		$items[] = $item;
 		$this->set($type, $items);
 	}
 }

@@ -13,9 +13,9 @@ class Create_Post extends Create_Abstract
 	public function main() {
 
 		$this->set_redirect();
-		$post = $this->correct_main_data(query::$post);		
+		$post = $this->correct_main_data(query::$post);
 		
-		if (!$post['title'] || !$post['link']) {		
+		if (!$post['title'] || (!$post['link'] && !$post['torrent'])) {
 			$this->add_res('Не все обязательные поля заполнены.', true);
 			return;
 		}		
@@ -38,6 +38,10 @@ class Create_Post extends Create_Abstract
 		
 		$links = Transform_Link::parse($post['link']);
 		$extras = Transform_Link::parse($post['bonus_link']);
+		
+		$images = $post['image'];
+		$torrents = $post['torrent'];
+		$files = $post['file'];
 
 		$item = new Model_Post();
 		$item->set_array(array(
@@ -50,7 +54,7 @@ class Create_Post extends Create_Abstract
 			'tag' => $tags
 		));
 		
-		foreach($post['image'] as $image) {
+		foreach($images as $image) {
 			$image = explode('.', $image);
 			$image = new Model_Post_Image(array(
 				'file' => $image[0], 
@@ -64,12 +68,17 @@ class Create_Post extends Create_Abstract
 			$item->add_link($link);
 		}
 		
+		foreach($torrents as $torrent) {
+			$torrent = new Model_Post_Torrent($torrent);
+			$item->add_torrent($torrent);
+		}
+		
 		foreach($extras as $extra) {
 			$extra = new Model_Post_Extra($extra);
 			$item->add_extra($extra);
 		}
 		
-		foreach($post['file'] as $file) {
+		foreach($files as $file) {
 			$file = new Model_Post_File($file);
 			$item->add_file($file);
 		}
@@ -123,7 +132,7 @@ class Create_Post extends Create_Abstract
 		$links = Transform_Link::parse($links);
 		if (empty($links)) {
 			$this->add_res('Проверьте ссылки, с ними была какая-то проблема', true);
-			return;			
+			return;
 		}
 		
 		$update = new Model_Post_Update(array(
@@ -147,6 +156,18 @@ class Create_Post extends Create_Abstract
 		
 		if (empty($data['tags'])) {
 			$data['tags'] = '';
+		}
+		
+		if (empty($data['torrent'])) {
+			$data['torrent'] = array();
+		}
+		
+		if (empty($data['image'])) {
+			$data['image'] = array();
+		}
+		
+		if (empty($data['file'])) {
+			$data['file'] = array();
 		}
 		
 		if (empty($data['images'])) {
