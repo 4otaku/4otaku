@@ -37,12 +37,12 @@
 					</a> 
 					<a href="#" class="disabled always_show_nsfw">
 						Всегда показывать такие материалы.
-					</a>										
+					</a>
 				</td>
 			</tr>
 			<tr class="hidden">
 		{% else %}
-			<tr>							
+			<tr>
 		{% endif %}
 			{% if post.image %}
 				<td class="imageholder" valign="top">
@@ -78,11 +78,25 @@
 									 target="_blank">
 									{{url.alias}}
 								</a>
-							{% endfor %}	
-								 (~{{link.display_size}} {{link.display_sizetype}})									
+							{% endfor %}
+								 (~{{link.display_size}} {{link.display_sizetype}})
 						{% endfor %}
 					</p>
-				{% endif %}							
+				{% endif %}
+				{% if post.torrent %}
+					<p>
+						{% for key, torrent in post.torrent %}
+							{% if not loop.first %}
+								<br />
+							{% endif %}
+							{{torrent.name}}: 
+							<a href="/files/torrent/{{torrent.hash}}/{{torrent.file}}" target="_blank">
+								{{torrent.display_file}}
+							</a>
+							 (~{{torrent.display_size}} {{torrent.display_sizetype}})
+						{% endfor %}
+					</p>
+				{% endif %}
 				{% if post.file %}
 					<p class="post-files">
 						{% for key, file in post.file %}

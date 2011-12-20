@@ -16,14 +16,14 @@ class Read_Post extends Read_Main
 	);
 	
 	public function __construct() {
-		parent::__construct();		
+		parent::__construct();
 		
 		$cookie = new dynamic__cookie();
 		$cookie->inner_set('visit.post', time(), false);
 		
 		$this->per_page = sets::pp('post');
-	}	
-	
+	}
+
 	// @TODO: public - хак для поиска и RSS, заменить на protected при возможности
 	public function get_item($id) {
 		$item = new Model_Post($id);
@@ -89,6 +89,14 @@ class Read_Post extends Read_Main
 		foreach ($links as $link) {
 			$link = new Model_Post_Link($link);
 			$items[$link['post_id']]->add_link($link);
+		}
+		
+		$torrents = Database::order('order', 'asc')->get_full_table('post_torrent', 
+				Database::array_in('post_id', $keys), $keys);
+
+		foreach ($torrents as $torrent) {
+			$torrent = new Model_Post_Torrent($torrent);
+			$items[$torrent['post_id']]->add_torrent($torrent);
 		}
 		
 		$files = Database::order('order', 'asc')->get_full_table('post_file', 

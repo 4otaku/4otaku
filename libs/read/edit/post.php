@@ -2,7 +2,7 @@
 
 class Read_Edit_Post extends Read_Edit_Abstract
 {
-	protected function title($url) {		
+	protected function title($url) {
 		$this->data['title'] = Database::get_field('post', 'title', $url[2]);
 	}
 
@@ -35,9 +35,20 @@ class Read_Edit_Post extends Read_Edit_Abstract
 		$this->data['link'] = $links;
 	}
 	
+	protected function torrent($url) {
+		$torrents = Database::order('order', 'asc')->get_full_table('post_torrent', 
+			'post_id = ?', $url[2]);
+			
+		foreach ($torrents as &$torrent) {
+			$torrent = new Model_Post_Torrent($torrent);
+		}
+		
+		$this->data['torrent'] = $torrents;
+	}
+	
 	protected function file($url) {
 		$files = Database::order('order', 'asc')->get_full_table('post_file', 
-				'post_id = ?', $url[2]);
+			'post_id = ?', $url[2]);
 			
 		foreach ($files as &$file) {
 			$file = new Model_Post_File($file);		
@@ -48,7 +59,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 	
 	protected function extra($url) {
 		$extras = Database::order('order', 'asc')->get_full_table('post_extra', 
-				'post_id = ?', $url[2]);
+			'post_id = ?', $url[2]);
 			
 		foreach ($extras as &$extra) {
 			$extra = new Model_Post_Extra($extra);		

@@ -68,7 +68,7 @@ class Update_Post extends Update_Abstract
 		if ($this->model['area'] == 'flea_market' || 
 			$this->model['area'] == 'main') {
 			
-			$area = 'post_'.$this->model['area'];			
+			$area = 'post_'.$this->model['area'];
 			$worker->erase_tags(array_keys($this->model['meta']['tag']), $area);
 		} else {
 			$area = false;
@@ -118,6 +118,16 @@ class Update_Post extends Update_Abstract
 		foreach($links as $link) {
 			$link = new Model_Post_Link($link);
 			$this->model->add_link($link);
+		}
+	}
+
+	protected function torrent($data) {
+		
+		Database::delete('post_torrent', 'post_id = ?', $this->model->get_id());
+		
+		foreach($data['torrent'] as $torrent) {
+			$torrent = new Model_Post_Torrent($torrent);
+			$this->model->add_torrent($torrent);
 		}
 	}
 

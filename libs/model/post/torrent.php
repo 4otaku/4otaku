@@ -2,6 +2,8 @@
 
 class Model_Post_Torrent extends Model_Abstract
 {
+	const MAX_DISPLAY_FILENAME = 40;
+	
 	// Поля таблицы
 	protected $fields = array(
 		'id',
@@ -25,6 +27,7 @@ class Model_Post_Torrent extends Model_Abstract
 		
 		$this->set('display_size', round($this->get('size'), 2));
 		$this->set('display_sizetype', $this->sizetypes[$this->get('sizetype')]);
+		$this->set('display_file', $this->get_display_filename());
 	}
 
 	public function insert() {
@@ -67,5 +70,19 @@ class Model_Post_Torrent extends Model_Abstract
 
 		$this->set('size', $size);
 		$this->set('sizetype', $type);
+	}
+	
+	protected function get_display_filename() {
+		$file = $this->get('file');
+		if (strlen($file) <= self::MAX_DISPLAY_FILENAME + 4) {
+			return $file;
+		}
+		
+		$part_length = ceil(self::MAX_DISPLAY_FILENAME / 2);
+		
+		$begin = substr($file, 0, $part_length);
+		$end = substr($file, -1 * $part_length);
+		
+		return $begin . '...' . $end;
 	}
 }
