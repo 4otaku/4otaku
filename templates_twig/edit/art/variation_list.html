@@ -1,10 +1,10 @@
 {% include "/edit/top.html" %}
 
-<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,edit/sort.js,fileupload.js,add/art.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=ui/core.js,ui/sortable.js,edit_form.js,edit/sort-art.js,fileupload.js,add/art.js"></script>
 <script type="text/javascript">
 	window.art_input_base_name = 'image_variation';
 </script>
-<table width="100%">		
+<table width="100%">
 	<tr>
 		<td width="20%">
 			Загрузить картинку
@@ -24,14 +24,14 @@
 				</tr>
 			</table>
 		</td>
-	</tr>			
+	</tr>
 	<tr>
 		<td colspan="2" id="error">
-		
+
 		</td>
-	</tr>			
+	</tr>
 	<tr id="transparent" class="art_images">
-		<td colspan="2" id="sortable">
+		<td colspan="2" class="sortable">
 			{% for key, image in data %}
 				<div class="image_holder" 
 					 style="background-image: url(/images/booru/thumbs/{{image.thumb}}.jpg);" 

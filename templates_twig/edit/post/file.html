@@ -1,49 +1,54 @@
 {% include "/edit/top.html" %}
 
-<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,fileupload.js,add/post.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=ui/core.js,ui/sortable.js,edit_form.js,edit/sort.js,fileupload.js,add/post.js"></script>
 <table class="margin20">
-	<tbody class="link_file">
-	<tr>
-		<td width="20%">
-			Загрузить файл
-		</td>
-		<td>
-			<table>
-				<tr>
-					<td>
-						<div id="post-file"></div>
-					</td>
-					<td>
-						<img class="processing-file hidden" src="/images/ajax-processing.gif" />
-					</td>
-					<td>
-						<span class="processing-file hidden">Файл загружается. (Вы можете загружать несколько файлов одновременно.)</span>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>			
-	<tr>
-		<td colspan="2" id="error">
-		
-		</td>
-	</tr>	
+	<thead>
+		<tr>
+			<td width="20%">
+				Загрузить файл
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<div id="post-file"></div>
+						</td>
+						<td>
+							<img class="processing-file hidden" src="/images/ajax-processing.gif" />
+						</td>
+						<td>
+							<span class="processing-file hidden">Файл загружается. (Вы можете загружать несколько файлов одновременно.)</span>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" id="error">
+			
+			</td>
+		</tr>
+	</thead>
+	<tbody class="link_main sortable">
 		{% for file in data.file %}
 			<tr class="link" rel="{{loop.index}}">
 				<td colspan="2">
 					<input size="24%" name="file[{{loop.index}}][name]" value="{{file.name}}" type="text">: 
 					<input size="24%" readonly name="file[{{loop.index}}][filename]" value="{{file.file}}" type="text"> 
 					<input type="hidden" name="file[{{loop.index}}][folder]" value="{{file.folder}}" />
-					<input type="hidden" name="file[{{loop.index}}][type]" value="{{file.type}}" />						
+					<input type="hidden" name="file[{{loop.index}}][type]" value="{{file.type}}" />
 					<input size="4%" readonly
 						 name="file[{{loop.index}}][size]" 
 						 value="{{file.display_size}} {{file.display_sizetype}}" 
 						 type="text">
 					<input type="submit" class="disabled remove_link second_button" rel="file" value="-"/>
 				</td>
+				<td class="handler">
+					<img src="/images/str.png" />
+				</td>
 			</tr>
 		{% endfor %}
-	<tbody>
+	</tbody>
 </table>
 
 {% include "/edit/bottom.html" %}

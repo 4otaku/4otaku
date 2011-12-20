@@ -91,7 +91,7 @@ $(document).ready(function(){
 					var num = parseInt($('.link_file').children("tr.link:last").attr('rel')) + 1;
 				else num = 1;
 				if ($('#post-file').attr('rel') == 'add') $('.link_file').append('<tr class="link" rel="0"><td class="input field_name">Прикрепленный файл</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
-				else $('.link_file').append('<tr class="link" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
+				else $('.link_file').append('<tr class="link" rel="0"><td>'+decoded.replaceall('[0]','['+num+']')+'</td><td class="handler"><img src="/images/str.png" /></td></tr>'); 
 				$('.link_file').children("tr.link:last").attr('rel', num);
 			}
 		}

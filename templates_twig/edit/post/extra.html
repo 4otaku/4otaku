@@ -1,6 +1,6 @@
 {% include "/edit/top.html" %}
 
-<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,edit/links.js,add/post.js"></script>
+<script type="text/javascript" src="/jss/m/?b=jss&f=ui/core.js,ui/sortable.js,edit_form.js,edit/sort.js,add/post.js"></script>
 <table class="margin20">
 	<tbody class="link_bonus">
 		{% for link in data.extra %}
@@ -13,7 +13,7 @@
 				<td class="handler">
 					<img src="/images/str1.png" class="arrow-up clickable" />
 					<img src="/images/str2.png" class="arrow-down clickable" />
-				</td>						
+				</td>
 			</tr>
 		{% endfor %}
 		<tr class="link hidden" rel="{{data.extra|length + 1}}">
@@ -25,8 +25,8 @@
 			<td class="handler">
 				<img src="/images/str1.png" class="arrow-up clickable" />
 				<img src="/images/str2.png" class="arrow-down clickable" />
-			</td>			
-		</tr>			
+			</td>
+		</tr>
 	<tbody>
 </table>
 <input type="submit" class="disabled add_link left first_button" rel="bonus" value="Добавить ссылку" />
