@@ -117,6 +117,31 @@
 			</tr>
 			<tr>
 				<td class="input field_name">
+					Прикрепить торрент
+				</td>
+				<td class="inputdata">
+					<table>
+						<tr>
+							<td>
+								<div id="post-torrent" rel="add"></div>
+							</td>
+							<td>
+								<img
+									 class="processing-torrent hidden" 
+									 src="/images/ajax-processing.gif" />
+							</td>
+							<td>
+								<span
+									 class="processing-torrent hidden">
+									Торрент загружается. (Вы можете загружать несколько торрентов одновременно.)
+								</span>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr class="after-torrent">
+				<td class="input field_name">
 					Загрузить файл
 				</td>
 				<td class="inputdata">
@@ -135,8 +160,8 @@
 					</table>
 				</td>
 			</tr>
-        </thead>
-        <tbody class="link_bonus">
+		</thead>
+		<tbody class="link_bonus">
 			<tr class="link" rel="0">
 				<td class="input field_name">
 					Дополнительная ссылка

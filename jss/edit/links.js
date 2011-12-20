@@ -12,4 +12,4 @@ $(document).ready(function(){
 			ui.item.find('.remove_link').css('visibility', 'visible');
 		}	
 	});	
-});  
+});

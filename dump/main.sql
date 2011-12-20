@@ -1078,6 +1078,26 @@ CREATE TABLE IF NOT EXISTS `post_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+--
+-- Структура таблицы `post_torrent`
+--
+
+CREATE TABLE IF NOT EXISTS `post_torrent` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
+  `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`post_id`,`order`),
+  UNIQUE KEY `hash` (`hash`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
 -- --------------------------------------------------------
 
 --

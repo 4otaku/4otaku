@@ -10,6 +10,7 @@ $def['db']['pass'] = '';
 $def['db']['main_db'] = '';
 $def['db']['wiki_db'] = '';
 $def['db']['chat_db'] = '';
+$def['db']['tracker_db'] = '';
 
 // Соединение с github
 
@@ -17,6 +18,10 @@ $def['db']['github_tracker'] = 0; // 1 - чтобы включить испол�
 $def['db']['github_repo'] = '4otaku/4otaku';
 $def['db']['github_user'] = '';
 $def['db']['github_pass'] = '';
+
+// Трекер
+
+$def['tracker']['announce'] = '';
 
 // Переменные сайта
 

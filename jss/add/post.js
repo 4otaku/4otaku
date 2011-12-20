@@ -13,7 +13,8 @@ $(document).ready(function(){
 	get_tags('post');
 
 	window.processing_art = 0;
-	window.processing_files = 0;	
+	window.processing_files = 0;
+	window.processing_torrents = 0;
 
 	$(".remove_link").live('click', function(e){ 
 		if ($('.link_'+$(this).attr('rel')+' tr.link').length > 1 || $(this).attr('rel') == 'file') 
@@ -66,7 +67,7 @@ $(document).ready(function(){
 	
 	$("#transparent td img.cancel").click(function(){  
 		$(this).parent().remove();
-	}); 		
+	});
 	
 	if ($('#post-file').length > 0) file_upload = new qq.FileUploader({
 		element: document.getElementById('post-file'),
@@ -90,6 +91,46 @@ $(document).ready(function(){
 				if ($('#post-file').attr('rel') == 'add') $('.link_file').append('<tr class="link" rel="0"><td class="input field_name">Прикрепленный файл</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
 				else $('.link_file').append('<tr class="link" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
 				$('.link_file').children("tr.link:last").attr('rel', num);
+			}
+		}
+	});
+	
+	if ($('#post-torrent').length > 0) file_upload = new qq.FileUploader({
+		element: document.getElementById('post-torrent'),
+		action: window.config.site_dir+'/ajax.php?upload=posttorrent',
+		autoSubmit: true,
+		onSubmit: function(id, file) {
+			$(".processing-torrent").show();
+			$('#error').html('');
+			window.processing_torrents++;
+		},
+		onComplete: function(id, file, response) {
+			window.processing_torrents = window.processing_torrents - 1;
+			if (window.processing_torrents == 0) {
+				$(".processing-torrent").hide(); 
+			}
+			if (response['error'] == 'incorrect') {
+				$('#error').html('<b>Ошибка! Выбранный вами файл не является торрентом.</b>');
+			} else if (response['error'] == 'maxsize') {
+				$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт. Вам надо загрузить торрент-файл, а не содержимое торрента.</b>');
+			} else if (response['error'] == 'exists') {
+				$('#error').html('<b>Ошибка! Выбранный вами торрент уже добавлен и прикреплен к записи №'+response['post_id']+'.</b>');
+			} else {
+				var decoded = $('<textarea/>').html(response['data']).val();
+				
+				if ($('.link_file').children("tr.torrent:last").length != 0) {
+					var num = parseInt($('.link_file').children("tr.torrent:last").attr('rel')) + 1;
+				} else {
+					num = 1;
+				}
+
+				if ($('#post-torrent').attr('rel') == 'add') {
+					$('.after-torrent').before('<tr class="torrent" rel="0"><td class="input field_name">Торрент</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
+				} else {
+					$('.after-torrent').before('<tr class="torrent" rel="0"><td colspan="2">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>'); 
+				}
+
+				$('.link_file').children("tr.torrent:last").attr('rel', num);
 			}
 		}
 	});

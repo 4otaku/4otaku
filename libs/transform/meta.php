@@ -116,15 +116,15 @@ class Transform_Meta
 		return '|'.implode('|',$authors).'|';
 	}
 
-	function make_alias($word) {
-		$word = strtolower($this->jap2lat($this->ru2lat(undo_safety($word))));
+	public static function make_alias($word) {
+		$word = strtolower(self::jap2lat(self::ru2lat(undo_safety($word))));
 		$word = str_replace(' ','_',$word);
 		return preg_replace('/[^a-z_\d]/eui','urlencode("$0")',$word);
 	}
 
 	/* Не трогаем - тут какая-то аццкая хрень с пробелами, работает только так */
 
-	function jap2lat($st) {
+	public static function jap2lat($st) {
 		$k2r = array('/きゃ/' => 'kya', '/きゅ/' => 'kyu', '/きょ/' => 'kyo', '/
 しゃ/' => 'sha', '/しゅ/' => 'shu', '/しょ/' => 'sho', '/ちゃ/' =>
 'cha', '/ちゅ/' => 'chu', '/ちょ/' => 'cho', '/にゃ/' => 'nya', '/にゅ/'
@@ -153,11 +153,10 @@ class Transform_Meta
 'pa', '/ぴ/' => 'pi', '/ぷ/' => 'pu', '/ぺ/' => 'pe', '/ぽ/' => 'po',
 '/　/'=>' ', '/っ(.)/' => '$1$1');
 		return preg_replace(array_keys($k2r), array_values($k2r), $st);
-		return $st;
 	}
 
-	function ru2lat($st) {
-		static $tbl= array('а'=>'a', 'б'=>'b', 'в'=>'v', 'г'=>'g', 'д'=>'d', 'е'=>'e',
+	public static function ru2lat($st) {
+		$tbl= array('а'=>'a', 'б'=>'b', 'в'=>'v', 'г'=>'g', 'д'=>'d', 'е'=>'e',
 			'ж'=>'g', 'з'=>'z', 'и'=>'i', 'й'=>'y', 'к'=>'k', 'л'=>'l', 'м'=>'m', 'н'=>'n',
 			'о'=>'o', 'п'=>'p', 'р'=>'r', 'с'=>'s', 'т'=>'t', 'у'=>'u', 'ф'=>'f', 'ы'=>'i',
 			'э'=>'e', 'А'=>'A', 'Б'=>'B', 'В'=>'V', 'Г'=>'G', 'Д'=>'D', 'Е'=>'E', 'Ж'=>'G',
@@ -165,7 +164,7 @@ class Transform_Meta
 			'П'=>'P', 'Р'=>'R', 'С'=>'S', 'Т'=>'T', 'У'=>'U', 'Ф'=>'F', 'Ы'=>'I', 'Э'=>'E',
 			'ё'=>"yo", 'х'=>"h", 'ц'=>"ts", 'ч'=>"ch", 'ш'=>"sh", 'щ'=>"shch", 'ъ'=>"", 'ь'=>"",
 			'ю'=>"yu", 'я'=>"ya", 'Ё'=>"YO", 'Х'=>"H", 'Ц'=>"TS", 'Ч'=>"CH", 'Ш'=>"SH", 'Щ'=>"SHCH",
-			'Ъ'=>"", 'Ь'=>"", 'Ю'=>"YU", 'Я'=>"YA" );
+			'Ъ'=>"", 'Ь'=>"", 'Ю'=>"YU", 'Я'=>"YA");
 		return strtr($st, $tbl);
 	}
 }
