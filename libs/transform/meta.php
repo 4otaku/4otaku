@@ -3,6 +3,7 @@
 class Transform_Meta
 {
 	private $tag_types = array(
+		'none' => '',
 		'character' => '00AA00',
 		'персонаж' => '00AA00',
 		'герой' => '00AA00',
@@ -32,34 +33,36 @@ class Transform_Meta
 		foreach ($tags as $key => $tag)
 			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
-				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
-				if (!empty($color)) {
-					$this->colors[$tags[$key]] = $color;
+
+				$color_key = mb_strtolower(substr($type[0],4,-4),'UTF-8');
+				if (isset($this->tag_types[$color_key])) {
+					$this->colors[$tags[$key]] = $this->tag_types[$color_key];
 				}
 			}
 		return $tags;
 	}
-	
+
 	function parse_array ($items, $default = 'Проставьте_теги') {
 
 		if (empty($items)) {
 			return array($default);
 		}
-		
+
 		if (!is_array($items)) {
 			return $this->parse($items);
 		}
-		
+
 		$tags = array_unique(array_filter($items));
-		
+
 		foreach ($tags as $key => $tag) {
 			$tag = str_replace(array('&amp;'), array('&'), $tag);
 
 			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
-				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
-				if (!empty($color)) {
-					$this->colors[$tags[$key]] = $color;
+
+				$color_key = mb_strtolower(substr($type[0],4,-4),'UTF-8');
+				if (isset($this->tag_types[$color_key])) {
+					$this->colors[$tags[$key]] = $this->tag_types[$color_key];
 				}
 			}
 		}
@@ -73,12 +76,14 @@ class Transform_Meta
 	}
 
 	function add_tags($tags, $update = false){
-		foreach ($tags as $key => $tag) {			
+		foreach ($tags as $key => $tag) {
 			$tag = str_replace(array('&amp;'), array('&'), $tag);
-			
+
 			if ($check = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
 				if ($update) obj::db()->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
-				if ($this->colors[$tag]) obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
+				if (isset($this->colors[$tag])) {
+					obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
+				}
 				$tags[$key] = $check;
 			} else {
 				$alias = $this->make_alias($tag);
