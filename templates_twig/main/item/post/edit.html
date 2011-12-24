@@ -11,23 +11,23 @@
 					<option value="file">Прикрепленные файлы</option>
 					<option value="extra">Дополнительные ссылки</option>
 					{% if _sets.user.rights %}
-						<option value="author">Автора</option>	
+						<option value="author">Автора</option>
 					{% endif %}
 					<option value="category">Категории</option>
 					<option value="language">Языки</option>
 					<option value="tag">Теги</option>
-				</select> 
+				</select>
 				<input type="submit" value="Редактировать" class="load_edit_field" rel="{{id}}" />
 				{% if _sets.user.rights %}
 					<td align="right">
 						<div class="right">
 							<form method="post" enctype="multipart/form-data">
-								<input type="hidden" name="do" value="post.transfer" />
+								<input type="hidden" name="action" value="Update" />
 								<input type="checkbox" name="sure" />
 								<input type="hidden" name="id" value="{{id}}" />
 								<input type="submit" value="Утащить" class="submit" />
-								 &nbsp; 
-								<select name="where">
+								 &nbsp;
+								<select name="area">
 									{% if post.area != 'main' %}
 										<option value="main"> на главную</option>
 									{% endif %}
@@ -43,8 +43,8 @@
 						</div>
 					</td>
 				{% endif %}
-			</td>	
-		</tr>	
+			</td>
+		</tr>
 	</table>
 	<div id="loader" class="hidden center loader">
 		<img src="/images/ajax-loader.gif">

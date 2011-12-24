@@ -4,27 +4,27 @@ abstract class Abstract_Action
 {
 	protected $need_redirect = false;
 	protected $redirect_address = '';
-	
+
 	protected $minimal_rights = 0;
-	
+
 	protected $field_rights = array();
 	protected $function_rights = array();
-	
+
 	public function __construct() {}
-	
+
 	public function check_access($function, $data) {
 
 		if (sets::user('rights') < $this->minimal_rights) {
 			return false;
 		}
-		
+
 		if (
 			array_key_exists($function, $this->function_rights) &&
 			sets::user('rights') < $this->function_rights[$function]
 		) {
 			return false;
 		}
-		
+
 		foreach ($data as $key => $item) {
 			if (
 				array_key_exists($key, $this->field_rights) &&
@@ -33,27 +33,39 @@ abstract class Abstract_Action
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public function check_redirect() {
 		if ($this->need_redirect) {
-			
-			$redirect = 'http://' . def::site('domain') . 
-				(empty($this->redirect_address) ? 
-					$_SERVER["REQUEST_URI"] : 
+
+			$redirect = 'http://' . def::site('domain') .
+				(empty($this->redirect_address) ?
+					$_SERVER["REQUEST_URI"] :
 					$this->redirect_address);
-				
+
 			engine::redirect($redirect);
 		}
 	}
-	
+
 	protected function set_redirect($address = false) {
 		$this->need_redirect = true;
-		
+
 		if (!empty($address)) {
 			$this->redirect_address = $address;
 		}
+	}
+
+	// @TODO: переписать
+	protected function add_res($text, $error = false) {
+		global $add_res;
+
+		$add_res = array('text' => $text, 'error' => $error);
+
+		$cookie = obj::get('dynamic__cookie');
+
+		$cookie->inner_set('add_res.text', $text);
+		$cookie->inner_set('add_res.error', $error);
 	}
 }
