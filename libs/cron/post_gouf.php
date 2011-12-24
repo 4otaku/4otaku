@@ -66,8 +66,8 @@ class Cron_Post_Gouf extends Cron_Abstract
 
 		foreach ($links as $id => $link) {
 			$status = $this->test_result($link);
-			Database::update('post_url',
-				array('status' => $status, 'lastcheck' => time()), $id);
+			Database::update('post_url', array('status' => $status,
+				'lastcheck' => Database::unix_to_date()), $id);
 			if ($status == self::STATUS_UNKNOWN) {
 				$this->create_unknown_file($link);
 			}
