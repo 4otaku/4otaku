@@ -53,14 +53,18 @@ abstract class Database_Abstract
 		return $this->insert($table, $values, $keys);
 	}
 
-	public function array_in ($field, $array) {
+	public function array_in ($field, $array, $binary = false) {
 		$field = str_replace(".", "`.`", $field);
 
-		if (!empty($array) && is_array($array)) {
-			return "`$field` in (".str_repeat("?,",count($array)-1)."?)";
+		if ($!binary) {
+			if (!empty($array) && is_array($array)) {
+				return "`$field` in (".str_repeat("?,",count($array)-1)."?)";
+			} else {
+//				Error::warning("Пустой массив при обращении к БД");
+				return "FALSE";
+			}
 		} else {
-//			Error::warning("Пустой массив при обращении к БД");
-			return "FALSE";
+			return "`$field` in (0x" . implode(",0x", $array) . ")";
 		}
 	}
 

@@ -138,8 +138,8 @@ class Database
 		return self::db()->conditional_insert($table, $values, $keys, $deny_condition, $deny_params);
 	}
 
-	public static function array_in ($field, $array) {
-		return self::db()->array_in($field, $array);
+	public static function array_in ($field, $array, $binary = false) {
+		return self::db()->array_in($field, $array, $binary);
 	}
 
 	public static function date_to_unix ($date) {
