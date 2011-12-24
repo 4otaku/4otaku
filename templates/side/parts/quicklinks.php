@@ -1,4 +1,4 @@
-<div class="cats">	
+<div class="cats">
 	<h2>
 		<a href="<?=$def['site']['dir']?>/">
 			Быстрые ссылки
@@ -13,7 +13,7 @@
 				else {
 					?>
 						<img src="<?=$def['site']['dir']?>/images/text2387.png">
-					<?				
+					<?
 				}
 			?>
 		</a>
@@ -41,7 +41,7 @@
 					Видео
 				</a>
 			</li>
-			<li>				
+			<li>
 				<a href="<?=$def['site']['dir']?>/art/" class="margin30<?=($url[1] == 'art' ? ' plaintext' : '');?>">
 					Арты
 				</a>
@@ -52,26 +52,26 @@
 				</a>
 			</li>
 			<li><hr /></li>
-			<li>				
+			<li>
 				<a href="<?=$def['site']['dir']?>/news/" class="margin30<?=($url[1] == 'news' ? ' plaintext' : '');?>">
 					Новости
 				</a>
 			</li>
-			<li>				
+			<li>
 				<a href="<?=$def['site']['dir']?>/order/" class="margin30<?=($url[1] == 'order' ? ' plaintext' : '');?>">
 					Стол заказов
 				</a>
 			</li>
-			<li>				
+			<li>
 				<a href="<?=$def['site']['dir']?>/board/" class="margin30<?=($url[1] == 'board' ? ' plaintext' : '');?>">
 					Борда 4отаку
 				</a>
 			</li>
-			<li>				
+			<li>
 				<a href="<?=$def['site']['dir']?>/comments/" class="margin30<?=($url[1] == 'comments' ? ' plaintext' : '');?>">
 					Лента комментариев
 				</a>
-			</li>			
+			</li>
 			<li><hr /></li>
 			<li>
 				<a href="/go?http%3a%2f%2fwiki.4otaku.ru%2fCategory:FAQ" class="margin30">
@@ -82,9 +82,9 @@
 				<a href="<?=$def['site']['dir']?>/logs/" class="margin30<?=($url[1] == 'logs' ? ' plaintext' : '');?>">
 					Логи конференции
 				</a>
-			</li>			
+			</li>
 			<li>
-				<a href="<?=$def['site']['dir']?>/gouf/" class="margin30<?=($url[1] == 'gouf' ? ' plaintext' : '');?>">
+				<a href="<?=$def['site']['dir']?>/post/gouf/" class="margin30<?=($url[1] == 'gouf' ? ' plaintext' : '');?>">
 					Список битых ссылок
 				</a>
 			</li>
