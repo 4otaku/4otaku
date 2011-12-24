@@ -101,7 +101,7 @@ class Read_Post_Gouf extends Read_Abstract
 			->join('post', 'p.id = pu.post_id')
 			->get_vector('post_update_status',
 				array('pu.*', 'p.title', 'p.comment_count'),
-				$this->area_condition . ' and overall > 0', $this->area_params);
+				'(' . $this->area_condition . ') and overall > 0', $this->area_params);
 
 		$this->count = Database::get_counter();
 
@@ -147,7 +147,7 @@ class Read_Post_Gouf extends Read_Abstract
 		}
 
 		$data = $query->join('post', 'p.id = ps.id')->get_vector('post_status',
-			'p.*', $this->area_condition . ' and overall > 0', $this->area_params);
+			'p.*', '(' . $this->area_condition . ') and overall > 0', $this->area_params);
 
 		$this->count = Database::get_counter();
 
