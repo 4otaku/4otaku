@@ -24,30 +24,32 @@
 	</tr>
 	<tr>
 		<td colspan="3" id="error">
-		
+
 		</td>
 	</tr>
 </table>
-<table class="margin20">
-	<tbody class="link_torrent sortable sortable-holder">
+<div class="margin20">
+	<div class="link_torrent sortable sortable-holder">
 		{% for torrent in data.torrent %}
-			<tr class="link" rel="{{loop.index}}">
-				<td>
-					<input size="24%" name="torrent[{{loop.index}}][name]" value="{{torrent.name}}" type="text">: 
-					<input size="24%" readonly name="torrent[{{loop.index}}][file]" value="{{torrent.file}}" type="text"> 
-					<input type="hidden" name="torrent[{{loop.index}}][hash]" value="{{torrent.hash}}" />
-					<input size="4%" readonly
-						 name="torrent[{{loop.index}}][size]" 
-						 value="{{torrent.display_size}} {{torrent.display_sizetype}}" 
-						 type="text">
-					<input type="submit" class="disabled remove_link second_button" rel="torrent" value="-"/>
-				</td>
-				<td class="handler">
-					<img src="/images/str.png" />
-				</td>
-			</tr>
+			<table>
+				<tr class="link" rel="{{loop.index}}">
+					<td>
+						<input size="24%" name="torrent[{{loop.index}}][name]" value="{{torrent.name}}" type="text">:
+						 <input size="24%" readonly name="torrent[{{loop.index}}][file]" value="{{torrent.file}}" type="text">
+						 <input type="hidden" name="torrent[{{loop.index}}][hash]" value="{{torrent.hash}}" />
+						 <input size="4%" readonly
+							 name="torrent[{{loop.index}}][size]"
+							 value="{{torrent.display_size}} {{torrent.display_sizetype}}"
+							 type="text">
+						 <input type="submit" class="disabled remove_link second_button" rel="torrent" value="-"/>
+					</td>
+					<td class="handler">
+						<img src="/images/str.png" />
+					</td>
+				</tr>
+			</table>
 		{% endfor %}
-	</tbody>
-</table>
+	</div>
+</div>
 
 {% include "/edit/bottom.html" %}

@@ -5,7 +5,7 @@
 	<div class="link_main sortable link-edit">
 		{% for link in data.link %}
 			<table>
-				<tr class="link sortable-item" rel="{{loop.index}}">
+				<tr class="link" rel="{{loop.index}}">
 					<td>
 						<input size="20" name="link[{{loop.index}}][name]" value="{{link.name}}" type="text">:
 						<input size="50" name="link[{{loop.index}}][link]" value="<{{link.url[0].alias}}>{{link.url[0].url}}" type="text">

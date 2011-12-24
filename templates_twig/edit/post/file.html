@@ -24,31 +24,33 @@
 	</tr>
 	<tr>
 		<td colspan="2" id="error">
-		
+
 		</td>
 	</tr>
 </table>
-<table class="margin20">
-	<tbody class="link_main sortable sortable-holder">
+<div class="margin20">
+	<div class="link_file sortable sortable-holder">
 		{% for file in data.file %}
-			<tr class="link" rel="{{loop.index}}">
-				<td>
-					<input size="24%" name="file[{{loop.index}}][name]" value="{{file.name}}" type="text">: 
-					<input size="24%" readonly name="file[{{loop.index}}][filename]" value="{{file.file}}" type="text"> 
-					<input type="hidden" name="file[{{loop.index}}][folder]" value="{{file.folder}}" />
-					<input type="hidden" name="file[{{loop.index}}][type]" value="{{file.type}}" />
-					<input size="4%" readonly
-						 name="file[{{loop.index}}][size]" 
-						 value="{{file.display_size}} {{file.display_sizetype}}" 
-						 type="text">
-					<input type="submit" class="disabled remove_link second_button" rel="file" value="-"/>
-				</td>
-				<td class="handler">
-					<img src="/images/str.png" />
-				</td>
-			</tr>
+			<table>
+				<tr class="link" rel="{{loop.index}}">
+					<td>
+						<input size="24%" name="file[{{loop.index}}][name]" value="{{file.name}}" type="text">:
+						 <input size="24%" readonly name="file[{{loop.index}}][filename]" value="{{file.file}}" type="text">
+						 <input type="hidden" name="file[{{loop.index}}][folder]" value="{{file.folder}}" />
+						 <input type="hidden" name="file[{{loop.index}}][type]" value="{{file.type}}" />
+						 <input size="4%" readonly
+							 name="file[{{loop.index}}][size]"
+							 value="{{file.display_size}} {{file.display_sizetype}}"
+							 type="text">
+						 <input type="submit" class="disabled remove_link sign" rel="file" value="-"/>
+					</td>
+					<td class="handler">
+						<img src="/images/str.png" />
+					</td>
+				</tr>
+			</table>
 		{% endfor %}
-	</tbody>
-</table>
+	</div>
+</div>
 
 {% include "/edit/bottom.html" %}

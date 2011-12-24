@@ -95,12 +95,12 @@ $(document).ready(function(){
 			else {
 				var decoded = $('<textarea/>').html(response['data']).val();
 
-				if ($('.link_file').children("tr.link:last").length != 0)
-					var num = parseInt($('.link_file').children("tr.link:last").attr('rel')) + 1;
+				if ($('.link_file').find("tr.link:last").length != 0)
+					var num = parseInt($('.link_file').find("tr.link:last").attr('rel')) + 1;
 				else num = 1;
 				if ($('#post-file').attr('rel') == 'add') $('.link_file').append('<tr class="link" rel="0"><td class="input field_name">Прикрепленный файл</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
-				else $('.link_file').append('<tr class="link" rel="0"><td>'+decoded.replaceall('[0]','['+num+']')+'</td><td class="handler"><img src="/images/str.png" /></td></tr>');
-				$('.link_file').children("tr.link:last").attr('rel', num);
+				else $('.link_file').append('<table><tr class="link" rel="0"><td>'+decoded.replaceall('[0]','['+num+']')+'</td><td class="handler"><img src="/images/str.png" /></td></tr></table>');
+				$('.link_file').find("tr.link:last").attr('rel', num);
 			}
 		}
 	});
@@ -128,8 +128,8 @@ $(document).ready(function(){
 			} else {
 				var decoded = $('<textarea/>').html(response['data']).val();
 
-				if ($('.link_torrent').children("tr.link:last").length != 0) {
-					var num = parseInt($('.link_torrent').children("tr.link:last").attr('rel')) + 1;
+				if ($('.link_torrent').find("tr.link:last").length != 0) {
+					var num = parseInt($('.link_torrent').find("tr.link:last").attr('rel')) + 1;
 				} else {
 					num = 1;
 				}
@@ -137,10 +137,10 @@ $(document).ready(function(){
 				if ($('#post-torrent').attr('rel') == 'add') {
 					$('.link_torrent').append('<tr class="link" rel="0"><td class="input field_name">Торрент</td><td class="inputdata">'+decoded.replaceall('[0]','['+num+']')+'</td></tr>');
 				} else {
-					$('.link_torrent').append('<tr class="link" rel="0"><td>'+decoded.replaceall('[0]','['+num+']')+'</td><td class="handler"><img src="/images/str.png" /></td></tr>');
+					$('.link_torrent').append('<table><tr class="link" rel="0"><td>'+decoded.replaceall('[0]','['+num+']')+'</td><td class="handler"><img src="/images/str.png" /></td></tr></table>');
 				}
 
-				$('.link_torrent').children("tr.link:last").attr('rel', num);
+				$('.link_torrent').find("tr.link:last").attr('rel', num);
 			}
 		}
 	});

@@ -644,10 +644,6 @@ input.edit {
 	display: inline-block;
 }
 
-.sortable-item {
-	padding: 1px;
-}
-
 .sort-active .remove_link {
 	visibility: hidden;
 }
