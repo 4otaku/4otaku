@@ -104,35 +104,35 @@ ul.plain_list {
 }
 
 input, textarea {
-    -moz-border-radius: 0.5em !important;
+	-moz-border-radius: 0.5em !important;
 	-webkit-border-radius: 0.5em !important;
 	border-radius: 0.5em !important;
-    background-color:#efefef ;
-    border:1px solid #CCCCCC !important;
-    border-bottom:1px solid #eee !important;
-    border-right:1px solid #eee !important;
-    padding:3px 3px 3px 3px !important;
+	background-color:#efefef ;
+	border:1px solid #CCCCCC !important;
+	border-bottom:1px solid #eee !important;
+	border-right:1px solid #eee !important;
+	padding:3px 3px 3px 3px !important;
 }
 
 button, input {
-    background-color:#FFFFFF !important;
-    text-decoration:none !important;
-    font-weight:bold !important;
-    color:#565656 !important;
-    cursor:pointer !important;
-    padding:3px 3px 3px 3px !important;
+	background-color:#FFFFFF !important;
+	text-decoration:none !important;
+	font-weight:bold !important;
+	color:#565656 !important;
+	cursor:pointer !important;
+	padding:3px 3px 3px 3px !important;
 }
 
 textarea {
-    background-color:#FFFFFF !important;
-    cursor:pointer !important;
-    padding:3px 3px 3px 3px !important;
+	background-color:#FFFFFF !important;
+	cursor:pointer !important;
+	padding:3px 3px 3px 3px !important;
 }
 
 input:hover, input:focus, button:hover, button:focus, textarea:hover, textarea:focus {
-    background-color:#efefef !important ;
-    border:1px solid #CCCCCC !important;
-    color:#565656 !important;
+	background-color:#efefef !important ;
+	border:1px solid #CCCCCC !important;
+	color:#565656 !important;
 
 }
 
@@ -356,13 +356,13 @@ div.addborder > a {
 }
 
 .choose_mask {
-	position: absolute; 
-	top: 0px; 
-	left: 0px; 
-	z-index: 1000; 
-	background-color: #000000; 
-	display: block; 
-	opacity: 0.6; 
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+	background-color: #000000;
+	display: block;
+	opacity: 0.6;
 	width: 100%;
 }
 
@@ -540,9 +540,9 @@ div div.handler {
 	display: none;
 	position: absolute;
 	z-index: 999;
-    border: 2px solid #CCCCCC;
-    background: #E7E7E7;
-    padding: 10px;
+	border: 2px solid #CCCCCC;
+	background: #E7E7E7;
+	padding: 10px;
 }
 
 span.player_margin {
@@ -594,7 +594,7 @@ input.edit {
 .gouf_color_wrapper {
 	position: relative;
 }
-	
+
 .gouf_color {
 	position: absolute;
 	width: 15px;
@@ -622,13 +622,13 @@ input.edit {
 }
 
 .gouf_menu {
-    text-align: center;
+	text-align: center;
 }
 
 .gouf_menu a {
-    width: 22%;
-    display: inline-block;
-    text-align: center;
+	width: 22%;
+	display: inline-block;
+	text-align: center;
 }
 
 .remove_sort {
@@ -640,13 +640,25 @@ input.edit {
 	width: 100%;
 }
 
+.sortable-holder {
+	display: inline-block;
+}
+
+.sortable-item {
+	padding: 1px;
+}
+
+.sort-active .remove_link {
+	visibility: hidden;
+}
+
 .gouf_image {
 	width: 200px;
 	height: 50px;
 	text-align: center;
 }
 
-.gouf_links {	
+.gouf_links {
 	padding-left: 10px;
 }
 
@@ -970,9 +982,9 @@ span.inactive_question a:hover {
 }
 
 .image {
-    display: table;
-    display: inline-block;
-    position: relative;
+	display: table;
+	display: inline-block;
+	position: relative;
 }
 
 .art_not_showed {
@@ -1000,7 +1012,7 @@ span.inactive_question a:hover {
 .loading_variation {
 	margin-left: 30px;
 	padding: 0px;
-    display: inline;
+	display: inline;
 	overflow: hidden;
 	height: 0px;
 }
@@ -1034,10 +1046,10 @@ span.inactive_question a:hover {
 /* Content, борда */
 
 div.thread { display: block; padding: 5px 0 10px 0; clear: both; border-top: 1px solid #ddd; margin-top: 15px; }
-div.thread > span { 
-	float: left; 
-	display: block; 
-	padding: 0 10px 0 10px; 
+div.thread > span {
+	float: left;
+	display: block;
+	padding: 0 10px 0 10px;
 	border-left: 1px solid #ddd;
 }
 div.thread span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
@@ -1055,11 +1067,11 @@ div.thread .download_thread .variants { display: none; position: absolute; right
 div.thread .download_thread:hover .variants { display: block; line-height: 180%;  border: 1px solid #C7C500; background: #E8E7B7; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 
 div.message { display: block; padding: 5px; margin: 0 0 5px 0; border: 1px solid #ddd; background: #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
-div.message > span { 
-	float: left; 
+div.message > span {
+	float: left;
 	display: block;
-	padding: 0 10px 0 10px; 
-	border-left: 1px solid #ddd;  
+	padding: 0 10px 0 10px;
+	border-left: 1px solid #ddd;
 }
 div.message span.author { font-weight: bold; color: #42A3B9; padding: 0 10px 0 0; border-left: 0; }
 div.message span.number, div.message span.number a { color: #bbb; text-decoration: none; }
@@ -1112,12 +1124,12 @@ span.board_spoiler {
 	display: inline !important;
 	padding: 0 !important;
 }
-span.board_spoiler:hover { 
-	background: none repeat scroll 0 0 #DDDDDD; 
-	color: #000000; 
+span.board_spoiler:hover {
+	background: none repeat scroll 0 0 #DDDDDD;
+	color: #000000;
 }
 span.board_quote {
-	padding: 0 10px 0 10px; 
+	padding: 0 10px 0 10px;
 	border-left: 1px solid #ddd;
 	color: #789922;
 }
@@ -1209,8 +1221,8 @@ input.sign {
 }
 
 #addform > div {
-    height: auto;
-    min-height: 100%;
+	height: auto;
+	min-height: 100%;
 	vertical-align: middle;
 }
 
@@ -1238,8 +1250,8 @@ input.sign {
 }
 
 #addform .textarea textarea{
-	margin: 0 !important; 
-	padding: 0 !important; 
+	margin: 0 !important;
+	padding: 0 !important;
 	width: 100%;
 }
 
@@ -1391,8 +1403,8 @@ div.cats {
 	width: 600px;
 	background-color: #FFFFFF;
 	position: absolute;
-    left: 50%;
-    margin-left: -268px;	
+	left: 50%;
+	margin-left: -268px;
 	opacity: 0.85;
 }
 

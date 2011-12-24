@@ -2,14 +2,15 @@ $(function() {
 	$('.sortable').sortable({
 		containment: '.sortable-holder',
 		handle: '.handler',
+		tolerance: 'pointer',
 		forceHelperSize: true,
 		forcePlaceholderSize: true,
 		start: function(event, ui) {
-			ui.item.find('.remove_link').css('visibility', 'hidden');
+			ui.item.addClass('sort-active');
 		},
 		stop: function(event, ui) {
-			ui.item.find('.remove_link').css('visibility', 'visible');
-		}	
+			ui.item.removeClass('sort-active');
+		}
 	});
 	$('.sortable').disableSelection();
 });
