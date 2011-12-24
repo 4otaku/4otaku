@@ -392,7 +392,12 @@ $(".apply-sort").live('click', function(){
 			document.location.href = base + url + '/';
 		});
 	} else {
-		document.location.href = '/post/gouf/' + $(this).attr('rel') + '/';
+		var base = '/post/gouf/';
+		var rel = $(this).attr('rel');
+		if (rel) {
+			base += rel + '/';
+		}
+		document.location.href = base;
 	}
 });
 
