@@ -66,9 +66,9 @@
 								<br />
 							{% endif %}
 							{{link.name}}:
-							{% for url in link.url %}
+							 {% for url in link.url %}
 								{% if not loop.first %}
-									 |
+									&nbsp;|&nbsp;
 								{% endif %}
 								<a href="{{url.url}}"
 									 {% if url.status == 3 %}
