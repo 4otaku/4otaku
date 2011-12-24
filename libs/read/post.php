@@ -96,7 +96,7 @@ class Read_Post extends Read_Main
 
 		$hashes = array();
 		foreach ($torrents as $torrent) {
-			$hashes[] = pack("H*", $torrent['hash']);
+			$hashes[] = $torrent['hash'];
 		}
 
 		if (!empty($hashes)) {
