@@ -23,11 +23,9 @@ if (empty($tasks)) {
 }
 
 foreach ($tasks as $task => $period) {
-	if (method_exists($cron, $task)) {
 
-		$cron->process($task);
+	$cron->process($task);
 
-		$nexttime = Database::unix_to_date(Transform_Time::parse($period) - 15);
-		Database::update('cron', array('last_time' => $nexttime), 'function = ?', $task);
-	}
+	$nexttime = Database::unix_to_date(Transform_Time::parse($period) - 15);
+	Database::update('cron', array('last_time' => $nexttime), 'function = ?', $task);
 }
