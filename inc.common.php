@@ -1,7 +1,8 @@
 <?php
 
 ini_set('memory_limit', '128M');
-define('DEBUG', $_SERVER['REMOTE_ADDR'] == '127.0.0.1');
+define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11' ||
+	$_SERVER['REMOTE_ADDR'] == '127.0.0.1');
 define('MAINTENANCE', 1);
 
 switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
