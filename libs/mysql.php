@@ -56,6 +56,7 @@ class mysql
 	function sql($sql,$i = 3) {
 
 		$result = mysql_query($sql, $this->connection);
+
 		$this->debug = $sql;
 
 		if ($i && $result && is_resource($result) && mysql_num_rows($result) != 0)

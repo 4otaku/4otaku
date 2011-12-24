@@ -1,7 +1,10 @@
 <?
- 
+
 ini_set('memory_limit', '128M');
-define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11');
+define('DEBUG', $_SERVER['REMOTE_ADDR'] == '83.69.227.104');
+
+function exception_handler($exception) {}
+set_exception_handler('exception_handler');
 
 switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 	case 'index': define('_INDEX_', true);  define('_AJAX_', false); define('_CRON_', false); break;

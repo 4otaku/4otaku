@@ -5,6 +5,8 @@
 		$def['area'][2] => 'в барахолку'
 	);
 	
-foreach ($data['main']['post'] as $item) {
-	include 'templates'.SL.'main'.SL.'single'.SL.'post.php';
+if (is_array($data['main']['post'])) {
+	foreach ($data['main']['post'] as $item) {
+		include 'templates'.SL.'main'.SL.'single'.SL.'post.php';
+	}
 }
