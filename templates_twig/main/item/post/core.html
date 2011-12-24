@@ -90,7 +90,7 @@
 								<br />
 							{% endif %}
 							{{torrent.name}}:
-							 <a href="/files/torrent/{{torrent.hash}}/{{torrent.file}}" target="_blank">
+							 <a href="/download/?file=/files/torrent/{{torrent.hash}}/{{torrent.file}}" target="_blank">
 								{{torrent.display_file}}
 							</a>
 							 (~{{torrent.display_size}} {{torrent.display_sizetype}})
