@@ -15,13 +15,15 @@ define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(__FILE__));
 
-if (MAINTENANCE) {
+if (MAINTENANCE && !empty($_SERVER['REMOTE_ADDR']) && !DEBUG) {
 	include_once "maintenance.php";
 	exit();
 }
 include_once "constants.php";
-include_once "functions.php";
 include_once "autoloader.php";
+if (!DEBUG) {
+	include_once "functions.php";
+}
 
 Cache::$base_prefix = 'otaku_';
 Cache::$drivers_list = array(
@@ -69,7 +71,7 @@ if(!def::site('domain')) {
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::site('domain') != $_SERVER['SERVER_NAME'] && !(_CRON_)) {
+if(def::site('domain') != $_SERVER['SERVER_NAME'] && !(_CRON_) && !empty($_SERVER['REMOTE_ADDR'])) {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
@@ -79,7 +81,6 @@ if (!(_CRON_)) {
 	include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
 	include_once ROOT_DIR.SL.'engine'.SL.'twig_init.php';
 }
-
 
 // Тут мы работаем с сессиями
 if (!(_CRON_)) {
