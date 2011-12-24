@@ -2,7 +2,7 @@
 
 ini_set('memory_limit', '128M');
 define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11');
-
+define('MAINTENANCE', 1);
 
 switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 	case 'index': define('_INDEX_', true);  define('_AJAX_', false); define('_CRON_', false); break;
@@ -15,6 +15,10 @@ define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(__FILE__));
 
+if (MAINTENANCE) {
+	include_once "maintenance.php";
+	exit();
+}
 include_once "constants.php";
 include_once "functions.php";
 include_once "autoloader.php";
