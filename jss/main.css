@@ -557,6 +557,14 @@ div.posttext {
 	margin-bottom: 12px;
 }
 
+.post .seeders {
+	color: #298A08;
+}
+
+.post .leechers {
+	color: #8A4B08;
+}
+
 #updates_field_loader {
 	text-align: center;
 }

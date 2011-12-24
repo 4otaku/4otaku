@@ -20,7 +20,7 @@
 					{% if post.update_count %}
 						<a href="#" class="disabled show_updates" rel="{{id}}">
 							Показать обновления
-						</a> 
+						</a>
 						 ({{post.update_count}})
 					{% endif %}
 				{% endif %}
@@ -31,10 +31,10 @@
 		{% if post.hidden %}
 			<tr>
 				<td align="center">
-					У вас отключен показ материалов для взрослых. 
+					У вас отключен показ материалов для взрослых.
 					<a href="#" class="disabled show_nsfw">
 						Показать эту запись.
-					</a> 
+					</a>
 					<a href="#" class="disabled always_show_nsfw">
 						Всегда показывать такие материалы.
 					</a>
@@ -65,12 +65,12 @@
 							{% if not loop.first %}
 								<br />
 							{% endif %}
-							{{link.name}}: 
+							{{link.name}}:
 							{% for url in link.url %}
 								{% if not loop.first %}
-									 | 
+									 |
 								{% endif %}
-								<a href="{{url.url}}" 
+								<a href="{{url.url}}"
 									 {% if url.status == 3 %}
 										class="broken_link with_help"
 										 title="Ссылка битая. Последняя проверка: {{url.check}}"
@@ -89,14 +89,14 @@
 							{% if not loop.first %}
 								<br />
 							{% endif %}
-							{{torrent.name}}: 
-							<a href="/files/torrent/{{torrent.hash}}/{{torrent.file}}" target="_blank">
+							{{torrent.name}}:
+							 <a href="/files/torrent/{{torrent.hash}}/{{torrent.file}}" target="_blank">
 								{{torrent.display_file}}
 							</a>
 							 (~{{torrent.display_size}} {{torrent.display_sizetype}})
 							 <span class="torrent_info">
 								<span class="seeders">S: {{torrent.seeders}}</span>,
-								 <span class="leechers">L: {{torrent.leechers}}</span>
+								 <span class="leechers">L: {{torrent.leechers}}</span>.
 							</span>
 						{% endfor %}
 					</p>
@@ -117,7 +117,7 @@
 							{% if not loop.first %}
 								<br />
 							{% endif %}
-							{{extra.name}}: 
+							{{extra.name}}:
 							<a href="{{extra.url}}" target="_blank">
 								{{extra.alias}}
 							</a>.
