@@ -1,7 +1,7 @@
 <?php
 
 ini_set('memory_limit', '128M');
-define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11');
+define('DEBUG', $_SERVER['REMOTE_ADDR'] == '127.0.0.1');
 define('MAINTENANCE', 1);
 
 switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
@@ -14,7 +14,6 @@ switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
 define('SL', DIRECTORY_SEPARATOR);
 
 define('ROOT_DIR', dirname(__FILE__));
-
 if (MAINTENANCE && !empty($_SERVER['REMOTE_ADDR']) && !DEBUG) {
 	include_once "maintenance.php";
 	exit();
