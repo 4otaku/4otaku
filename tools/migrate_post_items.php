@@ -1,5 +1,5 @@
 <?php
-
+die;
 include '../inc.common.php';
 
 ob_end_clean();
