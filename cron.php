@@ -15,7 +15,8 @@ if ($key = key($_GET)) {
 }
 
 $time = Database::unix_to_date();
-$tasks = Database::get_vector('cron', array('function', 'period'), 'last_time < ?', $time);
+$tasks = Database::order('id', 'asc')
+	->get_vector('cron', array('function', 'period'), 'last_time < ?', $time);
 
 if (empty($tasks)) {
 	exit();
