@@ -12,7 +12,7 @@
 							<a href="/post/{{id}}" title="{{item.title}}">
 								{{item.title}}
 							</a>
-						{% endif %}							
+						{% endif %}
 					</h2>
 				</td>
 			</tr>
@@ -20,7 +20,7 @@
 		<table cellspacing="0" cellpadding="0" width="100%">
 			<tr>
 				{% for key, image in item.image %}
-					<td class="gouf_image" style="background:url(/images/post/thumb/{{image.file}}.jpg) no-repeat top center;">						
+					<td class="gouf_image" style="background:url(/images/post/thumb/{{image.file}}.jpg) no-repeat top center;">
 					</td>
 				{% endfor %}
 				<td valign="top" class="gouf_links">
@@ -30,19 +30,19 @@
 								{% if not loop.first %}
 									<br />
 								{% endif %}
-								{{link.name}}: 
+								{{link.name}}:
 								{% for url in link.url %}
 									{% if not loop.first %}
-										 | 
-									{% endif %}									
-									<a href="{{url.url}}" 
+										&nbsp;|&nbsp;
+									{% endif %}
+									<a href="{{url.url}}"
 										 class="gouf_link_{{url.status}} with_help"
-										 title="Последняя проверка: {{url.check}}"						 
+										 title="Последняя проверка: {{url.check}}"
 										 target="_blank">
 										{{url.alias}}
 									</a>
-								{% endfor %}	
-									 (~{{link.display_size}} {{link.display_sizetype}})									
+								{% endfor %}
+									 (~{{link.display_size}} {{link.display_sizetype}})
 							{% endfor %}
 						</p>
 					{% endif %}
