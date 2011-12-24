@@ -56,7 +56,7 @@ abstract class Database_Abstract
 	public function array_in ($field, $array, $binary = false) {
 		$field = str_replace(".", "`.`", $field);
 
-		if ($!binary) {
+		if (!$binary) {
 			if (!empty($array) && is_array($array)) {
 				return "`$field` in (".str_repeat("?,",count($array)-1)."?)";
 			} else {
