@@ -1,7 +1,7 @@
 {% include "/edit/top.html" %}
 
 <script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,fileupload.js,add/post.js"></script>
-<table width="100%">		
+<table width="100%">
 	<tr>
 		<td width="20%">
 			Загрузить картинку
@@ -21,17 +21,17 @@
 				</tr>
 			</table>
 		</td>
-	</tr>			
+	</tr>
 	<tr>
 		<td colspan="2" id="error">
-		
+
 		</td>
-	</tr>			
+	</tr>
 	<tr id="transparent" class="post_images">
 		<td colspan="2">
 			{% for image in data.image %}
-				<div 
-					 style="background-image: url(/images/post/thumb/{{image.file}}.jpg);" 
+				<div
+					 style="background-image: url(/images/post/thumb/{{image.file}}.jpg);"
 					 class="left right20">
 					<img class="cancel" src="/images/cancel.png">
 					<input type="hidden" name="image[]" value="{{image.file}}.{{image.extension}}">
@@ -40,5 +40,6 @@
 		</td>
 	</tr>
 </table>
+<input type="hidden" name="edit" value="image" />
 
 {% include "/edit/bottom.html" %}

@@ -14,8 +14,9 @@
 	{% endfor %}
 	<input type="submit" class="disabled sign add_meta" value="+" />
 	<input type="submit" class="disabled
-		{% if data.language|length < 2 %} hidden{% endif %} 
+		{% if data.language|length < 2 %} hidden{% endif %}
 		 sign remove_meta" value="-" />
+	<input type="hidden" name="edit" value="language" />
 </div>
 
 {% include "/edit/bottom.html" %}
