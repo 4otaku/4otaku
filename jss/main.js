@@ -376,20 +376,24 @@ $(".apply-sort").live('click', function(){
 			operation: $(this).find('select.operation').val()
 		});
 	});
+	if (data.length > 0) {
 
-	$(this).hide();
-	parent.find('.sort-loader').show();
+		$(this).hide();
+		parent.find('.sort-loader').show();
 
-	var base = '/post/gouf/';
-	var rel = $(this).attr('rel');
-	if (rel) {
-		base += rel + '/';
+		var base = '/post/gouf/';
+		var rel = $(this).attr('rel');
+		if (rel) {
+			base += rel + '/';
+		}
+		base += 'sort/';
+
+		$.post('/post_gouf/format', {data: data}, function(url){
+			document.location.href = base + url + '/';
+		});
+	} else {
+		document.location.href = '/post/gouf/' + $(this).attr('rel') + '/';
 	}
-	base += 'sort/';
-
-	$.post('/post_gouf/format', {data: data}, function(url){
-		document.location.href = base + url + '/';
-	});
 });
 
 function load_edit_new(event) {
