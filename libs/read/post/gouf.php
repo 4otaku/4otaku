@@ -97,19 +97,19 @@ class Read_Post_Gouf extends Read_Abstract
 			$query->order($sorter);
 		}
 
-		$data = $query->join('post_update', 'pu.id = pus.id')
+		$raw_data = $query->join('post_update', 'pu.id = pus.id')
 			->join('post', 'p.id = pu.post_id')
-			->get_vector('post_update_status',
+			->get_table('post_update_status',
 				array('pu.*', 'p.title', 'p.comment_count'),
 				'(' . $this->area_condition . ') and overall > 0', $this->area_params);
 
 		$this->count = Database::get_counter();
 
 		$image_keys = array();
-		foreach ($data as $key => $item) {
-			$item['id'] = $key;
+		$data = array();
+		foreach ($raw_data as $item) {
 			$image_keys[] = $item['post_id'];
-			$data[$key] = new Model_Post_Update($item);
+			$data[$item['id']] = new Model_Post_Update($item);
 		}
 		$keys = array_keys($data);
 
