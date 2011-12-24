@@ -104,7 +104,7 @@ class Read_Post extends Read_Main
 				array('info_hash', 'seeders', 'leechers'),
 				Database::array_in('info_hash', $hashes, true));
 			foreach ($torrents as &$torrent) {
-				$hash = $torrent['hash'];
+				$hash = pack("H*", $torrent['hash']);
 				if (!empty($torrents_data[$hash])) {
 					$torrent['seeders'] = $torrents_data[$hash]['seeders'];
 					$torrent['leechers'] = $torrents_data[$hash]['leechers'];
