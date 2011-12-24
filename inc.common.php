@@ -20,6 +20,12 @@ define('ROOT_DIR', dirname(__FILE__));
 include_once "constants.php";
 include_once "autoloader.php";
 
+Cache::$base_prefix = 'otaku_';
+Cache::$drivers_list = array(
+	"Cache_Memcached",
+	"Cache_Dummy"
+);
+
 function myoutput($buffer) {
 	$known = array('msie', 'firefox', 'opera');
 	$agent = strtolower($_SERVER['HTTP_USER_AGENT']);

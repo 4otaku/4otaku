@@ -1,0 +1,21 @@
+{% extends "side/parts/base.html" %}
+
+{% set _template = 'tag' %}
+
+{% block name %}
+	<a href="/tags/{{_url.1}}/{% if _url.area == _def.area.2 %}{{_url.area}}/{% endif %}">
+		Частые теги
+	</a>
+{% endblock %}
+
+{% block content %}
+	{% for name, tag in sub.sidebar.tags %}
+		 <a href="/{{_url.1}}/{% if _url.area == _def.area.2 %}{{_url.area}}/{% endif %}/tag/{{tag.alias}}/" 
+		 title="{{tag.count}} {{tag.word}}" 
+		 style="font-size: {{tag.size}}pt;">
+			{{name}}
+		</a>		
+	{% else %}
+		Пока слишком мало тегов для облака.
+	{% endfor %}
+{% endblock %}

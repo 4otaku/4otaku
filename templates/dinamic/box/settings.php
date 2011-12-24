@@ -113,6 +113,17 @@
 				<option value="15"<?=(sets::pp('updates_in_line') == 15 ? ' selected="yes"' : '');?>>15</option>
 				<option value="20"<?=(sets::pp('updates_in_line') == 20 ? ' selected="yes"' : '');?>>20</option>
 			</select>
+			<br />
+			Отчетов Gouf-а на страницу: 
+			 <select class="settings" rel="pp.post_gouf">
+				<option value="5"<?=(sets::pp('post_gouf') == 5 ? ' selected="yes"' : '');?>>5</option>
+				<option value="7"<?=(sets::pp('post_gouf') == 7 ? ' selected="yes"' : '');?>>7</option>
+				<option value="10"<?=(sets::pp('post_gouf') == 10 ? ' selected="yes"' : '');?>>10</option>
+				<option value="15"<?=(sets::pp('post_gouf') == 15 ? ' selected="yes"' : '');?>>15</option>
+				<option value="20"<?=(sets::pp('post_gouf') == 20 ? ' selected="yes"' : '');?>>20</option>
+				<option value="25"<?=(sets::pp('post_gouf') == 25 ? ' selected="yes"' : '');?>>25</option>
+				<option value="30"<?=(sets::pp('post_gouf') == 30 ? ' selected="yes"' : '');?>>30</option>
+			</select>
 		</td>
 	<tr>
 		<td class="settings_header">

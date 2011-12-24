@@ -1,0 +1,43 @@
+<div class="right">
+	<b>
+		Дата обновления: {{update.pretty_date}}
+	</b>
+</div>
+<div class="left">
+	Обновил: 
+	<b>
+		{{update.username}}
+	</b>; 
+</div>
+<div class="clear"></div>
+<div class="entry">
+	<p>
+		{{update.text}}
+	</p>
+	<p>
+		{% if update.link %}
+			<p>
+				{% for key, link in update.link %}
+					{% if not loop.first %}
+						<br />
+					{% endif %}
+					{{link.name}}: 
+					{% for url in link.url %}
+						{% if not loop.first %}
+							 | 
+						{% endif %}
+						<a href="{{url.url}}" 
+							 {% if url.status == 3 %}
+								class="broken_link with_help"
+								 title="Ссылка битая. Последняя проверка: {{url.check}}"
+							 {% endif %}
+							 target="_blank">
+							{{url.alias}}
+						</a>
+					{% endfor %}	
+						 (~{{link.display_size}} {{link.display_sizetype}})									
+				{% endfor %}
+			</p>
+		{% endif %}	
+	</p>
+</div>

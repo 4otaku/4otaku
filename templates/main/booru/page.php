@@ -112,7 +112,7 @@
 							"<?=($sets['art']['blank_mode'] ? ' target="_blank"' : '');?>>
 								<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=($sets['art']['largethumbs'] ? 'large_' : '');?><?=$picture['thumb'];?>.jpg">
 							</a>
-							<?=(!empty($picture['similar_count']) ? '<img class="art_sign" src="/images/plus_'.min(5,$picture['similar_count']).'.png">' : '');?>
+							<?=(!empty($picture['similar_count']) ? '<img class="art_sign" src="/images/plus_'.min(10,$picture['similar_count']).'.png">' : '');?>
 							<?=(!empty($picture['animated']) ? '<img class="art_sign'.(!empty($picture['similar_count']) ? '2' : '').'" src="/images/animated.png">' : '');?>
 						<?
 				

@@ -1,5 +1,5 @@
 <?
-
+die;
 include '../inc.common.php';
 
 $pools = Database::get_vector('art_pool', 'id, art');

@@ -1,0 +1,11 @@
+<img src="/images/file-image.png" class="post-image"> 
+{{file.name}}: 
+<a href="/files/post/{{file.folder}}/{{file.file}}" class="imageholder" target="_blank">
+	{{file.file}}
+	<span rel="{{file.height}}">
+		<img class="hiddenthumb" src="#" rel="/files/post/{{file.folder}}/thumb_{{file.file}}" />
+	</span>	
+</a>
+ ({{file.display_size}} {{file.display_sizetype}})
+
+

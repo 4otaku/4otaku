@@ -9,10 +9,11 @@ class Database_Instance extends Database_Abstract
 	protected $counter_lock = false;
 	protected $counter_query = "SELECT FOUND_ROWS()";
 
-	protected $order = false;
-	protected $order_type = false;
+	protected $group = array();
+	protected $order = array();
 	protected $limit_from = false;
 	protected $limit = false;
+	protected $join = array();
 
 	public function __construct($worker, $prefix = "") {
 		$this->worker = $worker;
@@ -53,7 +54,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		$data = $this->query($query, $params);
-		var_dump($data);
+
 		if ($this->counter_lock) {
 			$count = $this->query($this->counter_query);
 			$this->counter = (int) current(current($count));
@@ -71,6 +72,7 @@ class Database_Instance extends Database_Abstract
 		foreach ($values as &$value) {
 			if (
 				strpos($value, "*") === false &&
+				strpos($value, ".") === false &&
 				strpos($value, "`") === false
 			) {
 				$value = "`$value`";
@@ -82,17 +84,31 @@ class Database_Instance extends Database_Abstract
 		if ($this->counter_lock) {
 			$query .= "SQL_CALC_FOUND_ROWS ";
 		}
-		$query .= "$values FROM `{$this->prefix}$table`";
+		$alias = preg_replace('/(?<!^|_)./ui', '', $table);
+		$query .= "$values FROM `{$this->prefix}$table` AS `$alias`";
+
+		foreach ($this->join as $join) {
+			$query .= " LEFT JOIN `$join[table]` AS `$join[alias]` ON $join[condition]";
+		}
 
 		if (!empty($condition)) {
 			$query .= " WHERE $condition";
 		}
 
-		if (!empty($this->order)) {
-			$type = empty($this->order_type) ?
-				"DESC" : $this->order_type;
+		foreach ($this->group as $key => $group) {
+			$query .= $key ? ", " : " GROUP BY ";
+			$group = str_replace(".", "`.`", $group);
+			$query .= "`$group`";
+		}
 
-			$query .= " ORDER BY `$this->order` $type";
+		foreach ($this->order as $order) {
+			if (!$order->is_valid()) {
+				continue;
+			}
+
+			$query .= !empty($ordered) ? ", " : " ORDER BY ";
+			$query .= $order->get_sort() . " " . $order->get_direction();
+			$ordered = true;
 		}
 
 		if (!empty($this->limit)) {
@@ -110,10 +126,12 @@ class Database_Instance extends Database_Abstract
 			$this->counter_lock = false;
 		}
 
-		$this->order = false;
-		$this->order_type = false;
+		$this->order = array();
+		$this->order_type = array();
+		$this->group = array();
 		$this->limit_from = false;
 		$this->limit = false;
+		$this->join = array();
 
 		return $data;
 	}
@@ -163,7 +181,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		if (empty($this->limit)) {
-			$this->set_limit(1);
+			$this->limit(1);
 		}
 
 		$data = $this->get_common($table, $values, $condition, $params);
@@ -181,7 +199,7 @@ class Database_Instance extends Database_Abstract
 		}
 
 		if (empty($this->limit)) {
-			$this->set_limit(1);
+			$this->limit(1);
 		}
 
 		$data = $this->get_common($table, $value, $condition, $params);
@@ -325,16 +343,27 @@ class Database_Instance extends Database_Abstract
 		return $this->last_query->rowCount();
 	}
 
-	public function set_order ($field, $type = 'desc') {
-		if (ctype_alnum($field) && ctype_alnum($type)) {
-			$this->order = $field;
-			$this->order_type = $type;
+	public function group ($field) {
+		if (!preg_match('/[^a-z_\d\.]/ui', $field)) {
+			$this->group[] = $field;
 		}
 
 		return $this;
 	}
 
-	public function set_limit ($limit, $limit_from = false) {
+	public function order ($sorter, $type = 'desc') {
+		
+		// Backwards compatibility
+		if (!($sorter instanceOf Database_Sorter)) {
+			$sorter = new Database_Sorter($sorter, $type);				
+		}
+			
+		$this->order[] = $sorter;
+
+		return $this;
+	}
+
+	public function limit ($limit, $limit_from = false) {
 		$this->limit = (int) $limit;
 
 		if (!empty($limit_from)) {
@@ -344,8 +373,22 @@ class Database_Instance extends Database_Abstract
 		return $this;
 	}
 
+	public function join ($table, $condition) {
+		$this->join[] = array(
+			'table' => $table,
+			'alias' => preg_replace('/(?<!^|_)./ui', '', $table),
+			'condition' => $condition,
+		);
+
+		return $this;
+	}
+
 	public function last_id () {
 		return $this->worker->lastInsertId();
+	}
+	
+	public function count_affected() {
+		return $this->last_query->rowCount();
 	}
 
 	public function debug($print = true) {

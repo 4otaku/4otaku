@@ -3,7 +3,7 @@
 class transform__link
 {
 	public static function parse($links) {
-		$alias = obj::db()->sql('select data1, data2 from misc where type="site_alias"','data1');
+		$alias = Database::get_vector('misc', array('data1', 'data2'), 'type = ?', 'site_alias');
 		foreach ($links as $key => $link) {
 			$type = 'alias';
 			$parts = explode('&gt;',$link['link']);
@@ -19,23 +19,6 @@ class transform__link
 		}
 		return $links;
 	}
-	
-	public static function similar($links) {
-		$newlinks = array();		
-		foreach ($links as $link) {
-			$found = false;
-			foreach ($newlinks as &$newlink)
-				if ($newlink['name'] == $link['name'] && $newlink['size'] == $link['size'] && $newlink['sizetype'] == $link['sizetype']) {
-					$newlink['url'][] = $link['url']; $newlink['alias'][] = $link['alias']; $found = true;
-				}
-			if (!$found) {
-				$link['url'] = array($link['url']);
-				$link['alias'] = array($link['alias']);
-				$newlinks[] = $link;
-			}
-		}
-		return $newlinks;
-	}	
 }
 
 // Новое имя. Заменить им старое, после завершения всех замен.

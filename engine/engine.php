@@ -90,7 +90,7 @@ class engine
 		$return = array();
 
 		foreach ($input as $part => $modules) {
-			$class = 'side__'.$part;
+			$class = 'Side_' . ucfirst($part);
 			$worker = new $class();
 			foreach ($modules as $module) {
 				$return[$part][$module] = $worker->$module();

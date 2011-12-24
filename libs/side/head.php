@@ -1,6 +1,6 @@
 <?
 
-class side__head
+class Side_Head
 {
 	public $def = array();
 	private $types = array(
@@ -8,6 +8,14 @@ class side__head
 		'category' => 'Категория',
 		'author' => 'Автор',
 		'language' => 'Язык'
+	);
+	
+	protected $js = array(
+		'jquery-1.6.2.min.js', 'plugins.js', 'main.js'
+	);
+	
+	protected $css = array(
+		'plugins.css', 'main.css', 'header.css'
 	);
 
 	function __construct() {
@@ -20,6 +28,35 @@ class side__head
 		$func = 'title_'.$url[1];
 		if (method_exists($this, $func) && $return = $this->$func()) return $return;
 		else return $this->def['site']['name'];
+	}
+	
+	public function js() {
+		return $this->get_jss_data($this->js, 'admin.js');
+	}
+
+	public function css() {
+		return $this->get_jss_data($this->css, 'admin.css');
+	}	
+	
+	protected function get_jss_data($files, $admin_files) {
+		$admin_files = (array) $admin_files;
+		
+		if (sets::user('rights')) {
+			$files = array_merge($files, $admin_files);
+		}
+		
+		$a = microtime(true);
+		$mtime = 0;
+		foreach ($files as $file) {
+			$path = ROOT_DIR.SL.'jss'.SL.$file;
+			
+			$mtime = max($mtime, filemtime($path));
+		}
+		
+		return array(
+			'list' => $files,
+			'date' => $mtime,
+		);
 	}
 
 	function title_art() {

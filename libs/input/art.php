@@ -36,7 +36,7 @@ class input__art extends input__common
 			}
 
 			foreach ($qroups as $group) {
-				$order = Database::set_order('order')->
+				$order = Database::order('order')->
 					get_field('art_in_pool', 'order', 'pool_id = ?', $group);
 
 				Database::insert('art_in_pool', array(

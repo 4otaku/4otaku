@@ -216,9 +216,9 @@ class search
 	function post ($item, $id) {
 		$index = $this->wrap($this->parse_text($item['title']),'|',3);
 		$index = $this->wrap($this->parse_text($item['text']),$index);
-		$index = $this->wrap($this->parse_links($item['link']),$index);
-		$index = $this->wrap($this->parse_links($item['info']),$index);
-		$index = $this->wrap($this->parse_links($item['file']),$index);
+//		$index = $this->wrap($this->parse_links($item['link']),$index);
+//		$index = $this->wrap($this->parse_links($item['info']),$index);
+//		$index = $this->wrap($this->parse_links($item['file']),$index);
 		$index = $this->wrap($this->parse_meta($item['tag'],'tag'),$index,2);
 		$index = $this->wrap($this->parse_meta($item['author'],'author'),$index);
 		$index = $this->wrap($this->parse_meta($item['category'],'category'),$index,2);

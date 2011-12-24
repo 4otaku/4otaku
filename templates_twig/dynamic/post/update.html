@@ -1,0 +1,38 @@
+{% for update in items %}
+	<div class="mini-shell" id="post_update-{{update.id}}">
+		{% include 'main/item/update/single.html' %}
+	</div>
+	{% if _sets.user.rights %}
+		<div class="edit_wrapper" rel="post_update">
+			<table width="100%">
+				<tr>
+					<td>
+						<select name="edit_type" id="edit_type">
+							<option value="text">Текст</option>
+							<option value="link">Ссылки</option>
+							<option value="author">Автора</option>
+						</select> 
+						<input type="submit" value="Редактировать" class="load_edit_field" rel="{{update.id}}" />
+					</td>	
+				</tr>	
+			</table>
+			<div id="loader" class="hidden center loader">
+				<img src="/images/ajax-loader.gif">
+			</div>
+			<div id="edit" class="edit_field hidden"></div>
+		</div>
+	{% endif %}
+	<div class="clear margin10"></div>
+{% endfor %}
+
+<script type="text/javascript">
+	$("input.disabled").click(function(event){  
+		event.preventDefault();
+	});
+
+	$("input.hide_updates").click(function(){  	
+		$("#updates_field").hide();
+		$("#updates_field").html('&nbsp;');
+	});	
+</script>
+<div class="clear margin20"></div>

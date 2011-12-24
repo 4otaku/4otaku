@@ -58,9 +58,17 @@ class dynamic__add
 		if (!Check::num(query::$get['id'])) {
 			return array();
 		}
+		
+		$links = Database::join('post_link_url', 'plu.link_id = pl.id')
+			->join('post_url', 'plu.url_id = pu.id')->order('pl.order', 'asc')
+			->order('plu.order', 'asc')->get_full_vector('post_link', 
+				'pl.post_id = ?', query::$get['id']);
+			
+		foreach ($links as &$link) {
+			$link = new Model_Post_Link($link);
+		}
 
-		$links = Database::get_field('post', 'link', query::$get['id']);
-		return unserialize($links);
+		return $links;
 	}
 
 	public function checkpassword() {

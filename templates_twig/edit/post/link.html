@@ -1,0 +1,29 @@
+{% include "/edit/top.html" %}
+
+<script type="text/javascript" src="/jss/m/?b=jss&f=ui/core.js,ui/sortable.js,edit_form.js,edit/sort.js,add/post.js"></script>
+<table class="margin20 sortable-holder">
+	<tbody class="link_main sortable">
+		{% for link in data.link %}
+			<tr class="link" rel="{{loop.index}}">
+				<td>
+					<input size="20" name="link[{{loop.index}}][name]" value="{{link.name}}" type="text">:
+					<input size="50" name="link[{{loop.index}}][link]" value="<{{link.url[0].alias}}>{{link.url[0].url}}" type="text">
+					~(<input size="2" name="link[{{loop.index}}][size]" value="{{link.display_size}}" type="text">
+					<select name="link[{{loop.index}}][sizetype]">
+						<option value="0"{% if link.sizetype == 0 %} selected{% endif %}>кб</option>
+						<option value="1"{% if link.sizetype == 1 %} selected{% endif %}>мб</option>
+						<option value="2"{% if link.sizetype == 2 %} selected{% endif %}>гб</option>
+					</select>
+					)
+					<input type="submit" class="disabled remove_link second_button" rel="main" value="-"/>
+				</td>
+				<td class="handler">
+					<img src="/images/str.png" />
+				</td>
+			</tr>
+		{% endfor %}
+	<tbody>
+</table>
+<input type="submit" class="disabled add_link left first_button" rel="main" value="Добавить ссылку" />
+
+{% include "/edit/bottom.html" %}

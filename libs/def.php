@@ -78,4 +78,8 @@ class def
 	static function board($key) {
 		return self::get('board',$key);
 	}
+
+	static function tracker($key) {
+		return self::get('tracker',$key);
+	}
 }

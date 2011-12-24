@@ -1,0 +1,23 @@
+{% extends "side/parts/base.html" %}
+
+{% set _template = 'update' %}
+
+{% block name %}
+	<a href="/post/updates/">
+		Обновления
+	</a>
+{% endblock %}
+
+{% block content %}
+	{% for key, update in sub.sidebar.update %}
+		{% if not loop.first %}<br />{% endif %}
+		{{update.author}}:
+		 {{update.text}}
+		<br />
+		<a href="/post/{{update.post_id}}/show_updates/">
+			{{update.post_title}}
+		</a>
+		<br />		
+	{% endfor %}
+{% endblock %}
+

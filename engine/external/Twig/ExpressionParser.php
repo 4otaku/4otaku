@@ -19,7 +19,7 @@
  * @see http://en.wikipedia.org/wiki/Operator-precedence_parser
  *
  * @package    twig
- * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @author     Fabien Potencier <fabien@symfony.com>
  */
 class Twig_ExpressionParser
 {
@@ -117,19 +117,28 @@ class Twig_ExpressionParser
                 $this->parser->getStream()->next();
                 switch ($token->getValue()) {
                     case 'true':
+                    case 'TRUE':
                         $node = new Twig_Node_Expression_Constant(true, $token->getLine());
                         break;
 
                     case 'false':
+                    case 'FALSE':
                         $node = new Twig_Node_Expression_Constant(false, $token->getLine());
                         break;
 
                     case 'none':
+                    case 'NONE':
+                    case 'null':
+                    case 'NULL':
                         $node = new Twig_Node_Expression_Constant(null, $token->getLine());
                         break;
 
                     default:
-                        $node = new Twig_Node_Expression_Name($token->getValue(), $token->getLine());
+                        if ('(' === $this->parser->getCurrentToken()->getValue()) {
+                            $node = $this->getFunctionNode($token->getValue(), $token->getLine());
+                        } else {
+                            $node = new Twig_Node_Expression_Name($token->getValue(), $token->getLine());
+                        }
                 }
                 break;
 
@@ -205,7 +214,6 @@ class Twig_ExpressionParser
 
     public function parsePostfixExpression($node)
     {
-        $firstPass = true;
         while (true) {
             $token = $this->parser->getCurrentToken();
             if ($token->getType() == Twig_Token::PUNCTUATION_TYPE) {
@@ -213,46 +221,46 @@ class Twig_ExpressionParser
                     $node = $this->parseSubscriptExpression($node);
                 } elseif ('|' == $token->getValue()) {
                     $node = $this->parseFilterExpression($node);
-                } elseif ($firstPass && $node instanceof Twig_Node_Expression_Name && '(' == $token->getValue()) {
-                    $node = $this->getFunctionNode($node);
                 } else {
                     break;
                 }
             } else {
                 break;
             }
-
-            $firstPass = false;
         }
 
         return $node;
     }
 
-    public function getFunctionNode($node)
+    public function getFunctionNode($name, $line)
     {
         $args = $this->parseArguments();
+        switch ($name) {
+            case 'parent':
+                if (!count($this->parser->getBlockStack())) {
+                    throw new Twig_Error_Syntax('Calling "parent" outside a block is forbidden', $line);
+                }
 
-        if ('parent' === $node->getAttribute('name')) {
-            if (!count($this->parser->getBlockStack())) {
-                throw new Twig_Error_Syntax('Calling "parent" outside a block is forbidden', $token->getLine());
-            }
+                if (!$this->parser->getParent() && !$this->parser->hasTraits()) {
+                    throw new Twig_Error_Syntax('Calling "parent" on a template that does not extend nor "use" another template is forbidden', $line);
+                }
 
-            if (!$this->parser->getParent()) {
-                throw new Twig_Error_Syntax('Calling "parent" on a template that does not extend another one is forbidden', $token->getLine());
-            }
+                return new Twig_Node_Expression_Parent($this->parser->peekBlockStack(), $line);
+            case 'block':
+                return new Twig_Node_Expression_BlockReference($args->getNode(0), false, $line);
+            case 'attribute':
+                if (count($args) < 2) {
+                    throw new Twig_Error_Syntax('The "attribute" function takes at least two arguments (the variable and the attribute)', $line);
+                }
 
-            return new Twig_Node_Expression_Parent($this->parser->peekBlockStack(), $node->getLine());
+                return new Twig_Node_Expression_GetAttr($args->getNode(0), $args->getNode(1), count($args) > 2 ? $args->getNode(2) : new Twig_Node_Expression_Array(array(), $line), Twig_TemplateInterface::ANY_CALL, $line);
+            default:
+                if (null !== $alias = $this->parser->getImportedFunction($name)) {
+                    return new Twig_Node_Expression_GetAttr($alias['node'], new Twig_Node_Expression_Constant($alias['name'], $line), $args, Twig_TemplateInterface::METHOD_CALL, $line);
+                }
+
+                return new Twig_Node_Expression_Function($name, $args, $line);
         }
-
-        if ('block' === $node->getAttribute('name')) {
-            return new Twig_Node_Expression_BlockReference($args->getNode(0), $node->getLine());
-        }
-
-        if (null !== $alias = $this->parser->getImportedFunction($node->getAttribute('name'))) {
-            return new Twig_Node_Expression_GetAttr($alias['node'], new Twig_Node_Expression_Constant($alias['name'], $node->getLine()), $args, $node->getLine(), Twig_Node_Expression_GetAttr::TYPE_METHOD);
-        }
-
-        return new Twig_Node_Expression_Function($node, $args, $node->getLine());
     }
 
     public function parseSubscriptExpression($node)
@@ -260,7 +268,7 @@ class Twig_ExpressionParser
         $token = $this->parser->getStream()->next();
         $lineno = $token->getLine();
         $arguments = new Twig_Node();
-        $type = Twig_Node_Expression_GetAttr::TYPE_ANY;
+        $type = Twig_TemplateInterface::ANY_CALL;
         if ($token->getValue() == '.') {
             $token = $this->parser->getStream()->next();
             if (
@@ -273,7 +281,7 @@ class Twig_ExpressionParser
                 $arg = new Twig_Node_Expression_Constant($token->getValue(), $lineno);
 
                 if ($this->parser->getStream()->test(Twig_Token::PUNCTUATION_TYPE, '(')) {
-                    $type = Twig_Node_Expression_GetAttr::TYPE_METHOD;
+                    $type = Twig_TemplateInterface::METHOD_CALL;
                     $arguments = $this->parseArguments();
                 } else {
                     $arguments = new Twig_Node();
@@ -282,7 +290,7 @@ class Twig_ExpressionParser
                 throw new Twig_Error_Syntax('Expected name or number', $lineno);
             }
         } else {
-            $type = Twig_Node_Expression_GetAttr::TYPE_ARRAY;
+            $type = Twig_TemplateInterface::ARRAY_CALL;
 
             $arg = $this->parseExpression();
             $this->parser->getStream()->expect(Twig_Token::PUNCTUATION_TYPE, ']');

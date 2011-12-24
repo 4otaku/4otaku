@@ -7,7 +7,7 @@
 		$time = str_replace('.', '', microtime(true));
 		$extension =  pathinfo($file, PATHINFO_EXTENSION);
 		if ($extension != 'mp3') {
-			$filename = substr(obj::transform('meta')->make_alias(pathinfo($file, PATHINFO_FILENAME)),0,200);
+			$filename = substr(Transform_File::make_name(pathinfo($file, PATHINFO_FILENAME)),0,200);
 		} else {
 			$filename = 'audiotrack';
 		}
@@ -19,7 +19,7 @@
 		} else {
 			$sizefile .= ' байт';	
 		}
-					
+
 		mkdir(ROOT_DIR.SL.'files'.SL.'post'.SL.$time, 0755);
 		$newfile = ROOT_DIR.SL.'files'.SL.'post'.SL.$time.SL.$filename.'.'.$extension;		
 		chmod($temp, 0755);

@@ -1,6 +1,6 @@
 <?
 
-class side__sidebar extends engine
+class Side_Sidebar extends engine
 {
 	function comments() {
 		global $sets; global $url;

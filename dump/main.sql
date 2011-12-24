@@ -978,6 +978,267 @@ INSERT INTO `post` (`id`, `title`, `text`, `pretty_text`, `image`, `link`, `info
 
 -- --------------------------------------------------------
 
+
+--
+-- Структура таблицы `post_extra`
+--
+
+CREATE TABLE IF NOT EXISTS `post_extra` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`post_id`,`order`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_file`
+--
+
+CREATE TABLE IF NOT EXISTS `post_file` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `type` tinyint(3) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `folder` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
+  `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`post_id`,`order`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_image`
+--
+
+CREATE TABLE IF NOT EXISTS `post_image` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `extension` varchar(6) NOT NULL,
+  `width` smallint(5) unsigned NOT NULL,
+  `height` smallint(5) unsigned NOT NULL,
+  `weight` int(10) unsigned NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_link`
+--
+
+CREATE TABLE IF NOT EXISTS `post_link` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
+  `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`post_id`,`order`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_link_url`
+--
+
+CREATE TABLE IF NOT EXISTS `post_link_url` (
+  `url_id` int(10) unsigned NOT NULL,
+  `link_id` int(10) unsigned NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`url_id`,`link_id`),
+  UNIQUE KEY `selector` (`url_id`,`link_id`,`order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `post_status` (
+  `id` int(10) unsigned NOT NULL,
+  `overall` float unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `broken` smallint(5) unsigned NOT NULL,
+  `partially_broken` smallint(5) unsigned NOT NULL,
+  `unmirorred` smallint(5) unsigned NOT NULL,
+  `unknown` smallint(5) unsigned NOT NULL,
+  `uncheked` smallint(5) unsigned NOT NULL,
+  `lastcheck` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Структура таблицы `post_torrent`
+--
+
+CREATE TABLE IF NOT EXISTS `post_torrent` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
+  `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`post_id`,`order`),
+  UNIQUE KEY `hash` (`hash`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_update`
+--
+
+CREATE TABLE IF NOT EXISTS `post_update` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `username` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `pretty_date` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `sortdate` bigint(16) NOT NULL,
+  `area` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'main',
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`,`sortdate`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_update_link`
+--
+
+CREATE TABLE IF NOT EXISTS `post_update_link` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `update_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `size` decimal(10,4) unsigned NOT NULL,
+  `sizetype` tinyint(3) unsigned NOT NULL COMMENT '0 - килобайты, 1 - мегабайты, 2- гигабайты',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `selector` (`update_id`,`order`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_update_link_url`
+--
+
+CREATE TABLE IF NOT EXISTS `post_update_link_url` (
+  `url_id` int(10) unsigned NOT NULL,
+  `link_id` int(10) unsigned NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`url_id`,`link_id`),
+  UNIQUE KEY `selector` (`url_id`,`link_id`,`order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `post_update_status` (
+  `id` int(10) unsigned NOT NULL,
+  `overall` float unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `broken` smallint(5) unsigned NOT NULL,
+  `partially_broken` smallint(5) unsigned NOT NULL,
+  `unmirorred` smallint(5) unsigned NOT NULL,
+  `unknown` smallint(5) unsigned NOT NULL,
+  `uncheked` smallint(5) unsigned NOT NULL,
+  `lastcheck` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `post_url`
+--
+
+CREATE TABLE IF NOT EXISTS `post_url` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url` text NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL COMMENT '0 - не проверено, 1 - работает, 2 - не удалось понять, 3 - сломано',
+  `lastcheck` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`(255)),
+  KEY `lastcheck` (`lastcheck`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Структура таблицы `post_url_rule`
+--
+CREATE TABLE IF NOT EXISTS `post_url_rule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `domain` varchar(255) NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
+
+--
+-- Дамп данных таблицы `post_url_rule`
+--
+
+INSERT INTO `post_url_rule` (`id`, `domain`, `type`, `value`) VALUES
+(1, 'narod.ru', 'alias', 'narod.yandex.ru'),
+(2, 'narod2.yandex.ru', 'alias', 'narod.yandex.ru'),
+(3, 'narod3.yandex.ru', 'alias', 'narod.yandex.ru'),
+(4, 'narod4.yandex.ru', 'alias', 'narod.yandex.ru'),
+(5, 'narod.yandex.ru', 'works', '/<b>Скачать<\\/b>/u'),
+(6, 'megaupload.com', 'works', '/<[Tt][Dd]\\s+align="center">[Pp]lease\\s+wait<\\/[Tt][Dd]>/u'),
+(7, 'megaupload.com', 'works', '/<center>The\\s+file\\s+you\\s+are\\s+trying\\s+to\\s+access\\s+is\\s+temporarily\\s+unavailable\\./u'),
+(8, 'megaupload.com', 'works', '/<center>Файл,\\s+который\\s+Вы\\s+пытаетесь\\s+открыть,\\s+временно\\s+недоступен/u'),
+(9, 'mediafire.com', 'works', '/Preparing download\\.{3}/u'),
+(10, 'mediafire.com', 'works', '/Data is loading from the server\\.{2}/u'),
+(11, '4shared.com', 'works', '/<font>Скачать<\\/font>/u'),
+(12, '4shared.com', 'works', '/<font>Скачать\\s+сейчас<\\/font>/u'),
+(13, 'megashares.com', 'works', '/<td\\s+[^>]*>Choose\\s+download\\s+service:<\\/td>/u'),
+(14, 'megashares.com', 'works', '/<dd\\s+class="red">All\\s+download\\s+slots\\s+for\\s+this\\s+link\\s+are\\s+currently\\s+filled./u'),
+(15, 'depositfiles.com', 'works', '/depositfiles\\.com\\/images\\/speed_small\\.gif"[^>]*>/u'),
+(16, 'ifolder.ru', 'works', '/<label\\s+for="dw1">[\\s\\\r\\\n]*Скачать\\s+бесплатно\\s+просмотрев\\s+рекламу[\\s\\\r\\\n]*<\\/label>/u'),
+(17, 'letitbit.net', 'works', '/<form\\s+id="ifree_form"\\s+action="\\/download/u'),
+(18, 'rghost.ru', 'works', '/<a[^>]+class="download_link"[^>]*>Скачать<\\/a>/u'),
+(19, 'files.desu.ru', 'works', '/Всего:\\s+\\d+\\s+файлов,\\s+общий\\s+размер:\\s+[\\d,]+\\s+Мб/u'),
+(20, 'dump.ru', 'works', '/<form\\s+[^>]*id="file_download"[^>]*name="file_download"[^>]*>/u'),
+(21, 'sites.google.com', 'works', '/Cкачать\\s+<a\\s+href="http:\\/\\/sites\\.google\\.com/u'),
+(22, 'ifile.it', 'works', '/<input\\s+type="button"\\s+id="req_btn2"\\s+value="\\s*request\\s+download\\s+ticket\\s*"/u'),
+(23, 'zshare.net', 'works', '/<h2>Download:\\s+/u'),
+(24, 'animeotaku.ru', 'works', '/<div\\s+id="listing">\\s*<div><a\\s+href="/u'),
+(25, 'upload.com.ua', 'works', '/\\stitle="Нажмите\\s+чтобы\\s+скачать\\s+файл\\s[^"]+">[^<]+<\\/a><\\/div>/u'),
+(26, 'fileserve.com', 'works', '/<a\\s+id="regularBtn"\\s+href="#"\\s+class="slower_download_btn">Slower\\s+Download<\\/a>/u'),
+(27, 'narod.yandex.ru', 'broken', '/Закончился\\s+срок\\s+хранения\\s+файла\\.\\s*Файл\\s+удален/u'),
+(28, 'rghost.ru', 'broken', '/<div\\s+[^>]*>[\\s\\\r\\\n]*Файл\\s+удален\\.[\\s\\\r\\\n]*<\\/div>/u'),
+(29, 'megaupload.com', 'broken', '/Unfortunately,\\s+the\\s+link\\s+you\\s+have\\s+clicked\\s+is\\s+not\\s+available\\./u'),
+(30, 'dump.ru', 'broken', '/<li>[\\s\\\r\\\n]*Запрошенный\\s+файл\\s+удален[\\s\\\r\\\n]*<\\/li>/u'),
+(31, 'hotfile.com', 'broken', '/<td>Diese\\s+Datei\\s+ist\\s+entweder\\s+aufgrund\\s+des\\s+Copyright-Rechtes/u'),
+(32, 'raincat.4otaku.ru', 'broken', '/<h2>Страница\\s+не\\s+найдена\\.\\s+=(<\\/h2>/u'),
+(33, 'mediafire.com', 'works', 'id="authorize_dl_btn"><span></span>Authorize Download</a>'),
+(34, 'megaupload.com', 'works', '<a class="download_regular_disabled"  id="dlbuttondisabled"></a>'),
+(35, 'rghost.ru', 'broken', 'Файл удален.'),
+(36, 'narod.yandex.ru', 'works', '<input type="hidden" name="action" value="sendcapcha'),
+(37, 'narod.yandex.ru', 'broken', 'http://narod.yandex.ru/404u.yhtml'),
+(38, 'mediafire.com', 'broken', '/error.php?errno=320'),
+(39, '4shared.com', 'works', '<span><span><font>Скачать сейчас</font>'),
+(40, 'narod.yandex.ru', 'broken', 'Закончился срок хранения файла. Файл удален с сервиса.'),
+(41, 'megaupload.com', 'works', '<div class="access_na_text"></div>'),
+(42, '4shared.com', 'broken', 'Ссылка на запрашиваемый файл недействительна.'),
+(43, 'ifolder.ru', 'broken', '</b> удален !!!</p>');
+
 --
 -- Структура таблицы `raw_logs`
 --

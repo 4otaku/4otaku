@@ -3,6 +3,7 @@
 class Transform_Meta
 {
 	private $tag_types = array(
+		'none' => '',
 		'character' => '00AA00',
 		'персонаж' => '00AA00',
 		'герой' => '00AA00',
@@ -32,52 +33,57 @@ class Transform_Meta
 		foreach ($tags as $key => $tag)
 			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
-				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
-				if (!empty($color)) {
-					$this->colors[$tags[$key]] = $color;
+
+				$color_key = mb_strtolower(substr($type[0],4,-4),'UTF-8');
+				if (isset($this->tag_types[$color_key])) {
+					$this->colors[$tags[$key]] = $this->tag_types[$color_key];
 				}
 			}
 		return $tags;
 	}
-	
+
 	function parse_array ($items, $default = 'Проставьте_теги') {
 
 		if (empty($items)) {
 			return array($default);
 		}
-		
+
 		if (!is_array($items)) {
 			return $this->parse($items);
 		}
-		
+
 		$tags = array_unique(array_filter($items));
-		
+
 		foreach ($tags as $key => $tag) {
 			$tag = str_replace(array('&amp;'), array('&'), $tag);
 
 			if (preg_match('/(^(:?&lt;|<)\p{L}+(?:&gt;|>)|(?:&lt;|<)\p{L}+(?:&gt;|>)$)/u',$tag,$type)) {
 				$tags[$key] = str_replace($type[0],'',$tag);
-				$color = $this->tag_types[mb_strtolower(substr($type[0],4,-4),'UTF-8')];
-				if (!empty($color)) {
-					$this->colors[$tags[$key]] = $color;
+
+				$color_key = mb_strtolower(substr($type[0],4,-4),'UTF-8');
+				if (isset($this->tag_types[$color_key])) {
+					$this->colors[$tags[$key]] = $this->tag_types[$color_key];
 				}
 			}
 		}
 		return $tags;
 	}
 
-	function erase_tags($erase, $erasearea){
-		foreach ($erase as $one)
+	function erase_tags($erase, $erasearea) {
+		foreach ($erase as $one) {
 			obj::db()->sql('update tag set '.$erasearea.' = '.$erasearea.' - 1 where alias="'.$one.'"',0);
+		}
 	}
 
 	function add_tags($tags, $update = false){
-		foreach ($tags as $key => $tag) {			
+		foreach ($tags as $key => $tag) {
 			$tag = str_replace(array('&amp;'), array('&'), $tag);
-			
+
 			if ($check = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
 				if ($update) obj::db()->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
-				if ($this->colors[$tag]) obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
+				if (isset($this->colors[$tag])) {
+					obj::db()->update('tag','color',$this->colors[$tag],$check,'alias');
+				}
 				$tags[$key] = $check;
 			} else {
 				$alias = $this->make_alias($tag);
@@ -115,15 +121,15 @@ class Transform_Meta
 		return '|'.implode('|',$authors).'|';
 	}
 
-	function make_alias($word) {
-		$word = strtolower($this->jap2lat($this->ru2lat(undo_safety($word))));
+	public static function make_alias($word) {
+		$word = strtolower(self::jap2lat(self::ru2lat(undo_safety($word))));
 		$word = str_replace(' ','_',$word);
 		return preg_replace('/[^a-z_\d]/eui','urlencode("$0")',$word);
 	}
 
 	/* Не трогаем - тут какая-то аццкая хрень с пробелами, работает только так */
 
-	function jap2lat($st) {
+	public static function jap2lat($st) {
 		$k2r = array('/きゃ/' => 'kya', '/きゅ/' => 'kyu', '/きょ/' => 'kyo', '/
 しゃ/' => 'sha', '/しゅ/' => 'shu', '/しょ/' => 'sho', '/ちゃ/' =>
 'cha', '/ちゅ/' => 'chu', '/ちょ/' => 'cho', '/にゃ/' => 'nya', '/にゅ/'
@@ -152,11 +158,10 @@ class Transform_Meta
 'pa', '/ぴ/' => 'pi', '/ぷ/' => 'pu', '/ぺ/' => 'pe', '/ぽ/' => 'po',
 '/　/'=>' ', '/っ(.)/' => '$1$1');
 		return preg_replace(array_keys($k2r), array_values($k2r), $st);
-		return $st;
 	}
 
-	function ru2lat($st) {
-		static $tbl= array('а'=>'a', 'б'=>'b', 'в'=>'v', 'г'=>'g', 'д'=>'d', 'е'=>'e',
+	public static function ru2lat($st) {
+		$tbl= array('а'=>'a', 'б'=>'b', 'в'=>'v', 'г'=>'g', 'д'=>'d', 'е'=>'e',
 			'ж'=>'g', 'з'=>'z', 'и'=>'i', 'й'=>'y', 'к'=>'k', 'л'=>'l', 'м'=>'m', 'н'=>'n',
 			'о'=>'o', 'п'=>'p', 'р'=>'r', 'с'=>'s', 'т'=>'t', 'у'=>'u', 'ф'=>'f', 'ы'=>'i',
 			'э'=>'e', 'А'=>'A', 'Б'=>'B', 'В'=>'V', 'Г'=>'G', 'Д'=>'D', 'Е'=>'E', 'Ж'=>'G',
@@ -164,7 +169,7 @@ class Transform_Meta
 			'П'=>'P', 'Р'=>'R', 'С'=>'S', 'Т'=>'T', 'У'=>'U', 'Ф'=>'F', 'Ы'=>'I', 'Э'=>'E',
 			'ё'=>"yo", 'х'=>"h", 'ц'=>"ts", 'ч'=>"ch", 'ш'=>"sh", 'щ'=>"shch", 'ъ'=>"", 'ь'=>"",
 			'ю'=>"yu", 'я'=>"ya", 'Ё'=>"YO", 'Х'=>"H", 'Ц'=>"TS", 'Ч'=>"CH", 'Ш'=>"SH", 'Щ'=>"SHCH",
-			'Ъ'=>"", 'Ь'=>"", 'Ю'=>"YU", 'Я'=>"YA" );
+			'Ъ'=>"", 'Ь'=>"", 'Ю'=>"YU", 'Я'=>"YA");
 		return strtr($st, $tbl);
 	}
 }

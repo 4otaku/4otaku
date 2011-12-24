@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+	<head>
+		{% if sub.head %}
+			{% include 'side/head.html' %}
+		{% endif %}
+	</head>
+	<body>	
+		{% block header %}
+			{% if sub.header %}
+				{% include 'side/header.html' %}
+			{% endif %}
+		{% endblock %}
+		<table width="100%" class="body">
+			<tr>
+				{% block content %}{% endblock %}
+			</tr>
+			{% if sub.footer %}
+				<tr>
+					<td colspan="2" id="footer">
+						{% include 'side/footer.html' %}
+					</td>
+				</tr>
+			{% endif %}
+		</table>
+	</body>
+</html>

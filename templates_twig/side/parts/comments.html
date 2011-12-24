@@ -1,0 +1,21 @@
+{% extends "side/parts/base.html" %}
+
+{% set _template = 'comment' %}
+
+{% block name %}
+	<a href="/comments/{% if sub.sidebar.comments.link %}{{sub.sidebar.comments.link}}/{% endif %}">
+		Комментарии
+	</a>
+{% endblock %}
+
+{% block content %}
+	{% for comment in sub.sidebar.comments.data %}
+		{% if not loop.first %}<br />{% endif %}
+		{{comment.username}}: {{comment.text}}
+		<br />
+		<a href="{{comment.href}}comments/all#comment-{{comment.id}}">
+			{{comment.title}}
+		</a>
+		<br />
+	{% endfor %}
+{% endblock %}

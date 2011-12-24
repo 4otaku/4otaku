@@ -1,0 +1,65 @@
+<table width="100%">
+	<tr>
+		<td align="left">
+			<h2>
+				<a href="/post/{{update.post_id}}/show_updates/" title="{{update.title}}">
+					{{update.title}}
+				</a>
+			</h2>
+		</td>
+		<td align="right" valign="top">
+			<a href="/post/{{update.post_id}}">
+				Комментировать
+			</a>
+			{% if update.comment_count %}
+				 ({{update.comment_count}})
+			{% endif %}	
+		</td>
+	</tr>
+</table>
+<table cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		{% if update.image %}
+			<td class="imageholder" valign="top">
+				{% for key, image in update.image %}
+					<div class="image-{{key}}">
+						<a href="/images/post/full/{{image.file}}.{{image.extension}}" target="_blank">
+							<img src="/images/post/thumb/{{image.file}}.jpg" />
+						</a>
+					</div>
+				{% endfor %}
+			</td>
+		{% endif %}		
+		<td valign="top">
+			<p>
+				Обновил: 
+				<b>
+					{{update.username}}
+				</b>; 
+				Дата обновления: {{update.pretty_date}}
+			</p>
+			<div class="posttext">
+				{{update.text}}
+			</div>
+			{% if update.link %}
+				<p>
+					{% for key, link in update.link %}
+						{% if not loop.first %}
+							<br />
+						{% endif %}
+						{{link.name}}: 
+						{% for url in link.url %}
+							{% if not loop.first %}
+								 | 
+							{% endif %}
+							<a href="{{url.url}}" target="_blank">
+								{{url.alias}}
+							</a>
+						{% endfor %}	
+							 (~{{link.display_size}} {{link.display_sizetype}})									
+					{% endfor %}
+				</p>
+			{% endif %}
+		</td>
+	</tr>
+</table>

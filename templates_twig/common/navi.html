@@ -1,0 +1,102 @@
+<div id="navi_bottom" rel="{{navi.base}}">
+	<code>
+		<ul>
+			<li class="page_info">
+				{% if not navi.all %}
+					{{navi.name|default('Страница')}} {{navi.curr}} из {{navi.last}}
+				{% else %}
+					Отображаются все комментарии
+				{% endif %}
+			</li>
+			{% if navi.curr == 2 %}
+				<li>
+					<a href="{{navi.base}}{{navi.meta}}{{navi.anchor}}">
+						&lt;
+					</a>
+				</li>
+			{% elseif navi.curr > 2 %}
+				<li>
+					<a href="{{navi.base}}{{navi.meta}}page/{{navi.curr - 1}}/{{navi.anchor}}">
+						&lt;
+					</a>
+				</li>
+			{% endif %}
+			{% if navi.curr == 1 %}
+				<li class="active_page">
+					<a href="{{navi.base}}{{navi.meta}}{{navi.anchor}}">
+						1
+					</a>
+				</li>
+			{% else %}
+				<li class="first_last_page">
+					<a href="{{navi.base}}{{navi.meta}}{{navi.anchor}}">
+						1
+					</a>
+				</li>
+			{% endif %}
+			{% if navi.start > 2 %}
+				<li class="space">
+					...
+				</li>
+			{% endif %}
+			{% if navi.end >= navi.start %}
+				{% for i in navi.start..navi.end %}
+					{% if i == navi.curr %}
+						<li class="active_page">
+							<a href="{{navi.base}}{{navi.meta}}page/{{i}}/{{navi.anchor}}">
+								{{i}}
+							</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{{navi.base}}{{navi.meta}}page/{{i}}/{{navi.anchor}}">
+								{{i}}
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+			{% if navi.end < navi.last - 1 %}
+				<li class="space">
+					...
+				</li>
+			{% endif %}
+			{% if navi.last > 1 %}
+				{% if navi.last == navi.curr %}
+					<li class="active_page">
+						<a href="{{navi.base}}{{navi.meta}}page/{{navi.last}}/{{navi.anchor}}">
+							{{navi.last}}
+						</a>
+					</li>
+				{% else %}
+					<li class="first_last_page">
+						<a href="{{navi.base}}{{navi.meta}}page/{{navi.last}}/{{navi.anchor}}">
+							{{navi.last}}
+						</a>
+					</li>
+					{% if not navi.all %}
+						<li>
+							<a href="{{navi.base}}{{navi.meta}}page/{{navi.curr + 1}}/{{navi.anchor}}">
+								&gt;
+							</a>
+						</li>
+					{% endif %}
+				{% endif %}
+				{% if navi.have_all %}
+					<li class="space">
+
+					</li>
+					<li{% if navi.all %} class="active_page"{% endif %}>
+						<a href="{{navi.base}}{{navi.meta}}page/all/{{navi.anchor}}">
+							Показать все
+						</a>
+					</li>
+				{% endif %}
+			{% endif %}
+		</ul>
+		<div>
+			&nbsp;
+		</div>
+	</code>
+</div>
+

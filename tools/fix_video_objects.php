@@ -1,5 +1,5 @@
 <?
-
+die;
 include '../inc.common.php';
 
 $videos = Database::get_full_vector('video');

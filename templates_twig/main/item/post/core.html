@@ -1,0 +1,135 @@
+<div class="innerwrap">
+	<table width="100%">
+		<tr>
+			<td align="left">
+				<h2>
+					<a href="/post/{{id}}" title="{{post.title}}">
+						{{post.title}}
+					</a>
+				</h2>
+			</td>
+			<td align="right" valign="top">
+				{% if post.in_batch %}
+					<a href="/post/{{id}}">
+						Комментировать
+					</a>
+					{% if post.comment_count %}
+						 ({{post.comment_count}})
+					{% endif %}
+				{% else %}
+					{% if post.update_count %}
+						<a href="#" class="disabled show_updates" rel="{{id}}">
+							Показать обновления
+						</a> 
+						 ({{post.update_count}})
+					{% endif %}
+				{% endif %}
+			</td>
+		</tr>
+	</table>
+	<table cellspacing="0" cellpadding="0" width="100%">
+		{% if post.hidden %}
+			<tr>
+				<td align="center">
+					У вас отключен показ материалов для взрослых. 
+					<a href="#" class="disabled show_nsfw">
+						Показать эту запись.
+					</a> 
+					<a href="#" class="disabled always_show_nsfw">
+						Всегда показывать такие материалы.
+					</a>
+				</td>
+			</tr>
+			<tr class="hidden">
+		{% else %}
+			<tr>
+		{% endif %}
+			{% if post.image %}
+				<td class="imageholder" valign="top">
+					{% for key, image in post.image %}
+						<div class="image-{{key}}">
+							<a href="/images/post/full/{{image.file}}.{{image.extension}}" target="_blank">
+								<img src="/images/post/thumb/{{image.file}}.jpg" />
+							</a>
+						</div>
+					{% endfor %}
+				</td>
+			{% endif %}
+			<td valign="top">
+				<div class="posttext">
+					{{post.text}}
+				</div>
+				{% if post.link %}
+					<p>
+						{% for key, link in post.link %}
+							{% if not loop.first %}
+								<br />
+							{% endif %}
+							{{link.name}}: 
+							{% for url in link.url %}
+								{% if not loop.first %}
+									 | 
+								{% endif %}
+								<a href="{{url.url}}" 
+									 {% if url.status == 3 %}
+										class="broken_link with_help"
+										 title="Ссылка битая. Последняя проверка: {{url.check}}"
+									 {% endif %}
+									 target="_blank">
+									{{url.alias}}
+								</a>
+							{% endfor %}
+								 (~{{link.display_size}} {{link.display_sizetype}})
+						{% endfor %}
+					</p>
+				{% endif %}
+				{% if post.torrent %}
+					<p>
+						{% for key, torrent in post.torrent %}
+							{% if not loop.first %}
+								<br />
+							{% endif %}
+							{{torrent.name}}: 
+							<a href="/files/torrent/{{torrent.hash}}/{{torrent.file}}" target="_blank">
+								{{torrent.display_file}}
+							</a>
+							 (~{{torrent.display_size}} {{torrent.display_sizetype}})
+							 <span class="torrent_info">
+								<span class="seeders">S: {{torrent.seeders}}</span>,
+								 <span class="leechers">L: {{torrent.leechers}}</span>
+							</span>
+						{% endfor %}
+					</p>
+				{% endif %}
+				{% if post.file %}
+					<p class="post-files">
+						{% for key, file in post.file %}
+							{% if not loop.first %}
+								<br />
+							{% endif %}
+							{% include 'main/item/post/file_'~file.display_type~'.html' ignore missing %}
+						{% endfor %}
+					</p>
+				{% endif %}
+				{% if post.extra %}
+					<p>
+						{% for key, extra in post.extra %}
+							{% if not loop.first %}
+								<br />
+							{% endif %}
+							{{extra.name}}: 
+							<a href="{{extra.url}}" target="_blank">
+								{{extra.alias}}
+							</a>.
+						{% endfor %}
+					</p>
+				{% endif %}
+			</td>
+		</tr>
+	</table>
+	<div class="wrapper">
+		<p class="meta">
+			{% include 'common/meta.html' with {'item': post} %}
+		</p>
+	</div>
+</div>

@@ -8,15 +8,26 @@ class Check
 		if ($min !== false && $num < $min) return $default;
 		return $num;
 	}
+	
+	public static function id(&$num) {
+		$num = (int) $num;
+		
+		return $num > 0;
+	}
 
 	public static function link($str, $default = '') {
 		return (!preg_match('/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i', $str)) ? $default : $str;
 	}
 
 	public static function link_array($array) {
-		if (is_array($array)) foreach ($array as $one) {
-			$link = explode('&gt;',$one['link']);
-			if (count($link) < 3 && self::link(undo_safety(end($link)))) $return[] = $one;
+		$return = array();
+		if (is_array($array)) {
+			foreach ($array as $one) {
+				$link = explode('&gt;',$one['link']);
+				if (count($link) < 3 && self::link(undo_safety(end($link)))) {
+					$return[] = $one;
+				}
+			}
 		}
 		return $return;
 	}

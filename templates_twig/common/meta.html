@@ -1,0 +1,62 @@
+{{item.pretty_date}} | 
+{% if item.meta.author|length > 1 %}
+	Опубликовали: 
+{% else %}
+	Опубликовал: 
+{% endif %}
+{% for alias, author in item.meta.author %}
+	{% if not loop.first %}, {% endif %}
+	{% if item.in_batch %}
+		<a href="{{navi.base}}{{author.mixed_add}}">
+			+
+		</a> 
+		<a href="{{navi.base}}{{author.mixed_remove}}">
+			-
+		</a> 
+	{% endif %}
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}author/{{alias}}/">
+		{{author.name}}
+	</a>
+{% endfor %}
+ | 
+{% if item.meta.category|length > 1 %}
+	Категории: 
+{% else %}
+	Категория: 
+{% endif %}
+{% for alias, category in item.meta.category %}
+	{% if not loop.first %}, {% endif %}
+	{% if item.in_batch %}
+		<a href="{{navi.base}}{{category.mixed_add}}">
+			+
+		</a> 
+		<a href="{{navi.base}}{{category.mixed_remove}}">
+			-
+		</a> 
+	{% endif %}																						
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}category/{{alias}}/">
+		{{category.name}}
+	</a>
+{% endfor %}
+ | 
+{% if item.meta.language|length > 1 %}
+	Языки: 
+{% else %}
+	Язык: 
+{% endif %}
+{% for alias, language in item.meta.language %}
+	{% if not loop.first %}, {% endif %}
+	{% if item.in_batch %}
+		<a href="{{navi.base}}{{language.mixed_add}}">
+			+
+		</a> 
+		<a href="{{navi.base}}{{language.mixed_remove}}">
+			-
+		</a> 
+	{% endif %}																						
+	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}language/{{alias}}/">
+		{{language.name}}
+	</a>
+{% endfor %}
+ | 
+{% include 'common/tags.html' %}

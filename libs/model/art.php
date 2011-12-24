@@ -1,6 +1,6 @@
 <?php
 
-class Model_Art extends Model_Abstract
+class Model_Art extends Model_Abstract_Main
 {
 	const
 		TAGME = 'prostavte_tegi',
@@ -73,15 +73,6 @@ class Model_Art extends Model_Abstract
 		$this->correct_tags();
 
 		parent::insert();
-
-		Database::insert('versions', array(
-			'type' => 'art',
-			'item_id' => $this->get_id(),
-			'data' => base64_encode(serialize($this->get_data())),
-			'time' => $this->get('sortdate'),
-			'author' => sets::user('name'),
-			'ip' => $_SERVER['REMOTE_ADDR']
-		));
 
 		if (
 			function_exists('puzzle_fill_cvec_from_file') &&

@@ -1,0 +1,18 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<td valign="top" id="content">
+	{% include 'main/gouf/gouf.html' %}
+	{% include 'main/gouf/menu.html' %}
+	{% include 'main/gouf/sort.html' %}
+	{% for id, item in items %}
+		{% include 'main/item/gouf.html' %}
+	{% endfor %}
+	{% if navi %}
+		{% include 'common/navi.html' %}
+	{% endif %}	
+</td>
+<td valign="top" id="sidebar">
+	{% include 'side/sidebar.html' %}
+</td>			
+{% endblock %}

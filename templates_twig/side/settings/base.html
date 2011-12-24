@@ -1,0 +1,17 @@
+<div class="cats">	
+	<h2>
+		<span class="href">
+			Настройки
+		</span>
+		 <a href="#" class="bar_arrow" rel="settings">
+			{% if _sets.dir.settings %}
+				<img src="/images/text2391.png">
+			{% else %}				
+				<img src="/images/text2387.png">
+			{% endif %}
+		</a>
+	</h2>
+	<div id="settings_bar"{% if not _sets.dir.settings %} style="display:none;"{% endif %}>
+		{% block content %}{% endblock %}
+	</div>
+</div>

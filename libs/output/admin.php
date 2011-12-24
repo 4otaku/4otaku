@@ -97,25 +97,6 @@ class output__admin extends engine
 		return $return;
 	}
 
-	function updates($return) {
-		global $url;
-
-		if (empty($url[3])) {
-			$return['display'][] = 'admin_updates_posts';
-			$return['posts'] = obj::db()->sql('select id, title, update_count from post where update_count order by update_count desc, sortdate desc','id');
-		} elseif (empty($url[4])) {
-			$return['display'][] = 'admin_updates_single';
-			$return['updates'] = obj::db()->sql('select * from updates where post_id = '.$url[3].' order by sortdate desc','id');
-			foreach ($return['updates'] as &$update) $update['link'] = unserialize($update['link']);
-		} else {
-			$return['display'][] = 'admin_updates_edit';
-			$return['update'] = obj::db()->sql('select * from updates where id = '.$url[4],1);
-			$return['update']['link'] = unserialize($return['update']['link']);
-		}
-
-		return $return;
-	}
-
 	function menu($return) {
 
 		$return['display'][] = 'admin_menu';

@@ -21,11 +21,6 @@ class dynamic__edit extends engine
 		$data = array('main' => array());
 
 		switch (query::$get['type']) {
-			case 'post':
-				$data['main']['post'] =
-					$output->get_post(1, 'id='.query::$get['id']);
-				$this->template = 'templates/main/post.php';
-				break;
 			case 'video':
 				if (query::$get['num']) {
 					$size = sets::video('full');
@@ -161,33 +156,6 @@ class dynamic__edit extends engine
 			return array('value' => obj::db()->sql('select pretty_text from '.query::$get['type'].' where id='.query::$get['id'],2));
 	}
 
-	public function post_images () {
-		 global $check;
-		if ($check->num(query::$get['id']) && query::$get['type'] == 'post')
-			return array('value' => array_filter(explode('|',obj::db()->sql('select image from post where id='.query::$get['id'],2))));
-	}
-
-	public function post_links () {
-		global $check;
-		if ($check->num(query::$get['id']) && query::$get['type'] == 'post')
-			return array('value' => unserialize(obj::db()->sql('select link from post where id='.query::$get['id'],2)));
-	}
-
-	public function post_bonus_links () {
-		global $check;
-		if ($check->num(query::$get['id']) && query::$get['type'] == 'post') {
-			$value = unserialize(obj::db()->sql('select info from post where id='.query::$get['id'],2));
-			$value ? null : $value = array(false);
-			return array('value' => $value);
-		}
-	}
-
-	public function post_files () {
-		global $check;
-		if ($check->num(query::$get['id']) && query::$get['type'] == 'post')
-			return array('value' => unserialize(obj::db()->sql('select file from post where id='.query::$get['id'],2)));
-	}
-
 	public function video_link () {
 		 global $check;
 		if ($check->num(query::$get['id']) && query::$get['type'] == 'video')
@@ -281,7 +249,7 @@ class dynamic__edit extends engine
 			return false();
 		}
 		
-		$return = (array) Database::set_order('order', 'ASC')
+		$return = (array) Database::order('order', 'ASC')
 			->get_full_table('art_variation', 'art_id = ?', query::$get['id']);
 			
 		$image = Database::get_full_row('art', query::$get['id']);

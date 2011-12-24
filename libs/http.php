@@ -16,7 +16,7 @@ class Http
 
 	protected $default_options = array(
 		CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12",
-		CURLOPT_FOLLOWLOCATION => false,
+		CURLOPT_FOLLOWLOCATION => false
 	);
 
 	protected $response_header = array();
@@ -61,6 +61,13 @@ class Http
 		return $this;
 	}
 
+	public function flush () {
+		$this->response_header = array();
+		$this->response_data = array();
+
+		return $this;
+	}
+
 	public function save_headers ($request) {
 		$this->response_header[$request->getRawUrl()] = $request->getResponseHeaders(true);
 	}
@@ -75,6 +82,20 @@ class Http
 
 	public function get_headers ($url) {
 		return $this->response_header[$url];
+	}
+	
+	public function get_full ($url) {
+		$headers = $this->get_headers($url);
+		$html = $this->get($url);
+		
+		$string = '';
+		foreach ($headers as $type => $header) {
+			$string .= "$type: $header\n";
+		}
+		
+		$string .= "\n$html";
+		
+		return $string;
 	}
 
 	public static function download ($url) {

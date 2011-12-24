@@ -81,7 +81,6 @@ class dynamic__menu
 		unset($item);
 
 		foreach ($items as $item) {
-			var_dump($item['new_order'], $item['order'], $item['new_order'] != $item['order']);
 			if ($item['new_order'] != $item['order']) {
 				Database::update('head_menu_user', array(
 					'order' => $item['new_order']

@@ -1,0 +1,109 @@
+{% if _url.1 != 'search' or _url.2 == 'a' %}
+
+	{% set area = {
+		'p': 'post',
+		'v': 'video',
+		'a': 'art',
+		'n': 'news',
+		'c': 'comments',
+		'o': 'order'
+	} %}
+
+	{% for key, item in area %}
+		{% if item == _url.1 %}
+			{% set checked = key %} 
+		{% endif %}
+	{% endfor %}
+
+	{% if not checked %}
+		{% if _url.1 == 'search' %}
+			{% set checked = _url.2 %} 
+		{% else %}	
+			{% set checked = 'pov' %} 
+		{% endif %}
+	{% endif %}
+	
+	{% macro search_checked(symbol, area) %}
+		{% set search_checked = false %} 
+		
+		{% for item in area.split %}
+			{% if item == symbol %}
+				{% set search_checked = true %} 
+			{% endif %}		
+		{% endfor %}
+		
+		{% if search_checked %}
+			<input type="checkbox" checked="checked" value="{{symbol}}" class="searcharea checked">
+		{% else %}	
+			<input type="checkbox" value="{{symbol}}" class="searcharea not_checked">
+		{% endif %}		
+	{% endmacro %}
+
+	<table width="100%">
+		<tr>
+			<td>
+				<input value="" class="search" type="text" rel="{{checked}}">
+			</td>
+			<td>
+				<input value="Поиск" class="searchb" type="button">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="#" class="disabled search-options">
+					Показать опции поиска.
+				</a>
+				<div class="hidden">
+					<ul>
+						<li>
+							{{ _self.search_checked('p', area) }}
+							 В записях
+						</li>
+						<li>
+							{{ _self.search_checked('v', area) }}
+							 В видео
+						</li>					
+						<li>
+							{{ _self.search_checked('a', area) }}
+							 В артах
+						</li>					
+						<li>
+							{{ _self.search_checked('n', area) }}
+							 В новостях
+						</li>					
+						<li>
+							{{ _self.search_checked('o', area) }}
+							 В столе заказов
+						</li>					
+						<li>
+							{{ _self.search_checked('c', area) }}
+							 В комментариях
+						</li>					
+					</ul>				
+				</div>
+			</td>		
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div id="search-tip" rel="0"></div>
+			</td>
+		</tr>
+	</table>
+{% endif %}
+	
+{% if _url.1 == 'search' and _url.2 == 'a' %}
+	{% set side_url = 'art' %} 
+{% else %}	
+	{% set side_url = _url.1 %} 
+{% endif %}
+
+{% include "side/navi/"~side_url~".html" ignore missing %}
+{% include "side/settings/"~side_url~".html" ignore missing %}
+
+{% for key, part in sub.sidebar %}
+	{% include "side/parts/"~key~".html" ignore missing %}
+{% endfor %}
+
+<div class="cats">
+	&nbsp;
+</div>

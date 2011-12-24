@@ -1,6 +1,6 @@
 <?
 
-class transform__array
+class Transform_Array
 {
 	public static function meta_sort ($a, $b) {
 		if (!is_array($a) || !is_array($b)) {			
@@ -25,3 +25,5 @@ class transform__array
 		return strnatcasecmp($a, $b);
 	}
 }
+
+class transform__array extends Transform_Array {}

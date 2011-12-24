@@ -20,36 +20,36 @@
 				</td>
 			</tr>
 			{% for key, link in data %}
-				{% for key2, linkurl in link.url %}
+				{% for url in link.url %}
 					<tr class="link" rel="{{key}}-{{key2}}">
 						<td class="input field_name">
 							Ссылка
 						</td>
 						<td class="inputdata">
 							<input size="12%" type="text" 
-								name="link[{{key}}-{{key2}}][name]" 
+								name="link[{{key}}][name]" 
 								value="{{link.name}}" />: 
 							<input size="36%" type="text" 
-								name="link[{{key}}-{{key2}}][link]" 
-								value="<{{link.alias[key2]}}>{{linkurl}}" />
+								name="link[{{key}}][link]" 
+								value="<{{url.alias}}>{{url.url}}" />
 							~(<input size="2%" type="text" 
-								name="link[{{key}}-{{key2}}][size]" 
-								value="{{link.size}}" /> 
-							<select name="link[{{key}}-{{key2}}][sizetype]">
-								<option value="кб"
-									{% if link.sizetype == 'кб' %} selected="selected"{% endif %}
+								name="link[{{key}}][size]" 
+								value="{{link.display_size}}" /> 
+							<select name="link[{{key}}][sizetype]">
+								<option value="0"
+									{% if link.display_sizetype == 'кб' %} selected="selected"{% endif %}
 								>кб</option>
-								<option value="мб"
-									{% if link.sizetype == 'мб' %} selected="selected"{% endif %}
+								<option value="1"
+									{% if link.display_sizetype == 'мб' %} selected="selected"{% endif %}
 								>мб</option>
-								<option value="гб"
-									{% if link.sizetype == 'гб' %} selected="selected"{% endif %}
+								<option value="2"
+									{% if link.display_sizetype == 'гб' %} selected="selected"{% endif %}
 								>гб</option>
 							</select>
 							)
-							<input type="checkbox" name="link[{{key}}-{{key2}}][use]" />
+							<input type="checkbox" name="link[{{key}}][use]" />
 						</td>
-					</tr>	
+					</tr>
 				{% endfor %}
 			{% endfor %}
         </tbody>

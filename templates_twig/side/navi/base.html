@@ -1,0 +1,17 @@
+<div class="cats">	
+	<h2>
+		<span class="href">
+			Навигация
+		</span>
+		 <a href="#" class="bar_arrow" rel="navi">
+			{% if _sets.dir.navi %}
+				<img src="/images/text2391.png">
+			{% else %}				
+				<img src="/images/text2387.png">
+			{% endif %}
+		</a>
+	</h2>
+	<div id="navi_bar"{% if not _sets.dir.navi %} style="display:none;"{% endif %}>
+		{% block content %}{% endblock %}
+	</div>
+</div>

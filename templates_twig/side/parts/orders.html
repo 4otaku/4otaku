@@ -1,0 +1,23 @@
+{% extends "side/parts/base.html" %}
+
+{% set _template = 'order' %}
+
+{% block name %}
+	<a href="/order/">
+		Стол заказов
+	</a>
+{% endblock %}
+
+{% block content %}
+	{% for order in sub.sidebar.orders %}
+		{% if not loop.first %}<br /><br />{% endif %}
+		{{order.username}} заказал 
+		<a href="/order/{{order.id}}/" class="with_help2" rel="1" title="{{order.text|striptags}}">
+			{{order.title}}
+		</a>.
+		(Комментариев: {{order.comment_count}})
+	{% endfor %}
+{% endblock %}
+
+
+

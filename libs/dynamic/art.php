@@ -18,8 +18,8 @@ class dynamic__art extends engine
 						$area = '(pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'")';
 					break;
 				case "pool":
-					$pool = Database::set_order('order', 'asc')
-						->set_limit(5, query::$get['id'] - 1)
+					$pool = Database::order('order', 'asc')
+						->limit(5, query::$get['id'] - 1)
 						->get_vector('art_in_pool', 'art_id', 'pool_id = ?', query::$get['area']);
 
 					$area = "(id=".implode(' or id=',$pool).")";

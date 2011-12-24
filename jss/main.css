@@ -79,6 +79,10 @@ ul.plain_list {
 	 margin-bottom: 30px;
 }
 
+.right20 {
+	margin-right: 20px;
+}
+
 .input60 {
 	width: 60%;
 }
@@ -570,6 +574,94 @@ input.edit {
 	margin-top: 15px;
 }
 
+.gouf_text {
+	margin-bottom: 20px;
+}
+
+.gouf_color_schema {
+	width: 100%;
+	margin-bottom: 10px;
+	border: 1px solid rgb(204, 204, 204);
+}
+
+.gouf_color_schema td {
+	width: 50%;
+	height: 30px;
+	vertical-align: middle;
+	padding: 5px;
+}
+
+.gouf_color_wrapper {
+	position: relative;
+}
+	
+.gouf_color {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+}
+
+.gouf_color_0 {
+	background-color: #BBBBBB;
+}
+
+.gouf_color_1 {
+	background-color: #42A3B9;
+}
+
+.gouf_color_2 {
+	background-color: #EEAAFF;
+}
+
+.gouf_color_3 {
+	background-color: #FF4433;
+}
+
+.gouf_color_description {
+	margin-left: 30px;
+}
+
+.gouf_menu {
+    text-align: center;
+}
+
+.gouf_menu a {
+    width: 22%;
+    display: inline-block;
+    text-align: center;
+}
+
+.remove_sort {
+	margin-left: 10px;
+}
+
+.sort-loader {
+	text-align: center;
+	width: 100%;
+}
+
+.gouf_image {
+	width: 200px;
+	height: 50px;
+	text-align: center;
+}
+
+.gouf_links {	
+	padding-left: 10px;
+}
+
+.gouf_link_0 {
+	color: #BBBBBB;
+}
+
+.gouf_link_2 {
+	color: #EEAAFF;
+}
+
+.gouf_link_3, .broken_link {
+	color: #FF4433;
+}
+
 /* Content, вывод комментариев */
 
 #comments {
@@ -630,11 +722,38 @@ a.comments {
 	border: 1px solid Black;
 	margin-right: 10px;
 }
+
 .comment-search-text {
 	margin-left: 15px;
 }
+
 .comment-text {
 	margin-left: 75px;
+}
+
+.comment-depth-2 .comment, .comment-depth-3 .comment,
+.comment-depth-4 .comment, .comment-depth-5 .comment,
+.comment-depth-6 .comment, .comment-depth-7 .comment {
+	margin-left: 50px;
+}
+
+.comment-depth-8 .comment, .comment-depth-9 .comment {
+	margin-left: 40px;
+}
+
+.comment-depth-10 .comment, .comment-depth-11 .comment {
+	margin-left: 30px;
+}
+
+.comment-depth-12 .comment, .comment-depth-13 .comment {
+	margin-left: 25px;
+}
+
+.comment-depth-14 .comment, .comment-depth-15 .comment,
+.comment-depth-16 .comment, .comment-depth-17 .comment,
+.comment-depth-18 .comment, .comment-depth-19 .comment,
+.comment-depth-20 .comment, .comment-depth-21 .comment{
+	margin-left: 20px;
 }
 
 /* Content, навигация по страницам внизу */
@@ -1107,6 +1226,21 @@ input.sign {
 #addform td {
 	height: 100%;
 	padding: 5px;
+}
+
+#addform .inputdata td {
+	padding: 0px;
+}
+
+#addform .textarea {
+	margin: 0px;
+	width: 100%;
+}
+
+#addform .textarea textarea{
+	margin: 0 !important; 
+	padding: 0 !important; 
+	width: 100%;
 }
 
 #addform .uploadholder {

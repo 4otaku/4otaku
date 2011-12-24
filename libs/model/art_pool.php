@@ -43,7 +43,7 @@ class Model_Art_Pool extends Model_Abstract
 	
 	public function add_art($art) {
 		if (!$this->last_order_known) {
-			$this->last_order = (int) Database::set_order('order')->
+			$this->last_order = (int) Database::order('order')->
 				get_field('art_in_pool', 'order', 'pool_id = ?', $this->get_id());
 				
 			$this->last_order_known = true;

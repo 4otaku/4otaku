@@ -10,6 +10,7 @@ $def['db']['pass'] = '';
 $def['db']['main_db'] = '';
 $def['db']['wiki_db'] = '';
 $def['db']['chat_db'] = '';
+$def['db']['tracker_db'] = '';
 
 // Соединение с github
 
@@ -17,6 +18,10 @@ $def['db']['github_tracker'] = 0; // 1 - чтобы включить испол�
 $def['db']['github_repo'] = '4otaku/4otaku';
 $def['db']['github_user'] = '';
 $def['db']['github_pass'] = '';
+
+// Трекер
+
+$def['tracker']['announce'] = '';
 
 // Переменные сайта
 
@@ -77,6 +82,7 @@ $sets['pp']['search'] = 5;
 $sets['pp']['comment_in_post'] = 7;
 $sets['pp']['comment_in_line'] = 5;
 $sets['pp']['updates_in_line'] = 5;
+$sets['pp']['post_gouf'] = 10;
 $sets['pp']['video'] = 5;
 $sets['pp']['art'] = 30;
 $sets['pp']['art_tags'] = 20;
@@ -97,6 +103,7 @@ $sets['dir']['navi'] = 1;
 $sets['dir']['settings'] = 0;
 $sets['dir']['comment'] = 1;
 $sets['dir']['update'] = 1;
+$sets['dir']['gouf'] = 1;
 $sets['dir']['order'] = 1;
 $sets['dir']['quick'] = 1;
 $sets['dir']['tag'] = 1;

@@ -49,7 +49,13 @@
 								<?=date('r',ceil($key/1000));?>
 							</pubDate>
 							<description>
-								<![CDATA[<? include 'templates'.SL.'main'.SL.'single'.SL.$item['type'].'.php';?>]]>
+								<![CDATA[<? 
+									if ($item['type'] == 'post' || $item['type'] == 'update') {
+										twig_load_template('main/rss/' . $item['type'], array($item['type'] => $item));
+									} else {
+										include 'templates'.SL.'main'.SL.'single'.SL.$item['type'].'.php';
+									}
+								?>]]>
 							</description>
 						</item>	
 					<?

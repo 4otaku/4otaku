@@ -3,11 +3,13 @@
 class Cache
 {
 	// Базовый префикс, нужен чтобы избежать коллизий с кешем других сайтов
-	// Берется из конфига
-	protected static $base_prefix = "";
+	public static $base_prefix = "";
 
 	// Текущий префикс, нужный для конкретной операции
 	public static $prefix = "";
+	
+	
+	public static $defined_driver = false;
 
 	// Список классов которые можно использовать
 	// в роли кеширующих, в порядке приоритета
@@ -28,18 +30,11 @@ class Cache
 			return self::$worker;
 		}
 
-		Config::init("cache");
-		$config = Config::get_section("cache");
-
-		self::$base_prefix = $config["prefix"];
-
-		$defined_driver = $config["engine"];
-
-		if (!empty($defined_driver)) {
-			$defined_driver = "Cache_".ucfirst($defined_driver);
+		if (!empty(self::$defined_driver)) {
+			$defined_driver = "Cache_".ucfirst(self::$defined_driver);
 
 			if (class_exists($defined_driver)) {
-				self::$worker = new $defined_driver($config);
+				self::$worker = new $defined_driver();
 
 				if (
 					self::$worker instanceOf Cache_Interface_Single &&
@@ -53,8 +48,9 @@ class Cache
 		}
 
 		foreach (self::$drivers_list as $driver) {
-			if (class_exists($driver)) {
-				self::$worker = new $driver($config);
+
+			if (class_exists($driver)) {				
+				self::$worker = new $driver();
 
 				if (
 					self::$worker instanceOf Cache_Interface_Single &&
@@ -68,7 +64,7 @@ class Cache
 		}
 
 		if (empty(self::$worker)) {
-			Error::fatal("Не найден подоходящий класс для кеширования");
+			die("Не найден подоходящий класс для кеширования");
 		}
 
 		return self::$worker;

@@ -46,7 +46,7 @@ class output__comments extends engine
 		$return = obj::db()->sql('select place, post_id from comment where (area != "deleted"'.$area.') group by place, post_id order by max(sortdate) desc limit '.$limit);
 		if (is_array($return)) {
 			$select = array(
-				$def['type'][0] => "id, comment_count, title, image, last_comment",
+				$def['type'][0] => "id, comment_count, title, last_comment",
 				$def['type'][1] => "id, comment_count, title, id as image, last_comment",
 				$def['type'][2] => "id, comment_count, id as title, thumb as image, last_comment",
 				"orders" => "id, comment_count, title, email as image, last_comment",
@@ -61,9 +61,8 @@ class output__comments extends engine
 			foreach ($queries as $key => $query) {
 				if ($_comments = obj::db()->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment')) {
 					$return = $return + $_comments;
-				}
+				}				
 			}
-
 			krsort($return);
 			$comments = obj::db()->sql('select * from comment where (('.substr($comment_query,4).') and area != "deleted") order by sortdate');
 			foreach ($return as &$one) {
@@ -72,8 +71,10 @@ class output__comments extends engine
 						$one['comments'][] = $comment;
 				switch ($one['place']) {
 					case $def['type'][0]:
-						$images = explode('|',$one['image']);
-						$one['image'] = '/images/thumbs/'.$images[0];
+						$image = Database::order('order', 'asc')
+							->get_field('post_image', 'file', 'post_id = ?', $one['id']);
+						
+						$one['image'] = '/images/post/thumb/'.$image.'.jpg';
 						break;
 					case $def['type'][1]:
 						$one['image'] = 'http://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';

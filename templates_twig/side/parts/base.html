@@ -1,0 +1,15 @@
+<div class="cats">	
+	<h2>
+		{% block name %}{% endblock %}
+		 <a href="#" class="bar_arrow" rel="{{_template}}">
+			{% if _sets.dir[_template] %}
+				<img src="/images/text2391.png">
+			{% else %}				
+				<img src="/images/text2387.png">
+			{% endif %}
+		</a>
+	</h2>
+	<div id="{{_template}}_bar"{% if not _sets.dir[_template] %} style="display:none;"{% endif %}>
+		{% block content %}{% endblock %}
+	</div>
+</div>

@@ -1,5 +1,5 @@
 <?php
-
+die;
 include '../inc.common.php';
 
 $db_arts = Database::get_vector('art', array('id', 'tag'));
