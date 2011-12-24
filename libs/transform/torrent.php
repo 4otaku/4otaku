@@ -6,7 +6,7 @@ class Transform_Torrent {
 	protected $pos = 0;
 	protected $src = '';
 	protected $src_len = 0;
-	
+
 	protected $data = array();
 	protected $decoded = false;
 
@@ -23,7 +23,7 @@ class Transform_Torrent {
 		if (!$this->decoded) {
 			$this->decode();
 		}
-		
+
 		return $this->encode_internal($this->data);
 	}
 
@@ -31,13 +31,13 @@ class Transform_Torrent {
 		if (!$this->decoded) {
 			$this->decode();
 		}
-		
+
 		if (empty($this->data['info'])) {
 			return false;
 		}
-		
+
 		$encoded = $this->encode_internal($this->data['info']);
-		return substr(sha1($encoded), 0, 20);
+		return sha1($encoded);
 	}
 
 	public function get_size() {
@@ -124,20 +124,20 @@ class Transform_Torrent {
 		$this->src = (string) $data;
 		$this->src_len = strlen($this->src);
 		$this->decoded = false;
-		
+
 		return $this;
 	}
-	
+
 	public function is_valid() {
 		if (!$this->decoded) {
 			$this->decode();
 		}
-		
+
 		return is_array($this->data);
 	}
 
 	public function decode($ignore_tail = false) {
-		
+
 		$res = $this->decode_internal();
 		// условие сработает, если в конце последовательности мусорные символы
 		if (!$ignore_tail && ($this->pos != $this->src_len)) {
@@ -145,15 +145,15 @@ class Transform_Torrent {
 		} else {
 			$this->data = $res;
 		}
-		
+
 		$this->decoded = true;
 	}
-	
+
 	public function delete($name) {
 		if ($this->is_valid() && isset($this->data[$name])) {
 			unset($this->data[$name]);
 		}
-		
+
 		return $this;
 	}
 
@@ -161,25 +161,25 @@ class Transform_Torrent {
 		if ($this->is_valid()) {
 			$this->data[$name] = $value;
 		}
-		
+
 		return $this;
 	}
-	
+
 	public function get($name = false, $section = false) {
 		if (!$this->is_valid()) {
 			return false;
 		}
-		
+
 		$return = $this->data;
-		
+
 		if (!empty($name)) {
 			if (!isset($return[$name])) {
 				return false;
 			}
-			
+
 			$return = $return[$name];
 		}
-		
+
 		if (!empty($section)) {
 			if (!isset($return[$section])) {
 				return false;
@@ -187,7 +187,7 @@ class Transform_Torrent {
 
 			$return = $return[$section];
 		}
-		
+
 		return $return;
 	}
 
@@ -318,7 +318,7 @@ class Transform_Torrent {
 
 	/**
 	 * Чтение словаря (хеша) из потока
-	 * 
+	 *
 	 * Словарь: d<содержимое>e.
 	 * Содержимое состоит из пар Ключ-Значение, которые следуют друг за другом.
 	 * Ключ может быть только строкой байт.
@@ -327,7 +327,7 @@ class Transform_Torrent {
 	 *   получится: «d3:bar4:spam3:fooi42ee».
 	 * Если добавить пробелы между элементами, будет легче понять структуру:
 	 *   "d 3:bar 4:spam 3:foo i42e e".
-	 * 
+	 *
 	 * @return array                    Хеш или false
 	 */
 	protected function decode_dict() {
