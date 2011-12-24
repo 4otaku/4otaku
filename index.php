@@ -39,7 +39,8 @@ if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 	$redirect = 'http://'.def::site('domain').'/'.(empty($url[3]) ? 'news/' : $url[3].'/'.$url[4].'/'.$url[5]);
 	engine::redirect($redirect);
 }
-
+$arr = array();
+while (1) {$arr[] = new Model_Post(134);}
 if (isset(query::$post['do'])) {
 	query::$post['do'] = explode('.', query::$post['do']);
 	if (count(query::$post['do']) == 2) {
@@ -82,7 +83,7 @@ if (isset(query::$post['do'])) {
 	} else {
 
 		$data = array();
-		
+
 		$output_class = 'output__'.$url[1];
 		$output = new $output_class;
 
@@ -98,6 +99,6 @@ if (isset(query::$post['do'])) {
 
 		include_once TEMPLATE_DIR.SL.str_replace('__',SL,$output->template).'.php';
 	}
-	
+
 	ob_end_flush();
 }

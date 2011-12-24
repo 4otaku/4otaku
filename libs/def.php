@@ -82,4 +82,8 @@ class def
 	static function tracker($key) {
 		return self::get('tracker',$key);
 	}
+
+	static function notify($key) {
+		return self::get('notify',$key);
+	}
 }
