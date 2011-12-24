@@ -37,7 +37,7 @@
 					</a>.
 					<span class="right">
 						<?=$data['main']['links'];?> битых ссылок.
-						 <a href="<?=$def['site']['dir']?>/gouf/">
+						 <a href="<?=$def['site']['dir']?>/post/gouf/">
 							Помочь
 						</a>.
 					</span>
