@@ -19,7 +19,7 @@
 									<img src="<?=$def['site']['dir']?>/images/tb2.gif">
 									&nbsp;
 									<span class="car-yearmonth car-<?=$i;?>" rel="closed">
-										<?=$monthkey;?> 
+										<?=$monthkey;?>
 										<span title="Всего записей">
 											(<?=count($month);?>)
 										</span>
@@ -29,8 +29,8 @@
 											foreach ($month as $daykey => $day) {
 												?>
 													<li>
-														<?=$daykey;?> числа: добавлено 
-														<a href="<?=$def['site']['dir']?>/<?=$url[2];?>/date/<?=$yearkey;?>-<?=obj::transform('text')->rumonth($monthkey);?>-<?=$daykey;?>/">
+														<?=$daykey;?> числа: добавлено
+														<a href="<?=$def['site']['dir']?>/<?=$url[2];?>/date/<?=$yearkey;?>-<?=Transform_Time::ru_month($monthkey);?>-<?=$daykey;?>/">
 															<?=$day;?> артов.
 														</a>
 													</li>
@@ -42,5 +42,5 @@
 							<?
 						}
 					?>
-				<?			
+				<?
 			}
