@@ -184,10 +184,10 @@
 							<? foreach ($data['main']['count']['order']['latest'] as $key => $one) { ?>
 								<?=($key ? '<br /><br />' : '');?>
 								<?=$one['username'];?> заказал
-								<a href="<?=$def['site']['dir']?>/order/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
+								 <a href="<?=$def['site']['dir']?>/order/<?=$one['id'];?>" class="with_help" title="<?=$output->make_tip($one['text']);?>">
 									<?=$one['title'];?>
 								</a>.
-								<?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
+								 <?=($one['comment_count'] ? ' ('.$one['comment_count'].')' : '');?>
 							<? } ?>
 						<? } ?>
 					</div>
