@@ -45,7 +45,7 @@ class Side_Sidebar extends engine
 	}
 
 	function update() {
-		$return = obj::db()->sql('select * from updates order by sortdate desc limit 3');
+		$return = obj::db()->sql('select * from post_update order by sortdate desc limit 3');
 		foreach ($return as & $update) {
 			$update['text'] = obj::transform('text')->cut_long_text(strip_tags($update['text'],'<br>'),100);
 			$update['text'] = preg_replace('/(<br(\s[^>]*)?>\n*)+/si','<br />',$update['text']);
@@ -63,7 +63,7 @@ class Side_Sidebar extends engine
 			return array_slice($return, 0, $sets['pp']['random_orders']);
 		}
 	}
-	
+
 	function tags() {
 		global $sets; global $def; global $url;
 
@@ -80,8 +80,8 @@ class Side_Sidebar extends engine
 	}
 
 	function art_tags() {
-		global $data; global $check; global $url; 
-		
+		global $data; global $check; global $url;
+
 		if (in_array($url['area'], def::get('area')) && $url['area'] != 'workshop') {
 			$area = $url['area'];
 			$prefix = $url['area'].'/';
@@ -115,16 +115,16 @@ class Side_Sidebar extends engine
 
 				krsort($return);
 				$return = array_slice($return,0,25);
-				shuffle($return);				
+				shuffle($return);
 			} else {
 				foreach ($global as $alias => $global_count) {
-					$return[$alias] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];				
+					$return[$alias] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
 				}
 			}
-			
+
 			foreach ($return as $key => $tag)
 				$return[$key]['alias'] = $prefix.'tag/'.$tag['alias'];
-			
+
 			uasort($return, 'transform__array::meta_sort');
 			return $return;
 		}
