@@ -37,7 +37,7 @@ class Model_Post_Torrent extends Model_Abstract
 		parent::insert();
 
 		Database::db('tracker')->insert('xbt_files', array(
-			'info_hash' => pack("H*", $this->get('hash')),
+			'info_hash' => $this->get('hash'),
 			'mtime' => time(),
 			'ctime' => time(),
 		));
