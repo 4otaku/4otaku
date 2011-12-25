@@ -1,4 +1,4 @@
-<div class="comment{% if item.depth %} comment-depth-{{item.depth}}{% endif %}" 
+<div class="comment{% if item.depth %} comment-depth-{{item.depth}}{% endif %}"
 	 id="comment-{{item.id}}">
 	<div class="comment-top">
 		<b>{{label}}) {{item.username}}</b>
@@ -6,7 +6,7 @@
 			 {{item.pretty_date}}{% if item.place_notify %} ({{item.place_notify}}){% endif %}
 		</span>
 		<span class="commentmetadata"><a href="#comment-{{item.id}}" title="">#</a></span>
-		{% if item.comment_rights or item.edit_date %}					
+		{% if item.comment_rights or item.edit_date %}
 			<div class="right">
 				{% if item.edit_date %}
 					<span class="datetime">
@@ -14,7 +14,7 @@
 					</span>
 				{% endif %}
 				{% if item.comment_rights %}
-					<img src="/images/comment_edit.png" alt="редактировать" rel="{{item.id}}>" class="edit_comment">
+					<img src="/images/comment_edit.png" alt="редактировать" rel="{{item.id}}" class="edit_comment">
 					{% if item.delete_rights %}
 						&nbsp;&nbsp;&nbsp;
 						<img src="/images/comment_delete.png" alt="удалить" rel="{{item.id}}" class="delete_comment">
@@ -34,7 +34,7 @@
 			<a href="#" rel="{{item.id}}" class="disabled reply">Ответить</a>
 			<div id="reply-{{item.id}}"></div>
 		{% endif %}
-		<div class="edit-{{item.id}}"></div>					
+		<div class="edit-{{item.id}}"></div>
 		<div class="c-wrap"></div>
 		</div>
 	</div>
