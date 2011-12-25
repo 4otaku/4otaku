@@ -66,7 +66,7 @@ class output__art extends engine
 				elseif ($url[2] == 'date') {
 					$parts = explode('-',$url[3]);
 					if (is_numeric($parts[0].$parts[1].$parts[2]) && count($parts) == 3) {
-						$area = 'area = "'.$url['area'].'" and pretty_date ="'.obj::transform('text')->rumonth($parts[1]).' '.$parts[2].', '.$parts[0].'"';
+						$area = 'area = "'.$url['area'].'" and pretty_date ="'.Transform_Time::ru_month($parts[1]).' '.$parts[2].', '.$parts[0].'"';
 						$return['navi']['curr'] = max(1,$url[5]);
 						$return['art']['thumbs'] = $this->get_art(($return['navi']['curr']-1)*$sets['pp']['art'].', '.$sets['pp']['art'],$area);
 						$return['navi']['meta'] = $url[2].'/'.$url[3].'/';
