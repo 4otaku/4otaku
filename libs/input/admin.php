@@ -25,44 +25,31 @@ class input__admin extends engine
 	function edittag() {
 
 		Check::rights();
-		
+
 		if (query::$post['old_alias'] != query::$post['alias']) {
 			$params = array(
 				'|'.query::$post['old_alias'].'|',
 				'|'.query::$post['alias'].'|',
 			);
-			
+
 			Database::sql('update post set tag = replace(tag,?,?)', $params);
 			Database::sql('update video set tag = replace(tag,?,?)', $params);
 			Database::sql('update art set tag = replace(tag,?,?)', $params);
 		}
-		
+
 		$variants = array_unique(array_filter(explode(' ',str_replace(',', ' ', query::$post['variants']))));
 		if (!empty($variants)) {
-			$variants = '|'.implode('|',$variants).'|'; 
+			$variants = '|'.implode('|',$variants).'|';
 		} else {
 			$variants = '|';
 		}
-		
+
 		Database::update('tag', array(
 			'alias' => query::$post['alias'],
 			'name' => query::$post['name'],
 			'variants' => $variants,
 			'color' => query::$post['color']
 		), query::$post['id']);
-	}
-
-	function edit_update() {
-		global $check; global $def;
-		if ($check->rights()) {
-			$text = obj::transform('text')->format(query::$post['text']);
-			$links = obj::transform('link')->similar(obj::transform('link')->parse(query::$post['link']));
-			obj::db()->update('updates',
-				array('username','text','pretty_text','link'),
-				array(query::$post['author'],$text,undo_safety(query::$post['text']),serialize($links)),
-				query::$post['id']
-			);
-		}
 	}
 
 	function similar() {
