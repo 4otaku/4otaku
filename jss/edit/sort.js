@@ -12,5 +12,4 @@ $(function() {
 			ui.item.removeClass('sort-active');
 		}
 	});
-	$('.sortable').disableSelection();
 });
