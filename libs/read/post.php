@@ -39,6 +39,8 @@ class Read_Post extends Read_Main
 		$item['update_count'] = Database::get_field('post_update',
 			'count(*)', 'post_id = ?', $id);
 
+		query::$url['area'] = $item['area'];
+
 		$this->data['items'] = array($id => $item);
 		$this->data['base'] = '/post/';
 	}

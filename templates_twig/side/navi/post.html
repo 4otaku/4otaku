@@ -1,5 +1,5 @@
 {% extends "side/navi/base.html" %}
-	
+
 {% block content %}
 	<a href="/post/"{% if _url.area == 'main' %} class="plaintext"{% endif %}>
 		Записи, главный раздел
@@ -12,49 +12,49 @@
 	<a href="/post/flea_market/"{% if _url.area == 'flea_market' %} class="plaintext"{% endif %}>
 		Записи, барахолка
 	</a>
-	<br />		
+	<br />
 
 	<br />
 	<div class="selector">
-		<span>	
+		<span>
 			<hr width="100%" />
-			Категория: 
+			Категория:
 			<input type="submit" class="disabled right add_navi" value="+" />
 			<select rel="category" class="right">
 				<option value="empty" selected="selected">Не выбрано</option>
 				{% for alias, name in navigation.category %}
 					<option value="{{alias}}">{{name}}</option>
 				{% endfor %}
-			</select> 
-		</span>
-	</div>
-	<div class="selector">
-		<span>	
-			<hr width="100%" />
-			Язык: 
-			<input type="submit" class="disabled right add_navi" value="+" />
-			<select rel="language" class="right">
-				<option value="empty" selected="selected">Не выбрано</option>		
-				{% for alias, name in navigation.language %}
-					<option value="{{alias}}">{{name}}</option>
-				{% endfor %}
-			</select> 
+			</select>
 		</span>
 	</div>
 	<div class="selector">
 		<span>
-			<hr width="100%" />		
-			Тег: 
+			<hr width="100%" />
+			Язык:
+			<input type="submit" class="disabled right add_navi" value="+" />
+			<select rel="language" class="right">
+				<option value="empty" selected="selected">Не выбрано</option>
+				{% for alias, name in navigation.language %}
+					<option value="{{alias}}">{{name}}</option>
+				{% endfor %}
+			</select>
+		</span>
+	</div>
+	<div class="selector">
+		<span>
+			<hr width="100%" />
+			Тег:
 			<input type="submit" class="disabled right add_navi" value="+" />
 			<select rel="tag" class="right">
-				<option value="empty" selected="selected">Не выбрано</option>		
+				<option value="empty" selected="selected">Не выбрано</option>
 				{% for alias, name in navigation.tag %}
 					<option value="{{alias}}">{{name}}</option>
 				{% endfor %}
-			</select> 
+			</select>
 		</span>
 	</div>
-	<hr width="100%" />	
+	<hr width="100%" />
 	<span class="hidden navigation_link">
 		<a href="#" rel="/post/{% if _url.area != _def.area.0 %}{{_url.area}}/{% endif %}">
 			<input type="submit" value="Перейти к выбранному">
