@@ -15,7 +15,7 @@
 					</a>
 					{% if update.comment_count %}
 						 ({{update.comment_count}})
-					{% endif %}	
+					{% endif %}
 				</td>
 			</tr>
 		</table>
@@ -23,10 +23,10 @@
 			<tr>
 				<td valign="top">
 					<p>
-						Обновил: 
+						Обновил:
 						<b>
 							{{update.username}}
-						</b>; 
+						</b>;
 						Дата обновления: {{update.pretty_date}}
 					</p>
 					<div class="posttext">
@@ -38,21 +38,21 @@
 								{% if not loop.first %}
 									<br />
 								{% endif %}
-								{{link.name}}: 
-								{% for url, alias in link.url %}
+								{{link.name}}:
+								 {% for url in link.url %}
 									{% if not loop.first %}
-										 | 
+										&nbsp;|&nbsp;
 									{% endif %}
-									<a href="{{url}}" target="_blank">
-										{{alias}}
+									<a href="{{url.url}}" target="_blank">
+										{{url.alias}}
 									</a>
-								{% endfor %}	
-									 (~{{link.display_size}} {{link.display_sizetype}})									
+								{% endfor %}
+									 (~{{link.display_size}} {{link.display_sizetype}})
 							{% endfor %}
 						</p>
 					{% endif %}
 				</td>
 			</tr>
 		</table>
-	</div>	
+	</div>
 </div>
