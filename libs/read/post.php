@@ -11,7 +11,7 @@ class Read_Post extends Read_Main
 		'head' => array('title', 'js', 'css'),
 		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
-		'sidebar' => array('comments','update','orders','tags'),
+		'sidebar' => array('search', 'comments','update','orders','tags'),
 		'footer' => array('year')
 	);
 

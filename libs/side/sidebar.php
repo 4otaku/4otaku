@@ -2,6 +2,26 @@
 
 class Side_Sidebar extends engine
 {
+	static protected $search_variants = array('post', 'order', 'video', 'art',
+		'news', 'comments');
+	static protected $search_default = array('post', 'order', 'video');
+
+	public function search() {
+		$return = array();
+		$return['checked'] = array();
+
+		$current = query::$url[1];
+		if (in_array($current, self::$search_variants)) {
+			$return['checked'][] = $current;
+		} elseif ($current == 'search') {
+			throw new Error('Search checks for new templates not implemented yet');
+		} else {
+			$return['checked'] = self::$search_default;
+		}
+
+		return $return;
+	}
+
 	function comments() {
 		global $sets; global $url;
 

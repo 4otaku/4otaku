@@ -18,7 +18,7 @@ class Read_Post_Gouf extends Read_Abstract
 		'head' => array('title', 'js', 'css'),
 		'header' => array('menu', 'personal'),
 		'top' => array(),
-		'sidebar' => array('comments','update','orders','tags'),
+		'sidebar' => array('search', 'comments','update','orders','tags'),
 		'footer' => array('year')
 	);
 

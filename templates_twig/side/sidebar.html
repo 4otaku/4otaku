@@ -1,42 +1,11 @@
 {% if _url.1 != 'search' or _url.2 == 'a' %}
 
-	{% set area = {
-		'p': 'post',
-		'v': 'video',
-		'a': 'art',
-		'n': 'news',
-		'c': 'comments',
-		'o': 'order'
-	} %}
-
-	{% for key, item in area %}
-		{% if item == _url.1 %}
-			{% set checked = key %} 
-		{% endif %}
-	{% endfor %}
-
-	{% if not checked %}
-		{% if _url.1 == 'search' %}
-			{% set checked = _url.2 %} 
-		{% else %}	
-			{% set checked = 'pov' %} 
-		{% endif %}
-	{% endif %}
-	
-	{% macro search_checked(symbol, area) %}
-		{% set search_checked = false %} 
-		
-		{% for item in area.split %}
-			{% if item == symbol %}
-				{% set search_checked = true %} 
-			{% endif %}		
-		{% endfor %}
-		
-		{% if search_checked %}
+	{% macro search_checked(symbol, key, checked) %}
+		{% if key in checked %}
 			<input type="checkbox" checked="checked" value="{{symbol}}" class="searcharea checked">
-		{% else %}	
+		{% else %}
 			<input type="checkbox" value="{{symbol}}" class="searcharea not_checked">
-		{% endif %}		
+		{% endif %}
 	{% endmacro %}
 
 	<table width="100%">
@@ -56,32 +25,32 @@
 				<div class="hidden">
 					<ul>
 						<li>
-							{{ _self.search_checked('p', area) }}
+							{{ _self.search_checked('p', 'post', sub.sidebar.search.checked) }}
 							 В записях
 						</li>
 						<li>
-							{{ _self.search_checked('v', area) }}
+							{{ _self.search_checked('v', 'video', sub.sidebar.search.checked) }}
 							 В видео
-						</li>					
+						</li>
 						<li>
-							{{ _self.search_checked('a', area) }}
+							{{ _self.search_checked('a', 'art', sub.sidebar.search.checked) }}
 							 В артах
-						</li>					
+						</li>
 						<li>
-							{{ _self.search_checked('n', area) }}
+							{{ _self.search_checked('n', 'news', sub.sidebar.search.checked) }}
 							 В новостях
-						</li>					
+						</li>
 						<li>
-							{{ _self.search_checked('o', area) }}
+							{{ _self.search_checked('o', 'order', sub.sidebar.search.checked) }}
 							 В столе заказов
-						</li>					
+						</li>
 						<li>
-							{{ _self.search_checked('c', area) }}
+							{{ _self.search_checked('c', 'comments', sub.sidebar.search.checked) }}
 							 В комментариях
-						</li>					
-					</ul>				
+						</li>
+					</ul>
 				</div>
-			</td>		
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -90,11 +59,11 @@
 		</tr>
 	</table>
 {% endif %}
-	
+
 {% if _url.1 == 'search' and _url.2 == 'a' %}
-	{% set side_url = 'art' %} 
-{% else %}	
-	{% set side_url = _url.1 %} 
+	{% set side_url = 'art' %}
+{% else %}
+	{% set side_url = _url.1 %}
 {% endif %}
 
 {% include "side/navi/"~side_url~".html" ignore missing %}
