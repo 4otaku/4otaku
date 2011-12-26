@@ -71,7 +71,7 @@ class output__rss extends engine
 		$post = $worker->get_data('items');
 		$item = current($post);
 		$item['type'] = 'post';
-		
+
 		$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['id'].'/';
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
@@ -94,11 +94,15 @@ class output__rss extends engine
 
 	function convert_art($item) {
 		$meta = $this->get_meta(array($item),array('category','author','tag'));
-		foreach ($meta as $key => $type)
-			if (is_array($type))
-				foreach ($type as $alias => $name)
-					if (stristr($item[$key],'|'.$alias.'|'))
+		foreach ($meta as $key => $type) {
+			if (is_array($type)) {
+				foreach ($type as $alias => $name) {
+					if (stristr($item[$key],'|'.$alias.'|')) {
 						$item['meta'][$key][$alias] = $name;
+					}
+				}
+			}
+		}
 		$item['title'] = 'Изображение №'.$item['id'];
 		if ($item['area'] == 'workshop') $item['title'] = '(Очередь премодерации)' . $item['title'];
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/art/'.$item['id'].'/';
@@ -129,8 +133,8 @@ class output__rss extends engine
 	function convert_post_update($item) {
 		$worker = new Read_Post_Update();
 		$item = $worker->get_item($item['id']);
-		
-		$item['type'] = 'update';		
+
+		$item['type'] = 'update';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['post_id'].'/show_updates/';
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);

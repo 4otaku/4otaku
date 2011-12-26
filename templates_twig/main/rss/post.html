@@ -23,7 +23,7 @@
 				</tr>
 			</table>
 			<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>							
+					<tr>
 					{% if post.image %}
 						<td class="imageholder" valign="top">
 							{% for key, image in post.image %}
@@ -45,26 +45,26 @@
 									{% if not loop.first %}
 										<br />
 									{% endif %}
-									{{link.name}}: 
-									{% for url, alias in link.url %}
+									{{link.name}}:
+									 {% for url in link.url %}
 										{% if not loop.first %}
-											 | 
+											&nbsp;|&nbsp;
 										{% endif %}
-										<a href="{{url}}" target="_blank">
-											{{alias}}
+										<a href="{{url.url}}" target="_blank">
+											{{url.alias}}
 										</a>
-									{% endfor %}	
-										 (~{{link.size}} {{link.sizetype}})									
+									{% endfor %}
+										 (~{{link.display_size}} {{link.display_sizetype}})
 								{% endfor %}
 							</p>
-						{% endif %}	
+						{% endif %}
 						{% if post.extra %}
 							<p>
 								{% for key, extra in post.extra %}
 									{% if not loop.first %}
 										<br />
 									{% endif %}
-									{{extra.name}}: 
+									{{extra.name}}:
 									<a href="{{extra.url}}" target="_blank">
 										{{extra.alias}}
 									</a>.
@@ -79,6 +79,6 @@
 					{% include 'common/meta.html' with {'item': post} %}
 				</p>
 			</div>
-		</div><!-- wrapend -->
+		</div>
 	</div>
 </div>
