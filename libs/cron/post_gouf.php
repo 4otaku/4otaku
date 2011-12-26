@@ -57,6 +57,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 		foreach ($links as &$link) {
 			$link = html_entity_decode($link, ENT_QUOTES, 'UTF-8');
 			$link = str_replace('&apos;', "'", $link);
+			$link = trim($link);
 		}
 		unset($link);
 
