@@ -208,6 +208,11 @@ class Read_Post_Gouf extends Read_Abstract
 		$this->sorters = $sorters;
 	}
 
+	protected function get_title() {
+
+		return def::site('short_name') . ' Записи. Битые ссылки.';
+	}
+
 	protected function display_index($url) {
 
 		$this->get_items();

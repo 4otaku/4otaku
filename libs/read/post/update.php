@@ -36,6 +36,11 @@ class Read_Post_Update extends Read_Abstract
 		return $item;
 	}
 
+	protected function get_title() {
+
+		return def::site('short_name') . ' Записи. Обновления.';
+	}
+
 	protected function display_single_item($url) {
 
 		$items = Database::order('sortdate', 'asc')

@@ -8,7 +8,7 @@ class Read_Post extends Read_Main
 	protected $show_template = 'dynamic/post/show';
 
 	protected $side_modules = array(
-		'head' => array('title', 'js', 'css'),
+		'head' => array('js', 'css'),
 		'header' => array('menu', 'personal'),
 		'top' => array('add_bar'),
 		'sidebar' => array('search', 'comments','update','orders','tags'),
@@ -144,6 +144,37 @@ class Read_Post extends Read_Main
 			'language' => $this->get_navi_language(),
 			'rss' => $this->get_navi_rss('post')
 		);
+	}
+	protected function get_title() {
+
+		$short = def::site('short_name') . ' ';
+
+		if (count($this->data['items']) == 1) {
+			$item = reset($this->data['items']);
+			if (empty($item['in_batch'])) {
+				return $short . $item->get_title();
+			}
+		}
+
+		if (count($this->meta) > 1) {
+			return $short . 'Записи. Просмотр сложной выборки.';
+		}
+
+		if (count($this->meta) == 1) {
+			$meta = reset($this->meta);
+			if (!$meta->is_simple()) {
+				return $short . 'Записи. Просмотр сложной выборки.';
+			}
+			$type = $meta->get_type();
+			$alias = $meta->get_meta();
+			$name = Database::get_field($type, 'name', 'alias = ?', $alias);
+
+			$meta_name = $meta->get_type_rus();
+
+			return $short . 'Записи. '.$meta_name.': '.$name;
+		}
+
+		return def::site('name');
 	}
 
 	protected function display_index($url) {

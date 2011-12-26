@@ -2,57 +2,54 @@
 
 class Side_Head
 {
-	public $def = array();
 	private $types = array(
 		'tag' => 'Тэг',
 		'category' => 'Категория',
 		'author' => 'Автор',
 		'language' => 'Язык'
 	);
-	
+
 	protected $js = array(
 		'jquery-1.6.2.min.js', 'plugins.js', 'main.js'
 	);
-	
+
 	protected $css = array(
 		'plugins.css', 'main.css', 'header.css'
 	);
 
-	function __construct() {
-		global $def;
-		$this->def = $def;
+	function title() {
+		$url = query::$url;
+		$func = 'title_'.$url[1];
+		if (method_exists($this, $func) && $return = $this->$func($url)) {
+			return def::site('short_name') . ' ' . $return;
+		}
+
+		return def::site('name');
 	}
 
-	function title() {
-		global $url;
-		$func = 'title_'.$url[1];
-		if (method_exists($this, $func) && $return = $this->$func()) return $return;
-		else return $this->def['site']['name'];
-	}
-	
 	public function js() {
 		return $this->get_jss_data($this->js, 'admin.js');
 	}
 
 	public function css() {
 		return $this->get_jss_data($this->css, 'admin.css');
-	}	
-	
+	}
+
 	protected function get_jss_data($files, $admin_files) {
 		$admin_files = (array) $admin_files;
-		
+
 		if (sets::user('rights')) {
 			$files = array_merge($files, $admin_files);
 		}
-		
+
 		$a = microtime(true);
 		$mtime = 0;
 		foreach ($files as $file) {
 			$path = ROOT_DIR.SL.'jss'.SL.$file;
-			
+
 			$mtime = max($mtime, filemtime($path));
 		}
-		
+
 		return array(
 			'list' => $files,
 			'date' => $mtime,
@@ -89,32 +86,6 @@ class Side_Head
 				$return = '. '.$types[$url[2]].': '.$name;
 		}
 		return 'Арт'.$return;
-	}
-
-	function title_post() {
-		global $url; global $data;
-		if (is_numeric($url[2])) {
-			$return = $data['main']['post'][0]['title'];
-			if (is_array($data['main']['post'][0]['links'])) foreach ($data['main']['post'][0]['links'] as $link)
-				if (is_array($link['search'])) foreach ($link['search'] as $alias) $download[] = $alias;
-				else foreach ($link['alias'] as $alias) if (!is_numeric($alias)) $download[] = $alias;
-			if ($download) $return .= '. Скачать с '.implode(', ',array_unique($download));
-		}
-		elseif ($url[2] == 'mixed') {
-			$return = 'Записи. Просмотр сложной выборки.';
-		}
-		elseif ($url[2] == 'date') {
-			$return = 'Записи. Просмотр по дате.';
-		}
-		elseif ($url[2] == 'updates') {
-			$return = 'Записи. Обновления.';
-		}
-		else {
-			$types = $this->types;
-			if (isset($types[$url[2]]) && $name = obj::db()->sql('select name from '.$url[2].' where alias="'.$url[3].'"',2))
-				$return = 'Записи. '.$types[$url[2]].': '.$name;
-		}
-		return isset($return) ? $return : $this->def['site']['name'];
 	}
 
 	function title_video() {
