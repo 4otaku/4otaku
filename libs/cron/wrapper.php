@@ -3,9 +3,9 @@
 class Cron
 {
 	protected $workers = array();
-	
+
 	public function process($function) {
-		
+
 		if (strpos($function, '::')) {
 			$function = explode('::', $function);
 			$class = 'Cron_' . $function[0];
@@ -14,31 +14,14 @@ class Cron
 			if (empty($this->workers[$class])) {
 				$this->workers[$class] = new $class();
 			}
-			
+
 			$this->workers[$class]->execute($function);
 		} else {
-		
+
 			$this->$function();
 		}
 	}
-	
-	/* Gouf - проверяльщик ссылок */
 
-	public function gouf_check() {
-		$count = obj::db()->sql('select count(id) from gouf_links',2);
-		$limit = ceil($count/1440);
-		$links = obj::db()->sql('select id, link, status from gouf_links order by checkdate limit '.$limit);
-		$base = obj::db()->sql('select * from gouf_base order by id');
-		if (is_array($links)) foreach ($links as $link) {
-			$result = $this->gouf_check_single($base, $link['link']);
-			if ($result != 'unknown' && $result != $link['status']) {
-				obj::db()->update('gouf_links',array('checkdate','status'),array(time(),$result),$link['id']);
-			} else {
-				obj::db()->update('gouf_links',array('checkdate'),array(time()),$link['id']);
-			}
-		}
-	}
-	
 	function clean_tags() {
 		global $def;
 /*		foreach ($def['type'] as $type) $query .= ' union select concat("'.$type.'",id) as id, tag, area, "'.$type.'" as type from '.$type;
