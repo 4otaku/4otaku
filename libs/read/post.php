@@ -80,13 +80,7 @@ class Read_Post extends Read_Main
 
 		foreach ($images as $image) {
 			$image = new Model_Post_Image($image);
-			if (!empty($items[$image['post_id']]) && is_object($items[$image['post_id']])) {
-				$items[$image['post_id']]->add_image($image);
-			} else {
-				$mail = new mail();
-				$mail->text(serialize($items) . serialize($images) . Database::debug(false))
-					->send(def::notify('mail'));
-			}
+			$items[$image['post_id']]->add_image($image);
 		}
 
 		$links = Database::join('post_link_url', 'plu.link_id = pl.id')
