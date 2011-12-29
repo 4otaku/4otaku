@@ -24,11 +24,11 @@
 		if ($data['main']['pool']['password']) {
 			?>
 				<div class="closed_group hidden">
-					Это закрытая группа. Для внесения любых изменений, вам нужно быть владельцем и написать пароль в поле в правом верхнем углу. 
+					Это закрытая группа. Для внесения любых изменений, вам нужно быть владельцем и написать пароль в поле в правом верхнем углу.
 					<br /><br />
-					Забыли пароль? <input type="submit" class="disabled redeem_password" value="Выслать новый"> на адрес: 
+					Забыли пароль? <input type="submit" class="disabled redeem_password" value="Выслать новый"> на адрес:
 					<input type="text" class="redeem_email">
-				</div>	
+				</div>
 			<?
 		}
 	?>
@@ -46,16 +46,16 @@
 			}
 			else {
 				?>
-					<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=edit/sort.js,edit/pool.js"></script>
-					Сортировка: 
-					<a href="<?=$def['site']['dir']?>/art/pool/<?=$url[3];?>/sort/">
+					<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=ui/core.js,ui/sortable.js,edit/pool.js"></script>
+					Сортировка:
+					 <a href="<?=$def['site']['dir']?>/art/pool/<?=$url[3];?>/sort/">
 						Сбросить
-					</a> 
-					<a href="<?=$def['site']['dir']?>/art/pool/<?=$url[3];?>/" class="save_pool_order check_closed disabled" rel="<?=$data['main']['pool']['art'];?>">
+					</a>,
+					 <a href="<?=$def['site']['dir']?>/art/pool/<?=$url[3];?>/" class="save_pool_order check_closed disabled" rel="<?=$data['main']['pool']['art'];?>">
 						Сохранить
-					</a>
+					</a>.
 				<?
 			}
-		?>		
+		?>
 	</div>
 </div>

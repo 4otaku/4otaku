@@ -571,7 +571,9 @@ $(document).ready(function(){
 						$("div.edit_field").html('');
 						$("div.edit_field").hide();
 						vars = parent.attr('rel').split('#');
-						form.load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]);
+						form.load("/ajax.php?m=add&f="+vars[0]+'&info='+vars[1], function() {
+							finish_loading(parent);
+						});
 					} else {
 						$(".closed_group").slideDown();
 					}
