@@ -1,18 +1,18 @@
 <div class="shell">
-	<div class="post" id="post-{{id}}">
+	<div class="post">
 		<div class="innerwrap">
 			<table width="100%">
 				<tr>
 					<td align="left">
 						<h2>
-							<a href="{{post.rss_base}}post/{{id}}" title="{{post.title}}">
+							<a href="{{post.rss_base}}post/{{post.id}}/" title="{{post.title}}">
 								{{post.title}}
 							</a>
 						</h2>
 					</td>
 					<td align="right" valign="top">
 						{% if post.in_batch %}
-							<a href="{{post.rss_base}}post/{{id}}">
+							<a href="{{post.rss_base}}post/{{post.id}}/">
 								Комментировать
 							</a>
 							{% if post.comment_count %}
