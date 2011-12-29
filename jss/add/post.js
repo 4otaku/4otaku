@@ -36,8 +36,10 @@ $(document).ready(function(){
 		$('.link_'+$(this).attr('rel')).append(string);
 		$('.link_'+$(this).attr('rel')).find("tr.link:last").attr('rel', num);
 		if ($(this).attr('rel') == 'main') {
-			$('.link_main tr.link:last select').val($('.link_main tr.link:last')
-				.parents('table').prev().find('select').val());
+			var last = $('.link_main tr.link:last').parents('table').prev();
+			if (last.is('table')) {
+				$('.link_main tr.link:last select').val(last.find('select').val());
+			}
 		}
 		if ($('.link_'+$(this).attr('rel')).find("tr.link:last img").length) {
 			$('.link_'+$(this).attr('rel')).find("tr.link:last input[type!='submit']").each(function(){
