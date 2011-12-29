@@ -21,9 +21,7 @@ if (MAINTENANCE && !empty($_SERVER['REMOTE_ADDR']) && !DEBUG) {
 }
 include_once "constants.php";
 include_once "autoloader.php";
-if (!DEBUG) {
-	include_once "functions.php";
-}
+include_once "functions.php";
 
 Cache::$base_prefix = 'otaku_';
 Cache::$drivers_list = array(
