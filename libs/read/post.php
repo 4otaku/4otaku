@@ -103,9 +103,23 @@ class Read_Post extends Read_Main
 
 		if (!empty($hashes)) {
 			$torrents_data = array();
-//			$torrents_data = (array) Database::db('tracker')->get_vector('xbt_files',
-//				array('info_hash', 'seeders', 'leechers'),
-//				Database::array_in('info_hash', $hashes, true));
+			$raw_data = (array) Database::db('tracker')->get_table('peers',
+				array('info_hash', 'state'), Database::array_in('info_hash', $hashes, true));
+			foreach ($raw_data as $data) {
+				$key = $data['info_hash'];
+				if (empty($torrents_data[$key])) {
+					$torrents_data[$key] = array(
+						'seeders' => 0, 'leechers' => 0
+					);
+				}
+
+				if ($data['state']) {
+					$torrents_data[$key]['seeders']++;
+				} else {
+					$torrents_data[$key]['leechers']++;
+				}
+			}
+
 			foreach ($torrents as &$torrent) {
 				$hash = pack("H*", $torrent['hash']);
 				if (!empty($torrents_data[$hash])) {
