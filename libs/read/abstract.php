@@ -59,7 +59,7 @@ abstract class Read_Abstract
 			return 'display_index';
 		}
 
-		if (is_numeric($url[1])) {
+		if (ctype_digit($url[1])) {
 			return 'display_single_item';
 		}
 
