@@ -1,7 +1,7 @@
 {% if item.meta.tag|length > 1 %}
-	Теги: 
+	Теги:
 {% else %}
-	Тег: 
+	Тег:
 {% endif %}
 
 {% if item.have_tag_variants %}
@@ -16,20 +16,20 @@
 	{% if item.in_batch %}
 		<a href="{{navi.base}}{{tag.mixed_add}}">
 			+
-		</a> 
-		<a href="{{navi.base}}{{tag.mixed_remove}}">
+		</a>
+		 <a href="{{navi.base}}{{tag.mixed_remove}}">
 			-
-		</a> 
+		</a>
 	{% endif %}
-	<a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}tag/{{alias}}/">
+	 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{alias}}/">
 		{{tag.name}}
 	</a>
 	{% if not loop.last or tag.variant %}, {% endif %}
 	<span class="hidden tag_synonims tag_synonims_{{id}}">
 		{% for variant in tag.variant %}
-			 <a href="{% if item.in_batch %}{{navi.base}}{% else %}{{base}}{% endif %}tag/{{variant|url_encode()}}">
+			 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{variant|url_encode()}}">
 				{{variant}}
-			</a>		
+			</a>
 			{% if not loop.last %}, {% endif %}
 		{% endfor %}
 		&nbsp;

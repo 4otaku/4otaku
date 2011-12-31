@@ -263,7 +263,7 @@ class output__search extends engine
 		$post = $worker->get_data('items');
 		$post = current($post);
 
-		$post['template'] = 'post'; 
+		$post['template'] = 'post';
 		$post['navi'] = '/post/';
 		return $post;
 	}
