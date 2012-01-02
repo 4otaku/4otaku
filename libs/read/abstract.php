@@ -142,4 +142,13 @@ abstract class Read_Abstract
 
 		return $return;
 	}
+
+	protected function get_place() {
+		$class = get_called_class();
+
+		$class = explode('_', $class);
+		array_shift($class);
+
+		return strtolower(reset($class));
+	}
 }

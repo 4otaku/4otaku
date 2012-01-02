@@ -1,0 +1,51 @@
+				<table width="100%">
+					<tr>
+						<td>
+							<select name="edit_type" id="edit_type-<?=$item['id'];?>">
+								<option value="title">Заголовок</option>
+								<option value="text">Описание</option>
+								<?
+									if ($sets['user']['rights']) {
+										?>
+											<option value="video_link">Ссылку на видео</option>
+											<option value="author">Автора</option>
+										<?
+									}
+								?>
+								<option value="category">Категории</option>
+								<option value="tag">Теги</option>
+							</select>
+							<input type="submit" value="Редактировать" class="edit<?=(!empty($item['full_reload']) ? ' full_reload' : '');?>" rel="<?=$item['id'];?>" />
+							<?
+								if ($sets['user']['rights']) {
+									?>
+										<td align="right">
+											<div class="right">
+												<form method="post" enctype="multipart/form-data">
+													<input type="hidden" name="do" value="video.transfer" />
+													<input type="checkbox" name="sure" />
+													<input type="hidden" name="id" value="<?=$item['id'];?>" />
+													<input type="submit" value="Утащить" class="submit" />
+													 &nbsp;
+													<select name="where">
+														<?
+															foreach ($def['area'] as $area) if ($item['area'] != $area && !empty($lang['transfer'][$area])) {
+																?>
+																	<option value="<?=$area;?>"> <?=$lang['transfer'][$area];?></option>
+																<?
+															}
+														?>
+														<option value="deleted"> в печь</option>
+													</select>
+												</form>
+											</div>
+										</td>
+									<?
+								}
+							?>
+						</td>
+					</tr>
+				</table>
+				<div id="loader-<?=$item['id'];?>" class="hidden center loader"><img src="<?=$def['site']['dir']?>/images/ajax-loader.gif"></div>
+				<div id="edit-<?=$item['id'];?>" rel="video" class="edit_field hidden"></div>
+

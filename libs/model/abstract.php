@@ -1,7 +1,7 @@
 <?php
 
 abstract class Model_Abstract implements ArrayAccess
-{      
+{
 	// Поля таблицы
 	protected $fields = array(
 		'id'
@@ -17,7 +17,7 @@ abstract class Model_Abstract implements ArrayAccess
 
 	// Данные записи
 	private $data = array();
-	
+
 	// Дополнительные данные
 	private $additional_data = array();
 
@@ -26,17 +26,17 @@ abstract class Model_Abstract implements ArrayAccess
 
 	// Знак того, что записи нет в базе
 	private $is_phantom = false;
-	   
+
 	public function __construct($data = array()) {
 
 		if (is_numeric($data) && $this->primary == array('id')) {
 			$this->set('id', $data);
 		} else {
 			$data = (array) $data;
-			
+
 			$this->set_array($data);
 			$this->unchanged_data = $data;
-			
+
 			foreach ($this->primary as $key) {
 
 				if (empty($data[$key])) {
@@ -45,37 +45,37 @@ abstract class Model_Abstract implements ArrayAccess
 				}
 			}
 		}
-		
+
 		$class = get_called_class();
 		$class = substr(strtolower($class), 6);
 		$this->set('model_type', $class);
 	}
-	
+
 	protected function build_condition() {
 		$condition = array();
 		$params = array();
 
 		foreach ($this->primary as $key) {
 			$param = $this->get($key, true);
-			
+
 			if (empty($param)) {
 				return array(false, false);
 			}
-			
-			$condition[] = $key.' = ?';			
-			
+
+			$condition[] = $key.' = ?';
+
 			$params[] = $param;
 		}
-		
+
 		$condition = implode(' and ', $condition);
-		
+
 		return array($condition, $params);
 	}
-	
+
 	public function set_phantom() {
 		$this->is_phantom = true;
 	}
-	
+
 	public function is_phantom() {
 		return $this->is_phantom;
 	}
@@ -84,7 +84,7 @@ abstract class Model_Abstract implements ArrayAccess
 		list($condition, $params) = $this->build_condition();
 
 		if (!empty($condition)) {
-			$data = Database::get_full_row($this->table, 
+			$data = Database::get_full_row($this->table,
 				$condition, $params);
 
 			if (is_array($data)) {
@@ -94,26 +94,26 @@ abstract class Model_Abstract implements ArrayAccess
 				$this->set_phantom();
 			}
 		}
-		
+
 		return $this;
-	}	
+	}
 
 	public function get($key, $silent = false) {
 		if (array_key_exists($key, $this->data)) {
 			return $this->data[$key];
 		}
-	
+
 		if (array_key_exists($key, $this->additional_data)) {
 			return $this->additional_data[$key];
-		}		
-		
+		}
+
 		if (!$silent && in_array($key, $this->fields)) {
-			
+
 			$this->load();
-			
+
 			return $this->data[$key];
 		}
-		
+
 		return null;
 	}
 
@@ -130,7 +130,7 @@ abstract class Model_Abstract implements ArrayAccess
 
 			$return[$key] = $this->get($key);
 		}
-		
+
 		if (count($this->primary) == 1) {
 			$return = reset($return);
 		}
@@ -143,14 +143,14 @@ abstract class Model_Abstract implements ArrayAccess
 		foreach($data as $key => $value) {
 			$this->set($key, $value);
 		}
-		
+
 		return $this;
 	}
 
 	public function set($key, $value = null) {
-		
+
 		if (in_array($key, $this->fields)) {
-			
+
 			if ($value !== null) {
 				$this->data[$key] = $value;
 			} else {
@@ -164,7 +164,7 @@ abstract class Model_Abstract implements ArrayAccess
 				unset($this->additional_data[$key]);
 			}
 		}
-			
+
 		return $this;
 	}
 
@@ -176,7 +176,7 @@ abstract class Model_Abstract implements ArrayAccess
 		if (count($this->data) < count($this->fields)) {
 			$this->load();
 		}
-		
+
 		return $this->data;
 	}
 
@@ -185,20 +185,20 @@ abstract class Model_Abstract implements ArrayAccess
 		if ($this->is_phantom) {
 			Database::insert($this->table, $this->data);
 			$id = Database::last_id();
-			
+
 			if (count($this->primary) == 1) {
 				$key = reset($this->primary);
 				$this->set($key, $id);
 			}
-			
+
 			$this->is_phantom = false;
 		}
-				
+
 		return $this;
 	}
 
 	public function delete() {
-		
+
 		if (!$this->is_phantom) {
 			list($condition, $params) = $this->build_condition();
 
@@ -206,25 +206,25 @@ abstract class Model_Abstract implements ArrayAccess
 				Database::delete($this->table, $condition, $params);
 			}
 		}
-				
+
 		return $this;
 	}
 
 	public function commit() {
-		
+
 		if ($this->is_phantom) {
 			return $this->insert();
 		}
-		
+
 		list($condition, $params) = $this->build_condition();
 
 		if (empty($condition)) {
 			return $this;
 		}
-		
+
 		if (empty($this->unchanged_data)) {
 			$update = $this->data;
-		} else {		
+		} else {
 			$update = array();
 			foreach ($this->data as $key => $value) {
 				if ($this->unchanged_data[$key] != $value) {
@@ -237,10 +237,10 @@ abstract class Model_Abstract implements ArrayAccess
 
 		return $this;
 	}
-	
+
 	/* Реализация ArrayAccess */
-	
-	public function offsetSet($offset, $value) {		
+
+	public function offsetSet($offset, $value) {
 		if (!is_null($offset)) {
 			$this->set($offset, $value);
 		}
@@ -250,13 +250,13 @@ abstract class Model_Abstract implements ArrayAccess
 		$this->set($offset, null);
 	}
 
-	public function offsetExists($offset) {		
-		return isset($this->data[$offset]) || 
+	public function offsetExists($offset) {
+		return isset($this->data[$offset]) ||
 			isset($this->additional_data[$offset]);
 	}
 
 	public function offsetGet($offset) {
 		return $this->get($offset);
-	}	
+	}
 }
 

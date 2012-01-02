@@ -34,7 +34,6 @@ class Read_Post extends Read_Main
 		if ($item['area'] == 'workshop' || sets::user('rights')) {
 			$item['is_editable'] = true;
 		}
-		$this->load_meta($item);
 
 		$item['update_count'] = Database::get_field('post_update',
 			'count(*)', 'post_id = ?', $id);
@@ -193,93 +192,5 @@ class Read_Post extends Read_Main
 		}
 
 		return def::site('name');
-	}
-
-	protected function display_index($url) {
-
-		$this->get_items();
-	}
-
-	protected function display_single_item($url) {
-
-		$this->set_page($url, 4);
-
-		$this->get_item($url[1]);
-		$this->data['comment'] = $this->get_comments('post', $url[1]);
-
-		if ($this->count > $this->per_page) {
-			$this->data['navi'] = $this->get_comment_navi($url[1]);
-		}
-
-		$this->data['single'] = true;
-	}
-
-	protected function display_show($url) {
-		$this->get_item($url[2]);
-
-		if ($url[3] == 'batch') {
-			foreach ($this->data['items'] as $item) {
-				$item['in_batch'] = true;
-			}
-		}
-
-		$this->template = $this->show_template;
-	}
-
-	protected function display_page($url) {
-
-		$this->set_page($url, 2);
-		$this->get_items();
-	}
-
-	protected function display_tag($url) {
-
-		$this->set_page($url, 4);
-		$this->set_meta($url, 2, 'tag');
-		$this->get_items();
-	}
-
-	protected function display_author($url) {
-
-		$this->set_page($url, 4);
-		$this->set_meta($url, 2, 'author');
-		$this->get_items();
-	}
-
-	protected function display_category($url) {
-
-		$this->set_page($url, 4);
-		$this->set_meta($url, 2, 'category');
-		$this->get_items();
-	}
-
-	protected function display_language($url) {
-
-		$this->set_page($url, 4);
-		$this->set_meta($url, 2, 'language');
-		$this->get_items();
-	}
-
-	protected function display_mixed($url) {
-
-		$this->set_page($url, 4);
-		$this->set_mixed($url, 2);
-		$this->get_items();
-	}
-
-	protected function display_updates($url) {
-
-		array_shift($url);
-		$worker = new Read_Post_Update();
-
-		$worker->process($url);
-	}
-
-	protected function display_gouf($url) {
-
-		array_shift($url);
-		$worker = new Read_Post_Gouf();
-
-		$worker->process($url);
 	}
 }

@@ -281,7 +281,8 @@ abstract class Read_Main extends Read_Abstract
 		return $return;
 	}
 
-	protected function get_comments($place, $id) {
+	protected function get_comments($id) {
+		$place = $this->get_place();
 
 		$query = Database::set_counter();
 
@@ -368,5 +369,99 @@ abstract class Read_Main extends Read_Abstract
 		$return['base'] = '/post/'.$item_id.'/comments/';
 
 		return $return;
+	}
+
+	protected function display_index($url) {
+
+		$this->get_items();
+	}
+
+	protected function display_single_item($url) {
+
+		$this->set_page($url, 4);
+
+		$this->get_item($url[1]);
+
+		$item = reset($this->data['items']);
+		if ($item['area'] == 'deleted') {
+			$this->do_output($this->error_template);
+			return;
+		}
+
+		$this->data['comment'] = $this->get_comments($url[1]);
+		if ($this->count > $this->per_page) {
+			$this->data['navi'] = $this->get_comment_navi($url[1]);
+		}
+
+		$this->data['single'] = true;
+	}
+
+	protected function display_show($url) {
+		$this->get_item($url[2]);
+
+		if ($url[3] == 'batch') {
+			foreach ($this->data['items'] as $item) {
+				$item['in_batch'] = true;
+			}
+		}
+
+		$this->template = $this->show_template;
+	}
+
+	protected function display_page($url) {
+
+		$this->set_page($url, 2);
+		$this->get_items();
+	}
+
+	protected function display_tag($url) {
+
+		$this->set_page($url, 4);
+		$this->set_meta($url, 2, 'tag');
+		$this->get_items();
+	}
+
+	protected function display_author($url) {
+
+		$this->set_page($url, 4);
+		$this->set_meta($url, 2, 'author');
+		$this->get_items();
+	}
+
+	protected function display_category($url) {
+
+		$this->set_page($url, 4);
+		$this->set_meta($url, 2, 'category');
+		$this->get_items();
+	}
+
+	protected function display_language($url) {
+
+		$this->set_page($url, 4);
+		$this->set_meta($url, 2, 'language');
+		$this->get_items();
+	}
+
+	protected function display_mixed($url) {
+
+		$this->set_page($url, 4);
+		$this->set_mixed($url, 2);
+		$this->get_items();
+	}
+
+	protected function display_updates($url) {
+
+		array_shift($url);
+		$worker = new Read_Post_Update();
+
+		$worker->process($url);
+	}
+
+	protected function display_gouf($url) {
+
+		array_shift($url);
+		$worker = new Read_Post_Gouf();
+
+		$worker->process($url);
 	}
 }

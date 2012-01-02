@@ -442,7 +442,7 @@ table.wrapwindow {
 	width: 50%
 }
 
-.post .imageholder img {
+.display_item .imageholder img {
 	margin: 0 10px 0 0;
 }
 
@@ -475,11 +475,11 @@ table.wrapwindow {
 
 /* Content, отображение поста */
 
-.post {
+.display_item {
 	clear: both;
 }
 
-.post h2{
+.display_item h2{
 	font-size: 14pt;
 	font-weight: normal;
 	margin-top: 5px;
@@ -557,11 +557,11 @@ div.posttext {
 	margin-bottom: 12px;
 }
 
-.post .seeders {
+.display_item .seeders {
 	color: #298A08;
 }
 
-.post .leechers {
+.display_item .leechers {
 	color: #8A4B08;
 }
 

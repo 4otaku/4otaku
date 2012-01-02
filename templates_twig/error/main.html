@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<td valign="top" id="content">
+	{% if sub.top %}
+		{% include 'side/top.html' %}
+	{% endif %}
+	<table width="100%" id="error">
+		<tr>
+			<td>
+				<img src="/images/yuugif.gif">
+			</td>
+		</tr>
+	</table>
+</td>
+<td valign="top" id="sidebar">
+	{% include 'side/sidebar.html' %}
+</td>
+{% endblock %}
