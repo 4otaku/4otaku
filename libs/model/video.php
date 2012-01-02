@@ -36,16 +36,13 @@ class Model_Video extends Model_Abstract_Main
 		return $this;
 	}
 
-	public function load() {
-		parent::load();
+	public function set_display_object($sizes_type) {
 
 		$object = $this->get('object');
 		if (!empty($object)) {
 			$object = str_replace(array('%video_width%','%video_height%'),
-				explode('x', sets::video('full')), $object);
+				explode('x', sets::video($sizes_type)), $object);
 			$this->set('display_object', $object);
 		}
-
-		return $this;
 	}
 }
