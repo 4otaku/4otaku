@@ -20,7 +20,11 @@
 	</table>
 	<div class="center clear">
 		<center>
-			{{video.display_object}}
+			{% if not video.display_error %}
+				{{video.display_object}}
+			{% else %}
+				Извините, произошла ошибка при обработке видео.
+			{% endif %}
 		</center>
 	</div>
 	<div class="wrapper">

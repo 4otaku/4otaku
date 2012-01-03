@@ -101,13 +101,13 @@ class Transform_Video
 			$this->aspect = 3/4;
 
 			return '<object width="'.$this->get_width().'" height="'.$this->get_height().'">
-					<param name="movie" value="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0"></param>
-					<param name="allowFullScreen" value="true"></param>
-					<param name="allowscriptaccess" value="always"></param>
-					<param name="wmode" value="transparent" />
-					<embed src="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash"
-					allowscriptaccess="always" allowfullscreen="true" width="'.$this->get_width().'" height="'.$this->get_height().'" wmode="transparent"></embed>
-					</object>';
+				<param name="movie" value="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0"></param>
+				<param name="allowFullScreen" value="true"></param>
+				<param name="allowscriptaccess" value="always"></param>
+				<param name="wmode" value="transparent" />
+				<embed src="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash"
+				allowscriptaccess="always" allowfullscreen="true" width="'.$this->get_width().'" height="'.$this->get_height().'" wmode="transparent"></embed>
+			</object>';
 		}
 	}
 
@@ -137,13 +137,13 @@ class Transform_Video
 			$this->aspect = 3/4;
 
 			return '<center>
-						<object width="'.$this->get_width().'" height="'.$this->get_height().'">
-						<param name="wmode" value="transparent" />
-						<embed src="http://amvnews.ru/Video/player.swf" width="'.$this->get_width().'" height="'.$this->get_height().'"
-						allowscriptaccess="always" allowfullscreen="true" flashvars="height='.$this->get_height().'&amp;width='.$this->get_width().'&amp;'.
-						'file=http%3A%2F%2Famvnews.ru%2Findex.php%3Fgo%3DFiles%26file%3Dse%26id%3D'.$get['id'].'&amp;searchbar=false&amp;'.
-						'smoothing=true&amp;backcolor=CCFFFF&amp;frontcolor=000000" wmode="transparent" /></object>
-					</center>';
+				<object width="'.$this->get_width().'" height="'.$this->get_height().'">
+				<param name="wmode" value="transparent" />
+				<embed src="http://amvnews.ru/Video/player.swf" width="'.$this->get_width().'" height="'.$this->get_height().'"
+				allowscriptaccess="always" allowfullscreen="true" flashvars="height='.$this->get_height().'&amp;width='.$this->get_width().'&amp;'.
+				'file=http%3A%2F%2Famvnews.ru%2Findex.php%3Fgo%3DFiles%26file%3Dse%26id%3D'.$get['id'].'&amp;searchbar=false&amp;'.
+				'smoothing=true&amp;backcolor=CCFFFF&amp;frontcolor=000000" wmode="transparent" /></object>
+			</center>';
 		}
 	}
 
@@ -153,13 +153,13 @@ class Transform_Video
 			$this->aspect = 3/4;
 
 			return '<object width="'.$this->get_width().'" height="'.$this->get_height().'">
-					<param name="movie" value="http://www.dailymotion.com/swf/'.$id.'" />
-					<param name="allowFullScreen" value="true" />
-					<param name="allowScriptAccess" value="always" />
-					<param name="wmode" value="transparent" />
-					<embed src="http://www.dailymotion.com/swf/'.$id.'" type="application/x-shockwave-flash" width="'.$this->get_width().'"
-					height="'.$this->get_height().'" allowFullScreen="true" allowScriptAccess="always" wmode="transparent"></embed>
-					</object>';
+				<param name="movie" value="http://www.dailymotion.com/swf/'.$id.'" />
+				<param name="allowFullScreen" value="true" />
+				<param name="allowScriptAccess" value="always" />
+				<param name="wmode" value="transparent" />
+				<embed src="http://www.dailymotion.com/swf/'.$id.'" type="application/x-shockwave-flash" width="'.$this->get_width().'"
+				height="'.$this->get_height().'" allowFullScreen="true" allowScriptAccess="always" wmode="transparent"></embed>
+			</object>';
 		}
 	}
 
@@ -171,19 +171,19 @@ class Transform_Video
 			$this->aspect = 3/4;
 
 			return '<div style="width: '.$this->get_width().'px;">
-						<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-						codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
-						id="gtembed" width="'.$this->get_width().'" height="'.$this->get_height().'">
-						<param name="allowScriptAccess" value="sameDomain" />
-						<param name="allowFullScreen" value="true" />
-						<param name="wmode" value="transparent" />
-						<param name="movie" value="http://www.gametrailers.com/remote_wrap.php?mid='.$id.'"/>
-						<param name="quality" value="high" />
-						<embed src="http://www.gametrailers.com/remote_wrap.php?mid='.$id.'" swLiveConnect="true"
-						name="gtembed" align="middle" allowScriptAccess="sameDomain" allowFullScreen="true"
-						quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer"
-						type="application/x-shockwave-flash" width="'.$this->get_width().'" height="'.$this->get_height().'" wmode="transparent"></embed>
-						</object>';
+				<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+				codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+				id="gtembed" width="'.$this->get_width().'" height="'.$this->get_height().'">
+				<param name="allowScriptAccess" value="sameDomain" />
+				<param name="allowFullScreen" value="true" />
+				<param name="wmode" value="transparent" />
+				<param name="movie" value="http://www.gametrailers.com/remote_wrap.php?mid='.$id.'"/>
+				<param name="quality" value="high" />
+				<embed src="http://www.gametrailers.com/remote_wrap.php?mid='.$id.'" swLiveConnect="true"
+				name="gtembed" align="middle" allowScriptAccess="sameDomain" allowFullScreen="true"
+				quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer"
+				type="application/x-shockwave-flash" width="'.$this->get_width().'" height="'.$this->get_height().'" wmode="transparent"></embed>
+			</object>';
 		}
 	}
 

@@ -269,16 +269,14 @@ class output__search extends engine
 	}
 
 	function fetch_video($id) {
-		$sizes = explode('x',sets::video('thumb'));
-		$video = obj::db()->sql('select * from video where id='.$id,1);
-		$video['object'] = str_replace(array('%video_width%','%video_height%'),$sizes,$video['object']);
-		$video['text'] = trim($video['text']);
-		$meta = $this->get_meta(array($video),array('category','author','tag'));
-		foreach ($meta as $key => $type)
-			if (is_array($type))
-				 foreach ($type as $alias => $name)
-					$video['meta'][$key][$alias] = $name;
-		$video['template'] = 'video'; $video['navi'] = '/video/';
+		$worker = new Read_Video();
+		$worker->get_item($id);
+		$video = $worker->get_data('items');
+		$video = current($video);
+		$video->set_display_object('thumb');
+
+		$video['template'] = 'video';
+		$video['navi'] = '/video/';
 		return $video;
 	}
 

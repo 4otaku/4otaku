@@ -81,10 +81,18 @@ class output__rss extends engine
 	}
 
 	function convert_video($item) {
-		global $sets;
+
+		$worker = new Read_Video();
+		$worker->get_item($item['id']);
+		$video = $worker->get_data('items');
+		$item = current($video);
+		$item->set_display_object('thumb');
+		$item['type'] = 'video';
+
 		$item['title'] = 'Новое видео: ' . $item['title'];
 		if ($item['area'] == 'workshop') $item['title'] = '(Очередь премодерации)' . $item['title'];
-		$item['object'] = str_replace(array('%video_width%','%video_height%'),$sets['video']['thumb'],$item['object']);
+
+		$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/video/'.$item['id'].'/';
 		$item['text'] =  str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);

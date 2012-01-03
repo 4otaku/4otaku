@@ -9,7 +9,7 @@ $tmp = $data['main']['navi']['base'];
 if (!empty($data['main']['data']) && is_array($data['main']['data'])) {
 	foreach ($data['main']['data'] as $item) {
 		$data['main']['navi']['base'] = $item['navi'];
-		if ($item['template'] == 'post') {
+		if ($item['template'] == 'post' || $item['template'] == 'video') {
 			twig_load_template('main/item/' . $item['template'],
 				array($item['template'] => $item, 'id' => $item['id']));
 		} else {

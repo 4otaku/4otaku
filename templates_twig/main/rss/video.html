@@ -1,0 +1,39 @@
+<div class="shell">
+	<div class="display_item" id="post-{{video.id}}">
+		<div class="innerwrap">
+			<table width="100%">
+				<tr>
+					<td align="left">
+						<h2>
+							<a href="{{video.rss_base}}video/{{id}}" title="{{video.title}}">
+								{{video.title}}
+							</a>
+						</h2>
+					</td>
+					<td align="right" valign="top">
+						<a href="/video/{{id}}">
+							Комментировать
+						</a>
+						{% if video.comment_count %}
+							 ({{video.comment_count}})
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<div class="center clear">
+				<center>
+					{% if not video.display_error %}
+						{{video.display_object}}
+					{% else %}
+						Извините, произошла ошибка при обработке видео.
+					{% endif %}
+				</center>
+			</div>
+			<div class="wrapper">
+				<p class="meta">
+					{% include 'common/meta.html' with {'item': video, 'base': data.base} %}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
