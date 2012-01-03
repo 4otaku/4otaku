@@ -45,7 +45,7 @@
 					Описание
 				</td>
 				<td class="inputdata">
-					<textarea name="description" cols="70" rows="6" id="textfield" class="left"></textarea>
+					<textarea name="text" cols="70" rows="6" id="textfield" class="left"></textarea>
 					<table cellspacing="3px" class="bbholder">
 						<tr>
 							<td><img src="<?=$def['site']['dir']?>/images/bb/bold.png" rel="b" class="bb" title="Выделить жирным" /></td>
@@ -112,13 +112,13 @@
 					Ваш ник
 				</td>
 				<td class="inputdata">
-					<input size="35%" name="user" value="<?=str_replace(' ', '_', $sets['user']['name']);?>" type="text">
+					<input size="35%" name="author" value="<?=str_replace(' ', '_', $sets['user']['name']);?>" type="text">
 				</td>
 			</tr>
 			<tr>
 	            <td class="input field_name">
 					<input class="submit" value="Добавить" type="submit">
-					<input type="hidden" name="do" value="video.add" />
+					<input type="hidden" name="action" value="Create" />
 					<input type="hidden" name="remember" value="true" />
 				</td>
 				<td class="inputdata">

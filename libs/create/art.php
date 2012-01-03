@@ -141,9 +141,7 @@ class Create_Art extends Create_Abstract
 					$similar[$master][] = $image;
 					unset($images[$image_key]);
 				}
-
 			}
-
 		}
 
 		return $similar;
