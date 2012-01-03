@@ -2,7 +2,7 @@
 
 class transform__text extends Transform_Time
 {
-	const URL_REGEX = '/(https?|ftp):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#!]*[\w\-\@?^=%&amp;\/~\+#!])?/is';
+	const URL_REGEX = '/(https?|ftp):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#!]*[\w\-\@?^=%&amp;\/~\+#!])?/uis';
 
 	public static function strtolower_ru($text) {
 		$alfavitlover = array('ё','й','ц','у','к','е','н','г', 'ш','щ','з','х','ъ','ф','ы','в', 'а','п','р','о','л','д','ж','э', 'я','ч','с','м','и','т','ь','б','ю');
@@ -190,15 +190,15 @@ class transform__text extends Transform_Time
 				switch ($tag) {
 					case 'b':
 						$match = rtrim($match, "\r\n");
-						$replacement = "<strong>$innertext</strong>"; 
+						$replacement = "<strong>$innertext</strong>";
 						break;
-					case 'i': 
+					case 'i':
 						$match = rtrim($match, "\r\n");
-						$replacement = "<em>$innertext</em>"; 
+						$replacement = "<em>$innertext</em>";
 						break;
-					case 's': 
+					case 's':
 						$match = rtrim($match, "\r\n");
-						$replacement = "<s>$innertext</s>"; 
+						$replacement = "<s>$innertext</s>";
 						break;
 					case 'size':
 						if ($param{0} != '+' && $param{0} != '-') {
@@ -207,27 +207,27 @@ class transform__text extends Transform_Time
 						$match = rtrim($match, "\r\n");
 						$replacement = "<font size=\"$param;\">$innertext</font>";
 						break;
-					case 'color': 
+					case 'color':
 						$match = rtrim($match, "\r\n");
-						$replacement = "<span style=\"color: $param;\">$innertext</span>"; 
+						$replacement = "<span style=\"color: $param;\">$innertext</span>";
 						break;
-					case 'url': 
+					case 'url':
 						$match = rtrim($match, "\r\n");
-						$replacement = '<a href="/go?' . 
-							str_replace('http','⟯',($param? $param : $innertext)) . '">'. 
-							str_replace('http','⟯',$innertext) . '</a>'; 
+						$replacement = '<a href="/go?' .
+							str_replace('http','⟯',($param? $param : $innertext)) . '">'.
+							str_replace('http','⟯',$innertext) . '</a>';
 						break;
 					case 'img':
 						$param = explode('x', strtolower($param));
-						$replacement = '<img src="' . 
-							str_replace('http','⟯',$innertext) . '" ' . 
-							(is_numeric($param[0]) ? 'width="' . $param[0] . '" ' : '') . 
-							(is_numeric($param[1]) ? 'height="' . $param[1] . '" ' : '') . 
+						$replacement = '<img src="' .
+							str_replace('http','⟯',$innertext) . '" ' .
+							(is_numeric($param[0]) ? 'width="' . $param[0] . '" ' : '') .
+							(is_numeric($param[1]) ? 'height="' . $param[1] . '" ' : '') .
 							'/><br />';
 						break;
 			        case 'spoiler':
 						$replacement = '<div class="mini-shell"><div class="handler" width="100%">' .
-							'<span class="sign">↓</span> <a href="#" class="disabled">' . 
+							'<span class="sign">↓</span> <a href="#" class="disabled">' .
 							str_replace(array('[', ']'), array('', ''), $param) . '</a></div>' .
 							'<div class="text hidden">' . ltrim($innertext) . '</div></div>';
 						break;
