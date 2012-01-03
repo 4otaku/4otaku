@@ -130,8 +130,10 @@ class Side_Sidebar extends engine
 			$where = 'where alias="'.implode('" or alias="',array_keys($tags)).'"';
 			$global = obj::db()->sql('select alias, art_'.$area.' from tag '.$where,'alias');
 			if ($page_flag) {
-				foreach ($global as $alias => $global_count)
-					$return[$tags[$alias]['count']*$global_count.'.'.rand(0,10000)] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
+				foreach ($global as $alias => $global_count) {
+					$ret_key = ((int) $tags[$alias]['count'] * (int) $global_count).'.'.rand(0,10000);
+					$return[$ret_key] = array('alias' => $alias, 'num' => $global_count) + $tags[$alias];
+				}
 
 				krsort($return);
 				$return = array_slice($return,0,25);
