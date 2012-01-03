@@ -33,6 +33,16 @@ function set_loading(id) {
 	'</td></tr></table>');
 }
 
+function set_loading_new(id, type) {
+	var item = $("#"+type+"-"+id);
+
+	item.css('height', item.height());
+	item.html('<table width="100%" height="100%">'+
+		'<tr><td align="center" valign="center">'+
+		'<img src="'+window.config.image_dir+'/ajax-loader.gif">'+
+	'</td></tr></table>');
+}
+
 function on_load(id, type) {
 
 	if (window.full_reload == true) {
@@ -122,7 +132,7 @@ $(document).ready(function(){
 		var type = $("form#edit_form input[name='type']").val();
 		var id = $("form#edit_form input[name='id']").val();
 
-		set_loading(id);
+		set_loading_new(id, type);
 		$.post("/"+type, post, function(){ on_load_new(id, type);});
 
 	});

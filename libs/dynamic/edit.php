@@ -156,12 +156,6 @@ class dynamic__edit extends engine
 			return array('value' => obj::db()->sql('select pretty_text from '.query::$get['type'].' where id='.query::$get['id'],2));
 	}
 
-	public function video_link () {
-		 global $check;
-		if ($check->num(query::$get['id']) && query::$get['type'] == 'video')
-			return array('value' => obj::db()->sql('select link from video where id='.query::$get['id'],2));
-	}
-
 	public function category () {
 		global $check;
 		if ($check->num(query::$get['id']) && $check->lat(query::$get['type']))
@@ -181,7 +175,7 @@ class dynamic__edit extends engine
 		if ($check->num(query::$get['id']) && $check->lat(query::$get['type'])) {
 			$return['value'] = array_unique(array_filter(explode('|',obj::db()->sql('select tag from '.query::$get['type'].' where id='.query::$get['id'],2))));
 			$return['colors'] = array();
-			
+
 			$meta = obj::db()->sql('select alias, name, color from tag where alias="'.implode('" or alias="',$return['value']).'"','alias');
 			foreach ($return['value'] as &$one) {
 				if (!empty($meta[$one])) {
@@ -248,15 +242,15 @@ class dynamic__edit extends engine
 		if (!Check::num(query::$get['id']) || query::$get['type'] != 'art') {
 			return false();
 		}
-		
+
 		$return = (array) Database::order('order', 'ASC')
 			->get_full_table('art_variation', 'art_id = ?', query::$get['id']);
-			
+
 		$image = Database::get_full_row('art', query::$get['id']);
-		
+
 		array_unshift($return, $image);
-		
-		return $return;		
+
+		return $return;
 	}
 
 	public function art_translations () {

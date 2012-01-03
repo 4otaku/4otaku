@@ -6,7 +6,7 @@
 					<option value="title">Заголовок</option>
 					<option value="text">Описание</option>
 					{% if _sets.user.rights %}
-						<option value="object">Ссылку на видео</option>
+						<option value="link">Ссылку на видео</option>
 						<option value="author">Автора</option>
 					{% endif %}
 					<option value="category">Категории</option>
@@ -23,13 +23,13 @@
 								<input type="submit" value="Утащить" class="submit" />
 								 &nbsp;
 								<select name="area">
-									{% if post.area != 'main' %}
+									{% if video.area != 'main' %}
 										<option value="main"> на главную</option>
 									{% endif %}
-									{% if post.area != 'workshop' %}
+									{% if video.area != 'workshop' %}
 										<option value="workshop"> в мастерскую</option>
 									{% endif %}
-									{% if post.area != 'flea_market' %}
+									{% if video.area != 'flea_market' %}
 										<option value="flea_market"> в барахолку</option>
 									{% endif %}
 									<option value="deleted"> в печь</option>

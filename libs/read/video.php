@@ -28,11 +28,11 @@ class Read_Video extends Read_Main
 	public function get_item($id) {
 		$item = new Model_Video($id);
 		$item->set_display_object('full');
-		$this->load_meta($item);
 
 		if ($item['area'] == 'workshop' || sets::user('rights')) {
 			$item['is_editable'] = true;
 		}
+		$this->load_meta($item);
 
 		query::$url['area'] = $this->area = $item['area'];
 
@@ -68,5 +68,16 @@ class Read_Video extends Read_Main
 			'category' => $this->get_navi_category('video'),
 			'rss' => $this->get_navi_rss('video')
 		);
+	}
+
+	protected function display_show($url) {
+
+		parent::display_show($url);
+
+		if ($url[3] == 'batch') {
+			foreach ($this->data['items'] as $item) {
+				$item->set_display_object('thumb');
+			}
+		}
 	}
 }

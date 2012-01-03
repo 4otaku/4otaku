@@ -1,0 +1,54 @@
+{% extends "side/settings/base.html" %}
+
+{% block content %}
+	Показывать материалы 18+:
+	 <input type="checkbox" class="settings" rel="show.nsfw" value="1"{% if _sets.show.nsfw %} checked{% endif %}>
+	<br />
+	Количество видео на страницу:
+	 <select class="settings" rel="pp.video">
+		<option value="3"{% if _sets.pp.video == 3 %} selected="yes"{% endif %}>3</option>
+		<option value="4"{% if _sets.pp.video == 4 %} selected="yes"{% endif %}>4</option>
+		<option value="5"{% if _sets.pp.video == 5 %} selected="yes"{% endif %}>5</option>
+		<option value="7"{% if _sets.pp.video == 7 %} selected="yes"{% endif %}>7</option>
+		<option value="10"{% if _sets.pp.video == 10 %} selected="yes"{% endif %}>10</option>
+		<option value="15"{% if _sets.pp.video == 15 %} selected="yes"{% endif %}>15</option>
+		<option value="20"{% if _sets.pp.video == 20 %} selected="yes"{% endif %}>20</option>
+	</select>
+	<br />
+	Размер видео в общей ленте:
+	 <select class="settings" rel="video.thumb">
+		<option value="320x240"{% if _sets.video.thumb == '320x240' %} selected="yes"{% endif %}>320x240</option>
+		<option value="480x360"{% if _sets.video.thumb == '480x360' %} selected="yes"{% endif %}>480x360</option>
+		<option value="600x450"{% if _sets.video.thumb == '600x450' %} selected="yes"{% endif %}>600x450</option>
+		<option value="720x540"{% if _sets.video.thumb == '720x540' %} selected="yes"{% endif %}>720x540</option>
+		<option value="900x675"{% if _sets.video.thumb == '900x675' %} selected="yes"{% endif %}>900x675</option>
+		<option value="1200x900"{% if _sets.video.thumb == '1200x900' %} selected="yes"{% endif %}>1200x900</option>
+	</select>
+	<br />
+	Размер отдельного видео:
+	 <select class="settings" rel="video.full">
+		<option value="320x240"{% if _sets.video.full == '320x240' %} selected="yes"{% endif %}>320x240</option>
+		<option value="480x360"{% if _sets.video.full == '480x360' %} selected="yes"{% endif %}>480x360</option>
+		<option value="600x450"{% if _sets.video.full == '600x450' %} selected="yes"{% endif %}>600x450</option>
+		<option value="720x540"{% if _sets.video.full == '720x540' %} selected="yes"{% endif %}>720x540</option>
+		<option value="900x675"{% if _sets.video.full == '900x675' %} selected="yes"{% endif %}>900x675</option>
+		<option value="1200x900"{% if _sets.video.full == '1200x900' %} selected="yes"{% endif %}>1200x900</option>
+	</select>
+	<br />
+	Количество комментариев на страницу:
+	 <select class="settings" rel="pp.comment_in_post">
+		<option value="3"{% if _sets.pp.comment_in_post == 3 %} selected="yes"{% endif %}>3</option>
+		<option value="4"{% if _sets.pp.comment_in_post == 4 %} selected="yes"{% endif %}>4</option>
+		<option value="5"{% if _sets.pp.comment_in_post == 5 %} selected="yes"{% endif %}>5</option>
+		<option value="7"{% if _sets.pp.comment_in_post == 7 %} selected="yes"{% endif %}>7</option>
+		<option value="10"{% if _sets.pp.comment_in_post == 10 %} selected="yes"{% endif %}>10</option>
+		<option value="15"{% if _sets.pp.comment_in_post == 15 %} selected="yes"{% endif %}>15</option>
+		<option value="20"{% if _sets.pp.comment_in_post == 20 %} selected="yes"{% endif %}>20</option>
+	</select>
+	<br />
+	Направление комментариев:
+	 <select class="settings" rel="dir.comments_tree">
+		<option value="1"{% if _sets.dir.comments_tree %} selected="yes"{% endif %}>инвертированное</option>
+		<option value="0"{% if not _sets.dir.comments_tree %} selected="yes"{% endif %}>обычное</option>
+	</select>
+{% endblock %}

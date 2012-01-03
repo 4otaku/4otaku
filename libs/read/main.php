@@ -397,6 +397,7 @@ abstract class Read_Main extends Read_Abstract
 	}
 
 	protected function display_show($url) {
+
 		$this->get_item($url[2]);
 
 		if ($url[3] == 'batch') {

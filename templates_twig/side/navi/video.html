@@ -1,0 +1,58 @@
+{% extends "side/navi/base.html" %}
+
+{% block content %}
+	<a href="/video/"{% if _url.area == 'main' %} class="plaintext"{% endif %}>
+		Видео, главный раздел
+	</a>
+	<br />
+	<a href="/video/workshop/"{% if _url.area == 'workshop' %} class="plaintext"{% endif %}>
+		Видео, очередь премодерации
+	</a>
+	<br />
+	<a href="/video/flea_market/"{% if _url.area == 'flea_market' %} class="plaintext"{% endif %}>
+		Видео, барахолка
+	</a>
+	<br />
+
+	<br />
+	<div class="selector">
+		<span>
+			<hr width="100%" />
+			Категория:
+			<input type="submit" class="disabled right add_navi" value="+" />
+			<select rel="category" class="right">
+				<option value="empty" selected="selected">Не выбрано</option>
+				{% for alias, name in navigation.category %}
+					<option value="{{alias}}">{{name}}</option>
+				{% endfor %}
+			</select>
+		</span>
+	</div>
+	<div class="selector">
+		<span>
+			<hr width="100%" />
+			Тег:
+			<input type="submit" class="disabled right add_navi" value="+" />
+			<select rel="tag" class="right">
+				<option value="empty" selected="selected">Не выбрано</option>
+				{% for alias, name in navigation.tag %}
+					<option value="{{alias}}">{{name}}</option>
+				{% endfor %}
+			</select>
+		</span>
+	</div>
+	<hr width="100%" />
+	<span class="hidden navigation_link">
+		<a href="#" rel="/post/{% if _url.area != _def.area.0 %}{{_url.area}}/{% endif %}">
+			<input type="submit" value="Перейти к выбранному">
+		</a>
+		<br />
+	</span>
+
+	{% if navigation.rss.link %}
+		<br />
+		<a href="/rss/{{navigation.rss.link}}" target="_blank">
+			Подписаться на rss {{navigation.rss.typename}} {{navigation.rss.metaname}}
+		</a>
+	{% endif %}
+{% endblock %}

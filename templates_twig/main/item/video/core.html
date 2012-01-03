@@ -26,7 +26,30 @@
 				Извините, произошла ошибка при обработке видео.
 			{% endif %}
 		</center>
+		{% if video.text %}
+			<span class="right">
+				<a href="#" class="show-description disabled" rel="{{video.id}}">
+					Показать описание
+				</a>
+				 <span class="arrow arrow-{{video.id}}" rel="off">↓</span>
+			</span>
+		{% endif %}
 	</div>
+	{% if video.text %}
+		<div class="shell post description description-{{video.id}} hidden">
+			<h2>
+				<span class="postlink">
+					<a href="#" class="disabled">
+						Описание
+					</a>
+				</span>
+			</h2>
+			<br />
+			<div class="posttext">
+				{{video.text}}
+			</div>
+		</div>
+	{% endif %}
 	<div class="wrapper">
 		<p class="meta">
 			{% include 'common/meta.html' with {'item': video, 'base': data.base} %}

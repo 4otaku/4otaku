@@ -1,37 +1,40 @@
-{% if item.meta.tag|length > 1 %}
-	Теги:
-{% else %}
-	Тег:
-{% endif %}
-
-{% if item.have_tag_variants %}
-	 <span class="synonims">
-		<a href="#" class="disabled" title="Показать синонимы" rel="{{id}}">
-			&gt;&gt;
-		</a>
-	</span>
-{% endif %}
-
-{% for alias, tag in item.meta.tag %}
-	{% if item.in_batch %}
-		<a href="{{navi.base}}{{tag.mixed_add}}">
-			+
-		</a>
-		 <a href="{{navi.base}}{{tag.mixed_remove}}">
-			-
-		</a>
+{% if item.meta.tag %}
+	&nbsp;|&nbsp;
+	{% if item.meta.tag|length > 1 %}
+		Теги:
+	{% else %}
+		Тег:
 	{% endif %}
-	 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{alias}}/">
-		{{tag.name}}
-	</a>
-	{% if not loop.last or tag.variant %}, {% endif %}
-	<span class="hidden tag_synonims tag_synonims_{{id}}">
-		{% for variant in tag.variant %}
-			 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{variant|url_encode()}}">
-				{{variant}}
+
+	{% if item.have_tag_variants %}
+		 <span class="synonims">
+			<a href="#" class="disabled" title="Показать синонимы" rel="{{id}}">
+				&gt;&gt;
 			</a>
-			{% if not loop.last %}, {% endif %}
-		{% endfor %}
-		&nbsp;
-	</span>
-{% endfor %}
+		</span>
+	{% endif %}
+
+	{% for alias, tag in item.meta.tag %}
+		 {% if item.in_batch %}
+			<a href="{{navi.base}}{{tag.mixed_add}}">
+				+
+			</a>
+			 <a href="{{navi.base}}{{tag.mixed_remove}}">
+				-
+			</a>
+		{% endif %}
+		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{alias}}/">
+			{{tag.name}}
+		</a>
+		{% if not loop.last or tag.variant %}, {% endif %}
+		<span class="hidden tag_synonims tag_synonims_{{id}}">
+			{% for variant in tag.variant %}
+				 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{variant|url_encode()}}">
+					{{variant}}
+				</a>
+				{% if not loop.last %}, {% endif %}
+			{% endfor %}
+			&nbsp;
+		</span>
+	{% endfor %}
+{% endif %}

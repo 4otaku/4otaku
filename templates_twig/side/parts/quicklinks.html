@@ -1,10 +1,118 @@
 {% extends "side/parts/base.html" %}
 
-{% set _template = 'nothing' %}
+{% set _template = 'quick' %}
 
 {% block name %}
-Write me!
+<a href="/">
+	Быстрые ссылки
+</a>
 {% endblock %}
 
 {% block content %}
+	<ul>
+		<li>
+			<a href="/" class="margin30">
+				Главная страница
+			</a>
+		</li>
+		<li><hr /></li>
+		<li>
+			<a href="/post/" class="margin30{% if _url.1 == 'post' and _url.2 != 'updates' and _url.2 != 'gouf' %} plaintext{% endif %}">
+				Записи
+			</a>
+		</li>
+		<li>
+			<a href="/post/updates/" class="margin30{% if _url.1 == 'post' and _url.2 == 'updates' %} plaintext{% endif %}">
+				Обновления записей
+			</a>
+		</li>
+		<li>
+			<a href="/post/gouf/" class="margin30{% if _url.1 == 'post' and _url.2 == 'gouf' %} plaintext{% endif %}">
+				Список битых ссылок
+			</a>
+		</li>
+		<li>
+			<a href="/video/" class="margin30{% if _url.1 == 'video' %} plaintext{% endif %}">
+				Видео
+			</a>
+		</li>
+		<li>
+			<a href="/art/" class="margin30{% if _url.1 == 'art' and _url.2 != 'cg_packs' %} plaintext{% endif %}">
+				Арты
+			</a>
+		</li>
+		<li>
+			<a href="/art/cg_packs/" class="margin30{% if _url.1 == 'art' and _url.2 == 'cg_packs' %} plaintext{% endif %}">
+				CG паки
+			</a>
+		</li>
+		<li><hr /></li>
+		<li>
+			<a href="/news/" class="margin30{% if _url.1 == 'news' %} plaintext{% endif %}">
+				Новости
+			</a>
+		</li>
+		<li>
+			<a href="/order/" class="margin30{% if _url.1 == 'order' %} plaintext{% endif %}">
+				Стол заказов
+			</a>
+		</li>
+		<li>
+			<a href="/board/" class="margin30{% if _url.1 == 'board' %} plaintext{% endif %}">
+				Борда 4отаку
+			</a>
+		</li>
+		<li>
+			<a href="/comments/" class="margin30{% if _url.1 == 'comments' %} plaintext{% endif %}">
+				Лента комментариев
+			</a>
+		</li>
+		<li><hr /></li>
+		<li>
+			<a href="http://wiki.4otaku.ru/Category:FAQ" class="margin30">
+				Справка по сайту
+			</a>
+		</li>
+		<li>
+			<a href="/logs/" class="margin30{% if _url.1 == 'logs' %} plaintext{% endif %}">
+				Логи конференции
+			</a>
+		</li>
+		<li>
+			<a href="/archive/" class="margin30{% if _url.1 == 'archive' %} plaintext{% endif %}">
+				Архив материалов
+			</a>
+		</li>
+		<li><hr /></li>
+		<li>
+			<a href="http://raincat.4otaku.ru" class="margin30">
+				Кикаки: додзинси и ёнкомы
+			</a>
+		</li>
+		<li>
+			<a href="http://dod.4otaku.ru" class="margin30">
+				Dreams of Dead
+			</a>
+		</li>
+		<li>
+			<a href="http://yukarinsubs.4otaku.ru" class="margin30">
+				Yukarin Subs
+			</a>
+		</li>
+		<li>
+			<a href="http://comics.4otaku.ru" class="margin30">
+				Комикс ЧТТО
+			</a>
+		</li>
+		<li>
+			<a href="http://alice.4otaku.ru" class="margin30">
+				Комикс Randomness
+			</a>
+		</li>
+		<li>
+			<a href="http://voca.4otaku.ru" class="margin30">
+				VocaDome
+			</a>
+		</li>
+	</ul>
 {% endblock %}

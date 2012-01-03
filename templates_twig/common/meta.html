@@ -1,62 +1,68 @@
-{{item.pretty_date}}&nbsp;|&nbsp;
-{% if item.meta.author|length > 1 %}
-	Опубликовали:
-{% else %}
-	Опубликовал:
-{% endif %}
- {% for alias, author in item.meta.author %}
-	{% if not loop.first %}, {% endif %}
-	{% if item.in_batch %}
-		<a href="{{navi.base}}{{author.mixed_add}}">
-			+
-		</a>
-		 <a href="{{navi.base}}{{author.mixed_remove}}">
-			-
-		</a>
+{{item.pretty_date}}
+{% if item.meta.author %}
+	&nbsp;|&nbsp;
+	{% if item.meta.author|length > 1 %}
+		Опубликовали:
+	{% else %}
+		Опубликовал:
 	{% endif %}
-	 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}author/{{alias}}/">
-		{{author.name}}
-	</a>
-{% endfor %}
-&nbsp;|&nbsp;
-{% if item.meta.category|length > 1 %}
-	Категории:
-{% else %}
-	Категория:
+	 {% for alias, author in item.meta.author %}
+		{% if not loop.first %}, {% endif %}
+		{% if item.in_batch %}
+			<a href="{{navi.base}}{{author.mixed_add}}">
+				+
+			</a>
+			 <a href="{{navi.base}}{{author.mixed_remove}}">
+				-
+			</a>
+		{% endif %}
+		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}author/{{alias}}/">
+			{{author.name}}
+		</a>
+	{% endfor %}
 {% endif %}
- {% for alias, category in item.meta.category %}
-	{% if not loop.first %}, {% endif %}
-	{% if item.in_batch %}
-		<a href="{{navi.base}}{{category.mixed_add}}">
-			+
-		</a>
-		 <a href="{{navi.base}}{{category.mixed_remove}}">
-			-
-		</a>
+{% if item.meta.category %}
+	&nbsp;|&nbsp;
+	{% if item.meta.category|length > 1 %}
+		Категории:
+	{% else %}
+		Категория:
 	{% endif %}
-	 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}category/{{alias}}/">
-		{{category.name}}
-	</a>
-{% endfor %}
-&nbsp;|&nbsp;
-{% if item.meta.language|length > 1 %}
-	Языки:
-{% else %}
-	Язык:
+	 {% for alias, category in item.meta.category %}
+		{% if not loop.first %}, {% endif %}
+		{% if item.in_batch %}
+			<a href="{{navi.base}}{{category.mixed_add}}">
+				+
+			</a>
+			 <a href="{{navi.base}}{{category.mixed_remove}}">
+				-
+			</a>
+		{% endif %}
+		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}category/{{alias}}/">
+			{{category.name}}
+		</a>
+	{% endfor %}
 {% endif %}
- {% for alias, language in item.meta.language %}
-	{% if not loop.first %}, {% endif %}
-	{% if item.in_batch %}
-		<a href="{{navi.base}}{{language.mixed_add}}">
-			+
-		</a>
-		 <a href="{{navi.base}}{{language.mixed_remove}}">
-			-
-		</a>
+{% if item.meta.language %}
+	&nbsp;|&nbsp;
+	{% if item.meta.language|length > 1 %}
+		Языки:
+	{% else %}
+		Язык:
 	{% endif %}
-	 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}language/{{alias}}/">
-		{{language.name}}
-	</a>
-{% endfor %}
-&nbsp;|&nbsp;
+	 {% for alias, language in item.meta.language %}
+		{% if not loop.first %}, {% endif %}
+		{% if item.in_batch %}
+			<a href="{{navi.base}}{{language.mixed_add}}">
+				+
+			</a>
+			 <a href="{{navi.base}}{{language.mixed_remove}}">
+				-
+			</a>
+		{% endif %}
+		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}language/{{alias}}/">
+			{{language.name}}
+		</a>
+	{% endfor %}
+{% endif %}
 {% include 'common/tags.html' %}

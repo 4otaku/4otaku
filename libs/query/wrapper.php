@@ -67,5 +67,4 @@ class query
 
 		return $input;
 	}
-
 }
