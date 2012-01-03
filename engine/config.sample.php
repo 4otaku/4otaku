@@ -47,6 +47,7 @@ $def['board']['filesize'] = 5*1024*1024;
 $def['board']['flashsize'] = 10*1024*1024;
 $def['board']['thumbwidth'] = 240;
 $def['board']['thumbheight'] = 180;
+$def['board']['maxcontent'] = 10;
 $def['post']['picturesize'] = 2*1024*1024;
 $def['post']['filesize'] = 10*1024*1024;
 $def['video']['filesize'] = 50*1024*1024;

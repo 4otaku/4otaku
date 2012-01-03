@@ -442,7 +442,7 @@ table.wrapwindow {
 	width: 50%
 }
 
-.display_item .imageholder img {
+.display_item .imageholder img, .post .imageholder img {
 	margin: 0 10px 0 0;
 }
 
@@ -475,11 +475,11 @@ table.wrapwindow {
 
 /* Content, отображение поста */
 
-.display_item {
+.display_item, .post {
 	clear: both;
 }
 
-.display_item h2{
+.display_item h2, .post h2 {
 	font-size: 14pt;
 	font-weight: normal;
 	margin-top: 5px;

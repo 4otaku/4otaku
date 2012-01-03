@@ -7,7 +7,6 @@ class Model_Video extends Model_Abstract_Main
 		'id',
 		'title',
 		'link',
-		'object',
 		'text',
 		'pretty_text',
 		'author',
@@ -38,11 +37,15 @@ class Model_Video extends Model_Abstract_Main
 
 	public function set_display_object($sizes_type) {
 
-		$object = $this->get('object');
-		if (!empty($object)) {
-			$object = str_replace(array('%video_width%','%video_height%'),
-				explode('x', sets::video($sizes_type)), $object);
-			$this->set('display_object', $object);
+		try {
+			$link = $this->get('link');
+			if (!empty($link)) {
+				$video = new Transform_Video($link);
+				$object = $video->enable_nico()->set_sizes($sizes_type)->get_html();
+				$this->set('display_object', $object);
+			}
+		} catch (Error $e) {
+			$this->set('display_error', true);
 		}
 	}
 }
