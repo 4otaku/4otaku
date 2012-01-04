@@ -1,6 +1,6 @@
 <?php
 
-class Model_Art extends Model_Abstract_Main
+class Model_Art extends Model_Abstract_Meta
 {
 	const
 		TAGME = 'prostavte_tegi',

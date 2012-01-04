@@ -1,6 +1,6 @@
 <?php
 
-abstract class Model_Abstract_Main extends Model_Abstract_Meta
+abstract class Model_Abstract_Logged extends Model_Abstract
 {
 	public function commit() {
 		parent::commit();

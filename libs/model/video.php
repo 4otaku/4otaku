@@ -1,6 +1,6 @@
 <?php
 
-class Model_Video extends Model_Abstract_Main
+class Model_Video extends Model_Abstract_Meta
 {
 	// Поля таблицы
 	protected $fields = array(

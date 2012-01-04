@@ -1,0 +1,41 @@
+<table width="100%">
+	<tr>
+		<td align="left">
+			<h2>
+				<a href="/news/{{news.id}}/" title="{{news.title}}">
+					{{news.title}}
+				</a>
+			</h2>
+		</td>
+		<td align="right" valign="top">
+			{% if news.in_batch %}
+				<a href="/news/{{news.id}}">
+					Комментировать
+				</a>
+				{% if news.comment_count %}
+					 ({{news.comment_count}})
+				{% endif %}
+			{% else %}
+				{{news.pretty_date}}
+			{% endif %}
+		</td>
+	</tr>
+</table>
+<table cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		{% if news.image %}
+			<td class="imageholder">
+				<div class="image-0">
+					<a href="/images/full/{{news.image}}" target="_blank">
+						<img src="/images/thumbs/{{news.image}}" />
+					</a>
+				</div>
+			</td>
+		{% endif %}
+		<td valign="top">
+			<div class="posttext">
+				{{news.text}}
+			</div>
+		</td>
+	</tr>
+</table>

@@ -1,9 +1,9 @@
 {% if _url.area == _def.area.3 and _url.1 == _def.type.2 %}
 	<div class="mini-shell margin10">
-		Графические ресурсы для создания любительских ВН. 
+		Графические ресурсы для создания любительских ВН.
 		<a href="http://wiki.4otaku.ru/%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D0%BB%D1%8E%D0%B1%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%BE%D0%B9_%D0%92%D0%9D">
 			Статья про создание
-		</a> 
+		</a>
 		(в процессе написания).
 	</div>
 {% endif %}
@@ -14,6 +14,7 @@
 	'art': 'Загрузить картинки',
 	'order': 'Оставить заказ (не забудьте прочитать правила)',
 	'pool': 'Добавить новую группу',
+	'news': 'Добавить новость',
 	'board': 'Открыть новый тред',
 	'thread': 'Ответить в тред',
 	'soku': 'Загрузить реплей'
@@ -34,13 +35,13 @@
 						 в группу {{sub.top.add_bar.pool}}
 					{% endif %}
 				</a>
-				<span class="arrow"> ↓</span> 
+				<span class="arrow"> ↓</span>
 				{% if sub.top.add_bar.pass is defined %}
 					<span class="right">
-						Пароль: <input 
-							 name="password" 
-							 class="password" 
-							 type="password" 
+						Пароль: <input
+							 name="password"
+							 class="password"
+							 type="password"
 							 rel="{{_url.3}}">
 					</span>
 				{% endif %}
@@ -56,7 +57,7 @@
 	<br />
 {% endif %}
 <div class="mini-shell addres{% if not _res %} hidden{% endif %}">
-	{% if _res %}	
+	{% if _res %}
 		<span class="span-{% if _res.error %}red{% else %}green{% endif %}">
 			{{_res.text}}
 		</span>
