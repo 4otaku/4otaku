@@ -198,7 +198,7 @@ function add_chozen_tag (values) {
 		send.push({
 			text: text,
 			color: tag_color,
-			html: '<input type="hidden" name="tags[]" value="'+
+			html: '<input type="hidden" name="tag[]" value="'+
 				value.replace('"', '&quot;')+'" />'
 		});
 	});

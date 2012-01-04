@@ -49,6 +49,11 @@ class input__common extends engine
 
 	function edit_tag() {
 		global $check; global $def;
+
+		if (is_array(query::$post['tags'])) {
+			query::$post['tags'] = array_merge(query::$post['tags'], (array) query::$post['tag']);
+		}
+
 		if ($check->num(query::$post['id']) && $check->lat(query::$post['type'])) {
 			$data = obj::db()->sql('select area, tag from '.query::$post['type'].' where id='.query::$post['id'],1);
 			if ($data['area'] != $def['area'][1]) {
