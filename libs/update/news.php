@@ -39,6 +39,14 @@ class Update_News extends Update_Abstract
 		$this->model['pretty_text'] = $data['text'];
 	}
 
+	protected function image($data) {
+
+		$image = explode('.', $data['image']);
+
+		$this->model['image'] = $image[0];
+		$this->model['extension'] = $image[1];
+	}
+
 	protected function category($data) {
 
 		$worker = new Transform_Meta();

@@ -160,7 +160,13 @@ class output__rss extends engine
 	}
 
 	function convert_news($item) {
-		if (trim($item['image'])) $item['image'] = current(explode('|',$item['image']));
+		$worker = new Read_News();
+		$worker->get_item($item['id']);
+		$news = $worker->get_data('items');
+		$item = current($news);
+		$item['type'] = 'news';
+
+		$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/news/'.$item['url'].'/';
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);

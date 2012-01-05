@@ -294,8 +294,13 @@ class output__search extends engine
 	}
 
 	function fetch_news($id) {
-		$news = obj::db()->sql('select * from news where id='.$id,1);
-		$news['template'] = 'news'; $news['navi'] = '/news/';
+		$worker = new Read_News();
+		$worker->get_item($id);
+		$news = $worker->get_data('items');
+		$news = current($news);
+
+		$news['template'] = 'news';
+		$news['navi'] = '/news/';
 		return $news;
 	}
 

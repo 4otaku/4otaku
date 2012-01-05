@@ -29,12 +29,14 @@
 	</tr>
 	<tr id="transparent" class="news_images">
 		<td colspan="2">
-			<div
-				 style="background-image: url(/images/news/thumb/{{image}}.jpg);"
-				 class="left right20">
-				<img class="cancel" src="/images/cancel.png">
-				<input type="hidden" name="image" value="{{image}}.{{extension}}">
-			</div>
+			{% if image %}
+				<div
+					 style="background-image: url(/images/news/thumb/{{image}}.jpg);"
+					 class="left right20">
+					<img class="cancel" src="/images/cancel.png">
+					<input type="hidden" name="image" value="{{image}}.{{extension}}">
+				</div>
+			{% endif %}
 		</td>
 	</tr>
 </table>
