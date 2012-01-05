@@ -1,6 +1,6 @@
 <?php
 
-class Model_News extends Model_Abstract_Logged
+class Model_News extends Model_Abstract_Meta
 {
 	// Поля таблицы
 	protected $fields = array(

@@ -9,11 +9,13 @@
 				</h2>
 			</td>
 			<td align="right" valign="top">
-				<a href="/video/{{id}}">
-					Комментировать
-				</a>
-				{% if video.comment_count %}
-					 ({{video.comment_count}})
+				{% if video.in_batch %}
+					<a href="/video/{{id}}">
+						Комментировать
+					</a>
+					{% if video.comment_count %}
+						 ({{video.comment_count}})
+					{% endif %}
 				{% endif %}
 			</td>
 		</tr>
