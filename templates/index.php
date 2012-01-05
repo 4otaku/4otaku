@@ -72,7 +72,7 @@
 				</div>
 				<? if (isset($data['main']['news']['title'])) { ?>
 					<div class="compressed_news mini-shell margin10 clear<?=($sets['news']['read'] < $data['main']['news']['sortdate'] ? ' hidden' : '');?> margin30">
-						<a href="<?=$def['site']['dir']?>/news/<?=$data['main']['news']['url'];?>/">
+						<a href="<?=$def['site']['dir']?>/news/<?=$data['main']['news']['id'];?>/">
 							<?=$data['main']['news']['title'];?>
 						</a>
 						<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : ''); ?>
@@ -215,18 +215,18 @@
 					<div class="left index_largecolumn<?=($sets['news']['read'] >= $data['main']['news']['sortdate'] ? ' hidden' : '');?>">
 						<div class="post mainblock">
 							<p class="head">
-								<a href="<?=$def['site']['dir']?>/news/<?=$data['main']['news']['url'];?>/">
+								<a href="<?=$def['site']['dir']?>/news/<?=$data['main']['news']['id'];?>/">
 									<?=$data['main']['news']['title'];?>
 								</a>
 							</p>
 							<div class="entry">
-								<a href="<?=$def['site']['dir']?>/images/full/<?=$data['main']['news']['image'];?>" target="_blank">
-									<img src="<?=$def['site']['dir']?>/images/thumbs/<?=$data['main']['news']['image'];?>" align="left" class="news_image" />
+								<a href="<?=$def['site']['dir']?>/images/news/full/<?=$data['main']['news']['image'];?>.<?=$data['main']['news']['extension'];?>" target="_blank">
+									<img src="<?=$def['site']['dir']?>/images/news/thumb/<?=$data['main']['news']['image'];?>.jpg" align="left" class="news_image" />
 								</a>
 								<?=stripslashes($data['main']['news']['text']);?>
 							</div>
 							<span class="semi_large">
-								<a href="<?=$def['site']['dir']?>/news/<?=$data['main']['news']['url'];?>/">
+								<a href="<?=$def['site']['dir']?>/news/<?=$data['main']['news']['id'];?>/">
 									Комментировать
 								</a>.
 								<?=($data['main']['news']['comment_count'] ? ' ('.$data['main']['news']['comment_count'].')' : '');?>
