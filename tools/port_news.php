@@ -27,3 +27,4 @@ Database::sql('update news set author = \'|nameless|\' where 1;');
 Database::sql('update news set pretty_text = \'\' where 1;');
 
 Database::sql('INSERT INTO  `category` (`id` ,`alias` ,`name` ,`area`)VALUES (NULL ,  \'website\',  \'Новости сайта\',  \'|news|\');');
+Database::sql('INSERT INTO  `category` (`id` ,`alias` ,`name` ,`area`)VALUES (NULL ,  \'otaku\',  \'Новости индустрии\',  \'|news|\');');

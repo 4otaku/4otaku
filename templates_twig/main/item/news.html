@@ -2,4 +2,7 @@
 	<div class="display_item" id="news-{{news.id}}">
 		{% include 'main/item/news/core.html' %}
 	</div>
+	{% if news.is_editable %}
+		{% include 'main/item/news/edit.html' %}
+	{% endif %}
 </div>

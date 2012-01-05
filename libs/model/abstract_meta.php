@@ -8,9 +8,9 @@ abstract class Model_Abstract_Meta extends Model_Abstract_Logged
 
 		parent::set($key, $value);
 
-		$meta = (array) $this->get('meta');
-
 		if (in_array($key, $this->meta_fields)) {
+			$meta = (array) $this->get('meta', true);
+
 			if (is_string($value)) {
 				$value = array_unique(array_filter(explode('|', $value)));
 			}
@@ -19,11 +19,15 @@ abstract class Model_Abstract_Meta extends Model_Abstract_Logged
 			foreach ((array) $value as $item) {
 				$meta[$key][$item] = array();
 			}
+
+			parent::set('meta', $meta);
 		}
 
-		parent::set('meta', $meta);
-
 		return $this;
+	}
+
+	protected function needs_load($key) {
+		return in_array($key, $this->fields) || $key == 'meta';
 	}
 }
 

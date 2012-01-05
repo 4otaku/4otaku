@@ -27,6 +27,9 @@ abstract class Model_Abstract implements ArrayAccess
 	// Знак того, что записи нет в базе
 	private $is_phantom = false;
 
+	// Знак того, что загрузка уже выполнялась
+	private $loaded = false;
+
 	public function __construct($data = array()) {
 
 		if (is_numeric($data) && $this->primary == array('id')) {
@@ -43,6 +46,10 @@ abstract class Model_Abstract implements ArrayAccess
 					$this->set_phantom();
 					break;
 				}
+			}
+
+			if (count($this->fields) == count($this->data)) {
+				$this->set_loaded();
 			}
 		}
 
@@ -80,19 +87,32 @@ abstract class Model_Abstract implements ArrayAccess
 		return $this->is_phantom;
 	}
 
+	public function set_loaded() {
+		$this->loaded = true;
+	}
+
+	public function is_loaded() {
+		return $this->loaded;
+	}
+
 	public function load() {
+		if ($this->is_loaded()) {
+			return $this;
+		}
+
 		list($condition, $params) = $this->build_condition();
 
 		if (!empty($condition)) {
 			$data = Database::get_full_row($this->table,
 				$condition, $params);
-
 			if (is_array($data)) {
 				$this->set_array($data);
 				$this->unchanged_data = $data;
 			} else {
 				$this->set_phantom();
 			}
+
+			$this->set_loaded();
 		}
 
 		return $this;
@@ -107,14 +127,18 @@ abstract class Model_Abstract implements ArrayAccess
 			return $this->additional_data[$key];
 		}
 
-		if (!$silent && in_array($key, $this->fields)) {
+		if (!$silent && $this->needs_load($key) && !$this->is_loaded()) {
 
 			$this->load();
 
-			return $this->data[$key];
+			return $this->get($key, true);
 		}
 
 		return null;
+	}
+
+	protected function needs_load($key) {
+		return in_array($key, $this->fields);
 	}
 
 	public function get_id() {
@@ -251,6 +275,12 @@ abstract class Model_Abstract implements ArrayAccess
 	}
 
 	public function offsetExists($offset) {
+		if (!$this->data[$offset] &&
+			!$this->additional_data[$offset] && !$this->is_loaded()) {
+
+			$this->load();
+		}
+
 		return isset($this->data[$offset]) ||
 			isset($this->additional_data[$offset]);
 	}

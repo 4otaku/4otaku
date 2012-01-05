@@ -1,0 +1,36 @@
+<div class="edit_wrapper" rel="news">
+	<table width="100%">
+		<tr>
+			<td>
+				<select name="edit_type" id="edit_type">
+					<option value="title">Заголовок</option>
+					<option value="image">Изображение</option>
+					<option value="text">Текст</option>
+					<option value="author">Автора</option>
+					<option value="category">Категории</option>
+				</select>
+				<input type="submit" value="Редактировать" class="load_edit_field" rel="{{id}}" />
+			</td>
+			<td align="right">
+				<div class="right">
+					<form method="post" enctype="multipart/form-data">
+						<input type="hidden" name="action" value="Update" />
+						<input type="checkbox" name="sure" />
+						<input type="hidden" name="id" value="{{id}}" />
+						{% if news.area == 'main' %}
+							<input type="hidden" name="area" value="workshop" />
+							<input type="submit" value="Убрать" class="submit" />
+						{% else %}
+							<input type="hidden" name="area" value="main" />
+							<input type="submit" value="Одобрить" class="submit" />
+						{% endif %}
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<div id="loader" class="hidden center loader">
+		<img src="/images/ajax-loader.gif">
+	</div>
+	<div id="edit" class="edit_field hidden"></div>
+</div>

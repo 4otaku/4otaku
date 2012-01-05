@@ -1,0 +1,43 @@
+{% include "/edit/top.html" %}
+
+<script type="text/javascript" src="/jss/m/?b=jss&f=edit_form.js,fileupload.js,add/news.js"></script>
+<table width="100%">
+	<tr>
+		<td width="20%">
+			Загрузить картинку
+		</td>
+		<td>
+			<table>
+				<tr>
+					<td>
+						<div id="news-image"></div>
+					</td>
+					<td>
+						<img class="processing-image hidden" src="/images/ajax-processing.gif" />
+					</td>
+					<td>
+						<span class="processing-image hidden">Изображение загружается.</span>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" id="error">
+
+		</td>
+	</tr>
+	<tr id="transparent" class="news_images">
+		<td colspan="2">
+			<div
+				 style="background-image: url(/images/news/thumb/{{image}}.jpg);"
+				 class="left right20">
+				<img class="cancel" src="/images/cancel.png">
+				<input type="hidden" name="image" value="{{image}}.{{extension}}">
+			</div>
+		</td>
+	</tr>
+</table>
+<input type="hidden" name="edit" value="image" />
+
+{% include "/edit/bottom.html" %}
