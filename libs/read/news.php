@@ -32,36 +32,29 @@ class Read_News extends Read_Main
 		if (sets::user('rights')) {
 			$item['is_editable'] = true;
 		}
+		$this->load_meta($item);
 
 		$this->data['items'] = array($id => $item);
 	}
 
 	protected function get_items() {
 
-		$start = ($this->page - 1) * $this->per_page;
-
-		$condition = 'area != ?';
-		$params = 'deleted';
-
-		$items = Database::set_counter()->order('sortdate')
-			->limit($this->per_page, $start)
-			->get_full_vector('news', $condition, $params);
-
-		$this->count = Database::get_counter();
+		$items = $this->load_batch('news');
 
 		foreach ($items as $id => &$item) {
-			$item['in_batch'] = true;
 			$item['id'] = $id;
 			$item = new Model_News($item);
 
-			if (sets::user('rights')) {
+			if ($this->area == 'workshop' || sets::user('rights')) {
 				$item['is_editable'] = true;
 			}
 		}
 
+		$this->load_meta($items);
+
 		$this->data['items'] = $items;
 		if ($this->count > $this->per_page) {
-			$this->data['navi'] = $this->get_bottom_navi('post');
+			$this->data['navi'] = $this->get_bottom_navi('news');
 		}
 	}
 
@@ -85,49 +78,5 @@ class Read_News extends Read_Main
 		}
 
 		return def::site('name');
-	}
-
-	protected function display_index($url) {
-
-		$this->get_items();
-	}
-
-	protected function display_single_item($url) {
-
-		$this->set_page($url, 4);
-
-		$this->get_item($url[1]);
-
-		$item = reset($this->data['items']);
-		if ($item['area'] == 'deleted') {
-			$this->do_output($this->error_template);
-			return;
-		}
-
-		$this->data['comment'] = $this->get_comments($url[1]);
-		if ($this->count > $this->per_page) {
-			$this->data['navi'] = $this->get_comment_navi($url[1]);
-		}
-
-		$this->data['single'] = true;
-	}
-
-	protected function display_show($url) {
-
-		$this->get_item($url[2]);
-
-		if ($url[3] == 'batch') {
-			foreach ($this->data['items'] as $item) {
-				$item['in_batch'] = true;
-			}
-		}
-
-		$this->template = $this->show_template;
-	}
-
-	protected function display_page($url) {
-
-		$this->set_page($url, 2);
-		$this->get_items();
 	}
 }

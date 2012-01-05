@@ -5,11 +5,13 @@ class Model_News extends Model_Abstract_Meta
 	// Поля таблицы
 	protected $fields = array(
 		'id',
-		'url',
 		'title',
 		'text',
 		'pretty_text',
 		'image',
+		'extension',
+		'author',
+		'category',
 		'comment_count',
 		'last_comment',
 		'pretty_date',
