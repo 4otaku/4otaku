@@ -37,6 +37,10 @@ class dynamic__add
 		return array('category' => $this->get_categories('post'));
 	}
 
+	public function news() {
+		return array('category' => $this->get_categories('news'));
+	}
+
 	public function replay() {
 		return true;
 	}
