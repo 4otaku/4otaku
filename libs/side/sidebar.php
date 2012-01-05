@@ -49,10 +49,10 @@ class Side_Sidebar extends engine
 			krsort($return);
 			$return = array_slice($return,0,$sets['pp']['latest_comments'],true);
 			foreach ($return as &$comment) {
-				if ($comment['place'] != 'art') $comment['title'] = obj::db()->sql('select title from '.$comment['place'].' where ('.($comment['place']== 'news' ? 'url' : 'id').'="'.$comment['post_id'].'") limit 1',2);
-				else {
-					if (substr($comment['post_id'],0,3) == 'cg_') $comment['title'] = 'CG №'.substr($comment['post_id'],3);
-					else $comment['title'] = 'Изображение №'.$comment['post_id'];
+				if ($comment['place'] != 'art') {
+					$comment['title'] = obj::db()->sql('select title from '.$comment['place'].' where id="'.$comment['post_id'].'" limit 1',2);
+				} else {
+					$comment['title'] = 'Изображение №'.$comment['post_id'];
 				}
 				$comment['text'] = obj::transform('text')->cut_long_text(strip_tags($comment['text'],'<br><em><strong><s>'),100);
 				$comment['text'] = preg_replace('/(<br(\s[^>]*)?>\n*)+/si','<br />',$comment['text']);

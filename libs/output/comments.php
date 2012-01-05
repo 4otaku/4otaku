@@ -50,18 +50,17 @@ class output__comments extends engine
 				$def['type'][1] => "id, comment_count, title, id as image, last_comment",
 				$def['type'][2] => "id, comment_count, id as title, thumb as image, last_comment",
 				"orders" => "id, comment_count, title, email as image, last_comment",
-				"news" => "url as id, comment_count, title, image, last_comment"
+				"news" => "id, comment_count, title, image, last_comment"
 			);
 			foreach ($return as $one) {
-				if ($one['place'] != 'news') $queries[$one['place']] .= '" or id="'.$one['post_id'];
-				else  $queries[$one['place']] .= '" or url="'.$one['post_id'];
+				$queries[$one['place']] .= '" or id="'.$one['post_id'];
 				$comment_query .= ' or (post_id="'.$one['post_id'].'" and place="'.$one['place'].'")';
 			}
 			$return = array();
 			foreach ($queries as $key => $query) {
 				if ($_comments = obj::db()->sql('select '.$select[$key].', "'.$key.'" as "place" from '.$key.' where ('.substr($query,5).'")','last_comment')) {
 					$return = $return + $_comments;
-				}				
+				}
 			}
 			krsort($return);
 			$comments = obj::db()->sql('select * from comment where (('.substr($comment_query,4).') and area != "deleted") order by sortdate');
@@ -73,7 +72,7 @@ class output__comments extends engine
 					case $def['type'][0]:
 						$image = Database::order('order', 'asc')
 							->get_field('post_image', 'file', 'post_id = ?', $one['id']);
-						
+
 						$one['image'] = '/images/post/thumb/'.$image.'.jpg';
 						break;
 					case $def['type'][1]:
@@ -89,8 +88,7 @@ class output__comments extends engine
 						$one['title'] = "Заказ: ".$one['title'];
 						break;
 					case "news":
-						$images = explode('|',$one['image']);
-						$one['image'] = '/images/thumbs/'.$images[0];
+						$one['image'] = '/images/news/thumb/'.$one['image'].'.jpg';
 						break;
 				}
 			}
