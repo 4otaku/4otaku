@@ -73,7 +73,7 @@ class output__index extends engine
 			$return['wiki'] = $wiki['rc_title'];
 		}
 
-		if ($return['news'] = obj::db()->sql('select title,text,image,extension,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
+		if ($return['news'] = obj::db()->sql('select id,title,text,image,extension,comment_count,sortdate from news where area="main" order by sortdate desc limit 1',1)) {
 			$return['news']['text'] = preg_replace('/\{\{\{(.*)\}\}\}/ueU','get_include_contents("templates$1")',$return['news']['text']);
 		} else {
 			$return['news']['sortdate'] = 0;
