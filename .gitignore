@@ -31,6 +31,10 @@ images/post/full/*
 !images/post/full/index.php
 images/post/thumb/*
 !images/post/thumb/index.php
+images/news/full/*
+!images/news/full/index.php
+images/news/thumb/*
+!images/news/thumb/index.php
 images/booru/full/*
 !images/booru/full/index.php
 images/booru/thumbs/*
