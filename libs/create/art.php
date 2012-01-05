@@ -152,8 +152,8 @@ class Create_Art extends Create_Abstract
 			$data['password'] = '';
 		}
 
-		if (empty($data['tags'])) {
-			$data['tags'] = '';
+		if (empty($data['tag'])) {
+			$data['tag'] = '';
 		}
 
 		if (!isset($data['source'])) {
