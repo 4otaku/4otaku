@@ -133,7 +133,7 @@ class dynamic__art extends engine
 
 				if(!empty($dtag))
 				{
-					$this->substract_tag('prostavte_tegi', $id);
+					$this->substract_tag('tagme', $id);
 					foreach ($request as $key => $value)
 					{
 						if(!$value)
@@ -197,7 +197,7 @@ class dynamic__art extends engine
 						$this->add_category('nsfw',$id);
 						$this->substract_category('none',$id);
 					}
-					$this->substract_tag('prostavte_tegi', $id);
+					$this->substract_tag('tagme', $id);
 					foreach ($request as $key => $value)
 					{
 						if(!$value)
