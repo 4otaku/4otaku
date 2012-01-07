@@ -124,6 +124,7 @@ abstract class Read_Main extends Read_Abstract
 		}
 
 		foreach ($meta as $table => $data) {
+
 			$aliases = array_keys($data);
 			if ($table != 'tag') {
 
@@ -148,6 +149,7 @@ abstract class Read_Main extends Read_Abstract
 		}
 
 		foreach ($meta as $table => $data) {
+
 			foreach ($data as $alias => $item) {
 
 				$url_meta = $this->meta;
@@ -177,6 +179,7 @@ abstract class Read_Main extends Read_Abstract
 						$data[$alias] = $meta[$type][$alias];
 					}
 				}
+				uasort($data, 'Transform_Array::meta_sort');
 			}
 			$model->set('meta', $model_meta);
 		}
