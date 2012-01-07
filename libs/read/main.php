@@ -112,6 +112,12 @@ abstract class Read_Main extends Read_Abstract
 			$models = array($models);
 		}
 
+		foreach ($models as $key => $model) {
+			if ($model->is_phantom()) {
+				unset($models[$key]);
+			}
+		}
+
 		$meta = array();
 		foreach ($models as $model) {
 			$meta = array_replace_recursive($meta, $model->get('meta'));
@@ -383,7 +389,8 @@ abstract class Read_Main extends Read_Abstract
 		$this->get_item($url[1]);
 
 		$item = reset($this->data['items']);
-		if ($item['area'] == 'deleted') {
+
+		if ($item->is_phantom() || $item['area'] == 'deleted') {
 			$this->do_output($this->error_template);
 			return;
 		}
