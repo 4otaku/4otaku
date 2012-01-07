@@ -100,7 +100,7 @@ class Update_Video extends Update_Abstract
 		// TODO: перемести input__common::transfer в Model_Common
 		input__common::transfer(array(
 			'sure' => 1,
-			'do' => array('post', 'transfer'),
+			'do' => array('video', 'transfer'),
 			'where' => $data['area'],
 			'id' => $this->model->get_id()
 		));
