@@ -54,7 +54,7 @@
 							</td>
 							<td>
 								<img
-									 class="processing-torrent hidden" 
+									 class="processing-torrent hidden"
 									 src="/images/ajax-processing.gif" />
 							</td>
 							<td>
@@ -206,7 +206,7 @@
 							<select data-placeholder=" "
 								 multiple
 								 id="chozen"
-								 name="tags[]">
+								 name="tag[]">
 							</select>
 						</div>
 					<? } ?>

@@ -29,7 +29,7 @@
 								</div>
 							</td>
 						</tr>
-					</table>					
+					</table>
 				</td>
 			</tr>
 			<tr>
@@ -62,7 +62,7 @@
 							<select data-placeholder=" "
 								 multiple
 								 id="chozen"
-								 name="tags[]">
+								 name="tag[]">
 							</select>
 						</div>
 					<? } ?>

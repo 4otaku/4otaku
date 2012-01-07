@@ -101,7 +101,7 @@
 							<select data-placeholder=" "
 								 multiple
 								 id="chozen"
-								 name="tags[]">
+								 name="tag[]">
 							</select>
 						</div>
 					<? } ?>
