@@ -60,7 +60,7 @@ $(".chzn-choices").live('keydown', function(e) {
 		var box = $("#chozen");
 		box.trigger('liszt:selected', e);
 	} else if (e.which == 13 || e.which == 32 || e.which == 9 ||
-		(e.which == 188 && e.shiftKey == false)) {
+		(e.which == 188 && e.shiftKey == false && !$.browser.webkit)) {
 
 		e.preventDefault();
 
