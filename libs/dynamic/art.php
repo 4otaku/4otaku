@@ -123,11 +123,24 @@ class dynamic__art extends engine
 					$dtagstr[] = $node->getAttribute('tags');
 				}
 
+				$request = array('artist' => true, 
+								'series' => true, 
+								'character' => true);
+				
 				$dtags[] = explode(" ", $dtagstr[0]);
-				$this->filter_external_tags($dtags[0]);
+				$dtags[0] = $this->filter_external_tags($dtags[0], $request);
 				$dtag = implode(", ", $dtags[0]);
 
-				$this->add_tag($dtag, $id);
+				if(!empty($dtag))
+				{
+					$this->substract_tag('tagme', $id);
+					foreach ($request as $key => $value)
+					{
+						if(!$value)
+							$this->substract_tag($key . '_request', $id);
+					}
+					$this->add_tag($dtag, $id);
+				}
 			}
 		}
 		else if ($section == 'iqdb')
@@ -173,15 +186,23 @@ class dynamic__art extends engine
 				if (isset($diff_arr))
 				{
 					krsort($diff_arr);															/* Может быть оно уже отсортировано iqdb */
-
-					$dtag = html_entity_decode(implode(", ", $this->filter_external_tags(reset($diff_arr))));
-
+					$request = array('artist' => true, 
+									'series' => true, 
+									'character' => true);
+					$diff_arr = $this->filter_external_tags(reset($diff_arr), $request);
+					$dtag = html_entity_decode(implode(", ", $diff_arr));
+					
 					if ($explicit)
 					{
 						$this->add_category('nsfw',$id);
 						$this->substract_category('none',$id);
 					}
-					$this->substract_tag('prostavte_tegi', $id);
+					$this->substract_tag('tagme', $id);
+					foreach ($request as $key => $value)
+					{
+						if(!$value)
+							$this->substract_tag($key . '_request', $id);
+					}
 					$this->add_tag($dtag, $id);
 				}
 				else
@@ -201,20 +222,20 @@ class dynamic__art extends engine
 		}
 	}
 
-	function filter_external_tags($tags)
+	function filter_external_tags($tags, &$request)
 	{
 		foreach ($tags as $key => &$tag)
 		{
-			if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); }
-			else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); }
-			else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; }
+			if (strpos($tag, '_(artist)') > 0) 				{ $tag = '<artist>' . str_replace('_(artist)', '', $tag); $request['artist'] = false; }
+			else if (strpos($tag, '_(copyright)') > 0) 		{ $tag = '<copyright>' . str_replace('_(copyright)', '', $tag); $request['series'] = false; }
+			else if (strpos($tag, '_(character)') > 0)		{ $tag = '<character>' . $tag; $request['character'] = false; }
 
 			if (strpos($tag, 'hard_translated') === (int)0) { }
 			else if (strpos($tag, 'translated') === (int)0)	{ $tag = 'translation_request' . str_replace('translated', '', $tag); }
 
 			if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
 		}
-
+		
 		return $tags;
 	}
 
