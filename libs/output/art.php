@@ -282,7 +282,8 @@ class output__art extends engine
 				art_pack as p left join
 				art_in_pack as a on
 				a.pack_id = p.id
-			where a.art_id = $id");
+			where a.art_id = $id
+			group by p.id");
 	}
 
 	public function get_pools ($id) {
@@ -294,7 +295,8 @@ class output__art extends engine
 					AND a.order - 1 = l.order
 				LEFT JOIN art_in_pool AS r ON a.pool_id = r.pool_id
 					AND a.order + 1 = r.order
-			WHERE a.art_id = $id");
+			WHERE a.art_id = $id
+			GROUP BY p.id");
 	}
 
 	public function get_rating ($id) {
