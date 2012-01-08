@@ -28,13 +28,12 @@ class input__comment extends input__common
 		$comment = obj::transform('text')->format(query::$post['text']);
 
 		if ($url[1] == 'order') $table = 'orders'; else $table = $url[1];
-		$field = $table == 'news' ? 'url' : 'id';
 		$item_id = in_array($url[2], $def['area']) ? $url[3] : $url[2];
 
 		if (substr($item_id,0,3) == 'cg_') {
 			$area = $def['area'][0];
 		} else {
-			$area = obj::db()->sql('select area from '.$table.' where '.$field.'="'.$item_id.'"',2);
+			$area = obj::db()->sql('select area from '.$table.' where id="'.$item_id.'"',2);
 		}
 
 		if (trim(strip_tags(str_replace('<img', 'img', $comment))) && $area) {
@@ -46,11 +45,7 @@ class input__comment extends input__common
 						$_SERVER['REMOTE_ADDR'],query::$cookie,$comment,query::$post['text'],'',$date = obj::transform('text')->rudate(true),
 						$time = ceil(microtime(true)*1000),$area));
 
-			if ($table == 'news') {
-				obj::db()->sql('update news set comment_count=comment_count+1, last_comment='.$time.' where url="'.$item_id.'"',0);
-			} else {
-				obj::db()->sql('update '.$table.' set comment_count=comment_count+1, last_comment='.$time.' where id='.$item_id,0);
-			}
+			obj::db()->sql('update '.$table.' set comment_count=comment_count+1, last_comment='.$time.' where id='.$item_id,0);
 
 			$mail = $this->check_simple_subscriptions($table,$item_id);
 			$mail = array_merge($mail, $this->check_complex_subscriptions($table,$item_id));
@@ -133,10 +128,7 @@ class input__comment extends input__common
 				}
 			}
 
-			if ($url[1] == 'news')
-				obj::db()->sql('update news set comment_count=comment_count-1 where url="'.$url[2].'"',0);
-			else
-				obj::db()->sql('update '.($url[1] == 'order' ? 'orders' : $url[1]).' set comment_count=comment_count-1 where id='.$url[2],0);
+			obj::db()->sql('update '.($url[1] == 'order' ? 'orders' : $url[1]).' set comment_count=comment_count-1 where id='.$url[2],0);
 		}
 	}
 
