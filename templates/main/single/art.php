@@ -78,7 +78,7 @@
 										</span>
 										<span class="hidden variant_resized_info">
 											 (<?=$item['resized'];?>)
-										</span>										
+										</span>
 									<? } ?>
 									<span rel="-35">
 										<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$item['thumb'];?>.jpg" />
@@ -97,7 +97,7 @@
 											</span>
 											<span class="hidden variant_resized_info">
 												 (<?=$similar['resized'];?>)
-											</span>	
+											</span>
 										<? } ?>
 										<span rel="-35">
 											<img class="hiddenthumb" src="#" rel="/images/booru/thumbs/<?=$similar['thumb'];?>.jpg" />
@@ -174,7 +174,7 @@
 						<? }
 						if ($url[1] != 'search') { ?>
 							<div<?=(!empty($reason) ? ' class="hidden hidden_art"' : "");?>>
-																
+
 								<div class="clear margin20 mini-shell art-bar resize-bar<?=(!$item['resized'] || !$sets['art']['resized'] ? ' hidden' : '');?>">
 									<a href="#" class="disabled <?=($item['animated'] ? 'animated ' : '');?>booru_show_toggle" rel="<?=$item['extension'];?>">
 										Показать в полном размере
@@ -186,7 +186,7 @@
 										 Скачать
 									</a>.
 								</div>
-								
+
 								<? if (!$item['resized'] || !$sets['art']['resized']) { ?>
 									<div class="booru_img image booru_translation_toggle" rel="full">
 										<img src="<?=$def['site']['dir']?>/images/booru/full/<?=$item['md5'].'.'.$item['extension'];?>">
@@ -208,7 +208,7 @@
 												<?
 											}
 										?>
-									</div>						
+									</div>
 								<? } ?>
 							</div>
 						<? } else { ?>
@@ -228,7 +228,7 @@
 					<div class="wrapper">
 						<p class="meta">
 							<?=$item['pretty_date'];?> |
-							<? if (!empty($item['rating'])) { ?>
+							<? if (!$data['feed'] && !empty($item['rating'])) { ?>
 								 <span class="art_vote_wrapper">
 									<img
 										 src="/images/minus.gif"
@@ -315,10 +315,12 @@
 									<?
 								}
 							?>
+							<? if (!$data['feed']) { ?>
 							 |
 							 <a href="<?=$def['site']['dir']?>/art/download/<?=$item['md5'].'.'.$item['extension'];?>" target="_blank">
 								 Скачать
 							</a>
+							<? } ?>
 							<?
 								if ($sets['user']['rights']) {
 									?>
