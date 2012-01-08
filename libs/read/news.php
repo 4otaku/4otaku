@@ -59,13 +59,9 @@ class Read_News extends Read_Main
 	}
 
 	protected function get_navigation() {
-		return array(
-			'tag' => $this->get_navi_tag('post'),
-			'category' => $this->get_navi_category('post'),
-			'language' => $this->get_navi_language(),
-			'rss' => $this->get_navi_rss('post')
-		);
+		return array();
 	}
+
 	protected function get_title() {
 
 		$short = def::site('short_name') . ' ';

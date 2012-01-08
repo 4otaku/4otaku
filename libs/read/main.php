@@ -375,7 +375,7 @@ abstract class Read_Main extends Read_Abstract
 		$return['all'] = $this->page == 'all';
 		$return['name'] = 'Страница комментариев';
 
-		$return['base'] = '/post/'.$item_id.'/comments/';
+		$return['base'] = '/'.$this->get_place().'/'.$item_id.'/comments/';
 
 		return $return;
 	}
