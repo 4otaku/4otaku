@@ -35,6 +35,7 @@ class Read_News extends Read_Main
 		$this->load_meta($item);
 
 		$this->data['items'] = array($id => $item);
+		$this->data['base'] = '/news/';
 	}
 
 	protected function get_items() {
