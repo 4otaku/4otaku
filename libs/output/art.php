@@ -1,4 +1,4 @@
-<?
+<?php
 
 class output__art extends engine
 {

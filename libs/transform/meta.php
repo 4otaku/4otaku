@@ -77,7 +77,8 @@ class Transform_Meta
 
 	function add_tags($tags, $update = false){
 		foreach ($tags as $key => $tag) {
-			$tag = str_replace(array('&amp;'), array('&'), $tag);
+
+			$tag = undo_safety($tag);
 
 			if ($check = obj::db()->sql('select alias from tag where name = "'.$tag.'" or locate("|'.$tag.'|",variants) or alias="'.$tag.'"',2)) {
 				if ($update) obj::db()->sql('update tag set '.$update.' = '.$update.' + 1 where alias="'.$check.'"',0);
@@ -124,7 +125,8 @@ class Transform_Meta
 	public static function make_alias($word) {
 		$word = strtolower(self::jap2lat(self::ru2lat(undo_safety($word))));
 		$word = str_replace(' ','_',$word);
-		return preg_replace('/[^a-z_\d]/eui','urlencode("$0")',$word);
+		$word = preg_replace('/[^a-z_\d]/eui','urlencode("$0")',$word);
+		return str_replace('%5C%27', '%27', $word);
 	}
 
 	/* Не трогаем - тут какая-то аццкая хрень с пробелами, работает только так */
