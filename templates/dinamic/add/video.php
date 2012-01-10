@@ -92,7 +92,7 @@
 				</td>
 				<td class="inputdata">
 					<? if (!sets::edit('newtags')) { ?>
-						<input size="65%" name="tags" value="" type="text">
+						<input size="65%" name="tag" value="" type="text">
 					<? } else { ?>
 						<div id="add_tags">
 							<div class="tags-loader">
@@ -123,7 +123,7 @@
 				</td>
 				<td class="inputdata">
 					&nbsp;
-					<?=($sets['user']['rights'] ? '<input type="checkbox" name="transfer_to_main" /> Сразу на главную' : '');?>
+					<?=($sets['user']['rights'] ? '<input type="checkbox" name="transfer_to" value="main" /> Сразу на главную' : '');?>
 				</td>
 			</tr>
         </tbody>

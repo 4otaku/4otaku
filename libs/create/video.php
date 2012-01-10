@@ -38,7 +38,7 @@ class Create_Video extends Create_Abstract
 
 		$worker = new Transform_Meta();
 
-		$parsed_tags = $worker->parse_array($post['tags']);
+		$parsed_tags = $worker->parse_array($post['tag']);
 		$tags = $worker->add_tags($parsed_tags);
 		$category = $worker->category($post['category']);
 		$parsed_author = $worker->parse($post['author'], def::user('author'));
