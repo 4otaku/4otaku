@@ -11,12 +11,17 @@ class Http
 		"Keep-Alive" => "300",
 		"Accept-Charset" => "UTF-8,Windows-1251,ISO-8859-1,q=0.7,*,q=0.7",
 		"Accept-Language" => "ru,en-us,en,q=0.5",
-		"Pragma" => "",
 	);
 
 	protected $default_options = array(
 		CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12",
 		CURLOPT_FOLLOWLOCATION => false
+	);
+
+	protected $range = false;
+
+	protected $norange_domains = array(
+		'4shared.com'
 	);
 
 	protected $response_header = array();
@@ -49,8 +54,32 @@ class Http
 
 		foreach($urls as $url) {
 			$request = new MultiRequest_Request($url);
+
+			if ($this->range) {
+				$domain = parse_url($url, PHP_URL_HOST);
+
+				if (!empty($domain)) {
+					$domain = preg_replace('/^www\./i', '', $domain);
+					if (!in_array($domain, $this->norange_domains)) {
+						$request->setCurlOption(CURLOPT_RANGE, $this->range);
+					}
+				}
+			}
+
 			$this->worker->pushRequestToQueue($request);
 		}
+
+		return $this;
+	}
+
+	public function enable_limit($limit) {
+		$this->range = '1-' . $limit;
+
+		return $this;
+	}
+
+	public function disable_limit() {
+		$this->range = false;
 
 		return $this;
 	}
@@ -59,6 +88,18 @@ class Http
 		$this->worker->start();
 
 		return $this;
+	}
+
+	public function set_debug() {
+		$this->worker->onRequestComplete(array($this, "notify_error"));
+	}
+
+	public function notify_error($request) {
+		$error = $request->getFailException();
+		if ($error && $request->getCode() != 206) {
+			ob_end_flush();
+			var_dump($error);
+		}
 	}
 
 	public function flush () {
@@ -83,18 +124,18 @@ class Http
 	public function get_headers ($url) {
 		return $this->response_header[$url];
 	}
-	
+
 	public function get_full ($url) {
 		$headers = $this->get_headers($url);
 		$html = $this->get($url);
-		
+
 		$string = '';
 		foreach ($headers as $type => $header) {
 			$string .= "$type: $header\n";
 		}
-		
+
 		$string .= "\n$html";
-		
+
 		return $string;
 	}
 

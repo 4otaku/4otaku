@@ -14,6 +14,8 @@ class Cron_Post_Gouf extends Cron_Abstract
 	protected $works = array();
 	protected $broken = array();
 
+	protected $debug_mode = false;
+
 	protected $worker;
 
 	public function __construct() {
@@ -44,8 +46,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 		}
 
 		$this->worker = new Http(array(
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_RANGE => "1-" . self::MAX_DOWNLOAD_SIZE
+			CURLOPT_FOLLOWLOCATION => true
 		));
 	}
 
@@ -59,11 +60,22 @@ class Cron_Post_Gouf extends Cron_Abstract
 			$link = str_replace('&apos;', "'", $link);
 			$link = trim($link);
 		}
-		unset($link);
 
-		$result = array();
+		$this->test_links($links);
+	}
 
-		$this->worker->add($links)->exec();
+	public function test($link) {
+		$this->debug_mode = true;
+
+		$this->worker->set_debug();
+
+		$this->test_links((array) $link);
+	}
+
+	protected function test_links($links) {
+
+		$this->worker->enable_limit(self::MAX_DOWNLOAD_SIZE)
+			->add($links)->exec();
 
 		foreach ($links as $id => $link) {
 			$status = $this->test_result($link);
@@ -103,7 +115,12 @@ class Cron_Post_Gouf extends Cron_Abstract
 		$domain = $this->get_domain($link);
 		$html = $this->worker->get_full($link);
 
+		$this->echo_debug('link', $link);
+		$this->echo_debug('domain', $domain);
+		$this->echo_debug('html', strlen($html));
+
 		if (empty($domain)) {
+			$this->echo_debug('domain empty');
 			return self::STATUS_BROKEN;
 		}
 
@@ -111,11 +128,15 @@ class Cron_Post_Gouf extends Cron_Abstract
 			$works = $this->works[$domain];
 			foreach ($works as $test) {
 				if (strpos($test, '\\') === 0) {
+					$this->echo_debug('test working regex', $test);
 					if (preg_match('/'.$test.'/u', $html)) {
+						$this->echo_debug('works');
 						return self::STATUS_WORKS;
 					}
 				} else {
+					$this->echo_debug('test working string', $test);
 					if (strpos($html, $test)) {
+						$this->echo_debug('works');
 						return self::STATUS_WORKS;
 					}
 				}
@@ -126,17 +147,22 @@ class Cron_Post_Gouf extends Cron_Abstract
 			$broken = $this->broken[$domain];
 			foreach ($broken as $test) {
 				if (strpos($test, '\\') === 0) {
+					$this->echo_debug('test broken string', $test);
 					if (preg_match('/'.$test.'/u', $html)) {
+						$this->echo_debug('broken');
 						return self::STATUS_BROKEN;
 					}
 				} else {
+					$this->echo_debug('test broken string', $test);
 					if (strpos($html, $test)) {
+						$this->echo_debug('broken');
 						return self::STATUS_BROKEN;
 					}
 				}
 			}
 		}
 
+		$this->echo_debug('unknown');
 		return self::STATUS_UNKNOWN;
 	}
 
@@ -172,5 +198,12 @@ class Cron_Post_Gouf extends Cron_Abstract
 		}
 
 		return $domain;
+	}
+
+	protected function echo_debug($header, $message = '') {
+		if ($message) {
+			$message = ': ' . $message;
+		}
+		echo '<br />' . $header . $message;
 	}
 }
