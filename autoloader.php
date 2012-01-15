@@ -169,13 +169,13 @@ function autoload_old ($class_name) {
 	}
 
 	if (!preg_match('/^Read_/i', $class_name)) {
-		if (_INDEX_) {
+		if (_TYPE_ == 'index') {
 			include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
 			ob_end_flush();
 		}
 		exit();
 	}
-	
+
 	return false;
 }
 

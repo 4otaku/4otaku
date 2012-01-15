@@ -6,9 +6,9 @@ if(
 	strpos($_GET['upload'], ".") === false &&
 	file_exists('engine/upload/'.$_GET['upload'].'.php')
 ) {
-    chdir('engine/upload/');
-    include $_GET['upload'].'.php';
-    exit();
+	chdir('engine/upload/');
+	include $_GET['upload'].'.php';
+	exit();
 }
 
 include_once 'inc.common.php';

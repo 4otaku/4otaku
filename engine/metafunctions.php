@@ -17,28 +17,28 @@ function redo_quotes($str) {
 }
 
 function _crypt($input,$decrypt=false) {
-	$o = $s1 = $s2 = array(); 
+	$o = $s1 = $s2 = array();
 
-	$basea = array('?','(','$','',"]",'@',';',"&",'*'); 
+	$basea = array('?','(','$','',"]",'@',';',"&",'*');
 	$basea = array_merge($basea, range('a','z'), range('A','Z'), range(0,9) );
 	$basea = array_merge($basea, array('!','/','[','|','.',')','_','+','%',' ') );
-	$dimension=9; 
-	for($i=0;$i<$dimension;$i++) { 
+	$dimension=9;
+	for($i=0;$i<$dimension;$i++) {
 		for($j=0;$j<$dimension;$j++) {
 			$s1[$i][$j] = $basea[$i*$dimension+$j];
 			$s2[$i][$j] = str_rot13($basea[($dimension*$dimension-1) - ($i*$dimension+$j)]);
 		}
 	}
 	unset($basea);
-	$m = floor(strlen($input)/2)*2; 
-	$symbl = $m==strlen($input) ? '':$input[strlen($input)-1]; 
+	$m = floor(strlen($input)/2)*2;
+	$symbl = $m==strlen($input) ? '':$input[strlen($input)-1];
 	$al = array();
 
 	for ($ii=0; $ii<$m; $ii+=2) {
 		$symb1 = $symbn1 = strval($input[$ii]);
 		$symb2 = $symbn2 = strval($input[$ii+1]);
 		$a1 = $a2 = array();
-		for($i=0;$i<$dimension;$i++) { 
+		for($i=0;$i<$dimension;$i++) {
 			for($j=0;$j<$dimension;$j++) {
 				if ($decrypt) {
 					if ($symb1===strval($s2[$i][$j]) ) $a1=array($i,$j);
@@ -75,28 +75,28 @@ function encrypt($input, $nodotes = false) {
 	return _base64_encode(_crypt($input),$nodotes);
 }
 
-function decrypt($input) {	
+function decrypt($input) {
 	return _crypt(_base64_decode($input),true);
 }
 
 function hex2bin($md5) {
-    for ($i = 0; $i < 32; $i += 2)
-        $return .= chr(hexdec($md5{$i + 1}) + hexdec($md5{$i})*16);
+	for ($i = 0; $i < 32; $i += 2)
+		$return .= chr(hexdec($md5{$i + 1}) + hexdec($md5{$i})*16);
 
-    return $return;
+	return $return;
 }
 
 function get_include_contents($filename) {
-    if (is_file($filename)) {
-        ob_start();
-        include $filename;
-        $contents = ob_get_contents();
-        ob_end_clean();
-        return $contents;
-    }
-    return false;
+	if (is_file($filename)) {
+		ob_start();
+		include $filename;
+		$contents = ob_get_contents();
+		ob_end_clean();
+		return $contents;
+	}
+	return false;
 }
 
 function get_protocol() {
 	return strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https://' : 'http://';
-} 
+}

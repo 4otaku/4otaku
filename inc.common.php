@@ -5,12 +5,7 @@ define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11' ||
 	$_SERVER['REMOTE_ADDR'] == '127.0.0.1');
 define('MAINTENANCE', 0);
 
-switch (basename($_SERVER['SCRIPT_FILENAME'], '.php')) {
-	case 'index': define('_INDEX_', true);  define('_AJAX_', false); define('_CRON_', false); break;
-	case 'ajax':  define('_INDEX_', false); define('_AJAX_', true);  define('_CRON_', false); break;
-	case 'cron':  define('_INDEX_', false); define('_AJAX_', false); define('_CRON_', true);  break;
-	default: define('_INDEX_', false); define('_AJAX_', false); define('_CRON_', false);  break;
-}
+define('_TYPE_', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 
 define('SL', DIRECTORY_SEPARATOR);
 
@@ -43,7 +38,7 @@ function myoutput($buffer) {
 		$buffer = str_replace('<wbr />','&shy;',$buffer);
 	}
 
-	if (strpos($buffer,'<textarea') && (_AJAX_)) return $buffer;
+	if (strpos($buffer,'<textarea') && (_TYPE_ == 'ajax')) return $buffer;
     return str_replace(array("\t","  ","\n","\r","<!--br-->"),array(""," ","","","\n"),$buffer);
 }
 
@@ -54,8 +49,8 @@ mb_internal_encoding('UTF-8');
 if (
 	strpos($_SERVER["REQUEST_URI"], 'art/download') === false &&
 	!strpos($_SERVER["REQUEST_URI"], '/rss/') &&
-	!(_CRON_) &&
-	!((_AJAX_) && $_GET['f'] == 'download')
+	_TYPE_ != 'cron' && _TYPE_ != 'api'&&
+	!(_TYPE_ == 'ajax' && $_GET['f'] == 'download')
 ) {
 	ob_start('myoutput');
 }
@@ -69,20 +64,22 @@ if(!def::site('domain')) {
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::site('domain') != $_SERVER['SERVER_NAME'] && !(_CRON_) && !empty($_SERVER['REMOTE_ADDR'])) {
+if(def::site('domain') != $_SERVER['SERVER_NAME'] && _TYPE_ != 'cron' && !empty($_SERVER['REMOTE_ADDR'])) {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 
-if (!(_CRON_)) {
+if (_TYPE_ != 'cron' && _TYPE_ != 'api') {
 	$check = new check_values();
-	list($get, $post) = query::get_globals($_GET, $_POST);
-	include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
 	include_once ROOT_DIR.SL.'engine'.SL.'twig_init.php';
 }
+if (_TYPE_ != 'cron') {
+	list($get, $post) = query::get_globals($_GET, $_POST);
+}
+include_once ROOT_DIR.SL.'engine'.SL.'metafunctions.php';
 
 // Тут мы работаем с сессиями
-if (!(_CRON_)) {
-	// Логично, что у крона сессии нет.
+if (_TYPE_ != 'cron' && _TYPE_ != 'api') {
+	// Логично, что у крона или апи сессии нет.
 
 	// Удалим все левые куки, нечего захламлять пространство
 	foreach ($_COOKIE as $key => $cook) if ($key != 'settings') setcookie ($key, "", time() - 3600);
