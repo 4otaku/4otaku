@@ -14,4 +14,4 @@ if (!class_exists($class)) {
 	$class = 'Api_Error';
 }
 
-$worker = new $class(new Api_Request());
+$worker = new $class(Api_Request::build());

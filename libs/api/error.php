@@ -2,9 +2,9 @@
 
 class Api_Error extends Api_Abstract {
 
-	public function __construct(Api_Request $request) {
-		parent::__construct($request);
+	const INCORRECT_URL = 10;
 
-		$this->add_error('worker not found');
+	public function process() {
+		$this->add_error(Api_Error::INCORRECT_URL);
 	}
 }
