@@ -17,7 +17,12 @@ abstract class Api_Abstract {
 	abstract public function process();
 
 	public function process_request() {
-		$this->process();
+		try {
+			$this->process();
+		} catch (Error_Api $e) {
+			$this->add_error($e->getCode(), $e->getMessage());
+			$this->set_success(false);
+		}
 
 		$response_class = $this->request->get_response_class();
 
@@ -63,5 +68,10 @@ abstract class Api_Abstract {
 
 	protected function set_success($success) {
 		$this->success = (bool) $success;
+	}
+
+	protected function get($value = false) {
+
+		return $this->request->get($value);
 	}
 }
