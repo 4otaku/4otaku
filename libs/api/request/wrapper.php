@@ -54,4 +54,16 @@ class Api_Request
 
 		return 'Api_Response_' . ucfirst($format);
 	}
+
+	public function get($field = false) {
+		if (empty($field)) {
+			return $this->data;
+		}
+
+		if (!empty($this->data[$field])) {
+			return $this->data[$field];
+		}
+
+		return null;
+	}
 }
