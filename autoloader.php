@@ -168,7 +168,7 @@ function autoload_old ($class_name) {
 		return true;
 	}
 
-	if (!preg_match('/^Read_/i', $class_name)) {
+	if (!preg_match('/^Read_/i', $class_name) && !preg_match('/^Api_/i', $class_name)) {
 		if (_TYPE_ == 'index') {
 			include_once TEMPLATE_DIR.SL.'404'.SL.'fatal.php';
 			ob_end_flush();

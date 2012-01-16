@@ -8,13 +8,15 @@ class Api_Request
 
 	protected $data = array();
 
-	public function __construct() {
-		$data = array_replace_recursive(query::$get, query::$post);
-
+	public function __construct($data = null) {
 		if (empty($data)) {
-			$input = trim(file_get_contents("php://input"));
-			if (!empty($input)) {
-				$data = $this->convert_input($input);
+			$data = array_replace_recursive(query::$get, query::$post);
+
+			if (empty($data)) {
+				$input = trim(file_get_contents("php://input"));
+				if (!empty($input)) {
+					$data = $this->convert_input($input);
+				}
 			}
 		}
 

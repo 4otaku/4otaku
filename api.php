@@ -8,5 +8,10 @@ $request = urldecode($request);
 $url = explode('/', preg_replace('/\?[^\/]+$/', '', $request));
 
 $url = array_slice($url, 2);
+$class = 'Api_' . implode('_', array_map('ucfirst', $url));
 
-$data = new Api_Request();
+if (!class_exists($class)) {
+	$class = 'Api_Error';
+}
+
+$worker = new $class(new Api_Request());
