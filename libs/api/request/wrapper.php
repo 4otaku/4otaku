@@ -6,7 +6,7 @@ class Api_Request
 		'Api_Request_Json', 'Api_Request_Xml'
 	);
 
-	protected $default_response_format = 'serialize';
+	protected $default_response_format = 'php';
 
 	protected $data = array();
 
