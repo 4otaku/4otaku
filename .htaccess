@@ -10,7 +10,7 @@ AddDefaultCharset UTF-8
 	RewriteEngine On
 	RewriteBase /
 
-	RewriteRule ^\/api\/ /api.php [NE,L]
+	RewriteRule ^api\/ /api.php [NE,L]
 
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !go/
