@@ -33,6 +33,10 @@ class Api_Response_Xml extends Api_Response_Abstract {
 				continue;
 			}
 
+			if (is_bool($value) === true) {
+				$value = $value ? 'true' : 'false';
+			}
+
 			$xml->writeElement($key, $value);
 		}
 	}
