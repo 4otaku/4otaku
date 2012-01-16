@@ -6,6 +6,8 @@ class Api_Request
 		'Api_Request_Json', 'Api_Request_Xml'
 	);
 
+	protected $default_response_format = 'serialize';
+
 	protected $data = array();
 
 	public function __construct($data = null) {
@@ -39,5 +41,17 @@ class Api_Request
 		}
 
 		return $data;
+	}
+
+	public function get_response_class() {
+		if (empty($this->data['format']) ||
+			!class_exists('Api_Response_' . ucfirst($this->data['format']))) {
+
+			$format = $this->default_response_format;
+		} else {
+			$format = $this->data['format'];
+		}
+
+		return 'Api_Response_' . ucfirst($format);
 	}
 }

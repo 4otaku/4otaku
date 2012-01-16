@@ -33,7 +33,7 @@ abstract class Api_Abstract {
 	public function send_headers() {
 
 		$headers = $this->response->get_headers();
-		ob_end_flush();
+		ob_end_clean();
 
 		foreach ($headers as $key => $header) {
 			header("$key: $header");
@@ -44,7 +44,7 @@ abstract class Api_Abstract {
 
 	public function get_response() {
 
-		return $this->response->encode();
+		return $this->response->get();
 	}
 
 	protected function add_error($code, $error = '') {

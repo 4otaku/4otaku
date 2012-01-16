@@ -14,4 +14,11 @@ if (!class_exists($class)) {
 	$class = 'Api_Error';
 }
 
-$worker = new $class(Api_Request::build());
+$request = new Api_Request();
+$worker = new $class($request);
+
+if (!($worker instanceOf Api_Abstract)) {
+	$worker = new Api_Error($request);
+}
+
+echo $worker->process_request()->send_headers()->get_response();
