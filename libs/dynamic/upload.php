@@ -5,7 +5,8 @@ class Dynamic_Upload extends Dynamic_Abstract
 	protected $file;
 	protected $name;
 
-	protected error_messages = array(
+	protected $error_messages = array(
+		Error_Upload::EMPTY_FILE => 'filetype',
 		Error_Upload::FILE_TOO_LARGE => 'maxsize',
 		Error_Upload::NOT_AN_IMAGE => 'filetype',
 	);
@@ -16,12 +17,13 @@ class Dynamic_Upload extends Dynamic_Abstract
 
 			$this->file = $file['tmp_name'];
 			$this->name = $file['name'];
-		} elseif ($_GET['qqfile']) {
+		} elseif (query::$get['qqfile']) {
 
 			$this->file = file_get_contents('php://input');
-			$this->name = urldecode($_GET['qqfile']);
+			$this->name = urldecode(query::$get['qqfile']);
 		} else {
-			$this->reply(array('error' => 'no-file-found'), false);
+			$this->reply(array('error' =>
+				$this->error_messages[Error_Upload::EMPTY_FILE]), false);
 		}
 	}
 
@@ -44,7 +46,24 @@ class Dynamic_Upload extends Dynamic_Abstract
 	}
 
 	public function board() {
-		$worker = new Transform_Upload_Board($this->file, $this->name);
+		$extension = strtolower(pathinfo($this->name, PATHINFO_EXTENSION));
+
+		if (class_exists('finfo')) {
+			$finfo = new finfo(FILEINFO_MIME);
+			if (is_file($this->file)) {
+				$mime_type = $finfo->file($this->file);
+			} else {
+				$mime_type = $finfo->buffer($this->file);
+			}
+		} else {
+			$mime_type = '';
+		}
+
+		if ($extension == 'swf' || preg_match('/(shockwave.*flash)/', $mime_type)) {
+			$worker = new Transform_Upload_Board_Flash($this->file, $this->name);
+		} else {
+			$worker = new Transform_Upload_Board_Image($this->file, $this->name);
+		}
 
 		$this->common($worker);
 	}
