@@ -1,4 +1,4 @@
-<?
+<?php
 
 	include_once 'common.php';
 
@@ -30,7 +30,7 @@
 				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
 				$resize_width = def::art('resizewidth') * def::art('resizestep');
 				if (
-					$imagick->getImageWidth() > $resize_width || 
+					$imagick->getImageWidth() > $resize_width ||
 					$check[0] > $resize_width
 				) {
 					if (scale(def::art('resizewidth'), $newresized, 95, false)) {

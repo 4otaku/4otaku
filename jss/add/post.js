@@ -57,7 +57,7 @@ $(document).ready(function(){
 
 	if ($('#post-image').length > 0) image_upload = new qq.FileUploader({
 		element: document.getElementById('post-image'),
-		action: window.config.site_dir+'/ajax.php?upload=postimage',
+		action: window.config.site_dir+'/ajax.php?m=upload&f=post_image',
 		autoSubmit: true,
 		onSubmit: function(id, file) {
 			$(".processing-image").show();
@@ -67,9 +67,20 @@ $(document).ready(function(){
 		onComplete: function(id, file, response) {
 			window.processing_art = window.processing_art - 1;
 			if (window.processing_art == 0) $(".processing-image").hide();
-			if (response['error'] == 'filetype') {$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');}
-			else if (response['error'] == 'maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');}
-			else {
+
+			if (!response.success) {
+				var error = response.data.error;
+
+				if (error == 'filetype') {
+					$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');
+				} else if (error == 'maxsize') {
+					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 2 мегабайт.</b>');
+				} else {
+					$('#error').html('<b>Неизвестная ошибка.</b>');
+				}
+			} else {
+				response = response.data;
+
 				$('#transparent td').append('<div style="background-image: url('+response['image']+');" class="left right20"><img class="cancel" src="'+window.config.image_dir+'/cancel.png"><input type="hidden" name="image[]" value="'+response['data']+'"></div>');
 				$("#transparent td img.cancel").click(function(){
 					$(this).parent().remove();
@@ -84,7 +95,7 @@ $(document).ready(function(){
 
 	if ($('#post-file').length > 0) file_upload = new qq.FileUploader({
 		element: document.getElementById('post-file'),
-		action: window.config.site_dir+'/ajax.php?upload=postfile',
+		action: window.config.site_dir+'/ajax.php?m=upload&f=post_file',
 		autoSubmit: true,
 		onSubmit: function(id, file) {
 			$(".processing-file").show();
@@ -94,8 +105,18 @@ $(document).ready(function(){
 		onComplete: function(id, file, response) {
 			window.processing_files = window.processing_files - 1;
 			if (window.processing_files == 0) $(".processing-file").hide();
-			if (response['error'] == 'maxsize') {$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');}
-			else {
+
+			if (!response.success) {
+				var error = response.data.error;
+
+				if (error == 'maxsize') {
+					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');
+				} else {
+					$('#error').html('<b>Неизвестная ошибка.</b>');
+				}
+			} else {
+				response = response.data;
+
 				var decoded = $('<textarea/>').html(response['data']).val();
 
 				if ($('.link_file').find("tr.link:last").length != 0)
@@ -110,7 +131,7 @@ $(document).ready(function(){
 
 	if ($('#post-torrent').length > 0) file_upload = new qq.FileUploader({
 		element: document.getElementById('post-torrent'),
-		action: window.config.site_dir+'/ajax.php?upload=posttorrent',
+		action: window.config.site_dir+'/ajax.php?m=upload&f=post_torrent',
 		autoSubmit: true,
 		onSubmit: function(id, file) {
 			$(".processing-torrent").show();
@@ -122,13 +143,20 @@ $(document).ready(function(){
 			if (window.processing_torrents == 0) {
 				$(".processing-torrent").hide();
 			}
-			if (response['error'] == 'incorrect') {
-				$('#error').html('<b>Ошибка! Выбранный вами файл не является торрентом.</b>');
-			} else if (response['error'] == 'maxsize') {
-				$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт. Вам надо загрузить торрент-файл, а не содержимое торрента.</b>');
-			} else if (response['error'] == 'exists') {
-				$('#error').html('<b>Ошибка! Выбранный вами торрент уже добавлен и прикреплен к записи №'+response['post_id']+'.</b>');
+
+			if (!response.success) {
+				var error = response.data.error;
+
+				if (error == 'filetype') {
+					$('#error').html('<b>Ошибка! Выбранный вами файл не является торрентом.</b>');
+				} else if (error == 'maxsize') {
+					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт. Вам надо загрузить торрент-файл, а не содержимое торрента.</b>');
+				} else if (error == 'exists') {
+					$('#error').html('<b>Ошибка! Выбранный вами торрент уже добавлен и прикреплен к записи.</b>');
+				}
 			} else {
+				response = response.data;
+
 				var decoded = $('<textarea/>').html(response['data']).val();
 
 				if ($('.link_torrent').find("tr.link:last").length != 0) {

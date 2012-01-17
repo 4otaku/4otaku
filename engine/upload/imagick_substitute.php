@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!function_exists('exif_imagetype')) {
 	function exif_imagetype($filename) {

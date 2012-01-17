@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!class_exists('Imagick', false)) {
 	include_once ROOT_DIR.SL.'engine'.SL.'upload'.SL.'imagick_substitute.php';
@@ -41,7 +41,7 @@ function scale($new_size,$target,$compression = 80,$thumbnail = true) {
 	$format = $imagick->getImageFormat();
 	if (strtolower($format) == 'gif') {
 		$imagick = $imagick->coalesceImages();
-		
+
 		if (is_animated($path) or $imagick->hasNextImage()) {
 			$animated = 1;
 			if (!$thumbnail && ($imagick instanceOf Imagick)) {
@@ -150,19 +150,19 @@ function get_file_meta ($filename) {
 	if (stripos($filename, 'auto_tag=') !== 0) {
 		return array();
 	}
-	
+
 	$filename = str_ireplace('auto_tag=', '', $filename);
-	
+
 	$filename = explode('=', $filename);
-	
+
 	if (count($filename) != 3 || !is_numeric($filename[0]) || !is_numeric($filename[1])) {
 		return array();
-	}	
+	}
 
 	$tags = preg_split('/[\+\s]+/u', $filename[2]);
-	
+
 	return array(
-		'tags' => $tags, 
+		'tags' => $tags,
 		'id_group' => $filename[0],
 		'id_in_group' => $filename[1],
 	);
