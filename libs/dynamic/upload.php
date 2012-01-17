@@ -9,6 +9,7 @@ class Dynamic_Upload extends Dynamic_Abstract
 		Error_Upload::EMPTY_FILE => 'filetype',
 		Error_Upload::FILE_TOO_LARGE => 'maxsize',
 		Error_Upload::NOT_AN_IMAGE => 'filetype',
+		Error_Upload::ALREADY_EXISTS => 'exists',
 	);
 
 	public function __construct() {
@@ -98,7 +99,7 @@ class Dynamic_Upload extends Dynamic_Abstract
 		$this->common($worker);
 	}
 
-	protected function translate_error(Error_Update $e) {
+	protected function translate_error(Error_Upload $e) {
 		$code = $e->getCode();
 
 		if (!empty($this->error_messages[$code])) {

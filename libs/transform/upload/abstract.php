@@ -47,6 +47,12 @@ abstract class Transform_Upload_Abstract
 		$this->result[$field] = $value;
 	}
 
+	protected function set($array) {
+		foreach ($array as $field => $value) {
+			$this->set_result($field, $value);
+		}
+	}
+
 	protected function create_temp_file($data) {
 		$temp = ROOT_DIR.SL.'files'.SL.'tmp'.SL.microtime().'_'.md5(rand());
 
