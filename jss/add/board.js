@@ -35,11 +35,9 @@ $(document).ready(function(){
 			if (!response.success) {
 				var error = response.data.error;
 
-				if (rerror == 'filetype') {
+				if (error == 'filetype') {
 					$('#error').html('<b>Ошибка! Выбранный вами файл не является картинкой.</b>');
 				} else if (error == 'maxsize') {
-					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 5 мегабайт.</b>');
-				} else if (error == 'flashmaxsize') {
 					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 10 мегабайт.</b>');
 				} else {
 					$('#error').html('<b>Неизвестная ошибка.</b>');

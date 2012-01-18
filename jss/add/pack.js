@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	new qq.FileUploader({
 		element: document.getElementById('upload'),
-		action: window.config.site_dir+'/ajax.php?m=upload&f=pack&name=<?=urlencode(query::$post['name']);?>&text=<?=urlencode(query::$post['text']);?>',
+		action: window.config.site_dir+'/ajax.php?m=upload&f=pack&name='+$('.upload_name').val()+'&text='+$('.upload_text').val(),
 		multiple: false,
 		autoSubmit: true,
 		onSubmit: function(id, file) {
@@ -14,7 +14,7 @@ $(document).ready(function(){
 			if (!response.success) {
 				var error = response.data.error;
 
-				if (error == 'error-maxsize') {
+				if (error == 'maxsize') {
 					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 200 мегабайт.</b>');
 				} else {
 					$('#error').html('<b>Неизвестная ошибка.</b>');

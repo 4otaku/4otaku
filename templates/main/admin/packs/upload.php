@@ -6,6 +6,8 @@
 		<? if (query::$post['name']) { ?>
 			<tr>
 				<td align="center">
+					<input class="upload_name" type="hidden" value="<?=urlencode(query::$post['name']);?>" />
+					<input class="upload_text" type="hidden" value="<?=urlencode(query::$post['text']);?>" />
 					<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=fileupload.js,add/pack.js"></script>
 					<div id="upload"></div>
 				</td>

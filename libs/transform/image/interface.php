@@ -2,6 +2,8 @@
 
 interface Transform_Image_Interface
 {
+	public function __construct($path);
+
 	public function get_composite_over();
 
 	public function get_compression_jpeg();

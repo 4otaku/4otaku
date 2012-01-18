@@ -10,6 +10,7 @@ class Dynamic_Upload extends Dynamic_Abstract
 		Error_Upload::FILE_TOO_LARGE => 'maxsize',
 		Error_Upload::NOT_AN_IMAGE => 'filetype',
 		Error_Upload::ALREADY_EXISTS => 'exists',
+		Error_Upload::NOT_A_TORRENT => 'filetype',
 	);
 
 	public function __construct() {
@@ -101,7 +102,7 @@ class Dynamic_Upload extends Dynamic_Abstract
 
 	protected function translate_error(Error $e) {
 		$code = $e->getCode();
-var_dump($e);
+
 		if (!empty($this->error_messages[$code])) {
 			return $this->error_messages[$code];
 		}

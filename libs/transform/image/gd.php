@@ -23,7 +23,7 @@ class Transform_Image_Gd extends Transform_Image_Abstract_Static
 			case 'png': $this->data = imagecreatefrompng($this->path); break;
 			case 'jpeg': $this->data = imagecreatefromjpeg($this->path); break;
 			case 'gif': $this->data = imagecreatefromgif($this->path); break;
-			default: die;
+			default: throw new Error_Image(Error_Image::NOT_AN_IMAGE);
 		}
 	}
 
