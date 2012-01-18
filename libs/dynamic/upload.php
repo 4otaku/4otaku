@@ -32,7 +32,7 @@ class Dynamic_Upload extends Dynamic_Abstract
 		try {
 			$data = $worker->process_file();
 			$success = true;
-		} catch (Error_Upload $e) {
+		} catch (Error $e) {
 			$data = array('error' => $this->translate_error($e));
 			$success = false;
 		}
@@ -99,9 +99,9 @@ class Dynamic_Upload extends Dynamic_Abstract
 		$this->common($worker);
 	}
 
-	protected function translate_error(Error_Upload $e) {
+	protected function translate_error(Error $e) {
 		$code = $e->getCode();
-
+var_dump($e);
 		if (!empty($this->error_messages[$code])) {
 			return $this->error_messages[$code];
 		}

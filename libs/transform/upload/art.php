@@ -2,6 +2,8 @@
 
 class Transform_Upload_Art extends Transform_Upload_Image
 {
+	protected $md5 = 'unknown';
+
 	protected function get_max_size() {
 		return def::art('filesize');
 	}
@@ -16,6 +18,8 @@ class Transform_Upload_Art extends Transform_Upload_Image
 		) {
 			throw new Error_Upload(Error_Upload::ALREADY_EXISTS);
 		}
+
+		$this->md5 = $md5;
 	}
 
 	protected function process() {
@@ -24,10 +28,10 @@ class Transform_Upload_Art extends Transform_Upload_Image
 		$extension = strtolower($pathinfo['extension']);
 
 		$thumb = md5(microtime(true));
-		$newname = $md5.'.'.$extension;
+		$newname = $this->md5.'.'.$extension;
 
 		$newfile = IMAGES.SL.'booru'.SL.'full'.SL.$newname;
-		$newresized = IMAGES.SL.'booru'.SL.'resized'.SL.$md5.'.jpg';
+		$newresized = IMAGES.SL.'booru'.SL.'resized'.SL.$this->md5.'.jpg';
 		$newthumb = IMAGES.SL.'booru'.SL.'thumbs'.SL.$thumb.'.jpg';
 		$newlargethumb = IMAGES.SL.'booru'.SL.'thumbs'.SL.'large_'.$thumb.'.jpg';
 
@@ -37,15 +41,15 @@ class Transform_Upload_Art extends Transform_Upload_Image
 			file_put_contents($newfile, file_get_contents($this->file));
 		}
 
-		$this->worker = $this->get_worker($newfile);
+		$this->worker = Transform_Image::get_worker($newfile);
 		$this->animated = $this->is_animated($newfile);
 
-		$this->sizes = $this->worker->getImageWidth().'x'.$this->worker->getImageHeight();
+		$this->sizes = $this->worker->get_image_width().'x'.$this->worker->get_image_height();
 		$resized = false;
 
 		$resize_width = def::art('resizewidth') * def::art('resizestep');
 		if (
-			$this->worker->getImageWidth() > $resize_width ||
+			$this->worker->get_image_width() > $resize_width ||
 			$this->info[0] > $resize_width
 		) {
 			if ($this->scale(def::art('resizewidth'), $newresized, 95, false)) {
@@ -66,11 +70,11 @@ class Transform_Upload_Art extends Transform_Upload_Image
 
 		$this->set(array(
 			'image' => '/images/booru/thumbs/'.$thumb.'.jpg',
-			'md5' => $md5,
+			'md5' => $this->md5,
 			'thumb' => $thumb,
 			'extension' => $extension,
-			'resized' => $resized,
-			'animated' => $this->animated,
+			'resized' => (string) $resized,
+			'animated' => (int) $this->animated,
 			'meta' => $this->get_file_meta($pathinfo['filename'])
 		));
 	}

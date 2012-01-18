@@ -2,9 +2,6 @@
 
 abstract class Transform_Upload_Image extends Transform_Upload_Abstract
 {
-	protected $worker_name;
-	protected $composite = array();
-
 	protected $info = array();
 	protected $animated = false;
 
@@ -21,32 +18,8 @@ abstract class Transform_Upload_Image extends Transform_Upload_Abstract
 		$this->info = $check;
 	}
 
-	protected function get_worker($path) {
-		$name = $this->get_worker_name();
-
-		return new $name($path);
-	}
-
-	protected function get_worker_name() {
-		if (empty($this->worker_name)) {
-			if (!class_exists('Imagick', false)) {
-				$this->worker_name = 'Transform_Image';
-				$this->composite['over'] = Transform_Image::COMPOSITE_OVER;
-				$this->composite['jpeg'] = Transform_Image::COMPRESSION_JPEG;
-			} else {
-				$this->worker_name = 'Imagick';
-				$this->composite['over'] = Imagick::COMPOSITE_OVER;
-				$this->composite['jpeg'] = Imagick::COMPRESSION_JPEG;
-			}
-		}
-
-		return $this->worker_name;
-	}
-
 	function scale($new_size, $target, $compression = 80, $thumbnail = true) {
 		$worker = $this->worker;
-		$worker_name = $this->get_worker_name();
-		$composite = $this->composite;
 
 		if ($new_size === false) {
 			$aspect = 1/2;
@@ -54,61 +27,61 @@ abstract class Transform_Upload_Image extends Transform_Upload_Abstract
 			$new_size = array('0' => $new_size, '1' => $new_size);
 		}
 
-		$format = $worker->getImageFormat();
+		$format = $worker->get_image_format();
 		if (strtolower($format) == 'gif') {
-			$worker = $worker->coalesceImages();
+			$worker = $worker->coalesce_images();
 
-			if ($this->animated || $worker->hasNextImage()) {
+			if ($this->animated || $worker->has_next_image()) {
 				$this->animated = true;
-				if (!$thumbnail && ($worker_name == 'Imagick')) {
+				if (!$thumbnail && $worker->can_scale_animated()) {
 					return $this->scale_animated($new_size, $target);
 				}
 			}
 		}
 
-		$old_x = $worker->getImageWidth();
-		$old_y = $worker->getImageHeight();
+		$old_x = $worker->get_image_width();
+		$old_y = $worker->get_image_height();
 
 		if ($thumbnail) {
 			$aspect = empty($aspect) ?
 				min($new_size[0]/$old_x, $new_size[1]/$old_y) : $aspect;
-			$func = 'thumbnailImage';
+			$func = 'thumbnail_image';
 		} else {
 			$aspect = empty($aspect) ? $new_size[0]/$old_x : $aspect;
-			$func = 'scaleImage';
+			$func = 'scale_image';
 		}
 
 		$x = round($old_x * $aspect);
 		$y = round($old_y * $aspect);
 
 		if (strtolower($format) == 'png') {
-			$worker->setImageCompressionQuality($compression);
+			$worker->set_image_compression_quality($compression);
 			$worker->$func($x,$y);
 			$bg = $worker->clone();
-			$bg->colorFloodFillImage('#ffffff', 100, '#777777', 0,0);
-			$bg->compositeImage($worker, $composite['over'], 0, 0);
-			$bg->setImageCompression($composite['jpeg']);
-			$bg->setImageFormat('jpeg');
-			$bg->writeImage($target);
+			$bg->color_flood_fill_image('#ffffff', 100, '#777777', 0,0);
+			$bg->composite_image($worker, $worker->get_composite_over(), 0, 0);
+			$bg->set_image_compression($worker->get_compression_jpeg());
+			$bg->set_image_format('jpeg');
+			$bg->write_image($target);
 		} elseif (strtolower($format) == 'gif') {
-			$worker->setImageCompressionQuality($compression);
+			$worker->set_image_compression_quality($compression);
 			$worker->$func($x,$y);
-			$worker->setImagePage($x,$y,0,0);
+			$worker->set_image_page($x,$y,0,0);
 			$bg = $worker->clone();
-			$bg->colorFloodFillImage('#ffffff', 100,' #777777', 0, 0);
-			$bg->compositeImage($worker, $composite['over'], 0, 0);
-			$bg->setImageCompression($composite['jpeg']);
-			$worker->setImageFormat('jpeg');
-			$bg->writeImage($target);
+			$bg->color_flood_fill_image('#ffffff', 100,' #777777', 0, 0);
+			$bg->composite_image($worker, $worker->get_composite_over(), 0, 0);
+			$bg->set_image_compression($worker->get_compression_jpeg());
+			$worker->set_image_format('jpeg');
+			$bg->write_image($target);
 		} else {
-			$worker->setImageCompressionQuality($compression);
+			$worker->set_image_compression_quality($compression);
 			$worker->$func($x,$y);
-			$worker->setImageCompression($composite['jpeg']);
-			$worker->setImageFormat('jpeg');
-			$worker->writeImage($target);
+			$worker->set_image_compression($worker->get_compression_jpeg());
+			$worker->set_image_format('jpeg');
+			$worker->write_image($target);
 		}
 		$worker->clear();
-		$this->worker = new $worker_name($target);
+		$this->worker = Transform_Image::get_worker($target);
 		return true;
 	}
 
@@ -140,10 +113,9 @@ abstract class Transform_Upload_Image extends Transform_Upload_Abstract
 
 	function scale_animated ($new_size, $target) {
 		$worker = $this->worker;
-		$worker_name = $this->get_worker_name();
 
-		$old_x = $worker->getImageWidth();
-		$old_y = $worker->getImageHeight();
+		$old_x = $worker->get_image_width();
+		$old_y = $worker->get_image_height();
 		$this->sizes = $old_x.'x'.$old_y;
 
 		$aspect = !empty($new_size) ? $new_size[0]/$old_x : 1/2;
@@ -152,17 +124,17 @@ abstract class Transform_Upload_Image extends Transform_Upload_Abstract
 		$y = round($old_y * $aspect);
 
 		do {
-			$worker->scaleImage($x, $y, 1);
-		} while ($worker->nextImage());
+			$worker->scale_image($x, $y, 1);
+		} while ($worker->next_image());
 
-		$worker = $worker->deconstructImages();
+		$worker = $worker->deconstruct_images();
 
 		$target = preg_replace('/\.jpe?g$/i', '.gif', $target);
 
-		$worker->writeImages($target, true);
+		$worker->write_images($target, true);
 
-		$imagick->clear();
-		$this->worker = new $worker_name($target);
+		$worker->clear();
+		$this->worker = Transform_Image::get_worker($target);
 		return true;
 	}
 }
