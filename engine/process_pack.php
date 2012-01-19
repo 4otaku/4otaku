@@ -80,13 +80,10 @@ class Process_Pack
 			$insert_in_pack = array();
 			foreach ($art as $one) {
 
-				$file = $one['data2'];
-				$name = $one['data4'];
-
 				Database::delete('misc', 'type = ? and id = ?', array('pack_art', $one['id']));
 
 				try {
-					$worker = new Transform_Upload_Art($file, $name);
+					$worker = new Transform_Upload_Art($one['data2'], $one['data4']);
 					$data = $worker->process_file();
 
 					$art = new Model_Art(array(
@@ -108,6 +105,7 @@ class Process_Pack
 						$art = new Model_Art($e->getMessage());
 
 						if ($art['area'] == 'deleted') {
+							$art['area'] = 'cg';
 							$art->commit();
 						}
 					} else {
