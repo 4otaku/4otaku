@@ -1,22 +1,11 @@
 <?php
 
-abstract class Transform_Upload_Image extends Transform_Upload_Abstract
+abstract class Transform_Upload_Abstract_Have_Image extends Transform_Upload_Abstract
 {
 	protected $info = array();
 	protected $animated = false;
 
 	protected $sizes = false;
-
-	protected function test_file() {
-		parent::test_file();
-
-		$check = getimagesize($this->file);
-		if (!is_array($check)) {
-			throw new Error_Upload(Error_Upload::NOT_AN_IMAGE);
-		}
-
-		$this->info = $check;
-	}
 
 	function scale($new_size, $target, $compression = 80, $thumbnail = true) {
 		$worker = $this->worker;

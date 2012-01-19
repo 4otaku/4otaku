@@ -1,6 +1,6 @@
 <?php
 
-class Transform_Image_Imagick implements Transform_Image_Interface
+class Transform_Image_Imagick extends Transform_Image_Abstract_Animation
 {
 	protected $worker;
 
@@ -32,10 +32,6 @@ class Transform_Image_Imagick implements Transform_Image_Interface
 
 	public function get_compression_jpeg() {
 		return Imagick::COMPRESSION_JPEG;
-	}
-
-	public function can_scale_animated() {
-		return true;
 	}
 
 	public function get_image_width() {

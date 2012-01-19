@@ -201,6 +201,10 @@ class Cron_Post_Gouf extends Cron_Abstract
 	}
 
 	protected function echo_debug($header, $message = '') {
+		if (!$this->debug_mode) {
+			return;
+		}
+
 		if ($message) {
 			$message = ': ' . $message;
 		}

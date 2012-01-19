@@ -1,6 +1,6 @@
 <?php
 
-class Transform_Upload_Art extends Transform_Upload_Image
+class Transform_Upload_Art extends Transform_Upload_Abstract_Image
 {
 	protected $md5 = 'unknown';
 

@@ -1,6 +1,6 @@
 <?php
 
-class Error_Image extends Error
+class Error_Image extends Error_Upload
 {
 	const
 		EMPTY_FILE = 5,
@@ -8,8 +8,4 @@ class Error_Image extends Error
 		ALREADY_EXISTS = 30,
 		CANT_SCALE_ANIMATED = 150,
 		UNEXPECTED_FUNCTION_CALL = 180;
-
-	public function __construct($code = 0, Exception $previous = null) {
-		parent::__construct('', $code, $previous);
-	}
 }

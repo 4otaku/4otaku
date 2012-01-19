@@ -118,10 +118,6 @@ class Transform_Image_Gd extends Transform_Image_Abstract_Static
 		$this->format = $type;
 	}
 
-	public function can_scale_animated() {
-		return false;
-	}
-
 	public function write_image($path) {
 		$function = 'image' . $this->format;
 		$compression = $this->format == 'png' ?

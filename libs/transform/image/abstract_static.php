@@ -2,6 +2,10 @@
 
 abstract class Transform_Image_Abstract_Static implements Transform_Image_Interface
 {
+	public function can_scale_animated() {
+		return false;
+	}
+
 	public function has_next_image() {
 		return false;
 	}
