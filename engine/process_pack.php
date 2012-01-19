@@ -1,7 +1,6 @@
 <?php
 
 include '../inc.common.php';
-include_once ENGINE.SL.'upload'.SL.'functions.php';
 
 class Process_Pack
 {
@@ -69,7 +68,6 @@ class Process_Pack
 	}
 
 	public function parse_images () {
-		global $imagick; global $image_class;
 
 		$params = array('pack_art', $this->id);
 		$art = Database::get_full_table('misc', 'type = ? and data1 = ? order by data4 limit '.rand(4,9), $params);
@@ -83,82 +81,42 @@ class Process_Pack
 			foreach ($art as $one) {
 
 				$file = $one['data2'];
+				$name = $one['data4'];
 
 				Database::delete('misc', 'type = ? and id = ?', array('pack_art', $one['id']));
 
-				$md5 = md5_file($file);
-				$sizefile = filesize($file);
-				$resized = false;
+				try {
+					$worker = new Transform_Upload_Art($file, $name);
+					$data = $worker->process_file();
 
-				$exists = Database::get_row('art', array('id', 'area'), 'md5 = ?', $md5);
-				if (!$exists) {
-
-					$extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-					$thumb=md5(microtime(true));
-					$newname = $md5.'.'.$extension;
-					$newfile = IMAGES.SL.'booru'.SL.'full'.SL.$newname;
-					$newresized = IMAGES.SL.'booru'.SL.'resized'.SL.$md5.'.jpg';
-					$newthumb = IMAGES.SL.'booru'.SL.'thumbs'.SL.$thumb.'.jpg';
-					$newlargethumb = IMAGES.SL.'booru'.SL.'thumbs'.SL.'large_'.$thumb.'.jpg';
-					chmod($file, 0755);
-
-					if (!move_uploaded_file($file, $newfile)) {
-						file_put_contents($newfile, file_get_contents($file));
-					}
-
-					$imagick = new $image_class($path = $newfile);
-					$animated = 0;
-
-					$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
-					if ($imagick->getImageWidth() > def::art('resizewidth')*def::art('resizestep')) {
-						if (scale(def::art('resizewidth'), $newresized, 95, false)) {
-							$resized = $sizes;
-						}
-					} elseif ($sizefile > def::art('resizeweight')) {
-						if (scale(false, $newresized, 95, false)) {
-							$resized = $sizes;
-						}
-					}
-
-					if (!empty($resized)) {
-						if ($sizefile > 1024*1024) {
-							$sizefile = round($sizefile/(1024*1024),1).' мб';
-						} elseif ($sizefile > 1024) {
-							$sizefile = round($sizefile/1024,1).' кб';
-						} else {
-							$sizefile = $sizefile.' б';
-						}
-						$resized .= 'px; '.$sizefile;
-					}
-
-					scale(def::art('largethumbsize'), $newlargethumb);
-					scale(def::art('thumbsize'), $newthumb);
-
-					Database::insert('art',array(
-						'md5' => $md5,
-						'thumb' => $thumb,
-						'extension' => $extension,
-						'resized' => $resized,
-						'animated' => $animated,
+					$art = new Model_Art(array(
+						'md5' => $data['md5'],
+						'thumb' => $data['thumb'],
+						'extension' => $data['extension'],
+						'resized' => $data['resized'],
+						'animated' => $data['animated'],
 						'author' => '|',
 						'category' => '|nsfw|game_cg|',
 						'tag' => '|prostavte_tegi|',
-						'pretty_date' => Transform_Time::ru_date(),
-						'sortdate' => ceil(microtime(true)*1000),
 						'area' => 'cg'
 					));
 
-					$art_id = Database::last_id();
-				} else {
-					$art_id = $exists['id'];
+					$art->insert();
+				} catch (Error $e) {
+					$data = array();
+					if ($e->getCode() == Error_Upload::ALREADY_EXISTS) {
+						$art = new Model_Art($e->getMessage());
 
-					if ($exists['area'] == 'deleted') {
-						Database::update('art', array('area' => 'cg'), $exists['id']);
+						if ($art['area'] == 'deleted') {
+							$art->commit();
+						}
+					} else {
+						continue;
 					}
 				}
 
 				$insert_in_pack[] = array(
-					$art_id, $this->id,
+					$art->get_id(), $this->id,
 					$next_order, pathinfo($file,PATHINFO_BASENAME)
 				);
 

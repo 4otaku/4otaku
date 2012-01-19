@@ -16,9 +16,12 @@ $(document).ready(function(){
 
 				if (error == 'maxsize') {
 					$('#error').html('<b>Ошибка! Выбранный вами файл превышает 200 мегабайт.</b>');
+				} else if (error == 'exists') {
+					$('#error').html('<b>Ошибка! Архив с таким названием уже добавлен.</b>');
 				} else {
 					$('#error').html('<b>Неизвестная ошибка.</b>');
 				}
+
 			} else {
 				response = response.data;
 

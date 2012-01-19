@@ -6,6 +6,19 @@ class Transform_Upload_Pack extends Transform_Upload_Abstract
 		return def::art('packsize');
 	}
 
+	protected function test_file() {
+		parent::test_file();
+
+		$md5 = md5_file($this->file);
+		if (
+			$id = Database::get_field('art_pack', 'id', 'title = ?', query::$get['name'])
+		) {
+			throw new Error_Upload($id, Error_Upload::ALREADY_EXISTS);
+		}
+
+		$this->md5 = $md5;
+	}
+
 	protected function process() {
 		Database::insert('art_pack', array(
 			'filename' => $this->name,

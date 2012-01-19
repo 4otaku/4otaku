@@ -13,10 +13,10 @@ class Transform_Upload_Art extends Transform_Upload_Image
 
 		$md5 = md5_file($this->file);
 		if (
-			Database::get_count('art', 'md5 = ?', $md5) ||
-			Database::get_count('art_variation', 'md5 = ?', $md5)
+			($id = Database::get_field('art', 'id', 'md5 = ?', $md5)) ||
+			($id = Database::get_field('art_variation', 'id', 'md5 = ?', $md5))
 		) {
-			throw new Error_Upload(Error_Upload::ALREADY_EXISTS);
+			throw new Error_Upload($id, Error_Upload::ALREADY_EXISTS);
 		}
 
 		$this->md5 = $md5;

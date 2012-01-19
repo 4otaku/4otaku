@@ -68,7 +68,9 @@ class Model_Art extends Model_Abstract_Meta
 
 		$this->set('pretty_date', Transform_Text::rudate());
 		$this->set('sortdate', ceil(microtime(true)*1000));
-		$this->set('area', def::area(1));
+		if (!$this->get('area')) {
+			$this->set('area', def::area(1));
+		}
 
 		$this->correct_tags();
 
