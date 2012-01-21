@@ -35,8 +35,7 @@ class Transform_Upload_Post_File extends Transform_Upload_Abstract_Image
 
 		$return_data = '';
 
-		$info = getimagesize($newfile);
-		if (is_array($info)) {
+		if (is_array($this->info)) {
 			$newthumb = FILES.SL.'post'.SL.$time.SL.'thumb_'.$filename.'.'.$extension;
 			$this->worker = Transform_Image::get_worker($newfile);
 			$this->scale(200, $newthumb);

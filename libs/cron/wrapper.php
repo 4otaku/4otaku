@@ -243,37 +243,13 @@ class Cron
 
 		if (!empty($arts)) {
 
-			global $imagick; global $path; global $image_class; global $composite;
-			include_once ROOT_DIR.SL.'engine'.SL.'upload'.SL.'functions.php';
-
 			foreach ($arts as $art) {
-				$imagick =  new $image_class($path = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$art['md5'].'.'.$art['extension']);
-				$sizefile = filesize($path);
-				$resized = '';
+				$name = $art['md5'].'.'.$art['extension'];
+				$path = ROOT_DIR.SL.'images'.SL.'booru'.SL.'full'.SL.$name;
 
-				$sizes = $imagick->getImageWidth().'x'.$imagick->getImageHeight();
-				$resize_address = ROOT_DIR.SL.'images'.SL.'booru'.SL.'resized'.SL.$art['md5'].'.jpg';
+				$worker = new Transform_Upload_Art($path, $name);
 
-				if (file_exists($resize_address)) {
-					$resized = $sizes;
-				} elseif ($imagick->getImageWidth() > $def['booru']['resizewidth']*$def['booru']['resizestep']) {
-					if (scale($def['booru']['resizewidth'],$resize_address,95,false))
-						$resized = $sizes;
-				} elseif ($sizefile > $def['booru']['resizeweight']) {
-					if (scale(ceil($imagick->getImageWidth()/2),$resize_address,95,false))
-						$resized = $sizes;
-				}
-
-				if (!empty($resized)) {
-					if ($sizefile > 1024*1024) {
-						$sizefile = round($sizefile/(1024*1024),1).' мб';
-					} elseif ($sizefile > 1024) {
-						$sizefile = round($sizefile/1024,1).' кб';
-					} else {
-						$sizefile = $sizefile.' б';
-					}
-					$resized .= 'px; '.$sizefile;
-				}
+				$resized = $worker->resize();
 
 				obj::db()->sql('update art set resized="'.$resized.'", tag=replace(tag,"|need_resize|","|") where id='.$art['id'],0);
 			}

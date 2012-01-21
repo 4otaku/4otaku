@@ -7,7 +7,13 @@ abstract class Transform_Upload_Abstract_Have_Image extends Transform_Upload_Abs
 
 	protected $sizes = false;
 
-	function scale($new_size, $target, $compression = 80, $thumbnail = true) {
+	public function __construct($file, $name) {
+		parent::__construct($file, $name);
+
+		$this->info = getimagesize($this->file);
+	}
+
+	protected function scale($new_size, $target, $compression = 80, $thumbnail = true) {
 		$worker = $this->worker;
 
 		if ($new_size === false) {
@@ -74,7 +80,7 @@ abstract class Transform_Upload_Abstract_Have_Image extends Transform_Upload_Abs
 		return true;
 	}
 
-	function is_animated ($filename) {
+	protected function is_animated ($filename) {
 		$filecontents = file_get_contents($filename);
 
 		$str_loc = 0;
@@ -100,7 +106,7 @@ abstract class Transform_Upload_Abstract_Have_Image extends Transform_Upload_Abs
 		return ($count > 1);
 	}
 
-	function scale_animated ($new_size, $target) {
+	protected function scale_animated ($new_size, $target) {
 		$worker = $this->worker;
 
 		$old_x = $worker->get_image_width();

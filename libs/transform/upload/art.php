@@ -44,29 +44,10 @@ class Transform_Upload_Art extends Transform_Upload_Abstract_Image
 		$this->worker = Transform_Image::get_worker($newfile);
 		$this->animated = $this->is_animated($newfile);
 
-		$this->sizes = $this->worker->get_image_width().'x'.$this->worker->get_image_height();
-		$resized = false;
-
-		$resize_width = def::art('resizewidth') * def::art('resizestep');
-		if (
-			$this->worker->get_image_width() > $resize_width ||
-			$this->info[0] > $resize_width
-		) {
-			if ($this->scale(def::art('resizewidth'), $newresized, 95, false)) {
-				$resized = $this->sizes;
-			}
-		} elseif ($sizefile > def::art('resizeweight')) {
-			if ($this->scale(false, $newresized, 95, false)) {
-				$resized = $this->sizes;
-			}
-		}
+		$resized = $this->check_resize($newresized);
 
 		$this->scale(def::art('largethumbsize'), $newlargethumb);
 		$this->scale(def::art('thumbsize'), $newthumb);
-
-		if (!empty($resized)) {
-			$resized .= 'px; '.Transform_File::weight_short($this->size);
-		}
 
 		$this->set(array(
 			'image' => '/images/booru/thumbs/'.$thumb.'.jpg',
@@ -77,6 +58,43 @@ class Transform_Upload_Art extends Transform_Upload_Abstract_Image
 			'animated' => (int) $this->animated,
 			'meta' => $this->get_file_meta($pathinfo['filename'])
 		));
+	}
+
+	public function resize() {
+		$md5 = md5_file($this->file);
+		$newresized = IMAGES.SL.'booru'.SL.'resized'.SL.$md5.'.jpg';
+
+		$this->worker = Transform_Image::get_worker($this->file);
+		$this->animated = $this->is_animated($this->file);
+
+		$resized = $this->check_resize($newresized);
+
+		return $resized;
+	}
+
+	protected function check_resize($target) {
+		$resized = false;
+		$this->sizes = $this->worker->get_image_width().'x'.$this->worker->get_image_height();
+
+		$resize_width = def::art('resizewidth') * def::art('resizestep');
+		if (
+			$this->worker->get_image_width() > $resize_width ||
+			$this->info[0] > $resize_width
+		) {
+			if ($this->scale(def::art('resizewidth'), $target, 95, false)) {
+				$resized = $this->sizes;
+			}
+		} elseif ($sizefile > def::art('resizeweight')) {
+			if ($this->scale(false, $target, 95, false)) {
+				$resized = $this->sizes;
+			}
+		}
+
+		if (!empty($resized)) {
+			$resized .= 'px; '.Transform_File::weight_short($this->size);
+		}
+
+		return $resized;
 	}
 
 	protected function get_file_meta ($filename) {
