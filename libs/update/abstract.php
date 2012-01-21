@@ -1,6 +1,6 @@
 <?php
 
-abstract class Update_Abstract extends Abstract_Action
+abstract class Update_Abstract extends Action_Abstract
 {
 	public function main() {
 
@@ -8,19 +8,21 @@ abstract class Update_Abstract extends Abstract_Action
 
 		try {
 
-			foreach (query::$post as $key => $value) {
+			$data = $this->reader->get_data();
+
+			foreach ($data as $key => $value) {
 				if (method_exists($this, $key)) {
-					$this->$key(query::$post);
+					$this->$key($data);
 				}
 			}
 
 			if (
-				!empty(query::$post['edit']) &&
-				!array_key_exists(query::$post['edit'], query::$post) &&
-				method_exists($this, query::$post['edit'])
+				!empty($data['edit']) &&
+				!array_key_exists($data['edit'], $data) &&
+				method_exists($this, $data['edit'])
 			) {
-				$function = query::$post['edit'];
-				$this->$function(query::$post);
+				$function = $data['edit'];
+				$this->$function($data);
 			}
 
 			$this->save_changes();

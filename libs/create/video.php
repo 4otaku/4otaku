@@ -8,18 +8,15 @@ class Create_Video extends Create_Abstract
 
 	public function main() {
 
-		$this->set_redirect();
-
-		query::$post['link'] = undo_safety(query::$post['link']);
-		$post = $this->correct_main_data(query::$post);
+		$post = $this->correct_main_data($this->reader->get_data());
 
 		if (!$post['title']) {
-			$this->add_res('Вы забыли указать заголовок для видео.', true);
+			$this->writer->set_message('Вы забыли указать заголовок для видео.');
 			return;
 		}
 
 		if (!$post['link']) {
-			$this->add_res('Вы не предоставили ссылки, или же ссылка почему-то битая.', true);
+			$this->writer->set_message('Вы не предоставили ссылки, или же ссылка почему-то битая.');
 			return;
 		}
 
@@ -27,7 +24,7 @@ class Create_Video extends Create_Abstract
 		if ($already_have) {
 			$error = 'Это видео уже у нас есть, оно находится по адресу <a href="/video/'.
 				$already_have.'/">http://4otaku.ru/video/'.$already_have.'/</a>.';
-			$this->add_res($error, true);
+			$this->writer->set_message($error);
 			return;
 		}
 
@@ -69,7 +66,7 @@ class Create_Video extends Create_Abstract
 			));
 		}
 
-		$this->add_res('Ваша видео успешно добавлено, и доступно по адресу '.
+		$this->writer->set_success()->set_message('Ваша видео успешно добавлено, и доступно по адресу '.
 			'<a href="/video/'.$item->get_id().'/">http://4otaku.ru/video/'.$item->get_id().'/</a> или в '.
 			'<a href="/video/'.def::area(1).'/">очереди на премодерацию</a>.');
 	}
@@ -80,7 +77,7 @@ class Create_Video extends Create_Abstract
 			$data['title'] = '';
 		}
 
-		$data['link'] = Check::link($data['link']);
+		$data['link'] = Check::link(undo_safety($data['link']));
 
 		return $data;
 	}

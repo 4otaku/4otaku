@@ -9,7 +9,11 @@ class Update_Post extends Update_Abstract
 
 	protected $model;
 
-	public function __construct($data) {
+	public function __construct($reader, $writer) {
+		parent::__construct($reader, $writer);
+
+		$data = $this->reader->get_data();
+
 		if (empty($data['id']) || !Check::id($data['id'])) {
 			throw new Error_Update('Incorrect Id');
 		}
@@ -26,8 +30,6 @@ class Update_Post extends Update_Abstract
 		}
 
 		$this->model = $model;
-
-		parent::__construct();
 	}
 
 	protected function save_changes() {
@@ -157,10 +159,10 @@ class Update_Post extends Update_Abstract
 
 	protected function area($data) {
 
-		$this->set_redirect();
+		$this->writer->set_redirect();
 
 		if (empty($data['sure'])) {
-			$this->add_res('Галочку ставить не забываем, она тут для защиты от случайных кликов.', true);
+			$this->writer->set_message('Галочку ставить не забываем, она тут для защиты от случайных кликов.');
 			return;
 		}
 

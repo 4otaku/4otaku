@@ -6,12 +6,10 @@ class Create_News extends Create_Abstract
 
 	public function main() {
 
-		$this->set_redirect();
-
-		$post = $this->correct_main_data(query::$post);
+		$post = $this->correct_main_data($this->reader->get_data());
 
 		if (!$post['title']) {
-			$this->add_res('Вы забыли указать заголовок для новости.', true);
+			$this->writer->set_message('Вы забыли указать заголовок для новости.');
 			return;
 		}
 
@@ -41,7 +39,7 @@ class Create_News extends Create_Abstract
 
 		$item->insert();
 
-		$this->add_res('Ваша новость успешно добавлена, и доступна по адресу '.
+		$this->writer->set_success()->set_message('Ваша новость успешно добавлена, и доступна по адресу '.
 			'<a href="/news/'.$item->get_id().'/">http://4otaku.ru/news/'.$item->get_id().'/</a>.');
 	}
 

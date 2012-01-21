@@ -12,11 +12,10 @@ class Create_Post extends Create_Abstract
 
 	public function main() {
 
-		$this->set_redirect();
-		$post = $this->correct_main_data(query::$post);
+		$post = $this->correct_main_data($this->reader->get_data());
 
 		if (!$post['title'] || (!$post['link'] && !$post['torrent'])) {
-			$this->add_res('Не все обязательные поля заполнены.', true);
+			$this->writer->set_message('Не все обязательные поля заполнены.');
 			return;
 		}
 
@@ -95,29 +94,27 @@ class Create_Post extends Create_Abstract
 			));
 		}
 
-		$this->add_res('Ваша запись успешно добавлена, и доступна по адресу '.
+		$this->writer->set_success()->set_message('Ваша запись успешно добавлена, и доступна по адресу '.
 			'<a href="/post/'.$item->get_id().'/">http://4otaku.ru/post/'.$item->get_id().'/</a> или в '.
 			'<a href="/post/'.def::area(1).'/">мастерской</a>.');
 	}
 
 	public function update() {
 
-		$this->set_redirect();
-
 		if (!is_numeric(query::$post['id'])) {
-			$this->add_res('Что-то странное с формой обновления, сообщите администрации', true);
+			$this->writer->set_message('Что-то странное с формой обновления, сообщите администрации');
 			return;
 		}
 
 		$author = trim(strip_tags(query::$post['author']));
 		if (empty($author)) {
-			$this->add_res('Вы забыли указать автора обновления', true);
+			$this->writer->set_message('Вы забыли указать автора обновления');
 			return;
 		}
 
 		$text = Transform_Text::format(query::$post['text']);
 		if (!trim(strip_tags($text))) {
-			$this->add_res('Вы забыли добавить описание обновления', true);
+			$this->writer->set_message('Вы забыли добавить описание обновления');
 			return;
 		}
 
@@ -131,7 +128,7 @@ class Create_Post extends Create_Abstract
 
 		$links = Transform_Link::parse($links);
 		if (empty($links)) {
-			$this->add_res('Проверьте ссылки, с ними была какая-то проблема', true);
+			$this->writer->set_message('Проверьте ссылки, с ними была какая-то проблема');
 			return;
 		}
 
@@ -149,7 +146,7 @@ class Create_Post extends Create_Abstract
 
 		$update->insert();
 
-		$this->add_res('Запись успешно обновлена');
+		$this->writer->set_success()->set_message('Запись успешно обновлена');
 	}
 
 	protected function correct_main_data($data) {

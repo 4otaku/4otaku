@@ -58,17 +58,16 @@ if (isset(query::$post['do'])) {
 
 	if (class_exists($class)) {
 
-		$worker = new $class(query::$post);
+		$worker = new $class();
 
 		$function = empty(query::$post['function']) ?
 			'main' : query::$post['function'];
 
-		if ($worker->check_access($function, query::$post)) {
+		if ($worker->check_access($function)) {
 
 			$worker->$function();
+			$worker->process_result();
 		}
-
-		$worker->check_redirect();
 	}
 } else {
 
