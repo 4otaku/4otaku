@@ -3,6 +3,7 @@
 abstract class Action_Writer_Abstract
 {
 	protected $success = false;
+	protected $error = 0;
 	protected $message = '';
 	protected $data = array();
 	protected $actions = array();
@@ -23,6 +24,12 @@ abstract class Action_Writer_Abstract
 		foreach ($data as $key => $param) {
 			$this->set_param($key, $param);
 		}
+
+		return $this;
+	}
+
+	public function set_error($error) {
+		$this->error = $error;
 
 		return $this;
 	}

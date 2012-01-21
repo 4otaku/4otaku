@@ -32,9 +32,37 @@ abstract class Api_Create_Abstract extends Api_Abstract {
 			'uid' => $this->uid,
 			'ip' => $this->ip,
 			'type' => $type,
-			'data' => $data,
+			'data' => base64_encode(gzdeflate($data, 9))
 		));
 
 		$model->insert();
+	}
+
+	protected function add_error($code, $error = '') {
+		if ($code == Error_Api::ALREADY_EXISTS) {
+			$this->add_answer('id', $error);
+			$error = '';
+		}
+
+		parent::add_error($code, $error);
+	}
+
+	protected function transform_category() {
+		$data = (array) $this->get('category');
+
+		if (empty($data)) {
+			return array('none');
+		}
+
+		$result = (array) Database::get_vector('category', array('alias', 'name'),
+			Database::array_in('name', $data), $data);
+
+		foreach ($data as &$one) {
+			if (in_array($one, $result)) {
+				$one = array_search($one, $result);
+			}
+		}
+
+		return $data;
 	}
 }

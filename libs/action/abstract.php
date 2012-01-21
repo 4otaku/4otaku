@@ -53,7 +53,9 @@ abstract class Action_Abstract
 	}
 
 	public function process_result() {
-		$this->writer->return_data();
+		$data = $this->writer->return_data();
 		$this->writer->process_actions();
+
+		return $data;
 	}
 }

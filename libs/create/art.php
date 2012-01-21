@@ -11,7 +11,8 @@ class Create_Art extends Create_Abstract
 		$post = $this->correct_main_data($this->reader->get_data());
 
 		if (!is_array($post['images'])) {
-			$this->writer->set_message('Не все обязательные поля заполнены.');
+			$this->writer->set_message('Не все обязательные поля заполнены.')
+				->set_error(Error_Create::MISSING_INPUT);
 			return;
 		}
 
@@ -19,7 +20,8 @@ class Create_Art extends Create_Abstract
 			$pool = new Model_Art_Pool(query::$url[3]);
 
 			if (!$pool->correct_password($post['password'])) {
-				$this->writer->set_message('Неправильный пароль от группы.');
+				$this->writer->set_message('Неправильный пароль от группы.')
+					->set_error(Error_Create::INCORRECT_INPUT);
 				return;
 			}
 		} else {
@@ -88,7 +90,8 @@ class Create_Art extends Create_Abstract
 		} else {
 			$this->writer->set_message('Ваше изображение успешно добавлено, и доступно по адресу '.
 				'<a href="/art/'.$art->get_id().'/">http://4otaku.ru/art/'.$art->get_id().'/</a> или в '.
-				'<a href="/art/'.def::area(1).'/">очереди на премодерацию</a>.');
+				'<a href="/art/'.def::area(1).'/">очереди на премодерацию</a>.')
+				->set_param('id', $art->get_id());
 		}
 	}
 

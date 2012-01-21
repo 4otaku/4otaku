@@ -10,7 +10,7 @@ abstract class Api_Response_Abstract {
 	protected $answer = array();
 
 	protected $error_messages = array(
-		Api_Error::INCORRECT_URL => 'Incorrect url specified',
+		Error_Api::INCORRECT_URL => 'Incorrect url specified',
 	);
 
 	public function __construct($success = false, $errors = array(), $answer = array()) {

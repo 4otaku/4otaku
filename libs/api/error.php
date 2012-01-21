@@ -1,13 +1,8 @@
 <?php
 
-class Api_Error extends Api_Abstract {
-
-	const
-		INCORRECT_URL = 10,
-		MISSING_INPUT = 20,
-		INCORRECT_INPUT = 30;
-
+class Api_Error extends Api_Abstract
+{
 	public function process() {
-		$this->add_error(Api_Error::INCORRECT_URL);
+		$this->add_error(Error_Api::INCORRECT_URL);
 	}
 }
