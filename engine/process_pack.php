@@ -115,7 +115,7 @@ class Process_Pack
 
 				$insert_in_pack[] = array(
 					$art->get_id(), $this->id,
-					$next_order, pathinfo($file,PATHINFO_BASENAME)
+					$next_order, pathinfo($one['data2'], PATHINFO_BASENAME)
 				);
 
 				$next_order++;
