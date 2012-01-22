@@ -2,15 +2,14 @@
 
 class Api_Create_Art extends Api_Create_Abstract {
 
-	const MAX_IMAGE_URL_LENGTH = 2000;
-
 	public function process() {
-		$image = $this->get_image();
 
-		$finfo = new finfo(FILEINFO_MIME);
-		$info = $finfo->buffer($image);
+		$image = $this->get_file($this->get('image'),
+			'Пропущено обязательное поле: image',
+			'Не удалось скачать картинку с указнного адреса'
+		);
 
-		$extension = preg_replace(array('/^.*?\//', '/;.*/'), '', $info);
+		$extension = $this->get_extension($image);
 		$filename = 'image.' . $extension;
 
 		try {
@@ -55,28 +54,5 @@ class Api_Create_Art extends Api_Create_Abstract {
 		if ($success) {
 			$this->add_answer('id', $result->get_data('id'));
 		}
-	}
-
-	protected function get_image() {
-		$image = $this->get('image');
-
-		if (empty($image)) {
-			throw new Error_Api('Missing required field: image',
-				Error_Api::MISSING_INPUT);
-		}
-
-		if (strlen($image) < self::MAX_IMAGE_URL_LENGTH && parse_url($image)) {
-			$image = Http::download($image);
-
-		} else {
-			$image = base64_decode($image);
-		}
-
-		if (empty($image)) {
-			throw new Error_Api('Image url can\'t be reached',
-				Error_Api::INCORRECT_INPUT);
-		}
-
-		return $image;
 	}
 }

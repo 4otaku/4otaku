@@ -39,7 +39,7 @@ class query
 			return $input;
 		}
 
-		foreach ($data as $k => $v)	{
+		foreach ($data as $k => $v) {
 			$new_k = str_replace(
 				array_keys(self::$safe_replacements),
 				array_values(self::$safe_replacements),

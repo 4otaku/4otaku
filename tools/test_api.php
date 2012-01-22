@@ -3,15 +3,15 @@
 $ch = curl_init();
 
 $data = array(
-	'image' => base64_encode(file_get_contents('/tmp/1.jpg')),
+	'archive' => base64_encode(file_get_contents('/tmp/1.zip')),
 //	'category' => array('Фото', 'nsfw'),
-	'author' => 'Василий',
-	'tag' => array('touhou', 'herpaderpa', 'testinnnng<author>'),
+	'title' => 'Василий',
+	'text' => '[b]Тест[/b]',
 	'source' => '4otaku.ru',
-	'format' => 'json'
+//	'format' => 'xml'
 );
 
-curl_setopt($ch, CURLOPT_URL, "http://4otaku.local/api/create/art");
+curl_setopt($ch, CURLOPT_URL, "http://4otaku.local/api/create/art/pack");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
 

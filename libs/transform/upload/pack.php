@@ -2,6 +2,21 @@
 
 class Transform_Upload_Pack extends Transform_Upload_Abstract
 {
+	protected $title = '';
+	protected $text = '';
+
+	public function set_title($title) {
+		$this->title = (string) $title;
+
+		return $this;
+	}
+
+	public function set_text($text) {
+		$this->text = (string) $text;
+
+		return $this;
+	}
+
 	protected function get_max_size() {
 		return def::art('packsize');
 	}
@@ -11,7 +26,7 @@ class Transform_Upload_Pack extends Transform_Upload_Abstract
 
 		$md5 = md5_file($this->file);
 		if (
-			$id = Database::get_field('art_pack', 'id', 'title = ?', query::$get['name'])
+			$id = Database::get_field('art_pack', 'id', 'title = ?', $this->title)
 		) {
 			throw new Error_Upload($id, Error_Upload::ALREADY_EXISTS);
 		}
@@ -22,9 +37,9 @@ class Transform_Upload_Pack extends Transform_Upload_Abstract
 	protected function process() {
 		Database::insert('art_pack', array(
 			'filename' => $this->name,
-			'title' => query::$get['name'],
-			'text' => Transform_Text::format(trim(query::$get['text'])),
-			'pretty_text' => query::$get['text']
+			'title' => $this->title,
+			'text' => Transform_Text::format(trim($this->text)),
+			'pretty_text' => $this->text
 		));
 
 		$id = Database::last_id();

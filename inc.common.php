@@ -1,6 +1,6 @@
 <?php
 
-ini_set('memory_limit', '128M');
+ini_set('memory_limit', '2048M');
 define('DEBUG', $_SERVER['REMOTE_ADDR'] == '80.252.16.11' ||
 	$_SERVER['REMOTE_ADDR'] == '127.0.0.1');
 define('MAINTENANCE', 0);

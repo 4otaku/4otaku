@@ -79,6 +79,8 @@ class Dynamic_Upload extends Dynamic_Abstract
 	public function pack() {
 		$worker = new Transform_Upload_Pack($this->file, $this->name);
 
+		$worker->set_title(query::$get['name'])->set_text(query::$get['text']);
+
 		$this->common($worker);
 	}
 

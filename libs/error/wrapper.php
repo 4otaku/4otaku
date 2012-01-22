@@ -2,6 +2,7 @@
 
 class Error extends Exception {
 	const
+		EMPTY_FILE = 5,
 		FILE_TOO_LARGE = 10,
 		NOT_AN_IMAGE = 20,
 		ALREADY_EXISTS = 30,
