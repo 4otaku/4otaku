@@ -12,6 +12,9 @@ class Error extends Exception {
 	public function __construct($message = '', $code = 0, Exception $previous = null) {
 
 		if (is_int($message) && (empty($code) || !is_int($code))) {
+			if ($code == 0) {
+				$code = null;
+			}
 			parent::__construct('', $message, $code);
 		} else {
 			parent::__construct($message, $code, $previous);

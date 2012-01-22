@@ -6,8 +6,8 @@ class Transform_Video
 	protected $id = '';
 	protected $url = array();
 	protected $nico = false;
-	protected $width = false;
-	protected $height = false;
+	protected $width = 0;
+	protected $height = 0;
 
 	public function __construct($link) {
 		$url = parse_url($link);

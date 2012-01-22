@@ -46,7 +46,7 @@ class Api_Create_Art extends Api_Create_Abstract {
 		}
 
 		if ($result->get_error()) {
-			throw new Error_Api($result->get_error());
+			throw new Error_Api($result->get_message(), $result->get_error());
 		}
 
 		$success = $result->get_success();

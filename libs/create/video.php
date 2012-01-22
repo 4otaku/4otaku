@@ -11,12 +11,21 @@ class Create_Video extends Create_Abstract
 		$post = $this->correct_main_data($this->reader->get_data());
 
 		if (!$post['title']) {
-			$this->writer->set_message('Вы забыли указать заголовок для видео.');
+			$this->writer->set_message('Вы забыли указать заголовок для видео.')
+				->set_error(Error_Create::MISSING_INPUT);
 			return;
 		}
 
 		if (!$post['link']) {
-			$this->writer->set_message('Вы не предоставили ссылки, или же ссылка почему-то битая.');
+			$this->writer->set_message('Вы не предоставили ссылки, или же ссылка почему-то битая.')
+				->set_error(Error_Create::MISSING_INPUT);
+			return;
+		}
+
+		$test = new Transform_Video($post['link']);
+		if(!$test->enable_nico()->get_html()) {
+			$this->writer->set_message('Ссылка не ведет на видео, либо этот видеохостинг не поддерживается')
+				->set_error(Error_Create::INCORRECT_INPUT);
 			return;
 		}
 
@@ -24,7 +33,7 @@ class Create_Video extends Create_Abstract
 		if ($already_have) {
 			$error = 'Это видео уже у нас есть, оно находится по адресу <a href="/video/'.
 				$already_have.'/">http://4otaku.ru/video/'.$already_have.'/</a>.';
-			$this->writer->set_message($error);
+			$this->writer->set_message($error)->set_error(Error_Create::ALREADY_EXISTS);
 			return;
 		}
 
@@ -68,7 +77,8 @@ class Create_Video extends Create_Abstract
 
 		$this->writer->set_success()->set_message('Ваша видео успешно добавлено, и доступно по адресу '.
 			'<a href="/video/'.$item->get_id().'/">http://4otaku.ru/video/'.$item->get_id().'/</a> или в '.
-			'<a href="/video/'.def::area(1).'/">очереди на премодерацию</a>.');
+			'<a href="/video/'.def::area(1).'/">очереди на премодерацию</a>.')
+			->set_param('id', $item->get_id());
 	}
 
 	protected function correct_main_data($data) {
