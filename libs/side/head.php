@@ -28,7 +28,21 @@ class Side_Head
 	}
 
 	public function js() {
-		return $this->get_jss_data($this->js, 'admin.js');
+		$return = $this->get_jss_data($this->js, 'admin.js');
+
+		$plugins = sets::array_get('plugins');
+
+		$ids = array_keys($plugins);
+		$names = Database::get_vector('plugin', array('id', 'filename'),
+			Database::array_in('id', $ids), $ids);
+
+		foreach($plugins as $id => $on) {
+			if (!empty($on)) {
+				$return['list'][] = 'plugin/' . $names[$id] . '.js';
+			}
+		}
+
+		return $return;
 	}
 
 	public function css() {

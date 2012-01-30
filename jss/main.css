@@ -241,6 +241,28 @@ div.mini-shell div.text {
 	background: url(/images/hline.gif) repeat-x;
 }
 
+.plugin_table {
+	width: 100%;
+}
+
+.plugin_table th span {
+	font-weight: normal;
+}
+
+.plugin_table th, .plugin_table td {
+	width: 40%;
+}
+
+.plugin_table th.checkbox, .plugin_table td.checkbox {
+	width: 20%;
+	text-align: center;
+}
+
+.plugin_warning {
+	margin-top: 20px;
+	font-size: 90%;
+}
+
 /* Content, общее */
 
 #content h2{

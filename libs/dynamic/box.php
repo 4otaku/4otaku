@@ -57,8 +57,16 @@ class dynamic__box
 		return true;
 	}
 
-	function black_list () {
-//		var_dump(sets::$data);
-		return true;
+	function plugins () {
+
+		$plugins = Database::get_full_vector('plugin');
+
+		$used = sets::array_get('plugins');
+
+		foreach ($plugins as $id => &$plugin) {
+			$plugin['on'] = !empty($used[$id]);
+		}
+
+		return $plugins;
 	}
 }

@@ -1,0 +1,37 @@
+<script type="text/javascript" src="/jss/m/?b=jss/box&f=plugin_manage.js&ver=1"></script>
+
+<table class="plugin_table">
+	<tr>
+		<th>
+			<span>Имя плагина</span>
+		</th>
+		<th>
+			<span>Ссылка на тред</span>
+		</th>
+		<th class="checkbox">
+			<span>Включен?</span>
+		</th>
+	</tr>
+	{% for id, plugin in data %}
+		<tr>
+			<td>
+				<span>{{plugin.filename|capitalize}}</span>
+			</td>
+			<td>
+				<a href="/board/d/{{plugin.thread}}/">№{{plugin.thread}}</a>
+			</td>
+			<td class="checkbox">
+				<input type="checkbox"
+					 {% if plugin.on %} checked="checked"{% endif %}
+					 class="activate_plugin{% if plugin.on %} checked{% endif %}"
+					 rel="{{id}}"
+				/>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+
+<div class="plugin_warning">
+	Если у вас достаточно старый браузер, некоторые из плагинов могут сломать вам просмотр сайта. <br />
+	Если это произошло и вы уже не можете отключить плагин, <a href="http://wiki.4otaku.ru/Очистка_cookies">удалите наши куки</a>, после чего сообщите в один из тредов поддержки плагинов.
+</div>

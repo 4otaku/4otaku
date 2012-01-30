@@ -900,6 +900,19 @@ INSERT INTO `orders` (`id`, `title`, `username`, `email`, `spam`, `text`, `prett
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `plugin`
+--
+
+CREATE TABLE IF NOT EXISTS `plugin` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `filename` varchar(64) NOT NULL,
+  `thread` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `post`
 --
 
