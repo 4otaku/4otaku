@@ -6,6 +6,7 @@ class Error extends Exception {
 		FILE_TOO_LARGE = 10,
 		NOT_AN_IMAGE = 20,
 		ALREADY_EXISTS = 30,
+		UNKNOWN_TAG = 60,
 		MISSING_INPUT = 420,
 		INCORRECT_INPUT = 430;
 

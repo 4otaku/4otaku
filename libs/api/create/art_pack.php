@@ -1,7 +1,7 @@
 <?php
 
-class Api_Create_Art_Pack extends Api_Create_Abstract {
-
+class Api_Create_Art_Pack extends Api_Create_Abstract
+{
 	const
 		ALREADY_EXISTS_MESSAGE = 'CG-пак с таким заголовком уже существует. Убедитесь что он не содержит то же самое, и если нет, поменяйте название своего пака.',
 		ONLY_ZIP_MESSAGE = 'Пока принимаются только zip-архивы.';

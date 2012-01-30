@@ -1,6 +1,7 @@
 <?php
 
-abstract class Api_Create_Abstract extends Api_Abstract {
+abstract class Api_Create_Abstract extends Api_Abstract
+{
 
 	const MAX_URL_LENGTH = 2000;
 
