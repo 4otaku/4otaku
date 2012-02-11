@@ -33,6 +33,12 @@
 					<img align="left" src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>">
 				</a>
 		<? } }
+		if (!empty($post['content']['random'])) {
+			foreach ($post['content']['random'] as $image) { ?>
+				<a href="http://<?=def::site('domain');?><?=$def['site']['dir'];?>/art/<?=$image['id'];?>/">
+					<img align="left" src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>.jpg">
+				</a>
+		<? } }
 		if (!empty($post['content']['flash'])) { 
 			foreach ($post['content']['flash'] as $flash) { ?>
 				<a href="http://<?=def::site('domain');?><?=$def['site']['dir'];?>/images/board/full/<?=$flash['full'];?>">

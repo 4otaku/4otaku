@@ -324,6 +324,17 @@ class output__board extends engine
 							$current_count++;
 						}
 					}
+					
+					if (!empty($content['random'])) {
+						foreach ($content['random'] as $random_key => $image) {
+							$content['random'][$random_key]['full_size_info'] =
+								obj::transform('file')->weight($image['size']) .
+								', ' . $image['width'] . 'x' . $image['height'] . ' пикселей';							
+							
+							$images_count++;
+							$current_count++;
+						}
+					}					
 
 					if (!empty($content['flash'])) {
 						foreach ($content['flash'] as $flash_key => $flash) {

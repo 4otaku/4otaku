@@ -1163,6 +1163,24 @@ span.board_quote {
 div.skipped { padding: 5px; margin: 0 0 5px 0; border: 1px solid #C7C500; background: #E8E7B7;  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
 div.skipped a.readmore { float: right; }
 
+.random_select_container {
+	margin-top: 80px;
+	width: 100%;
+	display: block;
+}
+
+.art_random {
+	position: relative;
+}
+
+.art_random .dice {
+	float: none;
+	padding: none;
+	position: absolute;
+	top: 3px;
+	right: 3px;
+}
+
 /* Content, админка */
 
 #darklayer {

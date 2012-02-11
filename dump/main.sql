@@ -443,7 +443,7 @@ CREATE TABLE IF NOT EXISTS `board` (
 CREATE TABLE IF NOT EXISTS `board_attachment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(10) unsigned NOT NULL,
-  `type` enum('image','video','flash') NOT NULL,
+  `type` enum('image','video','flash','random') NOT NULL,
   `data` text NOT NULL,
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),

@@ -22,13 +22,19 @@ class Transform_Upload_Board_Image extends Transform_Upload_Abstract_Image
 		$thumb = md5(microtime(true));
 		$newthumb = IMAGES.SL.'board'.SL.'thumbs'.SL.$thumb.'.jpg';
 		$this->worker = Transform_Image::get_worker($newfile);
-		$sizes = $this->worker->get_image_width().'x'.$this->worker->get_image_height();
+		$width = $this->worker->get_image_width();
+		$height = $this->worker->get_image_height();
 		$this->scale(array(def::board('thumbwidth'), def::board('thumbheight')), $newthumb);
 
 		$this->set(array(
 			'success' => true,
 			'image' => SITE_DIR.'/images/board/thumbs/'.$thumb.'.jpg',
-			'data' => $newname.'#'.$thumb.'.jpg#'.$this->size.'#'.$sizes,
+			'data' => $newname.'#'.$thumb.'.jpg#'.$this->size.'#'.$width.'x'.$height,
+			'full' => $newname,
+			'thumb' => $thumb,
+			'size' => $this->size,
+			'width' => $width,
+			'height' => $height,
 		));
 	}
 }

@@ -6,6 +6,13 @@ class input__board extends input__common
 		'd', 'sto'
 	);
 
+	protected $random_codes = array(
+		'random_main' => 'main',
+		'random_flea' => 'flea_market',
+		'random_cg' => 'cg',
+		'random_sprite' => 'sprites',
+	);
+	
 	protected $max_threads_in_board = 20;
 
 	function add() {
@@ -16,10 +23,42 @@ class input__board extends input__common
 		$count_content = 0;
 
 		if (!empty(query::$post['image']) && is_array(query::$post['image'])) {
-			query::$post['image'] = array_unique(query::$post['image']);
 
 			foreach (query::$post['image'] as $add_image) {
 				if ($count_content >= def::board('maxcontent')) {
+					continue;
+				}
+				
+				$count_content++;
+
+				if (array_key_exists($add_image, $this->random_codes)) {
+					$random_art = $this->get_random_art($this->random_codes[$add_image]); 
+					
+					if ($random_art) {
+						$name = $random_art['md5'] . '.' . $random_art['extension'];
+						$path = IMAGES . SL . 'booru' . SL . 'full' . SL . $name;
+
+						try {
+							$resizer = new Transform_Upload_Board_Image($path, $name);						
+							$result = $resizer->process_file();
+						} catch (Error_Upload $e) {
+							continue;
+						}
+						
+						if (empty($result['success'])) {
+							continue;
+						}
+						
+						$content['random'][] = array(
+							'id' => $random_art['id'],
+							'full' => $result['full'],
+							'thumb' => $result['thumb'],
+							'size' => $result['size'],
+							'width' => $result['width'],
+							'height' => $result['height'],
+						);
+					}
+					
 					continue;
 				}
 
@@ -37,7 +76,6 @@ class input__board extends input__common
 						'sizes' => $parts[3],
 					);
 				}
-				$count_content++;
 			}
 		}
 
@@ -201,6 +239,21 @@ class input__board extends input__common
 				);
 			}
 		}
+	}
+	
+	protected function get_random_art($type) {
+		$data = false;
+		$attempts = 0;
+		while (!$data && ++$attempts < 5) {
+			$count = Database::get_count('art', 'area = ?', $type);
+			if (!$count) {
+				continue;
+			}
+			$position = mt_rand(0, $count - 1);
+			$data = Database::limit(1, $position)->get_full_row('art', 'area = ?', $type);
+		}
+		
+		return $data;
 	}
 
 	function trip($string) {

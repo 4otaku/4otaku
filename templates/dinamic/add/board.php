@@ -68,6 +68,9 @@
 					Загрузить изображение или flash
 				</td>
 				<td class="inputdata">
+					<div class="right">
+						<input class="disabled add_random" value="Добавить пикрандом" type="submit" />
+					</div>	
 					<table>
 						<tr>
 							<td>

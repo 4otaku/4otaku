@@ -49,7 +49,7 @@ $(document).ready(function(){
 					+response['image']+');"><img class="cancel" src="'
 					+window.config.image_dir+'/cancel.png"><input type="hidden" name="image[]" value="'
 					+response['data']+'"></div>');
-				$("#transparent td img.cancel").click( function(){
+				$("#transparent td img.cancel").click(function(){
 					$(this).parent().remove();
 				});
 			}
@@ -61,6 +61,20 @@ $(document).ready(function(){
 		$("#textfield").html(">>"+id+"\n");
 	}
 
-	$("#addform").attr("action",document.location.href.split('#')[0]);
+	$("#addform").attr("action", document.location.href.split('#')[0]);
 
+	$(".add_random").click(function(){
+		$('#transparent td').append('<div style="background-image: url(/images/dice.jpg); background-repeat: repeat">'+
+			'<img class="cancel" src="/images/cancel.png">'+
+			'<span class="random_select_container center">'+
+			'<select name="image[]" class="random_select">'+
+				'<option value="random_main">С главной</option>'+
+				'<option value="random_flea">Из барахолки</option>'+
+				'<option value="random_cg">Из CG-паков</option>'+
+				'<option value="random_sprite">Из спрайтов</option>'+
+			'</div></select></div>');
+		$("#transparent td img.cancel").click(function(){
+			$(this).parent().remove();
+		});		
+	});
 });

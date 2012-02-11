@@ -93,7 +93,7 @@ class dynamic__board extends engine
 		if (!empty($data)) {
 			$attachments = Database::order('order', 'asc')->
 				get_table('board_attachment', 'post_id, data',
-				'type = "image" and '.Database::array_in('post_id', $ids),
+				'(type = "image" or type = "random") and '.Database::array_in('post_id', $ids),
 				$ids);
 
 			foreach ($attachments as $file) {
@@ -109,9 +109,10 @@ class dynamic__board extends engine
 				} else {
 					$i = 0;
 					foreach($item['image'] as $image) {
+						$i++;
+						$append = $i > 1 ? '_'.$i : '';
 
-						$image_file_name = $item['id'].
-							($i++ ? '_'.($i+1) : '').'.'.
+						$image_file_name = $item['id'].$append.'.'.
 							end(explode('.', $image['full']));
 						$images[$image_file_name] = $image['full'];
 					}

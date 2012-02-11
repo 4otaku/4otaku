@@ -107,7 +107,7 @@
 		if (!empty($thread['content']['image'])) { 
 			foreach ($thread['content']['image'] as $image) { ?>
 				<a href="<?=$def['site']['dir']?>/images/board/full/<?=$image['full'];?>" 
-					target="_blank" class="board_image_thumb with_help" 
+					target="_blank" class="board_image_thumb board_image_thumb_clickable with_help" 
 					title="<?=$image['full_size_info'];?>" 
 					rel="<?=$image['sizes'];?>">
 					<img 
@@ -116,6 +116,15 @@
 					>
 				</a>
 		<? } }
+		if (!empty($thread['content']['random'])) { 
+			foreach ($thread['content']['random'] as $image) { ?>
+				<a href="<?=$def['site']['dir']?>/art/<?=$image['id'];?>/" 
+					title="Арт №<?=$image['id'];?>; <?=$image['full_size_info'];?>" 
+					target="_blank" class="board_image_thumb with_help art_random">
+					<img src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>.jpg" />
+					<img src="<?=$def['site']['dir']?>/images/dice-small.png" class="dice" />
+				</a>
+		<? } }		
 		if (!empty($thread['content']['flash'])) { 
 			foreach ($thread['content']['flash'] as $flash) { ?>
 				<a href="<?=$def['site']['dir']?>/images/board/full/<?=$flash['full'];?>" 

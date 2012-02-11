@@ -1110,7 +1110,7 @@ $(document).ready(function(){
 	/* Search end */
 
 	/* Board start */
-
+	
 	$(".delete_from_board").click(function(){
 		if ($(this).parents('div').is(".thread")) {
 			var type = "тред";
@@ -1146,7 +1146,7 @@ $(document).ready(function(){
 			css("border-color", "#FFFFFF");
 	});
 
-	$(".board_image_thumb").live('click', function(event){
+	$(".board_image_thumb_clickable").live('click', function(event){
 		if(is_left_click(event)) {
 			event.preventDefault();
 			var sizes = $(this).attr('rel').split('x');
@@ -1156,7 +1156,7 @@ $(document).ready(function(){
 				img.css({'width':sizes[0]+'px','height':sizes[1]+'px'});
 			}
 
-			$(this).addClass('board_image_full').removeClass('board_image_thumb');
+			$(this).addClass('board_image_full').removeClass('board_image_thumb_clickable');
 			$(this).parents('div').addClass('clear');
 			if (img.attr('rel').indexOf('/full/') != -1) {
 				var tmp = img.attr('rel');
@@ -1164,7 +1164,7 @@ $(document).ready(function(){
 				img.attr('src', tmp);
 			}
 			if(
-				$(".board_image_thumb").length == 0 &&
+				$(".board_image_thumb_clickable").length == 0 &&
 				$(".board_unfold_all").length > 0
 			) {
 				var new_text = $(".board_unfold_all").attr('rel');
@@ -1183,7 +1183,7 @@ $(document).ready(function(){
 			event.preventDefault();
 			var img = $(this).children('img');
 			img.css({'width':'auto','height':'auto'});
-			$(this).addClass('board_image_thumb').removeClass('board_image_full');
+			$(this).addClass('board_image_thumb_clickable').removeClass('board_image_full');
 			$(this).parents('div').removeClass('clear');
 			if (img.attr('rel').indexOf('/thumbs/') != -1) {
 				var tmp = img.attr('rel');
@@ -1191,7 +1191,7 @@ $(document).ready(function(){
 				img.attr('src', tmp);
 			}
 			if(
-				$(".board_image_thumb").length > 0 &&
+				$(".board_image_thumb_clickable").length > 0 &&
 				$(".board_fold_all").length > 0
 			) {
 				var new_text = $(".board_fold_all").attr('rel');
@@ -1208,7 +1208,7 @@ $(document).ready(function(){
 	$(".board_unfold_all").live('click', function(event){
 		event.preventDefault();
 		if(is_left_click(event)) {
-			$(".board_image_thumb").click();
+			$(".board_image_thumb_clickable").click();
 		}
 	});
 
