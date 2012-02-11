@@ -1,5 +1,11 @@
 <? 
-	$areas = array('main' => 'на главной', 'workshop' => 'в очереди', 'flea_market' => 'на барахолке');
+	$areas = array(
+		'main' => 'на главной', 
+		'workshop' => 'в очереди', 
+		'flea_market' => 'на барахолке', 
+		'cg' => 'в CG-паках', 
+		'sprites' => 'в спрайтах'
+	);
 
 	if(is_array($data['main']['doubles']))
 	{
