@@ -269,13 +269,17 @@ class output__board extends engine
 					if (!empty($item['content']['image'])) {
 						$images_count += count($item['content']['image']);
 					}
+					
+					if (!empty($item['content']['random'])) {
+						$images_count += count($item['content']['random']);
+					}
 
 					if (!empty($item['content']['flash'])) {
-						$flash_count++;
+						$images_count += count($item['content']['flash']);
 					}
 
 					if (!empty($item['content']['video'])) {
-						$video_count++;
+						$images_count += count($item['content']['video']);
 					}
 				}
 			}
