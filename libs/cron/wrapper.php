@@ -288,11 +288,22 @@ class Cron
 			foreach ($arts as $id => $art) {
 				$art['vector'] = puzzle_uncompress_cvec(base64_decode($art['vector']));
 				$similar = '|';
+				$art_area = false;
 				foreach ($all as $compare_id => $vector) {
 					if (
 						$id != $compare_id &&
 						puzzle_vector_normalized_distance($art['vector'], $vector) < 0.3
 					) {
+						if (empty($art_area)) {
+							$art_area = Database::get_field('art', 'area', $id);
+						}
+						
+						if ($art_area == 'cg' &&
+							Database::get_field('art', 'area', $compare_id) == 'cg') {
+								
+							continue;
+						}
+						
 						$similar .= $compare_id.'|';
 					}
 				}
