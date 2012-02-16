@@ -44,6 +44,8 @@ class Transform_Upload_Post_File extends Transform_Upload_Abstract_Image
 			$return_data .=
 				'<input type="hidden" name="file[0][height]" value="'.
 				$this->worker->get_image_height().'" />'."\n";
+				
+			$this->set_result('height', $this->worker->get_image_height());
 		} elseif ($extension == 'mp3') {
 			$type = 'audio';
 
@@ -94,6 +96,11 @@ class Transform_Upload_Post_File extends Transform_Upload_Abstract_Image
 		$this->set(array(
 			'success' => true,
 			'data' => $return_data,
+			'filename' => $filename.'.'.$extension,
+			'type' => $type,
+			'folder' => $time,
+			'name' => $name,
+			'size' => $sizefile,
 		));
 	}
 }

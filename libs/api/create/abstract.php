@@ -69,7 +69,26 @@ abstract class Api_Create_Abstract extends Api_Abstract
 		return $data;
 	}
 
-	protected function get_file($field, $error_empty, $error_unreachable) {
+	protected function transform_language() {
+		$data = (array) $this->get('language');
+
+		if (empty($data)) {
+			return array('none');
+		}
+
+		$result = (array) Database::get_vector('language', array('alias', 'name'),
+			Database::array_in('name', $data), $data);
+
+		foreach ($data as &$one) {
+			if (in_array($one, $result)) {
+				$one = array_search($one, $result);
+			}
+		}
+
+		return $data;
+	}
+
+	protected function get_file($field, $error_empty = '', $error_unreachable = '') {
 		$image = $this->get('image');
 
 		if (empty($field)) {

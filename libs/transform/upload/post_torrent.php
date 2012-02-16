@@ -47,6 +47,10 @@ class Transform_Upload_Post_Torrent extends Transform_Upload_Abstract
 		$this->set(array(
 			'success' => true,
 			'data' => $return_data,
+			'file' => $filename,
+			'hash' => $hash,
+			'name' => 'Скачать',
+			'size' => $size,
 		));
 	}
 }
