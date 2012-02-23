@@ -275,11 +275,11 @@ class output__board extends engine
 					}
 
 					if (!empty($item['content']['flash'])) {
-						$images_count += count($item['content']['flash']);
+						$flash_count += count($item['content']['flash']);
 					}
 
 					if (!empty($item['content']['video'])) {
-						$images_count += count($item['content']['video']);
+						$video_count += count($item['content']['video']);
 					}
 				}
 			}
