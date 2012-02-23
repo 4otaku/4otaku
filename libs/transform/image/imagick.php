@@ -13,7 +13,7 @@ class Transform_Image_Imagick extends Transform_Image_Abstract_Animation
 			$new_object = clone $this;
 			$new_object->set_worker($this->worker->clone());
 			return $new_object;
-		}
+		} 
 
 		throw new Error_Image(Error_Image::UNEXPECTED_FUNCTION_CALL);
 	}

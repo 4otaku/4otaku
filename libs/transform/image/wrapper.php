@@ -5,9 +5,13 @@ class Transform_Image
 	protected static $worker_name;
 
 	public static function get_worker($path) {
-		$name = self::get_worker_name();
+		try {
+			$name = self::get_worker_name();
 
-		return new $name($path);
+			return new $name($path);
+		} catch (Exception $e) {
+			throw new Error_Image(Error_Image::BROKEN_IMAGE);
+		}
 	}
 
 	protected static function get_worker_name() {

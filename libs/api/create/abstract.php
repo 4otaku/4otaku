@@ -89,7 +89,6 @@ abstract class Api_Create_Abstract extends Api_Abstract
 	}
 
 	protected function get_file($field, $error_empty = '', $error_unreachable = '') {
-		$image = $this->get('image');
 
 		if (empty($field)) {
 			throw new Error_Api($error_empty, Error_Api::MISSING_INPUT);

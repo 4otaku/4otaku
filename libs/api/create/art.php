@@ -12,7 +12,7 @@ class Api_Create_Art extends Api_Create_Abstract
 		$extension = $this->get_extension($image);
 		$filename = 'image.' . $extension;
 
-		try {
+		try {			
 			$uploader = new Transform_Upload_Art($image, $filename);
 
 			$image = $uploader->process_file();
