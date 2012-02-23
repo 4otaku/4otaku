@@ -23,6 +23,26 @@
 					</td>
 				</tr>
 			</table>
+		{% else %}	
+			<table>
+				<tr class="link" rel="1">
+					<td>
+						<input size="20" name="link[1][name]" value="" type="text" />:
+						<input size="50" name="link[1][link]" value="" type="text" />
+						~(<input size="2" name="link[1][size]" value="" type="text" />
+						<select name="link[1][sizetype]">
+							<option value="0">кб</option>
+							<option value="1">мб</option>
+							<option value="2">гб</option>
+						</select>
+						)
+						<input type="submit" class="disabled remove_link sign" rel="main" value="-" />
+					</td>
+					<td class="handler">
+						<img src="/images/str.png" />
+					</td>
+				</tr>
+			</table>			
 		{% endfor %}
 	</div>
 </div>
