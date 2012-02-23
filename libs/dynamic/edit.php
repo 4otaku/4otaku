@@ -111,7 +111,7 @@ class dynamic__edit extends engine
 			!Check::num(query::$get['id']) ||
 			!Check::num(query::$get['val']) ||
 			!Database::get_count('art_pool',
-				'id = ? and (password = "" or password = ?',
+				'id = ? and (password = "" or password = ?)',
 				array(query::$get['id'], md5(query::$get['password'])))
 		) {
 			return;
