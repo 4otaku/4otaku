@@ -18,7 +18,7 @@ class Create_Post extends Create_Abstract
 			$this->writer->set_message('Не все обязательные поля заполнены.')
 				->set_error(Error_Create::MISSING_INPUT);
 			return;
-		}
+		}	
 
 		if ($post['author'] != def::user('name') && $post['author']) {
 			$cookie = new dynamic__cookie();

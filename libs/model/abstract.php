@@ -96,7 +96,7 @@ abstract class Model_Abstract implements ArrayAccess
 	}
 
 	public function load() {
-		if ($this->is_loaded()) {
+		if ($this->is_loaded() || $this->is_phantom()) {
 			return $this;
 		}
 

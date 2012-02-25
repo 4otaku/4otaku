@@ -10,9 +10,9 @@ abstract class Model_Abstract_Logged extends Model_Abstract
 		return $this;
 	}
 
-	public function insert() {
+	public function insert() {		
 		parent::insert();
-
+		
 		$this->log_version();
 
 		return $this;

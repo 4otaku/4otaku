@@ -38,6 +38,14 @@ class Model_Post_Link extends Model_Abstract
 	
 	public function insert() {
 		
+		if ($this->get('size') === null) {
+			$this->set('size', 0);
+		}
+		
+		if ($this->get('sizetype') === null) {
+			$this->set('sizetype', 1);
+		}		
+		
 		parent::insert();
 		
 		$urls = $this->get('url');
