@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `art_rating` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `art_id` int(10) unsigned NOT NULL,
   `cookie` varchar(32) NOT NULL,
-  `ip` int(11) NOT NULL,
+  `ip` bigint(20) NOT NULL,
   `rating` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_cookie` (`art_id`,`cookie`),
