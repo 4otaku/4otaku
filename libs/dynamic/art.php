@@ -69,11 +69,21 @@ class dynamic__art extends engine
 	}
 
 	function set_vote () {
+		$rating = (int) query::$get['rating'];
+
+		if ($rating > 1) {
+			$rating = 1;
+		}
+
+		if ($rating < -1) {
+			$rating = -1;
+		}
+
 		$insert = array(
 			(int) query::$get['id'],
 			query::$cookie,
 			ip2long($_SERVER['REMOTE_ADDR']),
-			(int) query::$get['rating']
+			$rating
 		);
 
 		obj::db()->insert('art_rating', $insert);
@@ -107,7 +117,7 @@ class dynamic__art extends engine
 	function danbooru($section, $id)
 	{
 		Check::rights();
-		
+
 		if ($section == 'danbtag')
 		{
 			$dmd5 = obj::db()->sql('select md5 from art where id='.$id,2);
@@ -123,10 +133,10 @@ class dynamic__art extends engine
 					$dtagstr[] = $node->getAttribute('tags');
 				}
 
-				$request = array('artist' => true, 
-								'series' => true, 
+				$request = array('artist' => true,
+								'series' => true,
 								'character' => true);
-				
+
 				$dtags[] = explode(" ", $dtagstr[0]);
 				$dtags[0] = $this->filter_external_tags($dtags[0], $request);
 				$dtag = implode(", ", $dtags[0]);
@@ -186,12 +196,12 @@ class dynamic__art extends engine
 				if (isset($diff_arr))
 				{
 					krsort($diff_arr);															/* Может быть оно уже отсортировано iqdb */
-					$request = array('artist' => true, 
-									'series' => true, 
+					$request = array('artist' => true,
+									'series' => true,
 									'character' => true);
 					$diff_arr = $this->filter_external_tags(reset($diff_arr), $request);
 					$dtag = html_entity_decode(implode(", ", $diff_arr));
-					
+
 					if ($explicit)
 					{
 						$this->add_category('nsfw',$id);
@@ -235,13 +245,13 @@ class dynamic__art extends engine
 
 			if (strpos($tag, 'bad_id') === (int)0) 			{ $tag = str_replace('bad_id', '',$tag); }
 		}
-		
+
 		return $tags;
 	}
 
 	static function substract_tag($tags,$id) {
 		global $def;
-		
+
 		Check::rights();
 
 		$info = obj::db()->sql('select area, tag from art where id='.$id,1);
@@ -268,9 +278,9 @@ class dynamic__art extends engine
 	}
 
 	function substract_category($category,$id) {
-		
+
 		Check::rights();
-		
+
 		$categories = explode('|',trim(obj::db()->sql('select category from art where id='.$id,2),'|'));
 		$categories = array_diff($categories,array($category));
 		if (empty($categories)) $categories = array('none');
@@ -280,7 +290,7 @@ class dynamic__art extends engine
 
 	function transfer($area,$id) {
 		global $add_res;
-		
+
 		Check::rights();
 
 		query::$post = array('id' => $id, 'sure' => 1, 'do' => array('art','transfer'), 'where' => $area);
