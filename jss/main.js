@@ -1110,7 +1110,7 @@ $(document).ready(function(){
 	/* Search end */
 
 	/* Board start */
-	
+
 	$(".delete_from_board").click(function(){
 		if ($(this).parents('div').is(".thread")) {
 			var type = "тред";
@@ -1158,6 +1158,7 @@ $(document).ready(function(){
 
 			$(this).addClass('board_image_full').removeClass('board_image_thumb_clickable');
 			$(this).parents('div').addClass('clear');
+			$(this).css('height', 'auto');
 			if (img.attr('rel').indexOf('/full/') != -1) {
 				var tmp = img.attr('rel');
 				img.attr('rel', img.attr('src'));
@@ -1185,6 +1186,8 @@ $(document).ready(function(){
 			img.css({'width':'auto','height':'auto'});
 			$(this).addClass('board_image_thumb_clickable').removeClass('board_image_full');
 			$(this).parents('div').removeClass('clear');
+			$(this).css('height', '180px');
+
 			if (img.attr('rel').indexOf('/thumbs/') != -1) {
 				var tmp = img.attr('rel');
 				img.attr('rel', img.attr('src'));
