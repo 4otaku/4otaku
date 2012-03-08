@@ -297,7 +297,7 @@ AbstractChosen = (function() {
         if (this.results_showing) {
           return this.results_hide();
         }
-        break;      
+        break;
       case 9:
       case 38:
       case 40:
@@ -571,7 +571,7 @@ Chosen = (function() {
   Chosen.prototype.container_mousedown = function(evt) {
 	if (evt != undefined && evt.target != undefined && evt.target.nodeName == "SPAN") {
 		return;
-	}	  
+	}
     var target_closelink;
     if (!this.is_disabled) {
       target_closelink = evt != null ? ($(evt.target)).hasClass("search-choice-close") : false;
@@ -580,7 +580,6 @@ Chosen = (function() {
       }
       if (!this.pending_destroy_click && !target_closelink) {
         if (!this.active_field) {
-          $(document).click(this.click_test_action);
           this.results_show();
         } else if (!this.is_multiple && evt && ($(evt.target) === this.selected_item || $(evt.target).parents("a.chzn-single").length)) {
           evt.preventDefault();
@@ -599,15 +598,14 @@ Chosen = (function() {
   };
   Chosen.prototype.blur_test = function(evt) {
     if (
-		!this.active_field && 
-		this.container.hasClass("chzn-container-active") && 
+		!this.active_field &&
+		this.container.hasClass("chzn-container-active") &&
 		document.body.status != 'blurred'
 	) {
-      return this.close_field();
+		this.close_field();
     }
   };
   Chosen.prototype.close_field = function() {
-    $(document).unbind("click", this.click_test_action);
     if (!this.is_multiple) {
       this.selected_item.attr("tabindex", this.search_field.attr("tabindex"));
       this.search_field.attr("tabindex", -1);
@@ -621,7 +619,7 @@ Chosen = (function() {
     this.winnow_results_clear();
     this.clear_backstroke();
     this.show_search_field_default();
-    return this.search_field_scale();
+    this.search_field_scale();
   };
   Chosen.prototype.activate_field = function() {
     if (!this.is_multiple && !this.active_field) {
@@ -669,15 +667,15 @@ Chosen = (function() {
     return this.parsing = false;
   };
   Chosen.prototype.results_add = function(options) {
-    var data; 
+    var data;
 	me = this;
 	var done = false;
-	
+
 	$.each(options, function(key, option) {
 	  if (option.text == undefined) {
 		  return;
-	  }	
-		
+	  }
+
       data = {};
       data.array_index = me.results_data.length;
       data.options_index = me.results_data.length;
@@ -690,7 +688,7 @@ Chosen = (function() {
       data.classes = "";
       data.style = "color: #" + option.color + ";";
       me.choice_build(data);
-      
+
       done = true;
     });
     if (done) {
@@ -923,7 +921,7 @@ Chosen = (function() {
 			this.result_clear_highlight();
 		}
 	}
-    
+
     a = searchText[0].toLowerCase();
     b = searchText[1].toLowerCase();
     c = searchText[2];
@@ -977,7 +975,7 @@ Chosen = (function() {
             this.result_deactivate($("#" + result_id));
           }
         }
-      }      
+      }
     }
     if (results < 1 && searchText.length) {
       return this.no_results(searchText);
@@ -986,7 +984,7 @@ Chosen = (function() {
     }
   };
   Chosen.prototype.winnow_results_clear = function() {
-    var li, lis, _i, _len, _results;    
+    var li, lis, _i, _len, _results;
     this.search_field.val("");
     lis = this.search_results.find("li");
     $("li.no-results").remove();
@@ -1102,7 +1100,7 @@ Chosen = (function() {
       dd_top = this.container.height();
       return this.dropdown.css({
         "top": dd_top + "px"
-      });      
+      });
     }
   };
   Chosen.prototype.generate_random_id = function() {
