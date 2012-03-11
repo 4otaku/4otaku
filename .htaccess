@@ -1,8 +1,8 @@
 php_flag short_open_tag on
 
-php_value upload_max_filesize 200M
-php_value post_max_size 201M
-php_value memory_limit 512M
+php_value upload_max_filesize 256M
+php_value post_max_size 258M
+php_value memory_limit 1024M
 php_value max_execution_time 3000
 
 AddDefaultCharset UTF-8
