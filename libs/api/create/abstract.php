@@ -31,14 +31,14 @@ abstract class Api_Create_Abstract extends Api_Abstract
 	}
 
 	protected function log($type, $data) {
-		$model = new Model_Api_Log(array(
+/*		$model = new Model_Api_Log(array(
 			'uid' => $this->uid,
 			'ip' => $this->ip,
 			'type' => $type,
 			'data' => base64_encode(gzdeflate($data, 9))
 		));
 
-		$model->insert();
+		$model->insert(); */
 	}
 
 	protected function add_error($code, $error = '') {
