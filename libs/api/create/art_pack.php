@@ -10,6 +10,7 @@ class Api_Create_Art_Pack extends Api_Create_Abstract
 
 		$title = $this->get('title');
 		$text = $this->get('text');
+		$filename = $this->get('filename');
 
 		if (empty($title)) {
 			throw new Error_Api('Пропущено обязательное поле: title', Error_Api::MISSING_INPUT);
@@ -27,7 +28,11 @@ class Api_Create_Art_Pack extends Api_Create_Abstract
 		}
 
 		try {
-			$uploader = new Transform_Upload_Pack($pack, 'temp.zip');
+			if (empty($filename)) {
+				$filename = 'temp.zip';
+			}
+
+			$uploader = new Transform_Upload_Pack($pack, $filename);
 			$uploader->set_title($title)->set_text($text);
 
 			$result = $uploader->process_file();
