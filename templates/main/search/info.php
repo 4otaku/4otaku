@@ -17,7 +17,7 @@
 	</div>
 	<div class="right">
 		Сортировать результаты поиска по:
-		<select class="search-switcher">
+		 <select class="search-switcher">
 			<option value="rel"<?=($url[3] == 'rel' ? ' selected="selected"' : '');?>>
 				релевантности.
 			</option>
@@ -30,7 +30,7 @@
 		</select>
 	</div>
 	Вы ищете по:
-	<?
+	 <?
 		$search_area = str_split($url[2]);
 		foreach ($search_area as &$one) $one = $lang['search'][$one];
 		echo implode(', ',$search_area);
