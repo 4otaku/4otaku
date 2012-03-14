@@ -10,13 +10,13 @@
 ?>
 <div class="shell">
 	<div class="center margin10">
-		<input type="text" size="50" class="search" value="<?=urldecode($url[4]);?>"> <input type="button" value="искать" class="searchb">						
+		<input type="text" size="50" class="search" value="<?=htmlspecialchars(urldecode($url[4]));?>"> <input type="button" value="искать" class="searchb">
 	</div>
 	<div class="search-tip-wrapper">
 		<div id="search-tip" class="center search-main" rel="0"></div>
 	</div>
 	<div class="right">
-		Сортировать результаты поиска по: 
+		Сортировать результаты поиска по:
 		<select class="search-switcher">
 			<option value="rel"<?=($url[3] == 'rel' ? ' selected="selected"' : '');?>>
 				релевантности.
@@ -29,7 +29,7 @@
 			</option>
 		</select>
 	</div>
-	Вы ищете по: 
+	Вы ищете по:
 	<?
 		$search_area = str_split($url[2]);
 		foreach ($search_area as &$one) $one = $lang['search'][$one];
