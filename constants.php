@@ -20,3 +20,5 @@
 	define('KILOBYTE', 1024);
 	define('MEGABYTE', KILOBYTE * 1024);
 	define('GIGABYTE', MEGABYTE * 1024);
+
+	date_default_timezone_set('Europe/Moscow');

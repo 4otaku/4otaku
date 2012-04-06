@@ -2,6 +2,8 @@
 
 abstract class Model_Abstract_Meta extends Model_Abstract_Logged
 {
+	protected $nsfw_category = 'nsfw';
+
 	protected $meta_fields= array();
 
 	public function set($key, $value = null) {
@@ -21,6 +23,12 @@ abstract class Model_Abstract_Meta extends Model_Abstract_Logged
 			}
 
 			parent::set('meta', $meta);
+
+			if ($key == 'category' && !sets::show('nsfw')) {
+				if (in_array($this->nsfw_category, $value)) {
+					$this->set('hidden', true);
+				}
+			}
 		}
 
 		return $this;

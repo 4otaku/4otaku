@@ -79,11 +79,13 @@ function decrypt($input) {
 	return _crypt(_base64_decode($input),true);
 }
 
-function hex2bin($md5) {
-	for ($i = 0; $i < 32; $i += 2)
-		$return .= chr(hexdec($md5{$i + 1}) + hexdec($md5{$i})*16);
+if (!function_exists('hex2bin')) {
+	function hex2bin($md5) {
+		for ($i = 0; $i < 32; $i += 2)
+			$return .= chr(hexdec($md5{$i + 1}) + hexdec($md5{$i})*16);
 
-	return $return;
+		return $return;
+	}
 }
 
 function get_include_contents($filename) {
