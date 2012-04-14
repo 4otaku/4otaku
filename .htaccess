@@ -19,5 +19,6 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 <FilesMatch "config.js">
+	AddType application/x-httpd-php .js
 	AddHandler application/x-httpd-php .js
 </FilesMatch>

@@ -49,23 +49,27 @@ class Model_Post extends Model_Abstract_Meta
 	protected function add_children() {
 		$order = 0;
 		$images = $this->get('image');
-		if (!empty($images)) {
+		if (!empty($images) && is_array($images)) {
 			foreach ($images as $image) {
-				$image->set('post_id', $this->get_id());
-				$image->set('order', $order);
-				$image->insert();
-				$order++;
+				if (is_object($image)) {
+					$image->set('post_id', $this->get_id());
+					$image->set('order', $order);
+					$image->insert();
+					$order++;
+				}
 			}
 		}
 
 		$order = 0;
 		$links = $this->get('link');
-		if (!empty($links)) {
+		if (!empty($links) && is_array($links)) {
 			foreach ($links as $link) {
-				$link->set('post_id', $this->get_id());
-				$link->set('order', $order);
-				$link->insert();
-				$order++;
+				if (is_object($link)) {
+					$link->set('post_id', $this->get_id());
+					$link->set('order', $order);
+					$link->insert();
+					$order++;
+				}
 			}
 
 			$status = new Model_Post_Status($this->get_id());
@@ -74,34 +78,40 @@ class Model_Post extends Model_Abstract_Meta
 
 		$order = 0;
 		$torrents = $this->get('torrent');
-		if (!empty($torrents)) {
+		if (!empty($torrents) && is_array($torrents)) {
 			foreach ($torrents as $torrent) {
-				$torrent->set('post_id', $this->get_id());
-				$torrent->set('order', $order);
-				$torrent->insert();
-				$order++;
+				if (is_object($torrent)) {
+					$torrent->set('post_id', $this->get_id());
+					$torrent->set('order', $order);
+					$torrent->insert();
+					$order++;
+				}
 			}
 		}
 
 		$order = 0;
 		$files = $this->get('file');
-		if (!empty($files)) {
+		if (!empty($files) && is_array($files)) {
 			foreach ($files as $file) {
-				$file->set('post_id', $this->get_id());
-				$file->set('order', $order);
-				$file->insert();
-				$order++;
+				if (is_object($file)) {
+					$file->set('post_id', $this->get_id());
+					$file->set('order', $order);
+					$file->insert();
+					$order++;
+				}
 			}
 		}
 
 		$order = 0;
 		$extras = $this->get('extra');
-		if (!empty($extras)) {
+		if (!empty($extras) && is_array($extras)) {
 			foreach ($extras as $extra) {
-				$extra->set('post_id', $this->get_id());
-				$extra->set('order', $order);
-				$extra->insert();
-				$order++;
+				if (is_object($extra)) {
+					$extra->set('post_id', $this->get_id());
+					$extra->set('order', $order);
+					$extra->insert();
+					$order++;
+				}
 			}
 		}
 	}
@@ -156,10 +166,12 @@ class Model_Post extends Model_Abstract_Meta
 		$download = array();
 
 		foreach ($links as $link) {
-			$urls = $link->get('url');
-			foreach ($urls as $url) {
-				if (!empty($url['alias']) && !is_numeric($url['alias'])) {
-					$download[] = $url['alias'];
+			if (is_object($link)) {
+				$urls = $link->get('url');
+				foreach ($urls as $url) {
+					if (!empty($url['alias']) && !is_numeric($url['alias'])) {
+						$download[] = $url['alias'];
+					}
 				}
 			}
 		}

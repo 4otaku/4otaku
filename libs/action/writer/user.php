@@ -5,7 +5,7 @@ class Action_Writer_User extends Action_Writer_Abstract
 	public function process_actions() {
 		$redirect = null;
 
-		foreach ($this->action as $type => $actions) {
+		foreach ($this->actions as $type => $actions) {
 			if ($type == 'redirect') {
 				$redirect = array_pop($actions);
 			}

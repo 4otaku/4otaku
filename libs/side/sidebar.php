@@ -66,13 +66,15 @@ class Side_Sidebar extends engine
 
 	function update() {
 		$return = obj::db()->sql('select * from post_update order by sortdate desc limit 3');
-		foreach ($return as & $update) {
-			$update['text'] = obj::transform('text')->cut_long_text(strip_tags($update['text'],'<br>'),100);
-			$update['text'] = preg_replace('/(<br(\s[^>]*)?>\n*)+/si','<br />',$update['text']);
-			$update['text'] = obj::transform('text')->cut_long_words($update['text']);
-			$update['author'] = mb_substr($update['username'],0,20);
-			$update['post_title'] = obj::db()->sql('select title from post where id = '.$update['post_id'],2);
-		}
+		if (!empty($return) && is_array($return))
+			foreach ($return as & $update) {
+				$update['text'] = obj::transform('text')->cut_long_text(strip_tags($update['text'],'<br>'),100);
+				$update['text'] = preg_replace('/(<br(\s[^>]*)?>\n*)+/si','<br />',$update['text']);
+				$update['text'] = obj::transform('text')->cut_long_words($update['text']);
+				$update['author'] = mb_substr($update['username'],0,20);
+				$update['post_title'] = obj::db()->sql('select title from post where id = '.$update['post_id'],2);
+			}
+
 		return $return;
 	}
 
