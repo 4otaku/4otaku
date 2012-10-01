@@ -41,10 +41,10 @@ abstract class Action_Writer_Abstract
 	}
 
 	public function set_action($type, $action) {
-		if (empty($this->action[$type])) {
-			$this->action[$type] = array();
+		if (empty($this->actions[$type])) {
+			$this->actions[$type] = array();
 		}
-		$this->action[$type][] = $action;
+		$this->actions[$type][] = $action;
 
 		return $this;
 	}
