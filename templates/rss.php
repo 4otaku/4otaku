@@ -30,7 +30,7 @@
 		</sy:updateFrequency>
 
 		<?
-			foreach ($data['main']['items'] as $key => $item) {
+			if (is_array($data['main']['items'])) foreach ($data['main']['items'] as $key => $item) {
 				?>
 					<item>
 						<title>

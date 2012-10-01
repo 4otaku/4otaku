@@ -60,6 +60,8 @@ class output__rss extends engine
 				$item['guid'] = $alias[$type].'-'.$item['id'];
 			}
 			reset($return['items']);
+		} else {
+			$return['items'] = array();
 		}
 		$data['feed']['domain'] = 'http://'.$_SERVER['HTTP_HOST'];
 		$return['lastbuild'] = ceil(key($return['items'])/1000);
