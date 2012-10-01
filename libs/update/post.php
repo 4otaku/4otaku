@@ -9,7 +9,7 @@ class Update_Post extends Update_Abstract
 
 	protected $model;
 
-	public function __construct($reader, $writer) {
+	public function __construct($reader = null, $writer = null) {
 		parent::__construct($reader, $writer);
 
 		$data = $this->reader->get_data();
