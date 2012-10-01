@@ -148,16 +148,14 @@ class input__common extends engine
 
 	function unsubscribe($id) {
 		$encrypt = encrypt($id.'extra string');
-		return '<br /><br />
-
-				Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: <a href="http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/">http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/</a>';
+		return "<br /><br />\n\n" .
+			'Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: <a href="http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/">http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/</a>';
 	}
 
 	function unsubscribe_mail_ru($id) {
 		$encrypt = encrypt($id.'extra string');
-		return '
-
-				Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/';
+		return "\n\n" .
+			'Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/';
 	}
 
 // Секция кончилась

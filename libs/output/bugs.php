@@ -221,9 +221,9 @@ class output__bugs extends engine
 		if(!empty($def['db']['github_user']) && !empty($def['db']['github_pass'])) {
 			if(!empty(query::$post['body'])) {
 				$name = !empty(query::$post['name']) ? htmlspecialchars(query::$post['name']) : 'анонима';
-				if(!empty(query::$post['mail']) && $check->email(query::$post['mail'], false)) {
-					$name .= " (".query::$post['mail'].")";
-				}
+	//			if(!empty(query::$post['mail']) && $check->email(query::$post['mail'], false)) {
+	//				$name .= " (".query::$post['mail'].")";
+	//			}
 				$data = array(
 					"body"	=> query::$post['body']."<br />-----<br />Комментарий с сайта от {$name}",
 				);
@@ -255,9 +255,9 @@ class output__bugs extends engine
 		$resp = '';
 		if(!empty(query::$post['title']) && !empty(query::$post['body'])) {
 			$name = !empty(query::$post['name']) ? htmlspecialchars(query::$post['name']) : 'анонима';
-			if(!empty(query::$post['mail']) && $check->email(query::$post['mail'], false)) {
-				$name .= " (".query::$post['mail'].")";
-			}
+	//		if(!empty(query::$post['mail']) && $check->email(query::$post['mail'], false)) {
+	//			$name .= " (".query::$post['mail'].")";
+	//		}
 			$data = array(
 				"title"	=> query::$post['title'],
 				"body"	=> query::$post['body']."<br />-----<br />Репорт с сайта от {$name}",

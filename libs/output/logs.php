@@ -38,7 +38,7 @@ class output__logs extends engine
 		}
 		if (!$return['logs']) {
 			$today = mktime(0, 0, 0, $url[3], $url[4], $url[2])*1000;
-			$return['logs'] = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (roomID < 3 and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
+			$return['logs'] = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where ((roomID = 37 or roomID = 2) and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
 			if (is_array($return['logs'])) foreach ($return['logs'] as $key => &$log) {
 				if (trim($log['body'])) $log['text'] = $this->format_logs($log['body'],$log['nickname']);
 				else unset($return['logs'][$key]);
@@ -65,7 +65,7 @@ class output__logs extends engine
 				'name' => $rumonth[(date("n",$yesterday)-1)].' '.date("j",$yesterday)
 			);
 		} elseif ($yesterday < mktime(0,0,0,$start[1],$start[2]-1,$start[0])) {
-			$return['nologs'] = "Логи раньше, чем за 15-ое февраля 2010 к сожалению не сохранились.";
+			$return['nologs'] = "Логов раньше, чем за 17-ое марта 2012 попросту нет, комната появилась в тот день.";
 			engine::error_headers();
 		}
 		$return['navi']['today']= array('name' => $rumonth[($url[3]-1)].' '.$url[4]);

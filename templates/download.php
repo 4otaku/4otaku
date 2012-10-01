@@ -38,17 +38,20 @@
 	if (!$data['main']['type']) header("Content-type: application/zip");
 	else header("Content-type: image/".$data['main']['type']);
 	
-    header('Content-Disposition: attachment; filename="' . $filename . '"');
-    header('Content-Length: '.($seek_end - $seek_start + 1));
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+	header('Content-Length: '.($seek_end - $seek_start + 1));
 
-    $fp = fopen($file, 'rb');
-    fseek($fp, $seek_start);
+	$fp = fopen($file, 'rb');
 
-    while(!feof($fp)) {
-        set_time_limit(0);
-        print(fread($fp, 1024*1024));
-        flush();
-        ob_flush();
-    }
+	if ($fp) {
+	    fseek($fp, $seek_start);
 
-    fclose($fp);
+	    while(!feof($fp)) {
+        	set_time_limit(0);
+	        print(fread($fp, 1024*1024));
+	        flush();
+	        ob_flush();
+	    }
+
+	    fclose($fp);
+	}

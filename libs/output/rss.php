@@ -52,13 +52,15 @@ class output__rss extends engine
 			$error = true;
 			return '';
 		}
-		foreach ($return['items'] as &$item) {
-			$function = 'convert_'.$item['type'];
-			$item = $this->$function($item);
-			$item['rss_title'] = html_entity_decode($item['title']);
-			$item['guid'] = $alias[$type].'-'.$item['id'];
+		if (!empty($return['items'])) {
+			foreach ($return['items'] as &$item) {
+				$function = 'convert_'.$item['type'];
+				$item = $this->$function($item);
+				$item['rss_title'] = html_entity_decode($item['title']);
+				$item['guid'] = $alias[$type].'-'.$item['id'];
+			}
+			reset($return['items']);
 		}
-		reset($return['items']);
 		$data['feed']['domain'] = 'http://'.$_SERVER['HTTP_HOST'];
 		$return['lastbuild'] = ceil(key($return['items'])/1000);
 		$return['navi']['base'] = $data['feed']['domain'].'/art/'; // Используется только в шаблоне для арта, поэтому и такое значение

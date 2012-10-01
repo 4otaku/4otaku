@@ -82,7 +82,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 			Database::update('post_url', array('status' => $status,
 				'lastcheck' => Database::unix_to_date()), $id);
 			if ($status == self::STATUS_UNKNOWN) {
-				$this->create_unknown_file($link);
+//				$this->create_unknown_file($link);
 			}
 		}
 
