@@ -102,29 +102,38 @@ class Side_Sidebar extends engine
 	}
 
 	function art_tags() {
-		global $data; global $check; global $url;
+		global $data; global $url;
 
 		if (in_array($url['area'], def::get('area')) && $url['area'] != 'workshop') {
 			$area = $url['area'];
-			$prefix = $url['area'].'/';
 		} else {
 			$area = def::get('area',0);
-			$prefix = '';
 		}
+		$prefix = $url['area'].'/';
 
+		$tags = array();
+		$page_flag = false;
 		if (is_array($data['main']['art']['thumbs'])) {
 			$page_flag = true;
-			foreach ($data['main']['art']['thumbs'] as $art)
-				if (is_array($art['meta']['tag']))
-					foreach ($art['meta']['tag'] as $alias => $tag)
-						if ($tags[$alias]) $tags[$alias]['count']++;
-						else $tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1, 'description' => $tag['have_description']);
-		}
-		elseif (is_array($data['main']['art'][0]['meta']['tag'])) {
-			$page_flag = false;
-			foreach ($data['main']['art'][0]['meta']['tag'] as $alias => $tag)
-				if ($tags[$alias]) $tags[$alias]['count']++;
-				else $tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1, 'description' => $tag['have_description']);
+			foreach ($data['main']['art']['thumbs'] as $art) {
+				if (is_array($art['meta']['tag'])) {
+					foreach ($art['meta']['tag'] as $alias => $tag) {
+						if (isset($tags[$alias])) {
+							$tags[$alias]['count']++;
+						} else {
+							$tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1, 'description' => $tag['have_description']);
+						}
+					}
+				}
+			}
+		} elseif (is_array($data['main']['art'][0]['meta']['tag'])) {
+			foreach ($data['main']['art'][0]['meta']['tag'] as $alias => $tag) {
+				if (isset($tags[$alias])) {
+					$tags[$alias]['count']++;
+				} else {
+					$tags[$alias] = array('name' => $tag['name'], 'color' => $tag['color'], 'count' => 1, 'description' => $tag['have_description']);
+				}
+			}
 		}
 		unset($tags['prostavte_tegi'],$tags['tagme'],$tags['deletion_request']);
 
@@ -146,8 +155,9 @@ class Side_Sidebar extends engine
 				}
 			}
 
-			foreach ($return as $key => $tag)
+			foreach ($return as $key => $tag) {
 				$return[$key]['alias'] = $prefix.'tag/'.$tag['alias'];
+			}
 
 			uasort($return, 'transform__array::meta_sort');
 			return $return;
