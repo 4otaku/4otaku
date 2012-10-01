@@ -1,4 +1,5 @@
 php_flag short_open_tag on
+php_flag display_errors off
 
 php_value upload_max_filesize 512M
 php_value post_max_size 514M
