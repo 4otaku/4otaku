@@ -16,6 +16,7 @@ class query
 		'<' => '&lt;',
 		'>' => '&gt;',
 		'\\' => '&#092;',
+		'/' => '&#47;',
 		"'" => '&apos;',
 		'⟯' => '',
 	);
@@ -48,8 +49,6 @@ class query
 			if (is_array($v)) {
 				$input[$new_k] = self::clean_globals($data[$k], array(), $iteration + 1);
 			} else {
-				$v = stripslashes($v);
-
 				$v = str_replace(
 					array_keys(self::$safe_replacements),
 					array_values(self::$safe_replacements),

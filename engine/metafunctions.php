@@ -1,7 +1,7 @@
 <?
 
 function undo_safety($str) {
-	return str_replace(array('&amp;','&quot;','&lt;','&gt;','&092;','&apos;'),array('&','"','<','>','\\',"'"),$str);
+	return str_replace(array('&amp;','&quot;','&lt;','&gt;','&#092;','&#47;','&apos;'),array('&','"','<','>','\\','/',"'"),$str);
 }
 
 function redo_safety($str) {
@@ -81,8 +81,10 @@ function decrypt($input) {
 
 if (!function_exists('hex2bin')) {
 	function hex2bin($md5) {
-		for ($i = 0; $i < 32; $i += 2)
+		$return = '';
+		for ($i = 0; $i < 32; $i += 2) {
 			$return .= chr(hexdec($md5{$i + 1}) + hexdec($md5{$i})*16);
+		}
 
 		return $return;
 	}
