@@ -11,7 +11,7 @@ abstract class Transform_Upload_Abstract
 	protected $result = array('success' => true);
 
 	public function __construct($file, $name) {
-		if (strlen($file) > 2000 && !is_file($file)) {
+		if (strlen($file) > 2000 || !is_file($file)) {
 			$file = $this->create_temp_file($file);
 		}
 
