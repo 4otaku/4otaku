@@ -11,11 +11,16 @@ class transform__link
 			if (count($parts) == 2) {
 				$links[$key]['alias'] = str_replace('&lt;','',$parts[0]);
 				$type = 'search';
-			}			
+			}
 			$domain = parse_url($link['link'],PHP_URL_HOST);
-			if (substr($domain,0,4) == 'www.') $domain = substr($domain,4);
-			if ($alias[$domain]) $links[$key][$type] = $alias[$domain];
-			else $links[$key][$type] = $domain;
+			if (substr($domain,0,4) == 'www.') {
+				$domain = substr($domain,4);
+			}
+			if ($alias[$domain]) {
+				$links[$key][$type] = $alias[$domain];
+			} else {
+				$links[$key][$type] = $domain;
+			}
 		}
 		return $links;
 	}
