@@ -2,7 +2,8 @@
 
 include_once 'inc.common.php';
 
-$request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $_SERVER["REQUEST_URI"]);
+$request = isset($_SERVER["HTTP_RAWURI"]) ? $_SERVER["HTTP_RAWURI"] : $_SERVER["REQUEST_URI"];
+$request = preg_replace('/^'.preg_quote(SITE_DIR,'/').'/', '', $request);
 $request = urldecode($request);
 $request = preg_replace('/\/tag\/([^\p{Cyrillic}\p{Hiragana}\p{Katakana}]*?)(\/?$|\/page)/eui', '"/tag/".urlencode("$1")."$2"', $request);
 $request = str_replace('%5C%27', '%27', $request);
