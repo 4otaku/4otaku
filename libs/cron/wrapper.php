@@ -24,18 +24,33 @@ class Cron
 
 	function clean_tags() {
 		global $def;
-/*		foreach ($def['type'] as $type) $query .= ' union select concat("'.$type.'",id) as id, tag, area, "'.$type.'" as type from '.$type;
+		$query = '';
+		$update = array();
+		foreach ($def['type'] as $type) {
+			$query .= ' union select concat("'.$type.'",id) as id, tag, area, "'.$type.'" as type from '.$type;
+		}
 		$data = obj::db()->sql(substr($query,7));
 		foreach ($data as $one) {
 			$tags = array_unique(array_filter(explode('|',$one['tag'])));
-			foreach ($tags as $tag) $update[$tag][$one['type'].'_'.$one['area']]++;
+			foreach ($tags as $tag) {
+				if (!isset($update[$tag])) {
+					$update[$tag] = array();
+				}
+				if (!isset($update[$tag][$one['type'].'_'.$one['area']])) {
+					$update[$tag][$one['type'].'_'.$one['area']] = 0;
+				}
+				$update[$tag][$one['type'].'_'.$one['area']]++;
+			}
 		}
 		$tags = obj::db()->sql('select * from tag','alias');
-		foreach ($tags as $alias => $tag)
-			foreach ($tag as $key => $field)
-				if (strpos($key,'_') && $field != $update[$alias][$key])
+		foreach ($tags as $alias => $tag) {
+			foreach ($tag as $key => $field) {
+				if (isset($update[$alias][$key]) && strpos($key,'_') && $field != $update[$alias][$key]) {
 					obj::db()->update('tag',$key,$update[$alias][$key],$tag['id']);
-*/	}
+				}
+			}
+		}
+	}
 
 	function process_pack() {
 		@file_get_contents("http://4otaku.ru/engine/process_pack.php");
@@ -297,13 +312,13 @@ class Cron
 						if (empty($art_area)) {
 							$art_area = Database::get_field('art', 'area', $id);
 						}
-						
+
 						if ($art_area == 'cg' &&
 							Database::get_field('art', 'area', $compare_id) == 'cg') {
-								
+
 							continue;
 						}
-						
+
 						$similar .= $compare_id.'|';
 					}
 				}

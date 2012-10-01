@@ -20,6 +20,7 @@ class Database
 			'server' => def::db('host'),
 			'login' => def::db('user'),
 			'password' => def::db('pass'),
+			'prefix' => '',
 			'database' => def::db($name.'_db'),
 		);
 
