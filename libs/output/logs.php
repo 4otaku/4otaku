@@ -97,6 +97,7 @@ class output__logs extends engine
 	function make_logs_cache($logs,$year,$month,$day) {
 		if (is_array($logs)) {
 			$key = 'even';
+			$cache = '';
 			foreach ($logs as &$log) {
 				if ($key == 'even') $key = 'odd'; else $key = 'even';
 				$cache .= '<div class="logs-'.$key.'" id="time-'.date('G:i:s',$log['logTime']/1000).'.'.($log['logTime']%1000).'">

@@ -6,9 +6,9 @@
 			<td valign="top" id="content">
 				<div class="post">
 					<? if (isset($output->side_modules['top'])) include_once('side'.SL.'top.php'); ?>
-					<? if (is_array($data['main']['display'])) 
-						foreach ($data['main']['display'] as $key => $part) 
-							include ('main/'.str_replace('_',SL,$part).'.php'); 
+					<? if (is_array($data['main']['display']))
+						foreach ($data['main']['display'] as $key => $part)
+							include ('main/'.str_replace('_',SL,$part).'.php');
 					?>
 				</div>
 			</td>
