@@ -12,7 +12,7 @@ class input__board extends input__common
 		'random_cg' => 'cg',
 		'random_sprite' => 'sprites',
 	);
-	
+
 	protected $max_threads_in_board = 20;
 
 	function add() {
@@ -28,27 +28,27 @@ class input__board extends input__common
 				if ($count_content >= def::board('maxcontent')) {
 					continue;
 				}
-				
+
 				$count_content++;
 
 				if (array_key_exists($add_image, $this->random_codes)) {
-					$random_art = $this->get_random_art($this->random_codes[$add_image]); 
-					
+					$random_art = $this->get_random_art($this->random_codes[$add_image]);
+
 					if ($random_art) {
 						$name = $random_art['md5'] . '.' . $random_art['extension'];
 						$path = IMAGES . SL . 'booru' . SL . 'full' . SL . $name;
 
 						try {
-							$resizer = new Transform_Upload_Board_Image($path, $name);						
+							$resizer = new Transform_Upload_Board_Image($path, $name);
 							$result = $resizer->process_file();
 						} catch (Error_Upload $e) {
 							continue;
 						}
-						
+
 						if (empty($result['success'])) {
 							continue;
 						}
-						
+
 						$content['random'][] = array(
 							'id' => $random_art['id'],
 							'full' => $result['full'],
@@ -58,7 +58,7 @@ class input__board extends input__common
 							'height' => $result['height'],
 						);
 					}
-					
+
 					continue;
 				}
 
@@ -240,7 +240,7 @@ class input__board extends input__common
 			}
 		}
 	}
-	
+
 	protected function get_random_art($type) {
 		$data = false;
 		$attempts = 0;
@@ -252,7 +252,7 @@ class input__board extends input__common
 			$position = mt_rand(0, $count - 1);
 			$data = Database::limit(1, $position)->get_full_row('art', 'area = ?', $type);
 		}
-		
+
 		return $data;
 	}
 

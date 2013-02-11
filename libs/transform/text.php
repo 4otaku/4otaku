@@ -80,8 +80,8 @@ class transform__text extends Transform_Time
 		}
 		$state = $new_state;
 
-		$string = preg_replace('/(\*{2}|_{2})(.+?)\1/', '<b>$2</b>', $string);
-		$string = preg_replace('/(\*|_)(.+?)\1/', '<i>$2</i>', $string);
+		$string = preg_replace('/(\*{2})(.+?)\1/', '<b>$2</b>', $string);
+		$string = preg_replace('/(\*)(.+?)\1/', '<i>$2</i>', $string);
 		$string = preg_replace('/`(.+?)`|^ {4}(.+)$/', '<code>$1$2</code>', $string);
 		$string = preg_replace('/%{2}(.+?)%{2}/', '<span class="board_spoiler">$1</span>', $string);
 		$string = preg_replace('/^&gt;(?!&gt;\d+(\s|$))(.+)$/', '<span class="board_quote">$0</span>', $string);

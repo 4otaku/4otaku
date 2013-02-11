@@ -10,11 +10,11 @@
 
 {% block content %}
 	{% for name, tag in sub.sidebar.tags %}
-		 <a href="/{{_url.1}}/{% if _url.area == _def.area.2 %}{{_url.area}}/{% endif %}/tag/{{tag.alias}}/" 
-		 title="{{tag.count}} {{tag.word}}" 
+		 <a href="/{{_url.1}}/{% if _url.area == _def.area.2 %}{{_url.area}}/{% endif %}tag/{{tag.alias}}/"
+		 title="{{tag.count}} {{tag.word}}"
 		 style="font-size: {{tag.size}}pt;">
 			{{name}}
-		</a>		
+		</a>
 	{% else %}
 		Пока слишком мало тегов для облака.
 	{% endfor %}

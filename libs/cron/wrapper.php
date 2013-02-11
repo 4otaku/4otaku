@@ -17,8 +17,9 @@ class Cron
 
 			$this->workers[$class]->execute($function);
 		} else {
-
-			$this->$function();
+			if (is_callable(array($this, $function))) {
+				$this->$function();
+			}
 		}
 	}
 
@@ -88,7 +89,7 @@ class Cron
 
 	function get_logs() {
 		$time = (time() - 3600*4)*1000;
-		$logs = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (roomID < 3 and cast(logTime as unsigned) > '.$time.') order by logTime');
+		$logs = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where ((roomID = 37 or roomID = 2 or roomID = 1) and cast(logTime as unsigned) > '.$time.') order by logTime');
 		foreach ($logs as $log) {
 			$md5 = md5(implode($log));
 			$text = $log['nickname'].': '.$log['body'];

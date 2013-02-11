@@ -2,7 +2,9 @@
 
 class Http
 {
-	const CONNECTIONS_LIMIT = 10;
+	const
+		CONNECTIONS_LIMIT = 3,
+		DELAY_MILLISECONDS = 1000;
 
 	protected $default_headers = array(
 		"Accept" => "text/xml,application/xml,application/xhtml+xml,text/html,q=0.9,text/plain,q=0.8,image/png,*/*,q=0.5",
@@ -33,6 +35,7 @@ class Http
 
 		$worker = new MultiRequest_Handler();
 		$worker->setConnectionsLimit(self::CONNECTIONS_LIMIT);
+		$worker->setRequestingDelay(self::DELAY_MILLISECONDS);
 		$worker->onRequestComplete(array($this, "save_headers"));
 		$worker->onRequestComplete(array($this, "save_data"));
 

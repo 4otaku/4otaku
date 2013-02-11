@@ -1118,8 +1118,9 @@ $(document).ready(function(){
 			var type = "сообщение";
 		}
 		if (confirm("Вы уверены что хотите удалить "+type+" №"+$(this).attr('rel')+"?")) {
-			$.post("/ajax.php?m=board&f=delete&id="+$(this).attr('rel'));
-			window.location.reload();
+			$.post("/ajax.php?m=board&f=delete&id="+$(this).attr('rel'), function(){
+				window.location.reload();
+			});
 		}
 	});
 

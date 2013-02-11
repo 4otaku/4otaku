@@ -2,7 +2,7 @@
 
 class Cron_Post extends Cron_Abstract
 {
-	const MAX_LINK_DELETIONS = 200;
+	const MAX_LINK_DELETIONS = 2000;
 
 	public function delete_unused_urls() {
 		Database::begin();
