@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Вебчат 4otaku.ru</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script src="shared.js"></script>
+    <script src="config.js"></script>
+
+    <script language="JavaScript" type="text/javascript" src="jsjac.js"></script>
+
+    <!-- <script language="JavaScript" type="text/javascript" src="lib/Debugger/Debugger.js"></script> -->
+    <script type="text/javascript">
+var roomidx = -1;
+
+function loginCheck(form) {
+  if (form.nick.value.match(/^\s*(\S+|\S+.*\S+)\s*$/)) {
+    form.nick.value = RegExp.$1;
+  } else {
+    alert("Вы ввели некорректный ник");
+    return false;
+  }
+  var oSel = document.getElementById('room');
+  location.replace("muckl.html?nick="+escape(form.nick.value)+"&room="+roomidx);
+  return false;
+}
+
+function roomSelected(oSel) {
+  roomidx = oSel.selectedIndex;
+  document.getElementById('room_desc').innerHTML = ROOMS[roomidx].description;
+}
+
+var Debug;
+function init() {
+  /* initialise debugger */
+  if (!Debug || typeof(Debug) == 'undefined' || !Debug.start) {
+    if (DEBUG && typeof(Debugger) == 'function')
+      Debug = new Debugger(DEBUG_LVL,'MUCkl');
+    else {
+      Debug = new Object();
+      Debug.log = function() {};
+      Debug.start = function() {};
+    }
+  }
+  Debug.start();
+
+  var welcome = "Чат DESU.RU";
+
+  getArgs();
+  if (passedArgs['room']) {
+    if (isNaN(passedArgs['room'])) { // search if name matches
+      for (var i=0; i<ROOMS.length; i++)
+	if (ROOMS[i].name == passedArgs['room']) {
+
+	  /* preselect room */
+
+	  roomidx = i;
+
+	  document.getElementById('roomchooser').style.display = 'none';
+	  document.getElementById('roomchooser2').style.display = 'none';
+	  break;
+	}
+
+    } else if (ROOMS[passedArgs['room']]){
+
+      /* preselect room */
+
+      roomidx = passedArgs['room'];
+
+      document.getElementById('roomchooser').style.display = 'none';
+      document.getElementById('roomchooser2').style.display = 'none';
+    }
+  }
+
+  if (roomidx < 0) {
+    /* create room selector */
+
+    var oSel = document.getElementById('room');
+    for (var i in ROOMS)
+      oSel.options.add(new Option(ROOMS[i]['name'],ROOMS[i]['name']+'@'+ROOMS[i]['server']));
+    roomSelected(oSel);
+  }
+
+  // check for nick
+  if (passedArgs['nick'])
+    document.forms['login'].nick.value = passedArgs['nick'];
+}
+
+onload = init;
+    </script>
+    <style type="text/css">
+			body {
+			font-size: 1em;
+			font-family: Verdana, sans-serif;
+			color: #000033;
+			margin: 8px;
+			background-color: #eeeeee;
+			}
+			h1 {
+			font-size: 1.4em;
+			margin-top:0px;
+			margin-bottom: 0px;
+			}
+			input,select {
+			border: 1px solid black;
+			padding-left: 2px;
+			-moz-border-radius: 4px;
+			background-color: #eeeeee;
+			}
+			button {
+			border: 1px solid black;
+			background-color: #eeeeee;
+			-moz-border-radius: 4px;
+			margin-left: 8px;
+			}
+			input:hover, input:focus {
+			background-color: white;
+			}
+			button:hover {
+			background-color: white;
+			}
+			td {
+			font-size: 0.8em;
+			font-family: Verdana, sans-serif;
+			color: #000033;
+			}
+
+
+#room_login { width: 400px; margin: 10px auto; border-radius: 10px; border: 1px solid #ddd; padding: 15px; }
+#room_login input, #room_login select, #room_login button { border: 1px solid #ddd; background: #fff; padding: 4px; border-radius: 4px; font-size: 16px; }
+#room_login td { padding: 8px; text-align: left; }
+#room_login td.first { width: 70px; text-align: right; }
+
+    </style>
+  </head>
+
+<body>
+
+  <div id="main" style="text-align: center; height: 400px;">
+	  <h3 id="welcomeh1" style="font-size: 22px;">Добро пожаловать в наш чат!</h3>
+	  <small style="font-size: 13px;">С гораздо большим комфортом Вы можете общаться в конференции через любой XMPP-клиент,<br /> просто войдя под своим аккаунтом, например, в комнату main@room.4otaku.ru</small>
+	  <p style="font-size: 15px; font-weight: bold;">Выберите подходящий ник и нажмите "Войти",<br /> чтобы начать общаться через сайт:</p>
+ 	  <div id="room_login">
+	  <form name="login" onSubmit="return loginCheck(this);">
+		<table>
+		  <tr>
+			<td class="first"><label for="nick">Ник: </label></td>
+			<td><input type="text" name="nick" id="nick" tabindex="1" />&nbsp;<input type="submit" tabindex="2" value="Вход" /></td>
+		  </tr>
+		  <tr id="roomchooser">
+			<td class="first"><label for="room">Комната: </label></td>
+			<td><select id="room" name="room"  onchange="return roomSelected(this);"></select></td>
+		  </tr>
+		  <tr id="roomchooser2">
+			<td>&nbsp;</td>
+			<td><small id='room_desc'></small></td>
+		  </tr>
+		</table>
+	  </form>
+	 </div>
+  </div>
+
+</body>
+</html>
