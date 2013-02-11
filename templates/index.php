@@ -29,6 +29,9 @@
 			<td class="index_centerholder" valign="top">
 				<div class="mini-shell margin10">
 					Наша комната в джаббере: main@room.4otaku.ru;
+					<a href="<?=$def['site']['dir']?>/chat/">
+						Веб-клиент
+					</a>.
 					 <a href="http://jabberworld.info/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%8B_Jabber">
 						Помощь по настройке
 					</a>.
