@@ -7,9 +7,9 @@
 </style>
 <script language="javascript">
 	function resize_iframe() {
-		var height = window.innerWidth;
+		var height = window.innerHeight;
 		if (document.body.clientHeight) {
-			height = document.body.clientHeight;
+			height = Math.min(document.body.clientHeight, height);
 		}
 		document.getElementById("frame").style.height =
 			parseInt(height - document.getElementById("frame").offsetTop - 110) + "px";

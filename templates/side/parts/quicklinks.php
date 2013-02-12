@@ -68,13 +68,18 @@
 				</a>
 			</li>
 			<li>
+				<a href="<?=$def['site']['dir']?>/chat/" class="margin30<?=($url[1] == 'chat' ? ' plaintext' : '');?>">
+					Веб-клиент конференции
+				</a>
+			</li>
+			<li>
 				<a href="<?=$def['site']['dir']?>/comments/" class="margin30<?=($url[1] == 'comments' ? ' plaintext' : '');?>">
 					Лента комментариев
 				</a>
 			</li>
 			<li><hr /></li>
 			<li>
-				<a href="/go?http%3a%2f%2fwiki.4otaku.ru%2fCategory:FAQ" class="margin30">
+				<a href="http://wiki.4otaku.ru/Category:FAQ" class="margin30">
 					Справка по сайту
 				</a>
 			</li>
@@ -95,23 +100,18 @@
 			</li>
 			<li><hr /></li>
 			<li>
-				<a href="/go?http%3a%2f%2fraincat.4otaku.ru" class="margin30">
+				<a href="http://raincat.4otaku.ru" class="margin30">
 					Кикаки: додзинси и ёнкомы
 				</a>
 			</li>
 			<li>
-				<a href="/go?http%3a%2f%2fdod.4otaku.ru" class="margin30">
+				<a href="http://dod.4otaku.ru" class="margin30">
 					Dreams of Dead
 				</a>
 			</li>
 			<li>
-				<a href="/go?http%3a%2f%2fyukarinsubs.4otaku.ru" class="margin30">
+				<a href="http://yukarinsubs.4otaku.ru" class="margin30">
 					Yukarin Subs
-				</a>
-			</li>
-			<li>
-				<a href="/go?http%3a%2f%2fcomics.4otaku.ru" class="margin30">
-					Комикс ЧТТО
 				</a>
 			</li>
 			<li>
