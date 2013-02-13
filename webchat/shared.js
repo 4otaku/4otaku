@@ -9,7 +9,7 @@ function getArgs(){
     for(var i=0; i<argList.length; i++){
       newArg = argList[i];
       newArg = argList[i].split('=');
-      passedArgs[unescape(newArg[0])] = unescape(newArg[1]);
+      passedArgs[decodeURI(newArg[0])] = decodeURI(newArg[1]);
     }
   }
 }
@@ -60,7 +60,7 @@ function makeWindowName(wName) {
   wName = wName.replace(/\'/g,"tick");
   wName = wName.replace(/=/g,"equals");
   wName = wName.replace(/#/g,"pound");
-  wName = wName.replace(/:/g,"colon");	
+  wName = wName.replace(/:/g,"colon");
   wName = wName.replace(/%/g,"percent");
   wName = wName.replace(/-/g,"dash");
   wName = wName.replace(/ /g,"blank");
@@ -103,20 +103,20 @@ function msgFormat(msg) { // replaces emoticons and urls in a message
 
 		}
 	}
-	
+
   // replace http://<url>
   msg = msg.replace(/(\s|^)(https?:\/\/\S+)/gi,"$1<a href=\"$2\" target=\"_blank\">$2</a>");
 
 	// replace ftp://<url>
   msg = msg.replace(/(\s|^)(ftp:\/\/\S+)/gi,"$1<a href=\"$2\" target=\"_blank\">$2</a>");
-  
+
   // replace mail-links
   msg = msg.replace(/(\s|^)(\w+\@\S+\.\S+)/g,"$1<a href=\"mailto:$2\">$2</a>");
-  
+
   // replace *<pattern>*
   msg = msg.replace(/(\s|^)\*([^\*\r\n]+)\*/g,"$1<b>\$2\</b>");
 
-  // replace _bla_ 
+  // replace _bla_
   msg = msg.replace(/(\s|^)\_([^\*\r\n]+)\_/g,"$1<u>$2</u>");
 
   msg = msg.replace(/\n/g,"<br>");
@@ -141,7 +141,7 @@ function isValidJID(jid) {
 }
 
 /* hrTime - human readable Time
- * takes a timestamp in the form of 2004-08-13T12:07:04±02:00 as argument
+ * takes a timestamp in the form of 2004-08-13T12:07:04ï¿½02:00 as argument
  * and converts it to some sort of humane readable format
  */
 function hrTime(ts) {
@@ -161,7 +161,7 @@ function hrTime(ts) {
 
 /* jabberDate
  * somewhat opposit to hrTime (see above)
- * expects a javascript Date object as parameter and returns a jabber 
+ * expects a javascript Date object as parameter and returns a jabber
  * date string conforming to JEP-0082
  */
 function jabberDate(date) {
