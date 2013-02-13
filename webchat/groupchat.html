@@ -20,7 +20,7 @@ function submitClicked() {
     return false;
 
   var body = document.getElementById("msgbox").value;
-  var to = ''; 
+  var to = '';
 
   if (body == '') // don't send empty message
     return false;
@@ -50,7 +50,7 @@ function submitClicked() {
     aMessage.setType('groupchat');
     aMessage.setTo(group);
   }
-	
+
   /* handle commands */
   if (body.match(/^\/say (.+)/)) {
 
@@ -148,7 +148,7 @@ function submitClicked() {
   } else {
     aMessage.setBody(body);
     srcW.con.send(aMessage);
-  }			
+  }
 
   if (aMessage.getType() == 'chat') { // a private message we have to putMsgHTML ourself
     putMsgHTML(aMessage.getBody(),new Date().toLocaleTimeString(),to,'purple',null,'to');
@@ -158,12 +158,12 @@ function submitClicked() {
   srcW.addtoHistory(body);
   document.getElementById('msgbox').value=''; // empty box
   document.getElementById('msgbox').focus(); // set focus back on input field
-  
+
   return false;
 }
 
 function partRoom() {
-  if (confirm('Вы действительно хотите уйти?')) 
+  if (confirm('Вы действительно хотите уйти?'))
     if (parent.document.referrer)
       return parent.location.replace(parent.document.referrer);
     else
@@ -175,7 +175,7 @@ var colors = new Array('maroon','green','olive','navy','purple','teal','red','bl
 function putMsgHTML(msg,mtime,user,usercolor,err,type) {
   var msgHTML = '';
 
-  msgHTML += "<div>";    
+  msgHTML += "<div>";
 
   if (msg.match(/^\/me /)) {
     msg = msgFormat(msg);
@@ -205,12 +205,12 @@ function putMsgHTML(msg,mtime,user,usercolor,err,type) {
 
     if (user != nick && meRegExp.test(msg) && !notHREFMeRegExp.test(msg))
       msgHTML += msg.replace(meRegExp,"<span class='highlighted'>$1</span>");
-    else 
+    else
       msgHTML += msg;
   }
 
   msgHTML += "</div>";
-  
+
   scroll_bottom = false;
   if (cFrame.body.scrollTop+cFrame.body.clientHeight >= cFrame.body.scrollHeight)
     scroll_bottom = true;
@@ -222,7 +222,7 @@ function putMsgHTML(msg,mtime,user,usercolor,err,type) {
 }
 
 function popMsgs() {
-  if (!user) 
+  if (!user)
     user = srcW.roster.getUserByJID(group);
 
   while (user.chatmsgs.length>0) {
@@ -247,9 +247,9 @@ function popMsgs() {
     var mtime = '';
     if (new Date() - timestamp > 24*3600*1000)
       mtime += timestamp.toLocaleDateString() + " ";
-		
+
     mtime += timestamp.toLocaleTimeString();
-    
+
     /* look for a subject */
     if (msg.getType() == 'groupchat' && msg.getSubject()) { // set topic
       user.roster.subject = msg.getSubject();
@@ -260,7 +260,7 @@ function popMsgs() {
 
     if(!msg.getBody() || msg.getBody() == '')
       return;
-	
+
     srcW.playSound('chat_recv');
 
     /* calculate color */
@@ -268,7 +268,7 @@ function popMsgs() {
     for (var i=0; i<from.length; i++)
       charSum += from.charCodeAt(i);
 
-    putMsgHTML(msg.getBody(),mtime,from,colors[charSum%(colors.length)],null,msg.getType());	
+    putMsgHTML(msg.getBody(),mtime,from,colors[charSum%(colors.length)],null,msg.getType());
   } /* end while */
 
 }
@@ -304,7 +304,7 @@ function changeUserStat(jid,stat,val,confirm,reason) {
   item.setAttribute('nick',user.name);
 
   item.setAttribute(stat,val);
-	
+
   if (reason || (confirm && (reason = prompt("Reason","")) != ''))
     item.appendChild(iq.getDoc().createElement('reason')).appendChild(iq.getDoc().createTextNode(reason));
 
@@ -394,7 +394,7 @@ function init() {
 
   if (passedArgs['pass'] != 'undefined')
     pass = passedArgs['pass'];
- 
+
   if (!srcW.con)
     return;
 
@@ -408,7 +408,7 @@ function init() {
       x.appendChild(aPresence.buildNode('password',pass));
   if (CONFERENCENOHIST)
       x.appendChild(aPresence.buildNode('history', {'maxchars':'0'}));
-	
+
   if (srcW.onlstat != 'available' && srcW.onlstat != 'invisible')
     aPresence.setShow(srcW.onlstat);
 
@@ -416,7 +416,7 @@ function init() {
     aPresence.setStatus(srcW.onlmsg);
 
   srcW.con.send(aPresence);
-  
+
   cFrame = groupchatIChat.document;
 
   user = srcW.roster.getUserByJID(group);
@@ -425,12 +425,12 @@ function init() {
     user.chatW = window.self;
   }
   user.status = 'available';
-  
+
   user.roster = new GroupchatRoster(window.self);
   user.roster.nick = nick; // remember my nickname
   roster = user.roster;
   //        user.roster.print();
-  
+
   //  document.title += " - " + group;
   //  document.title = group+'/'+nick;
 
@@ -474,11 +474,11 @@ var clearedEls = new Array();
 function clearOnFirstFocus(el) {
   if (clearedEls[el.id])
     return;
-		
+
   el.value = '';
   clearedEls[el.id] = true;
 }
-		
+
 
 function msgboxKeyPressed(el,e) {
   var keycode;
@@ -498,7 +498,7 @@ function msgboxKeyPressed(el,e) {
       pos1 = txt.selectionStart; // current cursor position
 
       // no selection, not at the beginning of the line and at the end of a word or at the end of the line
-      if(pos1 == txt.selectionEnd && pos1 > 0 && (txt.value.substring(pos1, pos1+1) == ' ' || pos1 == txt.value.length)) { 
+      if(pos1 == txt.selectionEnd && pos1 > 0 && (txt.value.substring(pos1, pos1+1) == ' ' || pos1 == txt.value.length)) {
         part = txt.value.substring(0, pos1);
         pos2 = part.lastIndexOf(" ") + 1;
         if(pos2 != -1)
@@ -522,7 +522,7 @@ function msgboxKeyPressed(el,e) {
         putMsgHTML(string, new Date().toLocaleTimeString(), jid);
         return false;
       }
-           
+
     }
     return true;
 
@@ -548,7 +548,7 @@ function msgboxKeyDown(el,e) {
       el.focus(); el.select();
     }
     break;
-  case 40:				// shift+down 
+  case 40:				// shift+down
     if (e.ctrlKey) {
       el.value = srcW.getHistory('down', el.value);
       el.focus(); el.select();
@@ -580,7 +580,7 @@ onunload = part;
     <table border=0 width="100%" height="100%" cellspacing=0 cellpadding=0>
         <tr style="display:none"> <!-- topic -->
           <td colspan=2 class="spaced" style="padding-right: 8px;">
-			 <a href="https://desu.ru" style="font-size:20px">Чат DESU.RU</a>
+			 <a href="https://4otaku.ru" style="font-size:20px">Конференция 4otaku.ru</a>
               <div style="display:none;"><span
               id="room_name" title="This Room's Name"></span><br><span
               class="room_topic" title="This Room's Topic">Тема:
@@ -633,7 +633,7 @@ onunload = part;
                 <tr>
                   <td><img src="images/border_left.gif" height="100%"
                       width=7></td>
-                  <td width="120" height="100%"><iframe
+                  <td width="180" height="100%"><iframe
                       src="groupchat_iroster.html"
                       id="groupchatIRoster" name="groupchatIRoster"
                       scrolling="auto"
@@ -664,11 +664,11 @@ onunload = part;
                       width="100%" height=7></td>
                   <td><img src="images/border_corner_topright.gif"
                       width=8 height=7></td>
-                  <td rowspan=3><img src="images/send_button.gif"
-                      width=101 height=29 
-                      onClick="return submitClicked();" 
+                  <td rowspan=3><img src="images/send_button.png"
+                      width=101 height=29
+                      onClick="return submitClicked();"
                       id='submit_button'
-                      title="Submit Message"></td>
+                      title="Отправить сообщение"></td>
                 </tr>
                 <tr>
                   <td><img src="images/border_left.gif" height="100%"
@@ -678,9 +678,9 @@ onunload = part;
                   <td width="100%" height="100%"
                     style="background-color:white;"><input type="text"
                       id="msgbox" style="width:100%;" tabindex=1
-                      onKeyPress="return msgboxKeyPressed(this,event);" 
+                      onKeyPress="return msgboxKeyPressed(this,event);"
                       onKeyDown="return msgboxKeyDown(this,event);"
-                      onFocus="clearOnFirstFocus(this);" 
+                      onFocus="clearOnFirstFocus(this);"
                       value="Кликните здесь, чтобы начать набирать сообщение!"></td>
                   <td><img src="images/border_right.gif" height="100%"
                       width=8></td>
@@ -727,13 +727,13 @@ onunload = part;
                   <td style="padding-right:6px;" align=right><img
                       src="images/stock_volume.png" width=16 height=16
                       id="toggle_sound_button" alt="Sound"
-                      align=middle title="Toggle Sound"
+                      align=middle title="Вкл/выкл звук"
                       onClick="toggleSound(this);"
                       class='actionButton'><span
                       class='spacer'></span><img
                       src="images/stock_exit_16.png" alt="Exit"
-                      width=16 height=16 align=middle title="Leave
-                      Chat Room" onClick="return partRoom();"
+                      width=16 height=16 align=middle title="Покинуть конференцию"
+                      onClick="return partRoom();"
                       class='actionButton'></td>
                 </tr>
             </table>
