@@ -107,9 +107,9 @@ function playSound(action) {
 
   if (soundPlaying)
     return;
-  
+
   soundPlaying = true;
-	
+
   var frameD = frames["jwc_sound"].document;
 
   var html = "<embed src=\""+SOUNDS[action]+"\" width=\"1\" height=\"1\" quality=\"high\" pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\">";
@@ -137,9 +137,9 @@ function sendPresence2Groupchats(gc,val,away) {
 }
 
 function changeStatus(val,away) {
-  
+
   Debug.log("changeStatus: "+val+","+away, 2);
-  
+
   onlstat = val;
   if (away)
     onlmsg = away;
@@ -150,7 +150,7 @@ function changeStatus(val,away) {
   }
 
   var aPresence = new JSJaCPresence();
-        
+
   switch(val) {
   case "unavailable":
     val = "invisible";
@@ -186,7 +186,7 @@ function changeStatus(val,away) {
   if (typeof(roster) != 'undefined' && onlstat != 'invisible') {
     sendPresence2Groupchats(roster.getGroupchats(),onlstat,onlmsg);
   }
-  
+
 }
 
 /************************************************************************
@@ -278,7 +278,7 @@ function handlePresence(presence) {
     }
     return;
   }
-  
+
   /* handle presence for MUC */
   var x;
   for (var i=0; i<presence.getNode().getElementsByTagName('x').length; i++)
@@ -287,17 +287,17 @@ function handlePresence(presence) {
       break;
     }
 
-  if (user.roster && x) { 
+  if (user.roster && x) {
     var ofrom = presence.getFrom().substring(presence.getFrom().indexOf('/')+1);
 
     Debug.log("jabber.from:"+presence.getFrom()+", ofrom:"+ofrom,3);
-    
+
     var ouser = user.roster.getUserByJID(presence.getFrom());
     if (!ouser) // no user? create one!
       ouser = new GroupchatRosterUser(presence.getFrom(),ofrom);
-    
+
     var item = x.getElementsByTagName('item').item(0);
-                
+
     ouser.affiliation = item.getAttribute('affiliation');
     ouser.role = item.getAttribute('role');
     ouser.nick = item.getAttribute('nick');
@@ -309,14 +309,14 @@ function handlePresence(presence) {
         ouser.actor = actor.getAttribute('jid');
       else if (item.getElementsByTagName('actor').item(0).firstChild != null)
         ouser.actor = item.getElementsByTagName('actor').item(0).firstChild.nodeValue;
-    }	
+    }
     if (ouser.role != '') {
       ouser.add2Group(ouser.role+'s');
-      
+
       /* check if it is our own presence
        * must be done here cause we want to be sure that role != ''
        */
-      
+
       if (ouser.name == htmlEnc(user.roster.nick)) { // seems to be me
         user.roster.me = ouser; // store this reference
         if (user.chatW.updateMe)
@@ -336,32 +336,32 @@ function handlePresence(presence) {
         iq.setTo(user.jid);
         var query = iq.setQuery('http://jabber.org/protocol/muc#owner');
 	query.appendChild(iq.buildNode('x', {xmlns: 'jabber:x:data', type: 'submit'}));
-          
+
         con.send(iq);
         break;
       case '303': // nick change
         // display message
         if (!ouser.nick)
           return;
-        
+
         var aMessage = new JSJaCMessage();
         aMessage.setFrom(user.jid);
         aMessage.setBody(""+ouser.name+" переименовывается в "+htmlEnc(ouser.nick));
         user.chatmsgs = user.chatmsgs.concat(aMessage);
         if (user.chatW && !user.chatW.closed && user.chatW.popMsgs)
           user.chatW.popMsgs();
-        
+
         // update nick if it's me
         if (ouser.name == htmlEnc(user.roster.nick))
           user.roster.nick = ouser.nick;
-        
+
         // remove old user
         var aChatW = ouser.chatW;
         user.roster.removeUser(ouser);
-        
+
         // add new user
         ouser = new GroupchatRosterUser(presence.getFrom().substring(0,presence.getFrom().indexOf('/')+1).concat(ouser.nick),ouser.nick);
-        
+
         if (aChatW && !aChatW.closed) {
           ouser.chatW = aChatW;
           ouser.chatW.user = ouser;
@@ -370,15 +370,15 @@ function handlePresence(presence) {
         nickChanged = true;
         break;
       case '301': // user has been banned
-        
+
         // check if it's me
         if (ouser.name == user.chatW.nick) {
           var ts = new Date();
           ac = hex_sha1(user.jid) + '=' + (ts.getTime() + (MAX_LOCK_MINS*60*1000));
           ts.setTime(ts.getTime() + (365*24*3600*1000));
-          document.cookie = ac + '; expires='+ts.toGMTString();				 
+          document.cookie = ac + '; expires='+ts.toGMTString();
         }
-        
+
         var aMessage = new JSJaCMessage();
         aMessage.setFrom(user.jid);
         var body;
@@ -391,17 +391,17 @@ function handlePresence(presence) {
         aMessage.setBody(body);
         user.chatmsgs = user.chatmsgs.concat(aMessage);
         if (user.chatW && !user.chatW.closed && user.chatW.popMsgs)
-          user.chatW.popMsgs();			
-        
+          user.chatW.popMsgs();
+
         playSound('chat_recv');
         break;
       case '307': // user has been kicked
-        
+
         // check if it's me
         if (ouser.name == user.chatW.nick) {
           var ts = new Date();
           var mins = DEFAULT_LOCK_MINS;
-          if (ouser.reason && ouser.reason.match(/^min(utes)?s?:\s*(\d+)\s*/)) 
+          if (ouser.reason && ouser.reason.match(/^min(utes)?s?:\s*(\d+)\s*/))
             mins = RegExp.$2;
           if (typeof(MAX_LOCK_MINS) != 'undefined' && mins > MAX_LOCK_MINS)
             mins = MAX_LOCK_MINS;
@@ -409,7 +409,7 @@ function handlePresence(presence) {
           ts.setTime(ts.getTime() + (365*24*3600*1000));
           document.cookie = ac + '; expires='+ts.toGMTString();
         }
-        
+
         var aMessage = new JSJaCMessage();
         aMessage.setFrom(user.jid);
         var body;
@@ -422,29 +422,29 @@ function handlePresence(presence) {
         aMessage.setBody(body);
         user.chatmsgs = user.chatmsgs.concat(aMessage);
         if (user.chatW && !user.chatW.closed && user.chatW.popMsgs)
-          user.chatW.popMsgs();	
-        
+          user.chatW.popMsgs();
+
         playSound('chat_recv');
         break;
       }
     }
-    
+
     Debug.log("<"+ouser.name+"> affiliation:"+ouser.affiliation+", role:"+ouser.role,3);
-    
+
     if (!user.roster.getUserByJID(presence.getFrom()) && !nickChanged) {
       // add user
       user.roster.addUser(ouser);
-      
+
       // show join message
       var aMessage = new JSJaCMessage();
       aMessage.setFrom(user.jid);
       aMessage.setBody(ouser.name+" доступен");
       user.chatmsgs = user.chatmsgs.concat(aMessage);
       if (user.chatW && !user.chatW.closed && user.chatW.popMsgs)
-        user.chatW.popMsgs();			
-      
+        user.chatW.popMsgs();
+
       playSound('online');
-      
+
     } else if (presence.getType() == 'unavailable' && !nickChanged) {
       // show part message
       var aMessage = new JSJaCMessage();
@@ -455,17 +455,17 @@ function handlePresence(presence) {
       aMessage.setBody(body);
       user.chatmsgs = user.chatmsgs.concat(aMessage);
       if (user.chatW && !user.chatW.closed && user.chatW.popMsgs)
-        user.chatW.popMsgs();			
-      
+        user.chatW.popMsgs();
+
       playSound('offline');
-      
+
     } else
       user.roster.updateGroups();
-    
+
     // relink roster and user
     aRoster = user.roster;
     user = ouser;
-  } 
+  }
 
   if (show) {
     if (user.status == 'unavailable')
@@ -498,9 +498,9 @@ function handlePresence(presence) {
     user.statusMsg = null;
 
   // update presence indicator of chat window
-  if (user.chatW && !user.chatW.closed && user.chatW.updateUserPresence) 
+  if (user.chatW && !user.chatW.closed && user.chatW.updateUserPresence)
     user.chatW.updateUserPresence();
-  
+
   aRoster.print(); // update roster
 }
 
@@ -542,20 +542,20 @@ function handleConnected() {
   roster = new Roster();
   jid = con.jid;
   Debug.log("jid: "+jid);
-  
+
   var aRoom = '';
   if (passedArgs['room'] && ROOMS[passedArgs['room']])
     aRoom = ROOMS[passedArgs['room']].name+'@'+ROOMS[passedArgs['room']].server;
   else
     return; // should indicate an error here
-  
+
   var ac = getSecs(readCookie(hex_sha1(aRoom)));
   if (ac>0) {
     setTimeout("roster.openGroupchat('"+aRoom+"','"+nick+"');",ac*1000);
     //alert("I'm sorry but it seems you're locked out for "+ Math.round((ts.getTime()-now.getTime())/1000) + " seconds.\nPlease stand by, you'll be redirected automatically!");
     frames['chatW'].document.body.innerHTML = "<div class='infoBox'>Sorry, you're locked out for<br /> <span id='var_secs'></span>.<br />Please stand by, you'll be redirected automatically!</div>";
     updateVarSecs(ac);
-  } else 
+  } else
     roster.openGroupchat(aRoom, nick);
 }
 
@@ -574,12 +574,12 @@ function getSecs(ts_millis) {
   var ts = new Date();
   ts.setTime(ts_millis);
   var now = new Date();
-  
+
   return Math.round((ts.getTime()-now.getTime())/1000);
 }
 
 /************************************************************************
- *                       ******  END HANDLERS  ******* 
+ *                       ******  END HANDLERS  *******
  ************************************************************************
  */
 
@@ -602,15 +602,15 @@ function init() {
     }
   }
   Debug.start();
-  
+
   if (typeof(AUTHTYPE) == 'undefined' || AUTHTYPE == "anonymous")
     Debug.log("jid: "+jid+"\npass: "+pass,2);
   else
     Debug.log("using sasl anonymous for login",2);
-  
+
   /* set title */
   document.title = nick + " - Чат DESU.RU";
-  
+
   /* ***
    * create new connection
    */
@@ -623,14 +623,14 @@ function init() {
     alert('unknown backend type. aborting...');
     return;
   }
-  
+
   /* register handlers */
   con.registerHandler('presence',handlePresence);
   con.registerHandler('message',handleMessage);
   con.registerHandler('ondisconnect',handleDisconnect);
   con.registerHandler('onconnect',handleConnected);
   con.registerHandler('onerror',handleConError);
-  
+
   /* connect to remote */
   if (typeof(AUTHTYPE) == 'undefined' || AUTHTYPE!="saslanon")
     con.connect({domain: XMPPDOMAIN,username:jid.substring(0,jid.indexOf('@')),resource:jid.substring(jid.indexOf('/')+1),pass:pass});
@@ -651,7 +651,7 @@ function cleanUp() {
   /* close dependent windows */
   if (roster)
     roster.cleanUp();
-  
+
   // clear frames
   if (frames['jwc_sound']) {
     frames["jwc_sound"].document.open();
@@ -664,14 +664,14 @@ var logoutCalled = false;
 function logout() {
   logoutCalled = true;
   cleanUp();
-  
+
   if (!con.connected())
     return;
-  
+
   var aPresence = new JSJaCPresence();
   aPresence.setType('unavailable');
   con.send(aPresence);
-  
+
   con.disconnect();
 }
 
@@ -701,13 +701,13 @@ else {
 }
 
 // create a unique resource
-if (typeof(ANONHOST) == 'undefined') 
+if (typeof(ANONHOST) == 'undefined')
   jid += '/' + hex_sha1(navigator.userAgent + Date.UTC(new Date()) + nick);
 
 /* get style */
 if (opener && opener.myStyle)
   stylesheet = THEMESDIR + "/" + opener.myStyle + "/" + stylesheet;
-else if (passedArgs['myStyle']) 
+else if (passedArgs['myStyle'])
   stylesheet = THEMESDIR + "/" + passedArgs['myStyle'] + "/" + stylesheet;
 
 onload = init;
@@ -717,8 +717,8 @@ onunload = logout;
     </script>
   </head>
   <frameset rows="100%,0,0,0,0" border="0">
-    <frame src="empty.html" name="chatW" marginwidth="0" marginheight="0" scrolling="no" />
-    <frame src="empty.html" name="jwc_sound" marginwidth="0" marginheight="0" onLoad="soundLoaded();" />
+    <frame src="empty.html?ver=1" name="chatW" marginwidth="0" marginheight="0" scrolling="no" />
+    <frame src="empty.html?ver=1" name="jwc_sound" marginwidth="0" marginheight="0" onLoad="soundLoaded();" />
   </frameset>
   <body>
     Your browser must support frames and javascript to use this application.
