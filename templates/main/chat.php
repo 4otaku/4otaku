@@ -16,4 +16,6 @@
 	}
 	window.onresize=resize_iframe;
 </script>
-<iframe src="/webchat/index.html?=<?php echo time() ?>" onload="resize_iframe()" id="frame"></iframe>
+<iframe src="/webchat/index.html?time=<?php echo time() ?><?php echo
+(empty($sets['user']['name']) ? '' : '&nick=' . $sets['user']['name']); ?>"
+  onload="resize_iframe()" id="frame"></iframe>

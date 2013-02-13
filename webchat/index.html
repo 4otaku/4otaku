@@ -16,6 +16,9 @@ var roomidx = -1;
 function loginCheck(form) {
   if (form.nick.value.match(/^\s*(\S+|\S+.*\S+)\s*$/)) {
     form.nick.value = RegExp.$1;
+	if (window.localStorage) {
+		window.localStorage.lastNick = form.nick.value;
+	}
   } else {
     alert("Вы ввели некорректный ник");
     return false;
@@ -44,7 +47,7 @@ function init() {
   }
   Debug.start();
 
-  var welcome = "Чат DESU.RU";
+  var welcome = "Чат 4otaku.ru";
 
   getArgs();
   if (passedArgs['room']) {
@@ -82,8 +85,13 @@ function init() {
   }
 
   // check for nick
-  if (passedArgs['nick'])
-    document.forms['login'].nick.value = passedArgs['nick'];
+  if (window.localStorage && window.localStorage.lastNick) {
+	document.forms['login'].nick.value = window.localStorage.lastNick;
+  } else {
+    if (passedArgs['nick']) {
+      document.forms['login'].nick.value = passedArgs['nick'];
+    }
+  }
 }
 
 onload = init;
