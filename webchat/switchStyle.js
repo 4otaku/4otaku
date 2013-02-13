@@ -8,4 +8,4 @@ while (cur)
     break;
   } else
     cur = cur.parent;
-document.write('<link rel="styleSheet" type="text/css" href="'+style+'">');
+document.write('<link rel="styleSheet" type="text/css" href="'+style+'?ver=1">');
