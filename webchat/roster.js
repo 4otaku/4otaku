@@ -274,8 +274,8 @@ function printRoster() {
   var rosterHTML = '';
   var localizeGroup = function(name) {
 	var translations = {
-	  participants: 'участники',
-	  moderators: 'админы'
+	  participants: 'Участники',
+	  moderators: 'Админы'
 	};
 	return translations[name] ? translations[name] : name;
   };
@@ -291,7 +291,7 @@ function printRoster() {
 
     var rosterGroupHeadClass = (this.usersHidden && this.groups[i].onlUserCount == 0 && this.groups[i].messagesPending == 0) ? 'rosterGroupHeaderHidden':'rosterGroupHeader';
     rosterHTML += "<div id='"+this.groups[i].name+"Head' class='"+rosterGroupHeadClass+"'><nobr>";
-    rosterHTML += this.groups[i].onlUserCount+"&nbsp;"+localizeGroup(this.groups[i].name);
+    rosterHTML += localizeGroup(this.groups[i].name)+":&nbsp;"+this.groups[i].onlUserCount;
 
     rosterHTML += "</nobr></div>";
     var rosterGroupClass = ((this.usersHidden && this.groups[i].onlUserCount == 0 && this.groups[i].messagesPending == 0) || this.hiddenGroups[this.groups[i].name])?'hidden':'rosterGroup';
