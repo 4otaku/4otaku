@@ -134,7 +134,7 @@ function RosterOpenGroupchat(aJid,nick,pass) {
     user.type = 'groupchat';
   }
 
-  frames['chatW'].location.replace("groupchat.html?jid="+encodeURI(aJid)+"&nick="+encodeURI(nick)+"&pass="+encodeURI(pass));
+  frames['chatW'].location.replace("groupchat.html?ver=1&jid="+encodeURI(aJid)+"&nick="+encodeURI(nick)+"&pass="+encodeURI(pass));
   user.chatW = frames['chatW'];
 }
 
