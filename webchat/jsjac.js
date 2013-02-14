@@ -4,7 +4,7 @@
  * JSJaC is licensed under the terms of the Mozilla Public License
  * version 1.1 or, at your option, under the terms of the GNU General
  * Public License version 2 or subsequent, or the terms of the GNU Lesser
- * General Public License version 2.1 or subsequent. 
+ * General Public License version 2.1 or subsequent.
  *
  * Please visit http://zeank.in-berlin.de/jsjac/ for details about JSJaC.
  */
@@ -314,7 +314,7 @@ return 1;if(aRank<bRank)
 return-1;return 0;});this.oDbg.log("registered handler for event '"+event+"'",2);};JSJaCConnection.prototype.unregisterHandler=function(event,handler){event=event.toLowerCase();if(!this._events[event])
 return;var arr=this._events[event],res=new Array();for(var i=0;i<arr.length;i++)
 if(arr[i].handler!=handler)
-res.push(arr[i]);if(arr.length!=res.length){this._events[event]=res;this.oDbg.log("unregistered handler for event '"+event+"'",2);}};JSJaCConnection.prototype.registerIQGet=function(childName,childNS,handler){this.registerHandler('iq',childName,childNS,'get',handler);};JSJaCConnection.prototype.registerIQSet=function(childName,childNS,handler){this.registerHandler('iq',childName,childNS,'set',handler);};JSJaCConnection.prototype.resume=function(){try{this._setStatus('resuming');var s=unescape(JSJaCCookie.read('JSJaC_State').getValue());this.oDbg.log('read cookie: '+s,2);var o=JSJaCJSON.parse(s);for(var i in o)
+res.push(arr[i]);if(arr.length!=res.length){this._events[event]=res;this.oDbg.log("unregistered handler for event '"+event+"'",2);}};JSJaCConnection.prototype.registerIQGet=function(childName,childNS,handler){this.registerHandler('iq',childName,childNS,'get',handler);};JSJaCConnection.prototype.registerIQSet=function(childName,childNS,handler){this.registerHandler('iq',childName,childNS,'set',handler);};JSJaCConnection.prototype.resume=function(){try{this._setStatus('resuming');var s=decodeURI(JSJaCCookie.read('JSJaC_State').getValue());this.oDbg.log('read cookie: '+s,2);var o=JSJaCJSON.parse(s);for(var i in o)
 if(o.hasOwnProperty(i))
 this[i]=o[i];if(this._keys){this._keys2=new JSJaCKeys();var u=this._keys2._getSuspendVars();for(var i=0;i<u.length;i++)
 this._keys2[u[i]]=this._keys[u[i]];this._keys=this._keys2;}
@@ -332,9 +332,9 @@ handlers=handlers||{};var error_handler=handlers.error_handler||function(aIq){th
 this._timerval=timerval;return this._timerval;};JSJaCConnection.prototype.status=function(){return this._status;};JSJaCConnection.prototype.suspend=function(){clearTimeout(this._timeout);clearInterval(this._interval);clearInterval(this._inQto);this._suspend();var u=('_connected,_keys,_ID,_inQ,_pQueue,_regIDs,_errcnt,_inactivity,domain,username,resource,jid,fulljid,_sid,_httpbase,_timerval,_is_polling').split(',');u=u.concat(this._getSuspendVars());var s=new Object();for(var i=0;i<u.length;i++){if(!this[u[i]])continue;if(this[u[i]]._getSuspendVars){var uo=this[u[i]]._getSuspendVars();var o=new Object();for(var j=0;j<uo.length;j++)
 o[uo[j]]=this[u[i]][uo[j]];}else
 var o=this[u[i]];s[u[i]]=o;}
-var c=new JSJaCCookie('JSJaC_State',escape(JSJaCJSON.toString(s)),this._inactivity);this.oDbg.log("writing cookie: "+unescape(c.value)+"\n(length:"+
-unescape(c.value).length+")",2);c.write();try{var c2=JSJaCCookie.read('JSJaC_State');if(c.value!=c2.value){this.oDbg.log("Suspend failed writing cookie.\nRead: "+
-unescape(JSJaCCookie.read('JSJaC_State')),1);c.erase();}
+var c=new JSJaCCookie('JSJaC_State',encodeURI(JSJaCJSON.toString(s)),this._inactivity);this.oDbg.log("writing cookie: "+decodeURI(c.value)+"\n(length:"+
+decodeURI(c.value).length+")",2);c.write();try{var c2=JSJaCCookie.read('JSJaC_State');if(c.value!=c2.value){this.oDbg.log("Suspend failed writing cookie.\nRead: "+
+decodeURI(JSJaCCookie.read('JSJaC_State')),1);c.erase();}
 this._connected=false;this._setStatus('suspending');}catch(e){this.oDbg.log("Failed reading cookie 'JSJaC_State': "+e.message);}};JSJaCConnection.prototype._abort=function(){clearTimeout(this._timeout);clearInterval(this._inQto);clearInterval(this._interval);this._connected=false;this._setStatus('aborted');this.oDbg.log("Disconnected.",1);this._handleEvent('ondisconnect');this._handleEvent('onerror',JSJaCError('500','cancel','service-unavailable'));};JSJaCConnection.prototype._checkInQ=function(){for(var i=0;i<this._inQ.length&&i<10;i++){var item=this._inQ[0];this._inQ=this._inQ.slice(1,this._inQ.length);var packet=JSJaCPacket.wrapNode(item);if(!packet)
 return;this._handleEvent("packet_in",packet);if(packet.pType&&!this._handlePID(packet)){this._handleEvent(packet.pType()+'_in',packet);this._handleEvent(packet.pType(),packet);}}};JSJaCConnection.prototype._checkQueue=function(){if(this._pQueue.length!=0)
 this._process();return true;};JSJaCConnection.prototype._doAuth=function(){if(this.has_sasl&&this.authtype=='nonsasl')

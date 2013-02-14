@@ -102,9 +102,9 @@ function RosterOpenMessage(jid) {
   var wName = makeWindowName(user.jid);
 
   if (user.messages.length > 0 && (!user.mW || user.mW.closed)) // display messages
-    user.mW = open('message.html?jid='+escape(jid),"mw"+wName,'width=360,height=270,dependent=yes,resizable=yes');
+    user.mW = open('message.html?jid='+encodeURI(jid),"mw"+wName,'width=360,height=270,dependent=yes,resizable=yes');
   else if (!user.sW || user.sW.closed) // open send dialog
-    user.sW = open("send.html?jid="+escape(jid),"sw"+wName,'width=320,height=200,dependent=yes,resizable=yes');
+    user.sW = open("send.html?jid="+encodeURI(jid),"sw"+wName,'width=320,height=200,dependent=yes,resizable=yes');
   return false;
 }
 
@@ -119,7 +119,7 @@ function RosterOpenChat(jid) {
 		this.openMessage(jid);
 
   if (!user.chatW || user.chatW.closed)
-    user.chatW = open("chat.html?jid="+escape(jid),"chatW"+makeWindowName(user.jid),"width=320,height=360,resizable=yes");
+    user.chatW = open("chat.html?jid="+encodeURI(jid),"chatW"+makeWindowName(user.jid),"width=320,height=360,resizable=yes");
   else if (user.chatW.popMsgs)
     user.chatW.popMsgs();
 }
@@ -134,7 +134,7 @@ function RosterOpenGroupchat(aJid,nick,pass) {
     user.type = 'groupchat';
   }
 
-  frames['chatW'].location.replace("groupchat.html?jid="+escape(aJid)+"&nick="+escape(nick)+"&pass="+escape(pass));
+  frames['chatW'].location.replace("groupchat.html?jid="+encodeURI(aJid)+"&nick="+encodeURI(nick)+"&pass="+encodeURI(pass));
   user.chatW = frames['chatW'];
 }
 
