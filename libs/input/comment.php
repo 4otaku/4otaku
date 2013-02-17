@@ -3,7 +3,7 @@
 class input__comment extends input__common
 {
     function add() {
-        global $check; global $url; global $cookie; global $def;
+        global $url; global $cookie; global $def;
         if (!$cookie) $cookie = new dynamic__cookie();
 
         if (

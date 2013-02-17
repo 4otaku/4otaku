@@ -129,7 +129,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 			foreach ($works as $test) {
 				if (strpos($test, '\\') === 0) {
 					$this->echo_debug('test working regex', $test);
-					if (preg_match('/'.$test.'/u', $html)) {
+					if (preg_match($test, $html)) {
 						$this->echo_debug('works');
 						return self::STATUS_WORKS;
 					}
