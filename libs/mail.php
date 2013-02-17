@@ -15,7 +15,7 @@ class mail
 		$this->attachments = array();
 		$this->boundary = '_mail_'.md5(microtime(true).'4otaku').'_boundary_';
 		$this->headers = array(
-			 'From' => '4otaku.ru <notify@4otaku.ru>',
+			 'From' => '4otaku.ru <gouf@4otaku.ru>',
 			 'MIME-Version' => '1.0',
 			 'Content-Type' => 'multipart/mixed; boundary="'.$this->boundary.'"',
 		);
