@@ -66,9 +66,9 @@ class mail
 
 	function text($text) {
 		if (preg_match('/@mail\.ru/', $this->recepient)) {
-			$this->textbody($text);
+			$this->bodytext($text);
 		} else {
-			$this->htmlbody($text);
+			$this->htmltext($text);
 		}
 
 		return $this;
