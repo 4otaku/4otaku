@@ -2,9 +2,9 @@
 
 if (!DEBUG) {
 	function exception_handler($exception) {
-		$mail = new mail();
+		$mail = new mail(def::notify('mail'));
 		$mail->text(serialize(query::$url) . serialize($exception))
-			->send(def::notify('mail'));
+			->send();
 	}
 
 	set_exception_handler('exception_handler');
@@ -14,14 +14,14 @@ if (!DEBUG) {
 		if ($error && ($error['type'] == E_ERROR || $error['type'] == E_PARSE || $error['type'] == E_COMPILE_ERROR)) {
 			if (strpos($error['message'], 'Allowed memory size') === 0) {
 				ob_end_clean();
-				$mail = new mail();
+				$mail = new mail(def::notify('mail'));
 				$mail->text(serialize(query::$url) . serialize($error))
-					->send(def::notify('mail'));
+					->send();
 			} else {
 				ob_end_clean();
-				$mail = new mail();
+				$mail = new mail(def::notify('mail'));
 				$mail->text(serialize(query::$url) . serialize($error))
-					->send(def::notify('mail'));
+					->send();
 			}
 		}
 	}

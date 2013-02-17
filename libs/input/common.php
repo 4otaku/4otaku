@@ -131,17 +131,10 @@ class input__common extends engine
 		obj::db()->insert('misc',array('close_order',(time()+86400*60),$id,'','',''));
 		if ($mail) {
 			$encrypt = encrypt($id.'extra string');
-			if (preg_match('/@mail\.ru/', $mail)) {
-				$text = 'Ваш заказ на сайте 4отаку.ру, http://4otaku.ru/order/'.$id.'/ до сих пор не выполнен.
-				Прошло уже не менее месяца с последнего комментария к заказу, прогресса, или емейл-уведомления. Вы все еще заинтересованы в выполнении заказа?
-				Если да, то пройдите пожалуйста по ссылке http://4otaku.ru/order/do/prolong/'.$encrypt.'/
-				Если нет, то просто ничего не делайте, через 30 суток заказ закроется автоматически.'.$this->unsubscribe_mail_ru($id);
-			} else {
-				$text = 'Ваш заказ на сайте 4отаку.ру, <a href="http://4otaku.ru/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a> до сих пор не выполнен.<br />
+			$text = 'Ваш заказ на сайте 4отаку.ру, <a href="http://4otaku.ru/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a> до сих пор не выполнен.<br />
 				Прошло уже не менее месяца с последнего комментария к заказу, прогресса, или емейл-уведомления. Вы все еще заинтересованы в выполнении заказа? <br />
 				Если да, то пройдите пожалуйста по ссылке <a href="http://4otaku.ru/order/do/prolong/'.$encrypt.'/">http://4otaku.ru/order/do/prolong/'.$encrypt.'/</a><br />
 				Если нет, то просто ничего не делайте, через 30 суток заказ закроется автоматически.'.$this->unsubscribe($id);
-			}
 			obj::db()->insert('misc',array('mail_notify',(time()+86400*30),$mail,'',$text,$id));
 		}
 	}
@@ -150,12 +143,6 @@ class input__common extends engine
 		$encrypt = encrypt($id.'extra string');
 		return "<br /><br />\n\n" .
 			'Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: <a href="http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/">http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/</a>';
-	}
-
-	function unsubscribe_mail_ru($id) {
-		$encrypt = encrypt($id.'extra string');
-		return "\n\n" .
-			'Если в заказе был указан ваш Е-мейл по ошибке, или же вы не желаете больше получать эти уведомления, вы можете отписаться от них пройдя по этой ссылке: http://4otaku.ru/order/do/unsubscribe/'.$encrypt.'/';
 	}
 
 // Секция кончилась

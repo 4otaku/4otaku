@@ -136,11 +136,11 @@ class Cron
 	function send_mails() {
 		$data = obj::db()->sql('select * from misc where type = "mail_notify" and data1 < '.time());
 		if (!empty($data)) {
-			$mail = new mail('html');
 			foreach ($data as $send) {
+				$mail = new mail($send['data2']);
 				if (!obj::db()->sql('select id from orders where (id ='.$send['data5'].' and spam = 0)',2)) {
-					if ($send['data3']) $mail->text($send['data4'])->send($send['data2'],$send['data3']);
-					else $mail->text($send['data4'])->send($send['data2']);
+					if ($send['data3']) $mail->text($send['data4'])->send($send['data3']);
+					else $mail->text($send['data4'])->send();
 					obj::db()->sql('delete from misc where id ='.$send['id'],0);
 				}
 			}

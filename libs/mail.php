@@ -9,21 +9,22 @@ class mail
 	private $attachments;
 	private $boundary;
 	private $textfunction;
+	private $recepient;
 
-	function __construct($type = 'body') {
+	function __construct($recepient) {
 		$this->attachments = array();
 		$this->boundary = '_mail_'.md5(microtime(true).'4otaku').'_boundary_';
 		$this->headers = array(
-			 'From' => '4otaku.ru <gouf@4otaku.ru>',
+			 'From' => '4otaku.ru <notify@4otaku.ru>',
 			 'MIME-Version' => '1.0',
 			 'Content-Type' => 'multipart/mixed; boundary="'.$this->boundary.'"',
 		);
-		$this->textfunction = $type.'text';
+		$this->recepient = $recepient;
 	}
 
 	function get_body() {
-		$retval = $textbody;
-		$retval .= $htmlbody;
+		$retval = $this->textbody;
+		$retval .= $this->htmlbody;
 		foreach($this->attachments as $tblck)
 			$retval .= $tblck;
 
@@ -64,8 +65,11 @@ class mail
 	}
 
 	function text($text) {
-		$function = $this->textfunction;
-		$this->$function($text);
+		if (preg_match('/@mail\.ru/', $this->recepient)) {
+			$this->textbody($text);
+		} else {
+			$this->htmlbody($text);
+		}
 
 		return $this;
 	}
@@ -89,7 +93,8 @@ class mail
 	function clear_htmltext() { $this->htmlbody = ""; }
 	function get_error() { return $this->errstr; }
 
-	function send($to = "root@localhost", $subject = "Уведомление от сайта 4otaku.ru") {
+	function send($subject = "Уведомление от сайта 4otaku.ru") {
+		$_body = '';
 		if(isset($this->textbody)) $_body .= $this->textbody;
 		if(isset($this->htmlbody)) $_body .= $this->htmlbody;
 
@@ -98,6 +103,6 @@ class mail
 
 		$_body .= "\n--$this->boundary--";
 
-		mail($to, $subject, $_body, $this->get_header());
+		mail($this->recepient, $subject, $_body, $this->get_header());
 	}
 }

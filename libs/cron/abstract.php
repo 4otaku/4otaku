@@ -8,8 +8,8 @@ abstract class Cron_Abstract
 			try {
 				$this->$function();
 			} catch (Error_Cron $e) {
-				$mail = new mail();
-				$mail->text(serialize($e))->send(def::notify('mail'));
+				$mail = new mail(def::notify('mail'));
+				$mail->text(serialize($e))->send();
 			}
 		}
 	}
