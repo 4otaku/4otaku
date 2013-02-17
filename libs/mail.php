@@ -66,7 +66,7 @@ class mail
 
 	function text($text) {
 		if (preg_match('/@mail\.ru/', $this->recepient)) {
-			$this->bodytext($text);
+			$this->bodytext(strip_tags($text));
 		} else {
 			$this->htmltext($text);
 		}
@@ -76,7 +76,7 @@ class mail
 
 	function bodytext($text) {
 		$this->textbody = "\n--" . $this->boundary . "\n";
-		$this->textbody .= "Content-Type: text/plain\n";
+		$this->textbody .= "Content-Type: text/plain charset=utf-8\n";
 		$this->textbody .= "Content-Transfer-Encoding: 8bit\n\n";
 		$this->textbody .= $text;
 	}
