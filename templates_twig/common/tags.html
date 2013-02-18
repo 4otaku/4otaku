@@ -16,20 +16,20 @@
 
 	{% for alias, tag in item.meta.tag %}
 		 {% if item.in_batch %}
-			<a href="{{navi.base}}{{tag.mixed_add}}">
+			<a href="{{base}}{{tag.mixed_add}}">
 				+
 			</a>
-			 <a href="{{navi.base}}{{tag.mixed_remove}}">
+			 <a href="{{base}}{{tag.mixed_remove}}">
 				-
 			</a>
 		{% endif %}
-		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{alias}}/">
+		 <a href="{{base}}tag/{{alias}}/">
 			{{tag.name}}
 		</a>
 		{% if not loop.last or tag.variant %}, {% endif %}
 		<span class="hidden tag_synonims tag_synonims_{{id}}">
 			{% for variant in tag.variant %}
-				 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}tag/{{variant|url_encode()}}">
+				 <a href="{{base}}tag/{{variant|url_encode()}}">
 					{{variant}}
 				</a>
 				{% if not loop.last %}, {% endif %}

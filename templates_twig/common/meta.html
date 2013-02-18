@@ -1,4 +1,4 @@
-{{item.pretty_date}}
+{{item.pretty_date}}{{base}}
 {% if item.meta.author %}
 	&nbsp;|&nbsp;
 	{% if item.meta.author|length > 1 %}
@@ -9,14 +9,14 @@
 	 {% for alias, author in item.meta.author %}
 		{% if not loop.first %}, {% endif %}
 		{% if item.in_batch %}
-			<a href="{{navi.base}}{{author.mixed_add}}">
+			<a href="{{base}}{{author.mixed_add}}">
 				+
 			</a>
-			 <a href="{{navi.base}}{{author.mixed_remove}}">
+			 <a href="{{base}}{{author.mixed_remove}}">
 				-
 			</a>
 		{% endif %}
-		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}author/{{alias}}/">
+		 <a href="{{base}}author/{{alias}}/">
 			{{author.name}}
 		</a>
 	{% endfor %}
@@ -31,14 +31,14 @@
 	 {% for alias, category in item.meta.category %}
 		{% if not loop.first %}, {% endif %}
 		{% if item.in_batch %}
-			<a href="{{navi.base}}{{category.mixed_add}}">
+			<a href="{{base}}{{category.mixed_add}}">
 				+
 			</a>
-			 <a href="{{navi.base}}{{category.mixed_remove}}">
+			 <a href="{{base}}{{category.mixed_remove}}">
 				-
 			</a>
 		{% endif %}
-		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}category/{{alias}}/">
+		 <a href="{{base}}category/{{alias}}/">
 			{{category.name}}
 		</a>
 	{% endfor %}
@@ -53,14 +53,14 @@
 	 {% for alias, language in item.meta.language %}
 		{% if not loop.first %}, {% endif %}
 		{% if item.in_batch %}
-			<a href="{{navi.base}}{{language.mixed_add}}">
+			<a href="{{base}}{{language.mixed_add}}">
 				+
 			</a>
-			 <a href="{{navi.base}}{{language.mixed_remove}}">
+			 <a href="{{base}}{{language.mixed_remove}}">
 				-
 			</a>
 		{% endif %}
-		 <a href="{% if item.in_batch %}{{navi.base}}{% elseif base %}{{base}}{% else %}{{item.navi}}{% endif %}language/{{alias}}/">
+		 <a href="{{base}}language/{{alias}}/">
 			{{language.name}}
 		</a>
 	{% endfor %}

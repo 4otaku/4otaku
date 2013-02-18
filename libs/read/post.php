@@ -41,7 +41,6 @@ class Read_Post extends Read_Main
 		query::$url['area'] = $this->area = $item['area'];
 
 		$this->data['items'] = array($id => $item);
-		$this->data['base'] = '/post/';
 	}
 
 	protected function get_items() {

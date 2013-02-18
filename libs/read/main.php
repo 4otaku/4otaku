@@ -65,6 +65,7 @@ abstract class Read_Main extends Read_Abstract
 
 	protected function do_output($template, $data = array()) {
 		$data['navigation'] = $this->get_navigation();
+		$data['navi_base'] = $this->get_navi_base();
 		parent::do_output($template, $data);
 	}
 
@@ -88,7 +89,6 @@ abstract class Read_Main extends Read_Abstract
 			$params[$param_part[0]] = $param_part[1];
 		}
 
-		$mixed = array();
 		foreach ($params as $key => $param) {
 
 			$value = ''; $sign = "+";
@@ -254,10 +254,13 @@ abstract class Read_Main extends Read_Abstract
 			$return['meta'] = '';
 		}
 
-		$area = $this->area != def::area(0) ? '/' . $this->area : '';
-		$return['base'] = '/' . $type . $area . '/';
-
 		return $return;
+	}
+
+	protected function get_navi_base() {
+		$area = $this->area != def::area(0) ? '/' . $this->area : '';
+		$type = substr(strtolower(get_called_class()), 5);
+		return '/' . $type . $area . '/';
 	}
 
 	protected function make_meta_url($meta) {
