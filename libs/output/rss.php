@@ -2,17 +2,17 @@
 
 class output__rss extends engine
 {
-
-	function __construct() {
-		global $url; global $sets;
-		if (!$url[2]) $url[2] = '='.$sets['rss']['default'];
-	}
 	public $allowed_url = array(
 		array(1 => '|rss|', 2 => 'any', 3=> 'end')
 	);
 	public $template = 'rss';
 	public $error_template = 'rss';
-	public $side_modules = array(	);
+	public $side_modules = array();
+
+	function __construct() {
+		global $url; global $sets;
+		if (!$url[2]) $url[2] = '='.$sets['rss']['default'];
+	}
 
 	function get_data() {
 		global $url; global $data; global $error; global $check; global $sets;
@@ -57,6 +57,7 @@ class output__rss extends engine
 				$function = 'convert_'.$item['type'];
 				$item = $this->$function($item);
 				$item['rss_title'] = html_entity_decode($item['title']);
+				$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 				$item['guid'] = $alias[$type].'-'.$item['id'];
 			}
 			reset($return['items']);
@@ -76,7 +77,6 @@ class output__rss extends engine
 		$item = current($post);
 		$item['type'] = 'post';
 
-		$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/post/'.$item['id'].'/';
 		$item['text'] = str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);
@@ -96,7 +96,6 @@ class output__rss extends engine
 		$item['title'] = 'Новое видео: ' . $item['title'];
 		if ($item['area'] == 'workshop') $item['title'] = '(Очередь премодерации)' . $item['title'];
 
-		$item['rss_base'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		$item['rss_link'] = 'http://'.$_SERVER['HTTP_HOST'].'/video/'.$item['id'].'/';
 		$item['text'] =  str_replace('href="/go?','href="',$item['text']);
 		$item['text'] = $this->replace_spoilers($item['text'],$item['rss_link']);
