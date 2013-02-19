@@ -790,8 +790,33 @@ $(document).ready(function(){
 		}
 	});
 
-	$(".art_translation").easyTooltip();
+	$(".art_translation").easyTooltip({clickRemove: false});
 	$("a.with_help3").easyTooltip({timeOut:1000});
+
+	$(".art_translation").live('click', function(event){
+		if(is_left_click(event)) {
+			$(this).unbind('mousemove');
+			$(this).unbind('mouseleave');
+			$(this).unbind('mouseenter');
+			$(this).addClass('freezed_translation');
+			$(this).data('freezed_translation');
+			event.stopPropagation();
+		}
+	});
+
+	$(".booru_translation_toggle").live('click', function(event){
+		if(is_left_click(event)) {
+			$("#easyTooltip").remove();
+			$(".freezed_translation").each(function(){
+				$(this).removeClass('freezed_translation');
+				if ($(this).data('title')) {
+					$(this).attr('title', $(this).data('title'));
+				}
+				$(this).easyTooltip({clickRemove: false});
+			});
+			$(".image .art_translation").toggle();
+		}
+	});
 
 	$('.booru_main img').unbind('mousemove');
 
@@ -842,12 +867,6 @@ $(document).ready(function(){
 		$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=art.resized&val=0", function() {
 			document.location.reload();
 		});
-	});
-
-	$(".booru_translation_toggle").live('click', function(event){
-		if(is_left_click(event)) {
-			$(".image .art_translation").toggle();
-		}
 	});
 
 	$(".vote_up:not(.inactive_vote)").click(function(event) {

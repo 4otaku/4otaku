@@ -53,6 +53,7 @@ jQuery.cookie = function (key, value, options) {
 		var content;
 		this.each(function() {
 			var title = $(this).attr("title");
+			$(this).data('title', title);
 			$(this).hover(function(e){
 				$("#" + options.tooltipId).remove();
 				$(this).attr("title","");
