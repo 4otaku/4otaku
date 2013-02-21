@@ -524,8 +524,8 @@ $(document).ready(function(){
 	});
 
 	$(".show_nsfw").click(function(){
-		$(this).parents(".post table").find("tr.hidden").show();
-		$(this).parents(".post table tr").hide();
+		$(this).parents("table").find("tr.hidden").show();
+		$(this).parents(".nsfw_warning").hide();
 	});
 
 	$(".always_show_nsfw").click(function(){
