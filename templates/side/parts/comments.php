@@ -1,4 +1,4 @@
-<div class="cats">	
+<div class="cats">
 	<h2>
 		<a href="<?=$def['site']['dir']?>/comments/<?=(empty($data['sidebar']['comments']['link']) ? '' : $data['sidebar']['comments']['link'].'/');?>">
 			Комментарии
@@ -13,7 +13,7 @@
 				else {
 					?>
 						<img src="<?=$def['site']['dir']?>/images/text2387.png">
-					<?				
+					<?
 				}
 			?>
 		</a>
@@ -36,6 +36,6 @@
 					<br />
 				<?
 			}	unset($nonfirst);
-		?> 
+		?>
 	</div>
 </div>

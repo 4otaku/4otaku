@@ -4,12 +4,12 @@
 		{% set label = item.label %}
 		{% set level = 1 %}
 		{% include 'main/item/comment.html' %}
-	{% endfor %}		
-		
+	{% endfor %}
+
 	{% if navi %}
-		{% include 'common/navi.html' %}
-	{% endif %}	
-		
+		{% include 'common/navi.html' with {'navi_base': navi.base} %}
+	{% endif %}
+
 	<div id="comments-field">
 		<noscript>
 			Для возможности комментировать, включите пожалуйста javascript;
