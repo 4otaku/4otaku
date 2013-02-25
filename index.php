@@ -33,7 +33,7 @@ if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 			decrypt($url[2]),
 			$url[3],
 			$url[5] ? $url[4].'|'.$url[5] : ($url[4] == 'all' ? $url[4] : null),
-			$url[5] ? null: $url[4]
+			($url[5] || $url[4] == 'all') ? null: $url[4]
 		);
 	} else {
 		input__comment::add_to_black_list(decrypt($url[2]));
