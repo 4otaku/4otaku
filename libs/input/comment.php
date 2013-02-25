@@ -226,13 +226,13 @@ class input__comment extends input__common
 
         $text =
             '<br /><br />'."\n\n".
-            'По адресу <a href="'.$url.'">'.$url.'</a>' . $title . 
+            'По адресу <a href="'.$url.'">'.$url.'</a>' . $title .
             ', по которому вы подписаны на комментарии оставлен новый комментарий: '.
             '<br /><br />'."\n\n".
             '-------------------------'.
             '<br /><br />'."\n\n".$text.'<br /><br />'."\n\n".
             '-------------------------';
-
+var_dump($text); die;
         return $text;
     }
 
@@ -272,7 +272,7 @@ class input__comment extends input__common
         $code = encrypt($email,true);
 
         if (!empty($rule)) {
-            $second = $rule == 'all' ? '' : str_replace('|','/',$rule).'/';
+            $second = str_replace('|','/',$rule).'/';
         } else {
             $second = $id.'/';
         }
