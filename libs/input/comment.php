@@ -232,7 +232,7 @@ class input__comment extends input__common
             '-------------------------'.
             '<br /><br />'."\n\n".$text.'<br /><br />'."\n\n".
             '-------------------------';
-var_dump($text); die;
+
         return $text;
     }
 
