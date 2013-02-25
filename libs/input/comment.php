@@ -215,12 +215,18 @@ class input__comment extends input__common
     }
 
     function subscription_notify_text($table, $id, $text) {
-        $table = $table == 'orders' ? 'order' : $table;
+	    if ($table == 'post' || $table == 'video' || $table == 'orders') {
+			$title = ' (' . Database::get_field($table, 'title', $id) . ')';
+	    } else {
+		    $title = '';
+	    }
 
+        $table = $table == 'orders' ? 'order' : $table;
         $url = 'http://'.def::site('domain').'/'.$table.'/'.$id.'/';
+
         $text =
             '<br /><br />'."\n\n".
-            'По адресу <a href="'.$url.'">'.$url.'</a>'.
+            'По адресу <a href="'.$url.'">'.$url.'</a>' . $title . 
             ', по которому вы подписаны на комментарии оставлен новый комментарий: '.
             '<br /><br />'."\n\n".
             '-------------------------'.
