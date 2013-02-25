@@ -172,7 +172,7 @@ class input__comment extends input__common
     }
 
     function check_complex_subscriptions($table, $id) {
-	    $table = $table == 'order' ? 'orders' : $table;
+	    $table = $table == 'orders' ? 'order' : $table;
         $emails = array();
 
         $all = obj::db()->sql(
