@@ -32,7 +32,7 @@ if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 		input__comment::subscribe_comments(
 			decrypt($url[2]),
 			$url[3],
-			$url[5] ? $url[4].'|'.$url[5] : null,
+			$url[5] ? $url[4].'|'.$url[5] : ($url[4] == 'all' ? $url[4] : null),
 			$url[5] ? null: $url[4]
 		);
 	} else {
