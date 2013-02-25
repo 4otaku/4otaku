@@ -38,7 +38,10 @@ if ($url[1] == 'confirm' || $url[1] == 'stop_emails') {
 	} else {
 		input__comment::add_to_black_list(decrypt($url[2]));
 	}
-	$redirect = 'http://'.def::site('domain').'/'.(empty($url[3]) ? 'news/' : $url[3].'/'.$url[4].'/'.$url[5]);
+	$redirect = 'http://'.def::site('domain').'/'. (empty($url[3]) ?
+		'news/' :
+		$url[3].'/'. ($url[4] == 'all' ? '' : $url[4].'/'.$url[5])
+	);
 	engine::redirect($redirect);
 }
 
