@@ -11,7 +11,7 @@
 		<?
 	}
 
-	if (engine::have_tag_variants($item['meta']['tag'])) {
+	if (!$data['feed'] && engine::have_tag_variants($item['meta']['tag'])) {
 		?>
 			 <span class="synonims">
 				<a href="#" class="disabled" title="Показать синонимы" rel="<?=$item['id'];?>">
@@ -42,23 +42,25 @@
 			<? if (++$i != $total) { ?>
 				,
 			 <? } ?>
-			<span class="hidden tag_synonims tag_synonims_<?=$item['id'];?>">
-				<? if ($meta_total = count($meta['variants'])) {
-					if ($i == $total) { ?>, <? }
-					$j = 0;
-					foreach ($meta['variants'] as $synonim) {
-						?>
-							 <a href="<?=$data['main']['navi']['base'];?>tag/<?=urlencode($synonim);?>">
-								<?=$synonim;?>
-							</a>
-							<? if (++$j != $meta_total) { ?>
-								,
-							 <? } ?>
-						<?
-					}
-				} ?>
-				&nbsp;
-			</span>
+			<? if (!$data['feed']) { ?>
+				<span class="hidden tag_synonims tag_synonims_<?=$item['id'];?>">
+					<? if ($meta_total = count($meta['variants'])) {
+						if ($i == $total) { ?>, <? }
+						$j = 0;
+						foreach ($meta['variants'] as $synonim) {
+							?>
+								 <a href="<?=$data['main']['navi']['base'];?>tag/<?=urlencode($synonim);?>">
+									<?=$synonim;?>
+								</a>
+								<? if (++$j != $meta_total) { ?>
+									,
+								 <? } ?>
+							<?
+						}
+					} ?>
+					&nbsp;
+				</span>
+			<? } ?>
 		<?	}
 	}
 ?>
