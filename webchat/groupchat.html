@@ -221,13 +221,9 @@ function putMsgHTML(msg,mtime,user,usercolor,err,type) {
     frames.groupchatIChat.scrollTo(0,cFrame.body.scrollHeight);
 }
 
-function popMsgs(dontExpectMessages) {
+function popMsgs() {
   if (!user)
     user = srcW.roster.getUserByJID(group);
-
-  if (!user.chatmsgs.length && !dontExpectMessages) {
-    alert('Не удается присоединтся к комнате, выбранный вами ник уже занят');
-  }
 
   while (user.chatmsgs.length>0) {
     var msg;
@@ -461,7 +457,7 @@ function init() {
   parent.playSounds = !parent.playSounds;
   toggleSound(document.getElementById('toggle_sound_button'));
 
-  popMsgs(true);
+  popMsgs();
   displayTimestamp();
   document.onclick = frames['groupchatIRoster'].selectUser;
 }

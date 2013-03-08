@@ -267,6 +267,10 @@ function handlePresence(presence) {
 
   if (type == 'error') {
 
+
+	if (!user.chatmsgs.length && !dontExpectMessages) {
+	  alert('Не удается присоединтся к комнате, выбранный вами ник уже занят');
+	}
     if (user && user.chatW && !user.chatW.closed && user.chatW.putMsgHTML) {
       if (presence.getNode().getElementsByTagName('error').item(0)) {
         var error = presence.getNode().getElementsByTagName('error').item(0);
