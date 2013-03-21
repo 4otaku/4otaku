@@ -41,6 +41,12 @@ class input__comment extends input__common
             if (query::$post['parent'] && !($rootparent = obj::db()->sql('select rootparent from comment where id='.query::$post['parent'],2)))
                 $rootparent = query::$post['parent'];
 
+			if (
+			    obj::db()->sql('select id from comment where parent='.query::$post['parent'].' and text="'.$comment.'"',2)
+			) {
+			    return;
+			}
+
             obj::db()->insert('comment',array($rootparent,query::$post['parent'],$table,$item_id,query::$post['name'],query::$post['mail'],
                         $_SERVER['REMOTE_ADDR'],query::$cookie,$comment,query::$post['text'],'',$date = obj::transform('text')->rudate(true),
                         $time = ceil(microtime(true)*1000),$area));
