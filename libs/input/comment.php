@@ -44,9 +44,10 @@ class input__comment extends input__common
 			if (
 			    obj::db()->sql('select id from comment where parent='.query::$post['parent'].' and text="'.$comment.'"',2)
 			) {
-				if (DEBUG) {echo 'select id from comment where parent='.query::$post['parent'].' and text="'.$comment.'"'; die;}
+
 		//	    return;
 			}
+	        if (DEBUG) {echo 'select id from comment where parent='.query::$post['parent'].' and text="'.$comment.'"'; die;}
 
             obj::db()->insert('comment',array($rootparent,query::$post['parent'],$table,$item_id,query::$post['name'],query::$post['mail'],
                         $_SERVER['REMOTE_ADDR'],query::$cookie,$comment,query::$post['text'],'',$date = obj::transform('text')->rudate(true),
