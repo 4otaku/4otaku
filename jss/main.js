@@ -408,7 +408,7 @@ function load_edit_new(event) {
 	var type = wrapper.find("#edit_type option:selected").val();
 	var worker = wrapper.attr('rel');
 	wrapper.find("#loader").show();
-	wrapper.find("#edit").load('/edit_'+worker+'/'+type+'/'+id);
+	wrapper.find("#edit").load('/edit_'+worker+'/'+type+'/'+id+'?t='+(new Date().getTime()));
 }
 
 function load_edit(event) {
@@ -416,7 +416,7 @@ function load_edit(event) {
 	var rel = $(this).attr("rel");
 	var numeric = window.location.pathname.split('/')[2];
 	$("div#loader-"+rel).show();
-	$("div#edit-"+rel).load(window.config.site_dir+"/ajax.php?m=edit&f="+$("#edit_type-"+rel+" option:selected").val()+"&id="+rel+"&type="+$("div#edit-"+rel).attr("rel")+"&num="+numeric);
+	$("div#edit-"+rel).load(window.config.site_dir+"/ajax.php?m=edit&f="+$("#edit_type-"+rel+" option:selected").val()+"&id="+rel+"&type="+$("div#edit-"+rel).attr("rel")+"&num="+numeric+'&t='+(new Date().getTime()));
 }
 
 $(document).ready(function(){
