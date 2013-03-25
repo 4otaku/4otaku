@@ -9,7 +9,7 @@ abstract class Read_Edit_Abstract extends Read_Abstract
 			throw new Error_Read_Edit();
 		}
 
-		$this->data['id'] = $url[2];
+		$this->data['id'] = (int) $url[2];
 		$this->data['type'] = $this->get_type();
 
 		$this->template = 'edit/' . $this->data['type'] . '/' . $url[1];

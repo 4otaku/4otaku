@@ -8,7 +8,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function image($url) {
 		$images = Database::order('order', 'asc')->get_full_table('post_image',
-			'post_id = ?', $url[2]);
+			'post_id = ?', $this->data['id']);
 
 		foreach ($images as &$image) {
 			$image = new Model_Post_Image($image);
@@ -26,7 +26,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 		$links = Database::join('post_link_url', 'plu.link_id = pl.id')
 			->join('post_url', 'plu.url_id = pu.id')->order('pl.order', 'asc')
 			->order('plu.order', 'asc')->get_full_vector('post_link',
-				'post_id = ?', $url[2]);
+				'post_id = ?', $this->data['id']);
 
 		foreach ($links as &$link) {
 			$link = new Model_Post_Link($link);
@@ -37,7 +37,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function torrent($url) {
 		$torrents = Database::order('order', 'asc')->get_full_table('post_torrent',
-			'post_id = ?', $url[2]);
+			'post_id = ?', $this->data['id']);
 
 		foreach ($torrents as &$torrent) {
 			$torrent = new Model_Post_Torrent($torrent);
@@ -48,7 +48,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function file($url) {
 		$files = Database::order('order', 'asc')->get_full_table('post_file',
-			'post_id = ?', $url[2]);
+			'post_id = ?', $this->data['id']);
 
 		foreach ($files as &$file) {
 			$file = new Model_Post_File($file);
@@ -59,7 +59,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function extra($url) {
 		$extras = Database::order('order', 'asc')->get_full_table('post_extra',
-			'post_id = ?', $url[2]);
+			'post_id = ?', $this->data['id']);
 
 		foreach ($extras as &$extra) {
 			$extra = new Model_Post_Extra($extra);
@@ -70,7 +70,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function category($url) {
 
-		$post = new Model_Post($url[2]);
+		$post = new Model_Post($this->data['id']);
 		$post->load();
 
 		$categories = array_keys($post['meta']['category']);
@@ -84,7 +84,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function language($url) {
 
-		$post = new Model_Post($url[2]);
+		$post = new Model_Post($this->data['id']);
 		$post->load();
 
 		$languages = array_keys($post['meta']['language']);
@@ -98,7 +98,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function tag($url) {
 
-		$post = new Model_Post($url[2]);
+		$post = new Model_Post($this->data['id']);
 		$post->load();
 
 		$tags = array_keys($post['meta']['tag']);
@@ -116,7 +116,7 @@ class Read_Edit_Post extends Read_Edit_Abstract
 
 	protected function author($url) {
 
-		$post = new Model_Post($url[2]);
+		$post = new Model_Post($this->data['id']);
 		$post->load();
 
 		$authors = array_keys($post['meta']['author']);

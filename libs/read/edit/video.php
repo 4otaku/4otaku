@@ -3,7 +3,7 @@
 class Read_Edit_Video extends Read_Edit_Abstract
 {
 	protected function get_video($url) {
-		$video = new Model_Video($url[2]);
+		$video = new Model_Video($this->data['id']);
 		$video->load();
 
 		return $video;

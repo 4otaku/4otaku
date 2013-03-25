@@ -3,7 +3,7 @@
 class Read_Edit_News extends Read_Edit_Abstract
 {
 	protected function get_news($url) {
-		$news = new Model_News($url[2]);
+		$news = new Model_News($this->data['id']);
 		$news->load();
 
 		return $news;
