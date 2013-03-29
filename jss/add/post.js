@@ -17,10 +17,10 @@ $(document).ready(function(){
 	window.processing_torrents = 0;
 
 	$(".remove_link").live('click', function(e){
-		if ($('.link_'+$(this).attr('rel')+' tr.link').length > 1 ||
-			$(this).attr('rel') == 'file' || $(this).attr('rel') == 'torrent') {
+	//	if ($('.link_'+$(this).attr('rel')+' tr.link').length > 1 ||
+	//			$(this).attr('rel') == 'file' || $(this).attr('rel') == 'torrent') {
 			$(this).parents('tr.link').remove();
-		}
+	//	}
 	});
 
 	$(".add_link").click(function(){
