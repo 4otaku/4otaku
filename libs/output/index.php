@@ -79,7 +79,12 @@ class output__index extends engine
 			$return['news']['sortdate'] = 0;
 		}
 
-		$return['links'] = Database::get_count('post_url', 'status = ?', Cron_Post_Gouf::STATUS_BROKEN);
+		$return['links'] = (int) Database::join('post_link_url', 'pu.id = plu.url_id')
+			->join('post_link', 'pl.id = plu.link_id')
+			->join('post', 'p.id = pl.post_id')
+			->group('pu.id')
+			->get_count('post_url', 'pu.status = ? and p.area is not null and p.area != ?',
+				array(Cron_Post_Gouf::STATUS_BROKEN, 'deleted'));
 
 		return $return;
 	}
