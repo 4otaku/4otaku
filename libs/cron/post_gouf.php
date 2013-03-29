@@ -51,14 +51,21 @@ class Cron_Post_Gouf extends Cron_Abstract
 	}
 
 	public function check() {
-		$links = Database::order('lastcheck', 'ASC')
+		$data = Database::order('pu.lastcheck', 'ASC')
 			->limit(self::LINKS_PER_CHECK)
-			->get_vector('post_url', array('id', 'url'));
+			->join('post_link_url', 'pu.id = plu.url_id')
+			->join('post_link', 'pl.id = plu.link_id')
+			->join('post', 'p.id = pl.post_id')
+			->group('pu.id')
+			->get_table('post_url', array('pu.id', 'pu.url'),
+				'p.area is not null and p.area != ?', 'deleted');
 
-		foreach ($links as &$link) {
-			$link = html_entity_decode($link, ENT_QUOTES, 'UTF-8');
+		$links = array();
+		foreach ($data as $item) {
+			$link = html_entity_decode($item['url'], ENT_QUOTES, 'UTF-8');
 			$link = str_replace('&apos;', "'", $link);
 			$link = trim($link);
+			$links[$item['id']] = $link;
 		}
 
 		$this->test_links($links);
