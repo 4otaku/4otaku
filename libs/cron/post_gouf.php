@@ -154,7 +154,7 @@ class Cron_Post_Gouf extends Cron_Abstract
 			$broken = $this->broken[$domain];
 			foreach ($broken as $test) {
 				if (strpos($test, '\\') === 0) {
-					$this->echo_debug('test broken string', $test);
+					$this->echo_debug('test broken regex', $test);
 					if (preg_match('/'.$test.'/u', $html)) {
 						$this->echo_debug('broken');
 						return self::STATUS_BROKEN;

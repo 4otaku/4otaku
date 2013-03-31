@@ -1,6 +1,6 @@
 <?php
 
-$link = reset(array_keys($_GET));
+$link = $_GET['link'];
 include '../inc.common.php';
 
 if (is_numeric($link)) {
