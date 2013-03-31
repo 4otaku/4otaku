@@ -3,7 +3,7 @@ Disallow: /go?
 Disallow: /images/
 Disallow: /files/
 Disallow: /art/mixed/
-Host: 4otaku.ru
+Host: 4otaku.org
 Crawl-delay: 1
 
 User-agent: Yandex

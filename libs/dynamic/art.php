@@ -161,7 +161,7 @@ class dynamic__art extends engine
 			{
 				include(ROOT_DIR.SL.'engine'.SL.'external'.SL.'simple_html_dom.php');
 
-				$html = file_get_html('http://iqdb.hanyuu.net/?url=http://4otaku.ru/images/booru/full/'.$mass['md5'].'.'.$mass['extension']);
+				$html = file_get_html('http://iqdb.hanyuu.net/?url=http://4otaku.org/images/booru/full/'.$mass['md5'].'.'.$mass['extension']);
 				$tables = $html->find(table);
 
 				foreach($tables as $table)

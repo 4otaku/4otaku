@@ -15,7 +15,7 @@ class mail
 		$this->attachments = array();
 		$this->boundary = '_mail_'.md5(microtime(true).'4otaku').'_boundary_';
 		$this->headers = array(
-			 'From' => '4otaku.ru <gouf@4otaku.ru>',
+			 'From' => '4otaku.org <gouf@4otaku.org>',
 			 'MIME-Version' => '1.0',
 			 'Content-Type' => 'multipart/mixed; boundary="'.$this->boundary.'"',
 		);
@@ -93,7 +93,7 @@ class mail
 	function clear_htmltext() { $this->htmlbody = ""; }
 	function get_error() { return $this->errstr; }
 
-	function send($subject = "Уведомление от сайта 4otaku.ru") {
+	function send($subject = "Уведомление от сайта 4otaku.org") {
 		$_body = '';
 		if(isset($this->textbody)) $_body .= $this->textbody;
 		if(isset($this->htmlbody)) $_body .= $this->htmlbody;

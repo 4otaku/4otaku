@@ -40,7 +40,7 @@ class Create_News extends Create_Abstract
 		$item->insert();
 
 		$this->writer->set_success()->set_message('Ваша новость успешно добавлена, и доступна по адресу '.
-			'<a href="/news/'.$item->get_id().'/">http://4otaku.ru/news/'.$item->get_id().'/</a>.');
+			'<a href="/news/'.$item->get_id().'/">http://4otaku.org/news/'.$item->get_id().'/</a>.');
 	}
 
 	protected function correct_main_data($data) {

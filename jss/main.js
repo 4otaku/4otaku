@@ -550,7 +550,7 @@ $(document).ready(function(){
 
 	$(".logout").live("click", function(){
 		$.cookie("settings", null);
-		$.cookie("settings", null, {path: '/', domain: '.4otaku.ru'});
+		$.cookie("settings", null, {path: '/', domain: '.4otaku.org'});
 		document.location.reload();
 	});
 
@@ -582,20 +582,15 @@ $(document).ready(function(){
 				parent.find("div#add_loader img").show();
 				$("div.edit_field").html('');
 				$("div.edit_field").hide();
-//				if ($(this).attr("href") == "#scroll-draw") {
-//					$("div#add_form").html("<iframe src='http://draw.4otaku.ru/form/' width='100%' height='300'>Ваш браузер не поддерживает Iframe</iframe>").show();
-//					$("div#add_loader img").hide();
-//				} else {
-					if (form.attr('rel')) {
-						var id = "&id=" + form.attr('rel');
-					} else {
-						var id = "";
-					}
-					vars = parent.attr('rel').split('#');
-					form.load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id, function() {
-						finish_loading(parent);
-					});
-//				}
+				if (form.attr('rel')) {
+					var id = "&id=" + form.attr('rel');
+				} else {
+					var id = "";
+				}
+				vars = parent.attr('rel').split('#');
+				form.load(window.config.site_dir+"/ajax.php?m=add&f="+vars[0]+'&info='+vars[1]+id, function() {
+					finish_loading(parent);
+				});
 			}
 		} else {
 			if (password.length == 1) {

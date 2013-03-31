@@ -8,7 +8,7 @@ $data = array(
 	'text' => 'тохо',
 	'tag' => array('nura_(oaaaaaa)'),
 	'type' => 'author',
-	'source' => '4otaku.ru',
+	'source' => '4otaku.org',
 	'format' => 'xml'
 );
 

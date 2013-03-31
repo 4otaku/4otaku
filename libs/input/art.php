@@ -8,7 +8,7 @@ class input__art extends input__common
 			query::$post['email'] = $check->email(query::$post['email'],'');
 			obj::db()->insert('art_pool',array(query::$post['name'],$text,query::$post['text'],md5(query::$post['password']),query::$post['email'],microtime(true)*1000));
 			$id = obj::db()->sql('select @@identity from art_pool',2);
-			$add_res['text'] = 'Новая группа успешно добавлена, и доступна по адресу <a href="/art/pool/'.$id.'/">http://4otaku.ru/art/pool/'.$id.'/</a>.';
+			$add_res['text'] = 'Новая группа успешно добавлена, и доступна по адресу <a href="/art/pool/'.$id.'/">http://4otaku.org/art/pool/'.$id.'/</a>.';
 		}
 		else $add_res = array('error' => true, 'text' => 'Не все обязательные поля заполнены.');
 	}

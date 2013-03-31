@@ -79,7 +79,7 @@
 			</li>
 			<li><hr /></li>
 			<li>
-				<a href="http://wiki.4otaku.ru/Category:FAQ" class="margin30">
+				<a href="http://wiki.4otaku.org/Category:FAQ" class="margin30">
 					Справка по сайту
 				</a>
 			</li>
@@ -115,7 +115,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/go?http%3a%2f%2falice.4otaku.ru" class="margin30">
+				<a href="http://alice.4otaku.ru" class="margin30">
 					Комикс Randomness
 				</a>
 			</li>

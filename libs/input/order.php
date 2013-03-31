@@ -24,7 +24,7 @@ class input__order extends input__common
 				obj::db()->insert('versions',array('order',$id = obj::db()->sql('select @@identity from orders',2),
 												base64_encode(serialize($insert_data)),$time,$sets['user']['name'],$_SERVER['REMOTE_ADDR']));								
 				if (query::$post['subscribe']) $this->set_events($id,query::$post['mail']); else $this->set_events($id);
-				$this->add_res('Заказ успешно добавлен. Страница заказа: <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'</a>');
+				$this->add_res('Заказ успешно добавлен. Страница заказа: <a href="/order/'.$id.'/">http://4otaku.org/order/'.$id.'</a>');
 			}
 			else $this->add_res('Вы указали неправильный е-мейл.', true);
 		}
@@ -57,7 +57,7 @@ class input__order extends input__common
 			if ($data['spam']) {	
 				if (substr(query::$post['link'],0,1) == '/') query::$post['link'] = 'http://'.$_SERVER['HTTP_HOST'].query::$post['link'];
 				$this->set_events(query::$post['id'],$data['email']);
-				$text = 'В вашем заказе на сайте 4отаку.ру, <a href="http://4otaku.ru/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a> добавили ссылку на найденное:<br /><br />
+				$text = 'В вашем заказе на сайте 4отаку.ру, <a href="http://4otaku.org/order/'.$id.'/">http://4otaku.org/order/'.$id.'/</a> добавили ссылку на найденное:<br /><br />
 				<a href="'.query::$post['link'].'">'.query::$post['link'].'</a>'.$this->unsubscribe($id);
 				obj::db()->insert('misc',array('mail_notify',0,$data['email'],'',$text,query::$post['id']));				
 			}

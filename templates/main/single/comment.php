@@ -13,11 +13,9 @@
 			<td align="center" width="180px">
 				<? if($item['place'] == 'art') { 
 					if ($item['preview_picture']) { ?>
-						<img src="http://4otaku.ru/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
-					<? } else { ?>
-						<img src="http://w8m.4otaku.ru/image/<?=$item['preview_cg']['gallery'];?>/thumb/<?=$item['preview_cg']['md5'];?>.jpg">
-					<?	}
-					} else { ?>
+						<img src="http://4otaku.org/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
+					<? } ?>
+				} else { ?>
 					<img alt='' src='http://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
 				<? } ?>
 			</td>

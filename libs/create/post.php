@@ -96,7 +96,7 @@ class Create_Post extends Create_Abstract
 		}
 
 		$this->writer->set_success()->set_message('Ваша запись успешно добавлена, и доступна по адресу '.
-			'<a href="/post/'.$item->get_id().'/">http://4otaku.ru/post/'.$item->get_id().'/</a> или в '.
+			'<a href="/post/'.$item->get_id().'/">http://4otaku.org/post/'.$item->get_id().'/</a> или в '.
 			'<a href="/post/'.def::area(1).'/">мастерской</a>.')
 			->set_param('id', $item->get_id());;
 	}

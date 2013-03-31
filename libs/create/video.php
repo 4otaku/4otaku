@@ -32,7 +32,7 @@ class Create_Video extends Create_Abstract
 		$already_have = Database::get_field('video', 'id', 'link = ?', $post['link']);
 		if ($already_have) {
 			$error = 'Это видео уже у нас есть, оно находится по адресу <a href="/video/'.
-				$already_have.'/">http://4otaku.ru/video/'.$already_have.'/</a>.';
+				$already_have.'/">http://4otaku.org/video/'.$already_have.'/</a>.';
 			$this->writer->set_message($error)->set_error(Error_Create::ALREADY_EXISTS);
 			return;
 		}
@@ -76,7 +76,7 @@ class Create_Video extends Create_Abstract
 		}
 
 		$this->writer->set_success()->set_message('Ваша видео успешно добавлено, и доступно по адресу '.
-			'<a href="/video/'.$item->get_id().'/">http://4otaku.ru/video/'.$item->get_id().'/</a> или в '.
+			'<a href="/video/'.$item->get_id().'/">http://4otaku.org/video/'.$item->get_id().'/</a> или в '.
 			'<a href="/video/'.def::area(1).'/">очереди на премодерацию</a>.')
 			->set_param('id', $item->get_id());
 	}

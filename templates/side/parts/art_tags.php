@@ -43,7 +43,7 @@
 										<? if ($tag['description']) { ?>
 											<span class="right question">
 												<a 
-													href="http://wiki.4otaku.ru/Tag:<?=$tag_alias;?>" 
+													href="http://wiki.4otaku.org/Tag:<?=$tag_alias;?>" 
 													target="_blank"
 													class="with_help"
 													title="Описание тега <?=str_replace('_',' ',$tag['name']);?> в вики"
@@ -54,7 +54,7 @@
 										<? } else { ?>
 											<span class="right inactive_question">
 												<a 
-													href="http://wiki.4otaku.ru/index.php?title=Tag:<?=$tag_alias;?>&action=edit" 
+													href="http://wiki.4otaku.org/index.php?title=Tag:<?=$tag_alias;?>&action=edit" 
 													target="_blank"
 													class="with_help"
 													title="Добавить описание для тега <?=str_replace('_',' ',$tag['name']);?>"

@@ -48,11 +48,11 @@ var HTTPBASE = "/http-bind/";
  * [refers to step 3 of installation instructions]
  */
 
-var XMPPDOMAIN = "4otaku.ru"; // domain name of jabber service to be used
+var XMPPDOMAIN = "4otaku.org"; // domain name of jabber service to be used
 var ANON_AUTHTYPE = 'saslanon';
 
 var AUTHTYPE = 'saslanon';
-var AUTHHOST = "4otaku.ru"; // hostname of sasl anonymous service
+var AUTHHOST = "4otaku.org"; // hostname of sasl anonymous service
 
 /* ROOMS
  *
@@ -66,17 +66,17 @@ var ROOMS =
         {
                 name:'main',
                 description:'Основная комната сайта',
-                server:'room.4otaku.ru'//,
+                server:'room.4otaku.org'//,
         },
         {
                 name:'hisouten',
                 description:'Конференция игроков в Hisoutensoku',
-                server:'room.4otaku.ru'//,
+                server:'room.4otaku.org'//,
         },
 		{
 			name:'homestuck',
 			description:'Конференция обсуждения веб-комиксов Homestuck и Loopbreak',
-			server:'room.4otaku.ru'//,
+			server:'room.4otaku.org'//,
 		}
 ];
 

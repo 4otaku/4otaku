@@ -72,7 +72,7 @@
 			<tr>
 				<td colspan="2">
 					Для добавления записи нужна хотя бы одна ссылка или хотя бы один торрент.
-					 <a href="http://wiki.4otaku.ru/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B8" target="_blank">
+					 <a href="http://wiki.4otaku.org/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B8" target="_blank">
 						Справка по добавлению записи</a>.
 				</td>
 			</tr>

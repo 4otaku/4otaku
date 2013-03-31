@@ -4,7 +4,7 @@
 <body class="wrapwindow">
 	<? include_once('side'.SL.'header.php'); ?>
 	<div class="branding">
-		<a href="http://4otaku.ru" class="logo">
+		<a href="/" class="logo">
 			<img src="/images/4otakulogo_t.png" alt="4отаку" />
 		</a>
 		<img class="right yukari" src="/images/yukari120.gif" alt="Юкарин" />
@@ -28,7 +28,7 @@
 		<tr>
 			<td class="index_centerholder" valign="top">
 				<div class="mini-shell margin10">
-					Наша комната в джаббере: main@room.4otaku.ru;
+					Наша комната в джаббере: main@room.4otaku.org;
 					 <a href="<?=$def['site']['dir']?>/chat/">
 						Веб-клиент
 					</a>.
@@ -63,11 +63,11 @@
 					.
 					<span class="right">
 						<? if (!empty($data['main']['wiki'])) { ?>
-							<a href="http://wiki.4otaku.ru">
+							<a href="http://wiki.4otaku.org">
 								Вики сайта
 							</a>.
 							 Последняя правка:
-							 <a href="http://wiki.4otaku.ru/<?=str_replace(array('%3A', '%2F'), array(':', '/'), urlencode($data['main']['wiki']));?>">
+							 <a href="http://wiki.4otaku.org/<?=str_replace(array('%3A', '%2F'), array(':', '/'), urlencode($data['main']['wiki']));?>">
 								<?=$data['main']['wiki'];?>
 							</a>.
 						<? } ?>

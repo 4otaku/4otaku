@@ -79,7 +79,7 @@ class output__order extends engine
 			elseif ($action == 'unsubscribe') {
 				obj::db()->update('orders','spam',0,$id);
 				obj::db()->sql('delete from misc where (type="mail_notify" and data5="'.$id.'")',0);
-				$this->add_res('Вы отписались от уведомлений по заказу <a href="/order/'.$id.'/">http://4otaku.ru/order/'.$id.'/</a>');
+				$this->add_res('Вы отписались от уведомлений по заказу <a href="/order/'.$id.'/">http://4otaku.org/order/'.$id.'/</a>');
 			}
 		}
 		else {

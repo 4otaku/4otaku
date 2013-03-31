@@ -26,7 +26,7 @@
 								if ($item['link']) {
 									?>
 										<p>
-											Ссылка на найденное: <a href="<?=$item['link'];?>"><?=($item['link']{0} == '/' ? 'http://4otaku.ru'.$item['link'] : $item['link']);?></a>.
+											Ссылка на найденное: <a href="<?=$item['link'];?>"><?=($item['link']{0} == '/' ? 'http://4otaku.org'.$item['link'] : $item['link']);?></a>.
 										</p>
 									<?
 								}

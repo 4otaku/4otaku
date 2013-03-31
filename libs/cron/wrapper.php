@@ -54,7 +54,7 @@ class Cron
 	}
 
 	function process_pack() {
-		@file_get_contents("http://4otaku.ru/engine/process_pack.php");
+		@file_get_contents("http://4otaku.org/engine/process_pack.php");
 	}
 
 	function delete_unneeded_variants () {
@@ -157,7 +157,7 @@ class Cron
 				if ($id = obj::db()->sql('select id from orders where (id ='.$delete['data2'].' and area = "workshop")',2)) {
 					obj::db()->sql('delete from misc where id ='.$delete['id'],0);
 					obj::db()->sql('update orders set area = "flea_market", comment_count=comment_count+1, last_comment='.($time = ceil(microtime(true)*1000)).' where id='.$id,0);
-					obj::db()->insert('comment',array(0,0,'orders',$id,'Gouf Custom MS-07B-3','gouf@4otaku.ru','255.255.255.255','dummy',
+					obj::db()->insert('comment',array(0,0,'orders',$id,'Gouf Custom MS-07B-3','gouf@4otaku.org','255.255.255.255','dummy',
 						'Закрыл автоматом за долгое отсутствие интереса и прогресса','Закрыл автоматом за долгое отсутствие интереса и прогресса',
 						obj::transform('text')->rudate(),$time,'workshop'));
 				}

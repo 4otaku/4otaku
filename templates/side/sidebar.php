@@ -56,21 +56,6 @@
 		</tr>
 	</table>
 <? } ?>
-	<?
-	/*
-		
-		if ($search['firefox'] >= 2 || $search['msie'] >= 7) {
-			?>
-				<tr>
-					<td colspan="2">
-						<a onclick='addp("http://4otaku.ru/otaku_search.xml");' class="disabled clear margin20" href="#">
-							Поисковый плагин 4отаку
-						</a>
-					</td>
-				</tr>
-			<?
-		} */
-	?>		
 <?
 	if ($url[1] == 'search' && $url[2] == 'a') $side_url = 'art';
 	else $side_url = $url[1];

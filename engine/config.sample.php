@@ -25,7 +25,7 @@ $def['tracker']['announce'] = '';
 
 // Уведомления
 
-$def['notify']['mail'] = 'admin@4otaku.ru';
+$def['notify']['mail'] = 'admin@4otaku.org';
 
 // Переменные сайта
 

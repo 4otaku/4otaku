@@ -36,7 +36,7 @@
 										?>								
 									"
 								>
-									<img src="http://4otaku.ru/images/booru/thumbs/large_<?=$data['main']['arts'][$one]['thumb'];?>.jpg">
+									<img src="/images/booru/thumbs/large_<?=$data['main']['arts'][$one]['thumb'];?>.jpg">
 								</a>
 								<br /><br />
 								ТТХ: <?=$data['main']['arts'][$one]['width'];?>x<?=$data['main']['arts'][$one]['height'];?>px; <?=strtoupper($data['main']['arts'][$one]['extension']);?>; <?=$data['main']['arts'][$one]['size'];?>;

@@ -1,5 +1,5 @@
 // @name 4o+
-// @description Дополнительные функции при просмотре сайта http://4otaku.ru
+// @description Дополнительные функции при просмотре сайта http://4otaku.org
 // @license WTFPL
 // @version 0.1
 
