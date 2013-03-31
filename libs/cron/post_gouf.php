@@ -86,6 +86,10 @@ class Cron_Post_Gouf extends Cron_Abstract
 
 		foreach ($links as $id => $link) {
 			$status = $this->test_result($link);
+			if ($status === false) {
+				continue;
+			}
+
 			Database::update('post_url', array('status' => $status,
 				'lastcheck' => Database::unix_to_date()), $id);
 			if ($status == self::STATUS_UNKNOWN) {
@@ -121,6 +125,10 @@ class Cron_Post_Gouf extends Cron_Abstract
 	protected function test_result($link) {
 		$domain = $this->get_domain($link);
 		$html = $this->worker->get_full($link);
+
+		if (empty($html)) {
+			return false;
+		}
 
 		$this->echo_debug('link', $link);
 		$this->echo_debug('domain', $domain);
