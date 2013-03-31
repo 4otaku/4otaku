@@ -134,6 +134,11 @@ class Cron_Post_Gouf extends Cron_Abstract
 		if (!empty($this->works[$domain])) {
 			$works = $this->works[$domain];
 			foreach ($works as $test) {
+				if (strlen($test) == 0) {
+					$this->echo_debug('auto works');
+					return self::STATUS_WORKS;
+				}
+
 				if (strpos($test, '\\') === 0) {
 					$this->echo_debug('test working regex', $test);
 					if (preg_match($test, $html)) {
@@ -153,6 +158,11 @@ class Cron_Post_Gouf extends Cron_Abstract
 		if (!empty($this->broken[$domain])) {
 			$broken = $this->broken[$domain];
 			foreach ($broken as $test) {
+				if (strlen($test) == 0) {
+					$this->echo_debug('auto broken');
+					return self::STATUS_BROKEN;
+				}
+
 				if (strpos($test, '\\') === 0) {
 					$this->echo_debug('test broken regex', $test);
 					if (preg_match('/'.$test.'/u', $html)) {
