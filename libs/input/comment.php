@@ -67,7 +67,7 @@ class input__comment extends input__common
                 $data = obj::db()->sql('select email, spam from orders where id='.$item_id,1);
                 if ($data['spam'] && $data['email'] != query::$post['mail']) {
                     $this->set_events($item_id,$data['email']);
-                    $text = 'В вашем заказе на сайте 4отаку.ру, <a href="http://4otaku.org/order/'.$item_id.'/">http://4otaku.org/order/'.$item_id.'/</a> '.query::$post['name'].' '.(query::$post['name'] != $def['user']['name'] ? 'оставил' : 'оставлен').' новый комментарий. <a href="http://4otaku.org/order/'.$item_id.'/comments/all#comment-'.obj::db()->sql('select @@identity from comment',2).'">Читать</a>. '.$this->unsubscribe($item_id);
+                    $text = 'В вашем заказе на сайте 4отаку.орг, <a href="http://4otaku.org/order/'.$item_id.'/">http://4otaku.org/order/'.$item_id.'/</a> '.query::$post['name'].' '.(query::$post['name'] != $def['user']['name'] ? 'оставил' : 'оставлен').' новый комментарий. <a href="http://4otaku.org/order/'.$item_id.'/comments/all#comment-'.obj::db()->sql('select @@identity from comment',2).'">Читать</a>. '.$this->unsubscribe($item_id);
                     obj::db()->insert('misc',array('mail_notify',0,$data['email'],'',$text,$item_id));
                 } else {
                     $this->set_events($item_id);
@@ -286,11 +286,11 @@ class input__comment extends input__common
         }
 
         $text =
-            'Вы захотели подписаться на сайте 4отаку.ру на комментарии. '.
+            'Вы захотели подписаться на сайте 4отаку.орг на комментарии. '.
             'Подтвердите пожалуйста, что этот Е-мейл принадлежит вам, пройдя по ссылке '.
             'http://'.def::site('domain').'/confirm/'.$code.'/'.$area.'/'.$second.'. <br /><br />'."\n\n".
             'Если вы получили это письмо по ошибке, просто проигнорируйте его. <br />'."\n".
-            'Если вы больше не хотите получать писем о подписке на комментарии 4отаку.ру, '.
+            'Если вы больше не хотите получать писем о подписке на комментарии 4отаку.орг, '.
             'пройдите по этой ссылке: '.
             'http://'.def::site('domain').'/stop_emails/'.$code.'/'.$area.'/'.$second.'.';
         obj::db()->insert('misc',array('mail_notify',0,$email,'',$text,''));
@@ -308,7 +308,7 @@ class input__comment extends input__common
                     $code = encrypt($email,true);
                     $send_text =
                         $text.' <br /><br />'."\n\n".
-                        'Если вы больше не хотите получать писем о подписке на комментарии 4отаку.ру, '.
+                        'Если вы больше не хотите получать писем о подписке на комментарии 4отаку.орг, '.
                         'пройдите по этой ссылке: '.
                         'http://'.def::site('domain').'/stop_emails/'.$code.'/';
                     obj::db()->insert('misc',array('mail_notify',0,$email,'',$send_text,''));

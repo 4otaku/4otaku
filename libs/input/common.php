@@ -125,13 +125,15 @@ class input__common extends engine
 
 //  Секция из Order, для рассылки почты
 
-	function set_events($id,$mail = false) {
+	function set_events($id, $mail = false) {
 
 		obj::db()->sql('delete from misc where ((type="close_order" and data2="'.$id.'") or (type="mail_notify" and data5="'.$id.'" and data1 > 0))',0);
 		obj::db()->insert('misc',array('close_order',(time()+86400*60),$id,'','',''));
+		return;
+		// @todo проверять статус заказа
 		if ($mail) {
 			$encrypt = encrypt($id.'extra string');
-			$text = 'Ваш заказ на сайте 4отаку.ру, <a href="http://4otaku.org/order/'.$id.'/">http://4otaku.org/order/'.$id.'/</a> до сих пор не выполнен.<br />
+			$text = 'Ваш заказ на сайте 4отаку.орг, <a href="http://4otaku.org/order/'.$id.'/">http://4otaku.org/order/'.$id.'/</a> до сих пор не выполнен.<br />
 				Прошло уже не менее месяца с последнего комментария к заказу, прогресса, или емейл-уведомления. Вы все еще заинтересованы в выполнении заказа? <br />
 				Если да, то пройдите пожалуйста по ссылке <a href="http://4otaku.org/order/do/prolong/'.$encrypt.'/">http://4otaku.org/order/do/prolong/'.$encrypt.'/</a><br />
 				Если нет, то просто ничего не делайте, через 30 суток заказ закроется автоматически.'.$this->unsubscribe($id);
