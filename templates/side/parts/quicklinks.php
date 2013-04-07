@@ -110,20 +110,15 @@
 				</a>
 			</li>
 			<li>
-				<a href="http://yukarinsubs.4otaku.org" class="margin30">
-					Yukarin Subs
-				</a>
-			</li>
-			<li>
 				<a href="http://alice.4otaku.org" class="margin30">
 					Комикс Randomness
 				</a>
 			</li>
 			<li>
-                        	<a href="http://voca.4otaku.org" class="margin30">
-                                	VocaDome
-	                        </a>
-        	        </li>
+                <a href="http://voca.4otaku.org" class="margin30">
+                    VocaDome
+                </a>
+        	</li>
 		</ul>
 	</div>
 </div>

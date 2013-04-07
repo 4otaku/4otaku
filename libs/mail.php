@@ -8,7 +8,6 @@ class mail
 	private $htmlbody;
 	private $attachments;
 	private $boundary;
-	private $textfunction;
 	private $recepient;
 
 	function __construct($recepient) {
