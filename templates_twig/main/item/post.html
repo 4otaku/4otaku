@@ -12,7 +12,7 @@
 	{% endif %}
 	{% if post.is_editable %}
 		{% include 'main/item/post/edit.html' %}
-		{% if not post.in_batch %}
+		{% if not post.in_batch and post.area == 'main' %}
 			{% include 'main/item/post/update_add.html' %}
 		{% endif %}
 	{% endif %}
