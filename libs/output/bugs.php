@@ -34,6 +34,7 @@ class output__bugs extends engine
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_VERBOSE, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt ($curl, CURLOPT_USERAGENT, '4otakuIssueBot/1.0');
 		if(!empty($def['db']['github_user']) && !empty($def['db']['github_pass'])) {
 			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC) ;
 			curl_setopt($curl, CURLOPT_USERPWD, "{$def['db']['github_user']}:{$def['db']['github_pass']}");
