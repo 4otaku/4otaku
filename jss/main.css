@@ -1128,6 +1128,8 @@ div.thread .board_image_thumb, div.message .board_image_thumb {
 div.catalog_item {
 	float: left;
 	margin: 5px;
+	height: 180px;
+	width: 240px;
 }
 
 div.thread .multi .video, div.thread .multi .board_image_thumb, div.thread .multi .board_flash,
