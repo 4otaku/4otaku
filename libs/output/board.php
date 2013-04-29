@@ -35,6 +35,8 @@ class output__board extends engine
 
 		if (!$url[2] || $url[2] == 'page') {
 			return $this->main();
+		} elseif ($url[2] == 'catalog') {
+			return $this->catalog(isset($url[3]) ? $url[3] : false);
 		} elseif ($url[2] == 'new' || $url[2] == 'updated') {
 			return $this->updated();
 		} elseif ($url[3] != 'thread') {
@@ -70,6 +72,32 @@ class output__board extends engine
 			',2)/sets::pp('board'));
 			$return['navi']['base'] = '/board/';
 		}
+		return $return;
+	}
+
+	protected function catalog($board) {
+		global $error;
+
+		$return = array('boards' => $this->board_categories);
+		$return['display'] = array('board_menu', 'board_catalog', 'board_menu');
+
+		$return['threads'] = $this->get_thread_records();
+
+		if ($board) {
+			$category_id = Database::get_field('category', 'id',
+				'locate("|board|",area) and alias=?', $board);
+			if (!$category_id) {
+				$error = true;
+				$this->side_modules['top'] = array('board_list');
+				return array();
+			}
+			$condition = 'board_category.category_id = '.$category_id.' AND ';
+		} else {
+			$condition = '';
+		}
+
+		$return['threads'] = $this->get_thread_records($condition);
+
 		return $return;
 	}
 
@@ -139,32 +167,10 @@ class output__board extends engine
 		}
 	}
 
-	function get_threads($condition, $limit) {
-		$return = obj::db()->sql('
-			SELECT board.*, board_category.category_id
-			FROM board LEFT JOIN board_category ON board.id=board_category.thread_id
-			WHERE '.$condition.'
-				board.`type` = "thread" AND
-				board_category.actual = 1
-			GROUP BY board.id
-			ORDER BY board.updated DESC '.$limit
-		,'id');
+	function get_threads($condition = '', $limit = '') {
+		$return = $this->get_thread_records($condition, $limit);
 
 		if (is_array($return)) {
-			$categories = obj::db()->sql('
-				SELECT * FROM board_category
-				WHERE thread_id in ('.implode(',',array_keys($return)).')
-			');
-
-			foreach ($categories as $category) {
-				$return[$category['thread_id']]['categories'][] = array_merge(
-					$this->board_categories[$category['category_id']],
-					array('actual' => $category['actual'])
-				);
-			}
-
-			$this->process_content($return);
-
 			$keys = 'thread='.implode(' or thread=', array_keys($return));
 			$posts = obj::db()->sql('select * from board where `type`="post" and ('.$keys.')');
 
@@ -195,6 +201,34 @@ class output__board extends engine
 			return false;
 		}
 		$this->build_inner_links($this->inner_links, $return);
+		return $return;
+	}
+
+	protected function get_thread_records($condition = '', $limit = '') {
+		$return = obj::db()->sql('
+			SELECT board.*, board_category.category_id
+			FROM board LEFT JOIN board_category ON board.id=board_category.thread_id
+			WHERE '.$condition.'
+				board.`type` = "thread" AND
+				board_category.actual = 1
+			GROUP BY board.id
+			ORDER BY board.updated DESC '.$limit
+			,'id');
+		if (is_array($return)) {
+			$categories = obj::db()->sql('
+				SELECT * FROM board_category
+				WHERE thread_id in ('.implode(',',array_keys($return)).')
+			');
+
+			foreach ($categories as $category) {
+				$return[$category['thread_id']]['categories'][] = array_merge(
+					$this->board_categories[$category['category_id']],
+					array('actual' => $category['actual'])
+				);
+			}
+
+			$this->process_content($return);
+		}
 		return $return;
 	}
 
@@ -269,7 +303,7 @@ class output__board extends engine
 					if (!empty($item['content']['image'])) {
 						$images_count += count($item['content']['image']);
 					}
-					
+
 					if (!empty($item['content']['random'])) {
 						$images_count += count($item['content']['random']);
 					}
@@ -328,17 +362,17 @@ class output__board extends engine
 							$current_count++;
 						}
 					}
-					
+
 					if (!empty($content['random'])) {
 						foreach ($content['random'] as $random_key => $image) {
 							$content['random'][$random_key]['full_size_info'] =
 								obj::transform('file')->weight($image['size']) .
-								', ' . $image['width'] . 'x' . $image['height'] . ' пикселей';							
-							
+								', ' . $image['width'] . 'x' . $image['height'] . ' пикселей';
+
 							$images_count++;
 							$current_count++;
 						}
-					}					
+					}
 
 					if (!empty($content['flash'])) {
 						foreach ($content['flash'] as $flash_key => $flash) {

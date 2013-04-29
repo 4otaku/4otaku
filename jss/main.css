@@ -1125,9 +1125,14 @@ div.thread .board_image_thumb, div.message .board_image_thumb {
 	float: left;
 }
 
+div.catalog_item {
+	float: left;
+	margin: 5px;
+}
+
 div.thread .multi .video, div.thread .multi .board_image_thumb, div.thread .multi .board_flash,
 div.message .multi .video, div.message .multi .board_image_thumb, div.message .multi .board_flash,
-div.thread .multi_download a, div.message .multi_download a {
+div.thread .multi_download a, div.message .multi_download a, div.catalog_item a {
 	height: 180px;
 	display: inline-block;
 	padding: 0px;
