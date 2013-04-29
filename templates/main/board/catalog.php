@@ -18,7 +18,7 @@ if (!empty($data['main']['threads'])) {
 				$video = reset($thread['content']['video']); ?>
 				<a href="<?=$thread_url;?>"
 				   target="_blank" class="board_image_thumb with_help"
-				   title="<?=$thread_title;?>"
+				   title="<?=$thread_title;?>">
 					<img src="<?=$def['site']['dir']?>/images/video.png">
 				</a>
 			<? } elseif (!empty($thread['content']['image'])) {
