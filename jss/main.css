@@ -1130,6 +1130,7 @@ div.catalog_item {
 	margin: 5px;
 	height: 180px;
 	width: 240px;
+	text-align: center;
 }
 
 div.thread .multi .video, div.thread .multi .board_image_thumb, div.thread .multi .board_flash,
