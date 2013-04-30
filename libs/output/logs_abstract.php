@@ -55,6 +55,7 @@ abstract class output__logs_abstract extends engine
 		$start = array($this->start_year, $this->start_month, $this->start_day);
 		$end = array(date("Y"),date("n"),date("j"));
 		$current = array($url[2],$url[3],$url[4]);
+		$base = substr(get_called_class(), 8);
 		if (array_diff_assoc($end,$current) && is_array($return['logs'])) $this->make_logs_cache($return['logs'],$url[2],$url[3],$url[4]);
 		$rumonth = array('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
 
@@ -62,11 +63,10 @@ abstract class output__logs_abstract extends engine
 			$start_month = $i == $start[0] ? $start[1] : 1;
 			$end_month = $i == $end[0] ? $end[1] : 12;
 			for ($j = $start_month; $j <= $end_month; $j++) {
-				$return['month'][($i == $current[0] && $j == $current[1] ? 'current' : '/logs/'.$i.'/'.$j.'/'.($j > $start[1] ? 1 : $start[2]).'/')] = $rumonth[($j-1)].' '.$i;
+				$return['month'][($i == $current[0] && $j == $current[1] ? 'current' : '/'.$base.'/'.$i.'/'.$j.'/'.($j > $start[1] ? 1 : $start[2]).'/')] = $rumonth[($j-1)].' '.$i;
 			}
 		}
 
-		$base = substr(get_called_class(), 8);
 		$return['log_base'] = $base;
 		$yesterday = mktime(12,0,0,$url[3],$url[4]-1,$url[2]);
 		$tomorrow = mktime(12,0,0,$url[3],$url[4]+1,$url[2]);
