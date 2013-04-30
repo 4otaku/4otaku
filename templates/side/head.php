@@ -10,6 +10,6 @@
 		<?=(sets::user('rights') ? ',admin.js' : '');?>
 		<?=(sets::plugins(1) ? ',plugin/censor.js' : '');?>
 		<?=(sets::plugins(2) ? ',plugin/hider.js' : '');?>
-		&ver=30"></script>
+		&ver=31"></script>
 	<link rel="stylesheet" href="<?=$def['site']['dir']?>/jss/m/?b=jss&f=plugins.css,main.css,header.css<?=(sets::user('rights') ? ',admin.css' : '');?>&ver=23" type="text/css" media="screen" />
 </head>

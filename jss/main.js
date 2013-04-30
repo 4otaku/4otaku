@@ -1055,7 +1055,8 @@ $(document).ready(function(){
 		switch (e.which) {
 			case 13:
 				if ($(this).val().length > 2) {
-					document.location.href='/logs/search/'+urlencode($(this).val().replace(/\//g," "))+'/';
+					document.location.href='/'+$(this).attr('rel')
+						+'/search/'+urlencode($(this).val().replace(/\//g," "))+'/';
 				}
 				break;
 			default:
