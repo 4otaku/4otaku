@@ -44,7 +44,7 @@ abstract class output__logs_abstract extends engine
 		}
 		if (!$return['logs']) {
 			$today = mktime(0, 0, 0, $url[3], $url[4], $url[2])*1000;
-			$rooms = 'roomID = ' . implode(' or roomID = ', $this->room_ids);
+			$rooms = 'roomID = ' . implode(' or roomID = ', self::$room_ids);
 			$return['logs'] = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (('. $rooms .') and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
 			if (is_array($return['logs'])) foreach ($return['logs'] as $key => &$log) {
 				if (trim($log['body'])) $log['text'] = $this->format_logs($log['body'],$log['nickname']);
