@@ -135,6 +135,7 @@ abstract class output__logs_abstract extends engine
 		$return['display'] = array('logs_search','logs_results','navi');
 
 		$perpage = 10; $start = ($page - 1) * $perpage;
+		$base = substr(get_called_class(), 8);
 
 		$query = $search->prepare_string(urldecode($query),true);
 		$mark = preg_split('/\s+/s', $query);
@@ -145,7 +146,6 @@ abstract class output__logs_abstract extends engine
 		$days = obj::db()->sql($sql.' group by date order by date desc limit '.$start.', '.$perpage, 'id');
 
 		if (!empty($days)) {
-			$base = substr(get_called_class(), 8);
 			$select_days = '"'.implode('","',$days).'"';
 			$data = obj::db()->sql('SELECT `date`, `time`, `text` FROM raw_logs WHERE `date` in ('.$select_days.') and'.$select_query);
 
@@ -172,6 +172,8 @@ abstract class output__logs_abstract extends engine
 		} else {
 			$return['display'] = array('logs_search','logs_results');
 		}
+
+		$return['log_base'] = $base;
 
 		return $return;
 	}
