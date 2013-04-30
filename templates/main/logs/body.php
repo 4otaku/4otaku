@@ -4,11 +4,11 @@
 			if ($key == 'even') $key = 'odd'; else $key = 'even';
 			?>
 				<div class="logs-<?=$key;?>" id="time-<?=date('G:i:s',$log['logTime']/1000).'.'.($log['logTime']%1000);?>">
-					<a href="<?=$def['site']['dir']?>/logs/<?=$url[2].'/'.$url[3].'/'.$url[4].'#time-'.date('G:i:s',$log['logTime']/1000).'.'.($log['logTime']%1000);?>">
+					<a href="<?=$def['site']['dir']?>/<?=$data['main']['log_base'];?>/<?=$url[2].'/'.$url[3].'/'.$url[4].'#time-'.date('G:i:s',$log['logTime']/1000).'.'.($log['logTime']%1000);?>">
 						<span class="logs-time">
 							[<?=date('G:i:s',$log['logTime']/1000);?>]
 						</span>
-					</a> 
+					</a>
 					<?=$log['text'];?>
 				</div>
 			<?

@@ -67,6 +67,7 @@ abstract class output__logs_abstract extends engine
 		}
 
 		$base = substr(get_called_class(), 8);
+		$return['log_base'] = $base;
 		$yesterday = mktime(12,0,0,$url[3],$url[4]-1,$url[2]);
 		$tomorrow = mktime(12,0,0,$url[3],$url[4]+1,$url[2]);
 		$start_time = mktime(0,0,0,$start[1],$start[2],$start[0]);
