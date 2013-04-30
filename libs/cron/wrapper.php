@@ -87,9 +87,9 @@ class Cron
 		}
 	}
 
-	function get_logs($fullscan = false) {
+	function get_logs($fullscan = false, $limit_to_key = false) {
 		if ($fullscan) {
-			$time = 0;
+			$time = 1;
 		} else {
 			$time = (time() - 3600*4)*1000;
 		}
@@ -100,6 +100,10 @@ class Cron
 		);
 
 		foreach ($process as $key => $ids) {
+			if ($limit_to_key && $limit_to_key != $key) {
+				continue;
+			}
+
 			$rooms = 'roomID = ' . implode(' or roomID = ', $ids);
 			$logs = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (('.$rooms.') and cast(logTime as unsigned) > '.$time.') order by logTime');
 			foreach ($logs as $log) {
