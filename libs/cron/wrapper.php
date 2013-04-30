@@ -89,16 +89,24 @@ class Cron
 
 	function get_logs() {
 		$time = (time() - 3600*4)*1000;
-		$logs = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where ((roomID = 37 or roomID = 2 or roomID = 1) and cast(logTime as unsigned) > '.$time.') order by logTime');
-		foreach ($logs as $log) {
-			$md5 = md5(implode($log));
-			$text = $log['nickname'].': '.$log['body'];
 
-			$timestamp = round(ltrim($log['logTime'], '0') / 1000);
-			$date = date("Y-m-d", $timestamp);
-			$time = date("H:i:s", $timestamp);
+		$process = array(
+			output__logs::$cache_key => output__logs::$room_ids
+		);
 
-			obj::db()->insert('raw_logs',array($md5, $date, $time, $text));
+		foreach ($process as $key => $ids) {
+			$rooms = 'roomID = ' . implode(' or roomID = ', $ids);
+			$logs = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (('.$rooms.') and cast(logTime as unsigned) > '.$time.') order by logTime');
+			foreach ($logs as $log) {
+				$md5 = md5(implode($log));
+				$text = $log['nickname'].': '.$log['body'];
+
+				$timestamp = round(ltrim($log['logTime'], '0') / 1000);
+				$date = date("Y-m-d", $timestamp);
+				$time = date("H:i:s", $timestamp);
+
+				obj::db()->insert('raw_logs',array($md5, $date, $time, $text, $key));
+			}
 		}
 	}
 

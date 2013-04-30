@@ -44,6 +44,12 @@ class Transform_Time
 		return $date;
 	}
 
+	public static function to_string($time, $minutes = false) {
+		$date = self::ru_month(date('m', $time)).date(' j, Y', $time);
+		if ($minutes) $date .= date('; G:i', $time);
+		return $date;
+	}
+
 	public static function rudate($minutes = false) {
 		return self::ru_date($minutes);
 	}
