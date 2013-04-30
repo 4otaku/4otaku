@@ -40,11 +40,11 @@ abstract class output__logs_abstract extends engine
 
 		$return['display'] = array('logs_navi','logs_search','logs_body','logs_arrows');
 		if (!$this->nocache) {
-			$return['logs'] = base64_decode(obj::db()->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].' and cache_key ='.self::$cache_key.')',2,'cache'));
+			$return['logs'] = base64_decode(obj::db()->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].' and cache_key ='.static::$cache_key.')',2,'cache'));
 		}
 		if (!$return['logs']) {
 			$today = mktime(0, 0, 0, $url[3], $url[4], $url[2])*1000;
-			$rooms = 'roomID = ' . implode(' or roomID = ', self::$room_ids);
+			$rooms = 'roomID = ' . implode(' or roomID = ', static::$room_ids);
 			$return['logs'] = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (('. $rooms .') and cast(logTime as unsigned) > '.$today.' and cast(logTime as unsigned) < '.($today + 86400000).') order by logTime');
 			if (is_array($return['logs'])) foreach ($return['logs'] as $key => &$log) {
 				if (trim($log['body'])) $log['text'] = $this->format_logs($log['body'],$log['nickname']);
@@ -122,7 +122,7 @@ abstract class output__logs_abstract extends engine
 					'</div>';
 			}
 			if (!obj::db()->sql('select id from logs where (year='.$year.' and month ='.$month.' and day='.$day.')',2,'id'))
-				obj::db()->insert('logs',array(base64_encode($cache),$year,$month,$day,self::$cache_key));
+				obj::db()->insert('logs',array(base64_encode($cache),$year,$month,$day,static::$cache_key));
 		}
 	}
 
@@ -138,7 +138,7 @@ abstract class output__logs_abstract extends engine
 		$query = $search->prepare_string(urldecode($query),true);
 		$mark = preg_split('/\s+/s', $query);
 		$fixed_query = '+'.preg_replace('/\s+/s', ' +', $query);
-		$select_query = ' MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE) and cache_key = ' . self::$cache_key;
+		$select_query = ' MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE) and cache_key = ' . static::$cache_key;
 
 		$sql = 'SELECT id, date FROM raw_logs WHERE'.$select_query;
 		$days = obj::db()->sql($sql.' group by date order by date desc limit '.$start.', '.$perpage, 'id');
@@ -167,7 +167,7 @@ abstract class output__logs_abstract extends engine
 			$return['navi']['meta'] = '/'.$base.'/search/'.$query.'/';
 			$return['navi']['curr'] = $page;
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
-			$return['navi']['last'] = ceil(obj::db()->sql('select count(distinct(date)) from raw_logs WHERE MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE) and cache_key = ' . self::$cache_key,2)/$perpage);
+			$return['navi']['last'] = ceil(obj::db()->sql('select count(distinct(date)) from raw_logs WHERE MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE) and cache_key = ' . static::$cache_key,2)/$perpage);
 		} else {
 			$return['display'] = array('logs_search','logs_results');
 		}
