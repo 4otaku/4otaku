@@ -1055,7 +1055,7 @@ $(document).ready(function(){
 		switch (e.which) {
 			case 13:
 				if ($(this).val().length > 2) {
-					document.location.href='/'+$(this).attr('rel')
+					document.location.href='/'+$('input.search_logs_button').attr('rel')
 						+'/search/'+urlencode($(this).val().replace(/\//g," "))+'/';
 				}
 				break;
@@ -1066,9 +1066,9 @@ $(document).ready(function(){
 
 	$("input.search_logs_button").click(function(event){
 		event.preventDefault();
-		search_string = trim($("input.search_logs").val().replace(/\//g," "));
+		var search_string = trim($("input.search_logs").val().replace(/\//g," "));
 		if (search_string.length > 2) {
-			document.location.href='/logs/search/'+urlencode(search_string)+'/';
+			document.location.href='/'+$(this).attr('rel')+'/search/'+urlencode(search_string)+'/';
 		} else {
 			alert('В строке поиска должно быть больше двух символов.');
 		}
