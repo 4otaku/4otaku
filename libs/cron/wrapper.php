@@ -87,11 +87,16 @@ class Cron
 		}
 	}
 
-	function get_logs() {
-		$time = (time() - 3600*4)*1000;
+	function get_logs($fullscan = false) {
+		if ($fullscan) {
+			$time = 0;
+		} else {
+			$time = (time() - 3600*4)*1000;
+		}
 
 		$process = array(
-			output__logs::$cache_key => output__logs::$room_ids
+			output__logs::$cache_key => output__logs::$room_ids,
+			output__logs_hisouten::$cache_key => output__logs_hisouten::$room_ids,
 		);
 
 		foreach ($process as $key => $ids) {
