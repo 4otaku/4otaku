@@ -8,7 +8,7 @@ if (!window.halt_onbeforeunload) {
 }
 
 function finish_loading(el) {
-	
+
 	el.find("div#add_loader img").hide();
 	el.find("div#add_form").slideDown();
 	el.find("a.disabled").attr('rel','on');
@@ -16,7 +16,7 @@ function finish_loading(el) {
 	if (el.find("input.password").length == 1) {
 		el.find("input.password").parent().prependTo(el.find("div#add_form"));
 	}
-	
+
 }
 
 function uid() {
@@ -26,24 +26,29 @@ function uid() {
 	return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
-$(document).ready(function(){  	
+$(document).ready(function(){
 
-	$(".disabled").live('click', function(event){  
+	$(".disabled").live('click', function(event){
 		event.preventDefault();
 	});
-	
-	$('#addform').submit(function() {
+
+	$('#addform').submit(function(e) {
+		if ($(this).data('beforesubmit') && !$(this).data('beforesubmit').call(this)) {
+			e.stopPropagation();
+			return false;
+		}
+
 		window.onbeforeunload = null;
 	});
 
-	$(".add_meta").click(function(){  
+	$(".add_meta").click(function(){
 		$(this).parent().append($(this).parent().children("select:last").clone());
 		$(this).parent().children(".remove_meta").show();
 	});
-	
-	$(".remove_meta").click(function(){  
+
+	$(".remove_meta").click(function(){
 		$(this).parent().children("select:last").remove();
 		if ($(this).parent().children("select").length < 2) $(this).hide();
 	});
 
-}); 
+});

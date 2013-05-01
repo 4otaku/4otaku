@@ -62,19 +62,27 @@ $(document).ready(function(){
 	}
 
 	$("#addform").attr("action", document.location.href.split('#')[0]);
+	$('#addform').data('beforesubmit', function(){
+		if (!($('.thread_id').length) && !($('.board_images div').length)) {
+			alert('Для создания треда необходимо добавить ОП-пик.');
+			return false;
+		}
+
+		return true;
+	});
 
 	$(".add_random").click(function(){
 		$('#transparent td').append('<div style="background-image: url(/images/dice.jpg); background-repeat: repeat">'+
 			'<img class="cancel" src="/images/cancel.png">'+
 			'<span class="random_select_container center">'+
 			'<select name="image[]" class="random_select">'+
-				'<option value="random_main">С главной</option>'+
-				'<option value="random_flea">Из барахолки</option>'+
-				'<option value="random_cg">Из CG-паков</option>'+
-				'<option value="random_sprite">Из спрайтов</option>'+
+			'<option value="random_main">С главной</option>'+
+			'<option value="random_flea">Из барахолки</option>'+
+			'<option value="random_cg">Из CG-паков</option>'+
+			'<option value="random_sprite">Из спрайтов</option>'+
 			'</div></select></div>');
 		$("#transparent td img.cancel").click(function(){
 			$(this).parent().remove();
-		});		
+		});
 	});
 });
