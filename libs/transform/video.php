@@ -66,6 +66,9 @@ class Transform_Video
 			case 'youtube.com':
 				$object = $this->youtube($query);
 				break;
+			case 'youtu.be':
+				$object = $this->youtube_short($path);
+				break;
 			case 'vimeo.com':
 				$object = $this->vimeo($path);
 				break;
@@ -106,6 +109,23 @@ class Transform_Video
 				<param name="allowscriptaccess" value="always"></param>
 				<param name="wmode" value="transparent" />
 				<embed src="http://www.youtube.com/v/'.$get['v'].'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash"
+				allowscriptaccess="always" allowfullscreen="true" width="'.$this->get_width().'" height="'.$this->get_height().'" wmode="transparent"></embed>
+			</object>';
+		}
+	}
+
+	protected function youtube_short($path) {
+		$id = array_shift(array_filter(explode('/',$path)));
+		if (strlen($id) == 11) {
+			$this->id = $id;
+			$this->aspect = 3/4;
+
+			return '<object width="'.$this->get_width().'" height="'.$this->get_height().'">
+				<param name="movie" value="http://www.youtube.com/v/'.$id.'&hl=ru_RU&fs=1&border=0"></param>
+				<param name="allowFullScreen" value="true"></param>
+				<param name="allowscriptaccess" value="always"></param>
+				<param name="wmode" value="transparent" />
+				<embed src="http://www.youtube.com/v/'.$id.'&hl=ru_RU&fs=1&border=0" type="application/x-shockwave-flash"
 				allowscriptaccess="always" allowfullscreen="true" width="'.$this->get_width().'" height="'.$this->get_height().'" wmode="transparent"></embed>
 			</object>';
 		}
