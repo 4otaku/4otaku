@@ -577,6 +577,8 @@ span.player_margin {
 
 div.posttext {
 	margin-bottom: 12px;
+	word-break: break-all;
+	word-wrap: break-word;
 }
 
 .display_item .seeders {

@@ -1,25 +1,4 @@
 User-agent: *
 Disallow: /go?
-Disallow: /images/
 Disallow: /files/
-Disallow: /art/mixed/
 Host: 4otaku.org
-Crawl-delay: 1
-
-User-agent: Yandex
-Disallow: /go?
-Disallow: /files/
-Disallow: /art/mixed/
-Crawl-delay: 1
-
-User-agent: googlebot
-Disallow: /go?
-Disallow: /files/
-Disallow: /art/mixed/
-Crawl-delay: 1
-
-User-agent: Baiduspider
-Disallow: /
-
-User-agent: 008
-Disallow: /
