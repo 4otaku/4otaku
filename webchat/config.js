@@ -70,12 +70,17 @@ var ROOMS =
         },
         {
                 name:'hisouten',
-                description:'Конференция игроков в Hisoutensoku',
+                description:'Комната игроков в Hisoutensoku',
                 server:'room.4otaku.org'//,
         },
 		{
 			name:'homestuck',
-			description:'Конференция обсуждения веб-комиксов Homestuck и Loopbreak',
+			description:'Комната обсуждения веб-комиксов Homestuck и Loopbreak',
+			server:'room.4otaku.org'//,
+		},
+		{
+			name:'kikaki',
+			description:'Комната посвященная Touhou',
 			server:'room.4otaku.org'//,
 		}
 ];
