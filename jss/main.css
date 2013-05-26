@@ -1091,7 +1091,6 @@ div.thread div.video { text-align: center; width: 240px; }
 div.thread div.posttext {
 	margin: 0;
 	min-width: 300px;
-	word-break: break-all;
 	word-wrap: break-word;
 }
 div.thread .download_thread .variants { display: none; position: absolute; right: 0px; padding: 10px 10px; }
@@ -1114,7 +1113,6 @@ div.message span.trip { color: #C7C500; }
 div.message div.tbody { clear: both; padding: 5px 0; }
 div.message div.posttext {
 	min-width: 300px;
-	word-break: break-all;
 	word-wrap: break-word;
 }
 div.message div.tbody img, div.message div.video { float: left; padding: 0 10px 10px 0px; }
