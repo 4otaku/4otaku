@@ -577,8 +577,6 @@ span.player_margin {
 
 div.posttext {
 	margin-bottom: 12px;
-	word-break: break-all;
-	word-wrap: break-word;
 }
 
 .display_item .seeders {
@@ -1090,7 +1088,12 @@ div.thread span.trip { color: #C7C500; }
 div.thread div.tbody { clear: both; padding: 5px 0; }
 div.thread div.tbody img, div.thread div.video{ float: left; padding: 0 10px 10px 0px; }
 div.thread div.video { text-align: center; width: 240px; }
-div.thread div.posttext { margin: 0; min-width: 300px; }
+div.thread div.posttext {
+	margin: 0;
+	min-width: 300px;
+	word-break: break-all;
+	word-wrap: break-word;
+}
 div.thread .download_thread .variants { display: none; position: absolute; right: 0px; padding: 10px 10px; }
 div.thread .download_thread:hover .variants { display: block; line-height: 180%;  border: 1px solid #C7C500; background: #E8E7B7; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 
@@ -1109,7 +1112,11 @@ div.message span.link_last { padding: 0 0 0 10px; }
 div.message span.date { color: #bbb; }
 div.message span.trip { color: #C7C500; }
 div.message div.tbody { clear: both; padding: 5px 0; }
-div.message div.posttext { min-width: 300px; }
+div.message div.posttext {
+	min-width: 300px;
+	word-break: break-all;
+	word-wrap: break-word;
+}
 div.message div.tbody img, div.message div.video { float: left; padding: 0 10px 10px 0px; }
 div.message div.video { text-align: center; width: 240px; }
 
