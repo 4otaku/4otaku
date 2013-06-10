@@ -1200,7 +1200,7 @@ $(document).ready(function(){
 
 		if (expand) {
 			if (!fullImg.length) {
-				fullImg = $('<img/>').attr('src', img.attr('rel') + 'herpderp');
+				fullImg = $('<img/>').attr('src', img.attr('rel'));
 				fullImg.css({
 					position: 'absolute',
 					top: '0px',
