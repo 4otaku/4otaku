@@ -1209,6 +1209,7 @@ $(document).ready(function(){
 				});
 				$(this).append(fullImg);
 				fullImg.imagesLoaded(function(){
+					img.hide();
 					$(this).css({
 						position: 'auto',
 						top: 'auto',
