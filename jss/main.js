@@ -293,10 +293,13 @@ function is_left_click(event) {
 		return true;
 	}
 
-	if((!$.browser.msie && event.button == 0) || ($.browser.msie && event.button == 1)) {
-		return true;
-	}
-	return false;
+	return (
+		!event.ctrlKey &&
+		(
+			(!$.browser.msie && event.button == 0) ||
+			($.browser.msie && event.button == 1)
+		)
+	);
 }
 
 function close_edit_fields() {
@@ -1162,45 +1165,96 @@ $(document).ready(function(){
 			css("border-color", "#FFFFFF");
 	});
 
-	$(".board_image_thumb_clickable").live('click', function(event){
-		if(is_left_click(event)) {
-			event.preventDefault();
-			var sizes = $(this).attr('rel').split('x');
-			var img = $(this).children('img');
+	$(".board_image_thumb").live('click', function(event){
+		if (!is_left_click(event)) {
+			return;
+		}
+		event.preventDefault();
 
-			if (sizes[0] > 240) {
-				img.css({'width':sizes[0]+'px','height':sizes[1]+'px'});
-			}
+		var expand = $(this).is('.board_image_thumb_clickable');
 
-			$(this).addClass('board_image_full').removeClass('board_image_thumb_clickable');
+		var sizes = $(this).attr('rel').split('x');
+		var img = $(this).children('img:eq(0)');
+		var fullImg = $(this).children('img:eq(1)');
+		$(this).css('position', 'relative');
+
+		if (expand && sizes[0] > 240) {
+			img.css({'width':sizes[0]+'px', 'height':sizes[1]+'px'});
+		} else {
+			img.css({'width':'auto','height':'auto'});
+		}
+
+		if (expand) {
+			$(this).addClass('board_image_full')
+				.removeClass('board_image_thumb_clickable');
 			$(this).parents('div').addClass('clear');
+			$(this).css('height', (parseInt(sizes[1]) + 10) + 'px');
+			$(this).css('width', (parseInt(sizes[0]) + 10) + 'px');
+		} else {
+			$(this).addClass('board_image_thumb_clickable')
+				.removeClass('board_image_full');
+			$(this).parents('div').removeClass('clear');
 			$(this).css('height', 'auto');
-			if (img.attr('rel').indexOf('/full/') != -1) {
-				var tmp = img.attr('rel');
-				img.attr('rel', img.attr('src'));
-				img.attr('src', tmp);
+			$(this).css('width', 'auto');
+		}
+
+		if (expand) {
+			if (!fullImg.length) {
+				fullImg = $('<img/>').attr('src', img.attr('rel') + 'herpderp');
+				fullImg.css({
+					position: 'absolute',
+					top: '0px',
+					left: '0px',
+					'z-index': 100
+				});
+				$(this).append(fullImg);
+				fullImg.imagesLoaded(function(){
+					$(this).css({
+						position: 'auto',
+						top: 'auto',
+						left: 'auto',
+						'z-index': 1
+					}).addClass('loaded');
+				});
+			} else {
+				fullImg.show();
+				if (fullImg.is('.loaded')) {
+					img.hide();
+				}
 			}
-			if(
-				$(".board_image_thumb_clickable").length == 0 &&
-				$(".board_unfold_all").length > 0
-			) {
-				var new_text = $(".board_unfold_all").attr('rel');
-				var new_rel = $(".board_unfold_all").html();
-				$(".board_unfold_all")
-					.addClass('board_fold_all')
-					.removeClass('board_unfold_all')
-					.attr('rel', new_rel)
-					.html(new_text);
-			}
+		} else {
+			fullImg.hide();
+			img.show();
+		}
+
+		if(
+			$(".board_image_thumb_clickable").length == 0 &&
+			$(".board_unfold_all").length > 0
+		) {
+			$(".board_unfold_all")
+				.addClass('board_fold_all')
+				.removeClass('board_unfold_all')
+				.attr('rel', $(".board_unfold_all").html())
+				.html($(".board_unfold_all").attr('rel'));
+		} else if (
+			$(".board_image_thumb_clickable").length > 0 &&
+			$(".board_fold_all").length > 0
+		) {
+			$(".board_fold_all")
+				.addClass('board_unfold_all')
+				.removeClass('board_fold_all')
+				.attr('rel', $(".board_fold_all").html())
+				.html($(".board_fold_all").attr('rel'));
 		}
 	});
 
 	$(".board_image_full").live('click', function(event){
-		if(is_left_click(event)) {
+		if (is_left_click(event)) {
 			event.preventDefault();
 			var img = $(this).children('img');
 			img.css({'width':'auto','height':'auto'});
-			$(this).addClass('board_image_thumb_clickable').removeClass('board_image_full');
+			$(this).addClass('board_image_thumb_clickable')
+				.removeClass('board_image_full');
 			$(this).parents('div').removeClass('clear');
 			$(this).css('height', '180px');
 
@@ -1209,18 +1263,7 @@ $(document).ready(function(){
 				img.attr('rel', img.attr('src'));
 				img.attr('src', tmp);
 			}
-			if(
-				$(".board_image_thumb_clickable").length > 0 &&
-				$(".board_fold_all").length > 0
-			) {
-				var new_text = $(".board_fold_all").attr('rel');
-				var new_rel = $(".board_fold_all").html();
-				$(".board_fold_all")
-					.addClass('board_unfold_all')
-					.removeClass('board_fold_all')
-					.attr('rel', new_rel)
-					.html(new_text);
-			}
+
 		}
 	});
 
