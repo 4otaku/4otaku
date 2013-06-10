@@ -64,7 +64,7 @@ if(!def::site('domain')) {
 
 define('SITE_DIR',str_replace(array('/','\\'),SL,rtrim(def::site('dir'),'/')));
 
-if(def::site('domain') != $_SERVER['SERVER_NAME'] && _TYPE_ != 'cron' && !empty($_SERVER['REMOTE_ADDR'])) {
+if(def::site('domain') != $_SERVER['SERVER_NAME'] && _TYPE_ != 'cron' && !empty($_SERVER['REMOTE_ADDR']) && $_SERVER['SERVER_NAME'] != 'upload.4otaku.org') {
 	engine::redirect('http://'.$def['site']['domain'].$_SERVER["REQUEST_URI"], true);
 }
 

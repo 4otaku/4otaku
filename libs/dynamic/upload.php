@@ -14,6 +14,8 @@ class Dynamic_Upload extends Dynamic_Abstract
 	);
 
 	public function __construct() {
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, X-File-Name');
 		if (!empty($_FILES)) {
 			$file = current(($_FILES));
 

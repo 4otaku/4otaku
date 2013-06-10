@@ -21,7 +21,8 @@ $(document).ready(function(){
 
 	board_upload = new qq.FileUploader({
 		element: document.getElementById('board-image'),
-		action: window.config.site_dir+'/ajax.php?m=upload&f=board',
+		action: 'http://upload.4otaku.org/main/ajax.php?m=upload&f=board',
+//action: '/ajax.php?m=upload&f=board',
 		autoSubmit: true,
 		onSubmit: function(id, file) {
 			$(".processing").show();
@@ -63,7 +64,7 @@ $(document).ready(function(){
 
 	$("#addform").attr("action", document.location.href.split('#')[0]);
 	$('#addform').data('beforesubmit', function(){
-		if (!($('.thread_id').length) && !($('.board_images div').length)) {
+		if (!($('.thread_id').length) && !($('.board_images div').length) && !($('.input_link').val())) {
 			alert('Для создания треда необходимо добавить ОП-пик.');
 			return false;
 		}
