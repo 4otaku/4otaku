@@ -196,17 +196,17 @@
 					<? if ($sets['news']['read'] < $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock artblock">
 							<p class="head">
-								<a href="<?=$def['site']['dir']?>/art/">
+								<a href="http://art.4otaku.org/">
 									Арт
 								</a>
 							</p>
 							Всего <?=$data['main']['count']['art']['total'];?> артов.
 							 <?=($data['main']['count']['art']['unseen'] ? $data['main']['count']['art']['unseen'].' из них новых. ' : '');?>
-							<? if ($data['main']['count']['art']['latest'][0]['thumb']) { ?>
+							<? if ($data['main']['count']['art']['latest']) { ?>
 								Последнее изображение: <br /><br />
 								<div style="text-align:center; width: 100%;">
-									<a href="<?=$def['site']['dir']?>/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">
-										<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
+									<a href="http://art.4otaku.org/<?=$data['main']['count']['art']['latest']['id'];?>">
+										<img src="http://images.4otaku.org/art/<?=$data['main']['count']['art']['latest']['md5'];?>_thumb.jpg">
 									</a>
 								</div>
 							<? } ?>
