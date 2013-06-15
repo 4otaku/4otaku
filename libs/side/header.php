@@ -4,7 +4,8 @@ class Side_Header
 {
 	function menu () {
 
-		$menu = obj::db()->sql('select * from head_menu order by `order`', 'id');
+		$menu = Database::db('api')->order('order', 'asc')
+			->get_full_vector('head_menu');
 		$return = array();
 		if (!empty($menu)) {
 			foreach ($menu as $key => $element) {

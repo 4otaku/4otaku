@@ -9,6 +9,7 @@ $def['db']['user'] = '';
 $def['db']['pass'] = '';
 $def['db']['main_db'] = '';
 $def['db']['wiki_db'] = '';
+$def['db']['api_db'] = '';
 $def['db']['chat_db'] = '';
 $def['db']['tracker_db'] = '';
 
