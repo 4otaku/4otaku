@@ -34,17 +34,32 @@ class output__index extends engine
 	function get_data() {
 		global $sets; global $def;
 
-		foreach ($def['type'] as $type) {
+		$types = array('post', 'video');
+		foreach ($types as $type) {
 			$return['count'][$type] = array(
 				'total' => obj::db()->sql('select count(id) from '.$type.' where area="main"',2),
 				'unseen' => ($sets['visit'][$type] ? obj::db()->sql('select count(id) from '.$type.' where (area="main" and sortdate > '.($sets['visit'][$type]*1000).')',2) : ''),
-				'latest' => obj::db()->sql('select id, '.($type == 'art' ? 'thumb, extension' : 'title, comment_count, text').' from '.$type.' where (area="main"'.($sets['show']['nsfw'] ?
-					($sets['show']['furry'] ? '' : ' and !(locate("|nsfw|",category) and locate("|furry|",tag))') .
-					($sets['show']['yaoi'] ? '' : ' and !(locate("|nsfw|",category) and locate("|yaoi|",tag))') .
-					($sets['show']['guro'] ? '' : ' and !(locate("|nsfw|",category) and locate("|guro|",tag))')
-					: ' and !locate("|nsfw|",category)').') order by sortdate desc limit '.($type == 'art' ? '1' : '3'))
+				'latest' => obj::db()->sql('select id, '.'title, comment_count, text from '.$type.' where (area="main"'.($sets['show']['nsfw'] ?
+					'' : ' and !locate("|nsfw|",category)').') order by sortdate desc limit 3')
 			);
 		}
+
+		$art = Database::db('api')->set_counter()->sql('
+			SELECT `id`,`md5` FROM `art` AS `a`
+			JOIN `meta` as filter1 ON
+				filter1.item_type = 1 AND filter1.id_item = id AND
+				filter1.meta_type = 2 AND filter1.meta = 2
+			JOIN `meta` as filter2 ON
+				filter2.item_type = 1 AND filter2.id_item = id AND
+				filter2.meta_type = 2 AND filter2.meta = 6
+			GROUP BY `id_parent` ORDER BY `sortdate` desc LIMIT 1');
+		$count = Database::db('api')->get_counter();
+
+		$return['count']['art'] = array(
+			'total' => $count,
+			'latest' => $art[0],
+			'unseen' => 0
+		);
 
 		$return['count']['order'] = array(
 			'total' => obj::db()->sql('select count(id) from orders where area!="deleted"',2),

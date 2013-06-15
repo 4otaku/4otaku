@@ -17,7 +17,6 @@
 			<div class="center margin10">
 				<input id="search_p" checked="checked" value="p" class="searcharea" type="checkbox"><label for="search_p">В записях</label>
 				<input id="search_v" checked="checked" value="v" class="searcharea" type="checkbox"><label for="search_v">В видео</label>
-				<input id="search_a" value="a" class="searcharea" type="checkbox"><label for="search_a">В артах</label>
 				<input id="search_n" value="n" class="searcharea" type="checkbox"><label for="search_n">В новостях</label>
 				<input id="search_o" checked="checked" value="o" class="searcharea" type="checkbox"><label for="search_o">В столе заказов</label>
 				<input id="search_c" value="c" class="searcharea" type="checkbox"><label for="search_c">В комментариях</label>
@@ -156,17 +155,17 @@
 					<? if ($sets['news']['read'] >= $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock artblock">
 							<p class="head">
-								<a href="<?=$def['site']['dir']?>/art/">
+								<a href="http://art.4otaku.org/">
 									Арт
 								</a>
 							</p>
 							Всего <?=$data['main']['count']['art']['total'];?> артов.
 							 <?=($data['main']['count']['art']['unseen'] ? $data['main']['count']['art']['unseen'].' из них новых. ' : '');?>
-							<? if ($data['main']['count']['art']['latest'][0]['thumb']) { ?>
+							<? if ($data['main']['count']['art']['latest']) { ?>
 								Последнее изображение: <br /><br />
 								<div style="text-align:center; width: 100%;">
-									<a href="<?=$def['site']['dir']?>/art/<?=$data['main']['count']['art']['latest'][0]['id'];?>">
-										<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=$data['main']['count']['art']['latest'][0]['thumb'];?>.jpg">
+									<a href="http://art.4otaku.org/<?=$data['main']['count']['art']['latest']['id'];?>">
+										<img src="http://images.4otaku.org/art/<?=$data['main']['count']['art']['latest']['md5'];?>_thumb.jpg">
 									</a>
 								</div>
 							<? } ?>
