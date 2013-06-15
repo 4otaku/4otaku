@@ -240,12 +240,13 @@ class input__admin extends engine
 		global $check;
 		if ($check->rights() && trim(query::$post['name']) && trim(query::$post['url'])) {
 			$insert = array(
-				query::$post['name'],
-				query::$post['url'],
-				(int) query::$post['parent'],
-				obj::db()->sql('select `order` from head_menu order by `order` desc limit 1',2) + 1,
+				'name' => query::$post['name'],
+				'url' => query::$post['url'],
+				'parent' => (int) query::$post['parent'],
+				'order' => (Database::db('api')->order('order')
+					->get_field('head_menu', 'order')) + 1
 			);
-			obj::db()->insert('head_menu', $insert);
+			Database::db('api')->insert('head_menu', $insert);
 		}
 	}
 
@@ -261,12 +262,7 @@ class input__admin extends engine
 				'parent' => (int) query::$post['parent'],
 				'order' => (int) query::$post['order'],
 			);
-			obj::db()->update(
-				'head_menu',
-				array_keys($update),
-				array_values($update),
-				query::$post['id']
-			);
+			Database::db('api')->update('head_menu', $update, query::$post['id']);
 		}
 	}
 
@@ -276,8 +272,9 @@ class input__admin extends engine
 			$check->rights() && isset(query::$post['sure']) &&
 			is_numeric(query::$post['id'])
 		) {
-			obj::db()->sql('delete from head_menu where id = '.query::$post['id'],0);
-			obj::db()->sql('update head_menu set parent = 0 where parent = '.query::$post['id'],0);
+			Database::db('api')->delete('head_menu', query::$post['id']);
+			Database::db('api')->update('head_menu', array('parent' => 0),
+				'parent = ?', query::$post['id']);
 		}
 	}
 }
