@@ -9,10 +9,10 @@
 		{% include 'main/item/update.html' %}
 	{% endfor %}
 	{% if navi %}
-		{% include 'common/navi.html' %}
-	{% endif %}	
+		{% include 'common/navi.html' with {'navi_base': navi.base} %}
+	{% endif %}
 </td>
 <td valign="top" id="sidebar">
 	{% include 'side/sidebar.html' %}
-</td>			
+</td>
 {% endblock %}
