@@ -261,6 +261,7 @@ class input__admin extends engine
 				'url' => query::$post['url'],
 				'parent' => (int) query::$post['parent'],
 				'order' => (int) query::$post['order'],
+				'separator' => (int) query::$post['separator'],
 			);
 			Database::db('api')->update('head_menu', $update, query::$post['id']);
 		}
