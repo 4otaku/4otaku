@@ -98,7 +98,6 @@ class Cron
 			output__logs::$cache_key => output__logs::$room_ids,
 			output__logs_hisouten::$cache_key => output__logs_hisouten::$room_ids,
 			output__logs_kikaki::$cache_key => output__logs_kikaki::$room_ids,
-			output__logs_touhouplay::$cache_key => output__logs_touhouplay::$room_ids,
 		);
 
 		foreach ($process as $key => $ids) {
