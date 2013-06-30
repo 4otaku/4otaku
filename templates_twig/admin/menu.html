@@ -78,7 +78,8 @@
 										{% endfor %}
 									</select><br />
 								Порядок: <input type="text" name="order" style="width:40px;" value="{{child_menu.order}}" /><br />
-								Разделитель: <input type="checkbox" name="separator" value="{{child_menu.separator}}" /><br />
+								Разделитель: <input type="checkbox" name="separator" value="1"
+									{% if child_menu.separator %}checked="checked"{% endif %} /><br />
 								<input type="submit" value="Редактировать" />
 							</form>
 						</div>
