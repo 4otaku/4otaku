@@ -2,6 +2,7 @@
 	include_once ('side'.SL.'head.php');
 ?>
 <body class="wrapwindow">
+	<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/lock.min.js"></script>
 	<? include_once('side'.SL.'header.php'); ?>
 	<div class="branding">
 		<a href="/" class="logo">
