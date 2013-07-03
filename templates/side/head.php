@@ -12,5 +12,5 @@
 		<?=(sets::plugins(2) ? ',plugin/hider.js' : '');?>
 		&ver=36"></script>
 	<link rel="stylesheet" href="<?=$def['site']['dir']?>/jss/m/?b=jss&f=plugins.css,main.css,header.css<?=(sets::user('rights') ? ',admin.css' : '');?>&ver=23" type="text/css" media="screen" />
-	<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/lock.min.js"></script>
+	<!--<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/lock.min.js"></script>-->
 </head>
