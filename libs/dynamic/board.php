@@ -14,7 +14,10 @@ class dynamic__board extends engine
 
 		$data = Database::get_row('board', 'type, cookie', $id);
 
-		if ($data['cookie'] != query::$cookie) {
+		if (
+            query::$cookie != $data['cookie'] &&
+            query::$cookie != def::get('board', 'moderator')
+        ) {
 			return;
 		}
 
@@ -24,6 +27,10 @@ class dynamic__board extends engine
 			Database::update('board',
 				array('type' => 'deleted'), 'thread = ?', $id);
 		}
+
+        $mail = new mail(def::notify('mail'));
+        $mail->text("Deleted board №$id, by " . query::$cookie)
+            ->send();
 	}
 
 	public function load_video() {

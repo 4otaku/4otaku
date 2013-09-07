@@ -1,6 +1,6 @@
-<div class="thread">	
+<div class="thread">
 	<? if ($url[3] != 'thread') { ?>
-	
+
 		<span class="link_last">
 			<a href="<?=$def['site']['dir'].$thread_url;?>#reply">
 				Ответить
@@ -11,7 +11,7 @@
 				Читать
 			</a>
 		</span>
-		
+
 	<? } else { ?>
 
 		<span class="link_last" style="margin-left: 10px">
@@ -44,18 +44,21 @@
 							<br />
 						<? } ?>
 					</span>
-				</div>	
-			</span>	
+				</div>
+			</span>
 		<? } ?>
 		<? if ($thread['images_count'] > 0) { ?>
 			<span class="link_right">
 				<a href="#" rel="Свернуть все" class="board_unfold_all">
 					Развернуть все
 				</a>
-			</span> 
+			</span>
 		<? } ?>
 	<? } ?>
-	<? if ($thread['cookie'] && query::$cookie === $thread['cookie']) { ?>
+	<? if (
+        $thread['cookie'] && query::$cookie === $thread['cookie'] ||
+        query::$cookie === def::get('board', 'moderator')
+    ) { ?>
 		<span class="link_delete">
 			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" alt="удалить" rel="<?=$id;?>" class="delete_from_board">
 		</span>
@@ -72,13 +75,13 @@
 		<a href="<?=$def['site']['dir']?>/board/<?=$thread['current_board'];?>/thread/<?=$id;?>/" class="number_link">
 			#<?=$id;?>
 		</a>
-		 в разделе 
+		 в разделе
 		<? foreach($thread['categories'] as $key => $board) { ?>
 			<? if (!empty($key)) { ?>
 				/
 			<? } ?>
-			<a 
-				href="<?=$def['site']['dir']?>/board/<?=$board['alias'];?>/" 
+			<a
+				href="<?=$def['site']['dir']?>/board/<?=$board['alias'];?>/"
 				class="<?=($board['actual'] ? 'actual' : 'not_actual');?>"
 			>
 				<?=$board['alias'];?>
@@ -89,7 +92,7 @@
 		<?=$thread['pretty_date'];?>
 	</span>
 	<div class="tbody<?=(empty($thread['multi_content']) ? '' : ' multi');?>">
-		<? if (!empty($thread['content']['video'])) { 
+		<? if (!empty($thread['content']['video'])) {
 			foreach ($thread['content']['video'] as $video_key => $video) { ?>
 				<? if (!sets::board('embedvideo')) { ?>
 					<div class="video video_frame" style="height:<?=$video['height'];?>px;">
@@ -102,40 +105,40 @@
 					<div class="video">
 						<?=$video['object'];?>
 					</div>
-				<? } ?>			
+				<? } ?>
 		<? } }
-		if (!empty($thread['content']['image'])) { 
+		if (!empty($thread['content']['image'])) {
 			foreach ($thread['content']['image'] as $image) { ?>
-				<a href="<?=$def['site']['dir']?>/images/board/full/<?=$image['full'];?>" 
-					target="_blank" class="board_image_thumb board_image_thumb_clickable with_help" 
-					title="<?=$image['full_size_info'];?>" 
+				<a href="<?=$def['site']['dir']?>/images/board/full/<?=$image['full'];?>"
+					target="_blank" class="board_image_thumb board_image_thumb_clickable with_help"
+					title="<?=$image['full_size_info'];?>"
 					rel="<?=$image['sizes'];?>">
-					<img 
-						src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>" 
+					<img
+						src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>"
 						rel="/images/board/full/<?=$image['full'];?>"
 					>
 				</a>
 		<? } }
-		if (!empty($thread['content']['random'])) { 
+		if (!empty($thread['content']['random'])) {
 			foreach ($thread['content']['random'] as $image) { ?>
-				<a href="<?=$def['site']['dir']?>/art/<?=$image['id'];?>/" 
-					title="Арт №<?=$image['id'];?>; <?=$image['full_size_info'];?>" 
+				<a href="<?=$def['site']['dir']?>/art/<?=$image['id'];?>/"
+					title="Арт №<?=$image['id'];?>; <?=$image['full_size_info'];?>"
 					target="_blank" class="board_image_thumb with_help art_random">
 					<img src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>.jpg" />
 					<img src="<?=$def['site']['dir']?>/images/dice-small.png" class="dice" />
 				</a>
-		<? } }		
-		if (!empty($thread['content']['flash'])) { 
+		<? } }
+		if (!empty($thread['content']['flash'])) {
 			foreach ($thread['content']['flash'] as $flash) { ?>
-				<a href="<?=$def['site']['dir']?>/images/board/full/<?=$flash['full'];?>" 
-					target="_blank" class="board_flash with_help" 
+				<a href="<?=$def['site']['dir']?>/images/board/full/<?=$flash['full'];?>"
+					target="_blank" class="board_flash with_help"
 					title="<?=$flash['full_size_info'];?>">
 					<img align="left" src="<?=$def['site']['dir']?>/images/flash.png">
 				</a>
-		<? } } ?>	
+		<? } } ?>
 		<? if (!empty($thread['multi_content'])) { ?>
 			<div class="clear"></div>
-		<? } ?>	
+		<? } ?>
 		<div class="posttext">
 			<? if ($url[3] != 'thread') { ?>
 				<?=obj::transform('text')->cut_long_text($thread['text'],1000,$read_all,100);?>
