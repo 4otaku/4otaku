@@ -56,6 +56,7 @@ class output__order extends engine
 			if ($sets['user']['rights']) $return['order_single']['cat'] = obj::db()->sql('select alias,name from category order by id');
 			$return['order_single']['category'] = obj::db()->sql('select name, alias from category where alias="'.implode('" or alias="',array_unique(array_filter(explode('|',$return['order_single']['category'])))).'"','alias');
 			$return['comments'] = $this->get_comments('orders',$url[2],(is_numeric($url[5]) ? $url[5] : ($url[4] == 'all' ? false : 1)));
+			$return['navi']['base'] = '/';
 			$return['navi']['curr'] = ($url[4] == 'all' ? 'all' : max(1,$url[5]));
 			$return['navi']['all'] = true;
 			$return['navi']['name'] = "Страница комментариев";
