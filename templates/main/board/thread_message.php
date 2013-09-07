@@ -114,16 +114,16 @@
 					title="<?=$image['full_size_info'];?>"
 					rel="<?=$image['sizes'];?>">
 					<img
-						src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>"
-						rel="/images/board/full/<?=$image['full'];?>"
+						 src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>"
+						 rel="/images/board/full/<?=$image['full'];?>"
 					>
 				</a>
 		<? } }
 		if (!empty($thread['content']['random'])) {
 			foreach ($thread['content']['random'] as $image) { ?>
 				<a href="<?=$def['site']['dir']?>/art/<?=$image['id'];?>/"
-					title="Арт №<?=$image['id'];?>; <?=$image['full_size_info'];?>"
-					target="_blank" class="board_image_thumb with_help art_random">
+					 title="Арт №<?=$image['id'];?>; <?=$image['full_size_info'];?>"
+					 target="_blank" class="board_image_thumb with_help art_random">
 					<img src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>.jpg" />
 					<img src="<?=$def['site']['dir']?>/images/dice-small.png" class="dice" />
 				</a>
