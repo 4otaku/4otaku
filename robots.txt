@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /go?
 Disallow: /files/
+Disallow: /logs_homestuck/
 Host: 4otaku.org
