@@ -128,7 +128,7 @@ $sets['art']['download_mode'] = 0;
 $sets['board']['allthreads'] = 0; // Все треды на главной вместо приветствия
 $sets['board']['embedvideo'] = 0; // Сразу вставлять ютуб в тело страницы
 
-$sets['board']['moderator'] = '';
+$def['board']['moderator'] = '';
 
 // Поиск
 
