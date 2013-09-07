@@ -91,12 +91,13 @@ class Cron
 		if ($fullscan) {
 			$time = 1;
 		} else {
-			$time = (time() - 3600*4)*1000;
+			$time = (time() - 3600 * 12) * 1000;
 		}
 
 		$process = array(
 			output__logs::$cache_key => output__logs::$room_ids,
 			output__logs_hisouten::$cache_key => output__logs_hisouten::$room_ids,
+            output__logs_homestuck::$cache_key => output__logs_homestuck::$room_ids,
 			output__logs_kikaki::$cache_key => output__logs_kikaki::$room_ids,
 		);
 
@@ -107,15 +108,16 @@ class Cron
 
 			$rooms = 'roomID = ' . implode(' or roomID = ', $ids);
 			$logs = obj::db('chat')->sql('select nickname, logTime, body from ofMucConversationLog where (('.$rooms.') and cast(logTime as unsigned) > '.$time.') order by logTime');
+
 			foreach ($logs as $log) {
 				$md5 = md5(implode($log));
 				$text = $log['nickname'].': '.$log['body'];
 
 				$timestamp = round(ltrim($log['logTime'], '0') / 1000);
 				$date = date("Y-m-d", $timestamp);
-				$time = date("H:i:s", $timestamp);
+				$rowTime = date("H:i:s", $timestamp);
 
-				obj::db()->insert('raw_logs',array($md5, $date, $time, $text, $key));
+				obj::db()->insert('raw_logs',array($md5, $date, $rowTime, $text, $key));
 			}
 		}
 	}
