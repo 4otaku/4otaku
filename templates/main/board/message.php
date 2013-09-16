@@ -9,7 +9,12 @@
             $post['cookie'] && query::$cookie === $post['cookie'] ||
             query::$cookie === def::get('board', 'moderator')
         ) { ?>
-			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
+			 <img src="<?=$def['site']['dir']?>/images/comment_delete.png" title="Удалить" alt="Удалить" rel="<?=$post['id'];?>" class="delete_from_board">
+		<? } ?>
+	</span>
+	<span class="link_move">
+		<? if (query::$cookie == def::get('board', 'moderator')) { ?>
+			<img src="<?=$def['site']['dir']?>/images/comment_move.gif" title="Переместить" alt="Переместить" rel="<?=$post['id'];?>" class="move_board_post">
 		<? } ?>
 	</span>
 	<span class="author">

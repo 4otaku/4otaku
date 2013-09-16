@@ -1142,6 +1142,18 @@ $(document).ready(function(){
 		}
 	});
 
+	$(".move_board_post").click(function(){
+		var res = prompt("Напишите номер треда, куда надо переместить это сообщение");
+		if (res) {
+			$.post("/ajax.php?m=board&f=move", {
+				id: $(this).attr('rel'),
+				to: res
+			}, function(){
+				window.location.reload();
+			});
+		}
+	});
+
 	$(".switch_allboards").click(function(event){
 		event.preventDefault();
 		$.post(window.config.site_dir+"/ajax.php?m=cookie&f=set&field=board.allthreads&val="+$(this).attr('rel'), function() {

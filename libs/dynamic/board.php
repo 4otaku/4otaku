@@ -33,6 +33,27 @@ class dynamic__board extends engine
             ->send();
 	}
 
+	public function move () {
+		$id = query::$post['id'];
+		$to = query::$post['to'];
+
+		if (!is_numeric($id) || !is_numeric($to)) {
+			return;
+		}
+
+		if (query::$cookie != def::get('board', 'moderator')) {
+			return;
+		}
+
+		Database::update('board', array(
+			'thread' => $to,
+			'sortdate' => ceil(microtime(true)*1000)
+		), $id);
+
+		$mail = new mail(def::notify('mail'));
+		$mail->text("Moved board №$id, to " . $to)->send();
+	}
+
 	public function load_video() {
 
 		$id = explode('-', query::$get['id']);

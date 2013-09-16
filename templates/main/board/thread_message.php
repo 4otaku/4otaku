@@ -78,9 +78,9 @@
 		 в разделе
 		<? foreach($thread['categories'] as $key => $board) { ?>
 			<? if (!empty($key)) { ?>
-				/
+				 /
 			<? } ?>
-			<a
+			 <a
 				href="<?=$def['site']['dir']?>/board/<?=$board['alias'];?>/"
 				class="<?=($board['actual'] ? 'actual' : 'not_actual');?>"
 			>
