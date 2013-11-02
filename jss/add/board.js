@@ -64,8 +64,30 @@ $(document).ready(function(){
 
 	$("#addform").attr("action", document.location.href.split('#')[0]);
 	$('#addform').data('beforesubmit', function(){
-		if (!($('.thread_id').length) && !($('.board_images div').length) && !($('.input_link').val())) {
-			alert('Для создания треда необходимо добавить ОП-пик.');
+		if (
+			!($('.thread_id').length) &&
+			!($('.board_images div').length) &&
+			!($('.input_link').val())
+		) {
+			alert('Для создания треда необходимо добавить ОП-пик или видео.');
+			return false;
+		}
+
+		if (
+			!($('.thread_id').length) &&
+			!($('#textfield').val().length)
+		) {
+			alert('Для создания треда необходимо добавить текст.');
+			return false;
+		}
+
+		if (
+			($('.thread_id').length) &&
+			!($('#textfield').val().length) &&
+			!($('.board_images div').length) &&
+			!($('.input_link').val())
+		) {
+			alert('Для ответа в тред необходимо добавить текст, видео или картинку.');
 			return false;
 		}
 

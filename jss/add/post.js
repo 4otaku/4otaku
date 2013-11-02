@@ -6,7 +6,7 @@ String.prototype.replaceall = function(oldstr, newstr) {
 		check = target.indexOf(oldstr);
 	}
 	return(target);
-}
+};
 
 $(document).ready(function(){
 
@@ -178,4 +178,22 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#addform').data('beforesubmit', function(){
+		if (
+			!$('[name="title"]').val().length
+		) {
+			alert('Для добавления записи надо указать заголовок.');
+			return false;
+		}
+
+		if (
+			!$('.link_main tr.link:visible').length &&
+			!$('.link_torrent tr.link:visible').length
+		) {
+			alert('Для добавления записи необходимо добавить ссылку либо торрент.');
+			return false;
+		}
+
+		return true;
+	});
 });
