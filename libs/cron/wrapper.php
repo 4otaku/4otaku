@@ -97,8 +97,10 @@ class Cron
 		$process = array(
 			output__logs::$cache_key => output__logs::$room_ids,
 			output__logs_hisouten::$cache_key => output__logs_hisouten::$room_ids,
-            output__logs_homestuck::$cache_key => output__logs_homestuck::$room_ids,
+                        output__logs_homestuck::$cache_key => output__logs_homestuck::$room_ids,
 			output__logs_kikaki::$cache_key => output__logs_kikaki::$room_ids,
+			output__logs_robust::$cache_key => output__logs_robust::$room_ids,
+			output__logs_vn::$cache_key => output__logs_vn::$room_ids,
 		);
 
 		foreach ($process as $key => $ids) {
