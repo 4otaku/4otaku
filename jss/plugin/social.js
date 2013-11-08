@@ -5,6 +5,7 @@
 // @description  enter something useful
 // @match      http://4otaku.org/post/*
 // @match      http://4otaku.org/video/*
+// @match      http://4otaku.org/news/*
 // @copyright  2013+, shtrih
 // ==/UserScript==
 
