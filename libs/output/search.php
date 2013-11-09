@@ -11,10 +11,8 @@ class output__search extends engine
 
 	private $cyrillic_stoplist = array('А', 'И', 'О', 'У', 'С', 'НО');
 
-	private $minus_words = array('no', 'without', 'not', 'не', 'без');
-
 	public $allowed_url = array(
-		array(1 => '|search|', 2 => 'any', 3 => '|rel|date|rdate|art|', 4 => 'any', 5 => '|page|', 6 => 'num', 7 => 'end')
+		array(1 => '|search|', 2 => 'any', 3 => '|rel|date|rdate|', 4 => 'any', 5 => '|page|', 6 => 'num', 7 => 'end')
 	);
 	public $template = 'general';
 	public $side_modules = array(
@@ -38,31 +36,13 @@ class output__search extends engine
 			$area = array($url[2]);
 		}
 
-		if ($url[2] != 'a') {
-			$pp = $sets['pp']['search'];
-		} else {
-			$pp = $sets['pp']['art'];
-			$this->template = 'booru';
-			$this->error_template = 'booru';
-			$this->side_modules['sidebar'] = array('masstag','art_tags','comments');
-			$query = $this->check_art_queries(urldecode($url[4]));
-			if ($error) return false;
-		}
+		$pp = $sets['pp']['search'];
 
-		$left_join = '';
 		if ($url[3] != 'rel') {
 			$main = 'and s.area="main"';
 			$lim = (max(1,$url[6])-1)*$pp.', '.$pp;
 
-			if ($url[3] == 'art') {
-				$left_join = ' left join art as a on a.id = s.item_id ';
-				$order_sets = explode('-', $sets['art']['sort']);
-				$limit = 'order by '.
-					($order_sets[0] == 'rating' ? 'rating' : 'sortdate').' '.
-					($order_sets[1] == 'asc' ? 'asc' : 'desc').' '.
-					($order_sets[0] == 'rating' ? ', sortdate desc' : '').
-					' limit '.$lim;
-			} elseif ($url[3] == 'date') {
+			if ($url[3] == 'date') {
 				$limit = ' order by s.sortdate desc limit '.$lim;
 			} elseif ($url[3] == 'rdate') {
 				$limit = ' order by s.sortdate limit '.$lim;
@@ -82,7 +62,7 @@ class output__search extends engine
 				return;
 			}
 
-			$pretty_query = $query ? $request : $search->prepare_string(urldecode($url[4]),true);
+			$pretty_query = $search->prepare_string(urldecode($url[4]),true);
 
 			if (empty($terms)) $return['display'] = array('search_info','search_error');
 			else {
@@ -106,7 +86,11 @@ class output__search extends engine
 					$query = '(s.place="'.implode('" or s.place="',$area).'") '.$main.$shortquery.$longquery.$limit;
 					$navi_query = '(s.place="'.implode('" or s.place="',$area).'") '.$main.$shortquery.$longquery;
 				}
-				$data = obj::db()->sql('select s.place, s.item_id, s.`index`, s.area, s.sortdate from search as s'.$left_join.' where ' . $query);
+				$data = obj::db()->sql('select s.place, s.item_id, s.`index`, s.area, s.sortdate from search as s where ' . $query);
+
+				if (empty($data)) {
+					$data = $this->search_in_titles($area, $pretty_query);
+				}
 
 				if (empty($data)) {
 					foreach ($area as $one) $zero[] = 0;
@@ -124,14 +108,10 @@ class output__search extends engine
 						$return['navi']['last'] = ceil(obj::db()->sql('select count(*) from search as s where '. $navi_query,2)/$pp);
 					}
 
-					if ($url[2] != 'a') foreach ($data as $one) {
+					foreach ($data as $one) {
 						$function = 'fetch_'.$one['place'];
 						$return['data'][] = $this->$function($one['item_id']);
 						$found[$one['place']] = true;
-					} else {
-						$return['art']['thumbs'] = $this->process_art($data);
-						$return['display'] = array('booru_page','navi');
-						$found['art'] = true;
 					}
 
 					foreach ($area as $one) {
@@ -236,25 +216,38 @@ class output__search extends engine
 		return false;
 	}
 
-	private function check_art_queries($query) {
-		global $error;
-		$parts = explode(':',$query);
-		switch ($parts[0]) {
-			case 'md5':
-				if ($id = obj::db()->sql('select id from art where md5="'.$parts[1].'"',2)) {
-					return 'place="art" and item_id='.$id;
-				} else {
-					$error = true;
-					return false;
-				}
-			default: return false;
-		}
-	}
+	protected function search_in_titles($areas, $query) {
+		$data = array();
+		$query = mysql_real_escape_string($query);
 
-	function process_art($data) {
-		include_once('libs/output/art.php');
-		foreach ($data as $one) $where .= ' or id='.$one['item_id'];
-		return output__art::get_art(false,substr($where,4));
+		if (in_array('news', $areas)) {
+			$fetch = obj::db()->sql('select
+					s.place, s.item_id, s.`index`, s.area, s.sortdate
+				from
+					search as s left join news on s.item_id = news.id and s.place = "news"
+				where title like "%'.$query.'%" limit 5');
+			$data = array_merge($data, (array) $fetch);
+		}
+
+		if (in_array('post', $areas)) {
+			$fetch = obj::db()->sql('select
+					s.place, s.item_id, s.`index`, s.area, s.sortdate
+				from
+					search as s left join post on s.item_id = post.id and s.place = "post"
+				where title like "%'.$query.'%" limit 5');
+			$data = array_merge($data, (array) $fetch);
+		}
+
+		if (in_array('video', $areas)) {
+			$fetch = obj::db()->sql('select
+					s.place, s.item_id, s.`index`, s.area, s.sortdate
+				from
+					search as s left join news on s.item_id = video.id and s.place = "video"
+				where title like "%'.$query.'%" limit 5');
+			$data = array_merge($data, (array) $fetch);
+		}
+
+		return array_slice($data, 0, 10);
 	}
 
 	function fetch_post($id) {
@@ -278,19 +271,6 @@ class output__search extends engine
 		$video['template'] = 'video';
 		$video['navi'] = '/video/';
 		return $video;
-	}
-
-	function fetch_art($id) {
-		global $check;
-		$art = obj::db()->sql('select * from art where id='.$id,1);
-		if ($check->link($art['source'])) $art['source'] = '<a href="'.$art['source'].'" target="_blank">'.$art['source'].'</a>';
-		$meta = $this->get_meta(array($art),array('category','author','tag'));
-		foreach ($meta as $key => $type)
-			if (is_array($type))
-				 foreach ($type as $alias => $name)
-					$art['meta'][$key][$alias] = $name;
-		$art['template'] = 'art'; $art['navi'] = '/art/';
-		return $art;
 	}
 
 	function fetch_news($id) {
