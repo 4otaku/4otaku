@@ -79,19 +79,19 @@ class Database
 		return self::db()->delete($table, $condition, $params);
 	}
 
-	public static function group ($field) {
+	public function group ($field) {
 		return self::db()->group($field);
 	}
 
-	public static function order ($field, $type = 'desc') {
+	public function order ($field, $type = 'desc') {
 		return self::db()->order($field, $type);
 	}
 
-	public static function limit ($limit, $limit_from = false) {
+	public function limit ($limit, $limit_from = false) {
 		return self::db()->limit($limit, $limit_from);
 	}
 
-	public static function join ($table, $condition) {
+	public function join ($table, $condition) {
 		return self::db()->join($table, $condition);
 	}
 
