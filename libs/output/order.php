@@ -60,7 +60,7 @@ class output__order extends engine
 			$return['navi']['curr'] = ($url[4] == 'all' ? 'all' : max(1,$url[5]));
 			$return['navi']['all'] = true;
 			$return['navi']['name'] = "Страница комментариев";
-			$return['navi']['meta'] = $url[2].'/comments/';
+			$return['navi']['meta'] = 'order/'.$url[2].'/comments/';
 			$return['navi']['start'] = max($return['navi']['curr']-5,2);
 			$return['navi']['last'] = ceil($return['comments']['number']/$sets['pp']['comment_in_post']);
 			return $return;
