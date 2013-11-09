@@ -10,8 +10,12 @@ if (!empty($data['main']['data']) && is_array($data['main']['data'])) {
 	foreach ($data['main']['data'] as $item) {
 		$data['main']['navi']['base'] = $item['navi'];
 		if ($item['template'] == 'post' || $item['template'] == 'video' || $item['template'] == 'news') {
-			twig_load_template('main/item/' . $item['template'],
-				array($item['template'] => $item, 'id' => $item['id']));
+			$item['in_batch'] = true;
+			twig_load_template('main/item/' . $item['template'], array(
+				$item['template'] => $item,
+				'id' => $item['id'],
+				'navi_base' => $item['navi'],
+			));
 		} else {
 			include 'templates'.SL.'main'.SL.'single'.SL.$item['template'].'.php';
 		}
