@@ -1,4 +1,7 @@
+<div>Создать заказ можно на <a href="http://4otaku.org/">новом сайте</a>.</div>
+
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=add/common.js,add/text.js"></script>
+<? /* ?>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<table width="100%">		
 		<tbody>
@@ -89,3 +92,4 @@
         </tbody>		
     </table>
 </form>
+<? */ ?>

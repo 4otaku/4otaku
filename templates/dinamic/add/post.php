@@ -1,4 +1,7 @@
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=fileupload.js,add/common.js,add/text.js,add/post.js"></script>
+
+<h3>Нельзя сотворить здесь.</h3>
+<? /* ?>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<div class="fields">
 		<span>
@@ -270,3 +273,4 @@
         </tfoot>
     </table>
 </form>
+<? */ ?>

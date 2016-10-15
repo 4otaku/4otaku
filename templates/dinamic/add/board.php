@@ -1,4 +1,6 @@
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=fileupload.js,add/common.js,add/text.js,add/board.js,box.js"></script>
+<br />Борда работает в режиме для чтения.
+<? /* ?>
 <form id="addform" method="post" action="/board/add/thread/<?=query::$get['info'];?>" enctype="multipart/form-data">
 	<table width="100%">
 		<tbody class="link_video">
@@ -119,3 +121,4 @@
         </tfoot>
     </table>
 </form>
+<? */ ?>

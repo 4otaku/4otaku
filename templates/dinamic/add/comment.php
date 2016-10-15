@@ -16,6 +16,9 @@
 <h2 class="commentsh2">
 	Написать комментарий:
 </h2>
+<p>Комментирование отключено.</p>
+
+<? /* ?>
 <form id="comment-form" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
@@ -83,3 +86,4 @@
 	<br /><br />
 	<a href="#" class="disabled">Не отвечать</a>
 </div>
+<? */ ?>

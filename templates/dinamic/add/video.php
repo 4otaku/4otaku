@@ -1,4 +1,7 @@
 <script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=add/common.js,add/video.js,add/text.js"></script>
+<br />
+Пройдите на новую версию сайта <a href="http://4otaku.org/">4otaku.org</a>
+<?php /* ?>
 <form id="addform" method="post" enctype="multipart/form-data">
 	<div class="fields">
 		<span>
@@ -129,3 +132,4 @@
         </tbody>
     </table>
 </form>
+<?php */ ?>
