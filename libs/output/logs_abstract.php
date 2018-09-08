@@ -38,7 +38,13 @@ abstract class output__logs_abstract extends engine
 			return $this->search($url[3], $page);
 		}
 
-		$return['display'] = array('logs_navi','logs_search','logs_body','logs_arrows');
+		$return['display'] = array(
+			//'logs_navi',
+			//'logs_search',
+			'logs_body',
+			//'logs_arrows'
+		);
+		/*
 		if (!$this->nocache) {
 			$return['logs'] = base64_decode(obj::db()->sql('select cache from logs where (year='.$url[2].' and month ='.$url[3].' and day='.$url[4].' and cache_key ='.static::$cache_key.')',2,'cache'));
 		}
@@ -51,6 +57,7 @@ abstract class output__logs_abstract extends engine
 				else unset($return['logs'][$key]);
 			}
 		}
+		*/
 		if (!$return['logs']) $return['nologs'] = 'За этот день нет ни одного лога.';
 		$start = array($this->start_year, $this->start_month, $this->start_day);
 		$end = array(date("Y"),date("n"),date("j"));
