@@ -150,7 +150,7 @@ abstract class output__logs_abstract extends engine
 		$select_query = ' MATCH (text) AGAINST ("'.$fixed_query.'" IN BOOLEAN MODE) and cache_key = ' . static::$cache_key;
 
 		$sql = 'SELECT id, date FROM raw_logs WHERE'.$select_query;
-		$days = obj::db()->sql($sql.' group by date order by date desc limit '.$start.', '.$perpage, 'id');
+//		$days = obj::db()->sql($sql.' group by date order by date desc limit '.$start.', '.$perpage, 'id');
 
 		if (!empty($days)) {
 			$select_days = '"'.implode('","',$days).'"';
