@@ -48,3 +48,5 @@ images/board/thumbs/*
 jss/m/tmp/*
 !jss/m/tmp/index.php
 yandex_*
+
+.idea
