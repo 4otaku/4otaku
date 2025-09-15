@@ -29,8 +29,16 @@ class Database
 		}
 
 		$dsn = "mysql:dbname=$config[database];host=$config[server]";
-		$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
-		$worker = new PDO($dsn, $config["login"], $config["password"], $options);
+		$options = array(
+			PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+		);
+
+		try {
+			$worker = new PDO($dsn, $config["login"], $config["password"], $options);
+		} catch (PDOException $e) {
+			die("Ошибка подключения: " . $e->getMessage() . "\n");
+		}
 
 		$object = new Database_Instance($worker, $config["prefix"]);
 
