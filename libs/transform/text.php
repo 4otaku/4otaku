@@ -147,41 +147,66 @@ class transform__text extends Transform_Time
 	}
 
 	function cut_long_text($text, $length, $prepend = ' ...', $cut_words = false) {
-		if (strlen($text) < $length) {
-			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
+		$text = trim($text);
+
+		if (mb_strlen($text, 'UTF-8') <= $length) {
+			return $text;
 		}
 
-		if (!preg_match('/^(&\p{L}{1,8};|(<.+?>)*.){0,'.$length.'}/ius', $text, $match)) {
-			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
-		}
-
-		preg_match_all('/<([^\s>\/]+)(?![^>]*\/>)[^>]*>/is', $match[0], $opening_tags);
-		preg_match_all('/<\/([^\s>]+)[^>]*>/is', $match[0], $ending_tags);
-
-		$tags = array();
-
-		foreach ($opening_tags[1] as $tag_name) {
-			$tags[$tag_name]++;
-		}
-
-		foreach ($ending_tags[1] as $tag_name) {
-			$tags[$tag_name]--;
-		}
-
-		$return = empty($cut_words) ? $match[0] : $this->cut_long_words($match[0],$cut_words);
-
-		foreach ($tags as $tag_name => $count) {
-			if ($count > 0) {
-				$return .= str_repeat('</'.$tag_name.'>',$count);
-			} elseif ($count < 0) {
-				$return = str_repeat('<'.$tag_name.'>',abs($count)).$return;
+		if ($cut_words) {
+			// Жёсткая обрезка по символам
+			return $prepend . mb_substr($text, 0, $length, 'UTF-8');
+		} else {
+			// Обрезка по словам
+			$words = preg_split('/\s+/u', $text);
+			$result = '';
+			foreach ($words as $word) {
+				if (mb_strlen($result . ' ' . $word, 'UTF-8') > $length) {
+					break;
+				}
+				$result .= ($result === '' ? '' : ' ') . $word;
 			}
+			return $prepend . $result;
 		}
-
-		if (strlen($match[0]) < strlen($text)) $return .= $prepend;
-
-		return $return;
 	}
+
+	// Оригинальная функция крашит апач ╮（╯＿╰）╭
+//	function cut_long_text($text, $length, $prepend = ' ...', $cut_words = false) {
+//		if (strlen($text) < $length) {
+//			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
+//		}
+//
+/*		if (!preg_match('/^(&\p{L}{1,8};|(<.+?>)*.){0,'.$length.'}/ius', $text, $match)) {*/
+//			return empty($cut_words) ? $text : $this->cut_long_words($text,$cut_words);
+//		}
+//
+//		preg_match_all('/<([^\s>\/]+)(?![^>]*\/>)[^>]*>/is', $match[0], $opening_tags);
+//		preg_match_all('/<\/([^\s>]+)[^>]*>/is', $match[0], $ending_tags);
+//
+//		$tags = array();
+//
+//		foreach ($opening_tags[1] as $tag_name) {
+//			$tags[$tag_name]++;
+//		}
+//
+//		foreach ($ending_tags[1] as $tag_name) {
+//			$tags[$tag_name]--;
+//		}
+//
+//		$return = empty($cut_words) ? $match[0] : $this->cut_long_words($match[0],$cut_words);
+//
+//		foreach ($tags as $tag_name => $count) {
+//			if ($count > 0) {
+//				$return .= str_repeat('</'.$tag_name.'>',$count);
+//			} elseif ($count < 0) {
+//				$return = str_repeat('<'.$tag_name.'>',abs($count)).$return;
+//			}
+//		}
+//
+//		if (strlen($match[0]) < strlen($text)) $return .= $prepend;
+//
+//		return $return;
+//	}
 
 	public static function bb2html($string) {
         while (preg_match_all('/\[([a-zA-Z]*)=?([^\n]*?)\](.*?)\[\/\1\]\n?/is', $string, $matches)) {
