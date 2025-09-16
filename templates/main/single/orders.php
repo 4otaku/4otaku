@@ -16,7 +16,7 @@
 				<table border="0" cellspacing="0" cellpadding="0" width="100%">
 					<tr>
 						<td class="imageholder">
-							<img alt='' src='http://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
+							<img alt='' src='https://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
 						</td>
 						<td valign="top">
 							<p>

@@ -13,10 +13,10 @@
 			<td align="center" width="180px">
 				<? if($item['place'] == 'art') { 
 					if ($item['preview_picture']) { ?>
-						<img src="http://4otaku.org/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
+						<img src="http://old.4otaku.org/images/booru/thumbs/<?=$item['preview_picture'];?>.jpg">
 					<? } ?>
 				} else { ?>
-					<img alt='' src='http://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
+					<img alt='' src='https://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
 				<? } ?>
 			</td>
 			<td align="left" valign="top">
@@ -27,7 +27,7 @@
 					</span>
 				</div>
 				<? if ($item['place'] == 'art') { ?>
-					<img class="avatar-n" src='http://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
+					<img class="avatar-n" src='https://www.gravatar.com/avatar/<?=md5(strtolower($item['email']));?>?s=70&d=identicon&r=G' />
 				<? } ?>				
 				<div class="comment-search-text">
 					<?=$item['text'];?>

@@ -76,7 +76,7 @@ class output__comments extends engine
 						$one['image'] = '/images/post/thumb/'.$image.'.jpg';
 						break;
 					case $def['type'][1]:
-						$one['image'] = 'http://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';
+						$one['image'] = 'https://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';
 						$one['title'] = "Видео: ".$one['title'];
 						break;
 					case $def['type'][2]:
@@ -84,7 +84,7 @@ class output__comments extends engine
 						$one['title'] = "Изображение №".$one['title'];
 						break;
 					case "orders":
-						$one['image'] = 'http://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';
+						$one['image'] = 'https://www.gravatar.com/avatar/'.md5(strtolower($one['image'])).'?s=100&d=identicon&r=G';
 						$one['title'] = "Заказ: ".$one['title'];
 						break;
 					case "news":

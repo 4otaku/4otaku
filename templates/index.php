@@ -155,7 +155,7 @@
 					<? if ($sets['news']['read'] >= $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock artblock">
 							<p class="head">
-								<a href="http://art.4otaku.org/">
+								<a href="<?=$def['site']['dir']?>/art/">
 									Арт
 								</a>
 							</p>
@@ -164,8 +164,8 @@
 							<? if ($data['main']['count']['art']['latest']) { ?>
 								Последнее изображение: <br /><br />
 								<div style="text-align:center; width: 100%;">
-									<a href="http://art.4otaku.org/<?=$data['main']['count']['art']['latest']['id'];?>">
-										<img src="http://images.4otaku.org/art/<?=$data['main']['count']['art']['latest']['md5'];?>_thumb.jpg">
+									<a href="<?=$def['site']['dir']?>/art/<?=$data['main']['count']['art']['latest']['id'];?>">
+										<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=$data['main']['count']['art']['latest']['md5'];?>.jpg">
 									</a>
 								</div>
 							<? } ?>
@@ -196,7 +196,7 @@
 					<? if ($sets['news']['read'] < $data['main']['news']['sortdate']) { ?>
 						<div class="mainblock artblock">
 							<p class="head">
-								<a href="http://art.4otaku.org/">
+								<a href="<?=$def['site']['dir']?>/art/">
 									Арт
 								</a>
 							</p>
@@ -205,8 +205,8 @@
 							<? if ($data['main']['count']['art']['latest']) { ?>
 								Последнее изображение: <br /><br />
 								<div style="text-align:center; width: 100%;">
-									<a href="http://art.4otaku.org/<?=$data['main']['count']['art']['latest']['id'];?>">
-										<img src="http://images.4otaku.org/art/<?=$data['main']['count']['art']['latest']['md5'];?>_thumb.jpg">
+									<a href="<?=$def['site']['dir']?>/art/<?=$data['main']['count']['art']['latest']['id'];?>">
+										<img src="<?=$def['site']['dir']?>/images/booru/thumbs/<?=$data['main']['count']['art']['latest']['md5'];?>.jpg">
 									</a>
 								</div>
 							<? } ?>

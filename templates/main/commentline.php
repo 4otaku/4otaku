@@ -53,7 +53,7 @@
 												</div>
 												<div class="comment-content">
 													<div class="avatar-n">
-														<img alt='' src='http://www.gravatar.com/avatar/<?=md5( strtolower($comment['email']) );?>?s=50&d=identicon&r=G' class='avatar avatar-50 photo' height='50' width='50' />
+														<img alt='' src='https://www.gravatar.com/avatar/<?=md5( strtolower($comment['email']) );?>?s=50&d=identicon&r=G' class='avatar avatar-50 photo' height='50' width='50' />
 													</div>
 													<div class="comment-text">
 													<span><?=$comment['text'];?></span>
