@@ -1,0 +1,40 @@
+{% if data.threads is not empty %}
+    {% for thread in data.threads %}
+        <div class="catalog_item">
+            {% if thread.content_type == 'video' %}
+                <a href="{{ thread.url }}"
+                   target="_blank"
+                   class="board_image_thumb with_help"
+                   title="{{ thread.title }}">
+                    <img src="{{ _def.site.dir }}/images/video.png">
+                </a>
+
+            {% elseif thread.content_type == 'image' %}
+                <a href="{{ thread.url }}"
+                   target="_blank"
+                   class="board_image_thumb with_help"
+                   title="{{ thread.title }}">
+                    <img src="{{ _def.site.dir }}/images/board/thumbs/{{ thread.content.thumb }}">
+                </a>
+
+            {% elseif thread.content_type == 'random' %}
+                <a href="{{ thread.url }}"
+                   title="{{ thread.title }}"
+                   target="_blank"
+                   class="board_image_thumb with_help art_random">
+                    <img src="{{ _def.site.dir }}/images/board/thumbs/{{ thread.content.thumb }}.jpg" />
+                    <img src="{{ _def.site.dir }}/images/dice-small.png" class="dice" />
+                </a>
+
+            {% elseif thread.content_type == 'flash' %}
+                <a href="{{ thread.url }}"
+                   target="_blank"
+                   class="board_flash with_help"
+                   title="{{ thread.title }}">
+                    <img align="left" src="{{ _def.site.dir }}/images/flash.png">
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="clear"></div>

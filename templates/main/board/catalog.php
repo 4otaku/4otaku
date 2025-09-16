@@ -1,50 +1,65 @@
 <?php
 
-if (!empty($data['main']['threads'])) {
-	foreach ($data['main']['threads'] as $id => $thread) { ?>
-		<div class="catalog_item">
-			<? $thread_url = '/board/'.$thread['current_board'].'/thread/'.$id; ?>
-			<? $thread_title = $thread['name'] . (empty($thread['trip']) ? '' : ' ' .$thread['trip']); ?>
-			<? $thread_title .= ' в разделе '; ?>
-			<? foreach($thread['categories'] as $key => $board) { ?>
-				<? if (!empty($key)) { ?>
-					<? $thread_title .= ' / '; ?>
-				<? } ?>
-				<? $thread_title .= $board['alias']; ?>
-			<? } ?>
-			<? $thread_title .= '; ' . $thread['pretty_date'] . "\n<br />"; ?>
-			<? $thread_title .= obj::transform('text')->cut_long_text(strip_tags($thread['text'],'<br><em><strong><s>'),500); ?>
-			<? if (!empty($thread['content']['video'])) {
-				$video = reset($thread['content']['video']); ?>
-				<a href="<?=$thread_url;?>"
-				   target="_blank" class="board_image_thumb with_help"
-				   title="<?=$thread_title;?>">
-					<img src="<?=$def['site']['dir']?>/images/video.png">
-				</a>
-			<? } elseif (!empty($thread['content']['image'])) {
-				$image = reset($thread['content']['image']); ?>
-				<a href="<?=$thread_url;?>"
-				   target="_blank" class="board_image_thumb with_help"
-				   title="<?=$thread_title;?>">
-					<img src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>">
-				</a>
-			<? } elseif (!empty($thread['content']['random'])) {
-				$image = reset($thread['content']['random']); ?>
-				<a href="<?=$thread_url;?>"
-				   title="<?=$thread_title;?>"
-				   target="_blank" class="board_image_thumb with_help art_random">
-					<img src="<?=$def['site']['dir']?>/images/board/thumbs/<?=$image['thumb'];?>.jpg" />
-					<img src="<?=$def['site']['dir']?>/images/dice-small.png" class="dice" />
-				</a>
-			<? } elseif (!empty($thread['content']['flash'])) {
-				$flash = reset($thread['content']['flash']); ?>
-				<a href="<?=$thread_url;?>"
-				   target="_blank" class="board_flash with_help"
-				   title="<?=$thread_title;?>">
-					<img align="left" src="<?=$def['site']['dir']?>/images/flash.png">
-				</a>
-			<? }
-		?> </div> <?
- 	}
-} ?>
-<div class="clear"></div>
+function prepare_catalog_data($data) {
+	$catalogData = array();
+
+	if (!empty($data['main']['threads'])) {
+		foreach ($data['main']['threads'] as $id => $thread) {
+			$catalogData['threads'][$id] = prepare_thread_data($thread, $id);
+		}
+	}
+
+	return $catalogData;
+}
+
+function prepare_thread_data($thread, $threadId) {
+	$threadData = array(
+		'id' => $threadId,
+		'url' => '/board/'.$thread['current_board'].'/thread/'.$threadId,
+		'title' => generate_thread_title($thread),
+		'content' => array()
+	);
+
+	// Определяем тип контента
+	if (!empty($thread['content']['video'])) {
+		$threadData['content_type'] = 'video';
+		$threadData['content'] = reset($thread['content']['video']);
+	} elseif (!empty($thread['content']['image'])) {
+		$threadData['content_type'] = 'image';
+		$threadData['content'] = reset($thread['content']['image']);
+	} elseif (!empty($thread['content']['random'])) {
+		$threadData['content_type'] = 'random';
+		$threadData['content'] = reset($thread['content']['random']);
+	} elseif (!empty($thread['content']['flash'])) {
+		$threadData['content_type'] = 'flash';
+		$threadData['content'] = reset($thread['content']['flash']);
+	}
+
+	return $threadData;
+}
+
+function generate_thread_title($thread) {
+	$title = $thread['name'];
+
+	if (!empty($thread['trip'])) {
+		$title .= ' ' . $thread['trip'];
+	}
+
+	$title .= ' в разделе ';
+
+	// Добавляем категории
+	$categories = array();
+	foreach ($thread['categories'] as $board) {
+		$categories[] = $board['alias'];
+	}
+	$title .= implode(' / ', $categories);
+
+	$title .= '; ' . $thread['pretty_date'] . "\n<br />";
+
+	$title .= obj::transform('text')->cut_long_text(strip_tags($thread['text'], '<br><em><strong><s>'), 500);
+
+	return $title;
+}
+
+$catalogData = prepare_catalog_data($data);
+twig_load_template('board/catalog', $catalogData);
