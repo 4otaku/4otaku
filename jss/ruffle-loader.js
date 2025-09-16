@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // создаём контейнер для диалога один раз
     const modal = document.createElement("div");
     modal.style.cssText = `
         display: none;
@@ -10,38 +9,76 @@ document.addEventListener("DOMContentLoaded", () => {
         align-items: center;
     `;
     modal.innerHTML = `
-        <div style="position: relative; max-width: 90%; max-height: 90%;">
-            <button id="closeFlash"
-                style="position:absolute;top:-40px;right:0;
-                padding:8px 12px;cursor:pointer;">✖</button>
-            <div id="flashContainer" style="width:800px;height:600px;"></div>
+        <div id="dialogWrapper" style="position: relative;">
+            <div style="position:absolute;top:-40px;right:0;display:flex;gap:8px;">
+                <button id="size800x600">800x600</button>
+                <button id="size50">50%</button>
+                <button id="size90">90%</button>
+                <button id="closeFlash">✖</button>
+            </div>
+            <div id="flashContainer" style="width:100%;height:100%;background:#000;"></div>
         </div>
     `;
     document.body.appendChild(modal);
 
+    const dialogWrapper = modal.querySelector("#dialogWrapper");
     const flashContainer = modal.querySelector("#flashContainer");
     const closeBtn = modal.querySelector("#closeFlash");
 
+    function setCookie(name, value, days = 365) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+    }
+
+    function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+    }
+
+    function setSize(mode, save = true) {
+        if (mode === "800x600") {
+            dialogWrapper.style.width = "800px";
+            dialogWrapper.style.height = "600px";
+        } else if (mode === "50") {
+            dialogWrapper.style.width = "50%";
+            dialogWrapper.style.height = "50%";
+        } else if (mode === "90") {
+            dialogWrapper.style.width = "90%";
+            dialogWrapper.style.height = "90%";
+        }
+        if (save) setCookie("flashSize", mode);
+    }
+
+    modal.querySelector("#size800x600").addEventListener("click", () => setSize("800x600"));
+    modal.querySelector("#size50").addEventListener("click", () => setSize("50"));
+    modal.querySelector("#size90").addEventListener("click", () => setSize("90"));
+
     closeBtn.addEventListener("click", () => {
         modal.style.display = "none";
-        flashContainer.innerHTML = ""; // очистка, чтобы останавливать SWF
+        flashContainer.innerHTML = "";
     });
 
-    // обработчик на все ссылки с классом board_flash
     document.querySelectorAll(".board_flash").forEach(link => {
         link.addEventListener("click", e => {
             e.preventDefault();
 
-            const swfUrl = link.getAttribute("href");
+            const savedSize = getCookie("flashSize");
+            if (savedSize) {
+                setSize(savedSize, false);
+            } else {
+                setSize("800x600", false);
+            }
 
-            flashContainer.innerHTML = ""; // очистка
+            const swfUrl = link.getAttribute("href");
+            flashContainer.innerHTML = "";
+
             const ruffle = window.RufflePlayer.newest();
             const player = ruffle.createPlayer();
+            player.style.width = "100%";
+            player.style.height = "100%";
             flashContainer.appendChild(player);
             player.load(swfUrl);
-
-            player.style.width = "100%";
-            // player.style.height = "100%";
 
             modal.style.display = "flex";
         });
