@@ -2,7 +2,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Слайдшоу</title>
-		<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=jquery-1.3.2.min.js,slideshow.js"></script>
+		<script type="text/javascript" src="<?=$def['site']['dir']?>/jss/m/?b=jss&f=jquery-1.6.2.min.js,slideshow.js"></script>
 		<link rel="stylesheet" href="<?=$def['site']['dir']?>/jss/m/?b=jss&f=slideshow.css" type="text/css" media="screen" />		
 	</head>
 	<body>		
