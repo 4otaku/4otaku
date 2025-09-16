@@ -46,6 +46,24 @@ class Database_Instance extends Database_Abstract
 		return $data;
 	}
 
+	protected function exec($query, $params = array()) {
+		$params = (array) $params;
+		$params = array_values($params);
+
+		$md5 = md5($query);
+
+		if (empty($this->statements[$md5])) {
+			$this->statements[$md5] = $this->worker->prepare($query);
+		}
+
+		$this->statements[$md5]->execute($params);
+
+		if ($query != $this->counter_query) {
+			$this->last_query = $this->statements[$md5];
+			$this->last_params = $params;
+		}
+	}
+
 	public function sql($query, $params = array()) {
 		$query = str_replace("<pr>", $this->prefix, $query);
 
@@ -213,7 +231,7 @@ class Database_Instance extends Database_Abstract
 
 		$query .= $this->format_insert_values($values);
 
-		$this->query($query, $values);
+		$this->exec($query, $values);
 
 		return $this->last_query->rowCount();
 	}
@@ -248,7 +266,7 @@ class Database_Instance extends Database_Abstract
 			$values = array_merge($values, $update_values);
 		}
 
-		$this->query($query, $values);
+		$this->exec($query, $values);
 
 		return $this->last_query->rowCount();
 	}
@@ -282,7 +300,7 @@ class Database_Instance extends Database_Abstract
 
 		$query = rtrim($query,",");
 
-		$this->query($query, $params);
+		$this->exec($query, $params);
 
 		return $this->last_query->rowCount();
 	}
@@ -320,7 +338,7 @@ class Database_Instance extends Database_Abstract
 
 		$params = array_merge(array_values($values), $condition_params);
 
-		$this->query($query, $params);
+		$this->exec($query, $params);
 
 		return $this->last_query->rowCount();
 	}
@@ -338,7 +356,7 @@ class Database_Instance extends Database_Abstract
 
 		$query .= " WHERE $condition";
 
-		$this->query($query, $params);
+		$this->exec($query, $params);
 
 		return $this->last_query->rowCount();
 	}
