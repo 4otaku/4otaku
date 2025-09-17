@@ -1,4 +1,5 @@
 <?
+$hasFlash = false;
 if (!empty($data['main']['threads'])) {
 	foreach ($data['main']['threads'] as $id => $thread) { ?>
 		<? $thread_url = '/board/'.$thread['current_board'].'/thread/'.$id; ?>
@@ -30,9 +31,15 @@ if (!empty($data['main']['threads'])) {
 					<? } ?>
 				</div>
 			<? } ?>
-			<? foreach ($thread['posts'] as $post) { ?>
-				<? include TEMPLATE_DIR .SL.'main'.SL.'board'.SL.'message.php'; ?>
-			<? }
+			<? foreach ($thread['posts'] as $post) {
+				if (!empty($post['content']['flash'])) {
+					$hasFlash = true;
+				}
+				 include TEMPLATE_DIR .SL.'main'.SL.'board'.SL.'message.php';
+			}
 		}
 	}
+}
+if ($hasFlash) {
+	twig_load_template('board/ruffle-flash', []);
 }
