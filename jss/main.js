@@ -1188,7 +1188,7 @@ $(document).ready(function(){
 		var sizes = $(this).attr('rel').split('x');
 		var img = $(this).children('img:eq(0)');
 		var fullImg = $(this).children('img:eq(1)');
-		$(this).css('position', 'relative');
+		// $(this).css('position', 'relative');
 
 		if (expand && sizes[0] > 240) {
 			img.css({'width':sizes[0]+'px', 'height':sizes[1]+'px'});
