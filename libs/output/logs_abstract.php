@@ -53,10 +53,12 @@ abstract class output__logs_abstract extends engine
 		}
 		if (!$return['logs']) $return['nologs'] = 'За этот день нет ни одного лога.';
 		$start = array($this->start_year, $this->start_month, $this->start_day);
-		$end = array(date("Y"),date("n"),date("j"));
+		$end = array(2019,4,23);
 		$current = array($url[2],$url[3],$url[4]);
 		$base = substr(get_called_class(), 8);
-		if (array_diff_assoc($end,$current) && is_array($return['logs'])) $this->make_logs_cache($return['logs'],$url[2],$url[3],$url[4]);
+		if (array_diff_assoc($end,$current) && is_array($return['logs'])) {
+			$this->make_logs_cache($return['logs'],$url[2],$url[3],$url[4]);
+		}
 		$rumonth = array('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь');
 
 		for ($i = $start[0]; $i <= $end[0]; $i++) {
