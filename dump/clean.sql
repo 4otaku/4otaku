@@ -6,7 +6,8 @@ UPDATE api.user SET pass = '202cb962ac59075b964b07152d234b70'; -- pass=123
 UPDATE api.log SET ip = 2130706433; -- ip=127.0.0.1
 UPDATE api.comment SET ip = 2130706433; -- ip=127.0.0.1
 
-UPDATE 4otaku.comment SET ip = '127.0.0.1'; -- ip=127.0.0.1
+UPDATE 4otaku.comment SET ip = '127.0.0.1';
+UPDATE 4otaku.board SET ip = '127.0.0.1';
 
 -- old art menu
 UPDATE api.`head_menu` SET `name` = 'Основной раздел',`url` = '/art/',`parent` = 5,`order` = 14 WHERE `head_menu`.`id` = 15;
