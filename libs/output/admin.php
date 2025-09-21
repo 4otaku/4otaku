@@ -100,7 +100,7 @@ class output__admin extends engine
 	function menu($return) {
 
 		$return['display'][] = 'admin_menu';
-		$return['select'] = (array) obj::db()->sql('select id, name from head_menu where parent = 0 order by `order`', 'id');
+		$return['select'] = (array) obj::db('api')->sql('select id, name from head_menu where parent = 0 order by `order`', 'id');
 
 		return $return;
 	}

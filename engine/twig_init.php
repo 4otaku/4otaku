@@ -30,6 +30,7 @@
 
 			$twig = new Twig_Environment($twig_loader, array(
 			  'cache' => ROOT_DIR.SL.'files'.SL.'twig_cache',
+//			  'cache' => false,
 			  'auto_reload' => true,
 			  'autoescape' => false
 			));
