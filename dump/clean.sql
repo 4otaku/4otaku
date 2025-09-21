@@ -17,3 +17,14 @@ UPDATE api.`head_menu` SET `name` = 'CG паки',`url` = '/art/cg_packs/',`pare
 UPDATE api.`head_menu` SET `name` = 'Спрайты',`url` = '/art/sprites/',`parent` = 5,`order` = 19 WHERE `head_menu`.`id` = 20;
 UPDATE api.`head_menu` SET `name` = 'Комментарии',`url` = '/comments/art/',`parent` = 5,`order` = 57 WHERE `head_menu`.`id` = 59;
 DELETE FROM api.`head_menu` WHERE id IN (67, 68, 69, 70); -- new art menu
+
+REPLACE INTO api.`head_menu` (`id`, `name`, `url`, `parent`, `order`, `separator`) VALUES
+(71, 'Старое', '#', 0, 67, 0),
+(72, 'Турнир по Touhou Hisoutensoku', '/soku/', 71, 7, 1),
+(73, 'Логи main', '/logs/', 71, 1, 0),
+(74, 'Логи hisouten', '/logs_hisouten', 71, 2, 0),
+(75, 'Логи homestuck', '/logs_homestuck/', 71, 3, 0),
+(76, 'Логи kikaki', '/logs_kikaki/', 71, 4, 0),
+(77, 'Логи robust', '/logs_robust/', 71, 5, 0),
+(78, 'Логи vn', '/logs_vn/', 71, 6, 0)
+;
